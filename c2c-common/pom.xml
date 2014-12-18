@@ -81,7 +81,7 @@
                  </goals>
                  <configuration>
                    <tasks>
-                     <copy file="README.md" tofile="src/site/markdown/README.md"/>
+                     <copy file="README.md" tofile="src/site/markdown/index.md"/>
                      <copy file="LICENSE.txt" tofile="src/site/resources/LICENSE.txt"/>
                   </tasks>
                 </configuration>

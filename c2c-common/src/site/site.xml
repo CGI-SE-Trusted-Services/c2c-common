@@ -15,7 +15,7 @@
 
     <body>
         <menu name="Documentation">
-            <item name="Readme" href="README.html"/>
+            <item name="Readme" href="index.html"/>
             <item name="License" href="LICENSE.txt"/>
         </menu>
 
