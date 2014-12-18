@@ -16,7 +16,7 @@ Encryption of generated Secure Messages is not implemented in the current versio
 
 See Javadoc and examples below for more detailed information.
 
-_Important_: In the current version there have been no proper interoperability testing of the signature of neither certificates or message data. The implementation has been done from the specification and no real data structures from another implementation have been available. 
+_Important_: In the current version there have been no proper interoperability testing of the signature of neither certificates or message data and should be considered in a beta stage. The implementation has been done from the specification and no real data structures from another implementation have been available. 
 
 # License
 The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
