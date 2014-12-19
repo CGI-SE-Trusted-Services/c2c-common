@@ -10,10 +10,6 @@
 	<name>c2c-common</name>
 	<url>http://www.cgi.com.se</url>
 	<description>Project site for Car 2 Car ITS Certificate and Message generation according to ETSI TS 103 097 V1.1.1, see README for more details.</description>
-	<scm>
-	    <!--  TODO -->
-		<connection>scm:svn:https://infra-certservice.define.logica.com/svn/infra-certservice/customers/vcc/code/c2c-common/trunk</connection>
-	</scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<build.version>0.0.1</build.version>
