@@ -76,7 +76,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].signerInfoType == SignerInfoType.self
 		cert.subjectInfo.subjectType == SubjectType.root_ca
 		cert.subjectInfo.subjectName == "TestRootCA".getBytes("UTF-8")
-		cert.subjectAttributes.size() == 3
+		cert.subjectAttributes.size() == 4
 		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1 		
@@ -91,6 +91,11 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[2].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[2].subjectAssurance.confidenceLevel == 0
+		
+		cert.subjectAttributes[3].subjectAttributeType == SubjectAttributeType.its_aid_list
+		cert.subjectAttributes[3].itsAidList.size() == 2
+		cert.subjectAttributes[3].itsAidList[0].value == new BigInteger(1234)
+		cert.subjectAttributes[3].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 2
 		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
@@ -117,7 +122,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].signerInfoType == SignerInfoType.self
 		cert.subjectInfo.subjectType == SubjectType.root_ca
 		cert.subjectInfo.subjectName == "TestRootCA".getBytes("UTF-8")
-		cert.subjectAttributes.size() == 2
+		cert.subjectAttributes.size() == 3
 		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
@@ -126,6 +131,11 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
+		
+		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
+		cert.subjectAttributes[2].itsAidList.size() == 2
+		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
+		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
 		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
@@ -152,7 +162,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].signerInfoType == SignerInfoType.certificate
 		cert.subjectInfo.subjectType == SubjectType.authorization_authority
 		cert.subjectInfo.subjectName == "TestAuthorizationAuthority".getBytes("UTF-8")
-		cert.subjectAttributes.size() == 2
+		cert.subjectAttributes.size() == 3
 		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
@@ -162,6 +172,11 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
 
+		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
+		cert.subjectAttributes[2].itsAidList.size() == 2
+		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
+		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
+		
 		cert.validityRestrictions.size() == 1
 		cert.validityRestrictions[0].startValidity.asDate().time == 1417636852000L
 		cert.validityRestrictions[0].endValidity.asDate().time == 1417636952000L
@@ -186,7 +201,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 			cert.signerInfos[0].signerInfoType == SignerInfoType.certificate
 			cert.subjectInfo.subjectType == SubjectType.enrollment_authority
 			cert.subjectInfo.subjectName == "TestEnrollmentAuthority".getBytes("UTF-8")
-			cert.subjectAttributes.size() == 2
+			cert.subjectAttributes.size() == 3
 			cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 			cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 			cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
@@ -195,6 +210,11 @@ public class AuthorityCertGeneratorSpec extends Specification {
 			cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
 			cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 			cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
+			
+			cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
+			cert.subjectAttributes[2].itsAidList.size() == 2
+			cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
+			cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 	
 			cert.validityRestrictions.size() == 1
 			cert.validityRestrictions[0].startValidity.asDate().time == 1417736852000L

@@ -88,7 +88,7 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].digest == new HashedId8(cryptoManager.digest(authorizationCA.encoded, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256))
 		cert.subjectInfo.subjectType == SubjectType.authorization_ticket
 		cert.subjectInfo.subjectName.length == 0
-		cert.subjectAttributes.size() == 2
+		cert.subjectAttributes.size() == 3
 		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1 		
@@ -97,6 +97,11 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
+		
+		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
+		cert.subjectAttributes[2].itsAidList.size() == 2
+		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
+		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
 		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
@@ -120,7 +125,7 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].certificate != null
 		cert.subjectInfo.subjectType == SubjectType.authorization_ticket
 		cert.subjectInfo.subjectName.length == 0
-		cert.subjectAttributes.size() == 2
+		cert.subjectAttributes.size() == 3
 		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
@@ -129,6 +134,11 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
+		
+		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
+		cert.subjectAttributes[2].itsAidList.size() == 2
+		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
+		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
 		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
@@ -155,7 +165,7 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].certificateChain[1].getSubjectInfo().getSubjectName() == "TestAuthorizationCA".getBytes("UTF-8")
 		cert.subjectInfo.subjectType == SubjectType.authorization_ticket
 		cert.subjectInfo.subjectName.length == 0
-		cert.subjectAttributes.size() == 2
+		cert.subjectAttributes.size() == 3
 		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
@@ -164,6 +174,11 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
+		
+		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
+		cert.subjectAttributes[2].itsAidList.size() == 2
+		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
+		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
 		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
@@ -185,7 +200,7 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].certificateChain[0].getSubjectInfo().getSubjectName() == "TestAuthorizationCA".getBytes("UTF-8")
 		cert.subjectInfo.subjectType == SubjectType.authorization_ticket
 		cert.subjectInfo.subjectName.length == 0
-		cert.subjectAttributes.size() == 2
+		cert.subjectAttributes.size() == 3
 		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
@@ -194,6 +209,11 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
+		
+		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
+		cert.subjectAttributes[2].itsAidList.size() == 2
+		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
+		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
 		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L

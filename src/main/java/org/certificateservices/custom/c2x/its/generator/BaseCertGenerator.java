@@ -25,8 +25,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
+import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Time32;
@@ -128,6 +131,11 @@ public abstract class BaseCertGenerator {
 				subjectAttributes.add(new SubjectAttribute(SubjectAttributeType.encryption_key, epk));
 			}
 			subjectAttributes.add(new SubjectAttribute(new SubjectAssurance(assuranceLevel, confidenceLevel)));
+		
+			if(itsAidList != null){
+			  subjectAttributes.add(new SubjectAttribute(SubjectAttributeType.its_aid_list, getIntXList(itsAidList)));
+			}
+			
 		}catch(InvalidKeySpecException e){
 			throw new IllegalArgumentException("Error parsing public key: " +e.getMessage(), e);
 		}
@@ -144,6 +152,19 @@ public abstract class BaseCertGenerator {
 		cert = signCertificate(cert, signingPublicKeyAlgorithm, caPrivateKey);
 
 		return cert;
+	}
+
+	/**
+	 * Method to convert a list of BigInteger
+	 * @param itsAidList, list of BigIntegers, never null.
+	 * @return a IntX version of the list.
+	 */
+	private List<StructSerializer> getIntXList(List<BigInteger> bigIntegerList) {
+		ArrayList<StructSerializer> retval = new ArrayList<StructSerializer>();
+		for(BigInteger v : bigIntegerList){
+			retval.add(new IntX(v));
+		}
+		return retval;
 	}
 		
 }
