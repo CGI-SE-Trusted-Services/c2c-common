@@ -37,7 +37,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorit
  */
 public class EciesNistP256EncryptedKey implements StructSerializer{
 	
-	static final int OUTPUT_TAG_LENGTH = 20;
+	public static final int OUTPUT_TAG_LENGTH = 20;
 	
 	private PublicKeyAlgorithm publicKeyAlgorithm;
 	private EccPoint v;

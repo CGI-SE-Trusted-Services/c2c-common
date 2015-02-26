@@ -13,7 +13,6 @@
 package org.certificateservices.custom.c2x.its.generator;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.SignatureException;
 import java.util.ArrayList;
@@ -23,9 +22,7 @@ import java.util.List;
 import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId3;
-import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
-import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocation;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Time64;
@@ -131,19 +128,8 @@ public class SecuredMessageGenerator {
 		}
 		
 		List<HeaderField> headerFields = new ArrayList<HeaderField>();
-        if(signerInfoType == SignerInfoType.certificate){
-            headerFields.add(new HeaderField(new SignerInfo(senderCertificate)));
-        }else{        	
-			try {
-				HashedId8 hash = new HashedId8(cryptoManager.digest(senderCertificate.getEncoded(), PublicKeyAlgorithm.ecdsa_nistp256_with_sha256));
-				headerFields.add(new HeaderField(new SignerInfo(hash)));
-			} catch (NoSuchAlgorithmException e) {
-				throw new SignatureException("Error generating secured message, no such algorithm: " + e.getMessage(),e);
-			}		
-        }
 		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
-        headerFields.add(new HeaderField(MessageType.CAM.getValue())); // generate generation time
-
+        headerFields.add(new HeaderField(MessageType.CAM.getValue())); 
         
 		List<Payload> pl = new ArrayList<Payload>();
 		if(payLoads == null || payLoads.size() == 0){
@@ -154,7 +140,7 @@ public class SecuredMessageGenerator {
 			}
 		}
 		
-		return signMessage(new SecuredMessage(MessageType.CAM.getSecurityProfile(), headerFields, pl));
+		return signMessage(signerInfoType, new SecuredMessage(MessageType.CAM.getSecurityProfile(), headerFields, pl));
 		
 	}
 	
@@ -180,27 +166,16 @@ public class SecuredMessageGenerator {
 		}
 		
 		List<HeaderField> headerFields = new ArrayList<HeaderField>();
-        if(signerInfoType == SignerInfoType.certificate){
-            headerFields.add(new HeaderField(new SignerInfo(senderCertificate)));
-        }else{        	
-			try {
-				HashedId8 hash = new HashedId8(cryptoManager.digest(senderCertificate.getEncoded(), PublicKeyAlgorithm.ecdsa_nistp256_with_sha256));
-				headerFields.add(new HeaderField(new SignerInfo(hash)));
-			} catch (NoSuchAlgorithmException e) {
-				throw new SignatureException("Error generating secured message, no such algorithm: " + e.getMessage(),e);
-			}		
-        }
 		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
 		headerFields.add(new HeaderField(HeaderFieldType.request_unrecognized_certificate, (List<StructSerializer>) (List<?>) unrecognizedCertificates));
-        headerFields.add(new HeaderField(MessageType.CAM.getValue())); // generate generation time
-        
-
+        headerFields.add(new HeaderField(MessageType.CAM.getValue())); 
+		
         
 		List<Payload> pl = new ArrayList<Payload>();
 		pl.add(new Payload(PayloadType.signed,new byte[0]));
 		
 		
-		return signMessage(new SecuredMessage(MessageType.CAM.getSecurityProfile(), headerFields, pl));
+		return signMessage(signerInfoType,new SecuredMessage(MessageType.CAM.getSecurityProfile(), headerFields, pl));
 		
 	}
 	
@@ -245,10 +220,9 @@ public class SecuredMessageGenerator {
 	public SecuredMessage genSignedDENMMessage(ThreeDLocation generationLocation, List<byte[]> payLoads) throws IllegalArgumentException, SignatureException, IOException{
 
 		List<HeaderField> headerFields = new ArrayList<HeaderField>();
-        headerFields.add(new HeaderField(new SignerInfo(senderCertificate)));
 		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
 		headerFields.add(new HeaderField(generationLocation));
-        headerFields.add(new HeaderField(MessageType.DENM.getValue())); // generate generation time
+        headerFields.add(new HeaderField(MessageType.DENM.getValue()));
 
         
 		List<Payload> pl = new ArrayList<Payload>();
@@ -260,7 +234,7 @@ public class SecuredMessageGenerator {
 			}
 		}
 		
-		return signMessage(new SecuredMessage(MessageType.DENM.getSecurityProfile(), headerFields, pl));
+		return signMessage(SignerInfoType.certificate,new SecuredMessage(MessageType.DENM.getSecurityProfile(), headerFields, pl));
 		
 	}
 	
@@ -269,7 +243,7 @@ public class SecuredMessageGenerator {
 	/**
 	 * Generate and attaches a signature to the given secured message.
 	 */
-	protected SecuredMessage signMessage(SecuredMessage securedMessage) throws IOException, IllegalArgumentException, SignatureException{
-		return cryptoManager.signSecureMessage(securedMessage,signingPublicKeyAlgorithm, senderSigningPrivateKey);		
+	protected SecuredMessage signMessage(SignerInfoType signerInfoType,SecuredMessage securedMessage) throws IOException, IllegalArgumentException, SignatureException{
+		return cryptoManager.signSecureMessage(securedMessage,senderCertificate, signerInfoType, signingPublicKeyAlgorithm, senderSigningPrivateKey);		
 	}
 }

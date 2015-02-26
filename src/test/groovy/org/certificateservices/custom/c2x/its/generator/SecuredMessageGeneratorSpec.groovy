@@ -104,12 +104,12 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		
 		msg.headerFields.size() == 3
 
-		msg.headerFields[0].headerFieldType == HeaderFieldType.signer_info
-		msg.headerFields[0].signer.digest != null
-		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_time
-		msg.headerFields[1].generationTime != null
-		msg.headerFields[2].headerFieldType == HeaderFieldType.message_type
-		msg.headerFields[2].messageType == MessageType.CAM.getValue()
+		msg.headerFields[0].headerFieldType == HeaderFieldType.generation_time
+		msg.headerFields[0].generationTime != null
+		msg.headerFields[1].headerFieldType == HeaderFieldType.message_type
+		msg.headerFields[1].messageType == MessageType.CAM.getValue()
+		msg.headerFields[2].headerFieldType == HeaderFieldType.signer_info
+		msg.headerFields[2].signer.digest != null
 		
 		msg.payloadFields.size() == 1
 		msg.payloadFields[0].payloadType == PayloadType.signed
@@ -129,13 +129,14 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		
 		msg.headerFields.size() == 3
 
-		msg.headerFields[0].headerFieldType == HeaderFieldType.signer_info
-		msg.headerFields[0].signer.certificate != null
-		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_time
-		msg.headerFields[1].generationTime != null
-		msg.headerFields[2].headerFieldType == HeaderFieldType.message_type
-		msg.headerFields[2].messageType == MessageType.CAM.getValue()
-		
+
+		msg.headerFields[0].headerFieldType == HeaderFieldType.generation_time
+		msg.headerFields[0].generationTime != null
+		msg.headerFields[1].headerFieldType == HeaderFieldType.message_type
+		msg.headerFields[1].messageType == MessageType.CAM.getValue()
+		msg.headerFields[2].headerFieldType == HeaderFieldType.signer_info
+		msg.headerFields[2].signer.certificate != null
+				
 		msg.payloadFields.size() == 1
 		msg.payloadFields[0].payloadType == PayloadType.signed
 		new String(msg.payloadFields[0].getData()) == 	"SomeMessageData"
@@ -154,13 +155,13 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		
 		msg.headerFields.size() == 3
 
-		msg.headerFields[0].headerFieldType == HeaderFieldType.signer_info
-		msg.headerFields[0].signer.digest != null
-		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_time
-		msg.headerFields[1].generationTime != null
-		msg.headerFields[2].headerFieldType == HeaderFieldType.message_type
-		msg.headerFields[2].messageType == MessageType.CAM.getValue()
-		
+		msg.headerFields[0].headerFieldType == HeaderFieldType.generation_time
+		msg.headerFields[0].generationTime != null
+		msg.headerFields[1].headerFieldType == HeaderFieldType.message_type
+		msg.headerFields[1].messageType == MessageType.CAM.getValue()
+		msg.headerFields[2].headerFieldType == HeaderFieldType.signer_info
+		msg.headerFields[2].signer.digest != null
+				
 		msg.payloadFields.size() == 2
 		msg.payloadFields[0].payloadType == PayloadType.signed
 		new String(msg.payloadFields[0].getData()) == 	"SomeMessageData1"
@@ -185,15 +186,14 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		
 		msg.headerFields.size() == 4
 
-		msg.headerFields[0].headerFieldType == HeaderFieldType.signer_info
-		msg.headerFields[0].signer.digest != null
-		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_time
-		msg.headerFields[1].generationTime != null
-		msg.headerFields[2].headerFieldType == HeaderFieldType.request_unrecognized_certificate
-		msg.headerFields[2].digests.size() == 2
-		msg.headerFields[3].headerFieldType == HeaderFieldType.message_type
-		msg.headerFields[3].messageType == MessageType.CAM.getValue()
-
+		msg.headerFields[0].headerFieldType == HeaderFieldType.generation_time
+		msg.headerFields[0].generationTime != null
+		msg.headerFields[1].headerFieldType == HeaderFieldType.request_unrecognized_certificate
+		msg.headerFields[1].digests.size() == 2
+		msg.headerFields[2].headerFieldType == HeaderFieldType.message_type
+		msg.headerFields[2].messageType == MessageType.CAM.getValue()
+		msg.headerFields[3].headerFieldType == HeaderFieldType.signer_info
+		msg.headerFields[3].signer.digest != null
 		
 		msg.payloadFields.size() == 1
 		msg.payloadFields[0].payloadType == PayloadType.signed
@@ -215,14 +215,14 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		
 		msg.headerFields.size() == 4
 
-		msg.headerFields[0].headerFieldType == HeaderFieldType.signer_info
-		msg.headerFields[0].signer.certificate != null
-		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_time
-		msg.headerFields[1].generationTime != null
-		msg.headerFields[2].headerFieldType == HeaderFieldType.generation_location
-		msg.headerFields[2].generationLocation != null
-		msg.headerFields[3].headerFieldType == HeaderFieldType.message_type
-		msg.headerFields[3].messageType == MessageType.DENM.getValue()
+		msg.headerFields[0].headerFieldType == HeaderFieldType.generation_time
+		msg.headerFields[0].generationTime != null
+		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_location
+		msg.headerFields[1].generationLocation != null
+		msg.headerFields[2].headerFieldType == HeaderFieldType.message_type
+		msg.headerFields[2].messageType == MessageType.DENM.getValue()
+		msg.headerFields[3].headerFieldType == HeaderFieldType.signer_info
+		msg.headerFields[3].signer.certificate != null
 
 		
 		msg.payloadFields.size() == 1
@@ -242,15 +242,14 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		cryptoManager.verifySecuredMessage(msg, authorizationTicket);
 		
 		msg.headerFields.size() == 4
-
-		msg.headerFields[0].headerFieldType == HeaderFieldType.signer_info
-		msg.headerFields[0].signer.certificate != null
-		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_time
-		msg.headerFields[1].generationTime != null
-		msg.headerFields[2].headerFieldType == HeaderFieldType.generation_location
-		msg.headerFields[2].generationLocation != null
-		msg.headerFields[3].headerFieldType == HeaderFieldType.message_type
-		msg.headerFields[3].messageType == MessageType.DENM.getValue()
+		msg.headerFields[0].headerFieldType == HeaderFieldType.generation_time
+		msg.headerFields[0].generationTime != null
+		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_location
+		msg.headerFields[1].generationLocation != null
+		msg.headerFields[2].headerFieldType == HeaderFieldType.message_type
+		msg.headerFields[2].messageType == MessageType.DENM.getValue()
+		msg.headerFields[3].headerFieldType == HeaderFieldType.signer_info
+		msg.headerFields[3].signer.certificate != null
 
 		msg.payloadFields.size() == 2
 		msg.payloadFields[0].payloadType == PayloadType.signed
@@ -272,14 +271,14 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		
 		msg.headerFields.size() == 4
 
-		msg.headerFields[0].headerFieldType == HeaderFieldType.signer_info
-		msg.headerFields[0].signer.certificate != null
-		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_time
-		msg.headerFields[1].generationTime != null
-		msg.headerFields[2].headerFieldType == HeaderFieldType.generation_location
-		msg.headerFields[2].generationLocation != null
-		msg.headerFields[3].headerFieldType == HeaderFieldType.message_type
-		msg.headerFields[3].messageType == MessageType.DENM.getValue()
+		msg.headerFields[0].headerFieldType == HeaderFieldType.generation_time
+		msg.headerFields[0].generationTime != null
+		msg.headerFields[1].headerFieldType == HeaderFieldType.generation_location
+		msg.headerFields[1].generationLocation != null
+		msg.headerFields[2].headerFieldType == HeaderFieldType.message_type
+		msg.headerFields[2].messageType == MessageType.DENM.getValue()
+		msg.headerFields[3].headerFieldType == HeaderFieldType.signer_info
+		msg.headerFields[3].signer.certificate != null
 
 		msg.payloadFields.size() == 1
 		msg.payloadFields[0].payloadType == PayloadType.signed

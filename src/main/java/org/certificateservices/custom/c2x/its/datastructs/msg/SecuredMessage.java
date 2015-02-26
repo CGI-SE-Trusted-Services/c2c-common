@@ -190,7 +190,11 @@ public class SecuredMessage implements StructSerializer{
 		
 		headerFields = (List<HeaderField>) SerializationHelper.decodeVariableSizeVector(in, HeaderField.class);
 		payloadFields = (List<Payload>) SerializationHelper.decodeVariableSizeVector(in, Payload.class);
-		trailerFields = (List<TrailerField>) SerializationHelper.decodeVariableSizeVector(in, TrailerField.class);
+		if(in.available() > 0){
+		  trailerFields = (List<TrailerField>) SerializationHelper.decodeVariableSizeVector(in, TrailerField.class);
+		}else{
+		  trailerFields = new ArrayList<TrailerField>();
+		}
 	}
 
 	@Override

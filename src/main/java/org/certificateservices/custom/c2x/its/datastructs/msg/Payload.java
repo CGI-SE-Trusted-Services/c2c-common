@@ -70,6 +70,13 @@ public class Payload implements StructSerializer{
 	public byte[] getData(){
 		return data;
 	}
+	
+	/** 
+	 * @param data the payload data, might be null if payload type is signer_external.
+	 */
+	public void setData(byte[] data){
+		this.data=data;
+	}
 
 	@Override
 	public void serialize(DataOutputStream out) throws IOException {

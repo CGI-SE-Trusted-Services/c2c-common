@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.its.crypto;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
@@ -21,11 +22,13 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
+import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType;
 import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessage;
 
@@ -50,10 +53,54 @@ public interface CryptoManager {
 	void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException;
 	
 	/**
+	 * Message to encrypt a securedmessage to a list of recepients.
+	 * 
+	 * This method will encrypt all payloads with payload type 'encrypted'. To construct an encrypted message
+	 * you should first generate the message and add payloads with encrypted type and cleartext data, then call this method which will
+	 * replace the data with encrypted equivalent.
+	 * 
+	 * @param secureMessage the secure message to encrypt.
+	 * @param encryptionAlg the encryption algorithm to use.
+	 * @param receipients a list of certificates of recipients, must have a encryption key specified in each certificate.
+	 * @return A SecureMessage with it's payload encrypted.
+	 * 
+	 * @throws IllegalArgumentException if supplied arguments was invalid, such as one of 
+	 *         the recipients certificates didn't have an encryption key..
+	 * @throws GeneralSecurityException if internal problems occurred encrypting the message.
+	 * @throws IOException if communication problems occurred with underlying components
+	 */
+	public SecuredMessage encryptSecureMessage(SecuredMessage secureMessage, PublicKeyAlgorithm encryptionAlg, List<Certificate> receipients) throws  IllegalArgumentException, GeneralSecurityException, IOException;
+	
+	/**
+	 * Message to decrypt a secured message, i.e.A all payloads with payload type 'encrypted'. 
+	 * 
+	 * @param secureMessage the secure message to decrypt.
+	 * @param receiverCertificate the certificate for the private key used for decryption.
+	 * @param receiverKey the private key used to decrypt the message.
+	 * @return A SecureMessage with it's payload in cleartext.
+	 * 
+	 * 
+	 * @throws IllegalArgumentException if supplied arguments was invalid, such as one of 
+	 *         the recipients certificates didn't have an encryption key..
+	 * @throws GeneralSecurityException if internal problems occurred decrypting the message.
+	 * @throws IOException if communication problems occurred with underlying components
+	 */
+	public SecuredMessage decryptSecureMessage(SecuredMessage secureMessage, Certificate receiverCertificate, PrivateKey receiverKey) throws  IllegalArgumentException, GeneralSecurityException, IOException;
+	
+	
+	
+	
+	
+	/**
 	 * Method to sign a secured message using the given algorithm and private key and returns the same message with
 	 * an attached signature according to the ITS specification with EccPointType x_coordinate_only containing the R value.
+	 * <p>
+	 * <b>Important: This method will add signed info header to the message automatically and it doesn't need to be added manually.</b>
 	 * 
 	 * @param secureMessage the message data to sign.
+	 * @param signerCertificate the certificate used when signing.
+	 * @param signerInfoType indicates the type of SignerInfo inserted into generated messages, supported values are:
+	 * certificate_digest_with_ecdsap256 or certificate.
 	 * @param alg the public key algorithm scheme to use.
 	 * @param privateKey the private key used to sign the message.
 	 * @return the message ITS Signature data structure containing the generated signature attached.
@@ -62,8 +109,12 @@ public interface CryptoManager {
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	SecuredMessage signSecureMessage(SecuredMessage secureMessage, PublicKeyAlgorithm alg,
+	SecuredMessage signSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, SignerInfoType signerInfoType, PublicKeyAlgorithm alg,
 				PrivateKey privateKey) throws IllegalArgumentException, SignatureException, IOException;
+	
+	
+	
+	
 	/**
 	 * Method used to sign the a message data according to the ITS specification with EccPointType x_coordinate_only containing the R value.
 	 * 
@@ -77,6 +128,35 @@ public interface CryptoManager {
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
 	Signature signMessage(byte[] message, PublicKeyAlgorithm alg, PrivateKey privateKey) throws IllegalArgumentException, SignatureException, IOException;
+	
+	
+	/**
+	 * Method to sign and encrypt a secured message using the given algorithm and private keys and returns another message with
+	 * an attached signature according to the ITS specification with EccPointType x_coordinate_only containing the R value.
+	 * <p>
+	 * This method will only encrypt payload with type signed_and_encrypted
+	 * <p>
+	 * <b>Important: This method will add signing and encryption header to the message automatically and it doesn't need to be added manually.</b>
+	 * 
+	 * @param secureMessage the message data to sign and encrypt.
+	 * @param signerCertificate the certificate used when signing.
+	 * @param signerInfoType indicates the type of SignerInfo inserted into generated messages, supported values are:
+	 * certificate_digest_with_ecdsap256 or certificate.
+	 * @param signAlg the signing public key algorithm scheme to use.
+	 * @param signPrivateKey the private key used to sign the message.
+	 * @param encryptionAlg encryption algorithm to use.
+	 * @param receipients a list of certificates of recipients, must have a encryption key specified in each certificate.
+	 * @return the message ITS Signature data structure containing the generated signature attached.
+	 * 
+	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws GeneralSecurityException if internal problems occurred encrypting or generating the signature.
+	 * @throws IOException if communication problems occurred with underlying components.
+	 */
+	SecuredMessage encryptAndSignSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, 
+			    SignerInfoType signerInfoType, PublicKeyAlgorithm signAlg,
+				PrivateKey signPrivateKey, PublicKeyAlgorithm encryptionAlg, List<Certificate> receipients) throws IllegalArgumentException, GeneralSecurityException, IOException;
+	
+
 	
 	/**
 	 * Method used to verify a ITS Signature data structure given the message and the signers public key
@@ -196,10 +276,11 @@ public interface CryptoManager {
 	 * @return true if secured message verifies
 	 * 
 	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws InvalidITSSignatureException if signature of message coundn't be verified.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	boolean verifySecuredMessage(SecuredMessage message) throws IllegalArgumentException,  SignatureException, IOException;
+	void verifySecuredMessage(SecuredMessage message) throws IllegalArgumentException,  InvalidITSSignatureException, SignatureException, IOException;
 	
 	
 	/**
@@ -213,12 +294,55 @@ public interface CryptoManager {
 	 * @return true if secured message verifies.
 	 * 
 	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws InvalidITSSignatureException if signature of message coundn't be verified.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	boolean verifySecuredMessage(SecuredMessage message, Certificate signerCert) throws IllegalArgumentException,  SignatureException, IOException;
+	void verifySecuredMessage(SecuredMessage message, Certificate signerCert) throws IllegalArgumentException,  InvalidITSSignatureException, SignatureException, IOException;
 	
 	
+	/**
+	 * Method used to verify and decrypt a ITS secure message that contains a signer info of type certificate, for certificate_digest_with_ecdsap256
+	 * it needed to use the alternative verifySecureMessage function and supplying the related certificate. The method also decrypts all
+	 * payloads of type signed_and_encrypted.
+	 * 
+	 * <b>Important: this method only verifies the signature of the signer info public key. It
+	 * doesn't check any of the validation requirements or against trust store.</b>
+	 * 
+	 * @param message the signed message to verify and decrypt
+	 * @param signerCert the certificate signing the message.
+	 * @param receiverCertificate the certificate for the private key used for decryption.
+	 * @param receiverKey the private key used to decrypt the message.
+	 * @return the secure message with all signed_and_encrypted payloads decrypted.
+	 * 
+	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws InvalidITSSignatureException if signature of message coundn't be verified.
+	 * @throws SignatureException if internal problems occurred verifying the signature.
+	 * @throws IOException if communication problems occurred with underlying components.
+	 */
+	SecuredMessage verifyAndDecryptSecuredMessage(SecuredMessage message,Certificate receiverCertificate, PrivateKey receiverKey) throws IllegalArgumentException, InvalidITSSignatureException, GeneralSecurityException, IOException;
+	
+	
+	/**
+	 * Method used to verify a ITS secure message against a given certificate. The method also decrypts all
+	 * payloads of type signed_and_encrypted.
+	 * 
+	 * <b>Important: this method only verifies the signature of the signer info public key. It
+	 * doesn't check any of the validation requirements or against trust store.</b>
+	 * 
+	 * @param message the signed message to verify and decrypt.
+	 * @param signerCert the certificate signing the message.
+	 * @param receiverCertificate the certificate for the private key used for decryption.
+	 * @param receiverKey the private key used to decrypt the message.
+	 * @return the secure message with all signed_and_encrypted payloads decrypted.
+	 * 
+	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws InvalidITSSignatureException if signature of message coundn't be verified.
+	 * @throws SignatureException if internal problems occurred verifying the signature.
+	 * @throws IOException if communication problems occurred with underlying components.
+	 */
+	SecuredMessage verifyAndDecryptSecuredMessage(SecuredMessage message, Certificate signerCert ,Certificate receiverCertificate, PrivateKey receiverKey) throws IllegalArgumentException, InvalidITSSignatureException, GeneralSecurityException, IOException;
+
 	
 	/**
 	 * Method to generate a new key pair for the given public key algorithm scheme.
