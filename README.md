@@ -216,6 +216,7 @@ To create Secured Messages use the SecuredMessageGenerator.
 
 ## Encrypted Secured Messages
 Neither CAM nor DENM messages should be encrypted, so in this example is a SecureMessage built manually
+
 ```
 		List<HeaderField> headerFields = new ArrayList<HeaderField>();
 		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
