@@ -77,16 +77,23 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		AuthorityCertGenerator acg = new AuthorityCertGenerator(cryptoManager);
 				
 		rootCAKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
-		rootCA = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
+		
+		rootCAKeys.getPublic().getEncoded()
+		rootCAKeys.getPrivate().getEncoded()
+		
+		rootCA = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(127)], 1, 0, new Date(1417536852024L), new Date(1417536952031L + 315360000000L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
+		println "Root CA: " + new String(Hex.encode(rootCA.getEncoded()))
 		
 		authorizationCAKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)		
-		authorizationCA = acg.genAuthorizationAuthorityCA("TestAuthorizationCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationCAKeys.getPublic(), PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, null, rootCAKeys.getPrivate(), rootCA)
+		authorizationCA = acg.genAuthorizationAuthorityCA("TestAuthorizationCA".getBytes("UTF-8"), [new BigInteger(127)], 1, 0, new Date(1417536952031L), new Date(1417536952031L + 315350000000L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationCAKeys.getPublic(), PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, null, rootCAKeys.getPrivate(), rootCA)
+		println "Authorization CA: " + new String(Hex.encode(authorizationCA.getEncoded()))
 		
 		// Generate Authorization Ticket
 		AuthorizationTicketCertGenerator atcg = new AuthorizationTicketCertGenerator(cryptoManager, authorizationCA, authorizationCAKeys.getPrivate())
 		
 		authorizationTicketKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
-		authorizationTicket = atcg.genAuthorizationTicket(SignerInfoType.certificate_digest_with_ecdsap256 , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationTicketKeys.getPublic(), null, null)
+		authorizationTicket = atcg.genAuthorizationTicket(SignerInfoType.certificate_digest_with_ecdsap256 , [new BigInteger(127)], 1, 0, new Date(), new Date(System.currentTimeMillis() + 28800000L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationTicketKeys.getPublic(), null, null)
+		println "Authorization Ticket: " + new String(Hex.encode(authorizationTicket.getEncoded()))
 	}
 	
 	def setup(){
@@ -97,6 +104,8 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		when:
 		SecuredMessage msg = sbg.genSignedCAMMessage(SignerInfoType.certificate_digest_with_ecdsap256, "SomeMessageData".getBytes())
 		then:
+		println "Signed CAM Message: " + new String(Hex.encode(msg.getEncoded()))
+		
 		msg.protocolVersion == SecuredMessage.DEFAULT_PROTOCOL
 		msg.securityProfile == MessageType.CAM.securityProfile
 
@@ -178,6 +187,7 @@ public class SecuredMessageGeneratorSpec extends Specification {
 	def "Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies."(){
 		when:
 		SecuredMessage msg = sbg.genSignedCAMUnrecognizedCertificatesMessage(SignerInfoType.certificate_digest_with_ecdsap256, [new HashedId3(Hex.decode("010203")),new HashedId3(Hex.decode("040506"))])
+		println "Signed CAM Unrecognized certificates: " + new String(Hex.encode(msg.getEncoded()))
 		then:
 		msg.protocolVersion == SecuredMessage.DEFAULT_PROTOCOL
 		msg.securityProfile == MessageType.CAM.securityProfile
@@ -208,6 +218,7 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		when:
 		SecuredMessage msg = sbg.genSignedDENMMessage(new ThreeDLocation(1, 2, 10), "SomeMessageData".getBytes())
 		then:
+		println "Signed DENM: " + new String(Hex.encode(msg.getEncoded()))
 		msg.protocolVersion == SecuredMessage.DEFAULT_PROTOCOL
 		msg.securityProfile == MessageType.DENM.securityProfile
 

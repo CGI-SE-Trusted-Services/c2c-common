@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.its.generator;
 
 import java.security.KeyPair
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManager;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
@@ -81,6 +82,7 @@ public class EnrollmentCredentialCertGeneratorSpec extends Specification {
 		Certificate cert = ecg.genEnrollmentCredential(SignerInfoType.certificate_digest_with_ecdsap256 ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		cert.version == 1
+		println "Enrollment Credential: " + new String(Hex.encode(cert.getEncoded()))
 		
 		cryptoManager.verifyCertificate(cert, enrollmentCA);
 		cert.signerInfos.size() == 1

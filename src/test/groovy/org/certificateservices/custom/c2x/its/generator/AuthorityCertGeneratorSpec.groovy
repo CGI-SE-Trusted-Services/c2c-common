@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.its.generator;
 
 import java.security.KeyPair
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManager;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
@@ -67,9 +68,10 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		GeographicRegion geoRegion = new GeographicRegion(new CircularRegion(new TwoDLocation(15, 18), 5000))
 		
 		when:
-		Certificate cert = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), geoRegion, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), signKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, encKeys.getPublic())
+		Certificate cert = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 7, 0, new Date(1417536852024L), new Date(1417536952031L + 315360000000L), geoRegion, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), signKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, encKeys.getPublic())
 		then:
 		cert.version == 1
+		println "Root CA: " + new String(Hex.encode(cert.getEncoded()))
 		
 		cryptoManager.verifyCertificate(cert);
 		cert.signerInfos.size() == 1
@@ -89,7 +91,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecies_nistp256, cert.subjectAttributes[1].publicKey.publicKey) == encKeys.publicKey
 		
 		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.assurance_level
-		cert.subjectAttributes[2].subjectAssurance.assuranceLevel == 1
+		cert.subjectAttributes[2].subjectAssurance.assuranceLevel == 7
 		cert.subjectAttributes[2].subjectAssurance.confidenceLevel == 0
 		
 		cert.subjectAttributes[3].subjectAttributeType == SubjectAttributeType.its_aid_list
@@ -99,7 +101,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 
 		cert.validityRestrictions.size() == 2
 		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
+		cert.validityRestrictions[0].endValidity.asDate().time == (1417536952000L + 315360000000L)
 		
 		cert.validityRestrictions[1].validityRestrictionType == ValidityRestrictionType.region
 		cert.validityRestrictions[1].region.regionType == RegionType.circle
@@ -147,7 +149,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 	}
 	
 
-		def "Generate Authorization Authority and verify that it is signed by the Root CA"(){
+	def "Generate Authorization Authority and verify that it is signed by the Root CA"(){
 		setup:
 		Certificate rootCA = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
 		
@@ -155,7 +157,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		Certificate cert = acg.genAuthorizationAuthorityCA("TestAuthorizationAuthority".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417636852024L), new Date(1417636952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null, rootCAKeys.getPrivate(), rootCA)
 		then:
 		cert.version == 1
-		
+		println "Authority CA: " + new String(Hex.encode(cert.getEncoded()))
 		cryptoManager.verifyCertificate(cert);
 		
 		cert.signerInfos.size() == 1
@@ -194,7 +196,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 			Certificate cert = acg.genEnrollmentAuthorityCA("TestEnrollmentAuthority".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417736852024L), new Date(1417736952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null, rootCAKeys.getPrivate(), rootCA)
 			then:
 			cert.version == 1
-			
+			println "Enrollment CA: " + new String(Hex.encode(cert.getEncoded()))
 			cryptoManager.verifyCertificate(cert);
 			
 			cert.signerInfos.size() == 1

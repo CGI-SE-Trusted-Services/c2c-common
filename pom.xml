@@ -38,11 +38,13 @@
 			<artifactId>bcprov-jdk15on</artifactId>
 			<version>1.51</version>
 		</dependency>
-        <dependency>
-	      <groupId>net.time4j</groupId>
-	      <artifactId>time4j-core</artifactId>
-	      <version>2.0</version>
-        </dependency>
+		<dependency>
+			<groupId>net.time4j</groupId>
+			<artifactId>time4j-core</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+
 
 	</dependencies>
 	<repositories>
@@ -60,30 +62,30 @@
 			<id>oss.sonatype.org</id>
 			<name>Spock FrameworkSnapshot Repository</name>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</repository>	
+		</repository>
 	</repositories>
-		
+
 	<build>
 
 		<plugins>
 
-		   <plugin>
-             <artifactId>maven-antrun-plugin</artifactId>
-             <executions>
-               <execution>
-                 <phase>pre-site</phase>
-                 <goals>
-                   <goal>run</goal>
-                 </goals>
-                 <configuration>
-                   <tasks>
-                     <copy file="README.md" tofile="src/site/markdown/index.md"/>
-                     <copy file="LICENSE.txt" tofile="src/site/resources/LICENSE.txt"/>
-                  </tasks>
-                </configuration>
-               </execution>
-              </executions>
-            </plugin> 
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<copy file="README.md" tofile="src/site/markdown/index.md" />
+								<copy file="LICENSE.txt" tofile="src/site/resources/LICENSE.txt" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -295,9 +297,9 @@
 					<version>2.6</version>
 					<configuration>
 						<includes>
-						   <include>**/*Test.*</include>
-                           <include>**/*Spec.*</include>
-                        </includes>
+							<include>**/*Test.*</include>
+							<include>**/*Spec.*</include>
+						</includes>
 						<excludes>
 							<exclude>**/*IT.java</exclude>
 							<exclude>**/*IT.groovy</exclude>
@@ -319,7 +321,7 @@
 						<finalName>${project.name}</finalName>
 						<archive>
 							<manifest>
-								
+
 							</manifest>
 						</archive>
 					</configuration>
@@ -430,7 +432,7 @@
 	</profiles>
 
 	<distributionManagement>
-	 	<repository>
+		<repository>
 			<id>dev.certificateservices.org-release</id>
 			<name>dev.certificateservices.org</name>
 			<url>https://dev.certificateservices.org/artifactory/private-libs-release-local</url>

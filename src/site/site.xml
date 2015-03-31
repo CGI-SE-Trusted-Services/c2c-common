@@ -17,6 +17,8 @@
         <menu name="Documentation">
             <item name="Readme" href="index.html"/>
             <item name="License" href="LICENSE.txt"/>
+            <item name="Github" href="https://github.com/pvendil/c2c-common" />
+            <item name="Download" href="https://github.com/pvendil/c2c-common/archive/master.zip"/>
         </menu>
 
         <menu ref="reports"/>
