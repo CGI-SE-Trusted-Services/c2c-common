@@ -869,13 +869,18 @@ public class DefaultCryptoManager implements CryptoManager {
 				
 		// Serialize all trailer fields until a signature is found
 		serializeTotalSignedTrailerLength(dos, message.getTrailerFields(), signature);
-		for(TrailerField tf : message.getTrailerFields()){
-		   if(tf.getTrailerFieldType() != TrailerFieldType.signature){
-                tf.serialize(dos);
-		   }else{
-			   // Don't calculate any more fields in the signature.
-			   break;
-		   }
+		if(message.getTrailerFields() == null || message.getTrailerFields().size() == 0){
+			dos.writeByte(TrailerFieldType.signature.getByteValue());
+		}else{
+			for(TrailerField tf : message.getTrailerFields()){
+				if(tf.getTrailerFieldType() != TrailerFieldType.signature){
+					tf.serialize(dos);
+				}else{
+					// Don't calculate any more fields in the signature.
+					dos.writeByte(TrailerFieldType.signature.getByteValue());
+					break;
+				}
+			}
 		}
 		
 		byte[] retval = baos.toByteArray();
@@ -940,6 +945,7 @@ public class DefaultCryptoManager implements CryptoManager {
 		}
 		byte[] data = baos.toByteArray();
 		int length = data.length;
+		
 		length += calculateSignatureLength(signature);
 		IntX size = new IntX(length);
 		size.serialize(out);
@@ -948,9 +954,9 @@ public class DefaultCryptoManager implements CryptoManager {
 	protected int calculateSignatureLength(Signature signature) throws IllegalArgumentException {
 		if(signature.getPublicKeyAlgorithm() == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256){			
 			if(signature.getSignatureValue().getR().getEccPointType() == EccPointType.uncompressed){
-				return 2 + (3* signature.getPublicKeyAlgorithm().getFieldSize()); // public key alg type (1 byte) + EccPointType (1 byte) + R (2 * (x+y) field size in bytes) + s (field size in bytes)
+				return 2 + (3* signature.getPublicKeyAlgorithm().getFieldSize()) + 1; // public key alg type (1 byte) + EccPointType (1 byte) + R (2 * (x+y) field size in bytes) + s (field size in bytes) + signature trailer field type
 			}
-			return 2 + (2* signature.getPublicKeyAlgorithm().getFieldSize()); // public key alg type (1 byte) + EccPointType (1 byte) + R (field size in bytes) + s (field size in bytes)
+			return 2 + (2* signature.getPublicKeyAlgorithm().getFieldSize()) + 1; // public key alg type (1 byte) + EccPointType (1 byte) + R (field size in bytes) + s (field size in bytes)  + signature trailer field type
 		}
 		throw new IllegalArgumentException("Error unsupported digital signature algorithm " + signature.getPublicKeyAlgorithm());
 	}

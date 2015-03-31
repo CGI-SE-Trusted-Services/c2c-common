@@ -16,10 +16,19 @@ Encryption of generated Secure Messages is not implemented in the current versio
 
 See Javadoc and examples below for more detailed information.
 
-_Important_: In the current version there have been no proper interoperability testing of the signature of neither certificates or message data and should be considered in a beta stage. The implementation has been done from the specification and no real data structures from another implementation have been available. 
+Version 0.9.5 and above have been inter-operability tested with the site https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/
+and all version 1 Certificate and signed SecuredMessages v1 is successfully verified.
+
+_Important_: Encryped Secured Messages are still not fully inter-operability tested and might contain problems. 
 
 # License
 The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
+
+
+# What's New in 0.9.5
+
+- Interoperability testing of all aspects except encryption.
+- Bug-fixes on signature generation where trailer field signature type wasn't included in the digest calculation.
 
 # What's New in 0.9.0
 

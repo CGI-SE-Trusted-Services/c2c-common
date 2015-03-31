@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.its.generator;
 
 import java.security.KeyPair
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManager;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
@@ -63,10 +64,10 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		AuthorityCertGenerator acg = new AuthorityCertGenerator(cryptoManager);
 				
 		rootCAKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
-		rootCA = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
+		rootCA = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L + 315360000000L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
 		
 		authorizationCAKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)		
-		authorizationCA = acg.genAuthorizationAuthorityCA("TestAuthorizationCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationCAKeys.getPublic(), PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, null, rootCAKeys.getPrivate(), rootCA)
+		authorizationCA = acg.genAuthorizationAuthorityCA("TestAuthorizationCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L + 315350000000L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationCAKeys.getPublic(), PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, null, rootCAKeys.getPrivate(), rootCA)
 		
 		signKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		encKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecies_nistp256)
@@ -81,6 +82,7 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		Certificate cert = atg.genAuthorizationTicket(SignerInfoType.certificate_digest_with_ecdsap256 , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		cert.version == 1
+		println "Authorization Ticket: " + new String(Hex.encode(cert.getEncoded()))
 		
 		cryptoManager.verifyCertificate(cert, authorizationCA);
 		cert.signerInfos.size() == 1
@@ -151,7 +153,7 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 	}
 	
 
-	def "Generate Enrollment Credential with a certificate chain as signer info"(){
+	def "Generate Authorization Credential with a certificate chain as signer info"(){
 		when:
 		Certificate cert = atg.genAuthorizationTicket([rootCA, authorizationCA] , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:

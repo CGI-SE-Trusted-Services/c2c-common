@@ -16,10 +16,26 @@ Encryption of generated Secure Messages is not implemented in the current versio
 
 See Javadoc and examples below for more detailed information.
 
-_Important_: In the current version there have been no proper interoperability testing of the signature of neither certificates or message data. The implementation has been done from the specification and no real data structures from another implementation have been available. 
+Version 0.9.5 and above have been inter-operability tested with the site https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/
+and all version 1 Certificate and signed SecuredMessages v1 is successfully verified.
+
+_Important_: Encryped Secured Messages are still not fully inter-operability tested and might contain problems. 
 
 # License
 The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
+
+
+# What's New in 0.9.5
+
+- Interoperability testing of all aspects except encryption.
+- Bug-fixes on signature generation where trailer field signature type wasn't included in the digest calculation.
+
+# What's New in 0.9.0
+
+- Ecies Encryption scheme support in DefaultCryptoManager
+- Restructured the behaviour of CryptoManager verifySecuredMessage to throw InvalidITSSignatureException instead of returning a boolean
+
+
 
 # Example Code
 
@@ -205,6 +221,74 @@ To create Secured Messages use the SecuredMessageGenerator.
 		// To Generate a DENM Message
 		ThreeDLocation generationLocation = new ThreeDLocation(900000000, 1800000000 , 100);
 		SecuredMessage signedDENMMessage = securedMessageGenerator.genSignedDENMMessage(generationLocation, "SomeMessageData".getBytes("UTF-8"));
+```
+
+## Encrypted Secured Messages
+Neither CAM nor DENM messages should be encrypted, so in this example is a SecureMessage built manually
+
+```
+		List<HeaderField> headerFields = new ArrayList<HeaderField>();
+		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
+		headerFields.add(new HeaderField(generationLocation));
+        headerFields.add(new HeaderField(123)); // Just have any value since no known message type uses encryption
+        
+        // There is no need to add recipient_info or encryption_parameters, these will be calculated and appended automatically by the crypto manager.
+		List<Payload> payloadFields = new ArrayList<Payload>();
+		// The payload that should be encrypted should have type encrypted, others will be ignored.
+		payloadFields.add(new Payload(PayloadType.encrypted,"SomeClearText".getBytes("UTF-8")));
+		
+		SecuredMessage secureMessage = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE, headerFields, payloadFields);
+		
+		// First we create a list of receipients certificates that should be able to decrypt the payload.
+		List<Certificate> receipients = new ArrayList<Certificate>();
+		receipients.add(authorizationTicket);
+		
+		// Then we use the cryptoManager to create a cloned message with encrypted payload.
+		SecuredMessage encryptedMessage = cryptoManager.encryptSecureMessage(secureMessage, PublicKeyAlgorithm.ecies_nistp256, receipients);
+		
+		// Verify that the payload data have been replaced with it's encrypted content.
+		assert !(new String(encryptedMessage.getPayloadFields().get(0).getData(), "UTF-8").equals("SomeClearText"));
+		
+		// To decrypt we need the receivers certificate and the related private key.
+		SecuredMessage decryptedMessage = cryptoManager.decryptSecureMessage(encryptedMessage, authorizationTicket, authorizationTicketEncryptionKeys.getPrivate());
+		
+		// Verify that the payload is in clear text again. 
+		assert new String(decryptedMessage.getPayloadFields().get(0).getData(), "UTF-8").equals("SomeClearText");
+```
+
+## Encrypted And Signed Secured Messages
+In this example we generate messages with payload type signed_and_encrypted, i.e the data is both signed and encrypted.
+
+```
+		// We start with constructing a secured message
+		headerFields = new ArrayList<HeaderField>();
+		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
+		headerFields.add(new HeaderField(generationLocation));
+        headerFields.add(new HeaderField(123)); // Just have any value since no known message type uses encryption
+        
+        // There is no need to add recipient_info or encryption_parameters, these will be calculated and appended automatically by the crypto manager.
+		payloadFields = new ArrayList<Payload>();
+		// The payload that should be encrypted should have type encrypted, others will be ignored.
+		payloadFields.add(new Payload(PayloadType.signed_and_encrypted,"SomeClearText".getBytes("UTF-8")));
+		
+		secureMessage = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE, headerFields, payloadFields);
+		
+		SecuredMessage encryptedAndSignedMessage = cryptoManager.encryptAndSignSecureMessage(secureMessage, enrollmentCredential, SignerInfoType.certificate, 
+				PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, 
+				enrollmentCredentialSigningKeys.getPrivate(), 
+				PublicKeyAlgorithm.ecies_nistp256, receipients);
+		
+		
+		assert encryptedAndSignedMessage.getTrailerFields().get(0).getTrailerFieldType() == TrailerFieldType.signature;
+		// Verify that the payload data have been replaced with it's encrypted content.
+		assert !(new String(encryptedAndSignedMessage.getPayloadFields().get(0).getData(), "UTF-8").equals("SomeClearText"));
+		
+		// To verify and decrypt the message use the following method, if signer info type is certificate_digest_with_ecdsap256, you need to verify with
+		// alternative method where signer certificate is specified.
+		SecuredMessage decryptedAndVerifiedMessage = cryptoManager.verifyAndDecryptSecuredMessage(encryptedAndSignedMessage, authorizationTicket, 
+		authorizationTicketEncryptionKeys.getPrivate());
+		assert new String(decryptedAndVerifiedMessage.getPayloadFields().get(0).getData(), "UTF-8").equals("SomeClearText");
+
 ```
 
 ## To Encode and Decode Certificates and Secured Messages
