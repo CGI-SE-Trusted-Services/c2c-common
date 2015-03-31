@@ -1,6 +1,5 @@
 package org.certificateservices.custom.c2x.its.generator;
 
-import groovyx.net.http.HTTPBuilder;
 
 import java.security.KeyFactory;
 import java.security.KeyPair;
