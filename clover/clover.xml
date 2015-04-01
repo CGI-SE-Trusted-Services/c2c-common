@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1427885463577" clover="4.0.1">
-   <project timestamp="1427885422343" name="c2c-common 0.9.6">
+<coverage generated="1427885890548" clover="4.0.1">
+   <project timestamp="1427885845556" name="c2c-common 0.9.6">
       <metrics conditionals="792" methods="499" classes="63" files="62" packages="6" coveredstatements="1823" complexity="1045" loc="9316" ncloc="4658" coveredmethods="488" coveredconditionals="526" statements="2104" coveredelements="2837" elements="3395"/>
       <package name="org.certificateservices.custom.c2x.its.datastructs.basic">
          <metrics classes="29" methods="232" conditionals="398" files="28" ncloc="1826" coveredstatements="732" coveredmethods="228" complexity="471" coveredconditionals="262" statements="858" loc="3551" coveredelements="1222" elements="1488"/>
@@ -182,11 +182,11 @@
             <line num="73" count="2" type="stmt"/>
             <line num="75" count="53" type="stmt"/>
             <line num="76" count="53" type="stmt"/>
-            <line num="76" falsecount="29" type="cond" truecount="24"/>
-            <line num="77" count="24" type="stmt"/>
+            <line num="76" falsecount="26" type="cond" truecount="27"/>
+            <line num="77" count="27" type="stmt"/>
             <line num="79" count="53" type="stmt"/>
-            <line num="79" falsecount="24" type="cond" truecount="29"/>
-            <line num="80" count="29" type="stmt"/>
+            <line num="79" falsecount="27" type="cond" truecount="26"/>
+            <line num="80" count="26" type="stmt"/>
             <line num="82" count="53" type="stmt"/>
             <line num="93" count="192" visibility="public" complexity="1" type="method" signature="EccPoint(PublicKeyAlgorithm,EccPointType,BigInteger,BigInteger)"/>
             <line num="94" count="192" type="stmt"/>
@@ -195,8 +195,8 @@
             <line num="97" count="192" type="stmt"/>
             <line num="107" count="291" visibility="public" complexity="1" type="method" signature="EccPoint(PublicKeyAlgorithm)"/>
             <line num="108" count="291" type="stmt"/>
-            <line num="115" count="207" visibility="public" complexity="1" type="method" signature="getEccPointType() : EccPointType"/>
-            <line num="116" count="207" type="stmt"/>
+            <line num="115" count="200" visibility="public" complexity="1" type="method" signature="getEccPointType() : EccPointType"/>
+            <line num="116" count="200" type="stmt"/>
             <line num="122" count="76" visibility="public" complexity="3" type="method" signature="getX() : BigInteger"/>
             <line num="123" count="76" type="stmt"/>
             <line num="123" falsecount="72" type="cond" truecount="4"/>
@@ -233,9 +233,9 @@
             <line num="170" count="37" type="stmt"/>
             <line num="171" count="37" type="stmt"/>
             <line num="172" count="37" type="stmt"/>
-            <line num="172" falsecount="10" type="cond" truecount="27"/>
-            <line num="173" count="27" type="stmt"/>
-            <line num="175" count="10" type="stmt"/>
+            <line num="172" falsecount="15" type="cond" truecount="22"/>
+            <line num="173" count="22" type="stmt"/>
+            <line num="175" count="15" type="stmt"/>
             <line num="178" count="277" type="stmt"/>
             <line num="178" falsecount="166" type="cond" truecount="111"/>
             <line num="179" count="111" type="stmt"/>
@@ -315,8 +315,8 @@
             <line num="45" count="562" type="stmt"/>
             <line num="51" count="281" visibility="public" complexity="2" type="method" signature="getByValue(int) : EccPointType"/>
             <line num="52" count="281" type="stmt"/>
-            <line num="53" count="667" type="stmt"/>
-            <line num="53" falsecount="386" type="cond" truecount="281"/>
+            <line num="53" count="672" type="stmt"/>
+            <line num="53" falsecount="391" type="cond" truecount="281"/>
             <line num="54" count="281" type="stmt"/>
             <line num="57" count="0" type="stmt"/>
          </file>
@@ -805,8 +805,8 @@
             <line num="80" count="144" visibility="public" complexity="1" type="method" signature="PublicKey()"/>
             <line num="86" count="28" visibility="public" complexity="1" type="method" signature="getPublicKeyAlgorithm() : PublicKeyAlgorithm"/>
             <line num="87" count="28" type="stmt"/>
-            <line num="94" count="98" visibility="public" complexity="1" type="method" signature="getPublicKey() : EccPoint"/>
-            <line num="95" count="98" type="stmt"/>
+            <line num="94" count="91" visibility="public" complexity="1" type="method" signature="getPublicKey() : EccPoint"/>
+            <line num="95" count="91" type="stmt"/>
             <line num="101" count="6" visibility="public" complexity="2" type="method" signature="getSupportedSymmAlg() : SymmetricAlgorithm"/>
             <line num="102" count="6" type="stmt"/>
             <line num="102" falsecount="2" type="cond" truecount="4"/>
@@ -875,11 +875,11 @@
             <line num="43" count="4" type="stmt"/>
             <line num="46" count="546" visibility="public" complexity="1" type="method" signature="getByteValue() : int"/>
             <line num="47" count="546" type="stmt"/>
-            <line num="51" count="2739" visibility="public" complexity="2" type="method" signature="getFieldSize() : int"/>
-            <line num="52" count="2739" type="stmt"/>
-            <line num="52" falsecount="2739" type="cond" truecount="0"/>
+            <line num="51" count="2742" visibility="public" complexity="2" type="method" signature="getFieldSize() : int"/>
+            <line num="52" count="2742" type="stmt"/>
+            <line num="52" falsecount="2742" type="cond" truecount="0"/>
             <line num="53" count="0" type="stmt"/>
-            <line num="55" count="2739" type="stmt"/>
+            <line num="55" count="2742" type="stmt"/>
             <line num="63" count="126" visibility="public" complexity="2" type="method" signature="getRelatedSymmetricAlgorithm() : SymmetricAlgorithm"/>
             <line num="64" count="126" type="stmt"/>
             <line num="64" falsecount="125" type="cond" truecount="1"/>
@@ -2201,12 +2201,12 @@
             <line num="88" count="432" visibility="public" complexity="3" type="method" signature="writeFixedFieldSizeKey(PublicKeyAlgorithm,OutputStream,BigInteger) : void"/>
             <line num="89" count="432" type="stmt"/>
             <line num="90" count="432" type="stmt"/>
-            <line num="90" falsecount="371" type="cond" truecount="61"/>
-            <line num="91" count="61" type="stmt"/>
+            <line num="90" falsecount="388" type="cond" truecount="44"/>
+            <line num="91" count="44" type="stmt"/>
             <line num="93" count="432" type="stmt"/>
-            <line num="93" falsecount="265" type="cond" truecount="167"/>
-            <line num="94" count="167" type="stmt"/>
-            <line num="96" count="265" type="stmt"/>
+            <line num="93" falsecount="255" type="cond" truecount="177"/>
+            <line num="94" count="177" type="stmt"/>
+            <line num="96" count="255" type="stmt"/>
             <line num="100" count="399" visibility="public" complexity="1" type="method" signature="readFixedFieldSizeKey(PublicKeyAlgorithm,InputStream) : BigInteger"/>
             <line num="101" count="399" type="stmt"/>
             <line num="102" count="399" type="stmt"/>
@@ -2249,8 +2249,8 @@
             <line num="173" count="88" type="stmt"/>
             <line num="179" count="58" visibility="public" complexity="1" type="method" signature="getSubjectInfo() : SubjectInfo"/>
             <line num="180" count="58" type="stmt"/>
-            <line num="189" count="260" visibility="public" complexity="1" type="method" signature="getSubjectAttributes() : List&lt;SubjectAttribute&gt;"/>
-            <line num="190" count="260" type="stmt"/>
+            <line num="189" count="253" visibility="public" complexity="1" type="method" signature="getSubjectAttributes() : List&lt;SubjectAttribute&gt;"/>
+            <line num="190" count="253" type="stmt"/>
             <line num="199" count="79" visibility="public" complexity="1" type="method" signature="getValidityRestrictions() : List&lt;ValidityRestriction&gt;"/>
             <line num="200" count="79" type="stmt"/>
             <line num="210" count="49" visibility="public" complexity="1" type="method" signature="getSignature() : Signature"/>
@@ -2534,8 +2534,8 @@
             <line num="124" count="321" visibility="public" complexity="1" type="method" signature="SubjectAttribute()"/>
             <line num="131" count="129" visibility="public" complexity="1" type="method" signature="getSubjectAttributeType() : SubjectAttributeType"/>
             <line num="132" count="129" type="stmt"/>
-            <line num="139" count="110" visibility="public" complexity="1" type="method" signature="getPublicKey() : PublicKey"/>
-            <line num="140" count="110" type="stmt"/>
+            <line num="139" count="103" visibility="public" complexity="1" type="method" signature="getPublicKey() : PublicKey"/>
+            <line num="140" count="103" type="stmt"/>
             <line num="147" count="0" visibility="public" complexity="1" type="method" signature="getReconstructionValue() : EccPoint"/>
             <line num="148" count="0" type="stmt"/>
             <line num="155" count="24" visibility="public" complexity="1" type="method" signature="getSubjectAssurance() : SubjectAssurance"/>
@@ -3151,8 +3151,8 @@
             <line num="518" count="78" type="stmt"/>
             <line num="519" count="2" type="stmt"/>
             <line num="520" count="2" type="stmt"/>
-            <line num="521" count="28" type="stmt"/>
-            <line num="522" count="36" type="stmt"/>
+            <line num="521" count="32" type="stmt"/>
+            <line num="522" count="32" type="stmt"/>
             <line num="523" count="64" type="stmt"/>
             <line num="524" count="12" type="stmt"/>
             <line num="525" count="12" type="stmt"/>
@@ -3395,14 +3395,14 @@
          </file>
       </package>
    </project>
-   <testproject timestamp="1427885422343" name="c2c-common 0.9.6">
+   <testproject timestamp="1427885845556" name="c2c-common 0.9.6">
       <metrics conditionals="32" methods="419" classes="59" files="59" packages="7" coveredstatements="2051" complexity="448" loc="7007" ncloc="159" coveredmethods="410" coveredconditionals="25" statements="2053" coveredelements="2486" elements="2504"/>
       <package name="org.certificateservices.custom.c2x.its.datastructs.basic">
          <metrics classes="28" methods="125" conditionals="12" files="28" ncloc="0" coveredstatements="619" coveredmethods="125" complexity="137" coveredconditionals="12" statements="619" loc="2479" coveredelements="756" elements="756"/>
          <file name="EcdsaSignatureSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/EcdsaSignatureSpec.groovy">
             <metrics classes="1" methods="4" conditionals="0" ncloc="0" coveredstatements="21" coveredmethods="4" complexity="4" coveredconditionals="0" statements="21" loc="86" coveredelements="25" elements="25"/>
             <class name="EcdsaSignatureSpec">
-               <metrics conditionals="0" methods="4" coveredstatements="21" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="21" testfailures="0" coveredelements="25" testduration="0.006" elements="25"/>
+               <metrics conditionals="0" methods="4" coveredstatements="21" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="21" testfailures="0" coveredelements="25" testduration="0.005" elements="25"/>
             </class>
             <line num="37" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="39" count="1" type="stmt"/>
@@ -3433,7 +3433,7 @@
          <file name="RectangularRegionSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="22" coveredmethods="5" complexity="5" coveredconditionals="0" statements="22" loc="81" coveredelements="27" elements="27"/>
             <class name="RectangularRegionSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="22" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="22" testfailures="0" coveredelements="27" testduration="0.08" elements="27"/>
+               <metrics conditionals="0" methods="5" coveredstatements="22" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="22" testfailures="0" coveredelements="27" testduration="0.027000000000000003" elements="27"/>
             </class>
             <line num="34" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="36" count="1" type="stmt"/>
@@ -3466,7 +3466,7 @@
          <file name="SignerInfoSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfoSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="44" coveredmethods="5" complexity="5" coveredconditionals="0" statements="44" loc="127" coveredelements="49" elements="49"/>
             <class name="SignerInfoSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="44" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="44" testfailures="0" coveredelements="49" testduration="0.007" elements="49"/>
+               <metrics conditionals="0" methods="5" coveredstatements="44" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="44" testfailures="0" coveredelements="49" testduration="0.008" elements="49"/>
             </class>
             <line num="48" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="50" count="1" type="stmt"/>
@@ -3521,7 +3521,7 @@
          <file name="TwoDLocationSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="28" coveredmethods="5" complexity="5" coveredconditionals="0" statements="28" loc="90" coveredelements="33" elements="33"/>
             <class name="TwoDLocationSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="28" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="28" testfailures="0" coveredelements="33" testduration="0.007" elements="33"/>
+               <metrics conditionals="0" methods="5" coveredstatements="28" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="28" testfailures="0" coveredelements="33" testduration="0.006" elements="33"/>
             </class>
             <line num="31" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="33" count="1" type="stmt"/>
@@ -3628,7 +3628,7 @@
          <file name="GeographicRegionSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="44" coveredmethods="5" complexity="5" coveredconditionals="0" statements="44" loc="114" coveredelements="49" elements="49"/>
             <class name="GeographicRegionSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="44" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="44" testfailures="0" coveredelements="49" testduration="0.006" elements="49"/>
+               <metrics conditionals="0" methods="5" coveredstatements="44" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="44" testfailures="0" coveredelements="49" testduration="0.005" elements="49"/>
             </class>
             <line num="46" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="48" count="1" type="stmt"/>
@@ -3683,7 +3683,7 @@
          <file name="DurationSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/DurationSpec.groovy">
             <metrics classes="1" methods="6" conditionals="0" ncloc="0" coveredstatements="39" coveredmethods="6" complexity="6" coveredconditionals="0" statements="39" loc="121" coveredelements="45" elements="45"/>
             <class name="DurationSpec">
-               <metrics conditionals="0" methods="6" coveredstatements="39" complexity="6" testpasses="10" testruns="10" coveredmethods="6" coveredconditionals="0" statements="39" testfailures="0" coveredelements="45" testduration="0.024" elements="45"/>
+               <metrics conditionals="0" methods="6" coveredstatements="39" complexity="6" testpasses="10" testruns="10" coveredmethods="6" coveredconditionals="0" statements="39" testfailures="0" coveredelements="45" testduration="0.006" elements="45"/>
             </class>
             <line num="35" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="37" count="1" type="stmt"/>
@@ -3734,7 +3734,7 @@
          <file name="PublicKeySpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/PublicKeySpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="43" coveredmethods="5" complexity="5" coveredconditionals="0" statements="43" loc="130" coveredelements="48" elements="48"/>
             <class name="PublicKeySpec">
-               <metrics conditionals="0" methods="5" coveredstatements="43" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="43" testfailures="0" coveredelements="48" testduration="0.005" elements="48"/>
+               <metrics conditionals="0" methods="5" coveredstatements="43" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="43" testfailures="0" coveredelements="48" testduration="0.007" elements="48"/>
             </class>
             <line num="39" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="41" count="1" type="stmt"/>
@@ -3837,7 +3837,7 @@
          <file name="HashedIdSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/HashedIdSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="14" coveredmethods="5" complexity="5" coveredconditionals="0" statements="14" loc="76" coveredelements="19" elements="19"/>
             <class name="HashedIdSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="14" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="14" testfailures="0" coveredelements="19" testduration="0.008" elements="19"/>
+               <metrics conditionals="0" methods="5" coveredstatements="14" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="14" testfailures="0" coveredelements="19" testduration="0.007" elements="19"/>
             </class>
             <line num="39" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="41" count="1" type="stmt"/>
@@ -3862,7 +3862,7 @@
          <file name="PolygonalRegionSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.groovy">
             <metrics classes="1" methods="6" conditionals="8" ncloc="0" coveredstatements="30" coveredmethods="6" complexity="14" coveredconditionals="8" statements="30" loc="101" coveredelements="44" elements="44"/>
             <class name="PolygonalRegionSpec">
-               <metrics conditionals="8" methods="6" coveredstatements="30" complexity="14" testpasses="5" testruns="5" coveredmethods="6" coveredconditionals="8" statements="30" testfailures="0" coveredelements="44" testduration="0.007" elements="44"/>
+               <metrics conditionals="8" methods="6" coveredstatements="30" complexity="14" testpasses="5" testruns="5" coveredmethods="6" coveredconditionals="8" statements="30" testfailures="0" coveredelements="44" testduration="0.008" elements="44"/>
             </class>
             <line num="36" count="5" visibility="private" complexity="3" type="method" signature="setup() : def"/>
             <line num="37" count="5" type="stmt"/>
@@ -3908,7 +3908,7 @@
          <file name="RegionDictionarySpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/RegionDictionarySpec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="3" coveredmethods="2" complexity="2" coveredconditionals="0" statements="3" loc="56" coveredelements="5" elements="5"/>
             <class name="RegionDictionarySpec">
-               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="4" testruns="4" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.003" elements="5"/>
+               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="4" testruns="4" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.002" elements="5"/>
             </class>
             <line num="32" count="2" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def) : void"/>
             <line num="35" count="2" type="stmt"/>
@@ -3965,7 +3965,7 @@
          <file name="Time64WithStandardDeviationSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/Time64WithStandardDeviationSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="18" coveredmethods="5" complexity="5" coveredconditionals="0" statements="18" loc="76" coveredelements="23" elements="23"/>
             <class name="Time64WithStandardDeviationSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="18" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="18" testfailures="0" coveredelements="23" testduration="0.008" elements="23"/>
+               <metrics conditionals="0" methods="5" coveredstatements="18" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="18" testfailures="0" coveredelements="23" testduration="0.007" elements="23"/>
             </class>
             <line num="32" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="34" count="1" type="stmt"/>
@@ -3994,7 +3994,7 @@
          <file name="SignatureSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/SignatureSpec.groovy">
             <metrics classes="1" methods="4" conditionals="0" ncloc="0" coveredstatements="17" coveredmethods="4" complexity="4" coveredconditionals="0" statements="17" loc="80" coveredelements="21" elements="21"/>
             <class name="SignatureSpec">
-               <metrics conditionals="0" methods="4" coveredstatements="17" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="17" testfailures="0" coveredelements="21" testduration="0.002" elements="21"/>
+               <metrics conditionals="0" methods="4" coveredstatements="17" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="17" testfailures="0" coveredelements="21" testduration="0.003" elements="21"/>
             </class>
             <line num="38" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="40" count="1" type="stmt"/>
@@ -4032,7 +4032,7 @@
          <file name="EccPointTypeSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="3" coveredmethods="2" complexity="2" coveredconditionals="0" statements="3" loc="59" coveredelements="5" elements="5"/>
             <class name="EccPointTypeSpec">
-               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="8" testruns="8" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.004" elements="5"/>
+               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="8" testruns="8" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.005" elements="5"/>
             </class>
             <line num="32" count="4" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def) : void"/>
             <line num="35" count="4" type="stmt"/>
@@ -4043,7 +4043,7 @@
          <file name="IdentifiedRegionSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/IdentifiedRegionSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="22" coveredmethods="5" complexity="5" coveredconditionals="0" statements="22" loc="83" coveredelements="27" elements="27"/>
             <class name="IdentifiedRegionSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="22" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="22" testfailures="0" coveredelements="27" testduration="0.006" elements="27"/>
+               <metrics conditionals="0" methods="5" coveredstatements="22" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="22" testfailures="0" coveredelements="27" testduration="0.003" elements="27"/>
             </class>
             <line num="37" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="39" count="1" type="stmt"/>
@@ -4076,7 +4076,7 @@
          <file name="CircularRegionSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="23" coveredmethods="5" complexity="5" coveredconditionals="0" statements="23" loc="84" coveredelements="28" elements="28"/>
             <class name="CircularRegionSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="23" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="23" testfailures="0" coveredelements="28" testduration="0.007" elements="28"/>
+               <metrics conditionals="0" methods="5" coveredstatements="23" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="23" testfailures="0" coveredelements="28" testduration="0.006" elements="28"/>
             </class>
             <line num="34" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="36" count="1" type="stmt"/>
@@ -4121,7 +4121,7 @@
          <file name="HashedId8Spec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/HashedId8Spec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="2" coveredmethods="2" complexity="2" coveredconditionals="0" statements="2" loc="44" coveredelements="4" elements="4"/>
             <class name="HashedId8Spec">
-               <metrics conditionals="0" methods="2" coveredstatements="2" complexity="2" testpasses="2" testruns="2" coveredmethods="2" coveredconditionals="0" statements="2" testfailures="0" coveredelements="4" testduration="0.002" elements="4"/>
+               <metrics conditionals="0" methods="2" coveredstatements="2" complexity="2" testpasses="2" testruns="2" coveredmethods="2" coveredconditionals="0" statements="2" testfailures="0" coveredelements="4" testduration="0.001" elements="4"/>
             </class>
             <line num="33" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="35" count="1" type="stmt"/>
@@ -4162,7 +4162,7 @@
          <file name="SymmetricAlgorithmSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/SymmetricAlgorithmSpec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="4" coveredmethods="2" complexity="2" coveredconditionals="0" statements="4" loc="53" coveredelements="6" elements="6"/>
             <class name="SymmetricAlgorithmSpec">
-               <metrics conditionals="0" methods="2" coveredstatements="4" complexity="2" testpasses="2" testruns="2" coveredmethods="2" coveredconditionals="0" statements="4" testfailures="0" coveredelements="6" testduration="0.003" elements="6"/>
+               <metrics conditionals="0" methods="2" coveredstatements="4" complexity="2" testpasses="2" testruns="2" coveredmethods="2" coveredconditionals="0" statements="4" testfailures="0" coveredelements="6" testduration="0.002" elements="6"/>
             </class>
             <line num="31" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def,def) : void"/>
             <line num="34" count="1" type="stmt"/>
@@ -4174,7 +4174,7 @@
          <file name="IntXSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/IntXSpec.groovy">
             <metrics classes="1" methods="9" conditionals="0" ncloc="0" coveredstatements="16" coveredmethods="9" complexity="9" coveredconditionals="0" statements="16" loc="138" coveredelements="25" elements="25"/>
             <class name="IntXSpec">
-               <metrics conditionals="0" methods="9" coveredstatements="16" complexity="9" testpasses="38" testruns="38" coveredmethods="9" coveredconditionals="0" statements="16" testfailures="0" coveredelements="25" testduration="0.014" elements="25"/>
+               <metrics conditionals="0" methods="9" coveredstatements="16" complexity="9" testpasses="38" testruns="38" coveredmethods="9" coveredconditionals="0" statements="16" testfailures="0" coveredelements="25" testduration="0.015000000000000006" elements="25"/>
             </class>
             <line num="32" count="10" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0(def,def) : void"/>
             <line num="35" count="10" type="stmt"/>
@@ -4205,7 +4205,7 @@
          <file name="EccPointSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/basic/EccPointSpec.groovy">
             <metrics classes="1" methods="8" conditionals="0" ncloc="0" coveredstatements="101" coveredmethods="8" complexity="8" coveredconditionals="0" statements="101" loc="218" coveredelements="109" elements="109"/>
             <class name="EccPointSpec">
-               <metrics conditionals="0" methods="8" coveredstatements="101" complexity="8" testpasses="13" testruns="13" coveredmethods="8" coveredconditionals="0" statements="101" testfailures="0" coveredelements="109" testduration="0.014000000000000002" elements="109"/>
+               <metrics conditionals="0" methods="8" coveredstatements="101" complexity="8" testpasses="13" testruns="13" coveredmethods="8" coveredconditionals="0" statements="101" testfailures="0" coveredelements="109" testduration="0.018000000000000002" elements="109"/>
             </class>
             <line num="38" count="13" visibility="private" complexity="1" type="method" signature="setup() : def"/>
             <line num="39" count="13" type="stmt"/>
@@ -4323,7 +4323,7 @@
          <file name="AuthorizationTicketCertGeneratorSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/generator/AuthorizationTicketCertGeneratorSpec.groovy">
             <metrics classes="1" methods="20" conditionals="0" ncloc="0" coveredstatements="116" coveredmethods="19" complexity="20" coveredconditionals="0" statements="116" loc="237" coveredelements="135" elements="136"/>
             <class name="AuthorizationTicketCertGeneratorSpec">
-               <metrics conditionals="0" methods="20" coveredstatements="116" complexity="20" testpasses="4" testruns="4" coveredmethods="19" coveredconditionals="0" statements="116" testfailures="0" coveredelements="135" testduration="0.032" elements="136"/>
+               <metrics conditionals="0" methods="20" coveredstatements="116" complexity="20" testpasses="4" testruns="4" coveredmethods="19" coveredconditionals="0" statements="116" testfailures="0" coveredelements="135" testduration="0.027000000000000003" elements="136"/>
             </class>
             <line num="50" count="19" visibility="public" complexity="1" type="method" signature="getCryptoManager() : def"/>
             <line num="50" count="1" visibility="public" complexity="1" type="method" signature="setCryptoManager(CryptoManager) : void"/>
@@ -4465,7 +4465,7 @@
          <file name="MessageAndCertificateValidationIT.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT.groovy">
             <metrics classes="1" methods="60" conditionals="0" ncloc="0" coveredstatements="55" coveredmethods="55" complexity="60" coveredconditionals="0" statements="55" loc="184" coveredelements="110" elements="115"/>
             <class name="MessageAndCertificateValidationIT">
-               <metrics conditionals="0" methods="60" coveredstatements="55" complexity="60" testpasses="4" testruns="4" coveredmethods="55" coveredconditionals="0" statements="55" testfailures="0" coveredelements="110" testduration="0.132" elements="115"/>
+               <metrics conditionals="0" methods="60" coveredstatements="55" complexity="60" testpasses="4" testruns="4" coveredmethods="55" coveredconditionals="0" statements="55" testfailures="0" coveredelements="110" testduration="0.129" elements="115"/>
             </class>
             <line num="36" count="1" visibility="public" complexity="1" type="method" signature="getSbg() : def"/>
             <line num="36" count="1" visibility="public" complexity="1" type="method" signature="setSbg(SecuredMessageGenerator) : void"/>
@@ -4586,7 +4586,7 @@
          <file name="EnrollmentCredentialCertGeneratorSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/generator/EnrollmentCredentialCertGeneratorSpec.groovy">
             <metrics classes="1" methods="20" conditionals="0" ncloc="0" coveredstatements="116" coveredmethods="19" complexity="20" coveredconditionals="0" statements="116" loc="237" coveredelements="135" elements="136"/>
             <class name="EnrollmentCredentialCertGeneratorSpec">
-               <metrics conditionals="0" methods="20" coveredstatements="116" complexity="20" testpasses="4" testruns="4" coveredmethods="19" coveredconditionals="0" statements="116" testfailures="0" coveredelements="135" testduration="0.128" elements="136"/>
+               <metrics conditionals="0" methods="20" coveredstatements="116" complexity="20" testpasses="4" testruns="4" coveredmethods="19" coveredconditionals="0" statements="116" testfailures="0" coveredelements="135" testduration="0.129" elements="136"/>
             </class>
             <line num="50" count="19" visibility="public" complexity="1" type="method" signature="getCryptoManager() : def"/>
             <line num="50" count="1" visibility="public" complexity="1" type="method" signature="setCryptoManager(CryptoManager) : void"/>
@@ -4728,7 +4728,7 @@
          <file name="SecuredMessageGeneratorSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.groovy">
             <metrics classes="1" methods="19" conditionals="0" ncloc="0" coveredstatements="150" coveredmethods="19" complexity="19" coveredconditionals="0" statements="150" loc="303" coveredelements="169" elements="169"/>
             <class name="SecuredMessageGeneratorSpec">
-               <metrics conditionals="0" methods="19" coveredstatements="150" complexity="19" testpasses="3" testruns="3" coveredmethods="19" coveredconditionals="0" statements="150" testfailures="0" coveredelements="169" testduration="0.037" elements="169"/>
+               <metrics conditionals="0" methods="19" coveredstatements="150" complexity="19" testpasses="3" testruns="3" coveredmethods="19" coveredconditionals="0" statements="150" testfailures="0" coveredelements="169" testduration="0.031" elements="169"/>
             </class>
             <line num="57" count="16" visibility="public" complexity="1" type="method" signature="getCryptoManager() : def"/>
             <line num="57" count="1" visibility="public" complexity="1" type="method" signature="setCryptoManager(CryptoManager) : void"/>
@@ -4903,7 +4903,7 @@
          <file name="AuthorityCertGeneratorSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec.groovy">
             <metrics classes="1" methods="15" conditionals="0" ncloc="0" coveredstatements="119" coveredmethods="15" complexity="15" coveredconditionals="0" statements="119" loc="237" coveredelements="134" elements="134"/>
             <class name="AuthorityCertGeneratorSpec">
-               <metrics conditionals="0" methods="15" coveredstatements="119" complexity="15" testpasses="5" testruns="5" coveredmethods="15" coveredconditionals="0" statements="119" testfailures="0" coveredelements="134" testduration="0.064" elements="134"/>
+               <metrics conditionals="0" methods="15" coveredstatements="119" complexity="15" testpasses="5" testruns="5" coveredmethods="15" coveredconditionals="0" statements="119" testfailures="0" coveredelements="134" testduration="0.067" elements="134"/>
             </class>
             <line num="48" count="18" visibility="public" complexity="1" type="method" signature="getCryptoManager() : def"/>
             <line num="48" count="1" visibility="public" complexity="1" type="method" signature="setCryptoManager(CryptoManager) : void"/>
@@ -5046,7 +5046,7 @@
          <file name="HeaderFieldTypeSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldTypeSpec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="3" coveredmethods="2" complexity="2" coveredconditionals="0" statements="3" loc="68" coveredelements="5" elements="5"/>
             <class name="HeaderFieldTypeSpec">
-               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="18" testruns="18" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.008" elements="5"/>
+               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="18" testruns="18" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.006" elements="5"/>
             </class>
             <line num="31" count="9" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def) : void"/>
             <line num="34" count="9" type="stmt"/>
@@ -5057,7 +5057,7 @@
          <file name="SecuredMessageSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.groovy">
             <metrics classes="1" methods="7" conditionals="0" ncloc="0" coveredstatements="33" coveredmethods="7" complexity="7" coveredconditionals="0" statements="33" loc="148" coveredelements="40" elements="40"/>
             <class name="SecuredMessageSpec">
-               <metrics conditionals="0" methods="7" coveredstatements="33" complexity="7" testpasses="6" testruns="6" coveredmethods="7" coveredconditionals="0" statements="33" testfailures="0" coveredelements="40" testduration="0.008" elements="40"/>
+               <metrics conditionals="0" methods="7" coveredstatements="33" complexity="7" testpasses="6" testruns="6" coveredmethods="7" coveredconditionals="0" statements="33" testfailures="0" coveredelements="40" testduration="0.006" elements="40"/>
             </class>
             <line num="74" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="76" count="1" type="stmt"/>
@@ -5139,7 +5139,7 @@
          <file name="PayloadSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/PayloadSpec.groovy">
             <metrics classes="1" methods="4" conditionals="0" ncloc="0" coveredstatements="17" coveredmethods="4" complexity="4" coveredconditionals="0" statements="17" loc="98" coveredelements="21" elements="21"/>
             <class name="PayloadSpec">
-               <metrics conditionals="0" methods="4" coveredstatements="17" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="17" testfailures="0" coveredelements="21" testduration="0.004" elements="21"/>
+               <metrics conditionals="0" methods="4" coveredstatements="17" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="17" testfailures="0" coveredelements="21" testduration="0.005" elements="21"/>
             </class>
             <line num="56" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="58" count="1" type="stmt"/>
@@ -5166,7 +5166,7 @@
          <file name="EciesNistP256EncryptedKeySpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/EciesNistP256EncryptedKeySpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="34" coveredmethods="5" complexity="5" coveredconditionals="0" statements="34" loc="107" coveredelements="39" elements="39"/>
             <class name="EciesNistP256EncryptedKeySpec">
-               <metrics conditionals="0" methods="5" coveredstatements="34" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="34" testfailures="0" coveredelements="39" testduration="0.006" elements="39"/>
+               <metrics conditionals="0" methods="5" coveredstatements="34" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="34" testfailures="0" coveredelements="39" testduration="0.007" elements="39"/>
             </class>
             <line num="39" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="41" count="1" type="stmt"/>
@@ -5211,7 +5211,7 @@
          <file name="TrailerFieldTypeSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/TrailerFieldTypeSpec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="3" coveredmethods="2" complexity="2" coveredconditionals="0" statements="3" loc="52" coveredelements="5" elements="5"/>
             <class name="TrailerFieldTypeSpec">
-               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="2" testruns="2" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.001" elements="5"/>
+               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="2" testruns="2" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.002" elements="5"/>
             </class>
             <line num="31" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def) : void"/>
             <line num="34" count="1" type="stmt"/>
@@ -5222,7 +5222,7 @@
          <file name="HeaderFieldSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.groovy">
             <metrics classes="1" methods="4" conditionals="0" ncloc="0" coveredstatements="69" coveredmethods="4" complexity="4" coveredconditionals="0" statements="69" loc="184" coveredelements="73" elements="73"/>
             <class name="HeaderFieldSpec">
-               <metrics conditionals="0" methods="4" coveredstatements="69" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="69" testfailures="0" coveredelements="73" testduration="0.008" elements="73"/>
+               <metrics conditionals="0" methods="4" coveredstatements="69" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="69" testfailures="0" coveredelements="73" testduration="0.007" elements="73"/>
             </class>
             <line num="70" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="72" count="1" type="stmt"/>
@@ -5301,7 +5301,7 @@
          <file name="MessageTypeSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="3" coveredmethods="2" complexity="2" coveredconditionals="0" statements="3" loc="54" coveredelements="5" elements="5"/>
             <class name="MessageTypeSpec">
-               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="4" testruns="4" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.003" elements="5"/>
+               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="4" testruns="4" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.001" elements="5"/>
             </class>
             <line num="30" count="2" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def,def) : void"/>
             <line num="33" count="2" type="stmt"/>
@@ -5312,7 +5312,7 @@
          <file name="TrailerFieldSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/TrailerFieldSpec.groovy">
             <metrics classes="1" methods="4" conditionals="0" ncloc="0" coveredstatements="10" coveredmethods="4" complexity="4" coveredconditionals="0" statements="10" loc="79" coveredelements="14" elements="14"/>
             <class name="TrailerFieldSpec">
-               <metrics conditionals="0" methods="4" coveredstatements="10" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="10" testfailures="0" coveredelements="14" testduration="0.005" elements="14"/>
+               <metrics conditionals="0" methods="4" coveredstatements="10" complexity="4" testpasses="4" testruns="4" coveredmethods="4" coveredconditionals="0" statements="10" testfailures="0" coveredelements="14" testduration="0.002" elements="14"/>
             </class>
             <line num="45" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="47" count="1" type="stmt"/>
@@ -5332,7 +5332,7 @@
          <file name="PayloadTypeSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/msg/PayloadTypeSpec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="3" coveredmethods="2" complexity="2" coveredconditionals="0" statements="3" loc="60" coveredelements="5" elements="5"/>
             <class name="PayloadTypeSpec">
-               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="10" testruns="10" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.001" elements="5"/>
+               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="10" testruns="10" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.004" elements="5"/>
             </class>
             <line num="31" count="5" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def) : void"/>
             <line num="34" count="5" type="stmt"/>
@@ -5346,7 +5346,7 @@
          <file name="SerializationHelperSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/SerializationHelperSpec.groovy">
             <metrics classes="1" methods="5" conditionals="2" ncloc="0" coveredstatements="31" coveredmethods="5" complexity="7" coveredconditionals="2" statements="31" loc="122" coveredelements="38" elements="38"/>
             <class name="SerializationHelperSpec">
-               <metrics conditionals="2" methods="5" coveredstatements="31" complexity="7" testpasses="8" testruns="8" coveredmethods="5" coveredconditionals="2" statements="31" testfailures="0" coveredelements="38" testduration="0.010000000000000002" elements="38"/>
+               <metrics conditionals="2" methods="5" coveredstatements="31" complexity="7" testpasses="8" testruns="8" coveredmethods="5" coveredconditionals="2" statements="31" testfailures="0" coveredelements="38" testduration="0.01" elements="38"/>
             </class>
             <line num="46" count="3" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def,def) : void"/>
             <line num="49" count="3" type="stmt"/>
@@ -5425,7 +5425,7 @@
          <file name="ValidityRestrictionSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="51" coveredmethods="5" complexity="5" coveredconditionals="0" statements="51" loc="127" coveredelements="56" elements="56"/>
             <class name="ValidityRestrictionSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="51" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="51" testfailures="0" coveredelements="56" testduration="0.019000000000000003" elements="56"/>
+               <metrics conditionals="0" methods="5" coveredstatements="51" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="51" testfailures="0" coveredelements="56" testduration="0.02" elements="56"/>
             </class>
             <line num="45" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="47" count="1" type="stmt"/>
@@ -5563,7 +5563,7 @@
          <file name="SubjectAttributeSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAttributeSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="72" coveredmethods="5" complexity="5" coveredconditionals="0" statements="72" loc="180" coveredelements="77" elements="77"/>
             <class name="SubjectAttributeSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="72" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="72" testfailures="0" coveredelements="77" testduration="0.008" elements="77"/>
+               <metrics conditionals="0" methods="5" coveredstatements="72" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="72" testfailures="0" coveredelements="77" testduration="0.005" elements="77"/>
             </class>
             <line num="63" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="65" count="1" type="stmt"/>
@@ -5646,7 +5646,7 @@
          <file name="SubjectInfoSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/cert/SubjectInfoSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="27" coveredmethods="5" complexity="5" coveredconditionals="0" statements="27" loc="92" coveredelements="32" elements="32"/>
             <class name="SubjectInfoSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="27" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="27" testfailures="0" coveredelements="32" testduration="0.005" elements="32"/>
+               <metrics conditionals="0" methods="5" coveredstatements="27" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="27" testfailures="0" coveredelements="32" testduration="0.004" elements="32"/>
             </class>
             <line num="37" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="39" count="1" type="stmt"/>
@@ -5684,7 +5684,7 @@
          <file name="ItsAidPrioritySspSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidPrioritySspSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="23" coveredmethods="5" complexity="5" coveredconditionals="0" statements="23" loc="96" coveredelements="28" elements="28"/>
             <class name="ItsAidPrioritySspSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="23" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="23" testfailures="0" coveredelements="28" testduration="0.005" elements="28"/>
+               <metrics conditionals="0" methods="5" coveredstatements="23" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="23" testfailures="0" coveredelements="28" testduration="0.004" elements="28"/>
             </class>
             <line num="42" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="44" count="1" type="stmt"/>
@@ -5718,7 +5718,7 @@
          <file name="SubjectAssuranceSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAssuranceSpec.groovy">
             <metrics classes="1" methods="7" conditionals="0" ncloc="0" coveredstatements="21" coveredmethods="7" complexity="7" coveredconditionals="0" statements="21" loc="104" coveredelements="28" elements="28"/>
             <class name="SubjectAssuranceSpec">
-               <metrics conditionals="0" methods="7" coveredstatements="21" complexity="7" testpasses="16" testruns="16" coveredmethods="7" coveredconditionals="0" statements="21" testfailures="0" coveredelements="28" testduration="0.008" elements="28"/>
+               <metrics conditionals="0" methods="7" coveredstatements="21" complexity="7" testpasses="16" testruns="16" coveredmethods="7" coveredconditionals="0" statements="21" testfailures="0" coveredelements="28" testduration="0.009000000000000001" elements="28"/>
             </class>
             <line num="31" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="33" count="1" type="stmt"/>
@@ -5752,7 +5752,7 @@
          <file name="SubjectAttributeTypeSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAttributeTypeSpec.groovy">
             <metrics classes="1" methods="2" conditionals="0" ncloc="0" coveredstatements="3" coveredmethods="2" complexity="2" coveredconditionals="0" statements="3" loc="64" coveredelements="5" elements="5"/>
             <class name="SubjectAttributeTypeSpec">
-               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="16" testruns="16" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.008" elements="5"/>
+               <metrics conditionals="0" methods="2" coveredstatements="3" complexity="2" testpasses="16" testruns="16" coveredmethods="2" coveredconditionals="0" statements="3" testfailures="0" coveredelements="5" testduration="0.007" elements="5"/>
             </class>
             <line num="30" count="8" visibility="public" complexity="1" type="method" signature="$spock_feature_0_0(def,def) : void"/>
             <line num="33" count="8" type="stmt"/>
@@ -5763,7 +5763,7 @@
          <file name="ItsAidSspSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidSspSpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="18" coveredmethods="5" complexity="5" coveredconditionals="0" statements="18" loc="91" coveredelements="23" elements="23"/>
             <class name="ItsAidSspSpec">
-               <metrics conditionals="0" methods="5" coveredstatements="18" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="18" testfailures="0" coveredelements="23" testduration="0.006" elements="23"/>
+               <metrics conditionals="0" methods="5" coveredstatements="18" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="18" testfailures="0" coveredelements="23" testduration="0.007" elements="23"/>
             </class>
             <line num="42" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="44" count="1" type="stmt"/>
@@ -5803,7 +5803,7 @@
          <file name="ItsAidPrioritySpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidPrioritySpec.groovy">
             <metrics classes="1" methods="5" conditionals="0" ncloc="0" coveredstatements="16" coveredmethods="5" complexity="5" coveredconditionals="0" statements="16" loc="84" coveredelements="21" elements="21"/>
             <class name="ItsAidPrioritySpec">
-               <metrics conditionals="0" methods="5" coveredstatements="16" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="16" testfailures="0" coveredelements="21" testduration="0.27199999999999996" elements="21"/>
+               <metrics conditionals="0" methods="5" coveredstatements="16" complexity="5" testpasses="5" testruns="5" coveredmethods="5" coveredconditionals="0" statements="16" testfailures="0" coveredelements="21" testduration="0.257" elements="21"/>
             </class>
             <line num="43" count="1" visibility="public" complexity="1" type="method" signature="$spock_feature_1_0() : void"/>
             <line num="45" count="1" type="stmt"/>
@@ -5833,7 +5833,7 @@
          <file name="DefaultCryptoManagerSpec.groovy" path="/usr/local/buildserver/apps/bambo/atlassian-bamboo-5.7.2/home/xml-data/build-dir/CCCOM-TTR-PTG/src/test/groovy/org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.groovy">
             <metrics classes="1" methods="62" conditionals="6" ncloc="0" coveredstatements="274" coveredmethods="60" complexity="70" coveredconditionals="4" statements="276" loc="725" coveredelements="338" elements="344"/>
             <class name="DefaultCryptoManagerSpec">
-               <metrics conditionals="6" methods="62" coveredstatements="274" complexity="70" testpasses="40" testruns="40" coveredmethods="60" coveredconditionals="4" statements="276" testfailures="0" coveredelements="338" testduration="0.25000000000000006" elements="344"/>
+               <metrics conditionals="6" methods="62" coveredstatements="274" complexity="70" testpasses="40" testruns="40" coveredmethods="60" coveredconditionals="4" statements="276" testfailures="0" coveredelements="338" testduration="0.34800000000000003" elements="344"/>
             </class>
             <line num="81" count="126" visibility="public" complexity="1" type="method" signature="getDefaultCryptoManager() : def"/>
             <line num="81" count="0" visibility="public" complexity="1" type="method" signature="setDefaultCryptoManager(DefaultCryptoManager) : void"/>
