@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    
+    
+    <link rel="SHORTCUT ICON" href="img/clover.ico" />
+
+    <link rel="stylesheet" href="aui/css/aui.min.css" media="all"/>
+    <link rel="stylesheet" href="aui/css/aui-experimental.min.css" media="all"/>
+    <!--[if IE 9]><link rel="stylesheet" href="aui/css/aui-ie9.min.css" media="all"/><![endif]-->
+
+    <style type="text/css" media="all">
+        @import url('style.css');
+        @import url('jstree/jstree.styles.css');
+        @import url('tree.css');
+        
+    </style>
+
+    <script src="jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="jstree/jstree.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui-experimental.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui-soy.min.js" type="text/javascript"></script>
+
+    <script src="package-nodes-tree.js" type="text/javascript"></script>
+    <script src="clover.js" type="text/javascript"></script>
+    <script src="cloud.js" type="text/javascript"></script>
+    <script src="help.js" type="text/javascript"></script>
+    <script src="overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
+    <script src="overlibmws_shadow.js" type="text/javascript"></script>
+    <script src="sorttable.js" type="text/javascript"></script>
+    <script src="utils.js" type="text/javascript"></script>
+
+            <title>c2c-common 0.9.52</title>
+    </head>
+
+<body onresize="processTreeMapDashJson(treeMapJson);" >
+    <div id="page">
+        
+        
+
+
+<header id="header" role="banner">
+    <nav class="aui-header aui-dropdown2-trigger-group" role="navigation">
+        <div class="aui-header-inner">
+            <div class="aui-header-primary">
+                <h1 id="logo" class="aui-header-logo aui-header-logo-clover">
+                    <a href="http://www.atlassian.com/clover" title="Open Atlassian Clover home page"><span class="aui-header-logo-device">Clover</span></a>
+                </h1>
+                            </div>
+            <div class="aui-header-secondary">
+                <ul class="aui-nav">
+                    <li id="system-help-menu">
+                        <a class="aui-nav-link" title="Open online Clover documentation" target="_blank"
+                           href="https://confluence.atlassian.com/display/CLOVER/Clover+Documentation+Home">
+                            <span class="aui-icon aui-icon-small aui-iconfont-help">&#160;Help</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+        
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <div class="aui-page-panel-nav aui-page-panel-nav-clover">
+                    
+
+<div class="aui-page-header-inner" style="margin-bottom: 20px;">
+    <div class="aui-page-header-image">
+                    <a href="http://www.cgi.com.se" target="_top">
+                <div class="aui-avatar aui-avatar-large aui-avatar-project">
+            <div class="aui-avatar-inner">
+                                    <img src="img/clover_logo_large.png" alt="Clover icon"/>
+                            </div>
+        </div>
+                    </a>
+            </div>
+    <div class="aui-page-header-main" >
+        <h1>
+                            <a href="http://www.cgi.com.se" target="_top">
+                                        c2c-common 0.9.52
+                                        </a>
+                    </h1>
+    </div>
+</div>
+
+<nav class="aui-navgroup aui-navgroup-vertical">
+    <div class="aui-navgroup-inner">
+                                            <ul class="aui-nav">
+                <li class="aui-nav-selected">
+                    <a href="dashboard.html">Project overview</a>
+                </li>
+            </ul>
+        
+                <div class="aui-nav-heading packages-nav-heading">
+            <strong>Packages</strong>
+        </div>
+        <ul class="aui-nav project-packages">
+            <li>
+                <form method="get" action="#" class="aui package-filter-container">
+                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
+                </form>
+                <p class="package-filter-message package-filter-search-message hidden">
+                    <small>Searching...</small>
+                </p>
+                <p class="package-filter-message package-filter-results-message hidden">
+                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
+                </p>
+                <p class="package-filter-message package-filter-no-results-message hidden">
+                    <small>No results found.</small>
+                </p>
+                <p class="package-filter-message package-filter-partial-results-message hidden">
+                    <small>Showing first <span class="package-filter-results-number">24</span> of
+                        <span class="package-filter-results-total">1234</span> results.</small>
+                </p>
+            </li>
+                                                  <div class="packages-tree-wrapper" data-root-relative="" data-package-name="">
+                <div class="packages-tree-container"></div>
+                <div class="packages-tree-lozenges"></div>
+            </div>
+        </ul>
+        
+            </div>
+</nav>                </div>
+                <section class="aui-page-panel-content">
+
+                    
+                    <ol class="aui-nav aui-nav-breadcrumbs">
+            
+        <li><a href="dashboard.html">Project Clover database Wed Apr 1 2015 12:35:22 CEST</a></li>
+    </ol>
+    
+<h1 class="aui-h2-clover">
+            Project overview
+    </h1>
+<div class="aui-tabs horizontal-tabs">
+        <ul class="tabs-menu">
+            <li class="menu-item active-tab">
+            <a href="dashboard.html">Dashboard</a>
+        </li>
+                <li class="menu-item ">
+            <a href="pkg-summary.html"><strong>Application code</strong></a>
+        </li>
+                <li class="menu-item ">
+            <a href="testsrc-pkg-summary.html"><strong>Test code</strong></a>
+        </li>
+        <li class="menu-item ">
+            <a href="test-pkg-summary.html"><strong>Test results</strong></a>
+        </li>
+                <li class="menu-item ">
+            <a href="top-risks.html"><strong>Top risks</strong></a>
+        </li>
+        <li class="menu-item ">
+            <a href="quick-wins.html"><strong>Quick wins</strong></a>
+        </li>
+                                                <li class="menu-item ">
+                <a href="treemap.html"><strong>Coverage tree map</strong></a>
+            </li>
+            </ul>
+    <div class="tabs-pane active-pane" id="tabs-first">
+
+        <div>&#160;</div>
+
+
+
+
+
+
+<div class="aui-group">
+    <div class="aui-item">
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                
+                <h3>
+                    Code coverage
+                    <small style="float:right; font-weight: normal">
+                        63 classes,
+                        2,837 /
+                        3,395 elements
+                    </small>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.83564067</span>83.6%</div><div style="display: table-cell">
+ <div title="83.6% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:83.6%"></div></div></div></div>
+                <p><a href="pkg-summary.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    Test results
+                    <small style="float:right; font-weight: normal">
+                        408 /
+                        408 tests
+                        1.35 secs
+                    </small>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                                    
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>                                <p><a href="test-pkg-summary.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Code metrics</h3>
+            </header>
+                         
+
+<div id="$statsId" class="aui-item" style="display: ${display}">
+<div style="display: table">
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of branches in this project">Branches:</label></div>
+        <div class="stats-box-value">792</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of statements in this project">Statements:</label></div>
+        <div class="stats-box-value">2,104</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of methods in this project">Methods:</label></div>
+        <div class="stats-box-value">499</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of classes in this project">Classes:</label></div>
+        <div class="stats-box-value">63</div>
+    </div>
+            <div class="stats-box">
+            <div class="stats-box-label"><label title="Total number of files in this project">Files:</label></div>
+            <div class="stats-box-value">62</div>
+        </div>
+                <div class="stats-box">
+            <div class="stats-box-label"><label title="Total number of packages in this project">Packages:</label></div>
+            <div class="stats-box-value">6</div>
+        </div>
+        <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of lines of code in this project">LOC:</label></div>
+        <div class="stats-box-value">9,316</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of non-comment lines of code in this project">NCLOC:</label></div>
+        <div class="stats-box-value">4,658</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Cyclomatic complexity is the number of paths in this project">Total complexity:</label></div>
+        <div class="stats-box-value">1,045</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label">
+            <label title="Complexity density is the complexity divided by the number of statements in this project">Complexity density:</label>
+        </div>
+        <div class="stats-box-value">0.5</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Number of statements per method.">Statements/Method:</label></div>
+        <div class="stats-box-value">4.22</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Number of methods per class.">Methods/Class:</label></div>
+        <div class="stats-box-value">7.92</div>
+    </div>
+            <div class="stats-box">
+            <div class="stats-box-label"><label title="Number of classes per package.">Classes/Package:</label></div>
+            <div class="stats-box-value">10.5</div>
+        </div>
+        <div class="stats-box">
+        <div class="stats-box-label"><label title="Complexity divided by the number of methods in this project">Average method complexity:</label></div>
+        <div class="stats-box-value">2.09</div>
+    </div>
+</div>
+
+</div>        </div>
+
+                <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Class Coverage Distribution</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div style="text-align: center">                     <img src="img/classDistrubutionChart.png" alt="img/classDistrubutionChart.png" usemap="#classDistrubutionChart.png"/>
+                </div>
+                <map id="classDistrubutionChart.png" name="classDistrubutionChart.png">
+<area shape="rect" coords="286,100,308,229" title="17 classes have 91-100% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="261,16,283,228" title="28 classes have 81-90% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="237,145,259,228" title="11 classes have 71-80% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="212,214,234,229" title="2 classes have 61-70% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="163,221,185,228" title="1 class has 41-50% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="40,221,62,228" title="1 class has 0% coverage" alt="" nohref="nohref"/>
+</map>
+            </div>
+        </div>
+        
+                <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Class Complexity</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div style="text-align: center">
+                    <img src="img/classComplexityChart.png" alt="img/classComplexityChart.png" usemap="#classComplexityChart.png"/>
+                </div>
+                <map id="classComplexityChart.png" name="classComplexityChart.png">
+<area shape="poly" coords="176,228,173,230,171,228,173,225,176,228,176,228" title="Complexity: 2; Coverage: 50%; Class: InvalidITSSignatureException" alt="" href="org/certificateservices/custom/c2x/its/crypto/InvalidITSSignatureException.html#InvalidITSSignatureException"/>
+<area shape="poly" coords="296,228,294,230,291,228,294,225,296,228,296,228" title="Complexity: 2; Coverage: 100%; Class: DefaultCryptoManagerParams" alt="" href="org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerParams.html#DefaultCryptoManagerParams"/>
+<area shape="poly" coords="258,19,255,21,253,19,255,16,258,19,258,19" title="Complexity: 119; Coverage: 84%; Class: DefaultCryptoManager" alt="" href="org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManager.html#DefaultCryptoManager"/>
+<area shape="poly" coords="55,228,53,230,50,228,53,225,55,228,55,228" title="Complexity: 2; Coverage: 0%; Class: BadCredentialsException" alt="" href="org/certificateservices/custom/c2x/its/crypto/BadCredentialsException.html#BadCredentialsException"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="236,146,234,148,231,146,234,143,236,146,236,146" title="Complexity: 48; Coverage: 75%; Class: ValidityRestriction" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestriction.html#ValidityRestriction"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="265,201,263,204,260,201,263,199,265,201,265,201" title="Complexity: 17; Coverage: 87%; Class: SubjectInfo" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectInfo.html#SubjectInfo"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="227,113,224,116,222,113,224,111,227,113,227,113" title="Complexity: 66; Coverage: 71%; Class: SubjectAttribute" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAttribute.html#SubjectAttribute"/>
+<area shape="poly" coords="265,199,263,202,260,199,263,197,265,199,265,199" title="Complexity: 18; Coverage: 87%; Class: SubjectAssurance" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAssurance.html#SubjectAssurance"/>
+<area shape="poly" coords="248,199,246,202,243,199,246,197,248,199,248,199" title="Complexity: 18; Coverage: 80%; Class: ItsAidSsp" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidSsp.html#ItsAidSsp"/>
+<area shape="poly" coords="255,196,253,198,250,196,253,193,255,196,255,196" title="Complexity: 20; Coverage: 83%; Class: ItsAidPrioritySsp" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidPrioritySsp.html#ItsAidPrioritySsp"/>
+<area shape="poly" coords="243,201,241,204,238,201,241,199,243,201,243,201" title="Complexity: 17; Coverage: 78%; Class: ItsAidPriority" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidPriority.html#ItsAidPriority"/>
+<area shape="poly" coords="296,201,294,204,291,201,294,199,296,201,296,201" title="Complexity: 17; Coverage: 100%; Class: Certificate" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/Certificate.html#Certificate"/>
+<area shape="poly" coords="284,215,282,218,279,215,282,213,284,215,284,215" title="Complexity: 9; Coverage: 95%; Class: SerializationHelper" alt="" href="org/certificateservices/custom/c2x/its/datastructs/SerializationHelper.html#SerializationHelper"/>
+<area shape="poly" coords="251,224,248,227,246,224,248,222,251,224,251,224" title="Complexity: 4; Coverage: 81%; Class: TrailerFieldType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/msg/TrailerFieldType.html#TrailerFieldType"/>
+<area shape="poly" coords="260,215,258,218,255,215,258,213,260,215,260,215" title="Complexity: 9; Coverage: 85%; Class: TrailerField" alt="" href="org/certificateservices/custom/c2x/its/datastructs/msg/TrailerField.html#TrailerField"/>
+<area shape="poly" coords="287,199,284,202,282,199,284,197,287,199,287,199" title="Complexity: 18; Coverage: 96%; Class: SecuredMessage" alt="" href="org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage"/>
+<area shape="poly" coords="227,187,224,189,222,187,224,184,227,187,227,187" title="Complexity: 25; Coverage: 71%; Class: RecipientInfo" alt="" href="org/certificateservices/custom/c2x/its/datastructs/msg/RecipientInfo.html#RecipientInfo"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="296,208,294,211,291,208,294,206,296,208,296,208" title="Complexity: 13; Coverage: 100%; Class: Payload" alt="" href="org/certificateservices/custom/c2x/its/datastructs/msg/Payload.html#Payload"/>
+<area shape="poly" coords="277,223,275,225,272,223,275,220,277,223,277,223" title="Complexity: 5; Coverage: 92%; Class: MessageType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/msg/MessageType.html#MessageType"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="292,137,289,139,287,137,289,134,292,137,292,137" title="Complexity: 53; Coverage: 98%; Class: HeaderField" alt="" href="org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField"/>
+<area shape="poly" coords="248,187,246,189,243,187,246,184,248,187,248,187" title="Complexity: 25; Coverage: 80%; Class: EciesNistP256EncryptedKey" alt="" href="org/certificateservices/custom/c2x/its/datastructs/msg/EciesNistP256EncryptedKey.html#EciesNistP256EncryptedKey"/>
+<area shape="poly" coords="265,201,263,204,260,201,263,199,265,201,265,201" title="Complexity: 17; Coverage: 87%; Class: SubjectInfo" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectInfo.html#SubjectInfo"/>
+<area shape="poly" coords="284,219,282,222,279,219,282,217,284,219,284,219" title="Complexity: 7; Coverage: 95%; Class: EnrollmentCredentialCertGenerator" alt="" href="org/certificateservices/custom/c2x/its/generator/EnrollmentCredentialCertGenerator.html#EnrollmentCredentialCertGenerator"/>
+<area shape="poly" coords="284,214,282,216,279,214,282,211,284,214,284,214" title="Complexity: 10; Coverage: 95%; Class: BaseCertGenerator" alt="" href="org/certificateservices/custom/c2x/its/generator/BaseCertGenerator.html#BaseCertGenerator"/>
+<area shape="poly" coords="284,219,282,222,279,219,282,217,284,219,284,219" title="Complexity: 7; Coverage: 95%; Class: EnrollmentCredentialCertGenerator" alt="" href="org/certificateservices/custom/c2x/its/generator/EnrollmentCredentialCertGenerator.html#EnrollmentCredentialCertGenerator"/>
+<area shape="poly" coords="296,221,294,223,291,221,294,218,296,221,296,221" title="Complexity: 6; Coverage: 100%; Class: AuthorityCertGenerator" alt="" href="org/certificateservices/custom/c2x/its/generator/AuthorityCertGenerator.html#AuthorityCertGenerator"/>
+<area shape="poly" coords="270,199,267,202,265,199,267,197,270,199,270,199" title="Complexity: 18; Coverage: 89%; Class: TwoDLocation" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation"/>
+<area shape="poly" coords="243,201,241,204,238,201,241,199,243,201,243,201" title="Complexity: 17; Coverage: 78%; Class: ItsAidPriority" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidPriority.html#ItsAidPriority"/>
+<area shape="poly" coords="241,199,238,202,236,199,238,197,241,199,241,199" title="Complexity: 18; Coverage: 77%; Class: Time64" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/Time64.html#Time64"/>
+<area shape="poly" coords="272,207,270,209,267,207,270,204,272,207,272,207" title="Complexity: 14; Coverage: 90%; Class: Time32" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/Time32.html#Time32"/>
+<area shape="poly" coords="270,201,267,204,265,201,267,199,270,201,270,201" title="Complexity: 17; Coverage: 89%; Class: ThreeDLocation" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocation.html#ThreeDLocation"/>
+<area shape="poly" coords="260,223,258,225,255,223,258,220,260,223,260,223" title="Complexity: 5; Coverage: 85%; Class: SymmetricAlgorithm" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/SymmetricAlgorithm.html#SymmetricAlgorithm"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="241,144,238,146,236,144,238,141,241,144,241,144" title="Complexity: 49; Coverage: 77%; Class: SignerInfo" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html#SignerInfo"/>
+<area shape="poly" coords="277,214,275,216,272,214,275,211,277,214,277,214" title="Complexity: 10; Coverage: 92%; Class: Signature" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/Signature.html#Signature"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="214,196,212,198,209,196,212,193,214,196,214,196" title="Complexity: 20; Coverage: 66%; Class: RectangularRegion" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html#RectangularRegion"/>
+<area shape="poly" coords="267,217,265,220,262,217,265,215,267,217,267,217" title="Complexity: 8; Coverage: 88%; Class: PublicKeyAlgorithm" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/PublicKeyAlgorithm.html#PublicKeyAlgorithm"/>
+<area shape="poly" coords="255,187,253,189,250,187,253,184,255,187,255,187" title="Complexity: 25; Coverage: 83%; Class: PublicKey" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/PublicKey.html#PublicKey"/>
+<area shape="poly" coords="236,203,234,205,231,203,234,200,236,203,236,203" title="Complexity: 16; Coverage: 75%; Class: PolygonalRegion" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegion.html#PolygonalRegion"/>
+<area shape="poly" coords="263,189,260,191,258,189,260,186,263,189,263,189" title="Complexity: 24; Coverage: 86%; Class: IntX" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/IntX.html#IntX"/>
+<area shape="poly" coords="251,196,248,198,246,196,248,193,251,196,251,196" title="Complexity: 20; Coverage: 81%; Class: IdentifiedRegion" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/IdentifiedRegion.html#IdentifiedRegion"/>
+<area shape="poly" coords="296,224,294,227,291,224,294,222,296,224,296,224" title="Complexity: 4; Coverage: 100%; Class: HashedId8" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/HashedId8.html#HashedId8"/>
+<area shape="poly" coords="296,224,294,227,291,224,294,222,296,224,296,224" title="Complexity: 4; Coverage: 100%; Class: HashedId8" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/HashedId8.html#HashedId8"/>
+<area shape="poly" coords="270,210,267,213,265,210,267,208,270,210,270,210" title="Complexity: 12; Coverage: 89%; Class: HashedId" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/HashedId.html#HashedId"/>
+<area shape="poly" coords="212,140,210,143,207,140,210,138,212,140,212,140" title="Complexity: 51; Coverage: 65%; Class: GeographicRegion" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion"/>
+<area shape="poly" coords="280,212,277,214,275,212,277,209,280,212,280,212" title="Complexity: 11; Coverage: 93%; Class: EncryptionParameters" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/EncryptionParameters.html#EncryptionParameters"/>
+<area shape="poly" coords="296,217,294,220,291,217,294,215,296,217,296,217" title="Complexity: 8; Coverage: 100%; Class: EcdsaSignature" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/EcdsaSignature.html#EcdsaSignature"/>
+<area shape="poly" coords="272,224,270,227,267,224,270,222,272,224,272,224" title="Complexity: 4; Coverage: 90%; Class: ValidityRestrictionType" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType"/>
+<area shape="poly" coords="270,139,267,141,265,139,267,136,270,139,270,139" title="Complexity: 52; Coverage: 89%; Class: EccPoint" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/EccPoint.html#EccPoint"/>
+<area shape="poly" coords="282,221,279,223,277,221,279,218,282,221,282,221" title="Complexity: 6; Coverage: 94%; Class: Duration.Unit" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/Duration.html#Duration.Unit"/>
+<area shape="poly" coords="253,203,251,205,248,203,251,200,253,203,253,203" title="Complexity: 16; Coverage: 82%; Class: Duration" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/Duration.html#Duration"/>
+<area shape="poly" coords="255,210,253,213,250,210,253,208,255,210,255,210" title="Complexity: 12; Coverage: 83%; Class: CrlSeries" alt="" href="org/certificateservices/custom/c2x/its/datastructs/basic/CrlSeries.html#CrlSeries"/>
+<area shape="poly" coords="248,199,246,202,243,199,246,197,248,199,248,199" title="Complexity: 18; Coverage: 80%; Class: ItsAidSsp" alt="" href="org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidSsp.html#ItsAidSsp"/>
+</map>
+            </div>
+        </div>
+        
+                    <div class="dashboard-widget">
+                <header class="dashboard-widget-header">
+                    <h3>Coverage tree map</h3>
+                </header>
+                <div class="dashboard-widget-content">
+                    <div id="infovis" style="width:100%; height:250px;">
+                        <div id="treemap-loader" style="position:relative;top:50px;">
+                            <p>
+                                Generating Coverage Tree Map. Please wait...
+                            </p>
+                            <p>
+                                <img src="img/ajax-loader.gif" alt="Loading Treemap"/>
+                            </p>
+                        </div>
+                    </div>
+                    <p><a href="treemap.html">See more</a></p>
+                </div>
+
+            </div>
+            </div>
+
+
+    <div class="aui-item">
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Top 20 project risks</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html"
+                            style="font-size: 24px;color:#e6aea9"
+                            title="Average Method Complexity - 3.4 , Coverage - 65.2% ">GeographicRegion</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAttribute.html"
+                            style="font-size: 28px;color:#e6aea9"
+                            title="Average Method Complexity - 4.4 , Coverage - 71.5% ">SubjectAttribute</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/msg/RecipientInfo.html"
+                            style="font-size: 21px;color:#e6aea9"
+                            title="Average Method Complexity - 2.5 , Coverage - 71.3% ">RecipientInfo</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestriction.html"
+                            style="font-size: 23px;color:#edd1cf"
+                            title="Average Method Complexity - 3.2 , Coverage - 75.6% ">ValidityRestriction</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html"
+                            style="font-size: 23px;color:#edd1cf"
+                            title="Average Method Complexity - 3.267 , Coverage - 77.8% ">SignerInfo</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html"
+                            style="font-size: 20px;color:#e6aea9"
+                            title="Average Method Complexity - 2.222 , Coverage - 66.2% ">RectangularRegion</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegion.html"
+                            style="font-size: 19px;color:#e6aea9"
+                            title="Average Method Complexity - 2 , Coverage - 75% ">PolygonalRegion</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManager.html"
+                            style="font-size: 21px;color:#edd1cf"
+                            title="Average Method Complexity - 2.532 , Coverage - 84.2% ">DefaultCryptoManager</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/msg/EciesNistP256EncryptedKey.html"
+                            style="font-size: 19px;color:#edd1cf"
+                            title="Average Method Complexity - 2.083 , Coverage - 80.7% ">EciesNistP256EncryptedKey</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html"
+                            style="font-size: 19px;color:#edd1cf"
+                            title="Average Method Complexity - 2 , Coverage - 80.3% ">CircularRegion</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/PublicKey.html"
+                            style="font-size: 20px;color:#edd1cf"
+                            title="Average Method Complexity - 2.273 , Coverage - 84% ">PublicKey</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/EccPoint.html"
+                            style="font-size: 24px;color:#edd1cf"
+                            title="Average Method Complexity - 3.467 , Coverage - 89.9% ">EccPoint</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidSsp.html"
+                            style="font-size: 19px;color:#edd1cf"
+                            title="Average Method Complexity - 2 , Coverage - 80.3% ">ItsAidSsp</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/Time64WithStandardDeviation.html"
+                            style="font-size: 18px;color:#edd1cf"
+                            title="Average Method Complexity - 1.889 , Coverage - 78.2% ">Time64WithStandardDeviation</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/generator/SecuredMessageGenerator.html"
+                            style="font-size: 20px;color:#edd1cf"
+                            title="Average Method Complexity - 2.429 , Coverage - 87.9% ">SecuredMessageGenerator</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/IdentifiedRegion.html"
+                            style="font-size: 19px;color:#edd1cf"
+                            title="Average Method Complexity - 2 , Coverage - 81.2% ">IdentifiedRegion</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidPriority.html"
+                            style="font-size: 18px;color:#edd1cf"
+                            title="Average Method Complexity - 1.889 , Coverage - 78.2% ">ItsAidPriority</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/Time64.html"
+                            style="font-size: 18px;color:#edd1cf"
+                            title="Average Method Complexity - 1.8 , Coverage - 77.4% ">Time64</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/cert/ItsAidPrioritySsp.html"
+                            style="font-size: 19px;color:#edd1cf"
+                            title="Average Method Complexity - 2 , Coverage - 83.1% ">ItsAidPrioritySsp</a>
+                                    
+                                                                <a class="tag" href="org/certificateservices/custom/c2x/its/datastructs/basic/IntX.html"
+                            style="font-size: 19px;color:#edd1cf"
+                            title="Average Method Complexity - 2 , Coverage - 86.7% ">IntX</a>
+                                                    <p><a href="top-risks.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Most complex packages</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                
+                <table class="aui">
+                                            
+                                                <tr>
+                            <td>1. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.82123655</span>82.1%</div><div style="display: table-cell">
+ <div title="82.1% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:82.1%"></div></div></div></div></td>
+                            <td>
+                                <a href="org/certificateservices/custom/c2x/its/datastructs/basic/pkg-summary.html">org.certificateservices.custom.c2x.its.datastructs.basic</a>
+                                <span class="aui-badge" title="Package complexity">471</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>2. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.8024862</span>80.2%</div><div style="display: table-cell">
+ <div title="80.2% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:80.2%"></div></div></div></div></td>
+                            <td>
+                                <a href="org/certificateservices/custom/c2x/its/datastructs/cert/pkg-summary.html">org.certificateservices.custom.c2x.its.datastructs.cert</a>
+                                <span class="aui-badge" title="Package complexity">233</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>3. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.88752556</span>88.8%</div><div style="display: table-cell">
+ <div title="88.8% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:88.8%"></div></div></div></div></td>
+                            <td>
+                                <a href="org/certificateservices/custom/c2x/its/datastructs/msg/pkg-summary.html">org.certificateservices.custom.c2x.its.datastructs.msg</a>
+                                <span class="aui-badge" title="Package complexity">160</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>4. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.8340249</span>83.4%</div><div style="display: table-cell">
+ <div title="83.4% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:83.4%"></div></div></div></div></td>
+                            <td>
+                                <a href="org/certificateservices/custom/c2x/its/crypto/pkg-summary.html">org.certificateservices.custom.c2x.its.crypto</a>
+                                <span class="aui-badge" title="Package complexity">125</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>5. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.9298246</span>93%</div><div style="display: table-cell">
+ <div title="93% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:93%"></div></div></div></div></td>
+                            <td>
+                                <a href="org/certificateservices/custom/c2x/its/generator/pkg-summary.html">org.certificateservices.custom.c2x.its.generator</a>
+                                <span class="aui-badge" title="Package complexity">47</span>
+                            </td>
+                        </tr>
+                                    </table>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Most complex classes</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <table class="aui">
+                                            
+                                                <tr>
+                            <td>1. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.8422175</span>84.2%</div><div style="display: table-cell">
+ <div title="84.2% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:84.2%"></div></div></div></div></td>
+                            <td>
+                                <a  href="org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManager.html"  title="org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManager">DefaultCryptoManager</a>
+                                <span class="aui-badge" title="Class complexity">119</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>2. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.7150838</span>71.5%</div><div style="display: table-cell">
+ <div title="71.5% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:71.5%"></div></div></div></div></td>
+                            <td>
+                                <a  href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAttribute.html"  title="org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAttribute">SubjectAttribute</a>
+                                <span class="aui-badge" title="Class complexity">66</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>3. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.9862069</span>98.6%</div><div style="display: table-cell">
+ <div title="98.6% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:98.6%"></div></div></div></div></td>
+                            <td>
+                                <a  href="org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html"  title="org.certificateservices.custom.c2x.its.datastructs.msg.HeaderField">HeaderField</a>
+                                <span class="aui-badge" title="Class complexity">53</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>4. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.89873415</span>89.9%</div><div style="display: table-cell">
+ <div title="89.9% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:89.9%"></div></div></div></div></td>
+                            <td>
+                                <a  href="org/certificateservices/custom/c2x/its/datastructs/basic/EccPoint.html"  title="org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint">EccPoint</a>
+                                <span class="aui-badge" title="Class complexity">52</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>5. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.652439</span>65.2%</div><div style="display: table-cell">
+ <div title="65.2% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:65.2%"></div></div></div></div></td>
+                            <td>
+                                <a  href="org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html"  title="org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion">GeographicRegion</a>
+                                <span class="aui-badge" title="Class complexity">51</span>
+                            </td>
+                        </tr>
+                                    </table>
+            </div>
+        </div>
+
+                <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Least tested methods</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <table class="aui">
+                                            
+
+                    <tr>
+                        <td align="right">1.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="SubjectAttribute.SubjectAttribute(EccPoint)" href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAttribute.html?line=80#src-80">SubjectAttribute.SubjectAttribute(EccPoint)</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">2.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="CircularRegion.getLongitude()&#160;:&#160;int" href="org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html?line=71#src-71">CircularRegion.getLongitude()&#160;:&#160;int</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">3.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="Duration.Duration(int)" href="org/certificateservices/custom/c2x/its/datastructs/basic/Duration.html?line=94#src-94">Duration.Duration(int)</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">4.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="RectangularRegion.getNorthWest()&#160;:&#160;TwoDLocation" href="org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html?line=57#src-57">RectangularRegion.getNorthWest()&#160;:&#160;TwoDLocation</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">5.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="RectangularRegion.getSouthEast()&#160;:&#160;TwoDLocation" href="org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html?line=65#src-65">RectangularRegion.getSouthEast()&#160;:&#160;TwoDLocation</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">6.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="SubjectAttribute.getReconstructionValue()&#160;:&#160;EccPoint" href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAttribute.html?line=147#src-147">SubjectAttribute.getReconstructionValue()&#160;:&#160;EccPoint</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">7.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ValidityRestriction.getIdentifiedRegion()&#160;:&#160;GeographicRegion" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestriction.html?line=129#src-129">ValidityRestriction.getIdentifiedRegion()&#160;:&#160;GeographicRegion</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">8.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="BadCredentialsException.BadCredentialsException(String,Throwable)" href="org/certificateservices/custom/c2x/its/crypto/BadCredentialsException.html?line=28#src-28">BadCredentialsException.BadCredentialsException(String,Throwable)</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">9.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="BadCredentialsException.BadCredentialsException(String)" href="org/certificateservices/custom/c2x/its/crypto/BadCredentialsException.html?line=36#src-36">BadCredentialsException.BadCredentialsException(String)</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">10.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="InvalidITSSignatureException.InvalidITSSignatureException(String,Throwable)" href="org/certificateservices/custom/c2x/its/crypto/InvalidITSSignatureException.html?line=31#src-31">InvalidITSSignatureException.InvalidITSSignatureException(String,Throwable)</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">11.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.19354838</span>19.4%</div><div style="display: table-cell">
+ <div title="19.4% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:19.4%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="GeographicRegion.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html?line=205#src-205">GeographicRegion.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">17</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">12.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.4827586</span>48.3%</div><div style="display: table-cell">
+ <div title="48.3% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:48.3%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="DefaultCryptoManager.verifySignature(byte[],Signature,PublicKey)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManager.html?line=335#src-335">DefaultCryptoManager.verifySignature(byte[],Signature,PublicKey)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">6</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">13.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.516129</span>51.6%</div><div style="display: table-cell">
+ <div title="51.6% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:51.6%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="SubjectAttribute.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/cert/SubjectAttribute.html?line=249#src-249">SubjectAttribute.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">17</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">14.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.516129</span>51.6%</div><div style="display: table-cell">
+ <div title="51.6% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:51.6%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ValidityRestriction.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestriction.html?line=205#src-205">ValidityRestriction.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">17</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">15.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.54545456</span>54.5%</div><div style="display: table-cell">
+ <div title="54.5% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:54.5%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="SignerInfo.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html?line=225#src-225">SignerInfo.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">15</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">16.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.55</span>55%</div><div style="display: table-cell">
+ <div title="55% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:55%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="RecipientInfo.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/msg/RecipientInfo.html?line=130#src-130">RecipientInfo.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">11</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">17.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.5555556</span>55.6%</div><div style="display: table-cell">
+ <div title="55.6% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:55.6%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="RectangularRegion.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html?line=96#src-96">RectangularRegion.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">10</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">18.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.56</span>56%</div><div style="display: table-cell">
+ <div title="56% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:56%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="IntX.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/basic/IntX.html?line=156#src-156">IntX.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">7</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">19.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.56</span>56%</div><div style="display: table-cell">
+ <div title="56% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:56%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="PolygonalRegion.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegion.html?line=91#src-91">PolygonalRegion.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">7</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">20.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.56</span>56%</div><div style="display: table-cell">
+ <div title="56% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:56%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="Time64.equals(Object)&#160;:&#160;boolean" href="org/certificateservices/custom/c2x/its/datastructs/basic/Time64.html?line=129#src-129">Time64.equals(Object)&#160;:&#160;boolean</a>
+                            <span class="aui-badge" title="Method complexity">7</span>
+
+                        </td>
+                    </tr>
+                                    </table>
+            </div>
+        </div>
+        
+    </div>
+</div>
+                            </div> <!-- tabs-pane active-pane -->
+                        </div>
+
+    <script type="text/javascript" src="jit.js" ></script>
+    <script type="text/javascript" src="treemap-dash-json.js" ></script>
+
+                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
+
+        <footer id="footer" role="contentinfo">
+    <section class="footer-body">
+        <ul>
+            <li>
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
+                on Wed Apr 1 2015 12:36:14 CEST using coverage data from Wed Apr 1 2015 12:35:35 CEST.
+            </li>
+        </ul>
+        <ul>
+            <li>Clover: Commercial License registered to CGI Sverige AB. </li>
+        </ul>
+        <div id="footer-logo">
+            <a target="_blank" href="http://www.atlassian.com/">
+                Atlassian
+            </a>
+        </div>
+    </section>
+</footer>
+    </div> <!-- id="page" -->
+</body>
+</html>

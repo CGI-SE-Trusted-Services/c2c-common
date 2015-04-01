@@ -1,0 +1,10 @@
+var clover = new Object();
+
+// JSON: {classes : [{name, id, sl, el,  methods : [{sl, el}, ...]}, ...]}
+clover.pageData = {"classes":[{"el":61,"id":4291,"methods":[{"el":45,"sc":2,"sl":32},{"el":59,"sc":2,"sl":47}],"name":"RegionTypeSpec","sl":30}]}
+
+// JSON: {test_ID : {"methods": [ID1, ID2, ID3...], "name" : "testXXX() void"}, ...};
+clover.testTargets = {"test_113":{"methods":[{"sl":47}],"name":"Verify that RegionType.getByValue returns circle for 1","pass":true,"statements":[{"sl":50}]},"test_116":{"methods":[{"sl":32}],"name":"Verify that none has bytevalue 0","pass":true,"statements":[{"sl":35},{"sl":36}]},"test_204":{"methods":[{"sl":32}],"name":"Verify that circle has bytevalue 1","pass":true,"statements":[{"sl":35},{"sl":36}]},"test_229":{"methods":[{"sl":32}],"name":"Verify that id has bytevalue 4","pass":true,"statements":[{"sl":35},{"sl":36}]},"test_24":{"methods":[{"sl":32}],"name":"Verify that polygon has bytevalue 3","pass":true,"statements":[{"sl":35},{"sl":36}]},"test_297":{"methods":[{"sl":47}],"name":"Verify that RegionType.getByValue returns id for 4","pass":true,"statements":[{"sl":50}]},"test_347":{"methods":[{"sl":47}],"name":"Verify that RegionType.getByValue returns none for 0","pass":true,"statements":[{"sl":50}]},"test_385":{"methods":[{"sl":47}],"name":"Verify that RegionType.getByValue returns polygon for 3","pass":true,"statements":[{"sl":50}]},"test_49":{"methods":[{"sl":32}],"name":"Verify that rectangle has bytevalue 2","pass":true,"statements":[{"sl":35},{"sl":36}]},"test_68":{"methods":[{"sl":47}],"name":"Verify that RegionType.getByValue returns rectangle for 2","pass":true,"statements":[{"sl":50}]}}
+
+// JSON: { lines : [{tests : [testid1, testid2, testid3, ...]}, ...]};
+clover.srcFileLines = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [204, 229, 116, 49, 24], [], [], [204, 229, 116, 49, 24], [204, 229, 116, 49, 24], [], [], [], [], [], [], [], [], [], [], [385, 297, 113, 68, 347], [], [], [385, 297, 113, 68, 347], [], [], [], [], [], [], [], [], [], [], []]

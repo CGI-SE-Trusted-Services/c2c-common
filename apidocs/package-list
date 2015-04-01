@@ -1,0 +1,6 @@
+org.certificateservices.custom.c2x.its.crypto
+org.certificateservices.custom.c2x.its.datastructs
+org.certificateservices.custom.c2x.its.datastructs.basic
+org.certificateservices.custom.c2x.its.datastructs.cert
+org.certificateservices.custom.c2x.its.datastructs.msg
+org.certificateservices.custom.c2x.its.generator
