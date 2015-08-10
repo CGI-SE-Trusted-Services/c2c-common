@@ -79,8 +79,8 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<copy file="README.md" tofile="src/site/markdown/index.md" />
-								<copy file="LICENSE.txt" tofile="src/site/resources/LICENSE.txt" />
+								<copy file="README.md" tofile="src/site/markdown/index.md" overwrite="true"  />
+								<copy file="LICENSE.txt" tofile="src/site/resources/LICENSE.txt" overwrite="true"  />
 							</tasks>
 						</configuration>
 					</execution>

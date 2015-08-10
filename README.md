@@ -24,6 +24,9 @@ _Important_: Encryped Secured Messages are still not fully inter-operability tes
 # License
 The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
 
+# What's New in 0.9.6
+
+- Improved automatic build of project.
 
 # What's New in 0.9.5
 
