@@ -347,6 +347,7 @@
 				<configuration>
 					<!-- Specific configuration for the given reports -->
 					<excludes>**/*_CLR*.java</excludes>
+					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 				<reportSets>
 					<reportSet>
