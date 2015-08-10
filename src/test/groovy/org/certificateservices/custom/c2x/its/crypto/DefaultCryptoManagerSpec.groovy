@@ -22,6 +22,7 @@ import java.security.KeyFactory
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.NoSuchAlgorithmException;
+import java.security.Provider;
 import java.security.SecureRandom
 import java.security.SignatureException;
 import java.security.interfaces.ECPublicKey
@@ -70,6 +71,7 @@ import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 import spock.lang.IgnoreRest;
 import spock.lang.Shared
 import spock.lang.Unroll
+import sun.security.jca.Providers;
 
 /**
  *
@@ -94,7 +96,12 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	
 	def setupSpec(){		
 		
-		def subParamSpec = sun.security.ec.NamedCurve.getECParameterSpec("secp256r1")
+		def subParamSpec
+		try{
+			subParamSpec = sun.security.ec.NamedCurve.getECParameterSpec("secp256r1")
+		}catch(MissingMethodException e){
+		    subParamSpec  = sun.security.util.ECUtil.getECParameterSpec(null, "secp256r1") 
+		}
 		sunKeyGenerator.initialize(subParamSpec, new SecureRandom());
 		
 		defaultCryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"))
