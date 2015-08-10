@@ -390,7 +390,7 @@
 					<plugin>
 						<groupId>com.atlassian.maven.plugins</groupId>
 						<artifactId>maven-clover2-plugin</artifactId>
-						<version>4.0.1</version>
+						<version>4.0.5</version>
 						<executions>
 							<execution>
 								<id>clover</id>
@@ -410,7 +410,7 @@
 					<plugin>
 						<groupId>com.atlassian.maven.plugins</groupId>
 						<artifactId>maven-clover2-plugin</artifactId>
-						<version>4.0.1</version>
+						<version>4.0.5</version>
 					</plugin>
 				</plugins>
 			</reporting>
