@@ -107,7 +107,7 @@ public class COEROctetStream extends COEREncodable{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		if(upperBound == null || lowerBound == null || upperBound != lowerBound){
 			COEREncodeHelper.writeLengthDeterminant(data.length, out);
 		}
@@ -115,7 +115,7 @@ public class COEROctetStream extends COEREncodable{
 	}
 	
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		Integer length = upperBound;
 		if(upperBound == null || lowerBound == null || upperBound != lowerBound){
 			length = COEREncodeHelper.readLengthDeterminantAsInt(in);

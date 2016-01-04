@@ -16,7 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 
@@ -32,7 +32,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorit
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class RecipientInfo implements StructSerializer{
+public class RecipientInfo implements Encodable{
 	
 
     private HashedId8 certId;	
@@ -84,12 +84,12 @@ public class RecipientInfo implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		certId.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		certId.encode(out);
 		out.write(publicKeyAlgorithm.getByteValue());
 		switch(publicKeyAlgorithm){
 		case ecies_nistp256:
-			pkEncryption.serialize(out);	
+			pkEncryption.encode(out);	
 			break;
 		default:
 			break;
@@ -98,14 +98,14 @@ public class RecipientInfo implements StructSerializer{
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		certId = new HashedId8();
-		certId.deserialize(in);
+		certId.decode(in);
 		publicKeyAlgorithm = PublicKeyAlgorithm.getByValue(in.read());
 		switch(publicKeyAlgorithm){
 		case ecies_nistp256:
 			pkEncryption = new EciesNistP256EncryptedKey(publicKeyAlgorithm);
-			pkEncryption.deserialize(in);	
+			pkEncryption.decode(in);	
 			break;
 		default:
 			break;

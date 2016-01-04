@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * This structure defines how to encode information about a certificate's subject. It contains the type of information in
@@ -27,7 +27,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class SubjectInfo implements StructSerializer {
+public class SubjectInfo implements Encodable {
 	
 	static final int MAX_SUBJECT_NAME_LENGTH = 32;
 	
@@ -75,14 +75,14 @@ public class SubjectInfo implements StructSerializer {
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(subjectType.getByteValue());
         out.write(subjectName.length); // no need for length encoding since max length > 128
         out.write(subjectName);		
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		subjectType = SubjectType.getByValue(in.read());
 		int size = in.read();
 		subjectName = new byte[size];

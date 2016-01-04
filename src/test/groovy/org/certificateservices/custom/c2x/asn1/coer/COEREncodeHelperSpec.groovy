@@ -17,7 +17,7 @@ import java.security.SecureRandom;
 import org.bouncycastle.asn1.ASN1Boolean
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.BaseStructSpec
-import org.certificateservices.custom.c2x.common.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 import spock.lang.IgnoreRest;
 import spock.lang.Specification

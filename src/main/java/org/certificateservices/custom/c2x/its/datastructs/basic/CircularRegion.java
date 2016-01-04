@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 
 /**
@@ -27,7 +27,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class CircularRegion implements StructSerializer{
+public class CircularRegion implements Encodable{
 	
 	static final int MAX_RADIUS = 0xFFFF;
 
@@ -74,15 +74,15 @@ public class CircularRegion implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		center.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		center.encode(out);
 		out.write(ByteBuffer.allocate(4).putInt(radius).array(),2,2);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		center = new TwoDLocation();
-		center.deserialize(in);
+		center.decode(in);
 		byte[] data = new byte[4];
 		in.read(data,2,2);
 		radius = ByteBuffer.wrap(data).getInt();

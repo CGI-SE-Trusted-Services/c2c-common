@@ -19,8 +19,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
 
@@ -47,7 +47,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class Certificate implements StructSerializer {
+public class Certificate implements Encodable {
 	
 	public static final int DEFAULT_CERTIFICATE_VERSION = 1;
 	
@@ -143,7 +143,7 @@ public class Certificate implements StructSerializer {
 	 */
 	public Certificate(byte[] encodedCert) throws IOException{
 		DataInputStream dis = new DataInputStream(new  ByteArrayInputStream(encodedCert));
-		deserialize(dis);
+		decode(dis);
 	}
 	
 	/**
@@ -212,32 +212,32 @@ public class Certificate implements StructSerializer {
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(version);		
-		SerializationHelper.encodeVariableSizeVector(out, signerInfos);
-		subjectInfo.serialize(out);
-		SerializationHelper.encodeVariableSizeVector(out, subjectAttributes);
-		SerializationHelper.encodeVariableSizeVector(out, validityRestrictions);		
+		EncodeHelper.encodeVariableSizeVector(out, signerInfos);
+		subjectInfo.encode(out);
+		EncodeHelper.encodeVariableSizeVector(out, subjectAttributes);
+		EncodeHelper.encodeVariableSizeVector(out, validityRestrictions);		
 		if(signature != null){
-			signature.serialize(out);
+			signature.encode(out);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		version = in.read();
-		signerInfos = (List<SignerInfo>) SerializationHelper.decodeVariableSizeVector(in, SignerInfo.class);
+		signerInfos = (List<SignerInfo>) EncodeHelper.decodeVariableSizeVector(in, SignerInfo.class);
 
 		subjectInfo = new SubjectInfo();
-		subjectInfo.deserialize(in);
+		subjectInfo.decode(in);
 		
-		subjectAttributes = (List<SubjectAttribute>) SerializationHelper.decodeVariableSizeVector(in, SubjectAttribute.class);
+		subjectAttributes = (List<SubjectAttribute>) EncodeHelper.decodeVariableSizeVector(in, SubjectAttribute.class);
 		
-		validityRestrictions = (List<ValidityRestriction>) SerializationHelper.decodeVariableSizeVector(in, ValidityRestriction.class);
+		validityRestrictions = (List<ValidityRestriction>) EncodeHelper.decodeVariableSizeVector(in, ValidityRestriction.class);
 				
 		signature = new Signature();
-		signature.deserialize(in);
+		signature.decode(in);
 		
 	}
 
@@ -264,7 +264,7 @@ public class Certificate implements StructSerializer {
 	public byte[] getEncoded() throws IOException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
-		serialize(dos);
+		encode(dos);
 		return baos.toByteArray();		
 	}
 	

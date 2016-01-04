@@ -13,7 +13,7 @@
 package org.certificateservices.custom.c2x.common
 
 import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.common.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EcdsaSignature
@@ -41,22 +41,22 @@ import spock.lang.Specification
  */
 abstract class BaseStructSpec extends Specification {
 	
-	String serializeToHex(StructSerializer o){
+	String serializeToHex(Encodable o){
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		
-		o.serialize(dos);
+		o.encode(dos);
 		dos.close();
 		
 		
 		return new String(Hex.encode(baos.toByteArray()));
 	}
 	
-	StructSerializer deserializeFromHex(StructSerializer o, String hexData){
+	Encodable deserializeFromHex(Encodable o, String hexData){
 		ByteArrayInputStream bais = new ByteArrayInputStream(Hex.decode(hexData));
 		DataInputStream dis = new DataInputStream(bais);
 		
-		o.deserialize(dis);
+		o.decode(dis);
 		dis.close();	
 		
 		return o;				

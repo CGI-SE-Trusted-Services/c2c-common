@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 
 /**
@@ -28,7 +28,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class IdentifiedRegion implements StructSerializer{
+public class IdentifiedRegion implements Encodable{
 	
 	private RegionDictionary regionDictionary;
 	private int regionIdentifier;
@@ -86,20 +86,20 @@ public class IdentifiedRegion implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(regionDictionary.getByteValue());
 		out.write(ByteBuffer.allocate(4).putInt(regionIdentifier).array(),2,2);
-		localRegion.serialize(out);
+		localRegion.encode(out);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		regionDictionary = RegionDictionary.getByValue(in.readByte());
 		byte[] data = new byte[4];
 		in.read(data,2,2);
 		regionIdentifier = ByteBuffer.wrap(data).getInt();
 		localRegion = new IntX();
-		localRegion.deserialize(in);
+		localRegion.decode(in);
 	}
 
 

@@ -16,7 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 
 /**
@@ -33,7 +33,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class ItsAidPriority implements StructSerializer{
+public class ItsAidPriority implements Encodable{
 		
 	private IntX itsAid;
 	private int maxPriority;
@@ -72,15 +72,15 @@ public class ItsAidPriority implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		itsAid.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		itsAid.encode(out);
 		out.write(maxPriority);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		itsAid = new IntX();
-		itsAid.deserialize(in);
+		itsAid.decode(in);
 		maxPriority = in.read();
 	}
 

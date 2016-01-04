@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.util.Date;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 import net.time4j.Moment;
 import net.time4j.TemporalType;
@@ -35,7 +35,7 @@ import net.time4j.scale.TimeScale;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class Time32 implements StructSerializer{
+public class Time32 implements Encodable{
 	
 	private static final long SECONDSBETWEENTAIZEROAND2010 = 1199232034L;
 	
@@ -94,12 +94,12 @@ public class Time32 implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(ByteBuffer.allocate(8).putLong(timeStamp).array(),4,4);		
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		byte[] data = new byte[8];
 		in.read(data,4,4);
 		timeStamp = ByteBuffer.wrap(data).getLong();

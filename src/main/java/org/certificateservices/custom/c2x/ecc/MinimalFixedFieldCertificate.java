@@ -22,12 +22,12 @@ public class MinimalFixedFieldCertificate {
 	public MinimalFixedFieldCertificate(byte[] encoded) throws IOException{
 		DataInputStream dis = new DataInputStream(new ByteArrayInputStream(encoded));
 		IntX sizeU = new IntX();
-		sizeU.deserialize(dis);
+		sizeU.decode(dis);
 		U = new byte[sizeU.getValue().intValue()];
 		dis.read(U);
 		
 		IntX sizePU = new IntX();
-		sizePU.deserialize(dis);
+		sizePU.decode(dis);
 		PU = new byte[sizePU.getValue().intValue()];
 		dis.read(PU);
 	}
@@ -44,11 +44,11 @@ public class MinimalFixedFieldCertificate {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		IntX sizeU = new IntX(U.length);
-		sizeU.serialize(dos);
+		sizeU.encode(dos);
 		dos.write(U);
 		
 		IntX sizePU = new IntX(PU.length);
-		sizePU.serialize(dos);
+		sizePU.encode(dos);
 		
 		dos.write(PU);
 		

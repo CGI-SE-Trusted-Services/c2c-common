@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EncryptionParameters;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId3;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
@@ -59,14 +59,14 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.Time64WithStanda
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class HeaderField implements StructSerializer{
+public class HeaderField implements Encodable{
 	
     private HeaderFieldType headerFieldType;	
 	private Time64 generationTime;
 	private Time64WithStandardDeviation generationTimeWithSdtDeviation;
 	private Time32 expireTime;
 	private ThreeDLocation generationLocation;
-	private List<StructSerializer> relatedData;
+	private List<Encodable> relatedData;
 	private int messageType;
 	private SignerInfo signer;
 	private EncryptionParameters encParams;
@@ -123,7 +123,7 @@ public class HeaderField implements StructSerializer{
 	 * <li>request_unrecognized_certificate : HashId3
 	 * <li>recipient_info : RecipientInfo
 	 */
-	public HeaderField(HeaderFieldType headerFieldType, List<StructSerializer> relatedData){
+	public HeaderField(HeaderFieldType headerFieldType, List<Encodable> relatedData){
 		if(headerFieldType != HeaderFieldType.request_unrecognized_certificate &&
 			headerFieldType != HeaderFieldType.recipient_info){
 			throw new IllegalArgumentException("Error in header field, unsupported type " + headerFieldType + " for variable sized vector.");
@@ -224,7 +224,7 @@ public class HeaderField implements StructSerializer{
 	 * 3 octet long certificate digests contained in a HashedId3 structure to identify the requested certificates.
 	 * Returns null if headerFieldType isn't request_unrecognized_certificate.
 	 */
-	public List<StructSerializer> getDigests() {
+	public List<Encodable> getDigests() {
 		if(headerFieldType != HeaderFieldType.request_unrecognized_certificate){
 			return null;
 		}
@@ -237,7 +237,7 @@ public class HeaderField implements StructSerializer{
 	 * key) contained in a variable-length vector of type RecipientInfo shall be given. Returns null if 
 	 * headerFieldType isn't recipient_info
 	 */
-	public List<StructSerializer> getRecipients() {
+	public List<Encodable> getRecipients() {
 		if(headerFieldType != HeaderFieldType.recipient_info){
 			return null;
 		}
@@ -276,33 +276,33 @@ public class HeaderField implements StructSerializer{
 	
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(headerFieldType.getByteValue());
 		switch(headerFieldType){
 		case generation_time:
-			generationTime.serialize(out);
+			generationTime.encode(out);
 			break;
 		case generation_time_confidence:
-			generationTimeWithSdtDeviation.serialize(out);
+			generationTimeWithSdtDeviation.encode(out);
 			break;
 		case expiration:
-			expireTime.serialize(out);
+			expireTime.encode(out);
 			break;
 		case generation_location:
-			generationLocation.serialize(out);
+			generationLocation.encode(out);
 			break;
 		case request_unrecognized_certificate:
 		case recipient_info:
-			SerializationHelper.encodeVariableSizeVector(out, relatedData);
+			EncodeHelper.encodeVariableSizeVector(out, relatedData);
 			break;
 		case message_type:
 			out.write(ByteBuffer.allocate(4).putInt(messageType).array(),2,2);
 			break;
 		case signer_info: 
-			signer.serialize(out);
+			signer.encode(out);
 			break;
 		case encryption_parameters:
-			encParams.serialize(out);
+			encParams.encode(out);
 			break;
 
 		}
@@ -311,30 +311,30 @@ public class HeaderField implements StructSerializer{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		headerFieldType = HeaderFieldType.getByValue(in.read());
 		switch(headerFieldType){
 		case generation_time:
 			generationTime = new Time64();
-			generationTime.deserialize(in);
+			generationTime.decode(in);
 			break;
 		case generation_time_confidence:
 			generationTimeWithSdtDeviation = new Time64WithStandardDeviation();
-			generationTimeWithSdtDeviation.deserialize(in);
+			generationTimeWithSdtDeviation.decode(in);
 			break;
 		case expiration:
 			expireTime = new Time32();
-			expireTime.deserialize(in);
+			expireTime.decode(in);
 			break;
 		case generation_location:
 			generationLocation = new ThreeDLocation();
-			generationLocation.deserialize(in);
+			generationLocation.decode(in);
 			break;
 		case request_unrecognized_certificate:
-			relatedData = (List<StructSerializer>) SerializationHelper.decodeVariableSizeVector(in, HashedId3.class);
+			relatedData = (List<Encodable>) EncodeHelper.decodeVariableSizeVector(in, HashedId3.class);
 			break;
 		case recipient_info:
-			relatedData = (List<StructSerializer>) SerializationHelper.decodeVariableSizeVector(in, RecipientInfo.class);
+			relatedData = (List<Encodable>) EncodeHelper.decodeVariableSizeVector(in, RecipientInfo.class);
 			break;
 		case message_type:
 			byte[] data = new byte[4];
@@ -343,11 +343,11 @@ public class HeaderField implements StructSerializer{
 			break;
 		case signer_info: 
 			signer = new SignerInfo();
-			signer.deserialize(in);
+			signer.decode(in);
 			break;
 		case encryption_parameters:
 			encParams = new EncryptionParameters();
-			encParams.deserialize(in);
+			encParams.decode(in);
 			break;
 
 		}		

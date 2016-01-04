@@ -18,7 +18,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * <code>
@@ -42,7 +42,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class PublicKey implements StructSerializer{
+public class PublicKey implements Encodable{
 	
 	private PublicKeyAlgorithm publicKeyAlgorithm;
 	private EccPoint publicKey;
@@ -107,22 +107,22 @@ public class PublicKey implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(publicKeyAlgorithm.getByteValue());
 		if(publicKeyAlgorithm == ecies_nistp256){
 			out.writeByte(supportedSymmAlg.getByteValue());
 		}
-		publicKey.serialize(out);
+		publicKey.encode(out);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		publicKeyAlgorithm = PublicKeyAlgorithm.getByValue(in.read());
 		if(publicKeyAlgorithm == ecies_nistp256){
 			supportedSymmAlg = SymmetricAlgorithm.getByValue(in.readByte());
 		}
 		publicKey = new EccPoint(publicKeyAlgorithm);
-		publicKey.deserialize(in);
+		publicKey.decode(in);
 	}
 
 	@Override

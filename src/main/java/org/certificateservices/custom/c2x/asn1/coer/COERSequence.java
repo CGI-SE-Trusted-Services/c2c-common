@@ -125,7 +125,7 @@ public class COERSequence extends COEREncodable {
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		if(hasExtension){
 			throw new IOException("Support for COER Sequence extensions is currently not supported");
 		}
@@ -133,7 +133,7 @@ public class COERSequence extends COEREncodable {
 		writePreAmple(out);
 		for(Field f : sequenceValues){
 			if(f.value != null){
-				f.value.serialize(out);
+				f.value.encode(out);
 			}else{
 				if(!f.optional){
 					throw new IOException("Error encoding COER Sequence, one non optional field was null");
@@ -158,13 +158,13 @@ public class COERSequence extends COEREncodable {
 			}
 
 			COERBitString bitString = new COERBitString(preamble, optionalFields.size() + 1, true);
-			bitString.serialize(out);
+			bitString.encode(out);
 		}
 	}
 
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		List<Field> optionalFields = getOptionalFields();
 		long preAmple = readPreAmple(in, optionalFields);
 		for(int i=optionalFields.size()-1; i>=0; i--){
@@ -179,7 +179,7 @@ public class COERSequence extends COEREncodable {
 		
 		for(Field f : sequenceValues){
 			if(!f.optional || f.exists){
-				f.emptyValue.deserialize(in);
+				f.emptyValue.decode(in);
 				f.value = f.emptyValue;
 			}
 		}
@@ -190,7 +190,7 @@ public class COERSequence extends COEREncodable {
 	public long readPreAmple(DataInputStream in, List<Field> optionalFields) throws IOException {
 		if(hasExtension || optionalFields.size() > 0){
 			COERBitString bitString = new COERBitString(optionalFields.size() +1);
-			bitString.deserialize(in);
+			bitString.decode(in);
 			return bitString.getBitString();
 		}else{
 			return 0;

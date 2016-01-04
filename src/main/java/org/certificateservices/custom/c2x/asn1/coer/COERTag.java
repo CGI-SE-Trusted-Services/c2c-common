@@ -115,12 +115,12 @@ public class COERTag extends COEREncodable{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(getEncoded());
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		
 		int firstByte = in.read();
 		tagClass = firstByte & 0xc0;

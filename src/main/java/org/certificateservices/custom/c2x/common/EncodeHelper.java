@@ -10,7 +10,7 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.its.datastructs;
+package org.certificateservices.custom.c2x.common;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,7 +32,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorit
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class SerializationHelper {
+public class EncodeHelper {
 	
 	/**
 	 * Help method that serializes variable sized vector to the supplied data output stream.
@@ -42,15 +42,15 @@ public class SerializationHelper {
 	 * @param variableSizeVector the variable sized vector (a list of StructSerializer)
 	 * @throws IOException if serialization failed.
 	 */
-	public static void encodeVariableSizeVector(DataOutputStream out, List<? extends StructSerializer> variableSizeVector) throws IOException{
+	public static void encodeVariableSizeVector(DataOutputStream out, List<? extends Encodable> variableSizeVector) throws IOException{
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	DataOutputStream dos = new DataOutputStream(baos);    		 
-		for(StructSerializer next: variableSizeVector){
-			next.serialize(dos);
+		for(Encodable next: variableSizeVector){
+			next.encode(dos);
 		}
 		byte[] data = baos.toByteArray();
 		IntX size = new IntX(data.length);
-		size.serialize(out);
+		size.encode(out);
 		out.write(data);
 	}
 
@@ -63,17 +63,17 @@ public class SerializationHelper {
 	 * @throws IOException if serialization failed.
 	 */
 	public static List<?> decodeVariableSizeVector(DataInputStream in, Class<?> c) throws IOException{
-		ArrayList<StructSerializer> retval = new ArrayList<StructSerializer>();
+		ArrayList<Encodable> retval = new ArrayList<Encodable>();
     
 		IntX size = new IntX();
-		size.deserialize(in);
+		size.decode(in);
 		byte[] data = new byte[size.getValue().intValue()];
 		in.read(data);
 		DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
 		try{
 			while(dis.available() > 0){
-				StructSerializer ss = (StructSerializer) c.newInstance();
-				ss.deserialize(dis);
+				Encodable ss = (Encodable) c.newInstance();
+				ss.decode(dis);
 				retval.add(ss);    		
 			}
 		}catch(IllegalAccessException e){

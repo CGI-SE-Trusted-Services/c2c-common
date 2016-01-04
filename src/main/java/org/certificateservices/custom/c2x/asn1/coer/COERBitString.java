@@ -114,7 +114,7 @@ public class COERBitString extends COEREncodable{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		int unusedBits = 8 - length % 8;
 		if(unusedBits == 8){
 			unusedBits = 0;
@@ -159,7 +159,7 @@ public class COERBitString extends COEREncodable{
 	
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		if(fixedSize){
 			deserializeFixedBitString(in);
 		}else{

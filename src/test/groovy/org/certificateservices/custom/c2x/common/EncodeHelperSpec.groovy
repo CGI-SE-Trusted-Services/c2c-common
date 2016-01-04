@@ -10,9 +10,11 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.its.datastructs
+package org.certificateservices.custom.c2x.common
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
@@ -28,8 +30,6 @@ import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAttributeT
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectInfo;
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectType
 import org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestriction;
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
 import org.junit.Before;
 
 import spock.lang.Specification
@@ -40,7 +40,7 @@ import spock.lang.Unroll;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class SerializationHelperSpec extends Specification {
+class EncodeHelperSpec extends Specification {
 	
 
    @Unroll	
@@ -50,7 +50,7 @@ class SerializationHelperSpec extends Specification {
 	   DataOutputStream dos = new DataOutputStream(baos)
 	   
 	   when:
-	   SerializationHelper.encodeVariableSizeVector(dos, vector) 
+	   EncodeHelper.encodeVariableSizeVector(dos, vector) 
 	   then:
 	   getHex(baos) == expect
 	   where:
@@ -66,7 +66,7 @@ class SerializationHelperSpec extends Specification {
 	   DataOutputStream dos = new DataOutputStream(baos)
 	   
 	   when:
-	   SerializationHelper.encodeVariableSizeVector(dos,[new ItsAidSsp(new IntX(1), new byte[31]),new ItsAidSsp(new IntX(2), new byte[31]),new ItsAidSsp(new IntX(3), new byte[31]),new ItsAidSsp(new IntX(4), new byte[31]),new ItsAidSsp(new IntX(5), new byte[31]),new ItsAidSsp(new IntX(6), new byte[31])])
+	   EncodeHelper.encodeVariableSizeVector(dos,[new ItsAidSsp(new IntX(1), new byte[31]),new ItsAidSsp(new IntX(2), new byte[31]),new ItsAidSsp(new IntX(3), new byte[31]),new ItsAidSsp(new IntX(4), new byte[31]),new ItsAidSsp(new IntX(5), new byte[31]),new ItsAidSsp(new IntX(6), new byte[31])])
 	   String result = getHex(baos)
 	   
 	   then:
@@ -81,7 +81,7 @@ class SerializationHelperSpec extends Specification {
 	   DataInputStream dis = new DataInputStream(bais)
 	   
 	   when:
-	   def result = SerializationHelper.decodeVariableSizeVector(dis, classType)
+	   def result = EncodeHelper.decodeVariableSizeVector(dis, classType)
 	   then:
 	   result.size() == expectedSize
 	   if(expectedSize > 0){
@@ -98,12 +98,12 @@ class SerializationHelperSpec extends Specification {
 	   setup:
 	   ByteArrayOutputStream baos = new ByteArrayOutputStream()
 	   DataOutputStream dos = new DataOutputStream(baos)
-	   SerializationHelper.encodeVariableSizeVector(dos,[new ItsAidSsp(new IntX(1), new byte[31]),new ItsAidSsp(new IntX(2), new byte[31]),new ItsAidSsp(new IntX(3), new byte[31]),new ItsAidSsp(new IntX(4), new byte[31]),new ItsAidSsp(new IntX(5), new byte[31]),new ItsAidSsp(new IntX(6), new byte[31])])
+	   EncodeHelper.encodeVariableSizeVector(dos,[new ItsAidSsp(new IntX(1), new byte[31]),new ItsAidSsp(new IntX(2), new byte[31]),new ItsAidSsp(new IntX(3), new byte[31]),new ItsAidSsp(new IntX(4), new byte[31]),new ItsAidSsp(new IntX(5), new byte[31]),new ItsAidSsp(new IntX(6), new byte[31])])
 	   String data = getHex(baos)
 	   ByteArrayInputStream bais = new ByteArrayInputStream(Hex.decode(data))
 	   DataInputStream dis = new DataInputStream(bais)
 	   when:
-	   def result = SerializationHelper.decodeVariableSizeVector(dis,ItsAidSsp.class );
+	   def result = EncodeHelper.decodeVariableSizeVector(dis,ItsAidSsp.class );
 	   	   
 	   then:
 	   result.size() == 6

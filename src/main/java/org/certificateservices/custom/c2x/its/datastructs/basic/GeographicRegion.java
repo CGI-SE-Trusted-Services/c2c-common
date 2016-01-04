@@ -17,8 +17,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 
 /**
@@ -30,7 +30,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class GeographicRegion implements StructSerializer{
+public class GeographicRegion implements Encodable{
 	
 	static final int MAX_RECTANGULAR_REGIONS = 6;
 	
@@ -133,22 +133,22 @@ public class GeographicRegion implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(regionType.getByteValue());
 		switch (regionType) {
 		case none:
 			break;
 		case circle:
-			circularRegion.serialize(out);
+			circularRegion.encode(out);
 			break;
         case rectangle:
-    		SerializationHelper.encodeVariableSizeVector(out, rectangularRegions);
+    		EncodeHelper.encodeVariableSizeVector(out, rectangularRegions);
 			break;
         case polygon:
-        	polygonalRegion.serialize(out);
+        	polygonalRegion.encode(out);
 			break;
         case id:
-        	identifiedRegion.serialize(out);
+        	identifiedRegion.encode(out);
 			break;
 		default:
 			break;
@@ -157,25 +157,25 @@ public class GeographicRegion implements StructSerializer{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		regionType = RegionType.getByValue(in.readByte());
 		switch (regionType) {
 		case none:
 			break;
 		case circle:
 			circularRegion = new CircularRegion();
-			circularRegion.deserialize(in);
+			circularRegion.decode(in);
 			break;
         case rectangle:
-    		rectangularRegions = (List<RectangularRegion>) SerializationHelper.decodeVariableSizeVector(in, RectangularRegion.class);
+    		rectangularRegions = (List<RectangularRegion>) EncodeHelper.decodeVariableSizeVector(in, RectangularRegion.class);
 			break;
         case polygon:
         	polygonalRegion = new PolygonalRegion();
-        	polygonalRegion.deserialize(in);
+        	polygonalRegion.decode(in);
 			break;
         case id:
         	identifiedRegion = new IdentifiedRegion();
-        	identifiedRegion.deserialize(in);
+        	identifiedRegion.decode(in);
 			break;
 		default:
 			break;

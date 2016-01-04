@@ -12,7 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
-import org.certificateservices.custom.c2x.common.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * Base interface all COER Encodable structures must implement.
@@ -20,7 +20,7 @@ import org.certificateservices.custom.c2x.common.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements StructSerializer, Cloneable{
+public abstract class COEREncodable implements Encodable, Cloneable{
 	
 	
 	public COEREncodable clone() throws CloneNotSupportedException{

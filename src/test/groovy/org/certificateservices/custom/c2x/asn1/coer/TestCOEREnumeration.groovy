@@ -16,7 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.common.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 public enum TestCOEREnumeration implements COERChoiceEnumeration {
 	CHOICE1(new COERInteger(0,8)),

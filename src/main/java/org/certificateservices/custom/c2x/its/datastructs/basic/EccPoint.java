@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType.*;
 
@@ -42,7 +42,7 @@ import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointT
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class EccPoint implements StructSerializer{
+public class EccPoint implements Encodable{
 	
 	private PublicKeyAlgorithm publicKeyAlgorithm;
 	private BigInteger x;
@@ -147,7 +147,7 @@ public class EccPoint implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(eccPointType.getByteValue());
 		if(compressedEncoding != null){
 			out.write(compressedEncoding, 1, publicKeyAlgorithm.getFieldSize());
@@ -161,7 +161,7 @@ public class EccPoint implements StructSerializer{
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		eccPointType = EccPointType.getByValue(in.readByte());
 		if(eccPointType == x_coordinate_only || eccPointType == uncompressed){
 		  x = readFixedFieldSizeKey(in);
@@ -181,11 +181,11 @@ public class EccPoint implements StructSerializer{
 	}
 
 	private void writeFixedFieldSizeKey(DataOutputStream out, BigInteger keyValue) throws UnsupportedOperationException, IOException{
-		SerializationHelper.writeFixedFieldSizeKey(publicKeyAlgorithm, out, keyValue);
+		EncodeHelper.writeFixedFieldSizeKey(publicKeyAlgorithm, out, keyValue);
 	}
 	
 	private BigInteger readFixedFieldSizeKey(DataInputStream in) throws UnsupportedOperationException, IOException{
-		return SerializationHelper.readFixedFieldSizeKey(publicKeyAlgorithm, in);
+		return EncodeHelper.readFixedFieldSizeKey(publicKeyAlgorithm, in);
 	}
 
 	

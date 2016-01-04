@@ -14,7 +14,7 @@ package org.certificateservices.custom.c2x.its.datastructs.cert
 
 
 
-import org.certificateservices.custom.c2x.its.datastructs.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAssurance;
 
 import spock.lang.IgnoreRest;

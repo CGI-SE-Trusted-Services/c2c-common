@@ -16,7 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 
 /**
@@ -28,7 +28,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class Time64WithStandardDeviation implements StructSerializer{
+public class Time64WithStandardDeviation implements Encodable{
 	
 	private Time64 time;
 	private int logStdDev;
@@ -76,15 +76,15 @@ public class Time64WithStandardDeviation implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		time.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		time.encode(out);
 		out.write(logStdDev);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		time = new Time64();
-		time.deserialize(in);
+		time.decode(in);
 		logStdDev = in.read();
 	}
 

@@ -64,8 +64,8 @@ import org.bouncycastle.jce.spec.IESParameterSpec;
 import org.bouncycastle.math.ec.ECCurve;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.custom.sec.SecP256R1Curve;
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EcdsaSignature;
@@ -168,7 +168,7 @@ public class DefaultCryptoManager implements CryptoManager {
 		EncryptionParameters encParams = new EncryptionParameters(encryptionAlg.getRelatedSymmetricAlgorithm(), nounce);
 		
 		Key symmetricKey = aES128Generator.generateKey();
-		List<StructSerializer> reciptientInfos = new ArrayList<StructSerializer>();
+		List<Encodable> reciptientInfos = new ArrayList<Encodable>();
 		// Verify that all certificates have encryption keys
 		for(Certificate c : receipients){
 			org.certificateservices.custom.c2x.its.datastructs.basic.PublicKey encKey = getEncryptionKey(c);
@@ -284,7 +284,7 @@ public class DefaultCryptoManager implements CryptoManager {
 			BigInteger s = ((ASN1Integer) dLSequence.getObjectAt(1)).getPositiveValue();
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(alg.getFieldSize());
-			SerializationHelper.writeFixedFieldSizeKey(alg, baos, s);	    
+			EncodeHelper.writeFixedFieldSizeKey(alg, baos, s);	    
 
 			return new Signature(alg, new EcdsaSignature(alg, new EccPoint(alg, EccPointType.x_coordinate_only, r), baos.toByteArray()));
 
@@ -344,7 +344,7 @@ public class DefaultCryptoManager implements CryptoManager {
 
 				// Create Signature Data
 				ASN1Integer asn1R = new ASN1Integer(ecdsaSignature.getR().getX());		    
-				ASN1Integer asn1S = new ASN1Integer(SerializationHelper.readFixedFieldSizeKey(alg, new ByteArrayInputStream(ecdsaSignature.getSignatureValue())));
+				ASN1Integer asn1S = new ASN1Integer(EncodeHelper.readFixedFieldSizeKey(alg, new ByteArrayInputStream(ecdsaSignature.getSignatureValue())));
 				DLSequence dLSequence = new DLSequence(new ASN1Encodable[]{asn1R, asn1S});
 				byte[] dERSignature = dLSequence.getEncoded();
 
@@ -573,7 +573,7 @@ public class DefaultCryptoManager implements CryptoManager {
 		System.arraycopy(encryptedData, 0, v, 0,ECIES_NIST_P256_V_LENGTH);
         
         EccPoint p = new EccPoint(publicKeyAlgorithm);
-        p.deserialize(new DataInputStream(new ByteArrayInputStream(v)));
+        p.decode(new DataInputStream(new ByteArrayInputStream(v)));
         
 		byte[] c = new byte[publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength()];
 		byte[] t = new byte[EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH];
@@ -610,7 +610,7 @@ public class DefaultCryptoManager implements CryptoManager {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dis = new DataOutputStream(baos);
 		
-		eciesNistP256EncryptedKey.getV().serialize(dis);
+		eciesNistP256EncryptedKey.getV().encode(dis);
 		baos.close();
 		System.arraycopy(baos.toByteArray(), 0, encryptedData, 0, ECIES_NIST_P256_V_LENGTH);
 		System.arraycopy(eciesNistP256EncryptedKey.getC(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH, eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength());
@@ -774,9 +774,9 @@ public class DefaultCryptoManager implements CryptoManager {
 	 * @throws IOException if certificate encoding problems occurred. 
 	 */
 	private RecipientInfo findRecipientInfo(Certificate receiverCertificate,
-			List<StructSerializer> recipients) throws IllegalArgumentException, IOException{
+			List<Encodable> recipients) throws IllegalArgumentException, IOException{
 		HashedId8 hashId = new HashedId8(receiverCertificate.getEncoded());
-		for(StructSerializer n : recipients){
+		for(Encodable n : recipients){
 			RecipientInfo ri = (RecipientInfo) n;
 			if(ri.getCertId().equals(hashId)){
 				return ri;
@@ -839,10 +839,10 @@ public class DefaultCryptoManager implements CryptoManager {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		dos.write(certificate.getVersion());		
-		SerializationHelper.encodeVariableSizeVector(dos, certificate.getSignerInfos());
-		certificate.getSubjectInfo().serialize(dos);
-		SerializationHelper.encodeVariableSizeVector(dos, certificate.getSubjectAttributes());
-		SerializationHelper.encodeVariableSizeVector(dos, certificate.getValidityRestrictions());
+		EncodeHelper.encodeVariableSizeVector(dos, certificate.getSignerInfos());
+		certificate.getSubjectInfo().encode(dos);
+		EncodeHelper.encodeVariableSizeVector(dos, certificate.getSubjectAttributes());
+		EncodeHelper.encodeVariableSizeVector(dos, certificate.getValidityRestrictions());
 		return baos.toByteArray();
 	}
 	
@@ -853,7 +853,7 @@ public class DefaultCryptoManager implements CryptoManager {
 		dos.write(message.getProtocolVersion());
 		dos.write(message.getSecurityProfile());
 		
-		SerializationHelper.encodeVariableSizeVector(dos, message.getHeaderFields());
+		EncodeHelper.encodeVariableSizeVector(dos, message.getHeaderFields());
 		
 		serializeTotalPayloadSize(dos, message.getPayloadFields());
 		for(Payload pl : message.getPayloadFields()){
@@ -861,9 +861,9 @@ public class DefaultCryptoManager implements CryptoManager {
 				// if payload shouldn't be included in the signature should only the type and length be included
 			    dos.write(pl.getPayloadType().getByteValue());
 			    IntX size = new IntX(pl.getData().length);
-			    size.serialize(dos);
+			    size.encode(dos);
 			}else{
-				pl.serialize(dos);
+				pl.encode(dos);
 			}
 		}
 				
@@ -874,7 +874,7 @@ public class DefaultCryptoManager implements CryptoManager {
 		}else{
 			for(TrailerField tf : message.getTrailerFields()){
 				if(tf.getTrailerFieldType() != TrailerFieldType.signature){
-					tf.serialize(dos);
+					tf.encode(dos);
 				}else{
 					// Don't calculate any more fields in the signature.
 					dos.writeByte(TrailerFieldType.signature.getByteValue());
@@ -922,15 +922,15 @@ public class DefaultCryptoManager implements CryptoManager {
 	}
 
 
-	protected void serializeTotalPayloadSize(DataOutputStream out, List<? extends StructSerializer> variableSizeVector) throws IOException{
+	protected void serializeTotalPayloadSize(DataOutputStream out, List<? extends Encodable> variableSizeVector) throws IOException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);    		 
-		for(StructSerializer next: variableSizeVector){
-			next.serialize(dos);
+		for(Encodable next: variableSizeVector){
+			next.encode(dos);
 		}
 		byte[] data = baos.toByteArray();
 		IntX size = new IntX(data.length);
-		size.serialize(out);
+		size.encode(out);
 	}
 	
 
@@ -941,14 +941,14 @@ public class DefaultCryptoManager implements CryptoManager {
 			if(next.getTrailerFieldType() == TrailerFieldType.signature){
 				break;
 			}
-			next.serialize(dos);
+			next.encode(dos);
 		}
 		byte[] data = baos.toByteArray();
 		int length = data.length;
 		
 		length += calculateSignatureLength(signature);
 		IntX size = new IntX(length);
-		size.serialize(out);
+		size.encode(out);
 	}
 
 	protected int calculateSignatureLength(Signature signature) throws IllegalArgumentException {

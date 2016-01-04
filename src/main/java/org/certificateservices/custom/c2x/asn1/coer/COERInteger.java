@@ -175,7 +175,7 @@ public class COERInteger extends COEREncodable{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		if(isUnsigned()){
 			serializeUnsigned(out);
 		}else{
@@ -221,7 +221,7 @@ public class COERInteger extends COEREncodable{
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		if(isUnsigned()){
 			deserializeUnsigned(in);
 		}else{

@@ -71,20 +71,20 @@ public class COERChoice extends COEREncodable{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		COERTag tag = new COERTag(COERTag.CONTEXT_SPECIFIC_TAG_CLASS, choice.ordinal());
-		tag.serialize(out);
-		value.serialize(out);
+		tag.encode(out);
+		value.encode(out);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		COERTag tag = new COERTag();
-		tag.deserialize(in);
+		tag.decode(in);
 		choice = (COERChoiceEnumeration) choiceEnum.getEnumConstants()[(int) tag.getTagNumber()];
 	
 		value = choice.getEmptyCOEREncodable();
-		value.deserialize(in);
+		value.decode(in);
 	}
 
 	@Override

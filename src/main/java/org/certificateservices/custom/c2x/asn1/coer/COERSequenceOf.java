@@ -88,24 +88,24 @@ public class COERSequenceOf extends COEREncodable {
 	}
 	
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		COERInteger length = new COERInteger(BigInteger.valueOf(sequenceValues.length), BigInteger.ZERO, null);
-		length.serialize(out);
+		length.encode(out);
 		for(COEREncodable encodable : sequenceValues){
-			encodable.serialize(out);
+			encodable.encode(out);
 		}
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		COERInteger length = new COERInteger(BigInteger.ZERO, null);
-		length.deserialize(in);
+		length.decode(in);
 		int sequenceSize = (int) length.getValueAsLong();
 		sequenceValues = new COEREncodable[sequenceSize];
 		for(int i=0;i<sequenceSize;i++){
 			try {
 				sequenceValues[i] = (COEREncodable) emptyValue.clone();
-				sequenceValues[i].deserialize(in);
+				sequenceValues[i].decode(in);
 			} catch (CloneNotSupportedException e) {
 				throw new IOException("Error deserializing COER data: " + e.getMessage(),e);
 			}

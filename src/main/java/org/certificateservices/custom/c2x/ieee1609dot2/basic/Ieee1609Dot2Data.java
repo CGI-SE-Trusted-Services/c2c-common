@@ -10,37 +10,24 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.its.datastructs;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
 /**
- * Interface for serializing structures to a byte array
+ * This data type is used to contain the other data types in this clause. The fields in the Ieee1609Dot2Data
+ * have the following meanings:
+ * <li>protocolVersion contains the current version of the protocol. The version specified in this
+ * document is version 3, represented by the integer 3. There are no major or minor version numbers.
+ * <li>content contains the content in the form of an Ieee1609Dot2Content.
  * 
- * @author Philip Vendil, p.vendil@cgi.com
+ * 
+ *  @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public interface StructSerializer {
+public class Ieee1609Dot2Data {
+	
+	public static final int IEE1609DOT2_2105_VERSION = 3;
 	
 
-	/**
-	 * Implementation should serialize the data and write to the data output stream.
-	 * 
-	 * @param out data output stream
-	 * @throws IOException if communication problems occurred during serialization.
-	 */
-	public void serialize(DataOutputStream out) throws IOException;
-
-	/**
-	 * Implementation should de-serialize the data and populate its properties.
-	 * 
-	 * @param in data input stream to read from.
-	 * @throws IOException if communication problems occurred during serialization.
-	 */
-	public void deserialize(DataInputStream in) throws IOException;
 	
-
-
+	// TODO	
 }

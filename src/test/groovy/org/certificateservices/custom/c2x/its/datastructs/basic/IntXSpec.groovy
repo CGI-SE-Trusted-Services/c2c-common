@@ -13,7 +13,7 @@
 package org.certificateservices.custom.c2x.its.datastructs.basic
 
 import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.its.datastructs.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 
 import spock.lang.IgnoreRest;

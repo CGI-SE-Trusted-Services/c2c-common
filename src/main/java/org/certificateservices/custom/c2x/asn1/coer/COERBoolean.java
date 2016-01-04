@@ -82,7 +82,7 @@ public class COERBoolean extends COEREncodable{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		if(value){
 		  out.write(TRUE_ENCODED);
 		}else{
@@ -92,7 +92,7 @@ public class COERBoolean extends COEREncodable{
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		int val = in.read();
 		if(val == TRUE_ENCODED){
 			value = true;
