@@ -10,9 +10,10 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.its.datastructs
+package org.certificateservices.custom.c2x.common
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.StructSerializer;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EcdsaSignature
@@ -30,7 +31,6 @@ import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAttributeT
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectInfo;
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectType
 import org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestriction;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
 
 import spock.lang.Specification
 
@@ -62,7 +62,9 @@ abstract class BaseStructSpec extends Specification {
 		return o;				
 	}
 	
+	// TODO Refactor everything
 
+	// TODO
 	Certificate genCertificate(SubjectType type, String subjectName, Certificate cACertificate=null){
 		
 		SignerInfo si = new SignerInfo();
