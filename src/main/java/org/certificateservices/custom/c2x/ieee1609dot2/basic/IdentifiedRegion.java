@@ -17,6 +17,7 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 
 /**
  * This type indicates the region of validity of a certificate using region identifiers.
@@ -38,13 +39,14 @@ public class IdentifiedRegion extends COERChoice {
 		countryAndRegions(new CountryAndRegions()),
 		countryAndSubregions(new CountryAndSubregions());		
 
-		private COEREncodable emptyCOEREncodable;
+		private byte[] emptyCOEREncodable;
 		private IdentifiedRegionChoices(COEREncodable emptyCOEREncodable){
-			this.emptyCOEREncodable = emptyCOEREncodable;
+			this.emptyCOEREncodable = COEREncodeHelper.serialize(emptyCOEREncodable);
 		}
+		
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
-			return emptyCOEREncodable;
+			return COEREncodeHelper.deserialize(emptyCOEREncodable);
 		}
 	}
 	

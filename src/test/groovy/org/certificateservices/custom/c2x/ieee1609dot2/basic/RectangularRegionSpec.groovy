@@ -15,61 +15,55 @@ package org.certificateservices.custom.c2x.ieee1609dot2.basic
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
-import org.junit.Ignore;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for ThreeDLocation
+ * Test for RegionAndSubregions
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class ThreeDLocationSpec extends BaseStructSpec {
-
-	Latitude lat = new Latitude(123L)
-	Latitude lat_u = new Latitude(Latitude.UNKNOWN)
+class RectangularRegionSpec extends BaseStructSpec {
 	
-	Longitude lon = new Longitude(245L)
-	Longitude lon_u = new Longitude(Longitude.UNKNOWN)
-	
-	Elevation e = new Elevation(10)
-	
+	TwoDLocation l1 = new TwoDLocation(new Latitude(123),new Longitude(234));
+	TwoDLocation l2 = new TwoDLocation(new Latitude(124),new Longitude(235));
 	
 	def "Verify that constructor and getters are correct and it is correctly encoded"(){
 		when:
-		ThreeDLocation td1 = new ThreeDLocation(lat,lon,e)
+		RectangularRegion r1 = new RectangularRegion(l1,l2)
 		then:
-		serializeToHex(td1) == "0000007b000000f5000a"
+		serializeToHex(r1) == "0000007b000000ea0000007c000000eb"
 		when:
-		ThreeDLocation td2 = deserializeFromHex(new ThreeDLocation(), "0000007b000000f5000a")
+		RectangularRegion r2 = deserializeFromHex(new RectangularRegion(), "0000007b000000ea0000007c000000eb")
 		then:
-		td2.getLatitude().getValueAsLong() == 123L
-		td2.getLongitude().getValueAsLong() == 245L
-		td2.getElevation().getValueAsLong() == 10
+		r2.getNorthWest() == l1
+		r2.getSouthEast() == l2;
 		
 	}
 	
-	def "Verify that IOException is thrown when encoding if not all fields are set"(){
+	def "Verify that IllegalArgumentException is thrown if poistion is the same"(){
 		when:
-		serializeToHex(new ThreeDLocation(lat,null,e))
+		new RectangularRegion(l1, new TwoDLocation(new Latitude(123),new Longitude(234)))
+		then:
+		thrown IllegalArgumentException
+	}
+	
+	def "Verify that all fields must be set or IOException is thrown when encoding"(){
+		when:
+		serializeToHex(new RectangularRegion(l1, null))
 		then:
 		thrown IOException
 		when:
-		serializeToHex(new ThreeDLocation(lat,lon,null))
-		then:
-		thrown IOException
-		when:
-		serializeToHex(new ThreeDLocation(null,lon,e))
+		serializeToHex(new RectangularRegion(null, l2))
 		then:
 		thrown IOException
 	}
 	
 	def "Verify toString"(){
 		expect:
-		new ThreeDLocation(lat,lon,e).toString() == "ThreeDLocation [latitude=123, longitude=245, elevation=10]"
-		new ThreeDLocation(lat_u,lon_u,e).toString() == "ThreeDLocation [latitude=UNKNOWN, longitude=UNKNOWN, elevation=10]"
+		new RectangularRegion(l1,l2).toString() == "RectangularRegion [northwest=[latitude=123, longitude=234], southeast=[latitude=124, longitude=235]]"
 	}
 	
 

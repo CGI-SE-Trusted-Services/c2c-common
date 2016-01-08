@@ -12,13 +12,9 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,15 +43,7 @@ public class COERSequenceOf extends COEREncodable {
 	 */
 	public COERSequenceOf(COEREncodable emptyValue){
 		this.emptyValue = emptyValue;
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
-			ObjectOutputStream dos = new ObjectOutputStream(baos);
-			dos.writeObject(emptyValue);
-			emptyValueEncoded = baos.toByteArray();
-		} catch (IOException e) {
-			throw new IllegalArgumentException("Error in empty variable of COER Sequence of, cannot encode data: " + e.getMessage());
-		}
-
+        emptyValueEncoded = COEREncodeHelper.serialize(emptyValue);
 		sequenceValues = null;
 	}
 
@@ -155,13 +143,8 @@ public class COERSequenceOf extends COEREncodable {
 				+ Arrays.toString(sequenceValues) + "]";
 	}
 
-	private COEREncodable cloneEmptyValue() throws IOException{
-		ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(emptyValueEncoded));
-		try {
-			return (COEREncodable) ois.readObject();
-		} catch (ClassNotFoundException e) {
-			throw new IOException("Error cloning COEREncodable in COERSequenceOf, class not found: " + e.getMessage());
-		}
+	private COEREncodable cloneEmptyValue() {
+		return COEREncodeHelper.deserialize(emptyValueEncoded);
 	}
 
 }

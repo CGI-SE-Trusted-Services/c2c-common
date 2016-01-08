@@ -18,14 +18,14 @@ import org.bouncycastle.asn1.ASN1Boolean
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 import org.certificateservices.custom.c2x.common.Encodable;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.SymmAlgorithm;
 
 import spock.lang.IgnoreRest;
 import spock.lang.Specification
 import spock.lang.Unroll;
 
 class COEREncodeHelperSpec extends BaseStructSpec {
-	
-	
+
 	
 	@Unroll
 	def "Verify that writeLengthDeterminant generates encoding #encoded for value #value and readLengthDeterminant converts it back correctly"(){
@@ -144,26 +144,25 @@ class COEREncodeHelperSpec extends BaseStructSpec {
 		thrown IllegalArgumentException
 	}
 	
-//	def "Verify random numbers can encode/decode"(){
-//		setup:
-//		SecureRandom random = new SecureRandom()
-//		when:
-//		for(int i = 0; i< 100000; i++){
-//			byte[] number = new byte[126]
-//			random.nextBytes(number)
-//			BigInteger len = new BigInteger(1, number)
-//			ByteArrayOutputStream baos = new ByteArrayOutputStream()
-//			DataOutputStream dos = new DataOutputStream(baos);
-//			COEREncodeHelper.writeLengthDeterminant(len, dos)
-//			byte[] encodedData = baos.toByteArray()
-//			println new String(Hex.encode(encodedData))
-//			DataInputStream dis = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()))
-//			BigInteger decoded = COEREncodeHelper.readLengthDeterminant(dis)
-//			assert decoded.equals(len)
-//		}
-//		then:
-//		true
-//	}
+	def "Verify that write and read enumeration value from COEREnumeration is correct encoded and decoded"(){
+		setup:
+		ByteArrayOutputStream baos = new ByteArrayOutputStream()
+		DataOutputStream dos = new DataOutputStream(baos);
+		when:
+		COEREncodeHelper.writeEnumerationValue(SymmAlgorithm.aes128Ccm, dos)
+		dos.close();
+		byte[] encodedData = baos.toByteArray()
+		then:
+		new String(Hex.encode(encodedData)) == "00"
+		
+		when:
+		DataInputStream dis = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()))
+		COEREnumeration v = COEREncodeHelper.readEnumeratonValueAsEnumeration(SymmAlgorithm.class,dis)
+		then:
+		v == SymmAlgorithm.aes128Ccm
+		
+	
+	}
 	
 
 

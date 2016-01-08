@@ -1,0 +1,81 @@
+/************************************************************************
+ *                                                                       *
+ *  Certificate Service -  Car2Car Core                                  *
+ *                                                                       *
+ *  This software is free software; you can redistribute it and/or       *
+ *  modify it under the terms of the GNU Affero General Public License   *
+ *  License as published by the Free Software Foundation; either         *
+ *  version 3   of the License, or any later version.                    *
+ *                                                                       *
+ *  See terms of license at gnu.org.                                     *
+ *                                                                       *
+ *************************************************************************/
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
+
+import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
+
+/**
+ * A RectangularRegion is valid only if the northWest value is north and west of the southEast 
+ * value, i.e., the two points cannot have equal latitude or equal longitude.
+ * 
+ * @author Philip Vendil, p.vendil@cgi.com
+ *
+ */
+public class RectangularRegion extends COERSequence {
+	
+	private static final long serialVersionUID = 1L;
+	
+	private static final int NORTHWEST = 0;
+	private static final int SOUTHEAST = 1;
+
+	/**
+	 * Constructor used when decoding
+	 */
+	public RectangularRegion(){
+		super(false,2);
+		init();
+	}
+	
+	/**
+	 * Constructor used when encoding
+	 * @throws IllegalArgumentException if positions is equal
+	 */
+	public RectangularRegion(TwoDLocation northWest, TwoDLocation southEast) throws IllegalArgumentException{
+		super(false,2);
+		init();
+		set(NORTHWEST, northWest);
+		set(SOUTHEAST, southEast);
+		
+		if(northWest != null && northWest.equals(southEast)){
+			throw new IllegalArgumentException("Error constructing RectangularRegion north west position cannot be the same as south east position.");
+		}
+	}
+
+	/**
+	 * 
+	 * @return the northwest position
+	 */
+	public TwoDLocation getNorthWest(){
+		return (TwoDLocation) get(NORTHWEST);
+	}
+	
+	/**
+	 * 
+	 * @return the southeast position
+	 */
+	public TwoDLocation getSouthEast(){
+		return (TwoDLocation) get(SOUTHEAST);
+	}
+	
+
+	private void init(){
+		addField(NORTHWEST, false, new TwoDLocation(), null);
+		addField(SOUTHEAST, false, new TwoDLocation(), null);
+	}
+	
+	@Override
+	public String toString() {
+		return "RectangularRegion [northwest=" + getNorthWest().toString().replace("TwoDLocation ", "") + ", southeast=" +  getSouthEast().toString().replace("TwoDLocation ", "") + "]";
+	}
+	
+}

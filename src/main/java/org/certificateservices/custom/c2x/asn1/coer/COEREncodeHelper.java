@@ -12,9 +12,13 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 
 /**
@@ -72,6 +76,16 @@ public class COEREncodeHelper {
 	 */
 	public static void writeEnumerationValue(long value, DataOutputStream dos) throws IllegalArgumentException, IOException{
 		writeEnumerationValue(BigInteger.valueOf(value), dos);
+	}
+	
+	/**
+	 * Returns an encoded enumeration value according to section 11 in the ISO/IEC 8825-7:2015 specification
+	 * @param value the enumeration to encode
+	 * @param dos the output stream to write the length determinant to.
+	 * @return an encoded representation of the length.
+	 */
+	public static void writeEnumerationValue(COEREnumeration value, DataOutputStream dos) throws IllegalArgumentException, IOException{
+		writeEnumerationValue(BigInteger.valueOf(value.ordinal()), dos);
 	}
 
 	
@@ -161,7 +175,50 @@ public class COEREncodeHelper {
 	public static int readEnumerationValueAsInt(DataInputStream dis) throws IOException{
 		return readEnumerationValue(dis).intValue();
 	}
+	
+	/**
+	 * Help method to read and enumeration value to a enumeration constant for supplied Enum class.
+	 * @param enumeration the enum to match ordinal of encoded enumeration value to.
+	 * @param dis the input stream to read the value from.
+	 * @return a decoded representation of the value.
+	 */
+	public static COEREnumeration readEnumeratonValueAsEnumeration(Class<COEREnumeration> enumeration, DataInputStream dis) throws IOException{
+		int ordinal = readEnumerationValueAsInt(dis);
+		for(COEREnumeration next : enumeration.getEnumConstants()){
+			if(next.ordinal() == ordinal){
+				return next;
+			}
+		}
+		throw new IOException("Error decoding COER enumeration, no matching enumeration value exists for ordinal: " + ordinal);
+	}
 
+	/**
+	 * Help method to perform java serialization of coer objects used for deep cloning.
+	 */
+	public static byte[] serialize(COEREncodable object) throws IllegalArgumentException{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ObjectOutputStream dos = new ObjectOutputStream(baos);
+			dos.writeObject(object);
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Error serializing COER object during deep clone: " + e.getMessage());
+		}
+		
+		return baos.toByteArray();
+	}
+	
+	/**
+	 * Help method to perform java deserialization of coer objects used for deep cloning.
+	 */
+	public static COEREncodable deserialize(byte[] serializedData) throws IllegalArgumentException{
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(serializedData));
+			return (COEREncodable) ois.readObject();
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Error deserializing COER object during deep clone: " + e.getMessage());
+		}
+	}
+	
 	/**
 	 * Help method to decode length determinant or enumeration
 	 * @param dis input stream
@@ -185,4 +242,6 @@ public class COEREncodeHelper {
 		}
 	}
 	
+	
+		
 }

@@ -12,29 +12,57 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
- * Interface that all COER Choice Enumeration should implement.
- * <p>
- * Contains one method used to create a empty version of specific COER encodable object for 
- * a given selection in an enum.
+ * COER encoding of a null.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public interface COERChoiceEnumeration {
+public class COERNull extends COEREncodable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	
 	/**
-	 * Method that should return a NEW empty COEREncodable for a given choice in an enumeration.
-	 * <b>Important every call should return a new object.
+	 * Constructor used when encoding/decoding a COER boolean.
 	 */
-	COEREncodable getEmptyCOEREncodable() throws IOException;
-	
-	/**
-	 * 
-	 * @return the enumeration ordinal which gives the tag number.
-	 */
-	public int ordinal();
-	
+	public COERNull(){
+	}
+
+	@Override
+	public int hashCode() {
+		return 1;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
+	}
+
+
+	@Override
+	public void encode(DataOutputStream out) throws IOException {
+
+	}
+
+	@Override
+	public void decode(DataInputStream in) throws IOException {
+
+	}
+
+	@Override
+	public String toString() {
+		return "COERNull []";
+	}
 }

@@ -10,31 +10,21 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import java.io.IOException;
+import org.certificateservices.custom.c2x.asn1.coer.COEREnumeration;
 
 /**
- * Interface that all COER Choice Enumeration should implement.
+ * This enumerated value indicates supported symmetric algorithms. The only symmetric algorithm supported in this version of this standard is AES-CCM as specified in 5.3.8.
  * <p>
- * Contains one method used to create a empty version of specific COER encodable object for 
- * a given selection in an enum.
+ * <b>Critical information fields:</b> 
+ * If present, this is a critical information field as defined in 5.2.5. An implementation that does not recognize the indicated enumerated value for this type when 
+ * verifying a signed SPDU shall indicate that the signed SPDU is invalid.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public interface COERChoiceEnumeration {
-	
-	/**
-	 * Method that should return a NEW empty COEREncodable for a given choice in an enumeration.
-	 * <b>Important every call should return a new object.
-	 */
-	COEREncodable getEmptyCOEREncodable() throws IOException;
-	
-	/**
-	 * 
-	 * @return the enumeration ordinal which gives the tag number.
-	 */
-	public int ordinal();
+public enum SymmAlgorithm implements COEREnumeration {
+	aes128Ccm;
 	
 }

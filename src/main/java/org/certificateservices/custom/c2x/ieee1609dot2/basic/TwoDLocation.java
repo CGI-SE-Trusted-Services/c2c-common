@@ -15,40 +15,44 @@ package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
 /**
- * This data structure contains an estimate of 3-D location. The details of the structure are given in the 
- * definitions of the individual fields below.
+ * This data structure is used to define validity regions for use in certificates. The 
+ * latitude and longitude fields contain the latitude and longitude as defined above.
  * <p>
- * NOTE— The units used in this data structure are consistent with the location data structures used in [B20], 
- * though the encoding is incompatible.
+ * NOTE— This data structure is consistent with the location encoding used in [B20], except 
+ * that values 900 000 001 for latitude (used to indicate that the latitude was not available) and 1 800 000 001 for longitude 
+ * (used to indicate that the longitude was not available) are not valid.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class ThreeDLocation extends COERSequence {
+public class TwoDLocation extends COERSequence {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private static final int LATITUDE = 0;
 	private static final int LONGITUDE = 1;
-	private static final int ELEVATION = 2;
 
 	/**
 	 * Constructor used when decoding
 	 */
-	public ThreeDLocation(){
-		super(false,3);
+	public TwoDLocation(){
+		super(false,2);
 		init();
 	}
 	
 	/**
 	 * Constructor used when encoding
 	 */
-	public ThreeDLocation(Latitude latitude, Longitude longitude, Elevation elevation){
-		super(false,3);
+	public TwoDLocation(Latitude latitude, Longitude longitude){
+		super(false,2);
 		init();
 		set(LATITUDE, latitude);
 		set(LONGITUDE, longitude);
-		set(ELEVATION, elevation);
+		
+		if((latitude != null && latitude.getValueAsLong() == Latitude.UNKNOWN) || 
+		  (longitude != null && longitude.getValueAsLong() == Longitude.UNKNOWN )){
+			throw new IllegalArgumentException("Error constructing TwoDLocation, UNKNOWN latitude or longitude is not valid for TwoDLocation");
+		}
 	}
 
 	/**
@@ -67,26 +71,17 @@ public class ThreeDLocation extends COERSequence {
 		return (Latitude) get(LATITUDE);
 	}
 	
-	/**
-	 * 
-	 * @return the locations elevation
-	 */
-	public Elevation getElevation(){
-		return (Elevation) get(ELEVATION);
-	}
-	
-	
+
 	private void init(){
 		addField(LATITUDE, false, new Latitude(), null);
 		addField(LONGITUDE, false, new Longitude(), null);
-		addField(ELEVATION, false, new Elevation(), null);
 	}
 	
 	@Override
 	public String toString() {
 		long latVal = getLatitude().getValueAsLong();
 		long longVal = getLongitude().getValueAsLong();
-		return "ThreeDLocation [latitude=" + (latVal != NinetyDegreeInt.UNKNOWN ? latVal : "UNKNOWN")+ ", longitude=" + (longVal != OneEightyDegreeInt.UNKNOWN ? longVal : "UNKNOWN") + ", elevation=" + getElevation().getElevationInDecimeters() + "]";
+		return "TwoDLocation [latitude=" + latVal + ", longitude=" +  longVal + "]";
 	}
 	
 }

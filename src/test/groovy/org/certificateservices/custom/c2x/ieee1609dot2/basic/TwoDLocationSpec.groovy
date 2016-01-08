@@ -26,7 +26,8 @@ import spock.lang.Unroll;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class ThreeDLocationSpec extends BaseStructSpec {
+
+class TwoDLocationSpec extends BaseStructSpec {
 
 	Latitude lat = new Latitude(123L)
 	Latitude lat_u = new Latitude(Latitude.UNKNOWN)
@@ -34,42 +35,46 @@ class ThreeDLocationSpec extends BaseStructSpec {
 	Longitude lon = new Longitude(245L)
 	Longitude lon_u = new Longitude(Longitude.UNKNOWN)
 	
-	Elevation e = new Elevation(10)
 	
 	
 	def "Verify that constructor and getters are correct and it is correctly encoded"(){
 		when:
-		ThreeDLocation td1 = new ThreeDLocation(lat,lon,e)
+		TwoDLocation td1 = new TwoDLocation(lat,lon)
 		then:
-		serializeToHex(td1) == "0000007b000000f5000a"
+		serializeToHex(td1) == "0000007b000000f5"
 		when:
-		ThreeDLocation td2 = deserializeFromHex(new ThreeDLocation(), "0000007b000000f5000a")
+		TwoDLocation td2 = deserializeFromHex(new TwoDLocation(), "0000007b000000f5")
 		then:
 		td2.getLatitude().getValueAsLong() == 123L
 		td2.getLongitude().getValueAsLong() == 245L
-		td2.getElevation().getValueAsLong() == 10
 		
 	}
 	
 	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new ThreeDLocation(lat,null,e))
+		serializeToHex(new TwoDLocation(lat,null))
 		then:
 		thrown IOException
 		when:
-		serializeToHex(new ThreeDLocation(lat,lon,null))
+		serializeToHex(new TwoDLocation(null,lon))
 		then:
 		thrown IOException
+	} 
+	
+	def "Verify that IllegalArgumentException is thrown if UNKNOWN is used as latitude or longitude"(){
 		when:
-		serializeToHex(new ThreeDLocation(null,lon,e))
+		new TwoDLocation(lat,lon_u)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
+		when:
+		new TwoDLocation(lat_u,lon)
+		then:
+		thrown IllegalArgumentException
 	}
 	
 	def "Verify toString"(){
 		expect:
-		new ThreeDLocation(lat,lon,e).toString() == "ThreeDLocation [latitude=123, longitude=245, elevation=10]"
-		new ThreeDLocation(lat_u,lon_u,e).toString() == "ThreeDLocation [latitude=UNKNOWN, longitude=UNKNOWN, elevation=10]"
+		new TwoDLocation(lat,lon).toString() == "TwoDLocation [latitude=123, longitude=245]"
 	}
 	
 

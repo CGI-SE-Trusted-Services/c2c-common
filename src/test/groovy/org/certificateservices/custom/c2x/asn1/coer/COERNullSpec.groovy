@@ -10,31 +10,34 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.asn1.coer
 
-import java.io.IOException;
+import org.bouncycastle.asn1.ASN1Boolean
+import org.certificateservices.custom.c2x.common.BaseStructSpec
 
-/**
- * Interface that all COER Choice Enumeration should implement.
- * <p>
- * Contains one method used to create a empty version of specific COER encodable object for 
- * a given selection in an enum.
- * 
- * @author Philip Vendil, p.vendil@cgi.com
- *
- */
-public interface COERChoiceEnumeration {
+import spock.lang.Specification
+import spock.lang.Unroll;
+
+class COERNullSpec extends BaseStructSpec {
 	
-	/**
-	 * Method that should return a NEW empty COEREncodable for a given choice in an enumeration.
-	 * <b>Important every call should return a new object.
-	 */
-	COEREncodable getEmptyCOEREncodable() throws IOException;
+	def "Verify that COERNull with value #value returns #encoded encoded and encoded #encoded generates a #value value"(){
+		expect:
+		serializeToHex(new COERNull()) == ""
+		deserializeFromHex(new COERNull(), "")
+	}
+
+	def "Verify equals and hashcode"(){
+		expect:
+		COERBoolean.TRUE != new COERNull()
+		new COERNull() == new COERNull()
+		COERBoolean.TRUE.hashCode() != new COERNull().hashCode()
+		new COERNull().hashCode() == new COERNull().hashCode()
+	}
 	
-	/**
-	 * 
-	 * @return the enumeration ordinal which gives the tag number.
-	 */
-	public int ordinal();
+	def "Verify toString"(){
+		expect:
+		new COERNull().toString() == "COERNull []"
+	}
 	
+
 }

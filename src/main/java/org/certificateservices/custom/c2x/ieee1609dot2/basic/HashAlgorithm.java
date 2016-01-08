@@ -10,31 +10,20 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import java.io.IOException;
+import org.certificateservices.custom.c2x.asn1.coer.COEREnumeration;
 
 /**
- * Interface that all COER Choice Enumeration should implement.
- * <p>
- * Contains one method used to create a empty version of specific COER encodable object for 
- * a given selection in an enum.
+ * This structure identifies a hash algorithm. The only value currently supported is sha256, indicating SHA-256 as specified in 5.3.3.
+ * 
+ * <b>Critical information fields: </b>This is a critical information field as defined in 5.2.5. An implementation that does not recognize 
+ * the enumerated value of this type in a signed SPDU when verifying a signed SPDU shall indicate that the signed SPDU is invalid.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public interface COERChoiceEnumeration {
-	
-	/**
-	 * Method that should return a NEW empty COEREncodable for a given choice in an enumeration.
-	 * <b>Important every call should return a new object.
-	 */
-	COEREncodable getEmptyCOEREncodable() throws IOException;
-	
-	/**
-	 * 
-	 * @return the enumeration ordinal which gives the tag number.
-	 */
-	public int ordinal();
+public enum HashAlgorithm implements COEREnumeration {
+	sha256;
 	
 }
