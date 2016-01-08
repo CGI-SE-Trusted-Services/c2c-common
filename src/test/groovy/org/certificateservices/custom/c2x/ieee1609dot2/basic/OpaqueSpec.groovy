@@ -10,23 +10,36 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
-import java.io.Serializable;
+import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
-import org.certificateservices.custom.c2x.common.Encodable;
+import spock.lang.Specification;
+import spock.lang.Unroll;
 
 /**
- * Base interface all COER Encodable structures must implement.
+ * Test for Opaque
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements Encodable, Serializable{
+class OpaqueSpec extends Specification {
 
-	private static final long serialVersionUID = 1L;
 	
+	def "Verify that Opaque has no size boundraries"(){
+		when:
+		def o = new Opaque()
+		
+		then:
+		o.getLowerBound() == null
+		o.getUpperBound() == null
+		
+	}
 	
-
+	def "Verify toString"(){
+		expect:
+		new Opaque("Test".getBytes("UTF-8")).toString() == "Opaque [data=54657374]"
+	}
+	
 
 }

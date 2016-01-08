@@ -66,7 +66,7 @@ public class ThreeDLocation extends TwoDLocation{
 			if(elevationDecimeters <= -4095){
 				encodedElevation = 0xF001;	
 			}else{
-			  if(encodedElevation < 0){
+			  if(elevationDecimeters < 0){
 				  encodedElevation =  0xF001 + (4095 + elevationDecimeters);
 			  }else{
 				  encodedElevation = elevationDecimeters;

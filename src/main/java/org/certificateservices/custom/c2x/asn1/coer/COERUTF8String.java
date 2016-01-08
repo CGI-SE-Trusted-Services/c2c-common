@@ -23,6 +23,8 @@ import java.io.UnsupportedEncodingException;
  *
  */
 public class COERUTF8String extends COEROctetStream{
+	
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor used when decoding a string from UTF-8 and no lower or upper bounds are known.

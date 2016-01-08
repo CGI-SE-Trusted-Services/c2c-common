@@ -23,18 +23,19 @@ public enum TestCOEREnumeration implements COERChoiceEnumeration {
 	CHOICE2(new COEROctetStream()),
 	CHOICE3(new COERInteger(0,10));
 
-	private COEREncodable emptyCOEREncodable;
+	
+	private byte[] emptyCOEREncodableData;
 	private TestCOEREnumeration(COEREncodable emptyCOEREncodable){
-		this.emptyCOEREncodable = emptyCOEREncodable;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos)
+		oos.writeObject(emptyCOEREncodable)
+		this.emptyCOEREncodableData = baos.toByteArray();
 	}
 	
 	@Override
 	public COEREncodable getEmptyCOEREncodable() throws IOException{
-		try{
-			return emptyCOEREncodable.clone();
-		}catch(CloneNotSupportedException e){
-			throw new IOException("Error cloning COER encodable: " + emptyCOEREncodable);
-		}
+			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(emptyCOEREncodableData));
+			return ois.readObject();
 	}
 
 }

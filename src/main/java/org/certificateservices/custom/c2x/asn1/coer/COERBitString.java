@@ -31,6 +31,9 @@ import java.math.BigInteger;
  */
 public class COERBitString extends COEREncodable{
 	
+
+	private static final long serialVersionUID = 1L;
+
 	private long bitString;
 	
 	private Integer length = null;

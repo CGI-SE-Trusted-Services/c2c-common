@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.asn1.coer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,8 @@ import java.util.List;
  */
 
 public class COERSequence extends COEREncodable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	public static final COEREncodable NO_DEFAULT = null;
 	
@@ -207,7 +210,10 @@ public class COERSequence extends COEREncodable {
 		return retval;
 	}
 	
-	private class Field{
+	private class Field implements Serializable{
+		
+
+		private static final long serialVersionUID = 1L;
 		
 		private Field(COEREncodable value, boolean optional, COEREncodable emptyValue, COEREncodable defaultValue){
 			this.value = value;
@@ -251,7 +257,7 @@ public class COERSequence extends COEREncodable {
 			if (emptyValue == null) {
 				if (other.emptyValue != null)
 					return false;
-			} else if (!emptyValue.equals(other.emptyValue))
+			} else if (!emptyValue.getClass().equals(other.emptyValue.getClass()))
 				return false;
 			if (optional != other.optional)
 				return false;

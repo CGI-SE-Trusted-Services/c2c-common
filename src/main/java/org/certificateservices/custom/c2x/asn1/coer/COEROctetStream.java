@@ -31,10 +31,12 @@ import org.bouncycastle.util.encoders.Hex;
  */
 public class COEROctetStream extends COEREncodable{
 	
-	private byte[] data;
+	private static final long serialVersionUID = 1L;
 	
-	private Integer lowerBound = null;
-	private Integer upperBound = null;
+	protected byte[] data;
+	
+	protected Integer lowerBound = null;
+	protected Integer upperBound = null;
 	
 	/**
 	 * Constructor when decoding an octet stream with no known lower or upper bounds.

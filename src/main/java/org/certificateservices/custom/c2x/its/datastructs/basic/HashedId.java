@@ -52,7 +52,7 @@ public abstract class HashedId implements Encodable{
 	}
 	
 	/** 
-	 * @return the crlSeries value
+	 * @return the hash id value
 	 */
 	public byte[] getHashedId(){
 		return hashedId;

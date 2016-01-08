@@ -10,23 +10,43 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
-import java.io.Serializable;
+import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
+import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
-import org.certificateservices.custom.c2x.common.Encodable;
+import spock.lang.Specification;
+import spock.lang.Unroll;
 
 /**
- * Base interface all COER Encodable structures must implement.
+ * Test for CountryOnly
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements Encodable, Serializable{
+class CountryOnlySpec extends BaseStructSpec {
 
-	private static final long serialVersionUID = 1L;
+	@Unroll
+	def "Verify constructors"(){
+		when:
+		def e1 = new CountryOnly(10)
+		
+		then:
+		serializeToHex(e1) == "000a"
+		
+		when:
+		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
+		
+		then:
+		e2.getValueAsLong() == 10
+	}
+		
 	
-	
-
+	def "Verify ElevInt toString"(){
+		expect:
+		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+	}
 
 }

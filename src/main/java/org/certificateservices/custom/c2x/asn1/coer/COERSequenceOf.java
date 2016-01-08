@@ -12,9 +12,13 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,18 +34,31 @@ import java.util.List;
  */
 public class COERSequenceOf extends COEREncodable {
 
-	COEREncodable[] sequenceValues;
-	COEREncodable emptyValue;
-	
+
+	private static final long serialVersionUID = 1L;
+
+	protected COEREncodable[] sequenceValues;
+	protected COEREncodable emptyValue;
+	protected byte[] emptyValueEncoded;
+
 	/**
 	 * Constructor used for decoding COER Sequence Of Values
 	 * @param emptyValue a template COEREncodable (containing constraints) that is cloned for each decoded COER encodable object.
 	 */
 	public COERSequenceOf(COEREncodable emptyValue){
 		this.emptyValue = emptyValue;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ObjectOutputStream dos = new ObjectOutputStream(baos);
+			dos.writeObject(emptyValue);
+			emptyValueEncoded = baos.toByteArray();
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Error in empty variable of COER Sequence of, cannot encode data: " + e.getMessage());
+		}
+
 		sequenceValues = null;
 	}
-	
+
 	/**
 	 * Constructor for encoding an array of COEREncodabe values (must be of the same type, with same constraints, otherwise use a sequence).
 	 */
@@ -55,7 +72,7 @@ public class COERSequenceOf extends COEREncodable {
 	public COERSequenceOf(List<COEREncodable> sequenceValues){
 		this.sequenceValues = sequenceValues.toArray(new COEREncodable[sequenceValues.size()]);
 	}
-	
+
 	/**
 	 * 
 	 * @return the number of values in the sequence.
@@ -63,7 +80,7 @@ public class COERSequenceOf extends COEREncodable {
 	public int size(){
 		return sequenceValues.length;
 	}
-	
+
 	/**
 	 * 
 	 * @return returns the array of sequence values.
@@ -71,7 +88,7 @@ public class COERSequenceOf extends COEREncodable {
 	public COEREncodable[] getSequenceValues(){
 		return sequenceValues;
 	}
-	
+
 	/**
 	 * 
 	 * @return returns the sequence values as a list.
@@ -86,7 +103,7 @@ public class COERSequenceOf extends COEREncodable {
 		}
 		return retval;
 	}
-	
+
 	@Override
 	public void encode(DataOutputStream out) throws IOException {
 		COERInteger length = new COERInteger(BigInteger.valueOf(sequenceValues.length), BigInteger.ZERO, null);
@@ -103,14 +120,12 @@ public class COERSequenceOf extends COEREncodable {
 		int sequenceSize = (int) length.getValueAsLong();
 		sequenceValues = new COEREncodable[sequenceSize];
 		for(int i=0;i<sequenceSize;i++){
-			try {
-				sequenceValues[i] = (COEREncodable) emptyValue.clone();
-				sequenceValues[i].decode(in);
-			} catch (CloneNotSupportedException e) {
-				throw new IOException("Error deserializing COER data: " + e.getMessage(),e);
-			}
+			sequenceValues[i] = cloneEmptyValue();
+			sequenceValues[i].decode(in);
 		}
 	}
+
+
 
 	@Override
 	public int hashCode() {
@@ -140,5 +155,13 @@ public class COERSequenceOf extends COEREncodable {
 				+ Arrays.toString(sequenceValues) + "]";
 	}
 
-	
+	private COEREncodable cloneEmptyValue() throws IOException{
+		ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(emptyValueEncoded));
+		try {
+			return (COEREncodable) ois.readObject();
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Error cloning COEREncodable in COERSequenceOf, class not found: " + e.getMessage());
+		}
+	}
+
 }

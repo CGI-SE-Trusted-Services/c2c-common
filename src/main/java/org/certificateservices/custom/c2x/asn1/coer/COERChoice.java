@@ -30,9 +30,11 @@ import java.io.IOException;
  */
 public class COERChoice extends COEREncodable{
 	
-	private Class<?> choiceEnum;
-	private COERChoiceEnumeration choice;
-	private COEREncodable value;
+	private static final long serialVersionUID = 1L;
+	
+	protected Class<?> choiceEnum;
+	protected COERChoiceEnumeration choice;
+	protected COEREncodable value;
 	
 	/**
 	 * Constructor used when decoding a COER Choice.

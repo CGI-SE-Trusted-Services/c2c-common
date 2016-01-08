@@ -10,23 +10,40 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import java.io.Serializable;
-
-import org.certificateservices.custom.c2x.common.Encodable;
+import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 
 /**
- * Base interface all COER Encodable structures must implement.
+ * Base type defining opaque data, i.e. unknown byte array with no lower or upper bounds.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements Encodable, Serializable{
-
+public class Opaque extends COEROctetStream {
+	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Constructor used when decoding
+	 */
+	public Opaque(){
+		super();
+	}
 	
+	/**
+	 * Constructor used when encoding
+	 */
+	public Opaque(byte[] data){
+		super(data);
+	}
 
+	@Override
+	public String toString() {
+		return "Opaque [data=" + new String(Hex.encode(data)) + "]";
+	}
+	
+	
 
 }

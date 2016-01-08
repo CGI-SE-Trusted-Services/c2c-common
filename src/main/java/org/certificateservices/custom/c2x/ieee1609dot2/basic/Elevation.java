@@ -10,23 +10,38 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import java.io.Serializable;
-
-import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
- * Base interface all COER Encodable structures must implement.
+ * Extends Elevation
+ * 
+ * @see ElevInt
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements Encodable, Serializable{
-
+public class Elevation extends ElevInt {
+	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Constructor used when decoding
+	 */
+	public Elevation(){
+		super();
+	}
 	
+	/**
+	 * Constructor used when encoding
+	 * @param elevationDecimeters should be height in decimeters, between -4095 and 61439 
+	 */
+	public Elevation(int elevationDecimeters) throws IllegalArgumentException{
+		super(elevationDecimeters);
+	}
 
-
+	@Override
+	public String toString() {
+		return "Elevation [" + getElevationInDecimeters() + "(" + Integer.toString(getEncodedElevation(),16)+ ")"+ "]";
+	}
 }

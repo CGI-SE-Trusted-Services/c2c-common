@@ -10,23 +10,31 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import java.io.Serializable;
-
-import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
- * Base interface all COER Encodable structures must implement.
+ * Unknown longitude with encoded value of 1800000001.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements Encodable, Serializable{
+public class UnknownLongitude extends OneEightyDegreeInt {
 
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Constructor used for encoding and decoding.
+	 */
+	public UnknownLongitude(){
+		super(UNKNOWN);
+	}
 	
 
 
+	@Override
+	public String toString() {
+		return "UnknownLongitude [UNKNOWN]";
+	}
+	
 }

@@ -10,23 +10,36 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import java.io.Serializable;
-
-import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
- * Base interface all COER Encodable structures must implement.
+ * This is the integer representation of the country or area identifier as defined by the United Nations Statistics Division, October 2013 edition 
+ * (see normative references in clause 2).
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements Encodable, Serializable{
-
+public class CountryOnly extends Uint16 {
+	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Constructor used when decoding
+	 */
+	public CountryOnly(){
+		super();
+	}
 	
-
-
+	/**
+	 * Constructor used when encoding
+	 */
+	public CountryOnly(int countryCode) {
+		super(countryCode);		
+	}
+	
+	@Override
+	public String toString() {
+		return "CountryOnly [" + getValueAsLong() + "]";
+	}
 }

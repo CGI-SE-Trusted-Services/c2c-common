@@ -28,10 +28,12 @@ import java.math.BigInteger;
  */
 public class COERInteger extends COEREncodable{
 	
-	private BigInteger value;
+	private static final long serialVersionUID = 1L;
 	
-	private BigInteger minValue = null;
-	private BigInteger maxValue = null;
+	protected BigInteger value;
+	
+	protected BigInteger minValue = null;
+	protected BigInteger maxValue = null;
 	
 	private static final BigInteger TWO_PWR_8_MINUS_1 = BigInteger.valueOf(255); 
 	private static final BigInteger TWO_PWR_16_MINUS_1 = BigInteger.valueOf(65535);

@@ -30,6 +30,8 @@ import java.util.Map;
  */
 public class COERTag extends COEREncodable{
 
+	private static final long serialVersionUID = 1L;
+	
 	public static int UNIVERSIAL_TAG_CLASS = 0x00;
 	public static int APPLICATION_TAG_CLASS = 0x40;
 	public static int CONTEXT_SPECIFIC_TAG_CLASS = 0x80;

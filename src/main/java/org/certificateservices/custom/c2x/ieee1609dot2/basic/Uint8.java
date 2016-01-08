@@ -10,23 +10,37 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import java.io.Serializable;
-
-import org.certificateservices.custom.c2x.common.Encodable;
+import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 
 /**
- * Base interface all COER Encodable structures must implement.
+ * Base type defining integer between 0 and 255 (0xff)
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements Encodable, Serializable{
-
+public class Uint8 extends COERInteger {
+	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Constructor used when decoding
+	 */
+	public Uint8(){
+		super(0,255);
+	}
 	
+	/**
+	 * Constructor used when encoding
+	 */
+	public Uint8(int value){
+		super(value,0,255);
+	}
 
 
+	@Override
+	public String toString() {
+		return "Uint8 [" + value + "]";
+	}
 }

@@ -27,6 +27,8 @@ import java.io.IOException;
  */
 public class COERBoolean extends COEREncodable{
 	
+	private static final long serialVersionUID = 1L;
+	
 	public static COERBoolean TRUE = new COERBoolean(true);
 	public static COERBoolean FALSE = new COERBoolean(false);
 	
