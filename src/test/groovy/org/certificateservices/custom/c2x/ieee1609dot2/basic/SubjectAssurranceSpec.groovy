@@ -10,23 +10,22 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.its.datastructs.cert
-
-
+package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAssurance;
+import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
-import spock.lang.IgnoreRest;
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- *
+ * Test for SubjectAssurrance
+ * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class SubjectAssuranceSpec extends BaseStructSpec{
+class SubjectAssurranceSpec extends BaseStructSpec {
+
 	
 	def "Verify getAssurranceLevel and getConfidence"(){
 		expect:
@@ -81,24 +80,10 @@ class SubjectAssuranceSpec extends BaseStructSpec{
 		
 	}
 	
-	def "Verify hashCode and equals"(){
-		setup:
-		def o1  = new SubjectAssurance(5, 3);
-		def o2  = new SubjectAssurance(5, 3);
-		def o3  = new SubjectAssurance(5, 2);
-		def o4  = new SubjectAssurance(4, 3);
-		expect:
-		o1 == o2
-		o1 != o3
-		o1 != o4
-		o1.hashCode() == o2.hashCode()
-		o1.hashCode() != o3.hashCode()
-		o1.hashCode() != o4.hashCode()
-	}
-	
 	def "Verify toString"(){
 		expect:
 		new SubjectAssurance(5, 3).toString() == "SubjectAssurance [subjectAssurance=163 (assuranceLevel=5, confidenceLevel= 3 )]"
 	}
+	
 
 }

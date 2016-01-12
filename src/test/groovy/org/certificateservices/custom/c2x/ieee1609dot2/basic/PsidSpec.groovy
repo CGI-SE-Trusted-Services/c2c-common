@@ -21,32 +21,42 @@ import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for Psid
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
+class PsidSpec extends BaseStructSpec {
 
 	@Unroll
 	def "Verify constructors"(){
 		when:
-		def e1 = new CountryOnly(10)
+		def p1 = new Psid(255)
 		
 		then:
-		serializeToHex(e1) == "000a"
+		p1.minValue == BigInteger.ZERO
+		p1.maxValue == null
+		p1.valueAsLong == 255
+		serializeToHex(p1) == "01ff"
 		
 		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
+		def p2 = new Psid("ff")
 		then:
-		e2.getValueAsLong() == 10
+		p2.minValue == BigInteger.ZERO
+		p2.maxValue == null
+		p2.valueAsLong == 255
+		serializeToHex(p2) == "01ff"
 	}
-		
 	
-	def "Verify CountryOnly toString"(){
+	
+	def "Verify Psid toString"(){
 		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+		new Psid(1000).toString() == "Psid [1000(3e8)]"
 	}
+	
+
+	
+	
+
 
 }

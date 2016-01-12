@@ -84,7 +84,10 @@ public class COEREncodeHelper {
 	 * @param dos the output stream to write the length determinant to.
 	 * @return an encoded representation of the length.
 	 */
-	public static void writeEnumerationValue(COEREnumeration value, DataOutputStream dos) throws IllegalArgumentException, IOException{
+	public static void writeEnumerationValue(COEREnumerationType value, DataOutputStream dos) throws IllegalArgumentException, IOException{
+		if(value == null){
+			throw new IOException("Error COER Enumeration value cannot be null");
+		}
 		writeEnumerationValue(BigInteger.valueOf(value.ordinal()), dos);
 	}
 
@@ -182,9 +185,9 @@ public class COEREncodeHelper {
 	 * @param dis the input stream to read the value from.
 	 * @return a decoded representation of the value.
 	 */
-	public static COEREnumeration readEnumeratonValueAsEnumeration(Class<COEREnumeration> enumeration, DataInputStream dis) throws IOException{
+	public static COEREnumerationType readEnumeratonValueAsEnumeration(Class<COEREnumerationType> enumeration, DataInputStream dis) throws IOException{
 		int ordinal = readEnumerationValueAsInt(dis);
-		for(COEREnumeration next : enumeration.getEnumConstants()){
+		for(COEREnumerationType next : enumeration.getEnumConstants()){
 			if(next.ordinal() == ordinal){
 				return next;
 			}
@@ -217,6 +220,22 @@ public class COEREncodeHelper {
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Error deserializing COER object during deep clone: " + e.getMessage());
 		}
+	}
+	
+	/**
+	 * Help method that inserts zero values in the beginning of array and returns an array of given size.
+	 * 
+	 */
+	public static byte[] padZerosToByteArray(byte[] data, int size){
+		if(data == null){
+			return null;
+		}
+		if(data.length < size){
+			byte[] newData = new byte[size];
+			System.arraycopy(data, 0, newData, size-data.length, data.length);
+			data = newData;
+		}
+		return data;
 	}
 	
 	/**

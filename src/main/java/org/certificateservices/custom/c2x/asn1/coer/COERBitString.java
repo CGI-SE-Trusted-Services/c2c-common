@@ -29,7 +29,7 @@ import java.math.BigInteger;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COERBitString extends COEREncodable{
+public class COERBitString implements COEREncodable{
 	
 
 	private static final long serialVersionUID = 1L;

@@ -22,11 +22,8 @@ import org.certificateservices.custom.c2x.common.Encodable;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class COEREncodable implements Encodable, Serializable{
+public interface COEREncodable extends Encodable, Serializable{
 
-	private static final long serialVersionUID = 1L;
-	
-	
 
 
 }

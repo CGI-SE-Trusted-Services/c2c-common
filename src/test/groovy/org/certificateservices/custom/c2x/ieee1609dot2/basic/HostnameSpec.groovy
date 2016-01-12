@@ -12,41 +12,41 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for Opaque
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
+class HostnameSpec extends Specification {
 
-	@Unroll
-	def "Verify constructors"(){
-		when:
-		def e1 = new CountryOnly(10)
-		
-		then:
-		serializeToHex(e1) == "000a"
-		
-		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
-		then:
-		e2.getValueAsLong() == 10
-	}
-		
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+	def "Verify that Hostname has size boundraries 0 to 255"(){
+		when:
+		def h = new Hostname()
+		
+		then:
+		h.getLowerBound() == 0
+		h.getUpperBound() == 255
+		
+		when:
+		def h2 = new Hostname("test")
+		then:
+		h2.getLowerBound() == 0
+		h2.getUpperBound() == 255
+		h2.getUTF8String() == "test"
+		
 	}
+	
+	def "Verify toString"(){
+		expect:
+		new Hostname("test").toString() == "Hostname [test]"
+	}
+	
 
 }

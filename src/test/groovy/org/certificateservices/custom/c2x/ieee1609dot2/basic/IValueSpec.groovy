@@ -21,32 +21,32 @@ import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for IValue
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
+class IValueSpec extends BaseStructSpec {
 
 	@Unroll
 	def "Verify constructors"(){
 		when:
-		def e1 = new CountryOnly(10)
+		def e1 = new IValue(10)
 		
 		then:
 		serializeToHex(e1) == "000a"
 		
 		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
+		IValue e2 = deserializeFromHex(new IValue(), "000a")
 		
 		then:
 		e2.getValueAsLong() == 10
 	}
 		
 	
-	def "Verify CountryOnly toString"(){
+	def "Verify IValue toString"(){
 		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+		new IValue(1000).toString() == "IValue [1000]"
 	}
 
 }

@@ -28,7 +28,7 @@ import java.util.Map;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COERTag extends COEREncodable{
+public class COERTag implements COEREncodable{
 
 	private static final long serialVersionUID = 1L;
 	

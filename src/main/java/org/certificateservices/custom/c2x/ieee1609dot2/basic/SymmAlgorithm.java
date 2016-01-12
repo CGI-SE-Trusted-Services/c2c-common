@@ -12,7 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import org.certificateservices.custom.c2x.asn1.coer.COEREnumeration;
+import org.certificateservices.custom.c2x.asn1.coer.COEREnumerationType;
 
 /**
  * This enumerated value indicates supported symmetric algorithms. The only symmetric algorithm supported in this version of this standard is AES-CCM as specified in 5.3.8.
@@ -24,7 +24,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREnumeration;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public enum SymmAlgorithm implements COEREnumeration {
+public enum SymmAlgorithm implements COEREnumerationType {
 	aes128Ccm;
 	
 }

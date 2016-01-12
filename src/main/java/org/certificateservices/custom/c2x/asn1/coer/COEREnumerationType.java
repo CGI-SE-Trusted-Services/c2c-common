@@ -10,43 +10,21 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.ieee1609dot2.basic
+package org.certificateservices.custom.c2x.asn1.coer;
 
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
-
-import spock.lang.Specification;
-import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Interface that all COER  Enumeration should implement.
+ * <p>
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
+public interface COEREnumerationType {
 
-	@Unroll
-	def "Verify constructors"(){
-		when:
-		def e1 = new CountryOnly(10)
-		
-		then:
-		serializeToHex(e1) == "000a"
-		
-		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
-		then:
-		e2.getValueAsLong() == 10
-	}
-		
-	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
-	}
-
+	/**
+	 * 
+	 * @return the enumeration ordinal which gives the tag number.
+	 */
+	public int ordinal();
 }

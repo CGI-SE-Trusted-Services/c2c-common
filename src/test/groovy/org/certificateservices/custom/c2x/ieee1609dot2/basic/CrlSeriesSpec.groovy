@@ -21,32 +21,32 @@ import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for CrlSeries
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
+class CrlSeriesSpec extends BaseStructSpec {
 
 	@Unroll
 	def "Verify constructors"(){
 		when:
-		def e1 = new CountryOnly(10)
+		def e1 = new CrlSeries(10)
 		
 		then:
 		serializeToHex(e1) == "000a"
 		
 		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
+		CrlSeries e2 = deserializeFromHex(new CrlSeries(), "000a")
 		
 		then:
 		e2.getValueAsLong() == 10
 	}
 		
 	
-	def "Verify CountryOnly toString"(){
+	def "Verify CrlSeries toString"(){
 		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+		new CrlSeries(1000).toString() == "CrlSeries [1000]"
 	}
 
 }

@@ -28,7 +28,7 @@ import java.util.List;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COERSequenceOf extends COEREncodable {
+public class COERSequenceOf implements COEREncodable {
 
 
 	private static final long serialVersionUID = 1L;

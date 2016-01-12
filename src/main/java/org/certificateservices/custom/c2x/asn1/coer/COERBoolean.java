@@ -25,7 +25,7 @@ import java.io.IOException;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COERBoolean extends COEREncodable{
+public class COERBoolean implements COEREncodable{
 	
 	private static final long serialVersionUID = 1L;
 	

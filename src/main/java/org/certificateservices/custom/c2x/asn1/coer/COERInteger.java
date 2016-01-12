@@ -26,7 +26,7 @@ import java.math.BigInteger;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COERInteger extends COEREncodable{
+public class COERInteger implements COEREncodable{
 	
 	private static final long serialVersionUID = 1L;
 	

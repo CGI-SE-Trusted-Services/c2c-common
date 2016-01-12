@@ -10,59 +10,57 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
+import java.util.List;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf;
+
 
 /**
- * COER encoding of a null.
+ * A sequence of type PsidSsp
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COERNull implements COEREncodable{
+public class SequenceOfPsidSsp extends COERSequenceOf {
 	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Constructor used when decoding
+	 */
+	public SequenceOfPsidSsp(){
+		super(new PsidSsp());
+	}
 	
 	/**
-	 * Constructor used when encoding/decoding a COER boolean.
+	 * Constructor used when encoding
 	 */
-	public COERNull(){
+	public SequenceOfPsidSsp(PsidSsp[] sequenceValues){
+		super(sequenceValues);
 	}
-
-	@Override
-	public int hashCode() {
-		return 1;
+	
+	/**
+	 * Constructor used when encoding
+	 */
+	public SequenceOfPsidSsp(List<PsidSsp> sequenceValues){
+		super((PsidSsp[]) sequenceValues.toArray(new PsidSsp[sequenceValues.size()]));
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
-	}
-
-
-	@Override
-	public void encode(DataOutputStream out) throws IOException {
-
-	}
-
-	@Override
-	public void decode(DataInputStream in) throws IOException {
-
-	}
+	
 
 	@Override
 	public String toString() {
-		return "COERNull []";
+		String retval = "SequenceOfPsidSsp [";
+		if(sequenceValues != null){
+			for(int i=0; i< sequenceValues.length -1;i++){
+				retval += sequenceValues[i].toString().replace("PsidSsp ", "") + ",";
+			}
+			if(sequenceValues.length > 0){
+				retval += sequenceValues[sequenceValues.length-1].toString().replace("PsidSsp ", "");
+			}
+		}
+		retval += "]";
+		return retval;
 	}
 }

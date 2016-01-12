@@ -12,41 +12,44 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
+import java.security.MessageDigest
+
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for LaId
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
-
-	@Unroll
-	def "Verify constructors"(){
-		when:
-		def e1 = new CountryOnly(10)
-		
-		then:
-		serializeToHex(e1) == "000a"
-		
-		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
-		then:
-		e2.getValueAsLong() == 10
-	}
-		
+class LaIdSpec extends BaseStructSpec {
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+	byte[] laid  = Hex.decode("0102")
+	
+
+
+	
+	def "Verify that LaId stores the data correctly"(){
+		when:
+		LaId h1 = new LaId(laid)
+		then:
+		h1.getLaId() == laid; // verify the methods returns the same data
+		h1.getLaId().length == 2
+		serializeToHex(h1) == "0102"
+		
+		when:
+		LaId h2 = deserializeFromHex(new LaId(), "0102")
+		then:
+		h2.getLaId() == laid
 	}
 
+	def "Verify toString"(){
+		expect:
+		new LaId(laid).toString() == "LaId [0102]"
+	}
 }

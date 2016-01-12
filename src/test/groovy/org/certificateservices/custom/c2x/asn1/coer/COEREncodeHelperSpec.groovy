@@ -157,13 +157,21 @@ class COEREncodeHelperSpec extends BaseStructSpec {
 		
 		when:
 		DataInputStream dis = new DataInputStream(new ByteArrayInputStream(baos.toByteArray()))
-		COEREnumeration v = COEREncodeHelper.readEnumeratonValueAsEnumeration(SymmAlgorithm.class,dis)
+		COEREnumerationType v = COEREncodeHelper.readEnumeratonValueAsEnumeration(SymmAlgorithm.class,dis)
 		then:
 		v == SymmAlgorithm.aes128Ccm
 		
 	
 	}
 	
+	def "Verify that padZerosToByteArray inserts required number of zeros in beginning of byte array"(){
+		byte[] data1 = Hex.decode("1000");
+		
+		expect:
+		COEREncodeHelper.padZerosToByteArray(null, 5) == null
+		new String(Hex.encode(COEREncodeHelper.padZerosToByteArray(data1, 5))) == "0000001000"
+		new String(Hex.encode(COEREncodeHelper.padZerosToByteArray(data1, 2))) == "1000"
+	}
 
 
 }

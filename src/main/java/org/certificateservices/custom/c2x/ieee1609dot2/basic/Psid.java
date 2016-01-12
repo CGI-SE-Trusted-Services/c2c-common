@@ -10,59 +10,48 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.asn1.coer;
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
+import java.math.BigInteger;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 
 /**
- * COER encoding of a null.
+ * This type represents the PSID defined in IEEE Std 1609.12.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COERNull implements COEREncodable{
+public class Psid extends COERInteger {
 	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Constructor used when decoding
+	 */
+	public Psid(){
+		super(BigInteger.ZERO,null);
+	}
 	
 	/**
-	 * Constructor used when encoding/decoding a COER boolean.
+	 * Constructor used when encoding
+	 * @param psidValue the integer value of the psid
 	 */
-	public COERNull(){
+	public Psid(long psidValue) {
+		super(BigInteger.valueOf(psidValue),BigInteger.ZERO,null);
 	}
-
-	@Override
-	public int hashCode() {
-		return 1;
+	
+	/**
+	 * Constructor used when encoding
+	 * @param psidValueHex psid value in hex format
+	 * @throws NumberFormatException if invalid HEX string was given.
+	 */
+	public Psid(String psidValueHex) throws NumberFormatException{
+		super(new BigInteger(psidValueHex, 16),BigInteger.ZERO,null);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
-	}
-
-
-	@Override
-	public void encode(DataOutputStream out) throws IOException {
-
-	}
-
-	@Override
-	public void decode(DataInputStream in) throws IOException {
-
-	}
-
+	
 	@Override
 	public String toString() {
-		return "COERNull []";
+		return "Psid [" + getValue().toString() + "(" + getValue().toString(16)+ ")"+ "]";
 	}
 }

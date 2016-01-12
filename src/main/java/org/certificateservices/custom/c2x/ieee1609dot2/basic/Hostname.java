@@ -10,43 +10,42 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.ieee1609dot2.basic
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
+import java.io.UnsupportedEncodingException;
 
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import org.certificateservices.custom.c2x.asn1.coer.COERUTF8String;
 
 /**
- * Test for CountryOnly
+ * This is a UTF-8 string as defined in IETF RFC 3629. The contents are determined by policy.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
-
-	@Unroll
-	def "Verify constructors"(){
-		when:
-		def e1 = new CountryOnly(10)
-		
-		then:
-		serializeToHex(e1) == "000a"
-		
-		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
-		then:
-		e2.getValueAsLong() == 10
-	}
-		
+public class Hostname extends COERUTF8String {
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Constructor used when decoding
+	 */
+	public Hostname(){
+		super(0,255);
 	}
+	
+	/**
+	 * Constructor used when encoding
+	 * 
+	 * @throws UnsupportedEncodingException if UTF 8 encoding isn't supported.
+	 */
+	public Hostname(String hostname) throws UnsupportedEncodingException{
+		super(hostname,0,255);
+	}
+
+	@Override
+	public String toString() {
+		return "Hostname [" + getUTF8String() + "]";
+	}
+	
 
 }

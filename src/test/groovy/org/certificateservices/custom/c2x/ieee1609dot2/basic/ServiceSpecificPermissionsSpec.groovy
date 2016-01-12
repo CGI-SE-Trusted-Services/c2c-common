@@ -12,41 +12,62 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
+import java.awt.Choice;
+
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
+import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey.PublicVerificationKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.ServiceSpecificPermissions.ServiceSpecificPermissionsChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature.SignatureChoices;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for ServiceSpecificPermissions
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
-
-	@Unroll
-	def "Verify constructors"(){
-		when:
-		def e1 = new CountryOnly(10)
-		
-		then:
-		serializeToHex(e1) == "000a"
-		
-		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
-		then:
-		e2.getValueAsLong() == 10
-	}
-		
+class ServiceSpecificPermissionsSpec extends BaseStructSpec {
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+	byte[] x = new BigInteger(123).toByteArray()
+	
+	@Unroll
+	def "Verify that ServiceSpecificPermissions is correctly encoded for type #choice"(){
+		when:
+		def p = new ServiceSpecificPermissions(choice, x)
+		
+		then:
+		serializeToHex(p) == encoding
+		
+		when:
+		ServiceSpecificPermissions p2 = deserializeFromHex(new ServiceSpecificPermissions(), encoding)
+		
+		then:
+		p2.getData() == x
+		p2.choice == choice
+		p2.type == choice
+		
+		where:
+		choice                                            | encoding   
+		ServiceSpecificPermissionsChoices.opaque          | "80017b"   
+		    
+
+		
 	}
+	
+
+	
+	def "Verify toString"(){
+		expect:
+		new ServiceSpecificPermissions(ServiceSpecificPermissionsChoices.opaque, x).toString() == "ServiceSpecificPermissions [opaque=[7b]]"
+	}
+	
 
 }

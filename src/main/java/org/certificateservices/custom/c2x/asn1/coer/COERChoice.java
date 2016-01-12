@@ -28,7 +28,7 @@ import java.io.IOException;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COERChoice extends COEREncodable{
+public class COERChoice implements COEREncodable{
 	
 	private static final long serialVersionUID = 1L;
 	

@@ -10,43 +10,35 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.ieee1609dot2.basic
+package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
-
-import spock.lang.Specification;
-import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * This integer identifies a series of CRLs issued under the authority of a particular CRACA.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
-
-	@Unroll
-	def "Verify constructors"(){
-		when:
-		def e1 = new CountryOnly(10)
-		
-		then:
-		serializeToHex(e1) == "000a"
-		
-		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
-		then:
-		e2.getValueAsLong() == 10
-	}
-		
+public class CrlSeries extends Uint16 {
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Constructor used when decoding
+	 */
+	public CrlSeries(){
+		super();
 	}
-
+	
+	/**
+	 * Constructor used when encoding
+	 */
+	public CrlSeries(int crlSeries) {
+		super(crlSeries);		
+	}
+	
+	@Override
+	public String toString() {
+		return "CrlSeries [" + getValueAsLong() + "]";
+	}
 }

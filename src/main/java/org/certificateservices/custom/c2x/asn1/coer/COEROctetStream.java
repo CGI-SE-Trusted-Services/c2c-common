@@ -29,7 +29,7 @@ import org.bouncycastle.util.encoders.Hex;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class COEROctetStream extends COEREncodable{
+public class COEROctetStream implements COEREncodable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -76,10 +76,10 @@ public class COEROctetStream extends COEREncodable{
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
 		
-		if(lowerBound != null && data.length < lowerBound){
+		if(data != null && lowerBound != null && data.length < lowerBound){
 			throw new IllegalArgumentException("Error given data to octed stream is less than minimal value of " + lowerBound);
 		}
-		if(upperBound != null && data.length > upperBound){
+		if(data != null && upperBound != null && data.length > upperBound){
 			throw new IllegalArgumentException("Error given data to octed stream is larger than maximal value of " + upperBound);
 		}
 	}
@@ -112,6 +112,9 @@ public class COEROctetStream extends COEREncodable{
 	public void encode(DataOutputStream out) throws IOException {
 		if(upperBound == null || lowerBound == null || upperBound != lowerBound){
 			COEREncodeHelper.writeLengthDeterminant(data.length, out);
+		}
+		if(data == null){
+			throw new IOException("Data was null in octed stream.");
 		}
 		out.write(data);
 	}

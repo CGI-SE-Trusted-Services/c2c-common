@@ -12,41 +12,44 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
+import java.security.MessageDigest
+
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for LinkageSeed
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
-
-	@Unroll
-	def "Verify constructors"(){
-		when:
-		def e1 = new CountryOnly(10)
-		
-		then:
-		serializeToHex(e1) == "000a"
-		
-		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
-		then:
-		e2.getValueAsLong() == 10
-	}
-		
+class LinkageSeedSpec extends BaseStructSpec {
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+	byte[] linkageSeed  = Hex.decode("000102030405060708090a0b0c0d0e0f")
+	
+
+
+	
+	def "Verify that LinkageSeed stores the data correctly"(){
+		when:
+		LinkageSeed h1 = new LinkageSeed(linkageSeed)
+		then:
+		h1.getLinkageSeed() == linkageSeed; // verify the methods returns the same data
+		h1.getLinkageSeed().length == 16
+		serializeToHex(h1) == "000102030405060708090a0b0c0d0e0f"
+		
+		when:
+		LinkageSeed h2 = deserializeFromHex(new LinkageSeed(), "000102030405060708090a0b0c0d0e0f")
+		then:
+		h2.getLinkageSeed() == linkageSeed
 	}
 
+	def "Verify toString"(){
+		expect:
+		new LinkageSeed(linkageSeed).toString() == "LinkageSeed [000102030405060708090a0b0c0d0e0f]"
+	}
 }

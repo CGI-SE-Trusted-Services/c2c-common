@@ -33,7 +33,7 @@ import java.util.List;
  *
  */
 
-public class COERSequence extends COEREncodable {
+public class COERSequence implements COEREncodable {
 	
 	private static final long serialVersionUID = 1L;
 	

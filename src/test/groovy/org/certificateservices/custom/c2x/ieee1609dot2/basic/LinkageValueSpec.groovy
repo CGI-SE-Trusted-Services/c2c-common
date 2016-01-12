@@ -12,41 +12,44 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
+import java.security.MessageDigest
+
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for LinkageValue
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
-
-	@Unroll
-	def "Verify constructors"(){
-		when:
-		def e1 = new CountryOnly(10)
-		
-		then:
-		serializeToHex(e1) == "000a"
-		
-		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
-		then:
-		e2.getValueAsLong() == 10
-	}
-		
+class LinkageValueSpec extends BaseStructSpec {
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+	byte[] linkagevalue  = Hex.decode("010203040506070809")
+	
+
+
+	
+	def "Verify that LinkageValue stores the data correctly"(){
+		when:
+		LinkageValue h1 = new LinkageValue(linkagevalue)
+		then:
+		h1.getLinkageValue() == linkagevalue; // verify the methods returns the same data
+		h1.getLinkageValue().length == 9
+		serializeToHex(h1) == "010203040506070809"
+		
+		when:
+		LinkageValue h2 = deserializeFromHex(new LinkageValue(), "010203040506070809")
+		then:
+		h2.getLinkageValue() == linkagevalue
 	}
 
+	def "Verify toString"(){
+		expect:
+		new LinkageValue(linkagevalue).toString() == "LinkageValue [010203040506070809]"
+	}
 }

@@ -12,41 +12,58 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
+import java.awt.Choice;
+
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
+import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.SymmetricEncryptionKey.SymmetricEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for SymmetricEncryptionKey
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
+class SymmetricEncryptionKeySpec extends BaseStructSpec {
+	
+	byte[] key = COEREncodeHelper.padZerosToByteArray(Hex.decode("0100"),16);
 
 	@Unroll
-	def "Verify constructors"(){
+	def "Verify that SymmetricEncryptionKey is correctly encoded for type #choice"(){
 		when:
-		def e1 = new CountryOnly(10)
+		def p = new SymmetricEncryptionKey(choice,key)
 		
 		then:
-		serializeToHex(e1) == "000a"
+		serializeToHex(p) == encoding
 		
 		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
+		SymmetricEncryptionKey p2 = deserializeFromHex(new SymmetricEncryptionKey(), encoding)
 		
 		then:
-		e2.getValueAsLong() == 10
-	}
-		
+		((COEROctetStream) p.value).getData() == key
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
+		p.choice == choice
+		p.type == choice
+		
+		where:
+		choice                                   | encoding   
+		SymmetricEncryptionKeyChoices.aes128Ccm  | "8000000000000000000000000000000100"     
+
+		
 	}
+	
+	def "Verify toString"(){
+		expect:
+		new SymmetricEncryptionKey(SymmetricEncryptionKeyChoices.aes128Ccm,key).toString() == "SymmetricEncryptionKey [aes128Ccm=00000000000000000000000000000100]"
+	}
+	
 
 }

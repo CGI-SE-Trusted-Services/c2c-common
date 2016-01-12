@@ -12,41 +12,58 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
-import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.IdentifiedRegion.IdentifiedRegionChoices;
 import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
+import spock.lang.IgnoreRest;
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for CountryOnly
+ * Test for all SequenceOfPsid class
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class CountryOnlySpec extends BaseStructSpec {
+class SequenceOfPsidSpec extends BaseStructSpec {
 
-	@Unroll
-	def "Verify constructors"(){
+	Psid id1 = new Psid(101)
+	Psid id2 = new Psid(64321)
+	
+	
+	def "Verify that SequenceOfPsid is initialized properly"(){
 		when:
-		def e1 = new CountryOnly(10)
-		
+		def u1 = deserializeFromHex(new SequenceOfPsid(),"0102016502fb41")
 		then:
-		serializeToHex(e1) == "000a"
+		u1.getSequenceValues()[0].getValueAsLong() == 101
+		u1.getSequenceValues()[1].getValueAsLong() == 64321
+		when:
+		def u2 = new SequenceOfPsid([id1,id2] as Psid[])
+		then:
+		u2.getSequenceValues()[0].getValueAsLong() == 101
+		u2.getSequenceValues()[1].getValueAsLong() == 64321
+		
 		
 		when:
-		CountryOnly e2 = deserializeFromHex(new CountryOnly(), "000a")
-		
+		def u3 = new SequenceOfPsid([id1,id2])
 		then:
-		e2.getValueAsLong() == 10
+		u3.getSequenceValues()[0].getValueAsLong() == 101
+		u3.getSequenceValues()[1].getValueAsLong() == 64321
 	}
+	
+	
+	def "Verify toString"(){
+		expect:
+		new SequenceOfPsid([id1,id2]).toString() == "SequenceOfPsid [[101(65)],[64321(fb41)]]"
+		new SequenceOfPsid().toString() == "SequenceOfPsid []"
+		new SequenceOfPsid([id1]).toString() == "SequenceOfPsid [[101(65)]]"
 		
 	
-	def "Verify CountryOnly toString"(){
-		expect:
-		new CountryOnly(1000).toString() == "CountryOnly [1000]"
 	}
+	
+	
+
 
 }

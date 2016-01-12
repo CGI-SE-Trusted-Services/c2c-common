@@ -22,7 +22,7 @@ import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for all Uint classes
+ * Test for all HashedIdX classes
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
