@@ -59,6 +59,44 @@ class COERBitStringSpec extends BaseStructSpec {
 		"090000fe100100fe1001"                      | 0xfe100100fe1001L       | 64           | false
 	}
 	
+	
+	def "Verify that getFlag and setFlag sets correct bits"(){
+	    when:
+		// start with all flags not set.
+		COERBitString b1 = new COERBitString(0, 8, true)
+		b1.setFlag(0,true);
+		b1.setFlag(1, false);
+		b1.setFlag(2, true);
+		then:
+		b1.bitString == 0b10100000
+		b1.getFlag(0)
+		!b1.getFlag(1)
+		b1.getFlag(2)
+		when:
+		// start with all flags not set.
+		COERBitString b2 = new COERBitString(0, 5, true)
+		b2.setFlag(0,true);
+		b2.setFlag(1, false);
+		b2.setFlag(2, true);
+		then:
+		b2.bitString == 0b10100
+		b2.getFlag(0)
+		!b2.getFlag(1)
+		b2.getFlag(2)
+		// start with all flags not set.
+		COERBitString b3 = new COERBitString(0, 15, true)
+		b3.setFlag(0,true);
+		b3.setFlag(1, false);
+		b3.setFlag(2, true);
+		b3.setFlag(9, true);
+		then:
+		b3.bitString == 0b101000000100000
+		b3.getFlag(0)
+		!b3.getFlag(1)
+		b3.getFlag(2)
+		b3.getFlag(9)
+	}
+	
 
 	def "Verify that length larger that 64  in constructor throws a IllegalArgumentException"(){
 		when:

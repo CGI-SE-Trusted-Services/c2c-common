@@ -34,10 +34,10 @@ public class COERBitString implements COEREncodable{
 
 	private static final long serialVersionUID = 1L;
 
-	private long bitString;
+	protected long bitString;
 	
-	private Integer length = null;
-	private boolean fixedSize = true;
+	protected Integer length = null;
+	protected boolean fixedSize = true;
 	
 
 	/**
@@ -58,7 +58,10 @@ public class COERBitString implements COEREncodable{
 	}
 	
 	/**
-	 * Contructor used when encoding a bit string.
+	 * Constructor used when encoding a bit string.
+	 * <p>
+	 * If setFlag methods should be used, set bitString to 0 initially and call setFlag for each position.
+	 * <p>
 	 * @param bitString the value of the string.
 	 * @param length the length of the string.
 	 * @param fixedSize if the size of the string is fixed or variable.
@@ -93,6 +96,37 @@ public class COERBitString implements COEREncodable{
 	 */
 	public Integer getLenght() {
 		return length;
+	}
+	
+	/**
+	 * Method that returns the bit at the given position
+	 * @param position position in bit string 0 and up.
+	 * @return true if bit is set.
+	 * @throws IllegalArgumentException if position is out of bounds.
+	 */
+	public boolean getFlag(int position) throws IllegalArgumentException{
+		if(position >= length){
+			throw new IllegalArgumentException("Error getting flag from bit string position is out of bounds: " + position);
+		}
+		long mask = 1 << (length - (position +1));
+		return (bitString & mask) > 0;
+	}
+	
+	/**
+	 * Method to set a given bit at the given position.
+	 * Important: This method assumes the bit is 0 before calling, cannot unset a flag.
+	 * @param int position the position of the bit to set.
+	 * @param flag true if bit at position should be set.
+	 * @throws IllegalArgumentException if position is out of bounds.
+	 */
+	public void setFlag(int position, boolean flag) throws IllegalArgumentException{
+		if(position >= length){
+			throw new IllegalArgumentException("Error setting flag from bit string position is out of bounds: " + position);
+		}
+		if(flag){
+			long mask = 1 << (length - (position +1));
+			bitString |= mask;
+		}
 	}
 	
 	/**
