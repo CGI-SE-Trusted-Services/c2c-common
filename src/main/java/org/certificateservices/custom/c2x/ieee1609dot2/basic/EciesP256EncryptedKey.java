@@ -54,6 +54,12 @@ public class EciesP256EncryptedKey extends COERSequence {
 	public EciesP256EncryptedKey(EccP256CurvePoint v, byte[] c, byte[] t){
 		super(false,3);
 		init();
+		if(c == null){
+			throw new IllegalArgumentException("Invalid argument, c cannot be null for EciesP256EncryptedKey");
+		}
+		if(t == null){
+			throw new IllegalArgumentException("Invalid argument, t cannot be null for EciesP256EncryptedKey");
+		}
 		set(V,v);
 		set(C, new COEROctetStream(c, OCTETSTRING_SIZE, OCTETSTRING_SIZE));
 		set(T, new COEROctetStream(t, OCTETSTRING_SIZE, OCTETSTRING_SIZE));

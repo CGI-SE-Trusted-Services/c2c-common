@@ -51,15 +51,15 @@ class PublicEncryptionKeySpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IOException is thrown when encoding if not all fields are set"(){
+	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new PublicEncryptionKey(SymmAlgorithm.aes128Ccm,null))
+		new PublicEncryptionKey(SymmAlgorithm.aes128Ccm,null)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new PublicEncryptionKey(null,pubKey))
+		new PublicEncryptionKey(null,pubKey)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	} 
 	
 

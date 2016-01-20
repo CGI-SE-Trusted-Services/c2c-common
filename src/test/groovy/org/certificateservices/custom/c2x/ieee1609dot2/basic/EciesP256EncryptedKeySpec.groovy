@@ -50,19 +50,19 @@ class EciesP256EncryptedKeySpec extends BaseStructSpec {
 		new BigInteger(1,k2.getT()).intValue() == 467
 	}
 	
-	def "Verify that IOException is thrown when encoding if not all fields are set"(){
+	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new EciesP256EncryptedKey(v,c,null))
+		new EciesP256EncryptedKey(v,c,null)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new EciesP256EncryptedKey(null,c,t))
+		new EciesP256EncryptedKey(null,c,t)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new EciesP256EncryptedKey(v,null,t))
+		new EciesP256EncryptedKey(v,null,t)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	} 
 	
 

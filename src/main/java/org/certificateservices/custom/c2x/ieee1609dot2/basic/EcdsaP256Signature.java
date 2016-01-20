@@ -52,6 +52,9 @@ public class EcdsaP256Signature extends COERSequence {
 	public EcdsaP256Signature(EccP256CurvePoint r, byte[] s){
 		super(false,2);
 		init();
+		if(s == null){
+			throw new IllegalArgumentException("Error s value cannot be null in EcdsaP256Signature");
+		}
 		set(R, r);
 		set(S, new COEROctetStream(s, OCTETSTRING_SIZE, OCTETSTRING_SIZE));
 	}

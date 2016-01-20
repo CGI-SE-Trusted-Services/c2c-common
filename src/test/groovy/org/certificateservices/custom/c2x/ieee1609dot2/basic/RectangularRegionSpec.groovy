@@ -50,15 +50,15 @@ class RectangularRegionSpec extends BaseStructSpec {
 		thrown IllegalArgumentException
 	}
 	
-	def "Verify that all fields must be set or IOException is thrown when encoding"(){
+	def "Verify that all fields must be set or IllegalArgumentException is thrown when encoding"(){
 		when:
-		serializeToHex(new RectangularRegion(l1, null))
+		new RectangularRegion(l1, null)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new RectangularRegion(null, l2))
+		new RectangularRegion(null, l2)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	}
 	
 	def "Verify toString"(){

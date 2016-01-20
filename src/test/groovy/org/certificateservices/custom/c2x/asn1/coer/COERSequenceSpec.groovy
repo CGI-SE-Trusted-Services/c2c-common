@@ -32,6 +32,8 @@ class COERSequenceSpec extends BaseStructSpec {
 	@Shared COERSequence seq2Empty = new COERSequence(false, 3)
 	@Shared COERSequence seq3 = new COERSequence(false, 31)
 	@Shared COERSequence seq3Empty = new COERSequence(false, 31)
+	@Shared COERSequence seq4WithExtension = new COERSequence(true, 3)
+	@Shared COERSequence seq4WithExtensionEmpty = new COERSequence(true, 3)
 	
 	def setupSpec(){
 		noOptional.addField(0, new COERInteger(5), false, new COERInteger(), null)
@@ -116,6 +118,13 @@ class COERSequenceSpec extends BaseStructSpec {
 		seq3Empty.addField(28, true, new COERInteger(), null)
 		seq3Empty.addField(29, true, new COERInteger(), null)
 		seq3Empty.addField(30, true, new COERInteger(), null)
+		
+		seq4WithExtension.addField(0, new COERInteger(5), false, new COERInteger(), null)
+		seq4WithExtension.addField(1, new COERInteger(6), true, new COERInteger(), null)
+		seq4WithExtension.addField(2, new COERInteger(7), false, new COERInteger(), null)
+		seq4WithExtensionEmpty.addField(0, null, false, new COERInteger(), null)
+		seq4WithExtensionEmpty.addField(1, null, true, new COERInteger(), null)
+		seq4WithExtensionEmpty.addField(2, null, false, new COERInteger(), null)
 	}
 	
 	@Unroll
@@ -133,11 +142,12 @@ class COERSequenceSpec extends BaseStructSpec {
 		}
 		
 		where:
-		encoded                                                                                        | sequence   | emptySeq   
-		"01050106"                       															   | noOptional | noOptionalEmpty
-		"40010501060107"                                                                               | seq1       | seq1Empty 
-		"5001050107"                                                                                   | seq2       | seq2Empty
-		"5b6db6db0100010201030105010601080109010b010c010e010f011101120114011501170118011a011b011d011e" | seq3       | seq3Empty
+		encoded                                                                                        | sequence          | emptySeq   
+		"01050106"                       															   | noOptional        | noOptionalEmpty
+		"80010501060107"                                                                               | seq1              | seq1Empty 
+		"a001050107"                                                                                   | seq2              | seq2Empty
+		"b6db6db60100010201030105010601080109010b010c010e010f011101120114011501170118011a011b011d011e" | seq3              | seq3Empty
+		"40010501060107"                                                                               | seq4WithExtension | seq4WithExtensionEmpty
 	}
 	
 	def "Verify that set and get and size returns the correct values"(){
@@ -153,20 +163,14 @@ class COERSequenceSpec extends BaseStructSpec {
 		seq1.set(1,  new COERInteger(6))
 	}
 	
-	def "Verify that using extensions i constructor or encoding thrown IOException because it's not supported"(){
+	def "Verify that set throws IllegalArgumentException if required field value is null"(){
 		when:
-		COERSequence seq = new COERSequence(true, 1)
-		seq.addField(0, true, new COERInteger(), null)
-		serializeToHex(seq)
+		noOptional.set(0, null)
 		then:
-		thrown IOException
-		
-		when:
-		deserializeFromHex(seq2Empty, "D001050107")
-		
-		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	}
+	
+	
 
 	def "Verify that default value is returned if optional is set and exists"(){
 		setup:

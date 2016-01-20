@@ -50,15 +50,15 @@ class TwoDLocationSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IOException is thrown when encoding if not all fields are set"(){
+	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new TwoDLocation(lat,null))
+		new TwoDLocation(lat,null)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new TwoDLocation(null,lon))
+		new TwoDLocation(null,lon)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	} 
 	
 	def "Verify that IllegalArgumentException is thrown if UNKNOWN is used as latitude or longitude"(){

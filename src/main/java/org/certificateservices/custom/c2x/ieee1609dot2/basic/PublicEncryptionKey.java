@@ -44,6 +44,9 @@ public class PublicEncryptionKey extends COERSequence {
 	public PublicEncryptionKey(SymmAlgorithm symmAlgorithm, BasePublicEncryptionKey publicKey){
 		super(false,2);
 		init();
+		if(symmAlgorithm == null){
+			throw new IllegalArgumentException("Illegal argument: symmAlgorithm cannot be null for PublicEncryptionKey");
+		}
 		set(SUPPORTEDSYMMALG, new COEREnumeration(symmAlgorithm));
 		set(PUBLICKEY, publicKey);
 	}

@@ -17,61 +17,49 @@ import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointT
 import static org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm.*
 
 import java.security.AlgorithmParameters
-import java.security.GeneralSecurityException;
+import java.security.GeneralSecurityException
 import java.security.KeyFactory
 import java.security.KeyPair
 import java.security.KeyPairGenerator
-import java.security.NoSuchAlgorithmException;
-import java.security.Provider;
 import java.security.SecureRandom
-import java.security.SignatureException;
 import java.security.interfaces.ECPublicKey
 import java.security.spec.ECGenParameterSpec
 import java.security.spec.ECPoint
 import java.security.spec.ECPublicKeySpec
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
 
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
 import org.bouncycastle.util.encoders.Hex
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.BaseStructSpec
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType
 import org.certificateservices.custom.c2x.its.datastructs.basic.EcdsaSignature
-import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
+import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm
 import org.certificateservices.custom.c2x.its.datastructs.basic.Signature
-import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
-import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType;
-import org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm;
+import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType
+import org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm
 import org.certificateservices.custom.c2x.its.datastructs.basic.Time32
-import org.certificateservices.custom.c2x.its.datastructs.basic.Time64;
-import org.certificateservices.custom.c2x.its.datastructs.basic.Time64WithStandardDeviation;
+import org.certificateservices.custom.c2x.its.datastructs.basic.Time64
+import org.certificateservices.custom.c2x.its.datastructs.basic.Time64WithStandardDeviation
 import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectInfo
-import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectType
-import org.certificateservices.custom.c2x.its.datastructs.msg.EciesNistP256EncryptedKey;
-import org.certificateservices.custom.c2x.its.datastructs.msg.RecipientInfo
-import org.certificateservices.custom.c2x.its.datastructs.msg.HeaderField;
-import org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldType;
-import org.certificateservices.custom.c2x.its.datastructs.msg.MessageType;
+import org.certificateservices.custom.c2x.its.datastructs.msg.EciesNistP256EncryptedKey
+import org.certificateservices.custom.c2x.its.datastructs.msg.HeaderField
+import org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldType
+import org.certificateservices.custom.c2x.its.datastructs.msg.MessageType
 import org.certificateservices.custom.c2x.its.datastructs.msg.Payload
-import org.certificateservices.custom.c2x.its.datastructs.msg.PayloadType;
+import org.certificateservices.custom.c2x.its.datastructs.msg.PayloadType
+import org.certificateservices.custom.c2x.its.datastructs.msg.RecipientInfo
 import org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessage
 import org.certificateservices.custom.c2x.its.datastructs.msg.TrailerField
 import org.certificateservices.custom.c2x.its.generator.AuthorityCertGenerator
 import org.certificateservices.custom.c2x.its.generator.AuthorizationTicketCertGenerator
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManager;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
-import spock.lang.IgnoreRest;
 import spock.lang.Shared
 import spock.lang.Unroll
-import sun.security.jca.Providers;
 
 /**
  *

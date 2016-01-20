@@ -76,7 +76,7 @@ class SubjectPermissionsSpec extends BaseStructSpec {
 		
 		where:
 		choice                                              | value   | encoding   
-		SubjectPermissionsChoices.explicit	                | perms   | "800102400165814002fb41800102057465737431057465737432"   
+		SubjectPermissionsChoices.explicit	                | perms   | "800102800165818002fb41800102057465737431057465737432"   
 		SubjectPermissionsChoices.all                       | null    | "81"      
 	}
 

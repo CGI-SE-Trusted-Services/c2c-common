@@ -36,7 +36,6 @@ class ThreeDLocationSpec extends BaseStructSpec {
 	
 	Elevation e = new Elevation(10)
 	
-	
 	def "Verify that constructor and getters are correct and it is correctly encoded"(){
 		when:
 		ThreeDLocation td1 = new ThreeDLocation(lat,lon,e)
@@ -51,19 +50,19 @@ class ThreeDLocationSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IOException is thrown when encoding if not all fields are set"(){
+	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new ThreeDLocation(lat,null,e))
+		new ThreeDLocation(lat,null,e)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new ThreeDLocation(lat,lon,null))
+		new ThreeDLocation(lat,lon,null)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new ThreeDLocation(null,lon,e))
+		new ThreeDLocation(null,lon,e)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	}
 	
 	def "Verify toString"(){

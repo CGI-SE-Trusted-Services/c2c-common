@@ -42,15 +42,15 @@ class CountryAndRegionsSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that all fields must be set or IOException is thrown when encoding"(){
+	def "Verify that all fields must be set or IllegalArgumentException is thrown when encoding"(){
 		when:
-		serializeToHex(new CountryAndRegions(new CountryOnly(5), null))
+		new CountryAndRegions(new CountryOnly(5), null)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
 		serializeToHex(new CountryAndRegions(null, regions))
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	}
 	
 	def "Verify toString"(){

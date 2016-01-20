@@ -41,9 +41,9 @@ class PsidSspRangeSpec extends BaseStructSpec {
 		when:
 		PsidSspRange p1 = new PsidSspRange(psid,ssprange)
 		then:
-		serializeToHex(p1) == "40017b81"
+		serializeToHex(p1) == "80017b81"
 		when:
-		PsidSspRange p2 = deserializeFromHex(new PsidSspRange(), "40017b81")
+		PsidSspRange p2 = deserializeFromHex(new PsidSspRange(), "80017b81")
 		then:
 		p2.getSSPRange() == ssprange
 		p2.getPsid() == psid
@@ -58,11 +58,11 @@ class PsidSspRangeSpec extends BaseStructSpec {
 		p4.getPsid() == psid
 	}
 	
-	def "Verify that IOException is thrown when encoding if not all fields are set"(){
+	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new PsidSspRange(null,ssprange))
+		new PsidSspRange(null,ssprange)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	} 
 	
 

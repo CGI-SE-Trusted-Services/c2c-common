@@ -43,15 +43,15 @@ class ValidityPeriodSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that both start and duration have to be set or IOException is thrown when encoding"(){
+	def "Verify that both start and duration have to be set or IllegalArgumentException is thrown when encoding"(){
 		when:
-		serializeToHex(new ValidityPeriod(null, duration))
+		new ValidityPeriod(null, duration)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new ValidityPeriod(start, null))
+		new ValidityPeriod(start, null)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	}
 	
 	def "Verify toString"(){

@@ -51,15 +51,15 @@ class EcdsaP256SignatureSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IOException is thrown when encoding if not all fields are set"(){
+	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new EcdsaP256Signature(r,null))
+		new EcdsaP256Signature(r,null)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 		when:
-		serializeToHex(new EcdsaP256Signature(null,s))
+		new EcdsaP256Signature(null,s)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	} 
 	
 

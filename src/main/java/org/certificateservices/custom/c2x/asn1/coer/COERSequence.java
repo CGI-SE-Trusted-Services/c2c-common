@@ -12,6 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,7 +27,6 @@ import java.util.List;
  * <p>
  * To create a sequence for create it with a given size, then construct it by adding fields, it's later possible to set values of fields at  given position.
  * 
- * <b>Important, currently is not extensions supported</b>
  * <p>
  * For more information see ISO/IEC 8825-7:2015 Section 16
  * 
@@ -35,12 +36,15 @@ import java.util.List;
 
 public class COERSequence implements COEREncodable {
 	
+	// TODO Extention fields isn't properly tested.
+	
 	private static final long serialVersionUID = 1L;
 	
 	public static final COEREncodable NO_DEFAULT = null;
 	
 	boolean hasExtension;
 	List<Field> sequenceValues;
+	List<Field> extensionValues;
 	
 	/**
 	 * Constructor used for both encoding and decoding.
@@ -50,6 +54,7 @@ public class COERSequence implements COEREncodable {
 	public COERSequence(boolean hasExtension, int size){
 		this.hasExtension = hasExtension;
 		sequenceValues = new ArrayList<Field>(size);
+		extensionValues = new ArrayList<Field>();
 	}
 	
 	/**
@@ -59,6 +64,7 @@ public class COERSequence implements COEREncodable {
 	public COERSequence(boolean hasExtension){
 		this.hasExtension = hasExtension;
 		sequenceValues = new ArrayList<Field>();
+		extensionValues = new ArrayList<Field>();
 	}
 
 	/**
@@ -71,6 +77,18 @@ public class COERSequence implements COEREncodable {
 	 */
 	public void addField(int position,  boolean optional, COEREncodable emptyValue, COEREncodable defaultValue){
 		sequenceValues.add(position,new Field(null, optional, emptyValue, defaultValue));
+	}
+	
+	/**
+	 * Adds a extension to the sequence structure when the value is currently not known.
+	 * 
+	 * @param position the position of the extension.
+	 * @param optional true if this extension is optional or required
+	 * @param emptyValue empty version of the COEREncodable containing the constraints but no value. (Required)
+	 * @param defaultValue default value if extension is optional but no value is set. (Optional, use NO_DEFAULT for no default value)
+	 */
+	public void addExtension(int position,  boolean optional, COEREncodable emptyValue, COEREncodable defaultValue){
+		extensionValues.add(position,new Field(null, optional, emptyValue, defaultValue));
 	}
 	
 	/**
@@ -87,11 +105,31 @@ public class COERSequence implements COEREncodable {
 	}
 	
 	/**
+	 * Adds a extension to the sequence structure when the value is known.
+	 * 
+	 * @param position the position of the extension.
+	 * @param optional true if this extension is optional or required
+	 * @param emptyValue empty version of the COEREncodable containing the constraints but no value. (Required)
+	 * @param defaultValue default value if extension is optional but no value is set. (Optional, use NO_DEFAULT for no default value)
+	 */
+	public void addExtension(int position,  COEREncodable value,boolean optional, COEREncodable emptyValue, COEREncodable defaultValue){
+		extensionValues.add(position,new Field(value, optional, emptyValue, defaultValue));
+	}
+	
+	/**
 	 * 
 	 * @return the size of this sequence.
 	 */
 	public int size(){
 		return sequenceValues.size();
+	}
+	
+	/**
+	 * 
+	 * @return the size of sequence extensions.
+	 */
+	public int extensionsSize(){
+		return extensionValues.size();
 	}
 	
 	/**
@@ -103,6 +141,25 @@ public class COERSequence implements COEREncodable {
 		Field f = sequenceValues.get(position);
 		if(f==null){
 			throw new IllegalArgumentException("Error no field exist for COER sequence with position " + position);
+		}
+		if(value == null && f.optional == false){
+			throw new IllegalArgumentException("Error field at position " + position + " cannot be null.");
+		}
+		f.value = value;
+	}
+	
+	/**
+	 * Method to set the extension at a given position in the COER Sequence.
+	 * @param position position to set the value at.
+	 * @param value the value to set.
+	 */
+	public void setExtension(int position, COEREncodable value){
+		Field f = extensionValues.get(position);
+		if(f==null){
+			throw new IllegalArgumentException("Error no extension exist for COER sequence with position " + position);
+		}
+		if(value == null && f.optional == false){
+			throw new IllegalArgumentException("Error field at position " + position + " cannot be null.");
 		}
 		f.value = value;
 	}
@@ -119,19 +176,27 @@ public class COERSequence implements COEREncodable {
 	}
 	
 	/**
+	 * Method that retrieves the value at a given position, if optional and default extension is set it will be returned if no value exists at given position, otherwise null.
+	 */
+	public COEREncodable getExtension(int position){
+		Field f = extensionValues.get(position);
+		if(f.value == null){
+			return f.defaultValue;
+		}
+		return f.value;
+	}
+	
+	/**
 	 * @return if the sequence has extensions (currently not supported).
 	 */
 	public boolean getHasExtension(){
 		return hasExtension;
 	}
-	
 
 
 	@Override
 	public void encode(DataOutputStream out) throws IOException {
-		if(hasExtension){
-			throw new IOException("Support for COER Sequence extensions is currently not supported");
-		}
+
 		
 		writePreAmple(out);
 		for(Field f : sequenceValues){
@@ -144,23 +209,61 @@ public class COERSequence implements COEREncodable {
 			}
 		}
 		
-		// Extensitons here
+		if(hasExtension && extensionValues.size()>0){
+		    writeExtensionPresenseMap(out);
+		    for(Field extensionValue: extensionValues){
+		    	if(extensionValue.value != null){
+		    		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		    		DataOutputStream extOut = new DataOutputStream(baos);
+		    		extensionValue.value.encode(extOut);
+		    		COEROctetStream cos = new COEROctetStream(baos.toByteArray());
+		    		cos.encode(out);
+		    	}
+		    }
+		}
+		
 	}
 
+
+	private void writeExtensionPresenseMap(DataOutputStream out) throws IOException {
+		List<Field> optionalFields = getOptionalExtensions();
+		if(optionalFields.size() > 0){
+			long presenseMap = 0;
+			for(int i=0; i< optionalFields.size()-1;i++){
+				if(optionalFields.get(i).value != null){
+					presenseMap++;
+				}
+				presenseMap = presenseMap << 1;
+			}
+			if(optionalFields.get(optionalFields.size()-1).value != null){
+				presenseMap++;
+			}
+			COERBitString bitString = new COERBitString(presenseMap, optionalFields.size() + (hasExtension? 1 : 0), false);
+			bitString.encode(out);
+		}
+	}
 
 	private void writePreAmple(DataOutputStream out) throws IOException {
 		
 		List<Field> optionalFields = getOptionalFields();
 		if(hasExtension || optionalFields.size() > 0){
-			long preamble = hasExtension ? 1:0;
-			for(Field optionalField : optionalFields){
-				preamble = preamble << 1;
-				if(optionalField.value != null){
+			long preamble = 0;
+			if(hasExtension){
+			  if(extensionValues.size() > 0){
+				  preamble++;
+			  }
+			  preamble = preamble << 1;
+			}
+			for(int i=0; i< optionalFields.size()-1;i++){
+				if(optionalFields.get(i).value != null){
 					preamble++;
 				}
+				preamble = preamble << 1;
 			}
-
-			COERBitString bitString = new COERBitString(preamble, optionalFields.size() + 1, true);
+			if(optionalFields.size() > 0 && optionalFields.get(optionalFields.size()-1).value != null){
+				preamble++;
+			}
+			COERBitString bitString = new COERBitString(preamble, optionalFields.size() + (hasExtension? 1 : 0), true);
 			bitString.encode(out);
 		}
 	}
@@ -175,10 +278,7 @@ public class COERSequence implements COEREncodable {
 			f.exists = (preAmple % 2 == 1);
 			preAmple = preAmple >>> 1;
 		}
-		hasExtension = (preAmple % 2 == 1);
-		if(hasExtension){
-			throw new IOException("Support for COER Sequence extensions is currently not supported");
-		}
+		boolean readExtensions = (preAmple % 2 == 1);
 		
 		for(Field f : sequenceValues){
 			if(!f.optional || f.exists){
@@ -187,12 +287,46 @@ public class COERSequence implements COEREncodable {
 			}
 		}
 		
-		// Extensitons here
+		if(readExtensions){
+			List<Field> extensionFields = getOptionalExtensions();
+		    long extensionPresense = readExtensionPresenseMap(in,extensionFields);
+		    
+			for(int i=extensionFields.size()-1; i>=0; i--){
+				Field f = extensionFields.get(i);
+				f.exists = (extensionPresense % 2 == 1);
+				extensionPresense = extensionPresense >>> 1;
+			}
+			
+			for(Field f : extensionFields){
+				if(!f.optional || f.exists){
+					
+					COEROctetStream cos = new COEROctetStream();
+					cos.decode(in);
+					
+					ByteArrayInputStream bais = new ByteArrayInputStream(cos.data);
+					DataInputStream dis = new DataInputStream(bais);
+
+					f.emptyValue.decode(dis);
+					f.value = f.emptyValue;
+				}
+			}
+			
+		}
 	}
 	
+	private long readExtensionPresenseMap(DataInputStream in, List<Field> optionalExtensions) throws IOException {
+		if(optionalExtensions.size() > 0){
+			COERBitString bitString = new COERBitString();
+			bitString.decode(in);
+			return bitString.getBitString();
+		}else{
+			return 0;
+		}
+	}
+
 	public long readPreAmple(DataInputStream in, List<Field> optionalFields) throws IOException {
 		if(hasExtension || optionalFields.size() > 0){
-			COERBitString bitString = new COERBitString(optionalFields.size() +1);
+			COERBitString bitString = new COERBitString(optionalFields.size() + (hasExtension? 1 : 0));
 			bitString.decode(in);
 			return bitString.getBitString();
 		}else{
@@ -203,6 +337,16 @@ public class COERSequence implements COEREncodable {
 	private List<Field> getOptionalFields(){
 		List<Field> retval = new ArrayList<Field>();
 		for(Field f : sequenceValues){
+			if(f.optional){
+				retval.add(f);
+			}
+		}
+		return retval;
+	}
+	
+	private List<Field> getOptionalExtensions(){
+		List<Field> retval = new ArrayList<Field>();
+		for(Field f : extensionValues){
 			if(f.optional){
 				retval.add(f);
 			}

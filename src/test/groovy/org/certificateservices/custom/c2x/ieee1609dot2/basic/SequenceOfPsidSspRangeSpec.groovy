@@ -44,7 +44,7 @@ class SequenceOfPsidSspRangeSpec extends BaseStructSpec {
 	
 	def "Verify that SequenceOfPsidSspRange is initialized properly"(){
 		when:
-		def u1 = deserializeFromHex(new SequenceOfPsidSspRange(),"0102400165814002fb41800102057465737431057465737432")
+		def u1 = deserializeFromHex(new SequenceOfPsidSspRange(),"0102800165818002fb41800102057465737431057465737432")
 		then:
 		u1.getSequenceValues()[0] == psr1
 		u1.getSequenceValues()[1] == psr2

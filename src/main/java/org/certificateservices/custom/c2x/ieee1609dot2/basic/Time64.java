@@ -72,7 +72,7 @@ public class Time64 extends Uint64 {
 	 */
 	public Date asDate(){
 		long elapsedTime = this.value.divide(new BigInteger("1000000")).longValue();
-		int nanoSeconds = this.value.remainder(new BigInteger("1000000")).intValue();
+		int nanoSeconds = this.value.remainder(new BigInteger("1000000")).intValue() * 1000;
 		Moment m = Moment.of(elapsedTime + SECONDSBETWEENTAIZEROAND2004,nanoSeconds, TimeScale.TAI);
 		return TemporalType.JAVA_UTIL_DATE.from(m);
 	}

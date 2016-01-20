@@ -47,8 +47,8 @@ class SequenceOfIdentifiedRegionSpec extends BaseStructSpec {
 		when:
 		def u3 = new SequenceOfIdentifiedRegion([ir1,ir2])
 		then:
-		u2.getSequenceValues()[0].getValue().getValueAsLong() == 4
-		u2.getSequenceValues()[1].getValue().getValueAsLong() == 5
+		u3.getSequenceValues()[0].getValue().getValueAsLong() == 4
+		u3.getSequenceValues()[1].getValue().getValueAsLong() == 5
 	}
 	
 	

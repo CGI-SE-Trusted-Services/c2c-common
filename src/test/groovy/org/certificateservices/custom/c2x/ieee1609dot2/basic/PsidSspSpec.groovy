@@ -41,9 +41,9 @@ class PsidSspSpec extends BaseStructSpec {
 		when:
 		PsidSsp p1 = new PsidSsp(psid,ssp)
 		then:
-		serializeToHex(p1) == "40017b801e0000000000000000000000000000000000000000000000000000000000f5"
+		serializeToHex(p1) == "80017b801e0000000000000000000000000000000000000000000000000000000000f5"
 		when:
-		PsidSsp p2 = deserializeFromHex(new PsidSsp(), "40017b801e0000000000000000000000000000000000000000000000000000000000f5")
+		PsidSsp p2 = deserializeFromHex(new PsidSsp(), "80017b801e0000000000000000000000000000000000000000000000000000000000f5")
 		then:
 		p2.getSSP() == ssp
 		p2.getPsid() == psid
@@ -58,11 +58,11 @@ class PsidSspSpec extends BaseStructSpec {
 		p4.getPsid() == psid
 	}
 	
-	def "Verify that IOException is thrown when encoding if not all fields are set"(){
+	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new PsidSsp(null,ssp))
+		new PsidSsp(null,ssp)
 		then:
-		thrown IOException
+		thrown IllegalArgumentException
 	} 
 	
 
