@@ -10,7 +10,7 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.ieee1609dot2.enc;
+package org.certificateservices.custom.c2x.ieee1609dot2.p2p;
 
 import java.io.IOException;
 
@@ -19,53 +19,65 @@ import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 
 /**
- * This data structure encapsulates a ciphertext generated with an approved symmetric algorithm.
- * <p>
- * <b>Critical information fields:</b> If present, this is a critical information field as defined in 5.2.5. An implementation that does not 
- * recognize the indicated CHOICE value for this type in an encrypted SPDU shall reject the SPDU as invalid.
+ * This data structure defines the content choice structure in Ieee1609dot2Peer2PeerPDU.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class SymmetricCiphertext extends COERChoice {
+public class Ieee1609dot2Peer2PeerPDUContent extends COERChoice {
 	
 	
 	private static final long serialVersionUID = 1L;
 	
-	public enum SymmetricCiphertextChoices implements COERChoiceEnumeration{
-		aes128ccm;
+	public enum Ieee1609dot2Peer2PeerPDUContentChoices implements COERChoiceEnumeration{
+		caCerts,
+		crl;
 
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
-	      return new AesCcmCiphertext();
+	      switch (this) {
+		case caCerts:
+			return new CaCertP2pPDU();
+		case crl:
+		default:
+			return new CrlP2pPDU();
+		}
 		}
 	}
 	
 	/**
-	 * Constructor used when encoding of type aes128ccm
+	 * Constructor used when encoding of type caCerts
 	 */
-	public SymmetricCiphertext(AesCcmCiphertext cipherText) throws IllegalArgumentException{
-		super(SymmetricCiphertextChoices.aes128ccm, cipherText);
+	public Ieee1609dot2Peer2PeerPDUContent(CaCertP2pPDU caCertP2pPDU) throws IllegalArgumentException{
+		super(Ieee1609dot2Peer2PeerPDUContentChoices.caCerts, caCertP2pPDU);
 	}
 	
 
 	/**
-	 * Constructor used when decoding.
+	 * Constructor used when decoding and encoding crl
 	 */
-	public SymmetricCiphertext() {
-		super(SymmetricCiphertextChoices.class);
+	public Ieee1609dot2Peer2PeerPDUContent() {
+		super(Ieee1609dot2Peer2PeerPDUContentChoices.crl, new CrlP2pPDU());
+		choiceEnum = Ieee1609dot2Peer2PeerPDUContentChoices.class;
 	}
 		
 	/**
 	 * Returns the type of id.
 	 */
-	public SymmetricCiphertextChoices getType(){
-		return (SymmetricCiphertextChoices) choice;
+	public Ieee1609dot2Peer2PeerPDUContentChoices getType(){
+		return (Ieee1609dot2Peer2PeerPDUContentChoices) choice;
 	}
 
 	@Override
 	public String toString() {
-		return "SymmetricCiphertext [" + choice + "=" + value.toString().replace("AesCcmCiphertext ", "") +"]";
+	      switch (getType()) {
+		case caCerts:
+			return "Ieee1609dot2Peer2PeerPDUContent [" + choice + "=" + value.toString().replace("CaCertP2pPDU ", "") +"]";
+		case crl:
+		default:
+			return "Ieee1609dot2Peer2PeerPDUContent [" + choice + "]";
+		}
+		
 	}
 	
 }
