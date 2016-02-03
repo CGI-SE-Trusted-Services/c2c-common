@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.certificateservices.custom.c2x.common.Encodable;
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
@@ -53,9 +53,9 @@ public abstract class BaseCertGenerator {
 	
 	protected static final int DEFAULT_CERT_VERSION = 1;
 	
-	CryptoManager cryptoManager = null;
+	ITSCryptoManager cryptoManager = null;
 	
-	public BaseCertGenerator(CryptoManager cryptoManager){
+	public BaseCertGenerator(ITSCryptoManager cryptoManager){
 		this.cryptoManager = cryptoManager;
 	}
 	

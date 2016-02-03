@@ -10,35 +10,17 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.its.crypto;
+package org.certificateservices.custom.c2x.common.crypto;
 
 /**
- * Exception thrown by CryptoManager if a signature cannot be verified.
+ * Interface that all cryptograpic key algorithms enumerations should implement in order
+ * to be used with the CryptoManager
  * 
- * @author Philip Vendil
+ * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class InvalidITSSignatureException extends Exception {
-
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Exception thrown by CryptoManager if a signature cannot be verified.
-	 * 
-	 * @param message
-	 * @param cause
-	 */
-	public InvalidITSSignatureException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	/**
-	 * Exception thrown by CryptoManager if a signature cannot be verified.
-	 * 
-	 * @param message
-	 */
-	public InvalidITSSignatureException(String message) {
-		super(message);
-	}
+public interface AlgorithmIndicator {
+	
+	Algorithm getAlgorithm();
 
 }

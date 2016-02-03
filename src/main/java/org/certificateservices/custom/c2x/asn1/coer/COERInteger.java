@@ -271,7 +271,7 @@ public class COERInteger implements COEREncodable{
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof COERInteger))
 			return false;
 		COERInteger other = (COERInteger) obj;
 		if (value == null) {

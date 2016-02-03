@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COEREnumerationType;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 
 /**
  * This structure identifies a hash algorithm. The only value currently supported is sha256, indicating SHA-256 as specified in 5.3.3.
@@ -23,8 +25,13 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREnumerationType;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public enum HashAlgorithm implements COEREnumerationType {
+public enum HashAlgorithm implements COEREnumerationType, AlgorithmIndicator {
 	sha256;
+
+	@Override
+	public Algorithm getAlgorithm() {
+		return new Algorithm(null,null,null,Algorithm.Hash.sha256);
+	}
 
 
 	

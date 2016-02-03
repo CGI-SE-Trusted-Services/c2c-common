@@ -21,7 +21,7 @@ import java.security.SignatureException;
 import java.util.Date;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
@@ -50,7 +50,7 @@ public class AuthorizationTicketCertGenerator extends BaseCertGenerator {
 	 * @param authorizationCAPrivateKey the private key of the authorization CA.
 	 * 
 	 */
-	public AuthorizationTicketCertGenerator(CryptoManager cryptoManager, Certificate authorizationCA, PrivateKey authorizationCAPrivateKey) {
+	public AuthorizationTicketCertGenerator(ITSCryptoManager cryptoManager, Certificate authorizationCA, PrivateKey authorizationCAPrivateKey) {
 		super(cryptoManager);
 		this.authorizationCA = authorizationCA;
 		this.authorizationCAPrivateKey = authorizationCAPrivateKey;

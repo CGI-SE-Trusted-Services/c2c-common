@@ -12,6 +12,12 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.crl.basic;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.CrlSeries;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.HashedId8;
@@ -85,6 +91,19 @@ public class CrlContents extends COERSequence {
 		set(PRIORITYINFO, priorityInfo);
 		set(TYPESPECIFIC, typeSpecific);
 	}
+	
+	/**
+	 * Constructor decoding a CrlContents from an encoded byte array.
+	 * @param encodedData byte array encoding of the CrlContents.
+	 * @throws IOException   if communication problems occurred during serialization.
+	 */
+	public CrlContents(byte[] encodedData) throws IOException{
+		super(false,7);
+		init();
+		
+		DataInputStream dis = new DataInputStream(new  ByteArrayInputStream(encodedData));
+		decode(dis);
+	}
 
 	/**
 	 * 
@@ -141,6 +160,19 @@ public class CrlContents extends COERSequence {
 	 */
 	public CrlContentsType getTypeSpecific(){
 		return (CrlContentsType) get(TYPESPECIFIC);
+	}
+	
+	/**
+	 * Encodes the CrlContents as a byte array.
+	 * 
+	 * @return return encoded version of the CrlContents as a byte[] 
+	 * @throws IOException if encoding problems of the data occurred.
+	 */
+	public byte[] getEncoded() throws IOException{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(baos);
+		encode(dos);
+		return baos.toByteArray();		
 	}
 	
 	private void init(){

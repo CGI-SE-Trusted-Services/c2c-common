@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.secureddata
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.CrlSeries
@@ -44,7 +45,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.enc.SequenceOfRecipientIn
 import org.certificateservices.custom.c2x.ieee1609dot2.enc.SymmetricCiphertext;
 import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.HashedData.HashedDataChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 import org.junit.Ignore;
 
 import spock.lang.IgnoreRest;
@@ -188,8 +188,7 @@ class CountersignatureSpec extends BaseStructSpec {
 		SignerIdentifier signer = new SignerIdentifier(h)
 		ToBeSignedData tbsData = new ToBeSignedData(payload,hi)
 		
-		byte[] x = new BigInteger(123).toByteArray()
-		EccP256CurvePoint r = new EccP256CurvePoint(EccP256CurvePointChoices.xonly,x)
+		EccP256CurvePoint r = new EccP256CurvePoint(new BigInteger(123))
 		byte[] s = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),32)
 		Signature signature = new Signature(SignatureChoices.ecdsaNistP256Signature, new EcdsaP256Signature(r,s))
 		

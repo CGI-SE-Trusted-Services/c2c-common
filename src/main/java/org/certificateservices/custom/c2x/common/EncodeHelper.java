@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
-import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 
 /**
  * Helper class for encoding and decoding ITS data structures.
@@ -85,21 +84,23 @@ public class EncodeHelper {
     	return retval;
 	}
 	
-	public static void writeFixedFieldSizeKey(PublicKeyAlgorithm publicKeyAlgorithm, OutputStream out, BigInteger keyValue) throws UnsupportedOperationException, IOException{
+	public static void writeFixedFieldSizeKey(int fieldSize, OutputStream out, BigInteger keyValue) throws UnsupportedOperationException, IOException{
 		byte[] valueByteArray = keyValue.toByteArray();
-		if(valueByteArray.length < publicKeyAlgorithm.getFieldSize()){
-			out.write(new byte[publicKeyAlgorithm.getFieldSize() - valueByteArray.length]);
+		if(valueByteArray.length < fieldSize){
+			out.write(new byte[fieldSize - valueByteArray.length]);
 		}
-		if(valueByteArray.length > publicKeyAlgorithm.getFieldSize()){
-		  out.write(valueByteArray, valueByteArray.length-publicKeyAlgorithm.getFieldSize(), publicKeyAlgorithm.getFieldSize());	
+		if(valueByteArray.length > fieldSize){
+		  out.write(valueByteArray, valueByteArray.length-fieldSize, fieldSize);	
 		}else{
 		  out.write(valueByteArray);
 		}
 	}
 	
-	public static BigInteger readFixedFieldSizeKey(PublicKeyAlgorithm publicKeyAlgorithm,  InputStream in) throws UnsupportedOperationException, IOException{
-		byte[] data = new byte[publicKeyAlgorithm.getFieldSize() +1];
-		in.read(data,1,publicKeyAlgorithm.getFieldSize());		
+	
+	
+	public static BigInteger readFixedFieldSizeKey(int fieldSize,  InputStream in) throws UnsupportedOperationException, IOException{
+		byte[] data = new byte[fieldSize +1];
+		in.read(data,1,fieldSize);		
 		return new BigInteger(data);
 	}
 	

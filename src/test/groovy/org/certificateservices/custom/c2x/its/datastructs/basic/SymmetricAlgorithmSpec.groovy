@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.its.datastructs.basic
 
 
 
+import org.certificateservices.custom.c2x.common.crypto.Algorithm
 import org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm;
 
 import spock.lang.Specification;
@@ -38,6 +39,17 @@ class SymmetricAlgorithmSpec extends Specification{
 		symmetricAlgorithm             | bytevalue  | keyLength
 		aes_128_ccm                    | 0          | 16
 
+	}
+	
+	def "Verify correct algorithms indicator is returned."(){
+		when:
+		Algorithm alg = SymmetricAlgorithm.aes_128_ccm.getAlgorithm()
+		then:
+		alg.getHash() == null
+		alg.getSymmetric() == Algorithm.Symmetric.aes128Ccm
+		alg.getSignature() == null
+		alg.getEncryption() == null
+		
 	}
 	
 	@Unroll

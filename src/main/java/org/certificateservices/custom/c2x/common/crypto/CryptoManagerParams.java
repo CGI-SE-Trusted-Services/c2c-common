@@ -10,7 +10,7 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.its.crypto;
+package org.certificateservices.custom.c2x.common.crypto;
 
 /**
  * Base interface for CryptoManagerParams used to initialize a CryptoManager library.

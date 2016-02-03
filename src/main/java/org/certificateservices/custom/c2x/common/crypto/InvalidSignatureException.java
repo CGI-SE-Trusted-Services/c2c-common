@@ -10,35 +10,35 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.its.crypto;
+package org.certificateservices.custom.c2x.common.crypto;
 
 /**
- * Configuration parameters for the DefaultCryptoManager, containing the provider to be used for underlying cryptographic operations.
+ * Exception thrown by CryptoManager if a signature cannot be verified.
  * 
- * @author Philip Vendil, p.vendil@cgi.com
+ * @author Philip Vendil
  *
  */
-public class DefaultCryptoManagerParams implements CryptoManagerParams {
-	
-	private String provider;
-		
+public class InvalidSignatureException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
 	/**
-	 * Configuration parameters for the DefaultCryptoManager, containing the provider to be used for underlying cryptographic operations.
-	 * @param provider the provider to use.
+	 * Exception thrown by CryptoManager if a signature cannot be verified.
+	 * 
+	 * @param message
+	 * @param cause
 	 */
-	public DefaultCryptoManagerParams(String provider) {
-		super();
-		this.provider = provider;
+	public InvalidSignatureException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 	/**
+	 * Exception thrown by CryptoManager if a signature cannot be verified.
 	 * 
-	 * @return containing the provider to be used for underlying cryptographic operations.
+	 * @param message
 	 */
-	public String getProvider() {
-		return provider;
+	public InvalidSignatureException(String message) {
+		super(message);
 	}
-	
-	
 
 }

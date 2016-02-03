@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.cert
 
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.CountryOnly
@@ -43,7 +44,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.E
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.GeographicRegion.GeographicRegionChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.IdentifiedRegion.IdentifiedRegionChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 import org.junit.Ignore;
 
 import spock.lang.Specification;
@@ -61,12 +61,11 @@ class ToBeSignedCertificateSpec extends BaseStructSpec {
 	byte[] sspData = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),30)
 	ServiceSpecificPermissions ssp = new ServiceSpecificPermissions(ServiceSpecificPermissionsChoices.opaque, sspData)
 	
-	byte[] x1 = new BigInteger(123).toByteArray()
-	EccP256CurvePoint p1 = new EccP256CurvePoint(EccP256CurvePointChoices.compressedy0,x1)
+	
+	EccP256CurvePoint p1 = new EccP256CurvePoint(new BigInteger(123),new BigInteger(222))
 	BasePublicEncryptionKey pubKey1 = new BasePublicEncryptionKey(BasePublicEncryptionKeyChoices.ecdsaNistP256, p1)
 	
-	byte[] x2 = new BigInteger(345).toByteArray()
-	EccP256CurvePoint p2 = new EccP256CurvePoint(EccP256CurvePointChoices.compressedy1,x2)
+	EccP256CurvePoint p2 = new EccP256CurvePoint(new BigInteger(323),new BigInteger(422))
 	
 	PsidGroupPermissions perm1 = new PsidGroupPermissions(new SubjectPermissions(SubjectPermissionsChoices.all, null),null,null,new EndEntityType(true, true))
 	PsidGroupPermissions perm2 = new PsidGroupPermissions(new SubjectPermissions(SubjectPermissionsChoices.all, null),2,3,new EndEntityType(false, true))
@@ -96,9 +95,9 @@ class ToBeSignedCertificateSpec extends BaseStructSpec {
 			appPermissions,certIssuePermissions,certRequestPermissions,canRequestRollover,encryptionKey,verifyKeyIndicator)
 		then:
 		
-		serializeToHex(c) == "7f810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501020081c0c08101020103400102c08101050106c0c0810107010840008082000000000000000000000000000000000000000000000000000000000000007b81830000000000000000000000000000000000000000000000000000000000000159"
+		serializeToHex(c) == "7f810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501020081c0c08101020103400102c08101050106c0c0810107010840008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000de8184000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a6"
 		when:
-		ToBeSignedCertificate c2 = deserializeFromHex(new ToBeSignedCertificate(), "7f810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501020081c0c08101020103400102c08101050106c0c0810107010840008082000000000000000000000000000000000000000000000000000000000000007b81830000000000000000000000000000000000000000000000000000000000000159")
+		ToBeSignedCertificate c2 = deserializeFromHex(new ToBeSignedCertificate(), "7f810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501020081c0c08101020103400102c08101050106c0c0810107010840008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000de8184000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a6")
 		then:
 		c2.getId() == id
 		c2.getCracaId() == cracaId
@@ -117,9 +116,9 @@ class ToBeSignedCertificateSpec extends BaseStructSpec {
 		ToBeSignedCertificate c3 = new ToBeSignedCertificate(id,cracaId,crlSeries,validityPeriod,region,assuranceLevel,
 			appPermissions,certIssuePermissions,certRequestPermissions,false,encryptionKey,verifyKeyIndicator)
 		then:
-		serializeToHex(c3) == "7d810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501020081c0c08101020103400102c08101050106c0c0810107010840008082000000000000000000000000000000000000000000000000000000000000007b81830000000000000000000000000000000000000000000000000000000000000159"
+		serializeToHex(c3) == "7d810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501020081c0c08101020103400102c08101050106c0c0810107010840008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000de8184000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a6"
 		when:
-		ToBeSignedCertificate c4 = deserializeFromHex(new ToBeSignedCertificate(), "7d810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501020081c0c08101020103400102c08101050106c0c0810107010840008082000000000000000000000000000000000000000000000000000000000000007b81830000000000000000000000000000000000000000000000000000000000000159")
+		ToBeSignedCertificate c4 = deserializeFromHex(new ToBeSignedCertificate(), "7d810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501020081c0c08101020103400102c08101050106c0c0810107010840008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000de8184000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a6")
 		then:
 		c4.getId() == id
 		c4.getCracaId() == cracaId
@@ -136,6 +135,14 @@ class ToBeSignedCertificateSpec extends BaseStructSpec {
 		
 	}
 	
+	def "Verify that encode and decode to byte array is correct"(){
+		when:
+	    ToBeSignedCertificate tbs1 = new ToBeSignedCertificate(id,cracaId,crlSeries,validityPeriod,region,assuranceLevel,
+			appPermissions,certIssuePermissions,certRequestPermissions,canRequestRollover,encryptionKey,verifyKeyIndicator)
+		ToBeSignedCertificate tbs2 = new ToBeSignedCertificate(tbs1.encoded)
+		then:
+		tbs1 == tbs2
+	}
 	
 	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 	
@@ -196,8 +203,8 @@ class ToBeSignedCertificateSpec extends BaseStructSpec {
   certIssuePermissions=[[appPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=true]],[appPermissions=[all], minChainDepth=2, chainDepthRange=3, eeType=[app=false, enroll=true]]]
   certRequestPermissions=[[appPermissions=[all], minChainDepth=5, chainDepthRange=6, eeType=[app=true, enroll=true]],[appPermissions=[all], minChainDepth=7, chainDepthRange=8, eeType=[app=false, enroll=true]]]
   canRequestRollover=true
-  encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy0=000000000000000000000000000000000000000000000000000000000000007b]]]
-  verifyKeyIndicator=[reconstructionValue=[compressedy1=0000000000000000000000000000000000000000000000000000000000000159]]
+  encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[uncompressed=[x=000000000000000000000000000000000000000000000000000000000000007b, y=00000000000000000000000000000000000000000000000000000000000000de]]]]
+  verifyKeyIndicator=[reconstructionValue=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000143, y=00000000000000000000000000000000000000000000000000000000000001a6]]]
 ]"""
 
   def String withAppPermsOnly =
@@ -213,7 +220,7 @@ class ToBeSignedCertificateSpec extends BaseStructSpec {
   certRequestPermissions=NONE
   canRequestRollover=false
   encryptionKey=NONE
-  verifyKeyIndicator=[reconstructionValue=[compressedy1=0000000000000000000000000000000000000000000000000000000000000159]]
+  verifyKeyIndicator=[reconstructionValue=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000143, y=00000000000000000000000000000000000000000000000000000000000001a6]]]
 ]"""
 def String withcertRequestPermissionsOnly =
 """ToBeSignedCertificate [
@@ -228,7 +235,7 @@ def String withcertRequestPermissionsOnly =
   certRequestPermissions=[[appPermissions=[all], minChainDepth=5, chainDepthRange=6, eeType=[app=true, enroll=true]],[appPermissions=[all], minChainDepth=7, chainDepthRange=8, eeType=[app=false, enroll=true]]]
   canRequestRollover=false
   encryptionKey=NONE
-  verifyKeyIndicator=[reconstructionValue=[compressedy1=0000000000000000000000000000000000000000000000000000000000000159]]
+  verifyKeyIndicator=[reconstructionValue=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000143, y=00000000000000000000000000000000000000000000000000000000000001a6]]]
 ]"""
 
 	def "Verify toString"(){

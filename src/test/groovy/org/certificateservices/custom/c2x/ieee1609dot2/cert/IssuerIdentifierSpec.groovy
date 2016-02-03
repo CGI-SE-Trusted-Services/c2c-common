@@ -19,6 +19,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.asn1.coer.COERNull
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.HashedId8;
@@ -40,7 +41,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.cert.CertificateId.Certif
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.IssuerIdentifier.IssuerIdentifierChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.SubjectPermissions.SubjectPermissionsChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Shared;
 import spock.lang.Specification;

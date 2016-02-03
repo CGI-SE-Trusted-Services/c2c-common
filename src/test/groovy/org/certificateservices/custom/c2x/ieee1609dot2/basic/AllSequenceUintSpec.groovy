@@ -14,7 +14,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;

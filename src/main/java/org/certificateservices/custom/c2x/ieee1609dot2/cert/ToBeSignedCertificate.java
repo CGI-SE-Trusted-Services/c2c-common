@@ -12,6 +12,12 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.cert;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import org.certificateservices.custom.c2x.asn1.coer.COERNull;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.CrlSeries;
@@ -107,6 +113,18 @@ public class ToBeSignedCertificate extends COERSequence {
 		
 	}
 
+	/**
+	 * Constructor decoding a ToBeSignedCertificate from an encoded byte array.
+	 * @param encodedData byte array encoding of the ToBeSignedCertificate.
+	 * @throws IOException   if communication problems occurred during serialization.
+	 */
+	public ToBeSignedCertificate(byte[] encodedData) throws IOException{
+		super(true,12);
+		init();
+		
+		DataInputStream dis = new DataInputStream(new  ByteArrayInputStream(encodedData));
+		decode(dis);
+	}
 
 	
 
@@ -209,6 +227,19 @@ public class ToBeSignedCertificate extends COERSequence {
 	 */
 	public VerificationKeyIndicator getVerifyKeyIndicator() {
 		return (VerificationKeyIndicator) get(VERIFYKEYINDICATOR);
+	}
+	
+	/**
+	 * Encodes the ToBeSignedCertificate as a byte array.
+	 * 
+	 * @return return encoded version of the ToBeSignedCertificate as a byte[] 
+	 * @throws IOException if encoding problems of the data occurred.
+	 */
+	public byte[] getEncoded() throws IOException{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(baos);
+		encode(dos);
+		return baos.toByteArray();		
 	}
 
 	@Override

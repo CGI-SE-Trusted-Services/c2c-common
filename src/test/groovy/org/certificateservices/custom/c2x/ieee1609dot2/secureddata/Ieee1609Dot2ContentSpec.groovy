@@ -19,6 +19,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.asn1.coer.COERNull
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EcdsaP256Signature
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.HashAlgorithm;
@@ -53,7 +54,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.enc.SymmetricCiphertext;
 import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.HashedData.HashedDataChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.SignerIdentifier.SignerIdentifierChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 import org.junit.After;
 
 import spock.lang.Shared;
@@ -91,8 +91,8 @@ class Ieee1609Dot2ContentSpec extends BaseStructSpec {
 	@Shared HashedId8 h = new HashedId8(Hex.decode("0102030405060708"))
 	@Shared SignerIdentifier signer = new SignerIdentifier(h)
 	
-	@Shared byte[] x = new BigInteger(123).toByteArray()
-	@Shared EccP256CurvePoint r = new EccP256CurvePoint(EccP256CurvePointChoices.xonly,x)
+	
+	@Shared EccP256CurvePoint r = new EccP256CurvePoint(new BigInteger(123))
 	@Shared byte[] s = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),32)
 	@Shared Signature signature = new Signature(SignatureChoices.ecdsaNistP256Signature, new EcdsaP256Signature(r,s))
 	

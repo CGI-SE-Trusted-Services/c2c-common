@@ -18,12 +18,13 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey.PublicVerificationKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
@@ -36,8 +37,7 @@ import spock.lang.Unroll;
  */
 class BasePublicEncryptionKeySpec extends BaseStructSpec {
 	
-	byte[] x = new BigInteger(123).toByteArray()
-	EccP256CurvePoint r = new EccP256CurvePoint(EccP256CurvePointChoices.compressedy0,x)
+	EccP256CurvePoint r = new EccP256CurvePoint(new BigInteger(123))
 	
 	@Unroll
 	def "Verify that BasePublicEncryptionKey is correctly encoded for type #choice"(){
@@ -57,15 +57,30 @@ class BasePublicEncryptionKeySpec extends BaseStructSpec {
 		
 		where:
 		choice                                              | encoding   
-		BasePublicEncryptionKeyChoices.ecdsaNistP256        | "8082000000000000000000000000000000000000000000000000000000000000007b"   
-		BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1 | "8182000000000000000000000000000000000000000000000000000000000000007b"      
+		BasePublicEncryptionKeyChoices.ecdsaNistP256        | "8080000000000000000000000000000000000000000000000000000000000000007b"   
+		BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1 | "8180000000000000000000000000000000000000000000000000000000000000007b"      
 	
 	}
 	
+	@Unroll
+	def "Verify correct algorithms indicator is returned for #algType."(){
+		when:
+		Algorithm alg = algType.getAlgorithm()
+		then:
+		alg.getHash() == null
+		alg.getSymmetric() == null
+		alg.getSignature() == expectedSignature
+		alg.getEncryption() == Algorithm.Encryption.ecies
+		
+		where:
+		algType                                              | expectedSignature
+		BasePublicEncryptionKeyChoices.ecdsaNistP256         | Algorithm.Signature.ecdsaNistP256
+		BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1  | Algorithm.Signature.ecdsaBrainpoolP256r1
+	}
 	
 	def "Verify toString"(){
 		expect:
-		new BasePublicEncryptionKey(BasePublicEncryptionKeyChoices.ecdsaNistP256, r).toString() == "BasePublicEncryptionKey [ecdsaNistP256=[compressedy0=000000000000000000000000000000000000000000000000000000000000007b]]"
+		new BasePublicEncryptionKey(BasePublicEncryptionKeyChoices.ecdsaNistP256, r).toString() == "BasePublicEncryptionKey [ecdsaNistP256=[xonly=000000000000000000000000000000000000000000000000000000000000007b]]"
 	}
 	
 

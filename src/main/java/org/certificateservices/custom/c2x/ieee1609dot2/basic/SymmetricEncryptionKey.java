@@ -44,6 +44,7 @@ public class SymmetricEncryptionKey extends COERChoice {
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 			return new COEROctetStream(OCTETSTRING_SIZE,OCTETSTRING_SIZE);
 		}
+
 	}
 	
 	/**

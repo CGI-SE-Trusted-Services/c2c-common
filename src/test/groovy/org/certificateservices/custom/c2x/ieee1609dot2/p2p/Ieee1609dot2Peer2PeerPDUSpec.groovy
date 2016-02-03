@@ -15,11 +15,11 @@ package org.certificateservices.custom.c2x.ieee1609dot2.p2p
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 import org.junit.Ignore;
 
 import spock.lang.Shared;
@@ -96,7 +96,7 @@ class Ieee1609dot2Peer2PeerPDUSpec extends BaseStructSpec {
       certRequestPermissions=NONE
       canRequestRollover=false
       encryptionKey=NONE
-      verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=0000000000000000000000000000000000000000000000000000000000000159]]]
+      verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000159, y=00000000000000000000000000000000000000000000000000000000000001bd]]]]
     ]
     signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]
   ],
@@ -116,7 +116,7 @@ class Ieee1609dot2Peer2PeerPDUSpec extends BaseStructSpec {
       certRequestPermissions=NONE
       canRequestRollover=false
       encryptionKey=NONE
-      verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=0000000000000000000000000000000000000000000000000000000000000159]]]
+      verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000159, y=00000000000000000000000000000000000000000000000000000000000001bd]]]]
     ]
     signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]
   ]]]

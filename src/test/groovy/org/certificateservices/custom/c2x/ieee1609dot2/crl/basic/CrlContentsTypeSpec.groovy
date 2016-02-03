@@ -19,6 +19,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.asn1.coer.COERNull
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.HashedId10;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Hostname
@@ -43,7 +44,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.cert.VerificationKeyIndic
 import org.certificateservices.custom.c2x.ieee1609dot2.crl.basic.CrlContentsType.CrlContentsTypeChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.enc.SymmetricCiphertext.SymmetricCiphertextChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.p2p.Ieee1609dot2Peer2PeerPDUContent.Ieee1609dot2Peer2PeerPDUContentChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Shared;
 import spock.lang.Specification;

@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.basic;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
@@ -50,23 +51,41 @@ public class EccP256CurvePoint extends COERChoice {
 			if(this.equals(uncompressed)){
 				return new UncompressedEccPoint();
 			}
-			return new COEROctetStream(32,32);
+			return new COEROctetStream(OCTETSTRING_SIZE,OCTETSTRING_SIZE);
 		}
 	}
 	
 	/**
-	 * Constructor used when encoding of type xonly, compressedy0 or compressedy1
+	 * Constructor used when encoding of type xonly as BigInteger
 	 */
-	public EccP256CurvePoint(EccP256CurvePointChoices choice, byte[] value) {
-		super(choice, new COEROctetStream(COEREncodeHelper.padZerosToByteArray(value, OCTETSTRING_SIZE), OCTETSTRING_SIZE,OCTETSTRING_SIZE));
+	public EccP256CurvePoint(BigInteger x) {
+		super(EccP256CurvePointChoices.xonly, new COEROctetStream(COEREncodeHelper.padZerosToByteArray(fromBigInteger(x),OCTETSTRING_SIZE),OCTETSTRING_SIZE,OCTETSTRING_SIZE));
 	}
 	
+	
+	/**
+	 * Constructor used when encoding of type compressedy0 or compressedy1
+	 */
+	public EccP256CurvePoint(byte[] compressedEncoding) {
+		super(getChoice(compressedEncoding), new COEROctetStream(COEREncodeHelper.padZerosToByteArray(removeFirstByte(compressedEncoding), OCTETSTRING_SIZE), OCTETSTRING_SIZE,OCTETSTRING_SIZE));
+	}
+	
+
+
+
 	/**
 	 * Constructor used when encoding of type uncompressed
 	 */
 	public EccP256CurvePoint(byte[] uncompressed_x, byte[] uncompressed_y) {
 		super(EccP256CurvePointChoices.uncompressed, new UncompressedEccPoint(uncompressed_x, uncompressed_y));
 	}
+	
+	/**
+	 * Constructor used when encoding of type uncompressed
+	 */
+	public EccP256CurvePoint(BigInteger uncompressed_x, BigInteger uncompressed_y) {
+		super(EccP256CurvePointChoices.uncompressed, new UncompressedEccPoint(fromBigInteger(uncompressed_x), fromBigInteger(uncompressed_y)));
+	}	
 
 	/**
 	 * Constructor used when decoding.
@@ -90,4 +109,34 @@ public class EccP256CurvePoint extends COERChoice {
 		return "EccP256CurvePoint [" + choice + "=" +  new String(Hex.encode(((COEROctetStream) value).getData())) + "]";
 	}
 	
+	
+	private static byte[] fromBigInteger(BigInteger v){
+		byte[] data = v.toByteArray();
+		if(data.length > OCTETSTRING_SIZE){
+			byte[] d = new byte[OCTETSTRING_SIZE];
+			System.arraycopy(data, data.length - OCTETSTRING_SIZE, d,0, OCTETSTRING_SIZE);
+			return d;
+		}
+		return data;
+	}
+	
+	private static byte[] removeFirstByte(byte[] compressedEncoding) {
+		if(compressedEncoding == null || compressedEncoding.length < 1){
+			throw new IllegalArgumentException("Invalid compressed encoding of EccP256CurvePoint");
+		}
+		byte[] retval = new byte[compressedEncoding.length -1];
+		System.arraycopy(compressedEncoding, 1, retval, 0,retval.length);
+		return retval;
+	}
+
+
+	private static COERChoiceEnumeration getChoice(byte[] compressedEncoding) {
+		if(compressedEncoding[0] == 0x02){
+			return EccP256CurvePointChoices.compressedy0;
+		}
+		if(compressedEncoding[0] == 0x03){
+			return EccP256CurvePointChoices.compressedy1;
+		}
+		throw new IllegalArgumentException("Invalid Ecc Point compressed encoding");
+	}
 }

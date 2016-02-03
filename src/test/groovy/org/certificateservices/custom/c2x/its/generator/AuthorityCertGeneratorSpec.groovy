@@ -15,9 +15,9 @@ package org.certificateservices.custom.c2x.its.generator;
 import java.security.KeyPair
 
 import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManager;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegion
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
@@ -45,7 +45,7 @@ import spock.lang.Specification;
 public class AuthorityCertGeneratorSpec extends Specification {
 	
 	AuthorityCertGenerator acg
-	@Shared CryptoManager cryptoManager
+	@Shared ITSCryptoManager cryptoManager
 	@Shared KeyPair rootCAKeys
 	@Shared KeyPair signKeys
 	@Shared KeyPair encKeys 

@@ -10,34 +10,36 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.its.crypto;
+package org.certificateservices.custom.c2x.common.crypto;
+
 
 /**
- * Exception thrown if supplied credentials to authenticate towards underlying hardward cryptographic was wrong.
- *  
- * @author Philip
+ * Configuration parameters for the DefaultCryptoManager, containing the provider to be used for underlying cryptographic operations.
+ * 
+ * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class BadCredentialsException extends Exception {
-
-	private static final long serialVersionUID = 1L;
-
+public class DefaultCryptoManagerParams implements CryptoManagerParams {
+	
+	private String provider;
+		
 	/**
-	 * Exception thrown if supplied credentials to authenticate towards underlying hardward cryptographic was wrong.
+	 * Configuration parameters for the DefaultCryptoManager, containing the provider to be used for underlying cryptographic operations.
+	 * @param provider the provider to use.
 	 */
-	public BadCredentialsException(String message, Throwable cause) {
-		super(message, cause);
-		// TODO Auto-generated constructor stub
+	public DefaultCryptoManagerParams(String provider) {
+		super();
+		this.provider = provider;
 	}
 
 	/**
-	 * Exception thrown if supplied credentials to authenticate towards underlying hardward cryptographic was wrong.
+	 * 
+	 * @return containing the provider to be used for underlying cryptographic operations.
 	 */
-	public BadCredentialsException(String message) {
-		super(message);
-		// TODO Auto-generated constructor stub
+	public String getProvider() {
+		return provider;
 	}
+	
+	
 
-	
-	
 }

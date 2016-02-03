@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.cert
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.CrlSeries
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration
@@ -38,7 +39,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.basic.ValidityPeriod
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.IdentifiedRegion.IdentifiedRegionChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.ServiceSpecificPermissions;
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.IgnoreRest;
 import spock.lang.Specification;
@@ -57,12 +57,13 @@ class SequenceOfCertificateSpec extends BaseStructSpec {
 	
 	def "Verify that SequenceOfCertificate is initialized properly"(){
 		when:
-		def u1 = deserializeFromHex(new SequenceOfCertificate(),"01028003008100108105636572743131323301b016a58f248400050102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f580808300000000000000000000000000000000000000000000000000000000000001598080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f58003008100108105636572743231323301b016a58f248400050102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f580808300000000000000000000000000000000000000000000000000000000000001598080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5")
+		def u1 = deserializeFromHex(new SequenceOfCertificate(),"01028003008100108105636572743131323301b016a58f248400050102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f5808084000000000000000000000000000000000000000000000000000000000000015900000000000000000000000000000000000000000000000000000000000001bd8080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f58003008100108105636572743231323301b016a58f248400050102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f5808084000000000000000000000000000000000000000000000000000000000000015900000000000000000000000000000000000000000000000000000000000001bd8080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5")
 		then:
 		u1.getSequenceValues()[0] == cert1
 		u1.getSequenceValues()[1] == cert2
 		when:
 		def u2 = new SequenceOfCertificate([cert1,cert2] as Certificate[])
+		
 		then:
 		u2.getSequenceValues()[0] == cert1
 		u2.getSequenceValues()[1] == cert2
@@ -94,7 +95,7 @@ Certificate [
     certRequestPermissions=NONE
     canRequestRollover=false
     encryptionKey=NONE
-    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=0000000000000000000000000000000000000000000000000000000000000159]]]
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000159, y=00000000000000000000000000000000000000000000000000000000000001bd]]]]
   ]
   signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]
 ],
@@ -114,7 +115,7 @@ Certificate [
     certRequestPermissions=NONE
     canRequestRollover=false
     encryptionKey=NONE
-    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=0000000000000000000000000000000000000000000000000000000000000159]]]
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000159, y=00000000000000000000000000000000000000000000000000000000000001bd]]]]
   ]
   signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]
 ]]"""
@@ -136,7 +137,7 @@ Certificate [
     certRequestPermissions=NONE
     canRequestRollover=false
     encryptionKey=NONE
-    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=0000000000000000000000000000000000000000000000000000000000000159]]]
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000159, y=00000000000000000000000000000000000000000000000000000000000001bd]]]]
   ]
   signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]
 ]]"""
@@ -148,8 +149,7 @@ Certificate [
 		byte[] sspData = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),30)
 		ServiceSpecificPermissions ssp = new ServiceSpecificPermissions(ServiceSpecificPermissionsChoices.opaque, sspData)
 
-		byte[] x2 = new BigInteger(345).toByteArray()
-		EccP256CurvePoint p2 = new EccP256CurvePoint(EccP256CurvePointChoices.compressedy1,x2)
+		EccP256CurvePoint p2 = new EccP256CurvePoint(new BigInteger(345),new BigInteger(445))
 		PublicVerificationKey pvk = new PublicVerificationKey(PublicVerificationKeyChoices.ecdsaNistP256, p2)
 
 		CertificateId id = new CertificateId(new Hostname(idString))
@@ -163,7 +163,7 @@ Certificate [
 		ToBeSignedCertificate tbs = new ToBeSignedCertificate(id, cracaId, crlSeries, validityPeriod, null, null, appPermissions, null, null, false, null, verifyKeyIndicator_vk)
 		
 		IssuerIdentifier issuerId = new IssuerIdentifier(HashAlgorithm.sha256)
-		Signature signature = new Signature(SignatureChoices.ecdsaNistP256Signature, new EcdsaP256Signature(new EccP256CurvePoint(EccP256CurvePointChoices.xonly,new BigInteger(123).toByteArray()),COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),32)))
+		Signature signature = new Signature(SignatureChoices.ecdsaNistP256Signature, new EcdsaP256Signature(new EccP256CurvePoint(new BigInteger(123)),COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),32)))
 	
 		return new Certificate(issuerId,tbs,signature)
 	}

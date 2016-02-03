@@ -14,11 +14,11 @@ package org.certificateservices.custom.c2x.its.datastructs.basic
 
 
 
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;
-
 import static org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm.*;
 import static org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm.*;
 
@@ -54,6 +54,22 @@ class PublicKeyAlgorithmSpec extends Specification{
 //		thrown UnsupportedOperationException
 //	}
 //	
+	
+	@Unroll
+	def "Verify correct algorithms indicator is returned for #algType."(){
+		when:
+		Algorithm alg = algType.getAlgorithm()
+		then:
+		alg.getHash() == expectedHash
+		alg.getSymmetric() == expectedSymmetric
+		alg.getSignature() == expectedSignature
+		alg.getEncryption() == expectedEncryption
+		
+		where:
+		algType                                              | expectedSignature                          | expectedHash            | expectedEncryption            | expectedSymmetric
+		PublicKeyAlgorithm.ecdsa_nistp256_with_sha256        | Algorithm.Signature.ecdsaNistP256          | Algorithm.Hash.sha256   | null                          | null
+		PublicKeyAlgorithm.ecies_nistp256                    | Algorithm.Signature.ecdsaNistP256          | null                    | Algorithm.Encryption.ecies    | Algorithm.Symmetric.aes128Ccm
+	}
 	def "Verify that UnsupportedOperationException is thrown for a public key with unsupported related symmetric algorithm"(){
 		when:
 		ecdsa_nistp256_with_sha256.relatedSymmetricAlgorithm

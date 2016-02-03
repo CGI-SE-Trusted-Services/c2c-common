@@ -14,10 +14,10 @@ package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 import org.junit.Ignore;
 
 import spock.lang.Specification;
@@ -32,8 +32,8 @@ import spock.lang.Unroll;
 
 class PublicEncryptionKeySpec extends BaseStructSpec {
 
-	byte[] x = new BigInteger(123).toByteArray()
-	EccP256CurvePoint p = new EccP256CurvePoint(EccP256CurvePointChoices.compressedy0,x)
+	
+	EccP256CurvePoint p = new EccP256CurvePoint(new BigInteger(123))
 	BasePublicEncryptionKey pubKey = new BasePublicEncryptionKey(BasePublicEncryptionKeyChoices.ecdsaNistP256, p)
 	
 	
@@ -41,9 +41,9 @@ class PublicEncryptionKeySpec extends BaseStructSpec {
 		when:
 		PublicEncryptionKey pk1 = new PublicEncryptionKey(SymmAlgorithm.aes128Ccm,pubKey)
 		then:
-		serializeToHex(pk1) == "008082000000000000000000000000000000000000000000000000000000000000007b"
+		serializeToHex(pk1) == "008080000000000000000000000000000000000000000000000000000000000000007b"
 		when:
-		PublicEncryptionKey pk2 = deserializeFromHex(new PublicEncryptionKey(), "008082000000000000000000000000000000000000000000000000000000000000007b")
+		PublicEncryptionKey pk2 = deserializeFromHex(new PublicEncryptionKey(), "008080000000000000000000000000000000000000000000000000000000000000007b")
 		then:
 		pk2.getSupportedSymmAlg() == SymmAlgorithm.aes128Ccm
 		pk2.getPublicKey() == pubKey
@@ -66,7 +66,7 @@ class PublicEncryptionKeySpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new PublicEncryptionKey(SymmAlgorithm.aes128Ccm,pubKey).toString() == "PublicEncryptionKey [supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy0=000000000000000000000000000000000000000000000000000000000000007b]]]"
+		new PublicEncryptionKey(SymmAlgorithm.aes128Ccm,pubKey).toString() == "PublicEncryptionKey [supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[xonly=000000000000000000000000000000000000000000000000000000000000007b]]]"
 	}
 	
 

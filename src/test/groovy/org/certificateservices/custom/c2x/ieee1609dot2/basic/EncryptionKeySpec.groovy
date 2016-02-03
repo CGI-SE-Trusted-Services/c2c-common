@@ -18,6 +18,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
@@ -25,7 +26,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.basic.EncryptionKey.Encry
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey.PublicVerificationKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature.SignatureChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.SymmetricEncryptionKey.SymmetricEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Shared;
 import spock.lang.Specification;
@@ -39,8 +39,7 @@ import spock.lang.Unroll;
  */
 class EncryptionKeySpec extends BaseStructSpec {
 	
-	@Shared byte[] x = new BigInteger(123).toByteArray()
-	@Shared EccP256CurvePoint p = new EccP256CurvePoint(EccP256CurvePointChoices.compressedy0,x)
+	@Shared EccP256CurvePoint p = new EccP256CurvePoint(new BigInteger(0x2023))
 	@Shared BasePublicEncryptionKey pubKey = new BasePublicEncryptionKey(BasePublicEncryptionKeyChoices.ecdsaNistP256, p)
 	@Shared PublicEncryptionKey pk = new PublicEncryptionKey(SymmAlgorithm.aes128Ccm,pubKey)
 	
@@ -69,7 +68,7 @@ class EncryptionKeySpec extends BaseStructSpec {
 		
 		where:
 		choice                                              | value   | encoding   
-		EncryptionKeyChoices.public_                        | pk      | "80008082000000000000000000000000000000000000000000000000000000000000007b"   
+		EncryptionKeyChoices.public_                        | pk      | "800080800000000000000000000000000000000000000000000000000000000000002023"   
 		EncryptionKeyChoices.symmetric                      | symmkey | "818000000000000000000000000000000100"      
 	
 	}
@@ -77,7 +76,7 @@ class EncryptionKeySpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new EncryptionKey(pk).toString() == "EncryptionKey [public_=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy0=000000000000000000000000000000000000000000000000000000000000007b]]]]"
+		new EncryptionKey(pk).toString() == "EncryptionKey [public_=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[xonly=0000000000000000000000000000000000000000000000000000000000002023]]]]"
 		new EncryptionKey(symmkey).toString() == "EncryptionKey [symmetric=[aes128Ccm=00000000000000000000000000000100]]"
 	}
 	

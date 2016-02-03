@@ -10,24 +10,34 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.ieee1609dot2.basic;
+package org.certificateservices.custom.c2x.common.crypto;
 
 /**
- * This data type is used to contain the other data types in this clause. The fields in the Ieee1609Dot2Data
- * have the following meanings:
- * <li>protocolVersion contains the current version of the protocol. The version specified in this
- * document is version 3, represented by the integer 3. There are no major or minor version numbers.
- * <li>content contains the content in the form of an Ieee1609Dot2Content.
- * 
- * 
- *  @author Philip Vendil, p.vendil@cgi.com
+ * Exception thrown if supplied credentials to authenticate towards underlying hardward cryptographic was wrong.
+ *  
+ * @author Philip
  *
  */
-public class Ieee1609Dot2Data {
-	
-	public static final int IEE1609DOT2_2105_VERSION = 3;
-	
+public class BadCredentialsException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Exception thrown if supplied credentials to authenticate towards underlying hardward cryptographic was wrong.
+	 */
+	public BadCredentialsException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * Exception thrown if supplied credentials to authenticate towards underlying hardward cryptographic was wrong.
+	 */
+	public BadCredentialsException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
 
 	
-	// TODO	
+	
 }

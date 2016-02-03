@@ -14,16 +14,15 @@ package org.certificateservices.custom.c2x.its.crypto;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
-import java.security.KeyPair;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.common.crypto.InvalidSignatureException;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
@@ -38,20 +37,8 @@ import org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessage;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public interface CryptoManager {
-	
-	/**
-	 * Method that needs to be called before any calls to the crypto manager is performed, it
-	 * should initialize all underlying components with the supplied paramteters. 
-	 *  
-	 * @throws IllegalArgumentException if supplied parameters contained invalid data.
-	 * @throws NoSuchAlgorithmException if required underlying cryptographic algorithms doesn't exist in JVM.
-	 * @throws NoSuchProviderException if required cryptographic providers couldn't be found in JVM.
-	 * @throws IOException if communication problems occurred with underlying components.
-	 * @throws BadCredentialsException if supplied credentials wasn't successful when authentication towards underlying hardware.
-	 */
-	void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException;
-	
+public interface ITSCryptoManager extends CryptoManager {
+
 	/**
 	 * Message to encrypt a securedmessage to a list of recepients.
 	 * 
@@ -276,11 +263,11 @@ public interface CryptoManager {
 	 * @return true if secured message verifies
 	 * 
 	 * @throws IllegalArgumentException if supplied arguments was invalid.
-	 * @throws InvalidITSSignatureException if signature of message coundn't be verified.
+	 * @throws InvalidSignatureException if signature of message coundn't be verified.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	void verifySecuredMessage(SecuredMessage message) throws IllegalArgumentException,  InvalidITSSignatureException, SignatureException, IOException;
+	void verifySecuredMessage(SecuredMessage message) throws IllegalArgumentException,  InvalidSignatureException, SignatureException, IOException;
 	
 	
 	/**
@@ -294,11 +281,11 @@ public interface CryptoManager {
 	 * @return true if secured message verifies.
 	 * 
 	 * @throws IllegalArgumentException if supplied arguments was invalid.
-	 * @throws InvalidITSSignatureException if signature of message coundn't be verified.
+	 * @throws InvalidSignatureException if signature of message coundn't be verified.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	void verifySecuredMessage(SecuredMessage message, Certificate signerCert) throws IllegalArgumentException,  InvalidITSSignatureException, SignatureException, IOException;
+	void verifySecuredMessage(SecuredMessage message, Certificate signerCert) throws IllegalArgumentException,  InvalidSignatureException, SignatureException, IOException;
 	
 	
 	/**
@@ -316,11 +303,11 @@ public interface CryptoManager {
 	 * @return the secure message with all signed_and_encrypted payloads decrypted.
 	 * 
 	 * @throws IllegalArgumentException if supplied arguments was invalid.
-	 * @throws InvalidITSSignatureException if signature of message coundn't be verified.
+	 * @throws InvalidSignatureException if signature of message coundn't be verified.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	SecuredMessage verifyAndDecryptSecuredMessage(SecuredMessage message,Certificate receiverCertificate, PrivateKey receiverKey) throws IllegalArgumentException, InvalidITSSignatureException, GeneralSecurityException, IOException;
+	SecuredMessage verifyAndDecryptSecuredMessage(SecuredMessage message,Certificate receiverCertificate, PrivateKey receiverKey) throws IllegalArgumentException, InvalidSignatureException, GeneralSecurityException, IOException;
 	
 	
 	/**
@@ -337,25 +324,12 @@ public interface CryptoManager {
 	 * @return the secure message with all signed_and_encrypted payloads decrypted.
 	 * 
 	 * @throws IllegalArgumentException if supplied arguments was invalid.
-	 * @throws InvalidITSSignatureException if signature of message coundn't be verified.
+	 * @throws InvalidSignatureException if signature of message coundn't be verified.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	SecuredMessage verifyAndDecryptSecuredMessage(SecuredMessage message, Certificate signerCert ,Certificate receiverCertificate, PrivateKey receiverKey) throws IllegalArgumentException, InvalidITSSignatureException, GeneralSecurityException, IOException;
+	SecuredMessage verifyAndDecryptSecuredMessage(SecuredMessage message, Certificate signerCert ,Certificate receiverCertificate, PrivateKey receiverKey) throws IllegalArgumentException, InvalidSignatureException, GeneralSecurityException, IOException;
 
-	
-	/**
-	 * Method to generate a new key pair for the given public key algorithm scheme.
-	 * 
-	 * @param alg publicKey the signing public key.
-	 * 
-	 * @return a new key pair.
-	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
-	 * @throws IOException if communication problems occurred with underlying components.
-	 * @throws InvalidKeyException if other non-IO related problems occurred generating the key. 
-	 */
-	KeyPair generateKeyPair(PublicKeyAlgorithm alg) throws IllegalArgumentException, IOException,InvalidKeyException;
 	
 	/**
 	 * Help method used to convert a public key to a EccPoint data structure.
@@ -379,26 +353,9 @@ public interface CryptoManager {
 	 * 
 	 * @throws InvalidKeySpecException if problems occurred decoding the key.
 	 */
-	Object decodeEccPoint(PublicKeyAlgorithm alg, EccPoint eccPoint) throws InvalidKeySpecException;
+	Object decodeEccPoint(AlgorithmIndicator alg, EccPoint eccPoint) throws InvalidKeySpecException;
 	
 	
-	
-	/**
-	 * Method to generate a digest of a message using the given public key algorithm scheme.
-	 * 
-	 * @param message the message data to generate a digest from.
-	 * @param alg the related public key algorithm scheme to use.
-	 * @return a digest of the message.
-	 * 
-	 * @throws IllegalArgumentException if an unsupported public key algorithm scheme was given.
-	 * @throws NoSuchAlgorithmException if related cryptographic algorithm wasn't available in JVM.
-	 */
-	byte[] digest(byte[] message, PublicKeyAlgorithm alg) throws IllegalArgumentException, NoSuchAlgorithmException;
-	
-	/**
-	 * Method signaling to underlying components to release resources.
-	 * 
-	 * @throws IOException if communication problems occurred with underlying components.
-	 */
-	void disconnect() throws IOException;
+
+
 }

@@ -14,8 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.basic
 
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 import org.junit.Ignore;
 
 import spock.lang.Specification;

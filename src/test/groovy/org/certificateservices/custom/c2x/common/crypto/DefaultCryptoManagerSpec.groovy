@@ -1,6 +1,6 @@
 /************************************************************************
  *                                                                       *
- *  Certificate Service -  Car2Car Core                                  *
+t *  Certificate Service -  Car2Car Core                                  *
  *                                                                       *
  *  This software is free software; you can redistribute it and/or       *
  *  modify it under the terms of the GNU Affero General Public License   *
@@ -10,7 +10,7 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.its.crypto
+package org.certificateservices.custom.c2x.common.crypto
 
 
 import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType.*
@@ -32,7 +32,22 @@ import javax.crypto.SecretKey
 
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
 import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.common.crypto.InvalidSignatureException;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.UncompressedEccPoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.HashAlgorithm;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicEncryptionKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey.PublicVerificationKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature.SignatureChoices;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType
 import org.certificateservices.custom.c2x.its.datastructs.basic.EcdsaSignature
@@ -58,6 +73,8 @@ import org.certificateservices.custom.c2x.its.datastructs.msg.TrailerField
 import org.certificateservices.custom.c2x.its.generator.AuthorityCertGenerator
 import org.certificateservices.custom.c2x.its.generator.AuthorizationTicketCertGenerator
 
+import spock.lang.Ignore;
+import spock.lang.IgnoreRest;
 import spock.lang.Shared
 import spock.lang.Unroll
 
@@ -112,7 +129,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	}
 
 	@Unroll
-	def "Test to generate ECDSA Signature and then verify the signature for algorithm: #pubAlg"(){
+	def "Test to generate ITS ECDSA Signature and then verify the signature for algorithm: #pubAlg"(){
 		when:
 		byte[] message = "Testmessage".getBytes()
 		byte[] invalidMessage = "T1estmessage".getBytes()
@@ -132,6 +149,28 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		pubAlg << [ecdsa_nistp256_with_sha256]
 	}
 	
+// TODO	
+//	@Unroll
+//	@Ignore
+//	def "Test to generate IEEE ECDSA Signature and then verify the signature for algorithm: #pubAlg"(){
+//		when:
+//		byte[] message = "Testmessage".getBytes()
+//		byte[] invalidMessage = "T1estmessage".getBytes()
+//		KeyPair keyPair = defaultCryptoManager.generateKeyPair(pubAlg)
+//		org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature = defaultCryptoManager.signMessage(message,
+//									 pubAlg,
+//									  keyPair.privateKey, null)
+//			
+//		then:
+//		
+//		defaultCryptoManager.verifySignature(message, signature, keyPair.getPublic())
+//		defaultCryptoManager.verifySignature(message, signature, defaultCryptoManager.encodeEccPoint(pubAlg, EccP256CurvePointChoices.compressedy0, keyPair.getPublic()))
+////		// TODO Test with certificate
+//        !defaultCryptoManager.verifySignature(invalidMessage, signature, keyPair.getPublic())
+//		
+//		where:
+//		pubAlg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
+//	}
 
 	def "Test to verifyCertificate"(){
 		expect:
@@ -155,7 +194,8 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		k1 != k2
 		k1 != null
 		where:
-		pubAlg << [ecdsa_nistp256_with_sha256, ecies_nistp256]
+		pubAlg << [ecdsa_nistp256_with_sha256, ecies_nistp256, BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1,
+			PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
 	}
 	
 	BigInteger pubKey1_x = new BigInteger(Hex.decode("00a43331f54d41100588dc349007d0dde48e92cdb4dcdf5d44cef4d452edff76c8"));
@@ -167,7 +207,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		
 
 	@Unroll 
-	def "Verify that encodeEccPoint encodes ec public keys properly for algorithm: #pubAlg"(){
+	def "Verify that ITS encodeEccPoint encodes ec public keys properly for algorithm: #pubAlg"(){
 		when:
 		EccPoint p1 = defaultCryptoManager.encodeEccPoint(pubAlg, EccPointType.x_coordinate_only, constructKey(pubKey1_x, pubKey1_y))
 		then:
@@ -240,20 +280,95 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		result != null
 		
 		where:
-		where:
 		pubAlg << [ecdsa_nistp256_with_sha256, ecies_nistp256]      
 	}
 	
+	
 	@Unroll
-	def "Verify digest generates a correct digest for algorithm: #pubKeyAlg"(){
-		expect:
-		  new String(Hex.encode(defaultCryptoManager.digest(message.getBytes(),pubKeyAlg))) == digest
-		where:
-		pubKeyAlg                   | message      | digest
-		ecdsa_nistp256_with_sha256  | "abc1234"    | "36f583dd16f4e1e201eb1e6f6d8e35a2ccb3bbe2658de46b4ffae7b0e9ed872e" 
+	def "Verify that ieee encodeEccPoint encodes ec public keys properly for algorithm: #pubAlg"(){
+		setup:
+		ECPublicKey pubKey1 = defaultCryptoManager.generateKeyPair(pubAlg).getPublic()
+		BigInteger pubKey1_x = pubKey1.getW().getAffineX()
+		BigInteger pubKey1_y = pubKey1.getW().getAffineY()
+		when:
+		EccP256CurvePoint p1 = defaultCryptoManager.encodeEccPoint(pubAlg, EccP256CurvePointChoices.xonly, constructKey(pubKey1_x, pubKey1_y))
+		then:
+		p1.getChoice() == EccP256CurvePointChoices.xonly
+		((COEROctetStream) p1.getValue()).getData() == EccP256CurvePoint.fromBigInteger(pubKey1_x);
+		when:
+		EccP256CurvePoint p2 = defaultCryptoManager.encodeEccPoint(pubAlg, EccP256CurvePointChoices.compressedy0, constructKey(pubKey1_x, pubKey1_y))
+		then:
+		p2.getChoice() == EccP256CurvePointChoices.compressedy1 || p2.getChoice() == EccP256CurvePointChoices.compressedy0
+		((COEROctetStream) p2.getValue()).getData() != null
+		((ECPublicKey) defaultCryptoManager.decodeEccPoint(pubAlg, p2)).getW().getAffineX() == pubKey1_x
+		((ECPublicKey) defaultCryptoManager.decodeEccPoint(pubAlg, p2)).getW().getAffineY() == pubKey1_y
 		
+		
+		when:
+		EccP256CurvePoint p3 = defaultCryptoManager.encodeEccPoint(pubAlg, EccP256CurvePointChoices.compressedy1, constructKey(pubKey1_x, pubKey1_y))
+		then:
+		p3.getChoice() == EccP256CurvePointChoices.compressedy1 || p3.getChoice() == EccP256CurvePointChoices.compressedy0
+		((COEROctetStream) p3.getValue()).getData() != null
+		((ECPublicKey) defaultCryptoManager.decodeEccPoint(pubAlg, p3)).getW().getAffineX() == pubKey1_x
+		((ECPublicKey) defaultCryptoManager.decodeEccPoint(pubAlg, p3)).getW().getAffineY() == pubKey1_y
+		
+		when:
+		EccP256CurvePoint p4 = defaultCryptoManager.encodeEccPoint(pubAlg, EccP256CurvePointChoices.uncompressed, constructKey(pubKey1_x, pubKey1_y))
+		UncompressedEccPoint uec = p4.value
+		then:
+		p4.getChoice() == EccP256CurvePointChoices.uncompressed
+		new BigInteger(1,uec.getX()) == pubKey1_x
+		new BigInteger(1,uec.getY()) == pubKey1_y
+		
+		where:
+		pubAlg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
 	}
 	
+	@Unroll
+	def "Verify that decodeEccPoint decodes the ieee EccPoints correctly for public key scheme: #pubAlg"(){
+		setup:
+		BCECPublicKey pubKey1 = defaultCryptoManager.generateKeyPair(pubAlg).getPublic()
+		BigInteger pubKey1_x = pubKey1.getW().getAffineX()
+		BigInteger pubKey1_y = pubKey1.getW().getAffineY()
+		when: // verify x_coordinate_only
+		EccP256CurvePoint x_onlyPoint = new EccP256CurvePoint(pubKey1_x)
+		Object result = defaultCryptoManager.decodeEccPoint(pubAlg, x_onlyPoint)
+		then:
+		result instanceof BigInteger
+		result == pubKey1_x
+
+		when: // verify compressed_y
+		EccP256CurvePoint compressed_point = new EccP256CurvePoint(pubKey1.getQ().getEncoded(true))
+		result = defaultCryptoManager.decodeEccPoint(pubAlg, compressed_point)
+
+		then:
+		result instanceof ECPublicKey
+		result != null
+				
+		when: // verify uncompressed_point
+		EccP256CurvePoint uncompressed_point = new EccP256CurvePoint(pubKey1.getW().getAffineX(),pubKey1.getW().getAffineY())
+		result = defaultCryptoManager.decodeEccPoint(pubAlg, uncompressed_point)
+
+		then:
+		result instanceof ECPublicKey
+		result != null
+		
+		where:
+		pubAlg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
+	}
+	
+	@Unroll
+	def "Verify digest generates a correct digest for algorithm: #alg"(){
+		setup:
+		def algIndicator = [ getAlgorithm : { new Algorithm(null,null,null, alg)}] as AlgorithmIndicator
+		expect:
+		  new String(Hex.encode(defaultCryptoManager.digest(message.getBytes(),algIndicator))) == digest
+		where:
+		alg          | message      | digest
+		Hash.sha256  | "abc1234"    | "36f583dd16f4e1e201eb1e6f6d8e35a2ccb3bbe2658de46b4ffae7b0e9ed872e" 
+		
+	}
+		
 	def "Verify getVerificationKey"(){
 		expect:
 		defaultCryptoManager.getVerificationKey(getTestAACertificate()) != null
@@ -432,7 +547,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		// check that invalid certificate is false
 		!defaultCryptoManager.verifySecuredMessage(verifySm, testATCertificate)
 		then:
-		thrown InvalidITSSignatureException
+		thrown InvalidSignatureException
 		where:
 		signInfoType << [SignerInfoType.certificate, SignerInfoType.certificate_digest_with_ecdsap256]
 		
@@ -583,7 +698,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	  esm.payloadFields[0].data = "CorruptData"
 	  defaultCryptoManager.verifyAndDecryptSecuredMessage(esm, authTicket, testEncKeys.privateKey)
 	  then:
-	  thrown InvalidITSSignatureException
+	  thrown InvalidSignatureException
 	}
 	
 	
@@ -665,6 +780,15 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		defaultCryptoManager.verifySecuredMessage(new SecuredMessage(externalSecureMessage1))
 		defaultCryptoManager.verifySecuredMessage(new SecuredMessage(externalSecureMessage2))
 		defaultCryptoManager.verifySecuredMessage(new SecuredMessage(externalSecureMessage3))
+	}
+	
+	def "Verify that getSignatureChoice returns #sigChoice for alg #sigAlg"(){
+		expect:
+		defaultCryptoManager.getSignatureChoice(sigAlg) == sigChoice
+		where:
+		sigChoice                                      | sigAlg
+		SignatureChoices.ecdsaNistP256Signature        | Algorithm.Signature.ecdsaNistP256
+		SignatureChoices.ecdsaBrainpoolP256r1Signature | Algorithm.Signature.ecdsaBrainpoolP256r1
 	}
 	
 	

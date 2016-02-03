@@ -18,6 +18,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
@@ -25,7 +26,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.E
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey.PublicVerificationKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature.SignatureChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Shared;
 import spock.lang.Specification;
@@ -39,10 +39,8 @@ import spock.lang.Unroll;
  */
 class VerificationKeyIndicatorSpec extends BaseStructSpec {
 	
-	@Shared byte[] x = new BigInteger(123).toByteArray()
-	@Shared byte[] x2 = new BigInteger(234).toByteArray()
-	@Shared EccP256CurvePoint r = new EccP256CurvePoint(EccP256CurvePointChoices.compressedy0,x)
-	@Shared PublicVerificationKey pvk = new PublicVerificationKey(PublicVerificationKeyChoices.ecdsaNistP256, new EccP256CurvePoint(EccP256CurvePointChoices.compressedy0,x2))
+	@Shared EccP256CurvePoint r = new EccP256CurvePoint(new BigInteger(123),new BigInteger(223))
+	@Shared PublicVerificationKey pvk = new PublicVerificationKey(PublicVerificationKeyChoices.ecdsaNistP256, new EccP256CurvePoint(new BigInteger(323),new BigInteger(423)))
 	
 	@Unroll
 	def "Verify that VerificationKeyIndicator is correctly encoded for type #choice"(){
@@ -62,15 +60,15 @@ class VerificationKeyIndicatorSpec extends BaseStructSpec {
 		
 		where:
 		choice                                              | value   | encoding   
-		VerificationKeyIndicatorChoices.verificationKey     | pvk     | "80808200000000000000000000000000000000000000000000000000000000000000ea"   
-		VerificationKeyIndicatorChoices.reconstructionValue | r       | "8182000000000000000000000000000000000000000000000000000000000000007b"      
+		VerificationKeyIndicatorChoices.verificationKey     | pvk     | "808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a7"   
+		VerificationKeyIndicatorChoices.reconstructionValue | r       | "8184000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df"      
 	}
 
 	
 	def "Verify toString"(){
 		expect:
-		new VerificationKeyIndicator(pvk).toString() == "VerificationKeyIndicator [verificationKey=[ecdsaNistP256=[compressedy0=00000000000000000000000000000000000000000000000000000000000000ea]]]"
-		new VerificationKeyIndicator(r).toString() == "VerificationKeyIndicator [reconstructionValue=[compressedy0=000000000000000000000000000000000000000000000000000000000000007b]]"
+		new VerificationKeyIndicator(pvk).toString() == "VerificationKeyIndicator [verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000143, y=00000000000000000000000000000000000000000000000000000000000001a7]]]]"
+		new VerificationKeyIndicator(r).toString() == "VerificationKeyIndicator [reconstructionValue=[uncompressed=[x=000000000000000000000000000000000000000000000000000000000000007b, y=00000000000000000000000000000000000000000000000000000000000000df]]]"
 	}
 	
 

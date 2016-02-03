@@ -14,9 +14,9 @@ package org.certificateservices.custom.c2x.ieee1609dot2.cert
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.IdentifiedRegion.IdentifiedRegionChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.IgnoreRest;
 import spock.lang.Specification;

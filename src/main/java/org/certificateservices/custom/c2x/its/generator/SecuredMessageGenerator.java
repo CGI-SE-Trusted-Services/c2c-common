@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.certificateservices.custom.c2x.common.Encodable;
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId3;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType;
@@ -47,7 +47,7 @@ import org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessage;
  */
 public class SecuredMessageGenerator {
 	
-	private CryptoManager cryptoManager;
+	private ITSCryptoManager cryptoManager;
 	private Certificate senderCertificate;
 	private PublicKeyAlgorithm signingPublicKeyAlgorithm;
 	private PrivateKey senderSigningPrivateKey;
@@ -67,7 +67,7 @@ public class SecuredMessageGenerator {
 	 * 
 	 * @throws IllegalArgumentException if invalid signerInfoType was specified.
 	 */
-	public SecuredMessageGenerator(CryptoManager cryptoManager, 
+	public SecuredMessageGenerator(ITSCryptoManager cryptoManager, 
 			PublicKeyAlgorithm signingPublicKeyAlgorithm,
 			Certificate senderCertificate, 
 			PrivateKey senderSigningPrivateKey, 

@@ -19,7 +19,7 @@ import net.time4j.engine.ChronoElement;
 import net.time4j.scale.TimeScale;
 
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 
 import spock.lang.Specification;
 import spock.lang.Unroll;

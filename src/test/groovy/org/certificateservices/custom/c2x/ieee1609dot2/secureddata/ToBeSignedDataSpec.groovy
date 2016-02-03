@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.secureddata
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.CrlSeries
@@ -24,7 +25,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.basic.Psid
 import org.certificateservices.custom.c2x.ieee1609dot2.cert.SubjectPermissions.SubjectPermissionsChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.HashedData.HashedDataChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
 import org.junit.Ignore;
 
 import spock.lang.Shared;
@@ -56,7 +56,14 @@ class ToBeSignedDataSpec extends BaseStructSpec {
 		tbs2.getPayload() == sdp
 		tbs2.getHeaderInfo() == hi
 		
-		
+	}
+	
+	def "Verify that encode and decode to byte array is correct"(){
+		when:
+		ToBeSignedData tbs1 = new ToBeSignedData(sdp,hi)
+		ToBeSignedData tbs2 = new ToBeSignedData(tbs1.encoded)
+		then:
+		tbs1 == tbs2
 	}
 	
 	def "Verify that IllegalArgumentException is thrown when encoding if not all required fields are set"(){

@@ -10,7 +10,9 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.its.crypto;
+package org.certificateservices.custom.c2x.common.crypto;
+
+import groovyjarjarantlr.ByteBuffer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -51,9 +53,11 @@ import org.bouncycastle.asn1.ASN1Encodable;
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.DLSequence;
+import org.bouncycastle.asn1.teletrust.TeleTrusTNamedCurves;
+import org.bouncycastle.asn1.teletrust.TeleTrusTObjectIdentifiers;
+import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher.ECIES;
-import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.interfaces.ECPublicKey;
@@ -64,8 +68,25 @@ import org.bouncycastle.jce.spec.IESParameterSpec;
 import org.bouncycastle.math.ec.ECCurve;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.custom.sec.SecP256R1Curve;
-import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.Encodable;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.EcdsaP256Signature;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey.PublicVerificationKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature.SignatureChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.basic.UncompressedEccPoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.cert.CertificateType;
+import org.certificateservices.custom.c2x.ieee1609dot2.cert.IssuerIdentifier;
+import org.certificateservices.custom.c2x.ieee1609dot2.cert.ToBeSignedCertificate;
+import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.SignerIdentifier;
+import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.SignerIdentifier.SignerIdentifierChoices;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EcdsaSignature;
@@ -96,14 +117,18 @@ import org.certificateservices.custom.c2x.its.datastructs.msg.TrailerFieldType;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class DefaultCryptoManager implements CryptoManager {
+public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2CryptoManager {
 	
    
 	protected ECParameterSpec ecNistP256Spec = ECNamedCurveTable.getParameterSpec("P-256");
+	protected ECParameterSpec brainpoolp256r1Spec = ECNamedCurveTable.getParameterSpec("brainpoolp256r1");
+	
 	protected KeyPairGenerator ecNistP256Generator;
+	protected KeyPairGenerator brainpoolp256r1P256Generator;
 	protected KeyGenerator aES128Generator;
 	protected SecureRandom secureRandom = new SecureRandom();
 	protected SecP256R1Curve ecNistP256Curve = new SecP256R1Curve();
+	protected ECCurve brainpoolp256r1 = TeleTrusTNamedCurves.getByOID(TeleTrusTObjectIdentifiers.brainpoolP256r1).getCurve();
 	protected KeyFactory keyFact;
 	protected MessageDigest sha256Digest;
 	
@@ -132,6 +157,8 @@ public class DefaultCryptoManager implements CryptoManager {
 			}
 			ecNistP256Generator = KeyPairGenerator.getInstance("ECDSA", provider);
 			ecNistP256Generator.initialize(ecNistP256Spec, secureRandom);
+			brainpoolp256r1P256Generator = KeyPairGenerator.getInstance("ECDSA", provider);
+			brainpoolp256r1P256Generator.initialize(brainpoolp256r1Spec,secureRandom);
 			sha256Digest = MessageDigest.getInstance("SHA-256","BC");
 			keyFact = KeyFactory.getInstance("ECDSA", "BC");
 			aES128Generator = KeyGenerator.getInstance("AES","BC");
@@ -266,6 +293,10 @@ public class DefaultCryptoManager implements CryptoManager {
 			PrivateKey privateKey)
 			throws IllegalArgumentException, SignatureException, IOException {		
 		
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			throw new IllegalArgumentException("Error no signature algorithm specified");
+		}
 		ASN1InputStream asn1InputStream = null;
 		try{
 			byte[] messageDigest = digest(message, alg);
@@ -283,8 +314,8 @@ public class DefaultCryptoManager implements CryptoManager {
 			BigInteger r = ((ASN1Integer) dLSequence.getObjectAt(0)).getPositiveValue();
 			BigInteger s = ((ASN1Integer) dLSequence.getObjectAt(1)).getPositiveValue();
 
-			ByteArrayOutputStream baos = new ByteArrayOutputStream(alg.getFieldSize());
-			EncodeHelper.writeFixedFieldSizeKey(alg, baos, s);	    
+			ByteArrayOutputStream baos = new ByteArrayOutputStream(sigAlg.getFieldSize());
+			EncodeHelper.writeFixedFieldSizeKey(sigAlg.getFieldSize(), baos, s);	    
 
 			return new Signature(alg, new EcdsaSignature(alg, new EccPoint(alg, EccPointType.x_coordinate_only, r), baos.toByteArray()));
 
@@ -307,6 +338,95 @@ public class DefaultCryptoManager implements CryptoManager {
 			}			
 		}
 	}
+	
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#signMessageDigest(byte[], AlgorithmIndicator, PrivateKey)
+	 */
+	@Override
+	public org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signMessageDigest(
+			byte[] digest, AlgorithmIndicator alg, PrivateKey privateKey)
+			throws IllegalArgumentException, SignatureException, IOException {
+		
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			throw new IllegalArgumentException("Error no signature algorithm specified");
+		}
+		ASN1InputStream asn1InputStream = null;
+		try{
+		
+			java.security.Signature signature = java.security.Signature.getInstance("NONEwithECDSA", provider); 
+			signature.initSign(privateKey);
+			signature.update(digest);
+			byte[] dERSignature = signature.sign();
+
+
+			ByteArrayInputStream inStream = new ByteArrayInputStream(dERSignature);
+			asn1InputStream = new ASN1InputStream(inStream);
+
+			DLSequence dLSequence = (DLSequence) asn1InputStream.readObject();
+			BigInteger r = ((ASN1Integer) dLSequence.getObjectAt(0)).getPositiveValue();
+			BigInteger s = ((ASN1Integer) dLSequence.getObjectAt(1)).getPositiveValue();
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream(sigAlg.getFieldSize());
+			EncodeHelper.writeFixedFieldSizeKey(sigAlg.getFieldSize(), baos, s);	    
+
+			return new org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature(
+					getSignatureChoice(sigAlg),new EcdsaP256Signature(new EccP256CurvePoint(r), 
+					baos.toByteArray()));
+
+		}catch(Exception e){
+			if(e instanceof IllegalArgumentException){
+				throw (IllegalArgumentException) e;
+			}
+			if(e instanceof IOException){
+				throw (IOException) e;
+			}
+			if(e instanceof SignatureException){
+				throw (SignatureException) e;
+			}
+			
+			throw new SignatureException("Internal error generating signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+			
+		}finally{
+			if(asn1InputStream != null){
+				asn1InputStream.close();
+			}			
+		}
+	}
+	
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#signMessage(byte[], AlgorithmIndicator, PrivateKey, CertificateType, org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate)
+	 */
+	@Override
+	public org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signMessage(
+			byte[] message, AlgorithmIndicator alg, PrivateKey privateKey,
+			CertificateType certType,
+			org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signCert)
+			throws IllegalArgumentException, SignatureException, IOException {
+		
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			throw new IllegalArgumentException("Error no signature algorithm specified");
+		}
+		
+		try{
+			return signMessageDigest(genIEEECertificateDigest(alg, message, signCert), alg, privateKey);
+		}catch(Exception e){
+			if(e instanceof IllegalArgumentException){
+				throw (IllegalArgumentException) e;
+			}
+			if(e instanceof IOException){
+				throw (IOException) e;
+			}
+			if(e instanceof SignatureException){
+				throw (SignatureException) e;
+			}
+			throw new SignatureException("Internal error generating signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);			
+		}
+	}
+	
+
+
 
 	/**
 	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#verifySignature(byte[], Signature, EccPoint)
@@ -338,13 +458,18 @@ public class DefaultCryptoManager implements CryptoManager {
 			SignatureException, IOException {
 		PublicKeyAlgorithm alg = signature.getPublicKeyAlgorithm();
 		
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			throw new IllegalArgumentException("Error no signature algorithm specified");
+		}
+		
 		if(alg ==PublicKeyAlgorithm.ecdsa_nistp256_with_sha256){
 			try{
 				EcdsaSignature ecdsaSignature = signature.getSignatureValue();
 
 				// Create Signature Data
 				ASN1Integer asn1R = new ASN1Integer(ecdsaSignature.getR().getX());		    
-				ASN1Integer asn1S = new ASN1Integer(EncodeHelper.readFixedFieldSizeKey(alg, new ByteArrayInputStream(ecdsaSignature.getSignatureValue())));
+				ASN1Integer asn1S = new ASN1Integer(EncodeHelper.readFixedFieldSizeKey(sigAlg.getFieldSize(), new ByteArrayInputStream(ecdsaSignature.getSignatureValue())));
 				DLSequence dLSequence = new DLSequence(new ASN1Encodable[]{asn1R, asn1S});
 				byte[] dERSignature = dLSequence.getEncoded();
 
@@ -381,6 +506,142 @@ public class DefaultCryptoManager implements CryptoManager {
 		return verifySignature(message, signature, getVerificationKey(signerCert));
 	}
 	
+	
+
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignatureDigest(byte[], org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature, PublicKey)
+	 */
+	@Override
+	public boolean verifySignatureDigest(
+			byte[] digest,
+			org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature,
+			PublicKey publicKey) throws IllegalArgumentException,
+			SignatureException, IOException {
+		 
+		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			throw new IllegalArgumentException("Error no signature algorithm specified");
+		}
+		
+		try{
+			EcdsaP256Signature ecdsaSignature = (EcdsaP256Signature) signature.getValue();
+
+			// Create Signature Data
+			EccP256CurvePoint xPoint = ecdsaSignature.getR();
+			BigInteger r = new BigInteger(1,((COEROctetStream) xPoint.getValue()).getData());
+			ASN1Integer asn1R = new ASN1Integer(r);		    
+			ASN1Integer asn1S = new ASN1Integer(EncodeHelper.readFixedFieldSizeKey(sigAlg.getFieldSize(), new ByteArrayInputStream(ecdsaSignature.getS())));
+			DLSequence dLSequence = new DLSequence(new ASN1Encodable[]{asn1R, asn1S});
+			byte[] dERSignature = dLSequence.getEncoded();
+
+			java.security.Signature sig = java.security.Signature.getInstance("NONEwithECDSA", provider); 
+			sig.initVerify(publicKey);
+			sig.update(digest);
+			return sig.verify(dERSignature);
+		}catch(Exception e){
+			if(e instanceof IllegalArgumentException){
+				throw (IllegalArgumentException) e;
+			}
+			if(e instanceof IOException){
+				throw (IOException) e;
+			}
+			if(e instanceof SignatureException){
+				throw (SignatureException) e;
+			}
+
+			throw new SignatureException("Internal error verifying signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature, CertificateType, org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate, PublicKey)
+	 */
+//	@Override
+//	public boolean verifySignature(
+//			byte[] message,
+//			org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature,
+//			CertificateType certType,
+//			org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signCert,
+//			PublicKey publicKey) throws IllegalArgumentException,
+//			SignatureException, IOException {
+//		 
+//		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
+//		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+//		if(sigAlg == null){
+//			throw new IllegalArgumentException("Error no signature algorithm specified");
+//		}
+//		try{
+//			return verifySignatureDigest(digest(message, alg), signature, publicKey);
+//		}catch(Exception e){
+//			if(e instanceof IllegalArgumentException){
+//				throw (IllegalArgumentException) e;
+//			}
+//			if(e instanceof IOException){
+//				throw (IOException) e;
+//			}
+//			if(e instanceof SignatureException){
+//				throw (SignatureException) e;
+//			}
+//
+//			throw new SignatureException("Internal error verifying signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+//		}
+//	}
+	
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature, EccP256CurvePoint)
+	 */
+	
+	protected boolean verifyExplicitSignature(
+			byte[] message,
+			org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature,
+			org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signCert,
+			EccP256CurvePoint pubVerKey) throws IllegalArgumentException,
+			SignatureException, IOException {
+		 
+		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			throw new IllegalArgumentException("Error no signature algorithm specified");
+		}
+		try{
+			return verifySignatureDigest(genIEEECertificateDigest(alg,message, signCert), signature, (PublicKey) decodeEccPoint(alg, pubVerKey));
+		}catch(Exception e){
+			if(e instanceof IllegalArgumentException){
+				throw (IllegalArgumentException) e;
+			}
+			if(e instanceof IOException){
+				throw (IOException) e;
+			}
+			if(e instanceof SignatureException){
+				throw (SignatureException) e;
+			}
+
+			throw new SignatureException("Internal error verifying signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+		}
+	}
+
+
+	
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature, org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate)
+	 */
+	@Override
+	public boolean verifySignature(
+			byte[] message,
+			org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature,
+			CertificateType certType,
+			org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signerCert)
+			throws IllegalArgumentException, SignatureException, IOException {
+		if(certType == CertificateType.explicit){
+			PublicVerificationKey pubVerKey = (PublicVerificationKey) signerCert.getToBeSigned().getVerifyKeyIndicator().getValue();
+			verifyExplicitSignature(message, signature, signerCert, (EccP256CurvePoint) pubVerKey.getValue());
+		}else{
+			// TODO
+			throw new IllegalArgumentException("Implicit certificates not supported");
+		}
+		return false;
+	}
 
 	/**
 	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#verifyCertificate(Certificate)
@@ -434,7 +695,7 @@ public class DefaultCryptoManager implements CryptoManager {
 	 */
 	@Override
 	public void verifySecuredMessage(SecuredMessage message)
-			throws IllegalArgumentException, InvalidITSSignatureException, SignatureException, IOException {
+			throws IllegalArgumentException, InvalidSignatureException, SignatureException, IOException {
 		Certificate signerCert = findFirstValidCertificateInMessage(message);
 		verifySecuredMessage(message, signerCert);
 	}
@@ -444,13 +705,13 @@ public class DefaultCryptoManager implements CryptoManager {
 	 */
 	@Override
 	public void verifySecuredMessage(SecuredMessage message,
-			Certificate signerCert) throws IllegalArgumentException, InvalidITSSignatureException,
+			Certificate signerCert) throws IllegalArgumentException, InvalidSignatureException,
 			SignatureException, IOException {
 		Signature signature = findSignatureInMessage(message);
 		byte[] msgData = serializeDataToBeSignedInSecuredMessage(message, signature);
 	
 		if(!verifySignature(msgData, signature, signerCert)){
-			throw new InvalidITSSignatureException("Error verifying signature of SecuredMessage");
+			throw new InvalidSignatureException("Error verifying signature of SecuredMessage");
 		}
 	}
 	
@@ -460,7 +721,7 @@ public class DefaultCryptoManager implements CryptoManager {
 	@Override
 	public SecuredMessage verifyAndDecryptSecuredMessage(
 			SecuredMessage message, Certificate receiverCertificate,
-			PrivateKey receiverKey) throws IllegalArgumentException, InvalidITSSignatureException, GeneralSecurityException, IOException{
+			PrivateKey receiverKey) throws IllegalArgumentException, InvalidSignatureException, GeneralSecurityException, IOException{
 		verifySecuredMessage(message);
 		return decryptSecureMessage(message, receiverCertificate, receiverKey, PayloadType.signed_and_encrypted);
 	}
@@ -472,7 +733,7 @@ public class DefaultCryptoManager implements CryptoManager {
 	public SecuredMessage verifyAndDecryptSecuredMessage(
 			SecuredMessage message, Certificate signerCert,
 			Certificate receiverCertificate, PrivateKey receiverKey)
-			throws IllegalArgumentException, InvalidITSSignatureException, GeneralSecurityException, IOException{
+			throws IllegalArgumentException, InvalidSignatureException, GeneralSecurityException, IOException{
 		verifySecuredMessage(message, signerCert);
 		return decryptSecureMessage(message, receiverCertificate, receiverKey, PayloadType.signed_and_encrypted);
 	}
@@ -480,15 +741,22 @@ public class DefaultCryptoManager implements CryptoManager {
 	/**
 	 * Supports ECDSA P256
 	 * 
-	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#generateKeyPair(PublicKeyAlgorithm)
+	 * @see org.certificateservices.custom.c2x.common.crypto.CryptoManager#generateKeyPair(AlgorithmIndicator)
 	 */
-	public KeyPair generateKeyPair(PublicKeyAlgorithm alg){
-		if(alg == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256 || alg == PublicKeyAlgorithm.ecies_nistp256){
+	public KeyPair generateKeyPair(AlgorithmIndicator alg){
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			return null;
+		}
+		if(sigAlg == Algorithm.Signature.ecdsaNistP256){
 			return ecNistP256Generator.generateKeyPair();
+		}
+		if(sigAlg == Algorithm.Signature.ecdsaBrainpoolP256r1){
+			return brainpoolp256r1P256Generator.generateKeyPair();
 		}
 		return null;
 	}
-	
+		
 	/**
 	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#encodeEccPoint(PublicKeyAlgorithm, EccPointType, PublicKey)
 	 */
@@ -497,7 +765,7 @@ public class DefaultCryptoManager implements CryptoManager {
 			throw new IllegalArgumentException("Only ec public keys are supported, not " + publicKey.getClass().getSimpleName());
 		}
 		BCECPublicKey bcPub = convertECPublicKeyToBCECPublicKey(alg, (java.security.interfaces.ECPublicKey) publicKey);
-
+		
 		if(type == EccPointType.uncompressed){
 			return new EccPoint(alg, type, bcPub.getW().getAffineX(), bcPub.getW().getAffineY());
 		}
@@ -512,9 +780,9 @@ public class DefaultCryptoManager implements CryptoManager {
 	}
 	
 	/**
-	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#decodeEccPoint(PublicKeyAlgorithm, EccPoint)
+	 * @see org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager#decodeEccPoint(PublicKeyAlgorithm, EccPoint)
 	 */
-	public Object decodeEccPoint(PublicKeyAlgorithm alg, EccPoint point) throws InvalidKeySpecException{
+	public Object decodeEccPoint(AlgorithmIndicator alg, EccPoint point) throws InvalidKeySpecException{
 		switch(point.getEccPointType()){
 		case x_coordinate_only:
 		    return point.getX();			
@@ -528,15 +796,104 @@ public class DefaultCryptoManager implements CryptoManager {
 	}
 	
 	/**
-	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#digest(byte[], PublicKeyAlgorithm)
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#encodeEccPoint(BasePublicEncryptionKeyChoices, EccP256CurvePointChoices, PublicKey)
 	 */
-	public byte[] digest(byte[] message, PublicKeyAlgorithm alg) throws IllegalArgumentException, NoSuchAlgorithmException {
-		if(alg == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256){
+	@Override
+	public EccP256CurvePoint encodeEccPoint(AlgorithmIndicator alg,
+			EccP256CurvePointChoices type, PublicKey publicKey)
+			throws IllegalArgumentException, InvalidKeySpecException {
+		if(! (publicKey instanceof java.security.interfaces.ECPublicKey)){
+			throw new IllegalArgumentException("Only ec public keys are supported, not " + publicKey.getClass().getSimpleName());
+		}
+		BCECPublicKey bcPub = convertECPublicKeyToBCECPublicKey(alg, (java.security.interfaces.ECPublicKey) publicKey);
+
+		if(type == EccP256CurvePointChoices.uncompressed){
+			return new EccP256CurvePoint(bcPub.getW().getAffineX(), bcPub.getW().getAffineY());
+		}
+		if(type == EccP256CurvePointChoices.compressedy0 || type == EccP256CurvePointChoices.compressedy1){	
+			return new EccP256CurvePoint(bcPub.getQ().getEncoded(true));            
+		}
+		if(type == EccP256CurvePointChoices.xonly){
+			return new EccP256CurvePoint(bcPub.getW().getAffineX());
+		}
+
+		throw new IllegalArgumentException("Unsupported ecc point type: " + type);
+	}
+
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#decodeEccPoint(BasePublicEncryptionKeyChoices, EccP256CurvePoint)
+	 */
+	@Override
+	public Object decodeEccPoint(AlgorithmIndicator alg,
+			EccP256CurvePoint eccPoint) throws InvalidKeySpecException {
+		switch(eccPoint.getType()){
+		case fill:
+			throw new InvalidKeySpecException("Unsupported EccPoint type: fill");
+		case xonly:
+			byte[] data = ((COEROctetStream) eccPoint.getValue()).getData();
+		    return new BigInteger(1,data);	
+		case compressedy0:
+		case compressedy1:
+			byte[] compData = ((COEROctetStream) eccPoint.getValue()).getData();
+			byte[] compressedEncoding = new byte[compData.length +1];
+			System.arraycopy(compData, 0, compressedEncoding, 1, compData.length);
+			if(eccPoint.getType() == EccP256CurvePointChoices.compressedy0){
+				compressedEncoding[0] = 0x02;
+			}else{
+				compressedEncoding[0] = 0x03;
+			}
+			return getECPublicKeyFromECPoint(alg, getECCurve(alg).decodePoint(compressedEncoding));
+		case uncompressed:
+			UncompressedEccPoint uep = (UncompressedEccPoint) eccPoint.getValue();
+			BigInteger x = new BigInteger(1, uep.getX());
+			BigInteger y = new BigInteger(1, uep.getY());
+			return getECPublicKeyFromECPoint(alg, getECCurve(alg).createPoint(x, y));
+		}
+		return null;
+	}
+
+	
+	/**
+	 * @see org.certificateservices.custom.c2x.common.crypto.CryptoManager#digest(byte[], PublicKeyAlgorithm)
+	 */
+	public byte[] digest(byte[] message, AlgorithmIndicator alg) throws IllegalArgumentException, NoSuchAlgorithmException {
+		Hash hashAlg = alg.getAlgorithm().getHash();
+		if(hashAlg != null && hashAlg == Hash.sha256){
+			sha256Digest.reset();
             sha256Digest.update(message); 
 			return sha256Digest.digest();
 		}else{
 			throw new IllegalArgumentException("Unsupported signature algorithm: " + alg);
 		}
+	}
+		
+
+	
+	/**
+	 * Help method to generate a certificate digest according to 1609.2 section 5.3.1 Signature algorithm.
+	 * @param alg the algorithm to use.
+	 * @param messageData the message data to digest
+	 * @param signerCertificate the certificate used for signing, null if selfsigned data.
+	 * @throws NoSuchAlgorithmException 
+	 * @throws IllegalArgumentException 
+	 * @throws IOException 
+	 */
+	protected byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
+		byte[] dataDigest = digest(messageData, alg);
+		byte[] signerDigest;
+
+		if(signerCertificate == null){
+			signerDigest = digest(new byte[0], alg);
+		}else{
+			signerDigest = digest(signerCertificate.getEncoded(), alg);
+		}
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		baos.write(dataDigest);
+		baos.write(signerDigest);
+		
+		return digest(baos.toByteArray(),alg);
+		
 	}
 	
 	protected final int ECIES_NIST_P256_V_LENGTH = 65;
@@ -712,6 +1069,9 @@ public class DefaultCryptoManager implements CryptoManager {
 	    return retval;
 	}
 	
+	
+
+	
 	/**
 	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#disconnect()
 	 */
@@ -785,26 +1145,47 @@ public class DefaultCryptoManager implements CryptoManager {
 		throw new IllegalArgumentException("Error no recipient info found in header matching certificate with hashId: " + hashId.toString());
 	}
 	
-	protected ECCurve.AbstractFp getECCurve(PublicKeyAlgorithm alg){
-		if(alg == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256 || alg == PublicKeyAlgorithm.ecies_nistp256){
+	
+	protected ECCurve getECCurve(AlgorithmIndicator alg){
+		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaNistP256){
 			return ecNistP256Curve;
+		}
+		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP256r1){
+			return brainpoolp256r1;
 		}
 		throw new IllegalArgumentException("Unsupported EC Algorithm: " + alg);
 	}
 	
-	protected ECPublicKey getECPublicKeyFromECPoint(PublicKeyAlgorithm alg, ECPoint eCPoint) throws InvalidKeySpecException{
+
+	
+	protected ECPublicKey getECPublicKeyFromECPoint(AlgorithmIndicator alg, ECPoint eCPoint) throws InvalidKeySpecException{
 		ECPublicKeySpec spec = new ECPublicKeySpec(eCPoint, getECParameterSpec(alg));
 		return (ECPublicKey) keyFact.generatePublic(spec);
 	}
-	
-	protected ECParameterSpec getECParameterSpec(PublicKeyAlgorithm alg){
-		if(alg == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256 || alg == PublicKeyAlgorithm.ecies_nistp256){
+
+	protected ECParameterSpec getECParameterSpec(AlgorithmIndicator alg){
+		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaNistP256){
 			return ecNistP256Spec;
+		}
+		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP256r1){
+			return brainpoolp256r1Spec;
 		}
 		throw new IllegalArgumentException("Unsupported EC Algorithm: " + alg);
 	}
 	
-	protected BCECPublicKey convertECPublicKeyToBCECPublicKey(PublicKeyAlgorithm alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
+	protected BCECPublicKey convertECPublicKeyToBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
+		if(ecPublicKey instanceof BCECPublicKey){
+			return (BCECPublicKey) ecPublicKey;
+		}
+		
+		org.bouncycastle.math.ec.ECPoint ecPoint = EC5Util.convertPoint(getECCurve(alg), ecPublicKey.getW(), false);
+		ECPublicKeySpec keySpec = new ECPublicKeySpec(ecPoint, getECParameterSpec(alg));
+		
+		return (BCECPublicKey) keyFact.generatePublic(keySpec);
+
+	}
+	
+	protected BCECPublicKey convertECPublicKeyToBCECPublicKey(BasePublicEncryptionKeyChoices alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
 		if(ecPublicKey instanceof BCECPublicKey){
 			return (BCECPublicKey) ecPublicKey;
 		}
@@ -961,5 +1342,27 @@ public class DefaultCryptoManager implements CryptoManager {
 		throw new IllegalArgumentException("Error unsupported digital signature algorithm " + signature.getPublicKeyAlgorithm());
 	}
 	
+	protected SignatureChoices getSignatureChoice(
+			org.certificateservices.custom.c2x.common.crypto.Algorithm.Signature sigAlg) {
+		switch (sigAlg) {
+		case ecdsaNistP256:
+			return SignatureChoices.ecdsaNistP256Signature;
+		case ecdsaBrainpoolP256r1:
+		default:
+			return SignatureChoices.ecdsaBrainpoolP256r1Signature;
+		}
+	}
 	
+	protected AlgorithmIndicator  getSignatureAlgorithm(SignatureChoices sigChoice) {
+		switch (sigChoice) {
+		case ecdsaNistP256Signature:
+			return PublicVerificationKeyChoices.ecdsaNistP256;
+		case ecdsaBrainpoolP256r1Signature:
+		default:
+			return PublicVerificationKeyChoices.ecdsaBrainpoolP256r1;
+		}
+	}
+
+
+
 }

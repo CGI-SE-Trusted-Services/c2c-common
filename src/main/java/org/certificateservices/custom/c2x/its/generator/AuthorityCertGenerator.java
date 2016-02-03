@@ -20,7 +20,7 @@ import java.security.SignatureException;
 import java.util.Date;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
@@ -39,7 +39,7 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 	 * Main constructor
 	 * @param cryptoManager the crypto manager to use.
 	 */
-	public AuthorityCertGenerator(CryptoManager cryptoManager) {
+	public AuthorityCertGenerator(ITSCryptoManager cryptoManager) {
 		super(cryptoManager);
 	}
 

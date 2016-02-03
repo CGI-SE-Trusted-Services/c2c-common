@@ -181,11 +181,11 @@ public class EccPoint implements Encodable{
 	}
 
 	private void writeFixedFieldSizeKey(DataOutputStream out, BigInteger keyValue) throws UnsupportedOperationException, IOException{
-		EncodeHelper.writeFixedFieldSizeKey(publicKeyAlgorithm, out, keyValue);
+		EncodeHelper.writeFixedFieldSizeKey(publicKeyAlgorithm.getFieldSize(), out, keyValue);
 	}
 	
 	private BigInteger readFixedFieldSizeKey(DataInputStream in) throws UnsupportedOperationException, IOException{
-		return EncodeHelper.readFixedFieldSizeKey(publicKeyAlgorithm, in);
+		return EncodeHelper.readFixedFieldSizeKey(publicKeyAlgorithm.getFieldSize(), in);
 	}
 
 	

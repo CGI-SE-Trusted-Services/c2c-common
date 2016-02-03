@@ -17,6 +17,9 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
 
 /**
@@ -32,13 +35,24 @@ public class PublicVerificationKey extends COERChoice {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public enum PublicVerificationKeyChoices implements COERChoiceEnumeration{
+	public enum PublicVerificationKeyChoices implements COERChoiceEnumeration, AlgorithmIndicator{
 		ecdsaNistP256,
 		ecdsaBrainpoolP256r1;
 
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 			return new EccP256CurvePoint();
+		}
+
+		@Override
+		public Algorithm getAlgorithm() {
+			switch (this) {
+			case ecdsaNistP256:
+				return new Algorithm(null,Algorithm.Signature.ecdsaNistP256, null,Hash.sha256);
+			case ecdsaBrainpoolP256r1:
+			default:
+				return new Algorithm(null,Algorithm.Signature.ecdsaBrainpoolP256r1, null,Hash.sha256);
+			}	
 		}
 	}
 	
