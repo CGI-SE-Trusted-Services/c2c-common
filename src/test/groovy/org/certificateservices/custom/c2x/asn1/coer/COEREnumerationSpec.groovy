@@ -12,16 +12,14 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer
 
-import org.bouncycastle.asn1.ASN1Boolean
-import org.certificateservices.custom.c2x.common.BaseStructSpec
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.HashAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.SymmAlgorithm;
-
-import spock.lang.IgnoreRest;
-import spock.lang.Shared;
-import spock.lang.Specification
-import spock.lang.Unroll;
 import static org.certificateservices.custom.c2x.asn1.coer.COERTag.*
+
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
+
+import spock.lang.Shared
+import spock.lang.Unroll
 
 class COEREnumerationSpec extends BaseStructSpec {
 	

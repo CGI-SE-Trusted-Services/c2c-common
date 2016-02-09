@@ -12,8 +12,6 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.common.crypto;
 
-import groovyjarjarantlr.ByteBuffer;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -68,24 +66,21 @@ import org.bouncycastle.jce.spec.IESParameterSpec;
 import org.bouncycastle.math.ec.ECCurve;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.custom.sec.SecP256R1Curve;
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.common.EncodeHelper;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.EcdsaP256Signature;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey.PublicVerificationKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.UncompressedEccPoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.cert.CertificateType;
-import org.certificateservices.custom.c2x.ieee1609dot2.cert.IssuerIdentifier;
-import org.certificateservices.custom.c2x.ieee1609dot2.cert.ToBeSignedCertificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
-import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.SignerIdentifier;
-import org.certificateservices.custom.c2x.ieee1609dot2.secureddata.SignerIdentifier.SignerIdentifierChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EcdsaP256Signature;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.UncompressedEccPoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
 import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
@@ -343,7 +338,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#signMessageDigest(byte[], AlgorithmIndicator, PrivateKey)
 	 */
 	@Override
-	public org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signMessageDigest(
+	public org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signMessageDigest(
 			byte[] digest, AlgorithmIndicator alg, PrivateKey privateKey)
 			throws IllegalArgumentException, SignatureException, IOException {
 		
@@ -370,7 +365,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			ByteArrayOutputStream baos = new ByteArrayOutputStream(sigAlg.getFieldSize());
 			EncodeHelper.writeFixedFieldSizeKey(sigAlg.getFieldSize(), baos, s);	    
 
-			return new org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature(
+			return new org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature(
 					getSignatureChoice(sigAlg),new EcdsaP256Signature(new EccP256CurvePoint(r), 
 					baos.toByteArray()));
 
@@ -395,13 +390,13 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 	
 	/**
-	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#signMessage(byte[], AlgorithmIndicator, PrivateKey, CertificateType, org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate)
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#signMessage(byte[], AlgorithmIndicator, PrivateKey, CertificateType, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate)
 	 */
 	@Override
-	public org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signMessage(
-			byte[] message, AlgorithmIndicator alg, PrivateKey privateKey,
+	public org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signMessage(
+			byte[] message, AlgorithmIndicator alg, PublicKey pubKey, PrivateKey privateKey,
 			CertificateType certType,
-			org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signCert)
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert)
 			throws IllegalArgumentException, SignatureException, IOException {
 		
 		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
@@ -410,7 +405,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		}
 		
 		try{
-			return signMessageDigest(genIEEECertificateDigest(alg, message, signCert), alg, privateKey);
+			  return signMessageDigest(genIEEECertificateDigest(alg, message, signCert), alg, privateKey);
 		}catch(Exception e){
 			if(e instanceof IllegalArgumentException){
 				throw (IllegalArgumentException) e;
@@ -509,12 +504,12 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	
 
 	/**
-	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignatureDigest(byte[], org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature, PublicKey)
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignatureDigest(byte[], org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature, PublicKey)
 	 */
 	@Override
 	public boolean verifySignatureDigest(
 			byte[] digest,
-			org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
 			PublicKey publicKey) throws IllegalArgumentException,
 			SignatureException, IOException {
 		 
@@ -589,13 +584,13 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 //	}
 	
 	/**
-	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature, EccP256CurvePoint)
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature, EccP256CurvePoint)
 	 */
 	
 	protected boolean verifyExplicitSignature(
 			byte[] message,
-			org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature,
-			org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signCert,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert,
 			EccP256CurvePoint pubVerKey) throws IllegalArgumentException,
 			SignatureException, IOException {
 		 
@@ -624,24 +619,53 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 
 	
 	/**
-	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature, org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate)
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate)
 	 */
 	@Override
 	public boolean verifySignature(
 			byte[] message,
-			org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
 			CertificateType certType,
-			org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signerCert)
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCert)
 			throws IllegalArgumentException, SignatureException, IOException {
 		if(certType == CertificateType.explicit){
 			PublicVerificationKey pubVerKey = (PublicVerificationKey) signerCert.getToBeSigned().getVerifyKeyIndicator().getValue();
-			verifyExplicitSignature(message, signature, signerCert, (EccP256CurvePoint) pubVerKey.getValue());
+			return verifyExplicitSignature(message, signature, signerCert, (EccP256CurvePoint) pubVerKey.getValue());
 		}else{
 			// TODO
 			throw new IllegalArgumentException("Implicit certificates not supported");
 		}
-		return false;
 	}
+	
+	/**
+	 *  {@link org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifyCertificate(org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate)}
+	 */
+	@Override
+	public boolean verifyCertificate(
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate)
+			throws IllegalArgumentException, SignatureException, IOException {
+		if(certificate.equals(signerCertificate)){
+			return verifySignature(certificate.getToBeSigned().getEncoded(), certificate.getSignature(), (PublicVerificationKey) certificate.getToBeSigned().getVerifyKeyIndicator().getValue());
+		}else{
+			return verifySignature(certificate.getToBeSigned().getEncoded(), certificate.getSignature(), certificate.getType(), signerCertificate);
+		}
+		
+	}
+	
+
+	protected boolean verifySignature(
+			byte[] message,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
+			PublicVerificationKey publicVerificationKey)
+			throws IllegalArgumentException, SignatureException, IOException {
+		
+			return verifyExplicitSignature(message, signature, null, (EccP256CurvePoint) publicVerificationKey.getValue());
+	}
+	
+	// TODO 
+	
+
 
 	/**
 	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#verifyCertificate(Certificate)
@@ -764,7 +788,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		if(! (publicKey instanceof java.security.interfaces.ECPublicKey)){
 			throw new IllegalArgumentException("Only ec public keys are supported, not " + publicKey.getClass().getSimpleName());
 		}
-		BCECPublicKey bcPub = convertECPublicKeyToBCECPublicKey(alg, (java.security.interfaces.ECPublicKey) publicKey);
+		BCECPublicKey bcPub = toBCECPublicKey(alg, (java.security.interfaces.ECPublicKey) publicKey);
 		
 		if(type == EccPointType.uncompressed){
 			return new EccPoint(alg, type, bcPub.getW().getAffineX(), bcPub.getW().getAffineY());
@@ -805,12 +829,12 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		if(! (publicKey instanceof java.security.interfaces.ECPublicKey)){
 			throw new IllegalArgumentException("Only ec public keys are supported, not " + publicKey.getClass().getSimpleName());
 		}
-		BCECPublicKey bcPub = convertECPublicKeyToBCECPublicKey(alg, (java.security.interfaces.ECPublicKey) publicKey);
+		BCECPublicKey bcPub = toBCECPublicKey(alg, (java.security.interfaces.ECPublicKey) publicKey);
 
 		if(type == EccP256CurvePointChoices.uncompressed){
 			return new EccP256CurvePoint(bcPub.getW().getAffineX(), bcPub.getW().getAffineY());
 		}
-		if(type == EccP256CurvePointChoices.compressedy0 || type == EccP256CurvePointChoices.compressedy1){	
+		if(type == EccP256CurvePointChoices.compressedy0 || type == EccP256CurvePointChoices.compressedy1){
 			return new EccP256CurvePoint(bcPub.getQ().getEncoded(true));            
 		}
 		if(type == EccP256CurvePointChoices.xonly){
@@ -878,7 +902,8 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	 * @throws IllegalArgumentException 
 	 * @throws IOException 
 	 */
-	protected byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
+	@Override
+	public byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
 		byte[] dataDigest = digest(messageData, alg);
 		byte[] signerDigest;
 
@@ -892,7 +917,8 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		baos.write(dataDigest);
 		baos.write(signerDigest);
 		
-		return digest(baos.toByteArray(),alg);
+		byte[] retval = digest(baos.toByteArray(),alg);
+		return retval;
 		
 	}
 	
@@ -1125,6 +1151,42 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 	
 	/**
+	 * Method to convert a EC public key to a BCECPublicKey
+	 * @param alg specifying the related curve used.
+	 * @param ecPublicKey key to convert
+	 * @return a BCECPublicKey
+	 * @throws InvalidKeySpecException if supplied key was invalid.
+	 */
+	@Override
+	public BCECPublicKey toBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
+		if(ecPublicKey instanceof BCECPublicKey){
+			return (BCECPublicKey) ecPublicKey;
+		}
+		
+		org.bouncycastle.math.ec.ECPoint ecPoint = EC5Util.convertPoint(getECCurve(alg), ecPublicKey.getW(), false);
+		ECPublicKeySpec keySpec = new ECPublicKeySpec(ecPoint, getECParameterSpec(alg));
+		
+		return (BCECPublicKey) keyFact.generatePublic(keySpec);
+
+	}
+
+	/**
+	 * Returns the related EC domain parameters for given algorithm.
+	 * @param alg
+	 * @return related EC domain parameters for given algorithm.
+	 */
+	@Override
+	public ECParameterSpec getECParameterSpec(AlgorithmIndicator alg){
+		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaNistP256){
+			return ecNistP256Spec;
+		}
+		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP256r1){
+			return brainpoolp256r1Spec;
+		}
+		throw new IllegalArgumentException("Unsupported EC Algorithm: " + alg);
+	}
+	
+	/**
 	 * Help method to find RecipientInfo for a given certificate.
 	 * 
 	 * @param receiverCertificate the certificate that matches the RecipientInfo to find.
@@ -1163,27 +1225,10 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		return (ECPublicKey) keyFact.generatePublic(spec);
 	}
 
-	protected ECParameterSpec getECParameterSpec(AlgorithmIndicator alg){
-		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaNistP256){
-			return ecNistP256Spec;
-		}
-		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP256r1){
-			return brainpoolp256r1Spec;
-		}
-		throw new IllegalArgumentException("Unsupported EC Algorithm: " + alg);
-	}
-	
-	protected BCECPublicKey convertECPublicKeyToBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
-		if(ecPublicKey instanceof BCECPublicKey){
-			return (BCECPublicKey) ecPublicKey;
-		}
-		
-		org.bouncycastle.math.ec.ECPoint ecPoint = EC5Util.convertPoint(getECCurve(alg), ecPublicKey.getW(), false);
-		ECPublicKeySpec keySpec = new ECPublicKeySpec(ecPoint, getECParameterSpec(alg));
-		
-		return (BCECPublicKey) keyFact.generatePublic(keySpec);
 
-	}
+	
+	// TODO
+
 	
 	protected BCECPublicKey convertECPublicKeyToBCECPublicKey(BasePublicEncryptionKeyChoices alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
 		if(ecPublicKey instanceof BCECPublicKey){
@@ -1362,6 +1407,8 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			return PublicVerificationKeyChoices.ecdsaBrainpoolP256r1;
 		}
 	}
+
+
 
 
 

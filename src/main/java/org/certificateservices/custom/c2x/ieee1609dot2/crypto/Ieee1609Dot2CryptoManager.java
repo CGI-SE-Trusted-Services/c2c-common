@@ -13,20 +13,21 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.crypto;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 
+import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
+import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature;
-import org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate;
-import org.certificateservices.custom.c2x.ieee1609dot2.cert.CertificateType;
-import org.certificateservices.custom.c2x.ieee1609dot2.cert.ToBeSignedCertificate;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
 
 
 /**
@@ -102,7 +103,9 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * 
 	 * @param message the message data to sign.
 	 * @param alg the public key algorithm scheme to use.
+	 * @param publicKey the public key of the certificate.
 	 * @param privateKey the private key used to sign the message.
+	 * @param certType the type of certificate (implicit or explicit)
 	 * @param signingCert the signer or null if self signed.
 	 * @return a IEEE 1609.2 Signature data structure containing the generated signature.
 	 * 
@@ -110,7 +113,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	Signature signMessage(byte[] message, AlgorithmIndicator alg, PrivateKey privateKey, CertificateType certType, Certificate signingCert) throws IllegalArgumentException, SignatureException, IOException;
+	Signature signMessage(byte[] message, AlgorithmIndicator alg, PublicKey publicKey, PrivateKey privateKey, CertificateType certType, Certificate signingCert) throws IllegalArgumentException, SignatureException, IOException;
 	
 	/**
 	 * Method used to sign the a digest of message according to the IEEE specification with EccPointType x_coordinate_only containing the R value.
@@ -172,12 +175,12 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	
 
 	/**
-	 * Method used to verify a ITS Signature data structure given the message and the signers public key
+	 * Method used to verify a IEEE Signature data structure given the message and the signers public key
 	 * 
 	 * @param message the message to verify.
 	 * @param signature the signature to verify.
 	 * @param certType indicates if it is implicit or explicit signature
-	 * @param signCert signing certificate, null if self signed
+	 * @param signCert signing certificate, required, for self signed certificate use separate method.
 	 * @return true if signature verifies.
 	 * 
 	 * @throws IllegalArgumentException if supplied arguments was invalid.
@@ -187,22 +190,18 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	boolean verifySignature(byte[] message, Signature signature, CertificateType certType, Certificate signCert) throws IllegalArgumentException,  SignatureException, IOException;
 
 
-//	/**
-//	 * Method to verify a certificate that has the signers public key inside the certificate, 
-//	 * i.e if SignerInfoType is self, certificate or certificate_chain
-//	 * <p>
-//	 * For other types use verifyCertificate(Certificate, Certificate)
-//	 * <p>
-//	 * <b>Important: this method only verifies the signature of the signer info public key (and for certificate_chain only the certificate above, not the entire chain). It
-//	 * doesn't check any of the validation requirements or against trust store.</b>
-//	 * @param certificate the certificate to verify.
-//	 * 
-//	 * @return true if certificate verifies.
-//	 * @throws IllegalArgumentException if supplied arguments was invalid.
-//	 * @throws SignatureException if internal problems occurred verifying the signature.
-//	 * @throws IOException if communication problems occurred with underlying components.
-//	 */
-//	boolean verifyCertificate(Certificate certificate) throws IllegalArgumentException,  SignatureException, IOException;
+	/**
+	 * Method to verify a certificate with a given signer certificate
+	 * 
+	 * @param certificate the certificate to verify.
+	 * @param signerCertificate the signer certificate 
+	 * 
+	 * @return true if certificate verifies.
+	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws SignatureException if internal problems occurred verifying the signature.
+	 * @throws IOException if communication problems occurred with underlying components.
+	 */
+	boolean verifyCertificate(Certificate certificate, Certificate signerCertificate) throws IllegalArgumentException,  SignatureException, IOException;
 //
 //	/**
 //	 * Method used to verify a ITS Certificate data structure given the message with a given signers public key.
@@ -333,6 +332,16 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 //	
 
 	/**
+	 * Method to convert a EC public key to a BCECPublicKey
+	 * 
+	 * @param alg specifying the related curve used.
+	 * @param ecPublicKey key to convert
+	 * @return a BCECPublicKey
+	 * @throws InvalidKeySpecException if supplied key was invalid.
+	 */
+	public BCECPublicKey toBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException;
+	
+	/**
 	 * Help method used to convert a public key to a Ieee EccP256CurvePoint data structure.
 	 * 
 	 * @param alg the public key algorithm scheme to use.
@@ -356,7 +365,24 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 */
 	Object decodeEccPoint(AlgorithmIndicator alg, EccP256CurvePoint eccPoint) throws InvalidKeySpecException;
 	
-	
+	/**
+	 * Help method to generate a certificate digest according to 1609.2 section 5.3.1 Signature algorithm.
+	 * @param alg the algorithm to use.
+	 * @param messageData the message data to digest
+	 * @param signerCertificate the certificate used for signing, null if selfsigned data.
+	 * @throws NoSuchAlgorithmException 
+	 * @throws IllegalArgumentException 
+	 * @throws IOException 
+	 */
+	public byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException;
+
+	/**
+	 * Returns the related EC domain parameters for given algorithm.
+	 * 
+	 * @param alg algorithm to fetch domain parameters for.
+	 * @return related EC domain parameters for given algorithm.
+	 */
+	public ECParameterSpec getECParameterSpec(AlgorithmIndicator alg) throws IllegalArgumentException;
 	
 
 }

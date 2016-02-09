@@ -38,16 +38,16 @@ import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.common.crypto.InvalidSignatureException;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.UncompressedEccPoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.HashAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicEncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.PublicVerificationKey.PublicVerificationKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature.SignatureChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.UncompressedEccPoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicEncryptionKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType
 import org.certificateservices.custom.c2x.its.datastructs.basic.EcdsaSignature
@@ -157,7 +157,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 //		byte[] message = "Testmessage".getBytes()
 //		byte[] invalidMessage = "T1estmessage".getBytes()
 //		KeyPair keyPair = defaultCryptoManager.generateKeyPair(pubAlg)
-//		org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature = defaultCryptoManager.signMessage(message,
+//		org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature = defaultCryptoManager.signMessage(message,
 //									 pubAlg,
 //									  keyPair.privateKey, null)
 //			
@@ -417,9 +417,9 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	
 	def "Verify that convertECPublicKeyToBCECPublicKey supports both BC and SUN Public keys"(){
 		expect:
-		defaultCryptoManager.convertECPublicKeyToBCECPublicKey(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, 
+		defaultCryptoManager.toBCECPublicKey(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, 
 			defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256).publicKey) instanceof BCECPublicKey
-		defaultCryptoManager.convertECPublicKeyToBCECPublicKey(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,
+		defaultCryptoManager.toBCECPublicKey(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,
 			sunKeyGenerator.generateKeyPair().publicKey) instanceof BCECPublicKey
 		
 	}

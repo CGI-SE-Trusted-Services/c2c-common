@@ -18,7 +18,7 @@ import org.bouncycastle.asn1.ASN1Boolean
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 import org.certificateservices.custom.c2x.common.Encodable;
-import org.certificateservices.custom.c2x.ieee1609dot2.basic.SymmAlgorithm;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
 
 import spock.lang.IgnoreRest;
 import spock.lang.Specification
