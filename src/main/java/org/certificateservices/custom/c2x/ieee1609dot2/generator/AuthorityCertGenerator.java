@@ -47,7 +47,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectP
 
 
 /**
- * Certificate Generator class for generating certificates of types: RootCA, Short Term CA and Long Term CA.
+ * Certificate Generator class for generating certificates of types: RootCA, Short Term CA (App) and Long Term CA (Enroll).
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -176,7 +176,7 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 	}
 	
 	/**
-	 * Method to generate a short term application CA
+	 * Method to generate a short term authorization CA
 	 * 
 	 * @param type indicates if this is a implicit or explicit certificate, Required
 	 * @param id the id if the certificate, see CertificateId for details, Required
@@ -200,7 +200,7 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
-	public Certificate genShortTermEnrollmentCA(
+	public Certificate genAuthorizationCA(
 			CertificateType type,
 			CertificateId id, 
 			ValidityPeriod validityPeriod,

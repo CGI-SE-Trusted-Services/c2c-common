@@ -175,11 +175,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	
 
 	/**
-	 * Method used to verify a IEEE Signature data structure given the message and the signers public key
+	 * Method used to verify a IEEE Signature data structure given the message and the signers explicit certificate, 
 	 * 
 	 * @param message the message to verify.
 	 * @param signature the signature to verify.
-	 * @param certType indicates if it is implicit or explicit signature
 	 * @param signCert signing certificate, required, for self signed certificate use separate method.
 	 * @return true if signature verifies.
 	 * 
@@ -187,9 +186,24 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	boolean verifySignature(byte[] message, Signature signature, CertificateType certType, Certificate signCert) throws IllegalArgumentException,  SignatureException, IOException;
+	boolean verifySignature(byte[] message, Signature signature, Certificate signCert) throws IllegalArgumentException,  SignatureException, IOException;
 
+	/**
+	 * Method used to verify a IEEE Signature data structure given the message and the signers implicit certificate, 
+	 * 
+	 * @param message the message to verify.
+	 * @param signature the signature to verify.
+	 * @param signCert signing certificate, required, for self signed certificate use separate method.
+	 * @param signedPublicKey the signing public key.
+	 * @return true if signature verifies.
+	 * 
+	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws SignatureException if internal problems occurred verifying the signature.
+	 * @throws IOException if communication problems occurred with underlying components.
+	 */
+	boolean verifySignature(byte[] message, Signature signature, Certificate signCert, PublicKey signedPublicKey) throws IllegalArgumentException,  SignatureException, IOException;
 
+	
 	/**
 	 * Method to verify a certificate with a given signer certificate
 	 * 

@@ -19,15 +19,17 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Opaque;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic.CrlContents;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedData;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedDataPayload;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.ToBeSignedData;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
 
 /**
  * Special form of Ieee1609Dot2Data with specified fields to fullfil the requirements
  * of a secured crl.
+ * <p>
+ * See SecuredCRLGenerator class for methods on how to create a CRL. 
+ *
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -84,21 +86,7 @@ public class SecuredCrl extends Ieee1609Dot2Data {
 		}
 	}
 	
-	/**
-	 * Help method that creates a secured crls with specified crl contents.
-	 */
-	public SecuredCrl(CrlContents crlContents) throws IOException{
-		Opaque o = new Opaque(crlContents.getEncoded());
-		Ieee1609Dot2Data unsecuredContents = new Ieee1609Dot2Data(new Ieee1609Dot2Content(Ieee1609Dot2ContentChoices.unsecuredData, o));
-		
-		HeaderInfo hi = new HeaderInfo(new CrlPsid(), null, null, null, null, null, null);
-		ToBeSignedData tbsData = new ToBeSignedData(new SignedDataPayload(unsecuredContents, null), hi);
-		// TODO
-		
-		//SignedData sd = new SignedData(HashAlgorithm.sha256, tbsData, signer, signature)
-		
-		
-	}
+
 
 	/**
 	 * Method that verifies all the requirements of a counter signature.

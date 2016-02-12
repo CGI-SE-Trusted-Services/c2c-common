@@ -168,9 +168,7 @@ class SecuredCrlSpec extends BaseStructSpec {
 		c3.getContent() == valid.content
 		when:
 		SecuredCrl c4 =new SecuredCrl(valid.encoded)
-		println c4.content.toString()
-		println "========================="
-		println valid.content.toString()
+	
 		then:
 		c4.getContent() == valid.content
 		

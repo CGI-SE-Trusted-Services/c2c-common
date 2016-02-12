@@ -81,7 +81,7 @@ public abstract class BaseCertGenerator {
 		}
 	}
 	
-	public Certificate genCert(ToBeSignedCertificate tbs, CertificateType certType, AlgorithmIndicator alg,  PublicKey publicKey, PrivateKey signingPrivateKey, PublicKey signingPublicKey, Certificate signingCert) throws IOException, IllegalArgumentException, SignatureException{
+	protected Certificate genCert(ToBeSignedCertificate tbs, CertificateType certType, AlgorithmIndicator alg,  PublicKey publicKey, PrivateKey signingPrivateKey, PublicKey signingPublicKey, Certificate signingCert) throws IOException, IllegalArgumentException, SignatureException{
 		byte[] toBeSignedData = tbs.getEncoded();
 		IssuerIdentifier issuerIdentifier;
 		try{

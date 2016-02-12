@@ -17,6 +17,9 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
 
 /**
  * This structure represents a signature for a supported public key algorithm. 
@@ -30,13 +33,24 @@ public class Signature extends COERChoice {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public enum SignatureChoices implements COERChoiceEnumeration{
+	public enum SignatureChoices implements COERChoiceEnumeration, AlgorithmIndicator{
 		ecdsaNistP256Signature,
 		ecdsaBrainpoolP256r1Signature;
 
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 			return new EcdsaP256Signature();
+		}
+
+		@Override
+		public Algorithm getAlgorithm() {
+			switch (this) {
+			case ecdsaNistP256Signature:
+				return new Algorithm(null,Algorithm.Signature.ecdsaNistP256, null,Hash.sha256);
+			case ecdsaBrainpoolP256r1Signature:
+			default:
+				return new Algorithm(null,Algorithm.Signature.ecdsaBrainpoolP256r1, null,Hash.sha256);
+			}	
 		}
 	}
 	

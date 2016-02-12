@@ -64,119 +64,59 @@ import spock.lang.Specification;
 import spock.lang.Unroll;
 
 /**
- * Test for AuthorityCertGenerator
+ * Test for EnrollmentCertGenerator
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
 
-class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
+class EnrollmentCertGeneratorSpec extends BaseCertGeneratorSpec {
+
 	
 	@Unroll
-	def "Verify that Ieee1609Dot2 Root CA is generated correctly for explicit certificate (only type supported) for alg: #alg"(){
+	def "Verify that Ieee1609Dot2 Enrollment Cert is generated correctly of explicit certificate for alg: #alg"(){
 		setup:
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
-		KeyPair encKeys = cryptoManager.generateKeyPair(encAlg)
-		
-		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 35)
-		GeographicRegion region = GeographicRegion.generateRegionForCountrys([SWEDEN])
-		CertificateId id = new CertificateId(new Hostname("Test RootCA"))
-		when:
-		Certificate c1 = acg.genRootCA(id, validityPeriod, region, 7, 0, 3, 4, alg, rootCAKeys.public, rootCAKeys.private, null, null, null)
-		then:
-		c1 != null
-		
-		cryptoManager.verifyCertificate(c1, c1)
-		
-		c1.getType() == CertificateType.explicit
-		
-		c1.getIssuer().getType() == IssuerIdentifierChoices.self
-		c1.getToBeSigned().appPermissions == null
-		
-		c1.getToBeSigned().assuranceLevel.assuranceLevel == 7
-		c1.getToBeSigned().assuranceLevel.confidenceLevel == 0
-		
-		c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList().size() == 1
-		PsidGroupPermissions pgp = c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList()[0]
-		pgp.getAppPermissions().type == SubjectPermissionsChoices.all
-		pgp.getMinChainDepth() == 3
-		pgp.getChainDepthRange() == 4
-		pgp.getEEType().app
-		pgp.getEEType().enroll
-		
-		c1.getToBeSigned().certRequestPermissions == null
-		
-		c1.getToBeSigned().cracaId == new HashedId3(Hex.decode("000000"))
-		c1.getToBeSigned().crlSeries.value == 0
-		
-		c1.getToBeSigned().encryptionKey == null
-		c1.getToBeSigned().id == id
-		c1.getToBeSigned().region == region
-		c1.getToBeSigned().validityPeriod == validityPeriod
-		c1.getToBeSigned().verifyKeyIndicator.type == VerificationKeyIndicatorChoices.verificationKey
-		
-		when:
-		Certificate c2 = acg.genRootCA(id, validityPeriod, region, 7, 0, 3, 4, alg, rootCAKeys.public, rootCAKeys.private, SymmAlgorithm.aes128Ccm, 
-			encAlg, encKeys.public)
-		then:
-		cryptoManager.verifyCertificate(c2, c2)
-		
-		c2.getToBeSigned().getEncryptionKey().getSupportedSymmAlg() == SymmAlgorithm.aes128Ccm
-		c2.getToBeSigned().getEncryptionKey().getPublicKey().type == encAlg
-		cryptoManager.decodeEccPoint(encAlg, (EccP256CurvePoint) c2.getToBeSigned().getEncryptionKey().getPublicKey().getValue()) == encKeys.public
-		
-		where:
-		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
-		encAlg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
-	}
-	
-	@Unroll
-	def "Verify that Ieee1609Dot2 Long term CA is generated correctly of explicit certificate for alg: #alg"(){
-		setup:
-		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
 		KeyPair encKeys = cryptoManager.generateKeyPair(encAlg)
 		KeyPair signKeys = cryptoManager.generateKeyPair(alg)
 		
 		Certificate rootCA = genRootCA(rootCAKeys)
-		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 34)
+		Certificate enrollCA = genEnrollCA(CertificateType.explicit,alg, enrollCAKeys, rootCAKeys, rootCA)
+		
+		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 33)
 		GeographicRegion region = GeographicRegion.generateRegionForCountrys([SWEDEN])
-		CertificateId id = new CertificateId(new Hostname("Test Longterm CA"))
+		CertificateId id = new CertificateId(new Hostname("Test Enroll Cert"))
 		byte[] cracaid = Hex.decode("010203")
 		PsidSspRange[] subjectPerms = new PsidSspRange[1]
 		subjectPerms[0] = new PsidSspRange(new Psid(5), new SspRange(SspRangeChoices.all, null))
 		when:
-		Certificate c1 = acg.genLongTermEnrollmentCA(CertificateType.explicit, id, validityPeriod, region, subjectPerms,cracaid, 999, 7,0,3,3,alg,
-			signKeys.getPublic(),
-			rootCA,
-			rootCAKeys.getPublic(),
-			rootCAKeys.getPrivate(),
-			null,
-			null,
-			null)
+		Certificate c1 = ecg.genEnrollCert(CertificateType.explicit, id, validityPeriod, region, subjectPerms, cracaid, 999, 7, 1, alg, signKeys.getPublic(), enrollCA, enrollCAKeys.publicKey, enrollCAKeys.privateKey, null, null, null)
 		then:
-		cryptoManager.verifyCertificate(c1, rootCA)
+		cryptoManager.verifyCertificate(c1, enrollCA)
 		
 		c1.getType() == CertificateType.explicit
 		
 		c1.getIssuer().getType() == IssuerIdentifierChoices.sha256AndDigest
-		c1.getIssuer().getValue() == new HashedId8(cryptoManager.digest(rootCA.encoded, HashAlgorithm.sha256))
+		c1.getIssuer().getValue() == new HashedId8(cryptoManager.digest(enrollCA.encoded, HashAlgorithm.sha256))
 		c1.getToBeSigned().appPermissions == null
 		
 		c1.getToBeSigned().assuranceLevel.assuranceLevel == 7
-		c1.getToBeSigned().assuranceLevel.confidenceLevel == 0
+		c1.getToBeSigned().assuranceLevel.confidenceLevel == 1
 		
-		c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList().size() == 1
-		PsidGroupPermissions pgp = c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList()[0]
+		c1.getToBeSigned().certIssuePermissions == null
+		
+		c1.getToBeSigned().certRequestPermissions.getSequenceValuesAsList().size() == 1
+		PsidGroupPermissions pgp = c1.getToBeSigned().certRequestPermissions.getSequenceValuesAsList()[0]
 		pgp.getAppPermissions().type == SubjectPermissionsChoices.explicit
 		((SequenceOfPsidSspRange) pgp.getAppPermissions().value).sequenceValuesAsList.size() == 1
 		((SequenceOfPsidSspRange) pgp.getAppPermissions().value).sequenceValuesAsList[0] == subjectPerms[0]
-		pgp.getMinChainDepth() == 3
-		pgp.getChainDepthRange() == 3
-		!pgp.getEEType().app
-		pgp.getEEType().enroll
+		pgp.getMinChainDepth() == 0
+		pgp.getChainDepthRange() == 0
+		pgp.getEEType().app
+		!pgp.getEEType().enroll
 		
-		c1.getToBeSigned().certRequestPermissions == null
-		
+	
 		c1.getToBeSigned().cracaId.hashedId == cracaid
 		c1.getToBeSigned().crlSeries.value == 999
 		
@@ -187,20 +127,14 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		c1.getToBeSigned().verifyKeyIndicator.type == VerificationKeyIndicatorChoices.verificationKey
 		
 		when:
-		Certificate c2 = acg.genLongTermEnrollmentCA(CertificateType.explicit, id, validityPeriod, region, subjectPerms,cracaid, 999, 7,0,3,3,alg,
-			signKeys.getPublic(),
-			rootCA,
-			rootCAKeys.getPublic(),
-			rootCAKeys.getPrivate(),
-			SymmAlgorithm.aes128Ccm, 
-			encAlg, encKeys.public)
+		Certificate c2 = ecg.genEnrollCert(CertificateType.explicit, id, validityPeriod, region, subjectPerms, cracaid, 999, 7, 1, alg, signKeys.getPublic(), enrollCA, enrollCAKeys.publicKey, enrollCAKeys.privateKey, SymmAlgorithm.aes128Ccm, encAlg, encKeys.publicKey)
 		then:
 		
-		cryptoManager.verifyCertificate(c2, rootCA)
+		cryptoManager.verifyCertificate(c2, enrollCA)
 		
 		c2.getToBeSigned().getEncryptionKey().getSupportedSymmAlg() == SymmAlgorithm.aes128Ccm
 		c2.getToBeSigned().getEncryptionKey().getPublicKey().type == encAlg
-		cryptoManager.decodeEccPoint(encAlg, (EccP256CurvePoint) c2.getToBeSigned().getEncryptionKey().getPublicKey().getValue()) == encKeys.public
+		cryptoManager.decodeEccPoint(encAlg, (EccP256CurvePoint) c2.getToBeSigned().getEncryptionKey().getPublicKey().getValue()) == encKeys.publicKey
 
 		where:
 		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
@@ -208,27 +142,24 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 	}
 	
 	@Unroll
-	def "Verify that Ieee1609Dot2 Long term CA is generated correctly of implicit certificate for alg: #alg"(){
+	def "Verify that Ieee1609Dot2 Enrollment Cert is generated correctly of implicit certificate for alg: #alg"(){
 		setup:
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
 		KeyPair signKeys = cryptoManager.generateKeyPair(alg)
 		
 		Certificate rootCA = genRootCA(rootCAKeys)
+		Certificate enrollCA = genEnrollCA(CertificateType.explicit,alg, enrollCAKeys, rootCAKeys, rootCA)
+		
 		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 34)
 		GeographicRegion region = GeographicRegion.generateRegionForCountrys([SWEDEN])
 		CertificateId id = new CertificateId(new Hostname("Test Longterm CA"))
 		byte[] cracaid = Hex.decode("010203")
 		PsidSspRange[] subjectPerms = new PsidSspRange[1]
 		subjectPerms[0] = new PsidSspRange(new Psid(5), new SspRange(SspRangeChoices.all, null))
+
 		when:
-		Certificate c1 = acg.genLongTermEnrollmentCA(CertificateType.implicit, id, validityPeriod, region, subjectPerms,cracaid, 999, 7,0,3,3,alg,
-			signKeys.getPublic(),
-			rootCA,
-			rootCAKeys.getPublic(),
-			rootCAKeys.getPrivate(),
-			null,
-			null,
-			null)
+		Certificate c1 = ecg.genEnrollCert(CertificateType.implicit, id, validityPeriod, region, subjectPerms, cracaid, 999, 7, 1, alg, signKeys.getPublic(), enrollCA, enrollCAKeys.publicKey, enrollCAKeys.privateKey, null, null, null)
 		then:
 		c1 instanceof ImplicitCertificateData
 		c1.getType() == CertificateType.implicit
@@ -236,8 +167,8 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		c1.getToBeSigned().verifyKeyIndicator.type == VerificationKeyIndicatorChoices.reconstructionValue
 		
 		when: "Verify that public and private key can be reconstructed using the certificate"
-		PublicKey reconstructedPubKey = ecqvHelper.extractPublicKey(c1,rootCAKeys.getPublic(), alg, rootCA)
-		PrivateKey reconstructedPrivateKey = ecqvHelper.certReceiption(c1,c1.getR(),alg, signKeys.getPrivate(), rootCAKeys.getPublic(), rootCA)
+		PublicKey reconstructedPubKey = ecqvHelper.extractPublicKey(c1,enrollCAKeys.getPublic(), alg, enrollCA)
+		PrivateKey reconstructedPrivateKey = ecqvHelper.certReceiption(c1,c1.getR(),alg, signKeys.getPrivate(), enrollCAKeys.getPublic(), enrollCA)
 		
 		byte[] data = "TestData".getBytes()
 		
@@ -251,38 +182,46 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 	}
 	
 	@Unroll
-	def "Verify that Ieee1609Dot2 Short term CA is generated correctly of explicit certificate for alg: #alg"(){
+	def "Verify that Ieee1609Dot2 Enrollment Cert is generated correctly for implicit CA certificate for alg: #alg"(){
 		setup:
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
 		KeyPair signKeys = cryptoManager.generateKeyPair(alg)
 		
 		Certificate rootCA = genRootCA(rootCAKeys)
+		Certificate enrollCA = genEnrollCA(CertificateType.implicit,alg, enrollCAKeys, rootCAKeys, rootCA)
+		
+		PublicKey enrollCAPubKey = ecqvHelper.extractPublicKey(enrollCA, rootCAKeys.getPublic(), alg, rootCA)
+		PrivateKey enrollPrivateKey = ecqvHelper.certReceiption(enrollCA, enrollCA.r, alg, enrollCAKeys.getPrivate(), rootCAKeys.getPublic(), rootCA)
+		
 		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 34)
 		GeographicRegion region = GeographicRegion.generateRegionForCountrys([SWEDEN])
 		CertificateId id = new CertificateId(new Hostname("Test Longterm CA"))
 		byte[] cracaid = Hex.decode("010203")
 		PsidSspRange[] subjectPerms = new PsidSspRange[1]
 		subjectPerms[0] = new PsidSspRange(new Psid(5), new SspRange(SspRangeChoices.all, null))
+
 		when:
-		Certificate c1 = acg.genAuthorizationCA(CertificateType.explicit, id, validityPeriod, region, subjectPerms,cracaid, 999, 7,0,3,3,alg,
-			signKeys.getPublic(),
-			rootCA,
-			rootCAKeys.getPublic(),
-			rootCAKeys.getPrivate(),
-			null,
-			null,
-			null)
+		Certificate c1 = ecg.genEnrollCert(CertificateType.implicit, id, validityPeriod, region, subjectPerms, cracaid, 999, 7, 1, alg, signKeys.getPublic(), enrollCA, enrollCAPubKey, enrollPrivateKey, null, null, null)
 		then:
-		cryptoManager.verifyCertificate(c1, rootCA)
+		c1 instanceof ImplicitCertificateData
+		c1.getType() == CertificateType.implicit
 		
-		PsidGroupPermissions pgp = c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList()[0]
-		pgp.getEEType().app
-		!pgp.getEEType().enroll
+		c1.getToBeSigned().verifyKeyIndicator.type == VerificationKeyIndicatorChoices.reconstructionValue
+		
+		when: "Verify that public and private key can be reconstructed using the certificate"
+		PublicKey reconstructedPubKey = ecqvHelper.extractPublicKey(c1,enrollCAPubKey, alg, enrollCA)
+		PrivateKey reconstructedPrivateKey = ecqvHelper.certReceiption(c1,c1.getR(),alg, signKeys.getPrivate(), enrollCAPubKey, enrollCA)
+		
+		byte[] data = "TestData".getBytes()
+		
+		byte[] signature = signDataECDSA(data, reconstructedPrivateKey)
+		then:
+		verifySignedDataECDSA(data, signature, reconstructedPubKey)
 		
 		where:
 		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
-		
+				
 	}
-
 
 }

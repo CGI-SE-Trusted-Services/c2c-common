@@ -66,7 +66,6 @@ import org.bouncycastle.jce.spec.IESParameterSpec;
 import org.bouncycastle.math.ec.ECCurve;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.custom.sec.SecP256R1Curve;
-import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.common.EncodeHelper;
@@ -583,38 +582,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 //		}
 //	}
 	
-	/**
-	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature, EccP256CurvePoint)
-	 */
-	
-	protected boolean verifyExplicitSignature(
-			byte[] message,
-			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
-			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert,
-			EccP256CurvePoint pubVerKey) throws IllegalArgumentException,
-			SignatureException, IOException {
-		 
-		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
-		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
-		if(sigAlg == null){
-			throw new IllegalArgumentException("Error no signature algorithm specified");
-		}
-		try{
-			return verifySignatureDigest(genIEEECertificateDigest(alg,message, signCert), signature, (PublicKey) decodeEccPoint(alg, pubVerKey));
-		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
-			}
-			if(e instanceof IOException){
-				throw (IOException) e;
-			}
-			if(e instanceof SignatureException){
-				throw (SignatureException) e;
-			}
 
-			throw new SignatureException("Internal error verifying signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
-		}
-	}
 
 
 	
@@ -625,15 +593,31 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	public boolean verifySignature(
 			byte[] message,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
-			CertificateType certType,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCert)
 			throws IllegalArgumentException, SignatureException, IOException {
-		if(certType == CertificateType.explicit){
+		if(signerCert.getType() == CertificateType.explicit){
 			PublicVerificationKey pubVerKey = (PublicVerificationKey) signerCert.getToBeSigned().getVerifyKeyIndicator().getValue();
-			return verifyExplicitSignature(message, signature, signerCert, (EccP256CurvePoint) pubVerKey.getValue());
+			return verifyExplicitCertSignature(message, signature, signerCert, (EccP256CurvePoint) pubVerKey.getValue());
 		}else{
-			// TODO
-			throw new IllegalArgumentException("Implicit certificates not supported");
+			throw new IllegalArgumentException("Implicit certificates not supported by this method");
+		}
+	}
+	
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate, PublicKey)
+	 */
+	@Override
+	public boolean verifySignature(
+			byte[] message,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCert,
+			PublicKey signedPublicKey)
+			throws IllegalArgumentException, SignatureException, IOException {
+		if(signerCert.getType() == CertificateType.explicit){
+			PublicVerificationKey pubVerKey = (PublicVerificationKey) signerCert.getToBeSigned().getVerifyKeyIndicator().getValue();
+			return verifyExplicitCertSignature(message, signature, signerCert, (EccP256CurvePoint) pubVerKey.getValue());
+		}else{
+			return verifyImplicitCertSignature(message, signature,signerCert,signedPublicKey);
 		}
 	}
 	
@@ -648,7 +632,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		if(certificate.equals(signerCertificate)){
 			return verifySignature(certificate.getToBeSigned().getEncoded(), certificate.getSignature(), (PublicVerificationKey) certificate.getToBeSigned().getVerifyKeyIndicator().getValue());
 		}else{
-			return verifySignature(certificate.getToBeSigned().getEncoded(), certificate.getSignature(), certificate.getType(), signerCertificate);
+			return verifySignature(certificate.getToBeSigned().getEncoded(), certificate.getSignature(), signerCertificate);
 		}
 		
 	}
@@ -660,7 +644,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			PublicVerificationKey publicVerificationKey)
 			throws IllegalArgumentException, SignatureException, IOException {
 		
-			return verifyExplicitSignature(message, signature, null, (EccP256CurvePoint) publicVerificationKey.getValue());
+			return verifyExplicitCertSignature(message, signature, null, (EccP256CurvePoint) publicVerificationKey.getValue());
 	}
 	
 	// TODO 
@@ -1409,6 +1393,64 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 
 
+	
+	protected boolean verifyExplicitCertSignature(
+			byte[] message,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert,
+			EccP256CurvePoint pubVerKey) throws IllegalArgumentException,
+			SignatureException, IOException {
+		 
+		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			throw new IllegalArgumentException("Error no signature algorithm specified");
+		}
+		try{
+			return verifySignatureDigest(genIEEECertificateDigest(alg,message, signCert), signature, (PublicKey) decodeEccPoint(alg, pubVerKey));
+		}catch(Exception e){
+			if(e instanceof IllegalArgumentException){
+				throw (IllegalArgumentException) e;
+			}
+			if(e instanceof IOException){
+				throw (IOException) e;
+			}
+			if(e instanceof SignatureException){
+				throw (SignatureException) e;
+			}
+
+			throw new SignatureException("Internal error verifying signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+		}
+	}
+	
+	protected boolean verifyImplicitCertSignature(
+			byte[] message,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert,
+			PublicKey signerPublicKey) throws IllegalArgumentException,
+			SignatureException, IOException {
+		 
+		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
+		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
+		if(sigAlg == null){
+			throw new IllegalArgumentException("Error no signature algorithm specified");
+		}
+		try{
+			return verifySignatureDigest(genIEEECertificateDigest(alg,message, signCert), signature, signerPublicKey);
+		}catch(Exception e){
+			if(e instanceof IllegalArgumentException){
+				throw (IllegalArgumentException) e;
+			}
+			if(e instanceof IOException){
+				throw (IOException) e;
+			}
+			if(e instanceof SignatureException){
+				throw (SignatureException) e;
+			}
+
+			throw new SignatureException("Internal error verifying signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+		}
+	}
 
 
 
