@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * This number identifies a CRL series.
@@ -25,7 +25,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class CrlSeries implements StructSerializer{
+public class CrlSeries implements Encodable{
 	
 	private long value;
 	
@@ -53,12 +53,12 @@ public class CrlSeries implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(ByteBuffer.allocate(8).putLong(value).array(),4,4);		
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		byte[] data = new byte[8];
 		in.read(data,4,4);
 		value = ByteBuffer.wrap(data).getLong();

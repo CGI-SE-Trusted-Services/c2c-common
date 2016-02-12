@@ -17,8 +17,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 
 /**
@@ -29,7 +29,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class PolygonalRegion implements StructSerializer{
+public class PolygonalRegion implements Encodable{
 	
 	static final int MAX_POINTS = 12;
 	
@@ -68,14 +68,14 @@ public class PolygonalRegion implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		SerializationHelper.encodeVariableSizeVector(out, points);
+	public void encode(DataOutputStream out) throws IOException {
+		EncodeHelper.encodeVariableSizeVector(out, points);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
-		points = (List<TwoDLocation>) SerializationHelper.decodeVariableSizeVector(in, TwoDLocation.class);
+	public void decode(DataInputStream in) throws IOException {
+		points = (List<TwoDLocation>) EncodeHelper.decodeVariableSizeVector(in, TwoDLocation.class);
 	}
 
 

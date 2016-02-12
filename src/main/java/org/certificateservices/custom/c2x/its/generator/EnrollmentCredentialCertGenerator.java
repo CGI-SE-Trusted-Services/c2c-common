@@ -21,7 +21,7 @@ import java.security.SignatureException;
 import java.util.Date;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
@@ -50,7 +50,7 @@ public class EnrollmentCredentialCertGenerator extends BaseCertGenerator {
 	 * @param enrollmentCAPrivateKey the private key of the enrollment CA.
 	 * 
 	 */
-	public EnrollmentCredentialCertGenerator(CryptoManager cryptoManager, Certificate enrollmentCA, PrivateKey enrollmentCAPrivateKey) {
+	public EnrollmentCredentialCertGenerator(ITSCryptoManager cryptoManager, Certificate enrollmentCA, PrivateKey enrollmentCAPrivateKey) {
 		super(cryptoManager);
 		this.enrollmentCA = enrollmentCA;
 		this.enrollmentCAPrivateKey = enrollmentCAPrivateKey;

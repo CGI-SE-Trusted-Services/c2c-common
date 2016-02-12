@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * This data type encodes an integer of variable length. The length of this integer is encoded by a number of 1 bit followed
@@ -30,7 +30,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class IntX implements StructSerializer{
+public class IntX implements Encodable{
 	
 	BigInteger value;
 	
@@ -99,13 +99,13 @@ public class IntX implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(encodeValue());
 		
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		byte firstByteValue = in.readByte();
 		int numOfOctets = getNumberOfOctets(firstByteValue);
 		

@@ -16,7 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
 
 /**
@@ -40,7 +40,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class TrailerField implements StructSerializer{
+public class TrailerField implements Encodable{
 	
     private TrailerFieldType trailerFieldType;	
 	private Signature signature;
@@ -78,11 +78,11 @@ public class TrailerField implements StructSerializer{
 	
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(trailerFieldType.getByteValue());
 		switch(trailerFieldType){
 		case signature:
-			signature.serialize(out);	
+			signature.encode(out);	
 			break;
 		default:
 			break;
@@ -91,12 +91,12 @@ public class TrailerField implements StructSerializer{
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		trailerFieldType = TrailerFieldType.getByValue(in.read());
 		switch(trailerFieldType){
 		case signature:
 			signature = new Signature();
-			signature.deserialize(in);	
+			signature.decode(in);	
 			break;
 		default:
 			break;

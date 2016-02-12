@@ -16,7 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * This field contains the ITS-S's assurance, which denotes the ITS-S's security of both the platform and storage of secret
@@ -25,7 +25,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class SubjectAssurance implements StructSerializer{
+public class SubjectAssurance implements Encodable{
 	
 	private int subjectAssurance;
 	
@@ -72,12 +72,12 @@ public class SubjectAssurance implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(subjectAssurance);	
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		subjectAssurance = in.read();	
 	}
 	

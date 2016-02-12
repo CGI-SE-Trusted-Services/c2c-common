@@ -26,8 +26,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKey;
@@ -51,14 +51,14 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKey;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class SubjectAttribute implements StructSerializer{
+public class SubjectAttribute implements Encodable{
 	
 	
 	private SubjectAttributeType subjectAttributeType;
 	private PublicKey key;
 	private EccPoint rv;
 	private SubjectAssurance assuranceLevel;
-	private List<StructSerializer> itsAidList;
+	private List<Encodable> itsAidList;
 	
 
 	/**
@@ -104,7 +104,7 @@ public class SubjectAttribute implements StructSerializer{
 	 * <li>priority_ssp_list : ItsAidPrioritySsp
 	 * 
 	 */
-	public SubjectAttribute(SubjectAttributeType subjectAttributeType, List<StructSerializer> itsAidList) {
+	public SubjectAttribute(SubjectAttributeType subjectAttributeType, List<Encodable> itsAidList) {
 		if(subjectAttributeType != its_aid_list && 
 		   subjectAttributeType != its_aid_ssp_list && 
 		   subjectAttributeType != priority_its_aid_list &&
@@ -165,29 +165,29 @@ public class SubjectAttribute implements StructSerializer{
 	 * <li>priority_its_aid_list : ItsAidPriority
 	 * <li>priority_ssp_list : ItsAidPrioritySsp
 	 */
-	public List<StructSerializer> getItsAidList() {
+	public List<Encodable> getItsAidList() {
 		return itsAidList;
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(subjectAttributeType.getByteValue());
 		switch (subjectAttributeType) {
 		case verification_key:
 		case encryption_key:
-			key.serialize(out);
+			key.encode(out);
 			break;
         case reconstruction_value:
-        	rv.serialize(out);
+        	rv.encode(out);
 			break;
         case assurance_level:
-        	assuranceLevel.serialize(out);
+        	assuranceLevel.encode(out);
 			break;
         case its_aid_list:
         case its_aid_ssp_list:
         case priority_its_aid_list:
         case priority_ssp_list:
-        	SerializationHelper.encodeVariableSizeVector(out, itsAidList);
+        	EncodeHelper.encodeVariableSizeVector(out, itsAidList);
 			break;
 		default:
 			break;
@@ -196,13 +196,13 @@ public class SubjectAttribute implements StructSerializer{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		subjectAttributeType = SubjectAttributeType.getByValue(in.readByte());
 		switch (subjectAttributeType) {
 		case verification_key:
 		case encryption_key:
 			key = new PublicKey();
-			key.deserialize(in);
+			key.decode(in);
 			break;
         case reconstruction_value:
         	// TODO currently unsupported.
@@ -210,19 +210,19 @@ public class SubjectAttribute implements StructSerializer{
 			break;
         case assurance_level:
         	assuranceLevel = new SubjectAssurance();
-        	assuranceLevel.deserialize(in);
+        	assuranceLevel.decode(in);
 			break;
         case its_aid_list:
-        	itsAidList = (List<StructSerializer>) SerializationHelper.decodeVariableSizeVector(in, IntX.class);
+        	itsAidList = (List<Encodable>) EncodeHelper.decodeVariableSizeVector(in, IntX.class);
 			break;
         case its_aid_ssp_list:
-        	itsAidList =(List<StructSerializer>) SerializationHelper.decodeVariableSizeVector(in, ItsAidSsp.class);
+        	itsAidList =(List<Encodable>) EncodeHelper.decodeVariableSizeVector(in, ItsAidSsp.class);
 			break;
         case priority_its_aid_list:
-        	itsAidList =(List<StructSerializer>) SerializationHelper.decodeVariableSizeVector(in, ItsAidPriority.class);
+        	itsAidList =(List<Encodable>) EncodeHelper.decodeVariableSizeVector(in, ItsAidPriority.class);
 			break;
         case priority_ssp_list:
-        	itsAidList = (List<StructSerializer>) SerializationHelper.decodeVariableSizeVector(in, ItsAidPrioritySsp.class);
+        	itsAidList = (List<Encodable>) EncodeHelper.decodeVariableSizeVector(in, ItsAidPrioritySsp.class);
 			break;			
 		default:
 			break;

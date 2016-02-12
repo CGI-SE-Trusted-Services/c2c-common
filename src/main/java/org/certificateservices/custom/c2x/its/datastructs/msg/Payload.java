@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 
 /**
@@ -28,7 +28,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class Payload implements StructSerializer{
+public class Payload implements Encodable{
 	
 	
 	private PayloadType payloadType;
@@ -79,21 +79,21 @@ public class Payload implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(payloadType.getByteValue());
 		if(payloadType != PayloadType.signed_external){
 		  IntX length = new IntX(data.length);
-		  length.serialize(out);
+		  length.encode(out);
 		  out.write(data);
 		}
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		payloadType = PayloadType.getByValue(in.read());
 		if(payloadType != PayloadType.signed_external){
 			IntX length = new IntX();
-			length.deserialize(in);
+			length.decode(in);
 			data = new byte[length.getValue().intValue()];
 			in.read(data);
 		}

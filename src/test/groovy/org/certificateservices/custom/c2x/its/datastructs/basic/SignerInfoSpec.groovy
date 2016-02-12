@@ -14,7 +14,7 @@ package org.certificateservices.custom.c2x.its.datastructs.basic
 
 
 import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.its.datastructs.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
@@ -24,7 +24,6 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
 import spock.lang.IgnoreRest;
 import spock.lang.Specification;
 import spock.lang.Unroll;
-
 import static org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType.*;
 
 /**

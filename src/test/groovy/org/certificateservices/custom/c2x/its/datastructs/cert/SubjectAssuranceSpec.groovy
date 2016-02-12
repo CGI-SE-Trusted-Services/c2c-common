@@ -14,7 +14,7 @@ package org.certificateservices.custom.c2x.its.datastructs.cert
 
 
 
-import org.certificateservices.custom.c2x.its.datastructs.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAssurance;
 
 import spock.lang.IgnoreRest;
@@ -37,7 +37,7 @@ class SubjectAssuranceSpec extends BaseStructSpec{
 	}
 	
 	@Unroll
-	def "Verify that #subjectAssurance calculates a byte value of: #byteValue for assuranceLevel: #assuranceLevel and confidenceLevel: #confidenceLevel"(){
+	def "Verify that subjectAssurance calculates a byte value of: #byteValue for assuranceLevel: #assuranceLevel and confidenceLevel: #confidenceLevel"(){
 		expect:
 		(new SubjectAssurance(assuranceLevel,confidenceLevel)).subjectAssurance == byteValue
 		where:
@@ -50,7 +50,7 @@ class SubjectAssuranceSpec extends BaseStructSpec{
 	
 	
 	@Unroll
-	def "Verify that #subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: #assuranceLevel"(){
+	def "Verify that subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: #assuranceLevel"(){
 		when:
 		new SubjectAssurance(assuranceLevel,0)
 		then:
@@ -60,7 +60,7 @@ class SubjectAssuranceSpec extends BaseStructSpec{
 	}
 	
 	@Unroll
-	def "Verify that #subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: #confidenceLevel"(){
+	def "Verify that subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: #confidenceLevel"(){
 		when:
 		new SubjectAssurance(0,confidenceLevel)
 		then:

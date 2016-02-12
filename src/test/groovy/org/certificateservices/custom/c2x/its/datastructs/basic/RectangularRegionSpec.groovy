@@ -14,14 +14,13 @@ package org.certificateservices.custom.c2x.its.datastructs.basic
 
 
 import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.its.datastructs.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegion;
 import org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocation;
 
 import spock.lang.IgnoreRest;
 import spock.lang.Specification;
 import spock.lang.Unroll;
-
 import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType.*;
 
 /**

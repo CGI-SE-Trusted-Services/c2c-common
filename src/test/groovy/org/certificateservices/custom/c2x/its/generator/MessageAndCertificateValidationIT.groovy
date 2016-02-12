@@ -18,9 +18,9 @@ import javax.xml.ws.http.HTTPBinding;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManager;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId3;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
@@ -37,7 +37,7 @@ public class MessageAndCertificateValidationIT extends Specification {
 	
 	@Shared KeyFactory keyFactory
 	
-	@Shared CryptoManager cryptoManager
+	@Shared ITSCryptoManager cryptoManager
 		
 	@Shared Certificate authorizationTicket
 	@Shared Certificate enrollmentCredential

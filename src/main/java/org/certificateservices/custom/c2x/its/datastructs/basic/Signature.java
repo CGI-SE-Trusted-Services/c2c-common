@@ -16,8 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
-
+import org.certificateservices.custom.c2x.common.Encodable;
 
 import static org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm.*;
 
@@ -31,7 +30,7 @@ import static org.certificateservices.custom.c2x.its.datastructs.basic.PublicKey
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class Signature implements StructSerializer{
+public class Signature implements Encodable{
 	
 	private PublicKeyAlgorithm publicKeyAlgorithm;
 	private EcdsaSignature ecdsaSignature;
@@ -76,19 +75,19 @@ public class Signature implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(publicKeyAlgorithm.getByteValue());
 		if(publicKeyAlgorithm == ecdsa_nistp256_with_sha256){
-		   ecdsaSignature.serialize(out);	
+		   ecdsaSignature.encode(out);	
 		}		
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		publicKeyAlgorithm = PublicKeyAlgorithm.getByValue(in.read());
 		if(publicKeyAlgorithm == ecdsa_nistp256_with_sha256){
 			ecdsaSignature = new EcdsaSignature(publicKeyAlgorithm);
-			ecdsaSignature.deserialize(in);
+			ecdsaSignature.decode(in);
 		}
 	}
 

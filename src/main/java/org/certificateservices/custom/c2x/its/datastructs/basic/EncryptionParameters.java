@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 import static org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm.*;
 
@@ -31,7 +31,7 @@ import static org.certificateservices.custom.c2x.its.datastructs.basic.Symmetric
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class EncryptionParameters implements StructSerializer{
+public class EncryptionParameters implements Encodable{
 	
 	private SymmetricAlgorithm symmetricAlgorithm;
 	private byte[] nonce;
@@ -68,13 +68,13 @@ public class EncryptionParameters implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(symmetricAlgorithm.getByteValue());
 		out.write(nonce);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		symmetricAlgorithm = SymmetricAlgorithm.getByValue(in.read());
 		if(symmetricAlgorithm != aes_128_ccm){
 			throw new IOException("Error: unsupported symmetric algorithm " + symmetricAlgorithm);

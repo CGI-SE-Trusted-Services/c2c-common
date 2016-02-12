@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManager;
-import org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId3;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType;
@@ -48,7 +48,7 @@ public class ITSDemo {
 	@SuppressWarnings("unused")
 	public void demoGenerateCAHierarchyAndSecureMessages() throws Exception{
 		// Create a crypto manager in charge of communicating with underlying cryptographic components
-	    CryptoManager cryptoManager = new DefaultCryptoManager();	
+	    ITSCryptoManager cryptoManager = new DefaultCryptoManager();	
 	    // Initialize the crypto manager to use soft keys using the bouncy castle cryptographic provider.
 	    cryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"));
 	    

@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * This value is used to identify data such as a certificate. It shall be calculated by first computing the SHA-256 hash of the
@@ -26,7 +26,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public abstract class HashedId implements StructSerializer{
+public abstract class HashedId implements Encodable{
 	
 	protected byte[] hashedId;
 	
@@ -52,19 +52,19 @@ public abstract class HashedId implements StructSerializer{
 	}
 	
 	/** 
-	 * @return the crlSeries value
+	 * @return the hash id value
 	 */
 	public byte[] getHashedId(){
 		return hashedId;
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(hashedId);		
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		hashedId = new byte[getHashLength()];
 		in.read(hashedId);
 	}

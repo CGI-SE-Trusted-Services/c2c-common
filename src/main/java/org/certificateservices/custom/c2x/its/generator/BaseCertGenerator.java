@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
@@ -53,9 +53,9 @@ public abstract class BaseCertGenerator {
 	
 	protected static final int DEFAULT_CERT_VERSION = 1;
 	
-	CryptoManager cryptoManager = null;
+	ITSCryptoManager cryptoManager = null;
 	
-	public BaseCertGenerator(CryptoManager cryptoManager){
+	public BaseCertGenerator(ITSCryptoManager cryptoManager){
 		this.cryptoManager = cryptoManager;
 	}
 	
@@ -65,7 +65,7 @@ public abstract class BaseCertGenerator {
 	protected Certificate signCertificate(Certificate cert, PublicKeyAlgorithm pubAlg, PrivateKey privateKey) throws IOException, IllegalArgumentException, SignatureException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream out = new DataOutputStream(baos);
-		cert.serialize(out);
+		cert.encode(out);
 		cert.attachSignature(cryptoManager.signMessage(baos.toByteArray(), pubAlg, privateKey));
 		return cert;		
 	}
@@ -159,8 +159,8 @@ public abstract class BaseCertGenerator {
 	 * @param itsAidList, list of BigIntegers, never null.
 	 * @return a IntX version of the list.
 	 */
-	private List<StructSerializer> getIntXList(List<BigInteger> bigIntegerList) {
-		ArrayList<StructSerializer> retval = new ArrayList<StructSerializer>();
+	private List<Encodable> getIntXList(List<BigInteger> bigIntegerList) {
+		ArrayList<Encodable> retval = new ArrayList<Encodable>();
 		for(BigInteger v : bigIntegerList){
 			retval.add(new IntX(v));
 		}
