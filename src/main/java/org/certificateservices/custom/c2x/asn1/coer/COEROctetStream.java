@@ -143,7 +143,7 @@ public class COEROctetStream implements COEREncodable{
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof COEROctetStream))
 			return false;
 		COEROctetStream other = (COEROctetStream) obj;
 		if (!Arrays.equals(data, other.data))

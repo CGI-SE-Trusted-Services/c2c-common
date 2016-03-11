@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
-import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;

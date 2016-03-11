@@ -50,6 +50,17 @@ public class ThreeDLocation extends COERSequence {
 		set(LONGITUDE, longitude);
 		set(ELEVATION, elevation);
 	}
+	
+	/**
+	 * Constructor used when encoding
+	 */
+	public ThreeDLocation(long latitude, long longitude, int elevationDecimeters){
+		super(false,3);
+		init();
+		set(LATITUDE, new Latitude(latitude));
+		set(LONGITUDE, new Longitude(longitude));
+		set(ELEVATION, new Elevation(elevationDecimeters));
+	}
 
 	/**
 	 * 

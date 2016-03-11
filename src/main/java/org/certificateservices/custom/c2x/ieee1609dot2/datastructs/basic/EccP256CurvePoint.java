@@ -64,10 +64,21 @@ public class EccP256CurvePoint extends COERChoice {
 	
 	
 	/**
-	 * Constructor used when encoding of type compressedy0 or compressedy1
+	 * Constructor used when encoding of type compressedy0 or compressedy1, or encoded uncompressed
 	 */
-	public EccP256CurvePoint(byte[] compressedEncoding) {
-		super(getChoice(compressedEncoding), new COEROctetStream(COEREncodeHelper.padZerosToByteArray(removeFirstByte(compressedEncoding), OCTETSTRING_SIZE), OCTETSTRING_SIZE,OCTETSTRING_SIZE));
+	public EccP256CurvePoint(byte[] encoded) {
+		super(EccP256CurvePointChoices.class);
+		EccP256CurvePointChoices type = getChoice(encoded);
+		choice = type;
+		if(type == EccP256CurvePointChoices.uncompressed){
+			byte[] x = new byte[OCTETSTRING_SIZE];
+			System.arraycopy(encoded, 1, x, 0, OCTETSTRING_SIZE);
+			byte[] y = new byte[OCTETSTRING_SIZE];
+			System.arraycopy(encoded, OCTETSTRING_SIZE+1, y, 0, OCTETSTRING_SIZE);
+			value = new UncompressedEccPoint(x,y);
+		}else{
+		  value = new COEROctetStream(COEREncodeHelper.padZerosToByteArray(removeFirstByte(encoded), OCTETSTRING_SIZE), OCTETSTRING_SIZE,OCTETSTRING_SIZE);
+		}
 	}
 	
 
@@ -130,12 +141,15 @@ public class EccP256CurvePoint extends COERChoice {
 	}
 
 
-	private static COERChoiceEnumeration getChoice(byte[] compressedEncoding) {
+	private static EccP256CurvePointChoices getChoice(byte[] compressedEncoding) {
 		if(compressedEncoding[0] == 0x02){
 			return EccP256CurvePointChoices.compressedy0;
 		}
 		if(compressedEncoding[0] == 0x03){
 			return EccP256CurvePointChoices.compressedy1;
+		}
+		if(compressedEncoding[0] == 0x04){
+			return EccP256CurvePointChoices.uncompressed;
 		}
 		throw new IllegalArgumentException("Invalid Ecc Point compressed encoding");
 	}

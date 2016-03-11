@@ -49,10 +49,10 @@ public class BasePublicEncryptionKey extends COERChoice {
 		public Algorithm getAlgorithm() {
 			switch (this) {
 			case ecdsaNistP256:
-				return new Algorithm(null,Algorithm.Signature.ecdsaNistP256, Algorithm.Encryption.ecies,null);
+				return new Algorithm(Algorithm.Symmetric.aes128Ccm,Algorithm.Signature.ecdsaNistP256, Algorithm.Encryption.ecies,Algorithm.Hash.sha256);
 			case ecdsaBrainpoolP256r1:
 			default:
-				return new Algorithm(null,Algorithm.Signature.ecdsaBrainpoolP256r1, Algorithm.Encryption.ecies,null);
+				return new Algorithm(Algorithm.Symmetric.aes128Ccm,Algorithm.Signature.ecdsaBrainpoolP256r1, Algorithm.Encryption.ecies,Algorithm.Hash.sha256);
 			}	
 		}
 	}

@@ -12,14 +12,19 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
+import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature
+import java.text.SimpleDateFormat;
+
+import javax.crypto.SecretKey
 
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper
@@ -27,6 +32,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePub
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion.GeographicRegionChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
@@ -44,10 +50,13 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedI
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Hostname
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IdentifiedRegion
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Opaque
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicEncryptionKey
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfIdentifiedRegion
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ThreeDLocation
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ValidityPeriod;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
@@ -58,16 +67,35 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Sequence
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedData
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PKRecipientInfo;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PreSharedKeyRecipientInfo;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo.RecipientInfoChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmRecipientInfo;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmetricCiphertext.SymmetricCiphertextChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData.HashedDataChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedData
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedDataPayload;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier.SignerIdentifierChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator.SignerIdentifierType;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.PreSharedKeyReceiver;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.RekReciever
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.SignedDataReciever
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.SymmetricKeyReceiver;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.CertificateRecipient
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.Recipient;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.RekReceipient;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.SignedDataRecipient
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.SymmetricKeyReceipient;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.junit.Ignore;
 
@@ -127,7 +155,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 	}
 
 	@Unroll
-	def "Verify that signed Ieee1609Dot2Data with hashed refernce is generated correctly for alg: #alg"(){
+	def "Verify that signed Ieee1609Dot2Data with hashed reference is generated correctly for alg: #alg"(){
 		setup:
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
 		Certificate rootCA = genRootCA(rootCAKeys, alg)
@@ -168,7 +196,354 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		where:
 		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
 	}
+	
+	
+	def "Verify that preshared key encryption works correctly"(){
+		setup:
+		SecretKey k1 = cryptoManager.generateSecretKey(SymmAlgorithm.aes128Ccm)
+		SecretKey k2 = cryptoManager.generateSecretKey(SymmAlgorithm.aes128Ccm)
+		
+		byte[] clearText = "SomeText".getBytes("UTF-8")
+		when:
+		Ieee1609Dot2Data enc = sdg.encryptDataWithPresharedKey(SymmAlgorithm.aes128Ccm, clearText, k1)
+		then:
+		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
+		EncryptedData ed = enc.getContent().getValue();
+		ed.getRecipients().size() == 1
+		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
+		ri.getType() == RecipientInfoChoices.pskRecipInfo
+		ri.getValue() == sdg.getSecretKeyID(k1)
+		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
+		
+		when: "Verify that text is decrypted correclty for a known key"
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new PreSharedKeyReceiver(k1),new PreSharedKeyReceiver(k2)]))
+		then:
+		decryptedText == clearText
+		
+		when: "Verify that illegal argument is thrown if key is not known"
+		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(k2)]))
+		then:
+		thrown IllegalArgumentException
+		
+		when: "Verify  that illegal argument is thrown if symmetric key store is null "
+		sdg.decryptData(enc, null)
+		then:
+		thrown IllegalArgumentException
+	}
+	
+	def "Verify that symmetric key envelope encryption works correctly"(){
+		setup:
+		SecretKey k1 = cryptoManager.generateSecretKey(SymmAlgorithm.aes128Ccm)
+		SecretKey k2 = cryptoManager.generateSecretKey(SymmAlgorithm.aes128Ccm)
+		SecretKey k3 = cryptoManager.generateSecretKey(SymmAlgorithm.aes128Ccm)
+		
+		byte[] clearText = "SomeText".getBytes("UTF-8")
+		when:
+		Ieee1609Dot2Data enc = sdg.encryptData(SymmAlgorithm.aes128Ccm, clearText, [new SymmetricKeyReceipient(k1),new SymmetricKeyReceipient(k2)] as Recipient[])
+		
+		then:
+		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
+		EncryptedData ed = enc.getContent().getValue();
+		ed.getRecipients().size() == 2
+		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
+		ri.getType() == RecipientInfoChoices.symmRecipInfo
+		((SymmRecipientInfo) ri.getValue()).getRecipientId() == sdg.getSecretKeyID(k1)
+		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
+		
+		when: "Verify that text is decrypted correclty for a known key"
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(k1),new SymmetricKeyReceiver(k3)]))
+		then:
+		decryptedText == clearText
+		
+		when: "Verify that text is decrypted correclty for alternate known key"
+		decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(k2)]))
+		then:
+		decryptedText == clearText
+		
+		
+		when: "Verify that illegal argument is thrown if key is not known"
+		sdg.decryptData(enc,  sdg.buildRecieverStore([new SymmetricKeyReceiver(k3)]))
+		then:
+		thrown IllegalArgumentException
 
+			
+	}
+	
+
+	@Unroll
+	def "Verify that encryption works with certificate public encryption key for alg: #alg"(){
+		setup:
+		def sdg = sdg_ecdsaNistP256
+		if(alg == BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1){
+			sdg = sdg_ecdsaBrainpoolP256r1
+		}
+		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate rootCA = genRootCA(rootCAKeys)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCA = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys, rootCAKeys, rootCA)
+		KeyPair enrollCertKeys1 = cryptoManager.generateKeyPair(alg)
+		KeyPair encKeys1 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert1 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys1, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys1.publicKey)
+		KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(alg)
+		KeyPair encKeys2 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert2= genEnrollCert(CertificateType.implicit, alg, enrollCertKeys2, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys2.publicKey)
+		
+		when:
+		byte[] clearText = "SomeText".getBytes("UTF-8")
+		Ieee1609Dot2Data enc = sdg.encryptData(alg, clearText, [new CertificateRecipient(enrollCert1)] as Recipient[])
+		
+		then:
+		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
+		EncryptedData ed = enc.getContent().getValue();
+		ed.getRecipients().size() == 1
+		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
+		ri.getType() == RecipientInfoChoices.certRecipInfo
+		((PKRecipientInfo) ri.getValue()).getRecipientId() == sdg.getCertID(enrollCert1)
+		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
+		
+		when: "Verify that text is decrypted correctly for a known key"
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2),new CertificateReciever(encKeys1.privateKey,enrollCert1)]))
+		then:
+		decryptedText == clearText
+		
+		when: "Verify that invalid key for a given certificate throws InvalidKeyException"
+		sdg.decryptData(enc, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert1)]))
+		then:
+		thrown InvalidKeyException
+		
+		when: "Verify that unknown receiver throws IllegalArgumentException"
+		sdg.decryptData(enc, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]))
+		then:
+		thrown IllegalArgumentException
+		
+		where:
+		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+	}
+
+	@Unroll
+	def "Verify that encryption works with secured data public encryption key for alg: #alg"(){
+		setup:
+		def sdg = sdg_ecdsaNistP256
+		if(alg == BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1){
+			sdg = sdg_ecdsaBrainpoolP256r1
+		}
+		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate rootCA = genRootCA(rootCAKeys)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCA = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys, rootCAKeys, rootCA)
+		KeyPair enrollCertKeys1 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert1 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys1, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, null,null)
+		KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert2= genEnrollCert(CertificateType.explicit, alg, enrollCertKeys2, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, null,null)
+		
+		KeyPair encKeys1 = cryptoManager.generateKeyPair(alg)
+		KeyPair encKeys2 = cryptoManager.generateKeyPair(alg)
+
+		Ieee1609Dot2Data sd1 = sdg.genSignedData(sdg.genHeaderInfo(1234, null,null,null,null,null,null, alg, encKeys1.public), "TestMessage1".getBytes(), SignerIdentifierType.SIGNER_CERTIFICATE, [enrollCert1] as Certificate[], enrollCertKeys1.private)
+		Ieee1609Dot2Data sd2 = sdg.genSignedData(sdg.genHeaderInfo(1234, null,null,null,null,null,null, alg, encKeys2.public), "TestMessage2".getBytes(), SignerIdentifierType.SIGNER_CERTIFICATE, [enrollCert2] as Certificate[], enrollCertKeys2.private)
+		
+		byte[] sd1Hash = cryptoManager.digest(sd1.getEncoded(), HashAlgorithm.sha256);
+		when:
+		byte[] clearText = "SomeText".getBytes("UTF-8")
+		Ieee1609Dot2Data enc = sdg.encryptData(alg, clearText, [new SignedDataRecipient(sd1)] as Recipient[])
+		
+		then:
+		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
+		EncryptedData ed = enc.getContent().getValue();
+		ed.getRecipients().size() == 1
+		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
+		ri.getType() == RecipientInfoChoices.signedDataRecipInfo
+		((PKRecipientInfo) ri.getValue()).getRecipientId() == new HashedId8(sd1Hash)
+		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
+		
+		when: "Verify that text is decrypted correclty for a known key"
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SignedDataReciever(encKeys2.private, sd2), new SignedDataReciever(encKeys1.private, sd1)]))
+		then:
+		decryptedText == clearText
+		
+		when: "Verify that invalid key exception is thrown if wrong key is used with correct message"
+		sdg.decryptData(enc, sdg.buildRecieverStore([new SignedDataReciever(encKeys2.private, sd1)]))
+		then:
+		thrown InvalidKeyException
+		
+		when: "Verify that unknown receiver throws IllegalArgumentException"
+		sdg.decryptData(enc, sdg.buildRecieverStore([new SignedDataReciever(encKeys2.private, sd2)]))
+		then:
+		thrown IllegalArgumentException
+		
+		where:
+		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+	}
+	
+	@Unroll
+	def "Verify that encryption works with RekReceipient for alg: #alg"(){
+		setup:
+		def sdg = sdg_ecdsaNistP256
+		if(alg == BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1){
+			sdg = sdg_ecdsaBrainpoolP256r1
+		}
+		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate rootCA = genRootCA(rootCAKeys)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCA = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys, rootCAKeys, rootCA)
+		KeyPair enrollCertKeys1 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert1 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys1, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, null,null)
+		KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert2= genEnrollCert(CertificateType.explicit, alg, enrollCertKeys2, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, null,null)
+		
+		KeyPair encKeys1 = cryptoManager.generateKeyPair(alg)
+		KeyPair encKeys2 = cryptoManager.generateKeyPair(alg)
+		
+		byte[] keyHash = cryptoManager.digest(encKeys1.getPublic().getEncoded(), HashAlgorithm.sha256);
+		when:
+		byte[] clearText = "SomeText".getBytes("UTF-8")
+		Ieee1609Dot2Data enc = sdg.encryptData(alg, clearText, [new RekReceipient(encKeys1.getPublic())] as Recipient[])
+		
+		then:
+		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
+		EncryptedData ed = enc.getContent().getValue();
+		ed.getRecipients().size() == 1
+		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
+		ri.getType() == RecipientInfoChoices.rekRecipInfo
+		((PKRecipientInfo) ri.getValue()).getRecipientId() == new HashedId8(keyHash)
+		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
+		
+		when: "Verify that text is decrypted correclty for a known key"
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new RekReciever(encKeys2.private, encKeys2.public), new RekReciever(encKeys1.private, encKeys1.public)]))
+		then:
+		decryptedText == clearText
+		
+		when: "Verify that invalid key exception is thrown if wrong key is used with correct message"
+		sdg.decryptData(enc, sdg.buildRecieverStore([new RekReciever(encKeys2.private, encKeys1.public)]))
+		then:
+		thrown InvalidKeyException
+		
+		when: "Verify that unknown receiver throws IllegalArgumentException"
+		sdg.decryptData(enc, sdg.buildRecieverStore([new RekReciever(encKeys2.private, encKeys2.public)]))
+		then:
+		thrown IllegalArgumentException
+		
+		where:
+		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+	}
+
+	def "Verify that genHeaderInfo generates correct header info"(){
+		when: "Generate full header"
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd")
+		Date genDate = sdf.parse("2016-01-01")
+		Date expDate = sdf.parse("2016-02-01")
+		KeyPair kp = cryptoManager.generateKeyPair(BasePublicEncryptionKeyChoices.ecdsaNistP256)
+		HeaderInfo hi = sdg.genHeaderInfo(123L, genDate, expDate, new ThreeDLocation(3, 2, 1), Hex.decode("101112"),Hex.decode("131415"), 99, BasePublicEncryptionKeyChoices.ecdsaNistP256, kp.getPublic())
+		then:
+		hi.psid.valueAsLong == 123L
+		hi.generationTime.asDate() == genDate
+		hi.expiryTime.asDate() == expDate
+		hi.generationLocation.latitude.valueAsLong == 3
+		hi.generationLocation.longitude.valueAsLong == 2
+		hi.generationLocation.elevation.elevationInDecimeters == 1
+		hi.p2pcdLearningRequest.data == Hex.decode("101112")
+		hi.missingCrlIdentifier.cracaid.data == Hex.decode("131415")
+		hi.missingCrlIdentifier.crlSeries.valueAsLong == 99
+		BasePublicEncryptionKey encKey = ((PublicEncryptionKey) hi.encryptionKey.value).publicKey
+		cryptoManager.decodeEccPoint(encKey.type, encKey.value) == kp.public
+		
+		when: "Generate minimal header"
+		hi = sdg.genHeaderInfo(124L, null, null, null, null, null, null, null, null)
+		then:
+		hi.psid.valueAsLong == 124L
+		hi.generationTime == null
+		hi.expiryTime == null
+		hi.generationLocation == null
+		hi.p2pcdLearningRequest == null
+		hi.missingCrlIdentifier == null
+		hi.encryptionKey == null
+		
+		when: "Verify that Illegal Argument Exception is thrown if not both missing crl arguments are set"
+		sdg.genHeaderInfo(124L, null, null, null, null, Hex.decode("131415"), null, null, null)
+		then:
+		thrown IllegalArgumentException
+		when:
+		sdg.genHeaderInfo(124L, null, null, null, null, null, 99, null, null)
+		then:
+		thrown IllegalArgumentException
+		
+		when: "Verify that Illegal Argument Exception is thrown if not both encryption key are set"
+		sdg.genHeaderInfo(124L, null, null, null, null, null, null, BasePublicEncryptionKeyChoices.ecdsaNistP256, null)
+		then:
+		thrown IllegalArgumentException
+		when:
+		sdg.genHeaderInfo(124L, null, null, null, null, null, null, null, kp.getPublic())
+		then:
+		thrown IllegalArgumentException
+	}
+	
+	
+	@Unroll
+	def "Verify that signAndEncryptData and decryptAndVerifySignedData generates encrypted and signed data structures for alg: #alg"(){
+		setup:
+		def sdg = sdg_ecdsaNistP256
+		if(alg == BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1){
+			sdg = sdg_ecdsaBrainpoolP256r1
+		}
+		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate rootCA = genRootCA(rootCAKeys)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCA = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys, rootCAKeys, rootCA)
+		KeyPair enrollCertKeys1 = cryptoManager.generateKeyPair(alg)
+		KeyPair encKeys1 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert1 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys1, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys1.publicKey)
+		KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(alg)
+		KeyPair encKeys2 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert2= genEnrollCert(CertificateType.explicit, alg, enrollCertKeys2, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys2.publicKey)
+		
+		
+		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null)
+		def certStore = sdg.buildCertStore([enrollCA,enrollCert1])
+		def trustStore = sdg.buildCertStore([rootCA])
+		when:
+		byte[] encData = sdg.signAndEncryptData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY, [enrollCert1, enrollCA, rootCA] as Certificate[], enrollCertKeys1.private, alg, [new CertificateRecipient(enrollCert2)] as Recipient[])
+		
+		then:
+		new Ieee1609Dot2Data(encData).getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
+		when:
+		byte[] data = sdg.decryptAndVerifySignedData(encData, certStore, trustStore, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), true, true)
+		
+		then:
+		data == "TestData".getBytes("UTF-8")
+		
+		
+		when: "Verify that decrypt and verify returns a verified only if a signed data is given and encryption isn't required"
+		byte[] signedData = sdg.genSignedData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY, [enrollCert1, enrollCA, rootCA] as Certificate[], enrollCertKeys1.private).encoded
+		data = sdg.decryptAndVerifySignedData(signedData, certStore, trustStore, null, true, false)
+		then:
+		data == "TestData".getBytes("UTF-8")
+		
+		when: "Verify that decrypt and verify thrown IllegalArgumentException if data is not encrypted but required"
+		sdg.decryptAndVerifySignedData(signedData, certStore, trustStore, null, true, true)
+		then:
+		thrown IllegalArgumentException
+		
+		when: "Verify that decrypt and verify returns unencrypted data if enryption and signature isn't required"
+		byte[] ensecured = new Ieee1609Dot2Data(new Ieee1609Dot2Content(Ieee1609Dot2ContentChoices.unsecuredData, new Opaque("TestData".getBytes("UTF-8")))).encoded
+		data = sdg.decryptAndVerifySignedData(ensecured, null, null, null, false, false)
+		then:
+		data == "TestData".getBytes("UTF-8")
+		
+		when: "Verify that decrypt and verify thrown IllegalArgumentException for unencrypted data if signature is required"
+		data = sdg.decryptAndVerifySignedData(ensecured, certStore, trustStore, null, true, false)
+		then:
+		thrown IllegalArgumentException
+		
+		when: "Verify that decrypt and verify returns decrypted data but doesn't verify data in not required, i.e encrypted data contains unsecuredData"
+		byte[] encDataOnly = sdg.encryptData(alg, ensecured,  [new CertificateRecipient(enrollCert2)] as Recipient[]).encoded
+		data = sdg.decryptAndVerifySignedData(encDataOnly, null, null, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), false, true)
+		then:
+		data == "TestData".getBytes("UTF-8")
+		
+		where:
+		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+	}
+	
 	def "Verify that return first certificates public key of complete chain consists of explicit certificates"(){
 		setup:
 		def alg = PublicVerificationKeyChoices.ecdsaNistP256
@@ -433,7 +808,47 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		result.get(sdg.getCertID(rootCA)) == rootCA
 		result.get(sdg.getCertID(enrollCA)) == enrollCA
 	}
+	
 
+
+	def "Verify that buildRecieverStore generates a correct HashedId8 to Receiver Map"(){
+		setup:
+		def alg = BasePublicEncryptionKeyChoices.ecdsaNistP256
+		KeyPair rootCAKeys1 = cryptoManager.generateKeyPair(alg)
+		Certificate rootCA1 = genRootCA(rootCAKeys1)
+		HashedId8 rootCA1Id = sdg.getCertID(rootCA1)
+		SecretKey sharedKey = cryptoManager.generateSecretKey(alg)
+		HashedId8 sharedKeyId = sdg.getSecretKeyID(sharedKey)
+		SecretKey symKey = cryptoManager.generateSecretKey(alg)
+		HashedId8 symKeyId = sdg.getSecretKeyID(symKey)
+		KeyPair rekKeys = cryptoManager.generateKeyPair(alg)
+		HashedId8 rekKeyId = new HashedId8(cryptoManager.digest(rekKeys.getPublic().getEncoded(), alg))
+		
+		KeyPair signedDataEncKeys1 = cryptoManager.generateKeyPair(alg)
+		Ieee1609Dot2Data signedData = genSignedData([rootCA1] as Certificate[], rootCAKeys1.getPrivate(), BasePublicEncryptionKeyChoices.ecdsaNistP256,signedDataEncKeys1.publicKey)
+		HashedId8 signedDataId = new HashedId8(cryptoManager.digest(signedData.encoded, alg))
+		
+		when:
+		Map res = sdg.buildRecieverStore([new CertificateReciever((PrivateKey) rootCAKeys1.privateKey, rootCA1), 
+			new PreSharedKeyReceiver(sharedKey), new SymmetricKeyReceiver(symKey),
+			new RekReciever(rekKeys.getPrivate(), rekKeys.getPublic()),
+			new SignedDataReciever(signedDataEncKeys1.privateKey, signedData)])
+		
+		then:
+		res.size() == 5
+		res[rootCA1Id].privateKey == rootCAKeys1.privateKey
+		res[sharedKeyId].secretKey == sharedKey
+		res[symKeyId].symmetricKey == symKey
+		res[rekKeyId].publicKey == rekKeys.publicKey
+		res[signedDataId].signedData == signedData
+		
+		when:
+		res = sdg.buildRecieverStore([new CertificateReciever((PrivateKey) rootCAKeys1.privateKey, rootCA1)] as CertificateReciever[])
+		
+		then:
+		res.size() == 1
+	}
+	
 	@Unroll
 	def "Verify getHashedDataChoice()"(){
 		setup:
@@ -445,4 +860,15 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		HashAlgorithm.sha256       | HashedDataChoices.sha256HashedData
 
 	}
+	
+	private Ieee1609Dot2Data genSignedData(Certificate[] certChain, PrivateKey privateKey, BasePublicEncryptionKeyChoices keyType, PublicKey encPubKey){
+		EncryptionKey encKey = null;
+		if(encPubKey != null){
+			encKey = new EncryptionKey(new PublicEncryptionKey(SymmAlgorithm.aes128Ccm, new BasePublicEncryptionKey(keyType, cryptoManager.encodeEccPoint(keyType, EccP256CurvePointChoices.compressedy0, encPubKey))))
+		}
+		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,encKey)
+		
+		Ieee1609Dot2Data sd = sdg.genSignedData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY,certChain, privateKey)
+	}
+	
 }

@@ -18,6 +18,8 @@ import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
+import javax.crypto.SecretKey;
+
 
 /**
  * Base interface for CryptoManager containing common methods for both ETSI ITS and IEEE
@@ -53,6 +55,18 @@ public interface CryptoManager {
 	 */
 	KeyPair generateKeyPair(AlgorithmIndicator alg) throws IllegalArgumentException, IOException,InvalidKeyException;
 	
+	/**
+	 * Method to generate a new symmetric secret key for the given algorithm scheme.
+	 * 
+	 * @param alg the type of key to generate
+	 * 
+	 * @return a new secret key pair.
+	 * 
+	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws IOException if communication problems occurred with underlying components.
+	 * @throws InvalidKeyException if other non-IO related problems occurred generating the key. 
+	 */
+	SecretKey generateSecretKey(AlgorithmIndicator alg) throws IllegalArgumentException, IOException,InvalidKeyException;
 	
 	/**
 	 * Method to generate a digest of a message using the given hash algorithm scheme.

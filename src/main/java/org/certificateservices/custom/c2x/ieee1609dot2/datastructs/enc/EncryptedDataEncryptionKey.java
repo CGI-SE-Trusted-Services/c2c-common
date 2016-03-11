@@ -17,6 +17,8 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EciesP256EncryptedKey;
 
 /**
@@ -34,7 +36,7 @@ public class EncryptedDataEncryptionKey extends COERChoice {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public enum EncryptedDataEncryptionKeyChoices implements COERChoiceEnumeration{
+	public enum EncryptedDataEncryptionKeyChoices implements COERChoiceEnumeration, AlgorithmIndicator{
 		eciesNistP256,
 		eciesBrainpoolP256r1;
 
@@ -42,6 +44,36 @@ public class EncryptedDataEncryptionKey extends COERChoice {
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 	      return new EciesP256EncryptedKey();
 		}
+		
+		public int getVLength(){
+			switch(this){
+			case eciesNistP256:
+			case eciesBrainpoolP256r1:
+			default:
+				return 33;
+			}
+		}
+		
+		public int getOutputTagLength(){
+			switch(this){
+			case eciesNistP256:
+			case eciesBrainpoolP256r1:
+			default:
+				return 16;
+			}
+		}
+
+		@Override
+		public Algorithm getAlgorithm() {
+			switch (this) {
+			case eciesNistP256:
+				return new Algorithm(Algorithm.Symmetric.aes128Ccm,Algorithm.Signature.ecdsaNistP256, Algorithm.Encryption.ecies,Algorithm.Hash.sha256);
+			case eciesBrainpoolP256r1:
+			default:
+				return new Algorithm(Algorithm.Symmetric.aes128Ccm,Algorithm.Signature.ecdsaBrainpoolP256r1, Algorithm.Encryption.ecies,Algorithm.Hash.sha256);
+			}	
+		}
+
 	}
 	
 	/**

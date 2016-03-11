@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COEREnumerationType;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 
 /**
@@ -31,7 +32,7 @@ public enum SymmAlgorithm implements COEREnumerationType, AlgorithmIndicator {
 	
 	@Override
 	public Algorithm getAlgorithm() {
-		return new Algorithm(Algorithm.Symmetric.aes128Ccm, null, null, null);
+		return new Algorithm(Algorithm.Symmetric.aes128Ccm, null, null, Hash.sha256);
 	}
 	
 }

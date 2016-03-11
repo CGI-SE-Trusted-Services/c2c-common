@@ -18,6 +18,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
 
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
@@ -28,7 +29,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedI
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PsidSsp;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicEncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfPsidSsp;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SubjectAssurance;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
@@ -102,7 +102,7 @@ public class AuthorizationCertGenerator extends BaseCertGenerator {
 			int crlSeries,
 			int assuranceLevel,
 			int confidenceLevel,
-			PublicVerificationKeyChoices signingPublicKeyAlgorithm,
+			AlgorithmIndicator signingPublicKeyAlgorithm,
 			PublicKey signPublicKey, 
 			Certificate signerCertificate,
 			PublicKey signCertificatePublicKey,
@@ -124,7 +124,7 @@ public class AuthorizationCertGenerator extends BaseCertGenerator {
 		SubjectAssurance subjectAssurance = new SubjectAssurance(assuranceLevel, confidenceLevel);
 		VerificationKeyIndicator vki;
 		if(type == CertificateType.explicit){
-			PublicVerificationKey verifyKeyIndicator = new PublicVerificationKey(signingPublicKeyAlgorithm, convertToPoint(signingPublicKeyAlgorithm, signPublicKey));
+			PublicVerificationKey verifyKeyIndicator = new PublicVerificationKey(getPublicVerificationAlgorithm(signingPublicKeyAlgorithm), convertToPoint(signingPublicKeyAlgorithm, signPublicKey));
 		    vki = new VerificationKeyIndicator(verifyKeyIndicator);
 		}else{
 			EccP256CurvePoint rv = new EccP256CurvePoint(new BigInteger("0")); // This is just a placeholder. Real rv is set by ECQVHelper.

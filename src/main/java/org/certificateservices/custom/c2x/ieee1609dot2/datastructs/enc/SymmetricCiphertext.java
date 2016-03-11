@@ -17,6 +17,8 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 
 /**
  * This data structure encapsulates a ciphertext generated with an approved symmetric algorithm.
@@ -32,12 +34,17 @@ public class SymmetricCiphertext extends COERChoice {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public enum SymmetricCiphertextChoices implements COERChoiceEnumeration{
+	public enum SymmetricCiphertextChoices implements COERChoiceEnumeration, AlgorithmIndicator{
 		aes128ccm;
 
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 	      return new AesCcmCiphertext();
+		}
+		
+		@Override
+		public Algorithm getAlgorithm() {
+			return new Algorithm(Algorithm.Symmetric.aes128Ccm, null, null, null);
 		}
 	}
 	

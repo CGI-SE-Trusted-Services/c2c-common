@@ -18,8 +18,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm;
-import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 
 /**
  * This structure represents a signature for a supported public key algorithm. 

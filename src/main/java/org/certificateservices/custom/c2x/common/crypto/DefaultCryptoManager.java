@@ -33,6 +33,7 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.security.SignatureException;
+import java.security.interfaces.ECPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -53,12 +55,15 @@ import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.DLSequence;
 import org.bouncycastle.asn1.teletrust.TeleTrusTNamedCurves;
 import org.bouncycastle.asn1.teletrust.TeleTrusTObjectIdentifiers;
+import org.bouncycastle.crypto.agreement.ECDHCBasicAgreement;
+import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.engines.IESEngine;
+import org.bouncycastle.crypto.generators.KDF2BytesGenerator;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher.ECIES;
 import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
 import org.bouncycastle.jce.ECNamedCurveTable;
-import org.bouncycastle.jce.interfaces.ECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
@@ -70,16 +75,20 @@ import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.common.EncodeHelper;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Symmetric;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EcdsaP256Signature;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.UncompressedEccPoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EcdsaP256Signature;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EciesP256EncryptedKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.UncompressedEccPoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
@@ -91,7 +100,6 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorit
 import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType;
-import org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAttribute;
 import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAttributeType;
@@ -188,7 +196,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		secureRandom.nextBytes(nounce);
 		EncryptionParameters encParams = new EncryptionParameters(encryptionAlg.getRelatedSymmetricAlgorithm(), nounce);
 		
-		Key symmetricKey = aES128Generator.generateKey();
+		Key symmetricKey = generateSecretKey(encryptionAlg);
 		List<Encodable> reciptientInfos = new ArrayList<Encodable>();
 		// Verify that all certificates have encryption keys
 		for(Certificate c : receipients){
@@ -251,7 +259,31 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	  return secureMessage;
 	}	
 	
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#genNounce(AlgorithmIndicator)
+	 */
+	@Override
+	public byte[] genNounce(AlgorithmIndicator alg) throws IllegalArgumentException, GeneralSecurityException{
+		if( alg.getAlgorithm().getSymmetric() == null){
+			throw new IllegalArgumentException("Error algorithm scheme doesn't support symmetric encryption");
+		}
+		int nounceLen = alg.getAlgorithm().getSymmetric().getNounceLength();
+		byte[] nounce = new byte[nounceLen];
+		secureRandom.nextBytes(nounce);
+		
+		return nounce;
+	}
 	
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#constructSecretKey(AlgorithmIndicator, byte[])
+	 */
+	@Override
+	public SecretKey constructSecretKey(AlgorithmIndicator alg, byte[] keyData) throws IllegalArgumentException, GeneralSecurityException{
+		if(alg.getAlgorithm().getSymmetric() != Symmetric.aes128Ccm){
+			throw new IllegalArgumentException("Count construct secret key from unsupported algorithm: " + alg);
+		}
+		return new SecretKeySpec(keyData, "AES");
+	}
 
 	/**
 	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#signSecureMessage(SecuredMessage, Certificate, SignerInfoType, PublicKeyAlgorithm, PrivateKey)
@@ -547,44 +579,6 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			throw new SignatureException("Internal error verifying signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
 		}
 	}
-
-	/**
-	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature, CertificateType, org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate, PublicKey)
-	 */
-//	@Override
-//	public boolean verifySignature(
-//			byte[] message,
-//			org.certificateservices.custom.c2x.ieee1609dot2.basic.Signature signature,
-//			CertificateType certType,
-//			org.certificateservices.custom.c2x.ieee1609dot2.cert.Certificate signCert,
-//			PublicKey publicKey) throws IllegalArgumentException,
-//			SignatureException, IOException {
-//		 
-//		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
-//		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
-//		if(sigAlg == null){
-//			throw new IllegalArgumentException("Error no signature algorithm specified");
-//		}
-//		try{
-//			return verifySignatureDigest(digest(message, alg), signature, publicKey);
-//		}catch(Exception e){
-//			if(e instanceof IllegalArgumentException){
-//				throw (IllegalArgumentException) e;
-//			}
-//			if(e instanceof IOException){
-//				throw (IOException) e;
-//			}
-//			if(e instanceof SignatureException){
-//				throw (SignatureException) e;
-//			}
-//
-//			throw new SignatureException("Internal error verifying signature " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
-//		}
-//	}
-	
-
-
-
 	
 	/**
 	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#verifySignature(byte[], org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate)
@@ -646,8 +640,6 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		
 			return verifyExplicitCertSignature(message, signature, null, (EccP256CurvePoint) publicVerificationKey.getValue());
 	}
-	
-	// TODO 
 	
 
 
@@ -747,14 +739,14 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 
 	/**
-	 * Supports ECDSA P256
+	 * Supports ECDSA P256 ad BrainPool P256r1
 	 * 
 	 * @see org.certificateservices.custom.c2x.common.crypto.CryptoManager#generateKeyPair(AlgorithmIndicator)
 	 */
 	public KeyPair generateKeyPair(AlgorithmIndicator alg){
 		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
 		if(sigAlg == null){
-			return null;
+			throw new IllegalArgumentException("Error invalid algorithm when generating key pair: "+ alg);
 		}
 		if(sigAlg == Algorithm.Signature.ecdsaNistP256){
 			return ecNistP256Generator.generateKeyPair();
@@ -762,7 +754,24 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		if(sigAlg == Algorithm.Signature.ecdsaBrainpoolP256r1){
 			return brainpoolp256r1P256Generator.generateKeyPair();
 		}
-		return null;
+		throw new IllegalArgumentException("Error unsupported algorithm when generating key pair: " + sigAlg);
+	}
+	
+	/**
+	 * Supports acm aes 128
+	 * 
+	 * @see org.certificateservices.custom.c2x.common.crypto.CryptoManager#generateSecretKey(AlgorithmIndicator)
+	 */
+	@Override
+	public SecretKey generateSecretKey(AlgorithmIndicator alg){
+		Algorithm.Symmetric symAlg = alg.getAlgorithm().getSymmetric();
+		if(symAlg == null){
+			throw new IllegalArgumentException("Error invalid algorithm when generating secret key: "+ alg);
+		}
+		if(symAlg == Algorithm.Symmetric.aes128Ccm){
+			return aES128Generator.generateKey();
+		}
+		throw new IllegalArgumentException("Error unsupported algorithm when generating secret key: " + symAlg);
 	}
 		
 	/**
@@ -871,7 +880,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
             sha256Digest.update(message); 
 			return sha256Digest.digest();
 		}else{
-			throw new IllegalArgumentException("Unsupported signature algorithm: " + alg);
+			throw new IllegalArgumentException("Unsupported hash algorithm: " + alg);
 		}
 	}
 		
@@ -936,6 +945,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		eCIESCipher.engineInit(Cipher.ENCRYPT_MODE, encryptionKey, new IESParameterSpec(null, null, 128),secureRandom);
 				
 		byte[] encryptedData = eCIESCipher.engineDoFinal(keyData, 0, keyData.length);
+		
 		byte[] v = new byte[ECIES_NIST_P256_V_LENGTH];
 		System.arraycopy(encryptedData, 0, v, 0,ECIES_NIST_P256_V_LENGTH);
         
@@ -947,6 +957,46 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		System.arraycopy(encryptedData, ECIES_NIST_P256_V_LENGTH, c, 0, publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength());
 		System.arraycopy(encryptedData, ECIES_NIST_P256_V_LENGTH + publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength(), t, 0, EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH);
 		return new EciesNistP256EncryptedKey(publicKeyAlgorithm, p, c,t); 
+	}
+	
+	/**
+	 * Help method to perform a ECIES encryption to a recipient of a symmetric key. 
+	 * 
+	 * @param publicKeyAlgorithm the algorithm used.
+	 * @param encryptionKey the public encryption key of the recipient
+	 * @param symmetricKey the symmetric key to encrypt
+	 * @return a EciesNistP256EncryptedKey to be included in a SecureMessage header.
+	 * 
+	 * @throws InvalidKeyException if supplied key was corrupt.
+	 * @throws InvalidAlgorithmParameterException if algorithm was badly specified.
+	 * @throws IllegalBlockSizeException if encrypted data was corrupt.
+	 * @throws BadPaddingException if encrypted data was corrupt.
+	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
+	 * @throws InvalidKeySpecException if supplied key specification was faulty.
+	 * @throws IOException if communication problem occurred with underlying systems.
+	 */
+	@Override
+	public EncryptedDataEncryptionKey eCEISEncryptSymmetricKey(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, AlgorithmIndicator alg,byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException{
+		byte[] keyData = symmetricKey.getEncoded();
+
+		IESCipher eCIESCipher = new IEEE1609Dot2ECIES();
+		eCIESCipher.engineInit(Cipher.ENCRYPT_MODE, encryptionKey, new IESParameterSpec(eciesDeviation, null, 128,-1, null, true),secureRandom);
+				
+		byte[] encryptedData = eCIESCipher.engineDoFinal(keyData, 0, keyData.length);
+		byte[] v = new byte[keyType.getVLength()];
+		System.arraycopy(encryptedData, 0, v, 0,keyType.getVLength());
+        
+		EccP256CurvePoint p = new EccP256CurvePoint(v);
+        //p.decode(new DataInputStream(new ByteArrayInputStream(v)));
+        
+		byte[] c = new byte[alg.getAlgorithm().getSymmetric().getKeyLength()];
+		byte[] t = new byte[keyType.getOutputTagLength()];
+		System.arraycopy(encryptedData, keyType.getVLength(), c, 0, alg.getAlgorithm().getSymmetric().getKeyLength());
+		System.arraycopy(encryptedData, keyType.getVLength() + alg.getAlgorithm().getSymmetric().getKeyLength(), t, 0, keyType.getOutputTagLength());
+		
+		EciesP256EncryptedKey key = new EciesP256EncryptedKey(p,c,t);
+		return new EncryptedDataEncryptionKey(keyType, key);
+		 
 	}
 	
 	/**
@@ -983,73 +1033,69 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		System.arraycopy(eciesNistP256EncryptedKey.getC(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH, eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength());
 		System.arraycopy(eciesNistP256EncryptedKey.getT(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH+eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength(), EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH);
 		
+		
+		
 		byte[] decryptedData = eCIESCipher.engineDoFinal(encryptedData, 0, encryptedData.length);
 
 		return new SecretKeySpec(decryptedData, "AES");
 	}
 	
-	
 	/**
-	 * Help method to perform a symmetric encrypt of data.
+	 * Help method to perform a ECIES decryption of a symmetric key. 
 	 * 
-	 * @param symmetricAlgorithm the algorithm used to encrypt the data.
-	 * @param data the encrypted data.
-	 * @param symmetricKey the encrypt key.
-	 * @param nounce related nounce.
-	 * @return the encrypt clear text data.
+	 * @param encryptedDataEncryptionKey the EncryptedDataEncryptionKey to decrypt
+	 * @param decryptionKey the receiptients private key
+	 * @param alg the related algorithm to use
+	 * @param eciesDeviation to use as P1 parameter.
+	 * @return a decrypted symmetric key.
 	 * 
 	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
-	 * @throws NoSuchAlgorithmException if algorithm isn't available in underlying provider.
-	 * @throws IllegalBlockSizeException if encrypted data was corrupt.
-	 * @throws BadPaddingException if encrypted data was corrupt.
-	 * @throws InvalidKeyException if supplied key was corrupt.
-	 * @throws InvalidAlgorithmParameterException if algorithm was badly specified.
-	 * @throws NoSuchProviderException if underlying provider was't installed properly.
-	 * @throws NoSuchPaddingException if encrypted data was corrupt.
+	 * @throws GeneralSecurityException if internal problems occurred decrypting key.
+	 * @throws IOException if communication problem occurred with underlying systems.
 	 */
-	protected byte[] symmetricEncrypt(SymmetricAlgorithm symmetricAlgorithm, byte[] data, Key symmetricKey, byte[] nounce) throws IllegalArgumentException, 
-	                                   																						   NoSuchAlgorithmException, 
-	                                   																						   IllegalBlockSizeException, 
-	                                   																						   BadPaddingException, 
-	                                   																						   InvalidKeyException, 
-	                                   																						   InvalidAlgorithmParameterException, 
-	                                   																						   NoSuchProviderException, 
-	                                   																						   NoSuchPaddingException{
+	@Override
+	public SecretKey eCEISDecryptSymmetricKey(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, AlgorithmIndicator alg, byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException{
+		try{
+			EncryptedDataEncryptionKeyChoices keyType = encryptedDataEncryptionKey.getType();
+			IESCipher eCIESCipher = new IEEE1609Dot2ECIES();
+			eCIESCipher.engineInit(Cipher.DECRYPT_MODE, decryptionKey, new IESParameterSpec(eciesDeviation, null, 128,-1, null, true),secureRandom);
 
-		Cipher c = getSymmetricCipher(symmetricAlgorithm, true);
+			byte[] encryptedData = new byte[keyType.getVLength() + alg.getAlgorithm().getSymmetric().getKeyLength() + keyType.getOutputTagLength()];
+
+
+			EciesP256EncryptedKey eciesP256EncryptedKey = (EciesP256EncryptedKey) encryptedDataEncryptionKey.getValue();
+			ECPublicKey pubKey = (ECPublicKey) decodeEccPoint(alg, eciesP256EncryptedKey.getV());
+			BCECPublicKey bcPubKey = convertECPublicKeyToBCECPublicKey(alg, pubKey);
+
+			System.arraycopy(bcPubKey.getQ().getEncoded(true), 0, encryptedData, 0, keyType.getVLength());
+			System.arraycopy(eciesP256EncryptedKey.getC(), 0, encryptedData, keyType.getVLength(), alg.getAlgorithm().getSymmetric().getKeyLength());
+			System.arraycopy(eciesP256EncryptedKey.getT(), 0, encryptedData, keyType.getVLength()+alg.getAlgorithm().getSymmetric().getKeyLength(), keyType.getOutputTagLength());
+
+			byte[] decryptedData = eCIESCipher.engineDoFinal(encryptedData, 0, encryptedData.length);
+			return new SecretKeySpec(decryptedData, "AES");
+		}catch(BadPaddingException e){
+			throw new InvalidKeyException("Error decrypting symmetric key using supplied private key: " + e.getMessage(), e);
+		}
+	}
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#symmetricEncrypt(AlgorithmIndicator, byte[], Key, byte[])
+	 */
+	@Override
+	public byte[] symmetricEncrypt(AlgorithmIndicator alg, byte[] data, Key symmetricKey, byte[] nounce) throws IllegalArgumentException, GeneralSecurityException{
+
+		Cipher c = getSymmetricCipher(alg, true);
 	    c.init(Cipher.ENCRYPT_MODE, symmetricKey, new IvParameterSpec(nounce));
 	    
 		return c.doFinal(data);	
 	}
 	
 	/**
-	 * Help method to perform a symmetric decrypt of data.
-	 * 
-	 * @param symmetricAlgorithm the algorithm used to encrypt the data.
-	 * @param data the encrypted data.
-	 * @param symmetricKey the decryption key.
-	 * @param nounce related nounce.
-	 * @return the decrypted clear text data.
-	 * 
-	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
-	 * @throws NoSuchAlgorithmException if algorithm isn't available in underlying provider.
-	 * @throws IllegalBlockSizeException if encrypted data was corrupt.
-	 * @throws BadPaddingException if encrypted data was corrupt.
-	 * @throws InvalidKeyException if supplied key was corrupt.
-	 * @throws InvalidAlgorithmParameterException if algorithm was badly specified.
-	 * @throws NoSuchProviderException if underlying provider was't installed properly.
-	 * @throws NoSuchPaddingException if encrypted data was corrupt.
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#symmetricDecrypt(AlgorithmIndicator, byte[], Key, byte[])
 	 */
-	protected byte[] symmetricDecrypt(SymmetricAlgorithm symmetricAlgorithm, byte[] data, Key symmetricKey, byte[] nounce) throws IllegalArgumentException, 
-	                                   																						   NoSuchAlgorithmException, 
-	                                   																						   IllegalBlockSizeException, 
-	                                   																						   BadPaddingException, 
-	                                   																						   InvalidKeyException, 
-	                                   																						   InvalidAlgorithmParameterException, 
-	                                   																						   NoSuchProviderException, 
-	                                   																						   NoSuchPaddingException{
+	@Override
+	public byte[] symmetricDecrypt(AlgorithmIndicator alg, byte[] data, Key symmetricKey, byte[] nounce) throws IllegalArgumentException, GeneralSecurityException{
 		
-		Cipher c = getSymmetricCipher(symmetricAlgorithm, false);
+		Cipher c = getSymmetricCipher(alg, false);
 	    c.init(Cipher.DECRYPT_MODE, symmetricKey, new IvParameterSpec(nounce));
 	    
 		return c.doFinal(data);	
@@ -1057,9 +1103,11 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	
 	private Map<String, Cipher> chiphers = new HashMap<String, Cipher>();
 	
-	protected Cipher getSymmetricCipher(SymmetricAlgorithm symmetricAlgorithm, boolean encrypt) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException{
+	protected Cipher getSymmetricCipher(AlgorithmIndicator alg, boolean encrypt) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException{
 		Cipher retval = null;
-		if(symmetricAlgorithm != SymmetricAlgorithm.aes_128_ccm){
+		Symmetric symmetricAlgorithm = alg.getAlgorithm().getSymmetric();
+		
+		if(symmetricAlgorithm != Symmetric.aes128Ccm){
 	    	throw new IllegalArgumentException("Unsupported symmetric chipher: " + symmetricAlgorithm);
 	    }
 	    if(encrypt){
@@ -1072,7 +1120,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		      retval = chiphers.get(symmetricAlgorithm + "_decrypt");
 		      if(retval == null){
 		    	  retval = Cipher.getInstance("AES/CCM/NoPadding", "BC");
-		    	  chiphers.put(symmetricAlgorithm + "_encrypt", retval); 
+		    	  chiphers.put(symmetricAlgorithm + "_decrypt", retval); 
 		      }	
 	    }
 	    
@@ -1211,10 +1259,8 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 
 
 	
-	// TODO
 
-	
-	protected BCECPublicKey convertECPublicKeyToBCECPublicKey(BasePublicEncryptionKeyChoices alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
+	protected BCECPublicKey convertECPublicKeyToBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
 		if(ecPublicKey instanceof BCECPublicKey){
 			return (BCECPublicKey) ecPublicKey;
 		}
@@ -1453,5 +1499,20 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 
 
-
+	/**
+	 * Specific ECIES configuration to fullfill both ITS and IEEE standards.
+	 * 
+	 * 
+	 *
+	 */
+    static public class IEEE1609Dot2ECIES
+    extends IESCipher
+{
+    public IEEE1609Dot2ECIES()
+    {
+        super(new IESEngine(new ECDHCBasicAgreement(),
+            new KDF2BytesGenerator(new SHA256Digest()),
+            new Mac1(new SHA256Digest(),128)));
+    }
+}
 }
