@@ -1,7 +1,7 @@
 # Java Implementation of ITS Intelligent Transport Systems (ITS) Security Security header and certificate formats
-# ETSI TS 103 097 V1.1.1 and IEEE 1609.2
+# ETSI TS 103 097 V1.1.1 and IEEE 1609.2 2015
 
-This is a library used to generate data structures from the ETSI TS 103 097 (EU) and IEEE 1609.2 (US) specification.
+This is a library used to generate data structures from the ETSI TS 103 097 (EU) and IEEE 1609.2 2015 (US) specification.
 
 # License
 The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
