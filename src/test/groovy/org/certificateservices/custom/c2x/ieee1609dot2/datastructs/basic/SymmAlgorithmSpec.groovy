@@ -34,7 +34,7 @@ class SymmAlgorithmSpec extends BaseStructSpec {
 		when:
 		Algorithm alg = SymmAlgorithm.aes128Ccm.getAlgorithm()
 		then:
-		alg.getHash() == null
+		alg.getHash() == Algorithm.Hash.sha256
 		alg.getSymmetric() == Algorithm.Symmetric.aes128Ccm
 		alg.getSignature() == null
 		alg.getEncryption() == null

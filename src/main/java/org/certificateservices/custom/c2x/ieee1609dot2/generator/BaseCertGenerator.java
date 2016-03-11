@@ -105,5 +105,16 @@ public abstract class BaseCertGenerator {
 			throw new IllegalArgumentException("Error, no such algorithm exception: " + e.getMessage());
 		}
 	}
+	
+	protected PublicVerificationKeyChoices getPublicVerificationAlgorithm(
+			AlgorithmIndicator signingPublicKeyAlgorithm) {
+		switch(signingPublicKeyAlgorithm.getAlgorithm().getSignature()){
+		case ecdsaNistP256:
+			return PublicVerificationKeyChoices.ecdsaNistP256;
+		case ecdsaBrainpoolP256r1:
+			return PublicVerificationKeyChoices.ecdsaBrainpoolP256r1;
+		}
+		throw new IllegalArgumentException("Error unsupported Public Verification Algorithm specified: " + signingPublicKeyAlgorithm.getAlgorithm().getSignature());
+	}
 		
 }

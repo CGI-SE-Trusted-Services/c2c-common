@@ -17,6 +17,9 @@ import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.SignatureException;
+
+import javax.crypto.SecretKey;
 
 
 /**
@@ -37,8 +40,9 @@ public interface CryptoManager {
 	 * @throws NoSuchProviderException if required cryptographic providers couldn't be found in JVM.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 * @throws BadCredentialsException if supplied credentials wasn't successful when authentication towards underlying hardware.
+	 * @throws SignatureException  If internal problems occurred initializing the cryptomanager.
 	 */
-	void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException;
+	void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException, SignatureException;
 
 	/**
 	 * Method to generate a new key pair for the given public key algorithm scheme.
@@ -53,6 +57,18 @@ public interface CryptoManager {
 	 */
 	KeyPair generateKeyPair(AlgorithmIndicator alg) throws IllegalArgumentException, IOException,InvalidKeyException;
 	
+	/**
+	 * Method to generate a new symmetric secret key for the given algorithm scheme.
+	 * 
+	 * @param alg the type of key to generate
+	 * 
+	 * @return a new secret key pair.
+	 * 
+	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws IOException if communication problems occurred with underlying components.
+	 * @throws InvalidKeyException if other non-IO related problems occurred generating the key. 
+	 */
+	SecretKey generateSecretKey(AlgorithmIndicator alg) throws IllegalArgumentException, IOException,InvalidKeyException;
 	
 	/**
 	 * Method to generate a digest of a message using the given hash algorithm scheme.

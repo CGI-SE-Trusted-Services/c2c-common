@@ -18,8 +18,10 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
 
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CrlSeries;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
@@ -31,8 +33,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Sequenc
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SubjectAssurance;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ValidityPeriod;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateId;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
@@ -40,9 +40,9 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntit
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.PsidGroupPermissions;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SequenceOfPsidGroupPermissions;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.ToBeSignedCertificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
 
 
 /**
@@ -107,7 +107,7 @@ public class EnrollmentCertGenerator extends BaseCertGenerator {
 			int crlSeries,
 			int assuranceLevel,
 			int confidenceLevel,
-			PublicVerificationKeyChoices signingPublicKeyAlgorithm,
+			AlgorithmIndicator signingPublicKeyAlgorithm,
 			PublicKey signPublicKey, 
 			Certificate signerCertificate,
 			PublicKey signCertificatePublicKey,
@@ -135,7 +135,7 @@ public class EnrollmentCertGenerator extends BaseCertGenerator {
 		SubjectAssurance subjectAssurance = new SubjectAssurance(assuranceLevel, confidenceLevel);
 		VerificationKeyIndicator vki;
 		if(type == CertificateType.explicit){
-			PublicVerificationKey verifyKeyIndicator = new PublicVerificationKey(signingPublicKeyAlgorithm, convertToPoint(signingPublicKeyAlgorithm, signPublicKey));
+			PublicVerificationKey verifyKeyIndicator = new PublicVerificationKey(getPublicVerificationAlgorithm(signingPublicKeyAlgorithm), convertToPoint(signingPublicKeyAlgorithm, signPublicKey));
 		  vki = new VerificationKeyIndicator(verifyKeyIndicator);
 		}else{
 			EccP256CurvePoint rv = new EccP256CurvePoint(new BigInteger("0")); // This is just a placeholder. Real rv is set by ECQVHelper.

@@ -69,8 +69,8 @@ class BasePublicEncryptionKeySpec extends BaseStructSpec {
 		when:
 		Algorithm alg = algType.getAlgorithm()
 		then:
-		alg.getHash() == null
-		alg.getSymmetric() == null
+		alg.getHash() == Algorithm.Hash.sha256
+		alg.getSymmetric() == Algorithm.Symmetric.aes128Ccm
 		alg.getSignature() == expectedSignature
 		alg.getEncryption() == Algorithm.Encryption.ecies
 		

@@ -23,7 +23,31 @@ package org.certificateservices.custom.c2x.common.crypto;
 public class Algorithm {
 	
 	public enum Symmetric{
-		aes128Ccm;	
+		aes128Ccm(16,12);	
+		
+		
+		private Symmetric(int keyLength, int nounceLength){
+			this.keyLength = keyLength;
+			this.nounceLength = nounceLength;
+		}
+		private int keyLength;
+		private int nounceLength;
+		
+		/**
+		 * 
+		 * @return the length of symmetric key length
+		 */
+		public int getKeyLength(){
+			return keyLength;
+		}
+		
+		/**
+		 * 
+		 * @return the length of symmetric key length
+		 */
+		public int getNounceLength(){
+			return nounceLength;
+		}
 	}
 	
 	public enum Signature{

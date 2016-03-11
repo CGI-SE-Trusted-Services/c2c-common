@@ -55,6 +55,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.PsidGrou
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.junit.Ignore;
 
@@ -282,6 +283,18 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		where:
 		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
 		
+	}
+	
+	@Unroll
+	def "Verify that getPublicVerificationAlgorithm returns correct PublicVerificationKeyChoice #expectedAlg for alg: #alg"(){
+		expect:
+		acg.getPublicVerificationAlgorithm(alg) == expectedAlg
+		where:
+		alg                                                    | expectedAlg
+		EncryptedDataEncryptionKeyChoices.eciesNistP256        | PublicVerificationKeyChoices.ecdsaNistP256
+		EncryptedDataEncryptionKeyChoices.eciesBrainpoolP256r1 | PublicVerificationKeyChoices.ecdsaBrainpoolP256r1
+		PublicVerificationKeyChoices.ecdsaNistP256             | PublicVerificationKeyChoices.ecdsaNistP256
+		PublicVerificationKeyChoices.ecdsaBrainpoolP256r1      | PublicVerificationKeyChoices.ecdsaBrainpoolP256r1
 	}
 
 
