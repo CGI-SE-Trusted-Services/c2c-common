@@ -17,6 +17,7 @@ import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.SignatureException;
 
 import javax.crypto.SecretKey;
 
@@ -39,8 +40,9 @@ public interface CryptoManager {
 	 * @throws NoSuchProviderException if required cryptographic providers couldn't be found in JVM.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 * @throws BadCredentialsException if supplied credentials wasn't successful when authentication towards underlying hardware.
+	 * @throws SignatureException  If internal problems occurred initializing the cryptomanager.
 	 */
-	void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException;
+	void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException, SignatureException;
 
 	/**
 	 * Method to generate a new key pair for the given public key algorithm scheme.

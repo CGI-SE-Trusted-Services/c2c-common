@@ -33,6 +33,7 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.security.SignatureException;
+import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
@@ -133,6 +134,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	protected ECCurve brainpoolp256r1 = TeleTrusTNamedCurves.getByOID(TeleTrusTObjectIdentifiers.brainpoolP256r1).getCurve();
 	protected KeyFactory keyFact;
 	protected MessageDigest sha256Digest;
+	protected ECQVHelper ecqvHelper;
 	
 	protected String provider;
 	
@@ -146,7 +148,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	 * Initialized Bouncycastle and it's specific key factories
 	 */
 	@Override
-	public void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException{
+	public void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException, SignatureException{
 		if(!(params instanceof DefaultCryptoManagerParams)){
 			throw new IllegalArgumentException("Invalid type of CryptoManagerParams given, expected DefaultCryptoManagerParams");
 		}
@@ -166,7 +168,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			aES128Generator = KeyGenerator.getInstance("AES","BC");
 			aES128Generator.init(128);
 			
-			
+			ecqvHelper = new ECQVHelper(this); 
 		}catch(InvalidAlgorithmParameterException e){
 			throw new NoSuchAlgorithmException("InvalidAlgorithmParameterException: " + e.getMessage(),e);
 		}
@@ -1219,6 +1221,21 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 	
 	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#reconstructImplicitPrivateKey(org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate, BigInteger, AlgorithmIndicator, PrivateKey, PublicKey, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate)
+	 */
+	@Override
+	public PrivateKey reconstructImplicitPrivateKey(
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate cert,
+			BigInteger r,
+			AlgorithmIndicator alg,
+			PrivateKey Ku,
+			PublicKey signerPublicKey,
+			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate)
+			throws IOException, IllegalArgumentException, SignatureException {
+		return ecqvHelper.certReceiption(cert, r, alg, (ECPrivateKey) Ku, (ECPublicKey) signerPublicKey, signerCertificate);
+	}
+	
+	/**
 	 * Help method to find RecipientInfo for a given certificate.
 	 * 
 	 * @param receiverCertificate the certificate that matches the RecipientInfo to find.
@@ -1515,4 +1532,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
             new Mac1(new SHA256Digest(),128)));
     }
 }
+
+
+
 }

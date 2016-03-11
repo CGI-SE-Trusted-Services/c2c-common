@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.crypto;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -297,6 +298,22 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @return related EC domain parameters for given algorithm.
 	 */
 	public ECParameterSpec getECParameterSpec(AlgorithmIndicator alg) throws IllegalArgumentException;
+	
+	/**
+	 * Method to construct the private key related to a generate certificate, given the related r value.
+	 * 
+	 * @param cert the generated certificate.
+	 * @param r the private key r value
+	 * @param alg the related algorithm
+	 * @param Ku the private key generate for the certificate request.
+	 * @param signerPublicKey the CA public key.
+	 * @param signerCertificate the CA certificate
+	 * @return a generated private key.
+	 * @throws IOException if communication problems occurred with underlying systems.
+	 * @throws IllegalArgumentException if argument was illegal
+	 * @throws SignatureException if internal problems occurred constructing the certificate private key.
+	 */
+	public PrivateKey reconstructImplicitPrivateKey(Certificate cert, BigInteger r, AlgorithmIndicator alg, PrivateKey Ku, PublicKey signerPublicKey, Certificate signerCertificate) throws IOException, IllegalArgumentException, SignatureException;
 	
 
 }

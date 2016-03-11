@@ -688,8 +688,8 @@ public class SecuredDataGenerator {
 		if(signer.getType() != SignerIdentifierChoices.certificate){
 			return new HashMap<HashedId8, Certificate>();
 		}
-		
-		return buildCertStore((Certificate[]) ((SequenceOfCertificate) signer.getValue()).getSequenceValues());
+		COEREncodable[] certs = ((SequenceOfCertificate) signer.getValue()).getSequenceValues();
+		return buildCertStore(Arrays.copyOf(certs,certs.length, Certificate[].class));
 	}
 	
 	/**

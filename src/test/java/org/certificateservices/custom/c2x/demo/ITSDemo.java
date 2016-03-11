@@ -10,7 +10,7 @@
 *  See terms of license at gnu.org.                                     *
 *                                                                       *
 *************************************************************************/
-package org.certificateservices.custom.c2x.its;
+package org.certificateservices.custom.c2x.demo;
 
 import java.math.BigInteger;
 import java.security.KeyPair;
