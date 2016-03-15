@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 
 /**
@@ -36,7 +36,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class ItsAidPrioritySsp implements StructSerializer{
+public class ItsAidPrioritySsp implements Encodable{
 	
 	public static final int MAX_SSP_LENGTH = 31;
 	
@@ -91,17 +91,17 @@ public class ItsAidPrioritySsp implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		itsAid.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		itsAid.encode(out);
 		out.write(maxPriority);
 		out.write(serviceSpecificPermissions.length); // no encoding needed, max 31 length
 		out.write(serviceSpecificPermissions);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		itsAid = new IntX();
-		itsAid.deserialize(in);
+		itsAid.decode(in);
 		maxPriority = in.read();
 		serviceSpecificPermissions = new byte[in.read()];
 		in.read(serviceSpecificPermissions);

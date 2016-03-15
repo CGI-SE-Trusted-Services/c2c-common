@@ -16,7 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 
 /**
@@ -26,7 +26,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class RectangularRegion implements StructSerializer{
+public class RectangularRegion implements Encodable{
 	
 	private TwoDLocation northwest;
 	private TwoDLocation southeast;
@@ -67,17 +67,17 @@ public class RectangularRegion implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		northwest.serialize(out);
-		southeast.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		northwest.encode(out);
+		southeast.encode(out);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		northwest = new TwoDLocation();
-		northwest.deserialize(in);
+		northwest.decode(in);
 		southeast = new TwoDLocation();
-		southeast.deserialize(in);
+		southeast.decode(in);
 	}
 
 

@@ -17,8 +17,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate;
 
 
@@ -38,7 +38,7 @@ import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class SignerInfo implements StructSerializer{
+public class SignerInfo implements Encodable{
 	
 
 	private SignerInfoType signerInfoType;
@@ -150,23 +150,23 @@ public class SignerInfo implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(signerInfoType.getByteValue());
 		switch (signerInfoType) {
 		case self:
 			break;
 		case certificate_digest_with_ecdsap256:
-			digest.serialize(out);
+			digest.encode(out);
 			break;
         case certificate:
-			certificate.serialize(out);
+			certificate.encode(out);
 			break;
         case certificate_chain:			
-        	SerializationHelper.encodeVariableSizeVector(out, certificateChain);    		
+        	EncodeHelper.encodeVariableSizeVector(out, certificateChain);    		
 			break;
         case certificate_digest_with_other_algorithm:
         	out.write(publicKeyAlgorithm.getByteValue());
-        	digest.serialize(out);
+        	digest.encode(out);
 			break;
 		default:
 			break;
@@ -175,26 +175,26 @@ public class SignerInfo implements StructSerializer{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		signerInfoType = SignerInfoType.getByValue(in.readByte());
 		switch (signerInfoType) {
 		case self:
 			break;
 		case certificate_digest_with_ecdsap256:
 			digest = new HashedId8();
-			digest.deserialize(in);
+			digest.decode(in);
 			break;
         case certificate:
         	certificate = new Certificate();
-        	certificate.deserialize(in);
+        	certificate.decode(in);
         	break;
         case certificate_chain:        
-    		certificateChain = (List<Certificate>) SerializationHelper.decodeVariableSizeVector(in, Certificate.class);
+    		certificateChain = (List<Certificate>) EncodeHelper.decodeVariableSizeVector(in, Certificate.class);
 			break;
         case certificate_digest_with_other_algorithm:
         	publicKeyAlgorithm = PublicKeyAlgorithm.getByValue(in.readByte());
 			digest = new HashedId8();
-			digest.deserialize(in);
+			digest.decode(in);
 			break;
 		default:
 			break;

@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.datastructs.SerializationHelper;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.EncodeHelper;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
 
 /**
@@ -46,7 +46,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class SecuredMessage implements StructSerializer{
+public class SecuredMessage implements Encodable{
 	
 	public static final int DEFAULT_PROTOCOL = 1;
 	public static final int DEFAULT_SECURITY_PROFILE = 0;
@@ -106,7 +106,7 @@ public class SecuredMessage implements StructSerializer{
 	 */
 	public SecuredMessage(byte[] encodedMessage) throws IOException{
 		DataInputStream dis = new DataInputStream(new  ByteArrayInputStream(encodedMessage));
-		deserialize(dis);
+		decode(dis);
 	}
 	
 
@@ -171,27 +171,27 @@ public class SecuredMessage implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(protocolVersion);
 		out.write(securityProfile);
 		
-		SerializationHelper.encodeVariableSizeVector(out, headerFields);
-		SerializationHelper.encodeVariableSizeVector(out, payloadFields);
+		EncodeHelper.encodeVariableSizeVector(out, headerFields);
+		EncodeHelper.encodeVariableSizeVector(out, payloadFields);
 		if(trailerFields != null && trailerFields.size() > 0){
-		  SerializationHelper.encodeVariableSizeVector(out, trailerFields);
+		  EncodeHelper.encodeVariableSizeVector(out, trailerFields);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {	
+	public void decode(DataInputStream in) throws IOException {	
 		protocolVersion = in.read();
 		securityProfile = in.read();
 		
-		headerFields = (List<HeaderField>) SerializationHelper.decodeVariableSizeVector(in, HeaderField.class);
-		payloadFields = (List<Payload>) SerializationHelper.decodeVariableSizeVector(in, Payload.class);
+		headerFields = (List<HeaderField>) EncodeHelper.decodeVariableSizeVector(in, HeaderField.class);
+		payloadFields = (List<Payload>) EncodeHelper.decodeVariableSizeVector(in, Payload.class);
 		if(in.available() > 0){
-		  trailerFields = (List<TrailerField>) SerializationHelper.decodeVariableSizeVector(in, TrailerField.class);
+		  trailerFields = (List<TrailerField>) EncodeHelper.decodeVariableSizeVector(in, TrailerField.class);
 		}else{
 		  trailerFields = new ArrayList<TrailerField>();
 		}
@@ -214,7 +214,7 @@ public class SecuredMessage implements StructSerializer{
 	public byte[] getEncoded() throws IOException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
-		serialize(dos);
+		encode(dos);
 		return baos.toByteArray();		
 	}
 	

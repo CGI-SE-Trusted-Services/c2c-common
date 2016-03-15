@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * This structure defines the details needed to describe an ECDSA based signature. The field s contains the signature. This
@@ -28,7 +28,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class EcdsaSignature implements StructSerializer{
+public class EcdsaSignature implements Encodable{
 	
 	private PublicKeyAlgorithm publicKeyAlgorithm;
 	private EccPoint r;
@@ -78,15 +78,15 @@ public class EcdsaSignature implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		r.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		r.encode(out);
 		out.write(signatureValue);		
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		r = new EccPoint(publicKeyAlgorithm);
-		r.deserialize(in);
+		r.decode(in);
 		signatureValue = new byte[publicKeyAlgorithm.getFieldSize()];
 		in.read(signatureValue);
 	}

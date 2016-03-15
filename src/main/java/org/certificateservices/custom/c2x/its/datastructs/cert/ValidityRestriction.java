@@ -20,7 +20,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Duration;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Time32;
@@ -34,7 +34,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.Time32;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class ValidityRestriction implements StructSerializer{
+public class ValidityRestriction implements Encodable{
 	
 	static final int MAX_RECTANGULAR_REGIONS = 6;
 	
@@ -131,22 +131,22 @@ public class ValidityRestriction implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(validityRestrictionType.getByteValue());
 		switch (validityRestrictionType) {
 		case time_end:
-			endValidity.serialize(out);
+			endValidity.encode(out);
 			break;
         case time_start_and_end:
-        	startValidity.serialize(out);
-			endValidity.serialize(out);
+        	startValidity.encode(out);
+			endValidity.encode(out);
 			break;
         case time_start_and_duration:
-        	startValidity.serialize(out);
-			duration.serialize(out);
+        	startValidity.encode(out);
+			duration.encode(out);
 			break;
         case region:
-        	region.serialize(out);
+        	region.encode(out);
 			break;
 		default:
 			break;
@@ -154,28 +154,28 @@ public class ValidityRestriction implements StructSerializer{
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		validityRestrictionType = ValidityRestrictionType.getByValue(in.readByte());
 		switch (validityRestrictionType) {
 		case time_end:
 			endValidity = new Time32();
-			endValidity.deserialize(in);
+			endValidity.decode(in);
 			break;
         case time_start_and_end:
         	startValidity = new Time32();
-        	startValidity.deserialize(in);
+        	startValidity.decode(in);
 			endValidity = new Time32();
-			endValidity.deserialize(in);
+			endValidity.decode(in);
 			break;
         case time_start_and_duration:
         	startValidity = new Time32();
-        	startValidity.deserialize(in);
+        	startValidity.decode(in);
         	duration = new Duration();
-        	duration.deserialize(in);
+        	duration.decode(in);
 			break;
         case region:
         	region = new GeographicRegion();
-        	region.deserialize(in);
+        	region.decode(in);
 			break;
 		default:
 			break;

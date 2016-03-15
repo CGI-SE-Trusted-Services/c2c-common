@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.certificateservices.custom.c2x.its.crypto.CryptoManager;
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId3;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType;
@@ -47,7 +47,7 @@ import org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessage;
  */
 public class SecuredMessageGenerator {
 	
-	private CryptoManager cryptoManager;
+	private ITSCryptoManager cryptoManager;
 	private Certificate senderCertificate;
 	private PublicKeyAlgorithm signingPublicKeyAlgorithm;
 	private PrivateKey senderSigningPrivateKey;
@@ -67,7 +67,7 @@ public class SecuredMessageGenerator {
 	 * 
 	 * @throws IllegalArgumentException if invalid signerInfoType was specified.
 	 */
-	public SecuredMessageGenerator(CryptoManager cryptoManager, 
+	public SecuredMessageGenerator(ITSCryptoManager cryptoManager, 
 			PublicKeyAlgorithm signingPublicKeyAlgorithm,
 			Certificate senderCertificate, 
 			PrivateKey senderSigningPrivateKey, 
@@ -167,7 +167,7 @@ public class SecuredMessageGenerator {
 		
 		List<HeaderField> headerFields = new ArrayList<HeaderField>();
 		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
-		headerFields.add(new HeaderField(HeaderFieldType.request_unrecognized_certificate, (List<StructSerializer>) (List<?>) unrecognizedCertificates));
+		headerFields.add(new HeaderField(HeaderFieldType.request_unrecognized_certificate, (List<Encodable>) (List<?>) unrecognizedCertificates));
         headerFields.add(new HeaderField(MessageType.CAM.getValue())); 
 		
         

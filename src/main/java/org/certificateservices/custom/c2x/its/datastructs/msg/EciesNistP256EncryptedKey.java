@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm;
@@ -35,7 +35,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorit
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class EciesNistP256EncryptedKey implements StructSerializer{
+public class EciesNistP256EncryptedKey implements Encodable{
 	
 	public static final int OUTPUT_TAG_LENGTH = 20;
 	
@@ -112,16 +112,16 @@ public class EciesNistP256EncryptedKey implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		v.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		v.encode(out);
 		out.write(c);
 		out.write(t);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		v = new EccPoint(publicKeyAlgorithm);
-		v.deserialize(in);
+		v.decode(in);
 		c = new byte[publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength()];
 		in.read(c);
 		t = new byte[OUTPUT_TAG_LENGTH];

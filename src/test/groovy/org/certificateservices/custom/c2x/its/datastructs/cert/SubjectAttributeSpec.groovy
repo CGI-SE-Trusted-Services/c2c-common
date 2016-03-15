@@ -14,7 +14,7 @@ package org.certificateservices.custom.c2x.its.datastructs.cert
 
 
 import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.its.datastructs.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.BaseStructSpec;
 import org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegion
 import org.certificateservices.custom.c2x.its.datastructs.basic.Duration
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
@@ -36,7 +36,6 @@ import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAttribute;
 import spock.lang.IgnoreRest;
 import spock.lang.Specification;
 import spock.lang.Unroll;
-
 import static org.certificateservices.custom.c2x.its.datastructs.cert.SubjectAttributeType.*;
 
 /**

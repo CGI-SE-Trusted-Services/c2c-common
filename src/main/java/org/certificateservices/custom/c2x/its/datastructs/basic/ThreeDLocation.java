@@ -97,14 +97,14 @@ public class ThreeDLocation extends TwoDLocation{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
-		super.serialize(out);
+	public void encode(DataOutputStream out) throws IOException {
+		super.encode(out);
 		out.write(ByteBuffer.allocate(4).putInt(encodedElevation).array(),2,2);
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
-		super.deserialize(in);
+	public void decode(DataInputStream in) throws IOException {
+		super.decode(in);
 		byte[] data = new byte[4];
 		in.read(data,2,2);
 		encodedElevation = ByteBuffer.wrap(data).getInt();

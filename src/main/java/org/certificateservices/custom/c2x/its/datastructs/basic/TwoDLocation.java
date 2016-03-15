@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 
 /**
@@ -34,7 +34,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class TwoDLocation implements StructSerializer{
+public class TwoDLocation implements Encodable{
 
 	protected int latitude;
 	protected int longitude;
@@ -89,13 +89,13 @@ public class TwoDLocation implements StructSerializer{
 
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(ByteBuffer.allocate(4).putInt(latitude).array());
 		out.write(ByteBuffer.allocate(4).putInt(longitude).array());
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		byte[] data = new byte[4];
 		in.read(data);
 		latitude = ByteBuffer.wrap(data).getInt();

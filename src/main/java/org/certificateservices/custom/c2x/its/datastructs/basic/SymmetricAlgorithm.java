@@ -12,6 +12,9 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.its.datastructs.basic;
 
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+
 
 /**
  * <code>
@@ -29,7 +32,7 @@ package org.certificateservices.custom.c2x.its.datastructs.basic;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public enum SymmetricAlgorithm {
+public enum SymmetricAlgorithm implements AlgorithmIndicator{
 	aes_128_ccm( 0, 16);
 	
 	private int byteValue;
@@ -58,6 +61,11 @@ public enum SymmetricAlgorithm {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Algorithm getAlgorithm() {
+		return new Algorithm(Algorithm.Symmetric.aes128Ccm, null, null, null);
 	}
 
 }

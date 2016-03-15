@@ -17,7 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
+import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
  * This uint16 encodes the duration of a time span (e.g. a certificate's validity). The first three bits shall encode the units
@@ -26,7 +26,7 @@ import org.certificateservices.custom.c2x.its.datastructs.StructSerializer;
  * @author Philip Vendil
  *
  */
-public class Duration implements StructSerializer{
+public class Duration implements Encodable{
 	
 	public enum Unit{
 		SECONDS(0,1L, 0x0),
@@ -126,12 +126,12 @@ public class Duration implements StructSerializer{
 	}
 
 	@Override
-	public void serialize(DataOutputStream out) throws IOException {
+	public void encode(DataOutputStream out) throws IOException {
 		out.write(ByteBuffer.allocate(4).putInt(encodedDuration).array(),2,2);		
 	}
 
 	@Override
-	public void deserialize(DataInputStream in) throws IOException {
+	public void decode(DataInputStream in) throws IOException {
 		byte[] data = new byte[4];
 		in.read(data,2,2);
 		encodedDuration = ByteBuffer.wrap(data).getInt();

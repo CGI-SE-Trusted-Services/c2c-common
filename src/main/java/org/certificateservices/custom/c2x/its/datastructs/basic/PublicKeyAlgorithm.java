@@ -12,6 +12,13 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.its.datastructs.basic;
 
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Encryption;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Signature;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm.Symmetric;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+
 
 /**
  * <code>
@@ -29,7 +36,7 @@ package org.certificateservices.custom.c2x.its.datastructs.basic;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public enum PublicKeyAlgorithm {
+public enum PublicKeyAlgorithm implements AlgorithmIndicator{
 	ecdsa_nistp256_with_sha256( 0, 32, null),
 	ecies_nistp256( 1, 32, SymmetricAlgorithm.aes_128_ccm);  
 	
@@ -77,6 +84,18 @@ public enum PublicKeyAlgorithm {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Algorithm getAlgorithm() {
+		switch (this) {
+		case ecdsa_nistp256_with_sha256:
+			return new Algorithm(null, Signature.ecdsaNistP256, null, Hash.sha256);
+		case ecies_nistp256:
+			return new Algorithm(Symmetric.aes128Ccm, Signature.ecdsaNistP256, Encryption.ecies, null);
+		default:
+			throw new IllegalArgumentException("Unsupported algorithm: " + this);
+		}
 	}
 	
 	
