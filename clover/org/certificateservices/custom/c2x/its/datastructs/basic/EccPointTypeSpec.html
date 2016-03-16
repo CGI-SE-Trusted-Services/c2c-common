@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.basic">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="testsrc-pkg-summary.html">        Package org.certificateservices.custom.c2x.its.datastructs.basic</a></li> 
     </ol>
     
@@ -465,132 +456,132 @@
             </thead>
             <tbody id="tests-body">
 
-<tr id="test-194">
-<td><a name="testA-194"></a><input type="checkbox" id="cb-194" value="194" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_1_has_bytevalue_3_5e.html';">
+<tr id="test-831">
+<td><a name="testA-831"></a><input type="checkbox" id="cb-831" value="831" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_uncompressed_has_bytevalue_4_n3.html';">
 <span class="sortValue">0.6</span>
 <div>
 <div title="60% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:60%"></div></div></div></td>
-<td id="tc-194">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that compressed_lsb_y_1 has bytevalue 3</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_1_has_bytevalue_3_5e.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that compressed_lsb_y_1 has bytevalue 3</a>
+<td id="tc-831">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that uncompressed has bytevalue 4</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_uncompressed_has_bytevalue_4_n3.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that uncompressed has bytevalue 4</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.html?line=32#src-32" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_1_has_bytevalue_3_5e.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_uncompressed_has_bytevalue_4_n3.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-391">
-<td><a name="testA-391"></a><input type="checkbox" id="cb-391" value="391" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_x_coordinate_only_has_bytevalue_0_av.html';">
+<tr id="test-574">
+<td><a name="testA-574"></a><input type="checkbox" id="cb-574" value="574" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_0_has_bytevalue_2_fy.html';">
 <span class="sortValue">0.6</span>
 <div>
 <div title="60% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:60%"></div></div></div></td>
-<td id="tc-391">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that x_coordinate_only has bytevalue 0</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_x_coordinate_only_has_bytevalue_0_av.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that x_coordinate_only has bytevalue 0</a>
+<td id="tc-574">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that compressed_lsb_y_0 has bytevalue 2</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_0_has_bytevalue_2_fy.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that compressed_lsb_y_0 has bytevalue 2</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.html?line=32#src-32" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_x_coordinate_only_has_bytevalue_0_av.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_0_has_bytevalue_2_fy.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-65">
-<td><a name="testA-65"></a><input type="checkbox" id="cb-65" value="65" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_uncompressed_has_bytevalue_4_1t.html';">
+<tr id="test-208">
+<td><a name="testA-208"></a><input type="checkbox" id="cb-208" value="208" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_x_coordinate_only_has_bytevalue_0_5s.html';">
 <span class="sortValue">0.6</span>
 <div>
 <div title="60% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:60%"></div></div></div></td>
-<td id="tc-65">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that uncompressed has bytevalue 4</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_uncompressed_has_bytevalue_4_1t.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that uncompressed has bytevalue 4</a>
+<td id="tc-208">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that x_coordinate_only has bytevalue 0</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_x_coordinate_only_has_bytevalue_0_5s.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that x_coordinate_only has bytevalue 0</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.html?line=32#src-32" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_uncompressed_has_bytevalue_4_1t.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_x_coordinate_only_has_bytevalue_0_5s.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-229">
-<td><a name="testA-229"></a><input type="checkbox" id="cb-229" value="229" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_0_has_bytevalue_2_6d.html';">
+<tr id="test-84">
+<td><a name="testA-84"></a><input type="checkbox" id="cb-84" value="84" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_1_has_bytevalue_3_2c.html';">
 <span class="sortValue">0.6</span>
 <div>
 <div title="60% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:60%"></div></div></div></td>
-<td id="tc-229">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that compressed_lsb_y_0 has bytevalue 2</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_0_has_bytevalue_2_6d.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that compressed_lsb_y_0 has bytevalue 2</a>
+<td id="tc-84">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that compressed_lsb_y_1 has bytevalue 3</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_1_has_bytevalue_3_2c.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that compressed_lsb_y_1 has bytevalue 3</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.html?line=32#src-32" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_0_has_bytevalue_2_6d.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_compressed_lsb_y_1_has_bytevalue_3_2c.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-322">
-<td><a name="testA-322"></a><input type="checkbox" id="cb-322" value="322" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_1_for_3_8y.html';">
+<tr id="test-47">
+<td><a name="testA-47"></a><input type="checkbox" id="cb-47" value="47" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_1_for_3_1b.html';">
 <span class="sortValue">0.4</span>
 <div>
 <div title="40% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:40%"></div></div></div></td>
-<td id="tc-322">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns compressed_lsb_y_1 for 3</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_1_for_3_8y.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns compressed_lsb_y_1 for 3</a>
+<td id="tc-47">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns compressed_lsb_y_1 for 3</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_1_for_3_1b.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns compressed_lsb_y_1 for 3</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.html?line=46#src-46" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_1_for_3_8y.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_1_for_3_1b.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-49">
-<td><a name="testA-49"></a><input type="checkbox" id="cb-49" value="49" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_0_for_2_1d.html';">
+<tr id="test-469">
+<td><a name="testA-469"></a><input type="checkbox" id="cb-469" value="469" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_uncompressed_for_4_d1.html';">
 <span class="sortValue">0.4</span>
 <div>
 <div title="40% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:40%"></div></div></div></td>
-<td id="tc-49">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns compressed_lsb_y_0 for 2</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_0_for_2_1d.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns compressed_lsb_y_0 for 2</a>
+<td id="tc-469">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns uncompressed for 4</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_uncompressed_for_4_d1.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns uncompressed for 4</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.html?line=46#src-46" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_0_for_2_1d.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_uncompressed_for_4_d1.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-105">
-<td><a name="testA-105"></a><input type="checkbox" id="cb-105" value="105" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_uncompressed_for_4_2x.html';">
+<tr id="test-975">
+<td><a name="testA-975"></a><input type="checkbox" id="cb-975" value="975" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_0_for_2_r3.html';">
 <span class="sortValue">0.4</span>
 <div>
 <div title="40% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:40%"></div></div></div></td>
-<td id="tc-105">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns uncompressed for 4</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_uncompressed_for_4_2x.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns uncompressed for 4</a>
+<td id="tc-975">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns compressed_lsb_y_0 for 2</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_0_for_2_r3.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns compressed_lsb_y_0 for 2</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.html?line=46#src-46" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_uncompressed_for_4_2x.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_compressed_lsb_y_0_for_2_r3.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-161">
-<td><a name="testA-161"></a><input type="checkbox" id="cb-161" value="161" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_x_coordinate_only_for_0_4h.html';">
+<tr id="test-871">
+<td><a name="testA-871"></a><input type="checkbox" id="cb-871" value="871" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_x_coordinate_only_for_0_o7.html';">
 <span class="sortValue">0.4</span>
 <div>
 <div title="40% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:40%"></div></div></div></td>
-<td id="tc-161">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns x_coordinate_only for 0</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_x_coordinate_only_for_0_4h.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns x_coordinate_only for 0</a>
+<td id="tc-871">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns x_coordinate_only for 0</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_x_coordinate_only_for_0_o7.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.EccPointTypeSpec.Verify that EccPointType.getByValue returns x_coordinate_only for 0</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec.html?line=46#src-46" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_x_coordinate_only_for_0_4h.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointTypeSpec_Verify_that_EccPointType_getByValue_returns_x_coordinate_only_for_0_o7.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
 
@@ -722,7 +713,7 @@
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-14" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-14" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a></span></td>
 </tr>
  <tr id="l15">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=15#src-15">15</a></td>
@@ -1016,16 +1007,13 @@
 </script>
 <script src="EccPointTypeSpec.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -1037,7 +1025,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

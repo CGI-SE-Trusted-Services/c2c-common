@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../style.css');
-        @import url('../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.generator">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="testsrc-pkg-summary.html">        Package org.certificateservices.custom.c2x.its.generator</a></li> 
     </ol>
     
@@ -408,8 +399,8 @@
 <div title="Empty" class="barEmpty" style="min-width:200px;"></div></div></div></td>
  </tr>                                                                                                                <tr id="AuthorityCertGeneratorSpec-4">
 <td id="summary-48-2">
- <span class="sortValue">setCryptoManager(CryptoManager)&#160;:&#160;void</span>
-&#160;&#160;<a href="?line=29#48" title="setCryptoManager(CryptoManager)&#160;:&#160;void" name="sl-48" onclick="closeDialogAndScrollTo('dialog-AuthorityCertGeneratorSpec', '48');">setCryptoManager(CryptoManager)&#160;:&#160;void</a>
+ <span class="sortValue">setCryptoManager(ITSCryptoManager)&#160;:&#160;void</span>
+&#160;&#160;<a href="?line=29#48" title="setCryptoManager(ITSCryptoManager)&#160;:&#160;void" name="sl-48" onclick="closeDialogAndScrollTo('dialog-AuthorityCertGeneratorSpec', '48');">setCryptoManager(ITSCryptoManager)&#160;:&#160;void</a>
 </td>
 <td align="right"><span class="sortValue">48</span>48</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0</td>
@@ -634,84 +625,84 @@
             </thead>
             <tbody id="tests-body">
 
-<tr id="test-313">
-<td><a name="testA-313"></a><input type="checkbox" id="cb-313" value="313" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__8p.html';">
+<tr id="test-501">
+<td><a name="testA-501"></a><input type="checkbox" id="cb-501" value="501" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__dx.html';">
 <span class="sortValue">0.29850745</span>
 <div>
 <div title="29.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:29.9%"></div></div></div></td>
-<td id="tc-313">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set.</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__8p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set.</a>
+<td id="tc-501">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set.</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__dx.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec.html?line=66#src-66" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__8p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__dx.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-106">
-<td><a name="testA-106"></a><input type="checkbox" id="cb-106" value="106" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Authorization_Authority_and_verify_that_it_is_signed_by_the_Root_CA_2y.html';">
+<tr id="test-379">
+<td><a name="testA-379"></a><input type="checkbox" id="cb-379" value="379" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Enrollment_Authority_and_verify_that_it_is_signed_by_the_Root_CA_aj.html';">
 <span class="sortValue">0.2238806</span>
 <div>
 <div title="22.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:22.4%"></div></div></div></td>
-<td id="tc-106">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate Authorization Authority and verify that it is signed by the Root CA</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Authorization_Authority_and_verify_that_it_is_signed_by_the_Root_CA_2y.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate Authorization Authority and verify that it is signed by the Root CA</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec.html?line=152#src-152" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Authorization_Authority_and_verify_that_it_is_signed_by_the_Root_CA_2y.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-307">
-<td><a name="testA-307"></a><input type="checkbox" id="cb-307" value="307" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Enrollment_Authority_and_verify_that_it_is_signed_by_the_Root_CA_8j.html';">
-<span class="sortValue">0.2238806</span>
-<div>
-<div title="22.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:22.4%"></div></div></div></td>
-<td id="tc-307">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate Enrollment Authority and verify that it is signed by the Root CA</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Enrollment_Authority_and_verify_that_it_is_signed_by_the_Root_CA_8j.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate Enrollment Authority and verify that it is signed by the Root CA</a>
+<td id="tc-379">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate Enrollment Authority and verify that it is signed by the Root CA</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Enrollment_Authority_and_verify_that_it_is_signed_by_the_Root_CA_aj.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate Enrollment Authority and verify that it is signed by the Root CA</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec.html?line=191#src-191" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Enrollment_Authority_and_verify_that_it_is_signed_by_the_Root_CA_8j.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Enrollment_Authority_and_verify_that_it_is_signed_by_the_Root_CA_aj.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-231">
-<td><a name="testA-231"></a><input type="checkbox" id="cb-231" value="231" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_without_Encryption_Key_and_Geographic_region_and_verify_that_all_other_attributes_are_set__6f.html';">
+<tr id="test-959">
+<td><a name="testA-959"></a><input type="checkbox" id="cb-959" value="959" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Authorization_Authority_and_verify_that_it_is_signed_by_the_Root_CA_qn.html';">
+<span class="sortValue">0.2238806</span>
+<div>
+<div title="22.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:22.4%"></div></div></div></td>
+<td id="tc-959">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate Authorization Authority and verify that it is signed by the Root CA</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Authorization_Authority_and_verify_that_it_is_signed_by_the_Root_CA_qn.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate Authorization Authority and verify that it is signed by the Root CA</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec.html?line=152#src-152" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_Authorization_Authority_and_verify_that_it_is_signed_by_the_Root_CA_qn.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-679">
+<td><a name="testA-679"></a><input type="checkbox" id="cb-679" value="679" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_without_Encryption_Key_and_Geographic_region_and_verify_that_all_other_attributes_are_set__iv.html';">
 <span class="sortValue">0.19402985</span>
 <div>
 <div title="19.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.4%"></div></div></div></td>
-<td id="tc-231">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA without Encryption Key and Geographic region and verify that all other attributes are set.</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_without_Encryption_Key_and_Geographic_region_and_verify_that_all_other_attributes_are_set__6f.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA without Encryption Key and Geographic region and verify that all other attributes are set.</a>
+<td id="tc-679">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA without Encryption Key and Geographic region and verify that all other attributes are set.</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_without_Encryption_Key_and_Geographic_region_and_verify_that_all_other_attributes_are_set__iv.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA without Encryption Key and Geographic region and verify that all other attributes are set.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec.html?line=117#src-117" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_without_Encryption_Key_and_Geographic_region_and_verify_that_all_other_attributes_are_set__6f.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_without_Encryption_Key_and_Geographic_region_and_verify_that_all_other_attributes_are_set__iv.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-274">
-<td><a name="testA-274"></a><input type="checkbox" id="cb-274" value="274" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Verify_illegal_subjec_type_no_root_ca_and_CA_certificate_null_throws_illegal_argument_exception_7m.html';">
+<tr id="test-728">
+<td><a name="testA-728"></a><input type="checkbox" id="cb-728" value="728" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Verify_illegal_subjec_type_no_root_ca_and_CA_certificate_null_throws_illegal_argument_exception_k8.html';">
 <span class="sortValue">0.029850746</span>
 <div>
 <div title="3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:3%"></div></div></div></td>
-<td id="tc-274">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Verify illegal subjec type no root ca and CA certificate null throws illegal argument exception</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Verify_illegal_subjec_type_no_root_ca_and_CA_certificate_null_throws_illegal_argument_exception_7m.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Verify illegal subjec type no root ca and CA certificate null throws illegal argument exception</a>
+<td id="tc-728">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Verify illegal subjec type no root ca and CA certificate null throws illegal argument exception</span><a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Verify_illegal_subjec_type_no_root_ca_and_CA_certificate_null_throws_illegal_argument_exception_k8.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Verify illegal subjec type no root ca and CA certificate null throws illegal argument exception</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec.html?line=230#src-230" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Verify_illegal_subjec_type_no_root_ca_and_CA_certificate_null_throws_illegal_argument_exception_7m.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Verify_illegal_subjec_type_no_root_ca_and_CA_certificate_null_throws_illegal_argument_exception_k8.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
 
@@ -838,7 +829,7 @@
  <tr id="l13">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=13#src-13">13</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../generator/pkg-summary.html">generator</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.<a href="../generator/pkg-summary.html">generator</a>;</span></td>
 </tr>
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
@@ -863,22 +854,22 @@
  <tr id="l18">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=18#src-18">18</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-18" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../crypto/pkg-summary.html">crypto</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/crypto/CryptoManager.html#CryptoManager">CryptoManager</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-18" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../common/pkg-summary.html">common</a>.<a href="../../common/crypto/pkg-summary.html">crypto</a>.<a href="../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManager.html#DefaultCryptoManager">DefaultCryptoManager</a>;</span></td>
 </tr>
  <tr id="l19">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=19#src-19">19</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-19" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../crypto/pkg-summary.html">crypto</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManager.html#DefaultCryptoManager">DefaultCryptoManager</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-19" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../common/pkg-summary.html">common</a>.<a href="../../common/crypto/pkg-summary.html">crypto</a>.<a href="../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerParams.html#DefaultCryptoManagerParams">DefaultCryptoManagerParams</a>;</span></td>
 </tr>
  <tr id="l20">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=20#src-20">20</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-20" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../crypto/pkg-summary.html">crypto</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerParams.html#DefaultCryptoManagerParams">DefaultCryptoManagerParams</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-20" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.<a href="../crypto/pkg-summary.html">crypto</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/crypto/ITSCryptoManager.html#ITSCryptoManager">ITSCryptoManager</a>;</span></td>
 </tr>
  <tr id="l21">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=21#src-21">21</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-21" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-21" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a></span></td>
 </tr>
  <tr id="l22">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=22#src-22">22</a></td>
@@ -888,37 +879,37 @@
  <tr id="l23">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=23#src-23">23</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-23" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-23" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>;</span></td>
 </tr>
  <tr id="l24">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=24#src-24">24</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-24" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PublicKeyAlgorithm.html#PublicKeyAlgorithm">PublicKeyAlgorithm</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-24" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PublicKeyAlgorithm.html#PublicKeyAlgorithm">PublicKeyAlgorithm</a>;</span></td>
 </tr>
  <tr id="l25">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=25#src-25">25</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-25" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionType.html#RegionType">RegionType</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-25" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionType.html#RegionType">RegionType</a>;</span></td>
 </tr>
  <tr id="l26">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=26#src-26">26</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-26" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html#SignerInfo">SignerInfo</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-26" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html#SignerInfo">SignerInfo</a>;</span></td>
 </tr>
  <tr id="l27">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=27#src-27">27</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-27" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfoType.html#SignerInfoType">SignerInfoType</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-27" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfoType.html#SignerInfoType">SignerInfoType</a>;</span></td>
 </tr>
  <tr id="l28">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=28#src-28">28</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-28" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SymmetricAlgorithm.html#SymmetricAlgorithm">SymmetricAlgorithm</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-28" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SymmetricAlgorithm.html#SymmetricAlgorithm">SymmetricAlgorithm</a>;</span></td>
 </tr>
  <tr id="l29">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=29#src-29">29</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-29" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-29" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/basic/pkg-summary.html">basic</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a></span></td>
 </tr>
  <tr id="l30">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=30#src-30">30</a></td>
@@ -933,17 +924,17 @@
  <tr id="l32">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=32#src-32">32</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-32" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/cert/pkg-summary.html">cert</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/SubjectType.html#SubjectType">SubjectType</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-32" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/cert/pkg-summary.html">cert</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/SubjectType.html#SubjectType">SubjectType</a>;</span></td>
 </tr>
  <tr id="l33">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=33#src-33">33</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-33" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../datastructs/pkg-summary.html">datastructs</a>.<a href="../datastructs/cert/pkg-summary.html">cert</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType">ValidityRestrictionType</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-33" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../datastructs/cert/pkg-summary.html">cert</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionType.html#ValidityRestrictionType">ValidityRestrictionType</a>;</span></td>
 </tr>
  <tr id="l34">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=34#src-34">34</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-34" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../its/pkg-summary.html">its</a>.<a href="../generator/pkg-summary.html">generator</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGenerator.html#AuthorityCertGenerator">AuthorityCertGenerator</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-34" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.<a href="../generator/pkg-summary.html">generator</a>.<a href="../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGenerator.html#AuthorityCertGenerator">AuthorityCertGenerator</a>;</span></td>
 </tr>
  <tr id="l35">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=35#src-35">35</a></td>
@@ -1044,7 +1035,7 @@
 <tr id="l48">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=48#src-48">48</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 48, 'Tests that hit getCryptoManager()&#160;:&#160;def');" ><span title="Line 48, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-48"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 48,48);" id="img-48" src="../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-48" class="srcLine"><span class="nolink" title="Line 48, Col 2: method entered 1 time.">    @Shared <a href="../../../../../../org/certificateservices/custom/c2x/its/crypto/CryptoManager.html#CryptoManager">CryptoManager</a> cryptoManager</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-48'), 48,48);" id="e48" style="display:none;border:none;">...</span></span></td>
+<td class=" methodStart  srcCell" id="id-48"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 48,48);" id="img-48" src="../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-48" class="srcLine"><span class="nolink" title="Line 48, Col 2: method entered 1 time.">    @Shared <a href="../../../../../../org/certificateservices/custom/c2x/its/crypto/ITSCryptoManager.html#ITSCryptoManager">ITSCryptoManager</a> cryptoManager</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-48'), 48,48);" id="e48" style="display:none;border:none;">...</span></span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
 <td class="coverageCount"><a name="49" class="nolink">&#160;</a></td>
@@ -1137,12 +1128,12 @@
  <tr id="l54">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=54#src-54">54</a></td>
 <td align="right" class="coverageCount Good missedByTest"   ><span title="Line 54, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-54" class="srcLine"><span class="nolink" title="Line 54, Col 3: statement executed 1 time.">        cryptoManager = <span class="keyword">new</span> <a href="../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManager.html#DefaultCryptoManager">DefaultCryptoManager</a>()</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-54" class="srcLine"><span class="nolink" title="Line 54, Col 3: statement executed 1 time.">        cryptoManager = <span class="keyword">new</span> <a href="../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManager.html#DefaultCryptoManager">DefaultCryptoManager</a>()</span></span></td>
 </tr>
  <tr id="l55">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=55#src-55">55</a></td>
 <td align="right" class="coverageCount Good missedByTest"   ><span title="Line 55, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-55" class="srcLine"><span class="nolink" title="Line 55, Col 3: statement executed 1 time.">        cryptoManager.setupAndConnect(<span class="keyword">new</span> <a href="../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerParams.html#DefaultCryptoManagerParams">DefaultCryptoManagerParams</a>(<span class="string">&quot;BC&quot;</span>))</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-55" class="srcLine"><span class="nolink" title="Line 55, Col 3: statement executed 1 time.">        cryptoManager.setupAndConnect(<span class="keyword">new</span> <a href="../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerParams.html#DefaultCryptoManagerParams">DefaultCryptoManagerParams</a>(<span class="string">&quot;BC&quot;</span>))</span></span></td>
 </tr>
  <tr id="l56">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=56#src-56">56</a></td>
@@ -2172,16 +2163,13 @@
 </script>
 <script src="AuthorityCertGeneratorSpec.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -2193,7 +2181,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

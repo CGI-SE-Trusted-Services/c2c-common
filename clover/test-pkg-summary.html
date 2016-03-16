@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('style.css');
-        @import url('jstree/jstree.styles.css');
         @import url('tree.css');
         
     </style>
 
     <script src="jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="jstree/jstree.min.js" type="text/javascript"></script>
     <script src="aui/js/aui.min.js" type="text/javascript"></script>
     <script src="aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="package-nodes-tree.js" type="text/javascript"></script>
+    <script src="clover-tree.js" type="text/javascript"></script>
     <script src="clover.js" type="text/javascript"></script>
+    <script src="clover-descriptions.js" type="text/javascript"></script>
     <script src="cloud.js" type="text/javascript"></script>
     <script src="help.js" type="text/javascript"></script>
     <script src="overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="sorttable.js" type="text/javascript"></script>
     <script src="utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body>
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                   <div class="packages-tree-wrapper" data-root-relative="" data-package-name="">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <div class="aui-page-header-main"><ol class="aui-nav aui-nav-breadcrumbs">
     
-    <li> <a href="dashboard.html"> Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li>
+    <li> <a href="dashboard.html"> Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li>
 </ol></div>
     
 
@@ -186,11 +177,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Clover database Wed Apr 1 2015 14:07:59 CEST</td>
-                    <td class="testPasses"><span class="sortValue">408</span>408</td>
+                    <td>Clover database Wed Mar 16 2016 10:12:50 CET</td>
+                    <td class="testPasses"><span class="sortValue">985</span>985</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-                    <td>1.505</td>
+                    <td>3.481</td>
                     <td>
                         
 
@@ -227,11 +218,11 @@
     
         
         <tr>
-        <td><span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic</span><a href="org/certificateservices/custom/c2x/its/datastructs/basic/test-pkg-summary.html">org.certificateservices.custom.c2x.its.datastructs.basic</a></td>
-        <td class="testPasses"><span class="sortValue">188</span>188</td>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.generator</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/generator/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.generator</a></td>
+        <td class="testPasses"><span class="sortValue">57</span>57</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td><span class="sortValue">0.36400000000000016</span>0.364</td>
+        <td><span class="sortValue">1.237</span>1.237</td>
         <td>
             
 
@@ -248,11 +239,11 @@
     
         
         <tr>
-        <td><span class="sortValue">org.certificateservices.custom.c2x.its.generator</span><a href="org/certificateservices/custom/c2x/its/generator/test-pkg-summary.html">org.certificateservices.custom.c2x.its.generator</a></td>
-        <td class="testPasses"><span class="sortValue">20</span>20</td>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/basic/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic</a></td>
+        <td class="testPasses"><span class="sortValue">190</span>190</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td><span class="sortValue">0.46499999999999997</span>0.465</td>
+        <td><span class="sortValue">0.30200000000000016</span>0.302</td>
         <td>
             
 
@@ -269,11 +260,11 @@
     
         
         <tr>
-        <td><span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg</span><a href="org/certificateservices/custom/c2x/its/datastructs/msg/test-pkg-summary.html">org.certificateservices.custom.c2x.its.datastructs.msg</a></td>
-        <td class="testPasses"><span class="sortValue">62</span>62</td>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/crl/ssp/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp</a></td>
+        <td class="testPasses"><span class="sortValue">5</span>5</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td><span class="sortValue">0.05</span>0.05</td>
+        <td><span class="sortValue">0.053</span>0.053</td>
         <td>
             
 
@@ -290,11 +281,32 @@
     
         
         <tr>
-        <td><span class="sortValue">org.certificateservices.custom.c2x.its.datastructs</span><a href="org/certificateservices/custom/c2x/its/datastructs/test-pkg-summary.html">org.certificateservices.custom.c2x.its.datastructs</a></td>
-        <td class="testPasses"><span class="sortValue">8</span>8</td>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.secenv</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/crl/secenv/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.secenv</a></td>
+        <td class="testPasses"><span class="sortValue">9</span>9</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td><span class="sortValue">0.011</span>0.011</td>
+        <td><span class="sortValue">0.017</span>0.017</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/secureddata/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata</a></td>
+        <td class="testPasses"><span class="sortValue">35</span>35</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.14</span>0.14</td>
         <td>
             
 
@@ -315,7 +327,7 @@
         <td class="testPasses"><span class="sortValue">89</span>89</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td><span class="sortValue">0.38</span>0.38</td>
+        <td><span class="sortValue">0.20000000000000007</span>0.2</td>
         <td>
             
 
@@ -332,11 +344,200 @@
     
         
         <tr>
-        <td><span class="sortValue">org.certificateservices.custom.c2x.its.crypto</span><a href="org/certificateservices/custom/c2x/its/crypto/test-pkg-summary.html">org.certificateservices.custom.c2x.its.crypto</a></td>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic</span><a href="org/certificateservices/custom/c2x/its/datastructs/basic/test-pkg-summary.html">org.certificateservices.custom.c2x.its.datastructs.basic</a></td>
+        <td class="testPasses"><span class="sortValue">190</span>190</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.09800000000000005</span>0.098</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg</span><a href="org/certificateservices/custom/c2x/its/datastructs/msg/test-pkg-summary.html">org.certificateservices.custom.c2x.its.datastructs.msg</a></td>
+        <td class="testPasses"><span class="sortValue">62</span>62</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.04400000000000001</span>0.044</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.asn1.coer</span><a href="org/certificateservices/custom/c2x/asn1/coer/test-pkg-summary.html">org.certificateservices.custom.c2x.asn1.coer</a></td>
+        <td class="testPasses"><span class="sortValue">145</span>145</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.15900000000000003</span>0.159</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/crl/basic/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic</a></td>
+        <td class="testPasses"><span class="sortValue">46</span>46</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.138</span>0.138</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.common.crypto</span><a href="org/certificateservices/custom/c2x/common/crypto/test-pkg-summary.html">org.certificateservices.custom.c2x.common.crypto</a></td>
+        <td class="testPasses"><span class="sortValue">51</span>51</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.35000000000000003</span>0.35</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/cert/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert</a></td>
         <td class="testPasses"><span class="sortValue">41</span>41</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td><span class="sortValue">0.23500000000000007</span>0.235</td>
+        <td><span class="sortValue">0.093</span>0.093</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.p2p</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/p2p/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.p2p</a></td>
+        <td class="testPasses"><span class="sortValue">10</span>10</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.032</span>0.032</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.its.generator</span><a href="org/certificateservices/custom/c2x/its/generator/test-pkg-summary.html">org.certificateservices.custom.c2x.its.generator</a></td>
+        <td class="testPasses"><span class="sortValue">20</span>20</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.383</span>0.383</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc</span><a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/enc/test-pkg-summary.html">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc</a></td>
+        <td class="testPasses"><span class="sortValue">27</span>27</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.042</span>0.042</td>
+        <td>
+            
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>        </td>
+    </tr>
+      
+    
+        
+        <tr>
+        <td><span class="sortValue">org.certificateservices.custom.c2x.common</span><a href="org/certificateservices/custom/c2x/common/test-pkg-summary.html">org.certificateservices.custom.c2x.common</a></td>
+        <td class="testPasses"><span class="sortValue">8</span>8</td>
+<td class=""><span class="sortValue">0</span>0</td>
+<td class=""><span class="sortValue">0</span>0</td>
+        <td><span class="sortValue">0.193</span>0.193</td>
         <td>
             
 
@@ -355,16 +556,13 @@
     </div> 
 </div> 
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -376,7 +574,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

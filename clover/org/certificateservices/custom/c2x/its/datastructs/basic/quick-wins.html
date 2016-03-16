@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body  >
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.basic">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
     </ol>
     
 <h1 class="aui-h2-clover">
@@ -170,10 +161,11 @@
 </button>
 <script>
     AJS.InlineDialog(AJS.$("#popupHelp"), "helpDialog",
-            function(content, trigger, showPopup) {
-                    content.css({"padding":"20px"}).html(
-                    '<h2>Quick Wins</h2>' +
-                    '<p><p>The Quick Wins tag cloud highlights the "low hanging coverage fruit" of your project or package. You will achieve the greatest increase in overall code coverage by covering the largest, reddest classes first. Big red classes contain the highest number of untested elements. </p><p>Font size represents the Number of Elements metric, while the colour represents the Number of Elements Untested (vivid red means more untested). </p></p>');
+            function (content, trigger, showPopup) {
+                var description = quickWinsDescription();
+                var title = 'Quick Wins';
+                content.css({"padding": "20px"}).html(
+                        '<h2>' + title + '</h2>' + description);
                 showPopup();
                 return false;
             },
@@ -181,7 +173,8 @@
                 width: 600
             }
     );
-</script>        </div>
+</script>
+        </div>
 
         
 
@@ -193,148 +186,160 @@
         
     
             <a href="../basic/CircularRegion.html" class="tag"
-            style="font-size: 25px;color:#edd1cf"
-            title="# Elements - 61 , # Elements Untested - 12 ">CircularRegion</a>
+            style="font-size: 25px;color:#de7b72"
+            title="# Elements - 61 , # Elements Covered - 49 ">CircularRegion</a>
             
     
             <a href="../basic/CrlSeries.html" class="tag"
-            style="font-size: 20px;color:#edd1cf"
-            title="# Elements - 37 , # Elements Untested - 6 ">CrlSeries</a>
+            style="font-size: 20px;color:#d9695f"
+            title="# Elements - 37 , # Elements Covered - 31 ">CrlSeries</a>
             
     
             <a href="../basic/Duration.html" class="tag"
-            style="font-size: 22px;color:#edd1cf"
-            title="# Elements - 47 , # Elements Untested - 8 ">Duration</a>
+            style="font-size: 22px;color:#d9695f"
+            title="# Elements - 47 , # Elements Covered - 39 ">Duration</a>
             
     
             <a href="../basic/Duration.html" class="tag"
-            style="font-size: 15px;color:#edd1cf"
-            title="# Elements - 18 , # Elements Untested - 1 ">Duration.Unit</a>
+            style="font-size: 15px;color:#d5584c"
+            title="# Elements - 18 , # Elements Covered - 17 ">Duration.Unit</a>
             
     
             <a href="../basic/EccPoint.html" class="tag"
-            style="font-size: 46px;color:#e6aea9"
-            title="# Elements - 158 , # Elements Untested - 16 ">EccPoint</a>
+            style="font-size: 46px;color:#89c495"
+            title="# Elements - 158 , # Elements Covered - 142 ">EccPoint</a>
             
     
             <a href="../basic/EccPointType.html" class="tag"
-            style="font-size: 14px;color:#edd1cf"
-            title="# Elements - 11 , # Elements Untested - 1 ">EccPointType</a>
+            style="font-size: 14px;color:#d5584c"
+            title="# Elements - 11 , # Elements Covered - 10 ">EccPointType</a>
+            
+    
+            <a href="../basic/EcdsaSignature.html" class="tag"
+            style="font-size: 17px;color:#d9695f"
+            title="# Elements - 24 , # Elements Covered - 24 ">EcdsaSignature</a>
             
     
             <a href="../basic/EncryptionParameters.html" class="tag"
-            style="font-size: 18px;color:#edd1cf"
-            title="# Elements - 29 , # Elements Untested - 2 ">EncryptionParameters</a>
+            style="font-size: 18px;color:#d9695f"
+            title="# Elements - 29 , # Elements Covered - 27 ">EncryptionParameters</a>
             
     
             <a href="../basic/GeographicRegion.html" class="tag"
-            style="font-size: 48px;color:#d04437"
-            title="# Elements - 164 , # Elements Untested - 57 ">GeographicRegion</a>
+            style="font-size: 48px;color:#fae1a0"
+            title="# Elements - 164 , # Elements Covered - 107 ">GeographicRegion</a>
             
     
             <a href="../basic/HashedId.html" class="tag"
-            style="font-size: 20px;color:#edd1cf"
-            title="# Elements - 38 , # Elements Untested - 4 ">HashedId</a>
+            style="font-size: 20px;color:#d9695f"
+            title="# Elements - 38 , # Elements Covered - 34 ">HashedId</a>
+            
+    
+            <a href="../basic/HashedId3.html" class="tag"
+            style="font-size: 13px;color:#d5584c"
+            title="# Elements - 8 , # Elements Covered - 8 ">HashedId3</a>
+            
+    
+            <a href="../basic/HashedId8.html" class="tag"
+            style="font-size: 13px;color:#d5584c"
+            title="# Elements - 8 , # Elements Covered - 8 ">HashedId8</a>
             
     
             <a href="../basic/IdentifiedRegion.html" class="tag"
-            style="font-size: 27px;color:#edd1cf"
-            title="# Elements - 69 , # Elements Untested - 13 ">IdentifiedRegion</a>
+            style="font-size: 27px;color:#e28e87"
+            title="# Elements - 69 , # Elements Covered - 56 ">IdentifiedRegion</a>
             
     
             <a href="../basic/IntX.html" class="tag"
-            style="font-size: 31px;color:#edd1cf"
-            title="# Elements - 90 , # Elements Untested - 12 ">IntX</a>
+            style="font-size: 31px;color:#e7a19b"
+            title="# Elements - 90 , # Elements Covered - 78 ">IntX</a>
             
     
             <a href="../basic/PolygonalRegion.html" class="tag"
-            style="font-size: 22px;color:#edd1cf"
-            title="# Elements - 48 , # Elements Untested - 12 ">PolygonalRegion</a>
+            style="font-size: 22px;color:#d9695f"
+            title="# Elements - 48 , # Elements Covered - 36 ">PolygonalRegion</a>
             
     
             <a href="../basic/PublicKey.html" class="tag"
-            style="font-size: 29px;color:#edd1cf"
-            title="# Elements - 81 , # Elements Untested - 13 ">PublicKey</a>
+            style="font-size: 29px;color:#e28e87"
+            title="# Elements - 81 , # Elements Covered - 68 ">PublicKey</a>
             
     
             <a href="../basic/PublicKeyAlgorithm.html" class="tag"
-            style="font-size: 17px;color:#edd1cf"
-            title="# Elements - 25 , # Elements Untested - 3 ">PublicKeyAlgorithm</a>
+            style="font-size: 19px;color:#d9695f"
+            title="# Elements - 33 , # Elements Covered - 28 ">PublicKeyAlgorithm</a>
             
     
             <a href="../basic/RectangularRegion.html" class="tag"
-            style="font-size: 26px;color:#e6aea9"
-            title="# Elements - 65 , # Elements Untested - 22 ">RectangularRegion</a>
+            style="font-size: 26px;color:#de7b72"
+            title="# Elements - 65 , # Elements Covered - 43 ">RectangularRegion</a>
             
     
             <a href="../basic/RegionDictionary.html" class="tag"
-            style="font-size: 14px;color:#edd1cf"
-            title="# Elements - 11 , # Elements Untested - 1 ">RegionDictionary</a>
+            style="font-size: 14px;color:#d5584c"
+            title="# Elements - 11 , # Elements Covered - 10 ">RegionDictionary</a>
             
     
             <a href="../basic/RegionType.html" class="tag"
-            style="font-size: 14px;color:#edd1cf"
-            title="# Elements - 11 , # Elements Untested - 1 ">RegionType</a>
+            style="font-size: 14px;color:#d5584c"
+            title="# Elements - 11 , # Elements Covered - 10 ">RegionType</a>
             
     
             <a href="../basic/Signature.html" class="tag"
-            style="font-size: 17px;color:#edd1cf"
-            title="# Elements - 27 , # Elements Untested - 2 ">Signature</a>
+            style="font-size: 17px;color:#d9695f"
+            title="# Elements - 27 , # Elements Covered - 25 ">Signature</a>
             
     
             <a href="../basic/SignerInfo.html" class="tag"
-            style="font-size: 46px;color:#de8a83"
-            title="# Elements - 158 , # Elements Untested - 35 ">SignerInfo</a>
+            style="font-size: 46px;color:#14892c"
+            title="# Elements - 158 , # Elements Covered - 123 ">SignerInfo</a>
             
     
             <a href="../basic/SignerInfoType.html" class="tag"
-            style="font-size: 14px;color:#edd1cf"
-            title="# Elements - 11 , # Elements Untested - 1 ">SignerInfoType</a>
+            style="font-size: 14px;color:#d5584c"
+            title="# Elements - 11 , # Elements Covered - 10 ">SignerInfoType</a>
             
     
             <a href="../basic/SymmetricAlgorithm.html" class="tag"
-            style="font-size: 15px;color:#edd1cf"
-            title="# Elements - 14 , # Elements Untested - 2 ">SymmetricAlgorithm</a>
+            style="font-size: 15px;color:#d5584c"
+            title="# Elements - 16 , # Elements Covered - 14 ">SymmetricAlgorithm</a>
             
     
             <a href="../basic/ThreeDLocation.html" class="tag"
-            style="font-size: 24px;color:#edd1cf"
-            title="# Elements - 58 , # Elements Untested - 6 ">ThreeDLocation</a>
+            style="font-size: 24px;color:#de7b72"
+            title="# Elements - 58 , # Elements Covered - 52 ">ThreeDLocation</a>
             
     
             <a href="../basic/Time32.html" class="tag"
-            style="font-size: 21px;color:#edd1cf"
-            title="# Elements - 44 , # Elements Untested - 4 ">Time32</a>
+            style="font-size: 21px;color:#de7b72"
+            title="# Elements - 44 , # Elements Covered - 40 ">Time32</a>
             
     
             <a href="../basic/Time64.html" class="tag"
-            style="font-size: 25px;color:#edd1cf"
-            title="# Elements - 62 , # Elements Untested - 14 ">Time64</a>
+            style="font-size: 25px;color:#de7b72"
+            title="# Elements - 62 , # Elements Covered - 48 ">Time64</a>
             
     
             <a href="../basic/Time64WithStandardDeviation.html" class="tag"
-            style="font-size: 24px;color:#edd1cf"
-            title="# Elements - 55 , # Elements Untested - 12 ">Time64WithStandardDeviation</a>
+            style="font-size: 24px;color:#de7b72"
+            title="# Elements - 55 , # Elements Covered - 43 ">Time64WithStandardDeviation</a>
             
     
             <a href="../basic/TwoDLocation.html" class="tag"
-            style="font-size: 24px;color:#edd1cf"
-            title="# Elements - 56 , # Elements Untested - 6 ">TwoDLocation</a>
+            style="font-size: 24px;color:#de7b72"
+            title="# Elements - 56 , # Elements Covered - 50 ">TwoDLocation</a>
            </div>
    </div>
     </div> <!-- tabs-pane active-pane -->
 </div> <!-- aui-tabs horizontal-tabs -->
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -346,7 +351,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

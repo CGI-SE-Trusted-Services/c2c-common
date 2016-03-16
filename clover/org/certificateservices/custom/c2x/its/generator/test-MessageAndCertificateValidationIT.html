@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../style.css');
-        @import url('../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body>
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.generator">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <div class="aui-page-header-main"><ol class="aui-nav aui-nav-breadcrumbs">
     
-    <li><a href="../../../../../../dashboard.html"> Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li>
+    <li><a href="../../../../../../dashboard.html"> Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li>
      <li><a href="test-pkg-summary.html">Package org.certificateservices.custom.c2x.its.generator</a></li>
 </ol></div>
     
@@ -176,7 +167,7 @@
         <td class="testPasses"><span class="sortValue">4</span>4</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td>0.131</td>
+        <td>0.249</td>
         <td class="align-middle">
             
 
@@ -212,38 +203,38 @@
 
 
 <tr>
-    <td><span class="sortValue">MessageAndCertificateValidationIT.Generate Enrollment Credential v1 for interoperability testing</span><a href="MessageAndCertificateValidationIT_Generate_Enrollment_Credential_v1_for_interoperability_testing_9c.html">MessageAndCertificateValidationIT.Generate Enrollment Credential v1 for interoperability testing</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890093493</span>1 Apr 14:08:13</td>
+    <td><span class="sortValue">MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</span><a href="MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_il.html">MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119594442</span>16 Mar 10:13:14</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-    <td><span class="sortValue">0.018</span>0.018</td>
+    <td><span class="sortValue">0.042</span>0.042</td>
     <td style="width:50%">
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">MessageAndCertificateValidationIT.Generate Authorization CA v1 for interoperability testing</span><a href="MessageAndCertificateValidationIT_Generate_Authorization_CA_v1_for_interoperability_testing_11.html">MessageAndCertificateValidationIT.Generate Authorization CA v1 for interoperability testing</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890093447</span>1 Apr 14:08:13</td>
+    <td><span class="sortValue">MessageAndCertificateValidationIT.Generate Enrollment Credential v1 for interoperability testing</span><a href="MessageAndCertificateValidationIT_Generate_Enrollment_Credential_v1_for_interoperability_testing_ci.html">MessageAndCertificateValidationIT.Generate Enrollment Credential v1 for interoperability testing</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119594427</span>16 Mar 10:13:14</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-    <td><span class="sortValue">0.045</span>0.045</td>
+    <td><span class="sortValue">0.014</span>0.014</td>
     <td style="width:50%">
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">MessageAndCertificateValidationIT.Instructions</span><a href="MessageAndCertificateValidationIT_Instructions_am.html">MessageAndCertificateValidationIT.Instructions</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890093417</span>1 Apr 14:08:13</td>
+    <td><span class="sortValue">MessageAndCertificateValidationIT.Instructions</span><a href="MessageAndCertificateValidationIT_Instructions_lh.html">MessageAndCertificateValidationIT.Instructions</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119594229</span>16 Mar 10:13:14</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-    <td><span class="sortValue">0.027</span>0.027</td>
+    <td><span class="sortValue">0.024</span>0.024</td>
     <td style="width:50%">
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</span><a href="MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_q.html">MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890093513</span>1 Apr 14:08:13</td>
+    <td><span class="sortValue">MessageAndCertificateValidationIT.Generate Authorization CA v1 for interoperability testing</span><a href="MessageAndCertificateValidationIT_Generate_Authorization_CA_v1_for_interoperability_testing_1u.html">MessageAndCertificateValidationIT.Generate Authorization CA v1 for interoperability testing</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119594256</span>16 Mar 10:13:14</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-    <td><span class="sortValue">0.041</span>0.041</td>
+    <td><span class="sortValue">0.169</span>0.169</td>
     <td style="width:50%">
      &#160;     </td>
 </tr>
@@ -254,16 +245,13 @@
     </div> <!-- tabs-pane -->
 </div> <!-- aui-tabs horizontal-tabs -->
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -275,7 +263,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

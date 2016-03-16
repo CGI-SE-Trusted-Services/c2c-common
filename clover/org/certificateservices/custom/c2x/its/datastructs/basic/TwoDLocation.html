@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.basic">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="pkg-summary.html">        Package org.certificateservices.custom.c2x.its.datastructs.basic</a></li> 
     </ol>
     
@@ -164,19 +155,19 @@
                     <img src="../../../../../../../img/srcFileCovDistChart9.png" alt="../../../../../../../img/srcFileCovDistChart9.png"
                          usemap="#srcFileCovDistChart9.png" class="clover-histogram-img"/>
                     <map id="srcFileCovDistChart9.png" name="srcFileCovDistChart9.png">
-<area shape="rect" coords="81,22,87,48" title="18 files have 91-100% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="74,8,80,49" title="28 files have 81-90% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="67,33,73,49" title="11 files have 71-80% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="60,46,66,48" title="2 files have 61-70% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="53,49,59,50" title="0 files have 51-60% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="46,47,52,48" title="1 file has 41-50% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="39,49,45,50" title="0 files have 31-40% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="32,49,38,50" title="0 files have 21-30% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="25,49,31,50" title="0 files have 11-20% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="18,49,24,50" title="0 files have 1-10% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="11,47,17,48" title="1 file has 0% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="100,8,107,65" title="153 files have 91-100% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="91,50,98,66" title="43 files have 81-90% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="82,59,89,66" title="20 files have 71-80% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="73,65,80,66" title="4 files have 61-70% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="64,66,71,67" title="1 file has 51-60% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="56,66,63,67" title="2 files have 41-50% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="47,66,54,67" title="0 files have 31-40% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="38,66,45,67" title="0 files have 21-30% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="29,66,36,67" title="0 files have 11-20% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="20,66,27,67" title="0 files have 1-10% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="11,66,18,67" title="2 files have 0% coverage" alt="" nohref="nohref"/>
 </map><br />
-                    <span class="subtle"><strong>29% </strong>of files have more coverage</span>
+                    <span class="subtle"><strong>68% </strong>of files have more coverage</span>
                 </div>
             </div>
         </div>
@@ -440,8 +431,8 @@
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="TwoDLocation-5">
 <td id="summary-91-2">
- <span class="sortValue">serialize(DataOutputStream)&#160;:&#160;void</span>
-&#160;&#160;<a href="?line=29#91" title="serialize(DataOutputStream)&#160;:&#160;void" name="sl-91" onclick="closeDialogAndScrollTo('dialog-TwoDLocation', '91');">serialize(DataOutputStream)&#160;:&#160;void</a>
+ <span class="sortValue">encode(DataOutputStream)&#160;:&#160;void</span>
+&#160;&#160;<a href="?line=29#91" title="encode(DataOutputStream)&#160;:&#160;void" name="sl-91" onclick="closeDialogAndScrollTo('dialog-TwoDLocation', '91');">encode(DataOutputStream)&#160;:&#160;void</a>
 </td>
 <td align="right"><span class="sortValue">91</span>91</td>
 <td class="" align="right"><span class="sortValue">2.0</span>2</td>
@@ -453,8 +444,8 @@
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="TwoDLocation-6">
 <td id="summary-97-2">
- <span class="sortValue">deserialize(DataInputStream)&#160;:&#160;void</span>
-&#160;&#160;<a href="?line=29#97" title="deserialize(DataInputStream)&#160;:&#160;void" name="sl-97" onclick="closeDialogAndScrollTo('dialog-TwoDLocation', '97');">deserialize(DataInputStream)&#160;:&#160;void</a>
+ <span class="sortValue">decode(DataInputStream)&#160;:&#160;void</span>
+&#160;&#160;<a href="?line=29#97" title="decode(DataInputStream)&#160;:&#160;void" name="sl-97" onclick="closeDialogAndScrollTo('dialog-TwoDLocation', '97');">decode(DataInputStream)&#160;:&#160;void</a>
 </td>
 <td align="right"><span class="sortValue">97</span>97</td>
 <td class="" align="right"><span class="sortValue">5.0</span>5</td>
@@ -575,724 +566,724 @@
             </thead>
             <tbody id="tests-body">
 
-<tr id="test-149">
-<td><a name="testA-149"></a><input type="checkbox" id="cb-149" value="149" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_hashCode_and_equals_45.html';">
+<tr id="test-948">
+<td><a name="testA-948"></a><input type="checkbox" id="cb-948" value="948" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_hashCode_and_equals_qc.html';">
 <span class="sortValue">0.53571427</span>
 <div>
 <div title="53.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:53.6%"></div></div></div></td>
-<td id="tc-149">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_hashCode_and_equals_45.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify hashCode and equals</a>
+<td id="tc-948">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_hashCode_and_equals_qc.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify hashCode and equals</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec.html?line=71#src-71" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_hashCode_and_equals_45.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_hashCode_and_equals_qc.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-222">
-<td><a name="testA-222"></a><input type="checkbox" id="cb-222" value="222" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_hashCode_and_equals_66.html';">
+<tr id="test-178">
+<td><a name="testA-178"></a><input type="checkbox" id="cb-178" value="178" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_hashCode_and_equals_4y.html';">
 <span class="sortValue">0.53571427</span>
 <div>
 <div title="53.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:53.6%"></div></div></div></td>
-<td id="tc-222">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_hashCode_and_equals_66.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify hashCode and equals</a>
+<td id="tc-178">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_hashCode_and_equals_4y.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify hashCode and equals</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=62#src-62" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=61#src-61" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_hashCode_and_equals_66.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_hashCode_and_equals_4y.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-123">
-<td><a name="testA-123"></a><input type="checkbox" id="cb-123" value="123" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_hashCode_and_equals_3f.html';">
+<tr id="test-957">
+<td><a name="testA-957"></a><input type="checkbox" id="cb-957" value="957" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_hashCode_and_equals_ql.html';">
 <span class="sortValue">0.5</span>
 <div>
 <div title="50% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:50%"></div></div></div></td>
-<td id="tc-123">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_hashCode_and_equals_3f.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify hashCode and equals</a>
+<td id="tc-957">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_hashCode_and_equals_ql.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify hashCode and equals</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=76#src-76" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=75#src-75" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_hashCode_and_equals_3f.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_hashCode_and_equals_ql.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-8">
-<td><a name="testA-8"></a><input type="checkbox" id="cb-8" value="8" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_hashCode_and_equals_8.html';">
+<tr id="test-758">
+<td><a name="testA-758"></a><input type="checkbox" id="cb-758" value="758" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_hashCode_and_equals_l2.html';">
 <span class="sortValue">0.5</span>
 <div>
 <div title="50% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:50%"></div></div></div></td>
-<td id="tc-8">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_hashCode_and_equals_8.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify hashCode and equals</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=65#src-65" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_hashCode_and_equals_8.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-39">
-<td><a name="testA-39"></a><input type="checkbox" id="cb-39" value="39" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_hashCode_and_equals_13.html';">
-<span class="sortValue">0.5</span>
-<div>
-<div title="50% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:50%"></div></div></div></td>
-<td id="tc-39">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_hashCode_and_equals_13.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify hashCode and equals</a>
+<td id="tc-758">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_hashCode_and_equals_l2.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify hashCode and equals</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec.html?line=76#src-76" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_hashCode_and_equals_13.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_hashCode_and_equals_l2.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-35">
-<td><a name="testA-35"></a><input type="checkbox" id="cb-35" value="35" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_the_constructors_and_getters_z.html';">
+<tr id="test-456">
+<td><a name="testA-456"></a><input type="checkbox" id="cb-456" value="456" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_hashCode_and_equals_co.html';">
+<span class="sortValue">0.5</span>
+<div>
+<div title="50% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:50%"></div></div></div></td>
+<td id="tc-456">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_hashCode_and_equals_co.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify hashCode and equals</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=64#src-64" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_hashCode_and_equals_co.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-279">
+<td><a name="testA-279"></a><input type="checkbox" id="cb-279" value="279" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_the_constructors_and_getters_7r.html';">
 <span class="sortValue">0.26785713</span>
 <div>
 <div title="26.8% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:26.8%"></div></div></div></td>
-<td id="tc-35">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_the_constructors_and_getters_z.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify the constructors and getters</a>
+<td id="tc-279">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_the_constructors_and_getters_7r.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify the constructors and getters</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec.html?line=31#src-31" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_the_constructors_and_getters_z.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_the_constructors_and_getters_7r.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-313">
-<td><a name="testA-313"></a><input type="checkbox" id="cb-313" value="313" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__8p.html';">
+<tr id="test-501">
+<td><a name="testA-501"></a><input type="checkbox" id="cb-501" value="501" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__dx.html';">
 <span class="sortValue">0.25</span>
 <div>
 <div title="25% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:25%"></div></div></div></td>
-<td id="tc-313">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__8p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set.</a>
+<td id="tc-501">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__dx.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.AuthorityCertGeneratorSpec.Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec.html?line=66#src-66" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__8p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/AuthorityCertGeneratorSpec_Generate_RootCA_with_Encryption_Key_and_Geographic_region_and_verify_that_all_attributes_are_set__dx.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-179">
-<td><a name="testA-179"></a><input type="checkbox" id="cb-179" value="179" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_4z.html';">
+<tr id="test-804">
+<td><a name="testA-804"></a><input type="checkbox" id="cb-804" value="804" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_mc.html';">
 <span class="sortValue">0.23214285</span>
 <div>
 <div title="23.2% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:23.2%"></div></div></div></td>
-<td id="tc-179">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_4z.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify hashCode and equals</a>
+<td id="tc-804">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_mc.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify hashCode and equals</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=89#src-89" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=88#src-88" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_4z.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_mc.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-99">
-<td><a name="testA-99"></a><input type="checkbox" id="cb-99" value="99" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_the_constructors_and_getters_2r.html';">
+<tr id="test-395">
+<td><a name="testA-395"></a><input type="checkbox" id="cb-395" value="395" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_the_constructors_and_getters_az.html';">
 <span class="sortValue">0.19642857</span>
 <div>
 <div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-99">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_the_constructors_and_getters_2r.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify the constructors and getters</a>
+<td id="tc-395">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_the_constructors_and_getters_az.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify the constructors and getters</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=33#src-33" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_the_constructors_and_getters_az.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-150">
+<td><a name="testA-150"></a><input type="checkbox" id="cb-150" value="150" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_the_constructors_and_getters_46.html';">
+<span class="sortValue">0.19642857</span>
+<div>
+<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
+<td id="tc-150">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_the_constructors_and_getters_46.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify the constructors and getters</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec.html?line=31#src-31" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_the_constructors_and_getters_2r.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_the_constructors_and_getters_46.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-219">
-<td><a name="testA-219"></a><input type="checkbox" id="cb-219" value="219" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_deserialization_63.html';">
+<tr id="test-858">
+<td><a name="testA-858"></a><input type="checkbox" id="cb-858" value="858" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_deserialization_nu.html';">
 <span class="sortValue">0.19642857</span>
 <div>
 <div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-219">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_deserialization_63.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify deserialization</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=56#src-56" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_deserialization_63.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-124">
-<td><a name="testA-124"></a><input type="checkbox" id="cb-124" value="124" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_deserialization_3g.html';">
-<span class="sortValue">0.19642857</span>
-<div>
-<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-124">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_deserialization_3g.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify deserialization</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec.html?line=65#src-65" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_deserialization_3g.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-217">
-<td><a name="testA-217"></a><input type="checkbox" id="cb-217" value="217" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_the_constructors_and_getters_61.html';">
-<span class="sortValue">0.19642857</span>
-<div>
-<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-217">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_the_constructors_and_getters_61.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify the constructors and getters</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=34#src-34" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_the_constructors_and_getters_61.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-369">
-<td><a name="testA-369"></a><input type="checkbox" id="cb-369" value="369" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_the_constructors_and_getters_a9.html';">
-<span class="sortValue">0.19642857</span>
-<div>
-<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-369">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_the_constructors_and_getters_a9.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify the constructors and getters</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=43#src-43" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_the_constructors_and_getters_a9.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-31">
-<td><a name="testA-31"></a><input type="checkbox" id="cb-31" value="31" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_deserialization_v.html';">
-<span class="sortValue">0.19642857</span>
-<div>
-<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-31">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_deserialization_v.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify deserialization</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=51#src-51" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_deserialization_v.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-77">
-<td><a name="testA-77"></a><input type="checkbox" id="cb-77" value="77" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_deserialization_25.html';">
-<span class="sortValue">0.19642857</span>
-<div>
-<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-77">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_deserialization_25.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify deserialization</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=64#src-64" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_deserialization_25.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-187">
-<td><a name="testA-187"></a><input type="checkbox" id="cb-187" value="187" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_deserialization_57.html';">
-<span class="sortValue">0.19642857</span>
-<div>
-<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-187">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_deserialization_57.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify deserialization</a>
+<td id="tc-858">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_deserialization_nu.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec.html?line=62#src-62" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_deserialization_57.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_deserialization_nu.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-147">
-<td><a name="testA-147"></a><input type="checkbox" id="cb-147" value="147" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_the_constructors_and_getters_43.html';">
+<tr id="test-300">
+<td><a name="testA-300"></a><input type="checkbox" id="cb-300" value="300" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_deserialization_8c.html';">
 <span class="sortValue">0.19642857</span>
 <div>
 <div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
-<td id="tc-147">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_the_constructors_and_getters_43.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify the constructors and getters</a>
+<td id="tc-300">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_deserialization_8c.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=34#src-34" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=50#src-50" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_the_constructors_and_getters_43.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_deserialization_8c.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-239">
-<td><a name="testA-239"></a><input type="checkbox" id="cb-239" value="239" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/CertificateSpec_Verify_deserialization_and_serialization_of_reference_ETSI_Certificates_works_6n.html';">
-<span class="sortValue">0.17857143</span>
+<tr id="test-4">
+<td><a name="testA-4"></a><input type="checkbox" id="cb-4" value="4" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_deserialization_4.html';">
+<span class="sortValue">0.19642857</span>
 <div>
-<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-239">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.CertificateSpec.Verify deserialization and serialization of reference ETSI Certificates works</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/CertificateSpec_Verify_deserialization_and_serialization_of_reference_ETSI_Certificates_works_6n.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.CertificateSpec.Verify deserialization and serialization of reference ETSI Certificates works</a>
+<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
+<td id="tc-4">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_deserialization_4.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/CertificateSpec.html?line=136#src-136" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec.html?line=65#src-65" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/CertificateSpec_Verify_deserialization_and_serialization_of_reference_ETSI_Certificates_works_6n.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_deserialization_4.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-94">
-<td><a name="testA-94"></a><input type="checkbox" id="cb-94" value="94" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_serialization_2m.html';">
-<span class="sortValue">0.17857143</span>
+<tr id="test-677">
+<td><a name="testA-677"></a><input type="checkbox" id="cb-677" value="677" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_deserialization_it.html';">
+<span class="sortValue">0.19642857</span>
 <div>
-<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-94">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_serialization_2m.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify serialization</a>
+<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
+<td id="tc-677">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_deserialization_it.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=49#src-49" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=55#src-55" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_serialization_2m.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_deserialization_it.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-364">
-<td><a name="testA-364"></a><input type="checkbox" id="cb-364" value="364" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_serialization_a4.html';">
-<span class="sortValue">0.17857143</span>
+<tr id="test-9">
+<td><a name="testA-9"></a><input type="checkbox" id="cb-9" value="9" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_the_constructors_and_getters_9.html';">
+<span class="sortValue">0.19642857</span>
 <div>
-<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-364">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_serialization_a4.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify serialization</a>
+<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
+<td id="tc-9">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_the_constructors_and_getters_9.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify the constructors and getters</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec.html?line=56#src-56" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=33#src-33" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_serialization_a4.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_the_constructors_and_getters_9.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-13">
-<td><a name="testA-13"></a><input type="checkbox" id="cb-13" value="13" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html';">
+<tr id="test-966">
+<td><a name="testA-966"></a><input type="checkbox" id="cb-966" value="966" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_the_constructors_and_getters_qu.html';">
+<span class="sortValue">0.19642857</span>
+<div>
+<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
+<td id="tc-966">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_the_constructors_and_getters_qu.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify the constructors and getters</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=42#src-42" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_the_constructors_and_getters_qu.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-399">
+<td><a name="testA-399"></a><input type="checkbox" id="cb-399" value="399" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_deserialization_b3.html';">
+<span class="sortValue">0.19642857</span>
+<div>
+<div title="19.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.6%"></div></div></div></td>
+<td id="tc-399">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_deserialization_b3.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify deserialization</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=63#src-63" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_deserialization_b3.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-575">
+<td><a name="testA-575"></a><input type="checkbox" id="cb-575" value="575" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_findRecipientInfo_find_correct_RecipientInfo_fz.html';">
 <span class="sortValue">0.17857143</span>
 <div>
 <div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-13">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</a>
+<td id="tc-575">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that findRecipientInfo find correct RecipientInfo</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_findRecipientInfo_find_correct_RecipientInfo_fz.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that findRecipientInfo find correct RecipientInfo</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=759#src-759" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_findRecipientInfo_find_correct_RecipientInfo_fz.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-915">
+<td><a name="testA-915"></a><input type="checkbox" id="cb-915" value="915" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html';">
+<span class="sortValue">0.17857143</span>
+<div>
+<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
+<td id="tc-915">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=217#src-217" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-90">
-<td><a name="testA-90"></a><input type="checkbox" id="cb-90" value="90" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_serialization_2i.html';">
+<tr id="test-872">
+<td><a name="testA-872"></a><input type="checkbox" id="cb-872" value="872" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_serialization_o8.html';">
 <span class="sortValue">0.17857143</span>
 <div>
 <div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-90">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_serialization_2i.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify serialization</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=45#src-45" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_serialization_2i.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-125">
-<td><a name="testA-125"></a><input type="checkbox" id="cb-125" value="125" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeCertWithoutSignature_encodes_the_certificate_without_the_signature_correcly_3h.html';">
-<span class="sortValue">0.17857143</span>
-<div>
-<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-125">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that serializeCertWithoutSignature encodes the certificate without the signature correcly</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeCertWithoutSignature_encodes_the_certificate_without_the_signature_correcly_3h.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that serializeCertWithoutSignature encodes the certificate without the signature correcly</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=286#src-286" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeCertWithoutSignature_encodes_the_certificate_without_the_signature_correcly_3h.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-112">
-<td><a name="testA-112"></a><input type="checkbox" id="cb-112" value="112" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Test_to_verifyCertificate_34.html';">
-<span class="sortValue">0.17857143</span>
-<div>
-<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-112">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Test to verifyCertificate</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Test_to_verifyCertificate_34.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Test to verifyCertificate</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=141#src-141" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Test_to_verifyCertificate_34.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-151">
-<td><a name="testA-151"></a><input type="checkbox" id="cb-151" value="151" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_findRecipientInfo_find_correct_RecipientInfo_47.html';">
-<span class="sortValue">0.17857143</span>
-<div>
-<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-151">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that findRecipientInfo find correct RecipientInfo</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_findRecipientInfo_find_correct_RecipientInfo_47.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that findRecipientInfo find correct RecipientInfo</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=649#src-649" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_findRecipientInfo_find_correct_RecipientInfo_47.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-384">
-<td><a name="testA-384"></a><input type="checkbox" id="cb-384" value="384" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_serialization_ao.html';">
-<span class="sortValue">0.17857143</span>
-<div>
-<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
-<td id="tc-384">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_serialization_ao.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify serialization</a>
+<td id="tc-872">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_serialization_o8.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec.html?line=57#src-57" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_serialization_ao.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_serialization_o8.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-204">
-<td><a name="testA-204"></a><input type="checkbox" id="cb-204" value="204" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_toString_5o.html';">
-<span class="sortValue">0.16071428</span>
+<tr id="test-832">
+<td><a name="testA-832"></a><input type="checkbox" id="cb-832" value="832" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_serialization_n4.html';">
+<span class="sortValue">0.17857143</span>
 <div>
-<div title="16.1% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:16.1%"></div></div></div></td>
-<td id="tc-204">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_toString_5o.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify toString</a>
+<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
+<td id="tc-832">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_serialization_n4.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=77#src-77" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=44#src-44" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_toString_5o.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_serialization_n4.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-321">
-<td><a name="testA-321"></a><input type="checkbox" id="cb-321" value="321" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_toString_8x.html';">
+<tr id="test-863">
+<td><a name="testA-863"></a><input type="checkbox" id="cb-863" value="863" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeCertWithoutSignature_encodes_the_certificate_without_the_signature_correcly_nz.html';">
+<span class="sortValue">0.17857143</span>
+<div>
+<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
+<td id="tc-863">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that serializeCertWithoutSignature encodes the certificate without the signature correcly</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeCertWithoutSignature_encodes_the_certificate_without_the_signature_correcly_nz.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that serializeCertWithoutSignature encodes the certificate without the signature correcly</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=396#src-396" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeCertWithoutSignature_encodes_the_certificate_without_the_signature_correcly_nz.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-105">
+<td><a name="testA-105"></a><input type="checkbox" id="cb-105" value="105" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/CertificateSpec_Verify_deserialization_and_serialization_of_reference_ETSI_Certificates_works_2x.html';">
+<span class="sortValue">0.17857143</span>
+<div>
+<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
+<td id="tc-105">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.CertificateSpec.Verify deserialization and serialization of reference ETSI Certificates works</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/CertificateSpec_Verify_deserialization_and_serialization_of_reference_ETSI_Certificates_works_2x.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.CertificateSpec.Verify deserialization and serialization of reference ETSI Certificates works</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/CertificateSpec.html?line=135#src-135" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/CertificateSpec_Verify_deserialization_and_serialization_of_reference_ETSI_Certificates_works_2x.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-167">
+<td><a name="testA-167"></a><input type="checkbox" id="cb-167" value="167" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_serialization_4n.html';">
+<span class="sortValue">0.17857143</span>
+<div>
+<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
+<td id="tc-167">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_serialization_4n.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify serialization</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec.html?line=56#src-56" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_serialization_4n.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-965">
+<td><a name="testA-965"></a><input type="checkbox" id="cb-965" value="965" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Test_to_verifyCertificate_qt.html';">
+<span class="sortValue">0.17857143</span>
+<div>
+<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
+<td id="tc-965">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Test to verifyCertificate</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Test_to_verifyCertificate_qt.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Test to verifyCertificate</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=175#src-175" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Test_to_verifyCertificate_qt.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-806">
+<td><a name="testA-806"></a><input type="checkbox" id="cb-806" value="806" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_serialization_me.html';">
+<span class="sortValue">0.17857143</span>
+<div>
+<div title="17.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.9%"></div></div></div></td>
+<td id="tc-806">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_serialization_me.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify serialization</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=48#src-48" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_serialization_me.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-243">
+<td><a name="testA-243"></a><input type="checkbox" id="cb-243" value="243" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_toString_6r.html';">
 <span class="sortValue">0.16071428</span>
 <div>
 <div title="16.1% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:16.1%"></div></div></div></td>
-<td id="tc-321">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_toString_8x.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify toString</a>
+<td id="tc-243">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_toString_6r.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.RectangularRegionSpec.Verify toString</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec.html?line=76#src-76" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegionSpec_Verify_toString_6r.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-13">
+<td><a name="testA-13"></a><input type="checkbox" id="cb-13" value="13" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_toString_d.html';">
+<span class="sortValue">0.16071428</span>
+<div>
+<div title="16.1% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:16.1%"></div></div></div></td>
+<td id="tc-13">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_toString_d.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify toString</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=79#src-79" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_toString_d.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-119">
+<td><a name="testA-119"></a><input type="checkbox" id="cb-119" value="119" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_toString_3b.html';">
+<span class="sortValue">0.16071428</span>
+<div>
+<div title="16.1% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:16.1%"></div></div></div></td>
+<td id="tc-119">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_toString_3b.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocationSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec.html?line=86#src-86" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_toString_8x.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocationSpec_Verify_toString_3b.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-197">
-<td><a name="testA-197"></a><input type="checkbox" id="cb-197" value="197" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_toString_5h.html';">
-<span class="sortValue">0.16071428</span>
-<div>
-<div title="16.1% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:16.1%"></div></div></div></td>
-<td id="tc-197">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_toString_5h.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegionSpec.Verify toString</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec.html?line=80#src-80" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegionSpec_Verify_toString_5h.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-92">
-<td><a name="testA-92"></a><input type="checkbox" id="cb-92" value="92" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_2k.html';">
+<tr id="test-285">
+<td><a name="testA-285"></a><input type="checkbox" id="cb-285" value="285" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_getEncryptionKey_7x.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-92">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_2k.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify deserialization</a>
+<td id="tc-285">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify getEncryptionKey</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_getEncryptionKey_7x.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify getEncryptionKey</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=69#src-69" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=385#src-385" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_2k.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_getEncryptionKey_7x.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-138">
-<td><a name="testA-138"></a><input type="checkbox" id="cb-138" value="138" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_3u.html';">
+<tr id="test-594">
+<td><a name="testA-594"></a><input type="checkbox" id="cb-594" value="594" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_gi.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-138">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_3u.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify deserialization</a>
+<td id="tc-594">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_gi.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=126#src-126" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=68#src-68" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_3u.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_gi.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-104">
-<td><a name="testA-104"></a><input type="checkbox" id="cb-104" value="104" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_getEncryptionKey_2w.html';">
+<tr id="test-111">
+<td><a name="testA-111"></a><input type="checkbox" id="cb-111" value="111" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_deserialization_33.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-104">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify getEncryptionKey</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_getEncryptionKey_2w.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify getEncryptionKey</a>
+<td id="tc-111">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_deserialization_33.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=275#src-275" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.html?line=81#src-81" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_getEncryptionKey_2w.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_deserialization_33.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-16">
-<td><a name="testA-16"></a><input type="checkbox" id="cb-16" value="16" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_getVerificationKey_g.html';">
+<tr id="test-292">
+<td><a name="testA-292"></a><input type="checkbox" id="cb-292" value="292" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-16">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify getVerificationKey</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_getVerificationKey_g.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify getVerificationKey</a>
+<td id="tc-292">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=262#src-262" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=530#src-530" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_getVerificationKey_g.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-27">
-<td><a name="testA-27"></a><input type="checkbox" id="cb-27" value="27" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html';">
+<tr id="test-846">
+<td><a name="testA-846"></a><input type="checkbox" id="cb-846" value="846" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-27">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</a>
+<td id="tc-846">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=420#src-420" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=530#src-530" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-81">
-<td><a name="testA-81"></a><input type="checkbox" id="cb-81" value="81" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_deserialization_29.html';">
+<tr id="test-427">
+<td><a name="testA-427"></a><input type="checkbox" id="cb-427" value="427" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_toString_bv.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-81">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_deserialization_29.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify deserialization</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.html?line=82#src-82" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_deserialization_29.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-163">
-<td><a name="testA-163"></a><input type="checkbox" id="cb-163" value="163" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_toString_4j.html';">
-<span class="sortValue">0.125</span>
-<div>
-<div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-163">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_toString_4j.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify toString</a>
+<td id="tc-427">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_toString_bv.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocationSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec.html?line=91#src-91" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_toString_4j.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocationSpec_Verify_toString_bv.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-148">
-<td><a name="testA-148"></a><input type="checkbox" id="cb-148" value="148" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html';">
+<tr id="test-913">
+<td><a name="testA-913"></a><input type="checkbox" id="cb-913" value="913" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_pd.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-148">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</a>
+<td id="tc-913">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_pd.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=420#src-420" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=125#src-125" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_pd.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-68">
-<td><a name="testA-68"></a><input type="checkbox" id="cb-68" value="68" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_hashCode_and_equals_1w.html';">
+<tr id="test-622">
+<td><a name="testA-622"></a><input type="checkbox" id="cb-622" value="622" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_getVerificationKey_ha.html';">
+<span class="sortValue">0.125</span>
+<div>
+<div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
+<td id="tc-622">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify getVerificationKey</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_getVerificationKey_ha.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify getVerificationKey</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=372#src-372" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_getVerificationKey_ha.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-578">
+<td><a name="testA-578"></a><input type="checkbox" id="cb-578" value="578" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_hashCode_and_equals_g2.html';">
 <span class="sortValue">0.10714286</span>
 <div>
 <div title="10.7% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:10.7%"></div></div></div></td>
-<td id="tc-68">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_hashCode_and_equals_1w.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify hashCode and equals</a>
+<td id="tc-578">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_hashCode_and_equals_g2.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify hashCode and equals</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.html?line=105#src-105" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.html?line=104#src-104" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_hashCode_and_equals_1w.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_hashCode_and_equals_g2.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-359">
-<td><a name="testA-359"></a><input type="checkbox" id="cb-359" value="359" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_serialization_9z.html';">
+<tr id="test-761">
+<td><a name="testA-761"></a><input type="checkbox" id="cb-761" value="761" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_serialization_l5.html';">
 <span class="sortValue">0.05357143</span>
 <div>
 <div title="5.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:5.4%"></div></div></div></td>
-<td id="tc-359">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_serialization_9z.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify serialization</a>
+<td id="tc-761">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_serialization_l5.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=58#src-58" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=57#src-57" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_serialization_9z.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_serialization_l5.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-241">
-<td><a name="testA-241"></a><input type="checkbox" id="cb-241" value="241" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_6p.html';">
+<tr id="test-793">
+<td><a name="testA-793"></a><input type="checkbox" id="cb-793" value="793" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_serialization_m1.html';">
 <span class="sortValue">0.05357143</span>
 <div>
 <div title="5.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:5.4%"></div></div></div></td>
-<td id="tc-241">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_6p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify serialization</a>
+<td id="tc-793">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_serialization_m1.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=112#src-112" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.html?line=73#src-73" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_6p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_serialization_m1.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-226">
-<td><a name="testA-226"></a><input type="checkbox" id="cb-226" value="226" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_6a.html';">
+<tr id="test-187">
+<td><a name="testA-187"></a><input type="checkbox" id="cb-187" value="187" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_57.html';">
 <span class="sortValue">0.05357143</span>
 <div>
 <div title="5.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:5.4%"></div></div></div></td>
-<td id="tc-226">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_6a.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify serialization</a>
+<td id="tc-187">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_57.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=60#src-60" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=59#src-59" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_6a.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_57.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-152">
-<td><a name="testA-152"></a><input type="checkbox" id="cb-152" value="152" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_serialization_48.html';">
+<tr id="test-3">
+<td><a name="testA-3"></a><input type="checkbox" id="cb-3" value="3" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_3.html';">
 <span class="sortValue">0.05357143</span>
 <div>
 <div title="5.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:5.4%"></div></div></div></td>
-<td id="tc-152">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_serialization_48.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify serialization</a>
+<td id="tc-3">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_3.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.html?line=74#src-74" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=111#src-111" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_serialization_48.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_3.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-401">
-<td><a name="testA-401"></a><input type="checkbox" id="cb-401" value="401" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_b5.html';">
+<tr id="test-12">
+<td><a name="testA-12"></a><input type="checkbox" id="cb-12" value="12" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_toString_c.html';">
 <span class="sortValue">0.035714287</span>
 <div>
 <div title="3.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:3.6%"></div></div></div></td>
-<td id="tc-401">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_b5.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify toString</a>
+<td id="tc-12">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_toString_c.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=106#src-106" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=96#src-96" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_b5.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_toString_c.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-33">
-<td><a name="testA-33"></a><input type="checkbox" id="cb-33" value="33" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_toString_x.html';">
+<tr id="test-891">
+<td><a name="testA-891"></a><input type="checkbox" id="cb-891" value="891" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_toString_or.html';">
 <span class="sortValue">0.035714287</span>
 <div>
 <div title="3.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:3.6%"></div></div></div></td>
-<td id="tc-33">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_toString_x.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify toString</a>
+<td id="tc-891">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_toString_or.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRestrictionSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.html?line=120#src-120" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec.html?line=119#src-119" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_toString_x.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/cert/ValidityRestrictionSpec_Verify_toString_or.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-261">
-<td><a name="testA-261"></a><input type="checkbox" id="cb-261" value="261" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_toString_79.html';">
+<tr id="test-287">
+<td><a name="testA-287"></a><input type="checkbox" id="cb-287" value="287" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_7z.html';">
 <span class="sortValue">0.035714287</span>
 <div>
 <div title="3.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:3.6%"></div></div></div></td>
-<td id="tc-261">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_toString_79.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.PolygonalRegionSpec.Verify toString</a>
+<td id="tc-287">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_7z.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec.html?line=97#src-97" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=105#src-105" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegionSpec_Verify_toString_79.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_7z.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
 
@@ -1419,7 +1410,7 @@
  <tr id="l13">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=13#src-13">13</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>;</span></td>
 </tr>
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
@@ -1454,7 +1445,7 @@
  <tr id="l20">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=20#src-20">20</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-20" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-20" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../common/pkg-summary.html">common</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>;</span></td>
 </tr>
  <tr id="l21">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=21#src-21">21</a></td>
@@ -1554,7 +1545,7 @@
 <tr id="l37">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=37#src-37">37</a></td>
 <td align="right" class="coverageCount NoHilight "   onclick="return showTestsForLine(this, 37, 'Tests that hit TwoDLocation');" >&#160;&#160;</td>
-<td class=" srcCell" id="id-37"><span class="spacer"></span><span id="src-37" class="srcLine"><span class="keyword">public</span> <span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a> <span class="keyword">implements</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>{</span></td>
+<td class=" srcCell" id="id-37"><span class="spacer"></span><span id="src-37" class="srcLine"><span class="keyword">public</span> <span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a> <span class="keyword">implements</span> <a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>{</span></td>
 </tr>
  <tr id="l38">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=38#src-38">38</a></td>
@@ -1653,8 +1644,8 @@
 </tr>
  <tr id="l54">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=54#src-54">54</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 54, 'Tests that hit line # 54');" ><span title="Line 54, Col 5: true branch executed 2 times branch executed 181 times." class="nolink">&#160;183</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-54" class="srcLine"><span class="nolink" title="Line 54, Col 5: true branch executed 2 times branch executed 181 times.">        <span class="keyword">if</span>(latitude &lt; -900000000 || latitude &gt;  900000001){</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 54, 'Tests that hit line # 54');" ><span title="Line 54, Col 5: true branch executed 2 times, false branch executed 181 times." class="nolink">&#160;183</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-54" class="srcLine"><span class="nolink" title="Line 54, Col 5: true branch executed 2 times, false branch executed 181 times.">        <span class="keyword">if</span>(latitude &lt; -900000000 || latitude &gt;  900000001){</span></span></td>
 </tr>
  <tr id="l55">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=55#src-55">55</a></td>
@@ -1668,8 +1659,8 @@
 </tr>
  <tr id="l57">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=57#src-57">57</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 57, 'Tests that hit line # 57');" ><span title="Line 57, Col 11: true branch executed 2 times branch executed 179 times." class="nolink">&#160;181</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-57" class="srcLine"><span class="nolink" title="Line 57, Col 11: true branch executed 2 times branch executed 179 times.">        <span class="keyword">if</span>(longitude &lt; -1800000000 || longitude &gt; 1800000001){</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 57, 'Tests that hit line # 57');" ><span title="Line 57, Col 11: true branch executed 2 times, false branch executed 179 times." class="nolink">&#160;181</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-57" class="srcLine"><span class="nolink" title="Line 57, Col 11: true branch executed 2 times, false branch executed 179 times.">        <span class="keyword">if</span>(longitude &lt; -1800000000 || longitude &gt; 1800000001){</span></span></td>
 </tr>
  <tr id="l58">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=58#src-58">58</a></td>
@@ -1899,13 +1890,13 @@
 </tr>
 <tr id="l91">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=91#src-91">91</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 91, 'Tests that hit serialize(DataOutputStream)&#160;:&#160;void');" ><span title="Line 91, Col 2: method entered 109 times." class="nolink">&#160;109</span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 91, 'Tests that hit encode(DataOutputStream)&#160;:&#160;void');" ><span title="Line 91, Col 2: method entered 109 times." class="nolink">&#160;109</span></td>
 <td class=" methodStart  srcCell" id="id-91"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 91,95);" id="img-91" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-91" class="srcLine"><span class="nolink" title="Line 91, Col 2: method entered 109 times.">    @Override</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-91'), 91,95);" id="e91" style="display:none;border:none;">...</span></span></td>
 </tr>
  <tr id="l92">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=92#src-92">92</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-92" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> serialize(DataOutputStream out) <span class="keyword">throws</span> IOException {</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-92" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> encode(DataOutputStream out) <span class="keyword">throws</span> IOException {</span></td>
 </tr>
  <tr id="l93">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=93#src-93">93</a></td>
@@ -1944,13 +1935,13 @@
 </tr>
 <tr id="l97">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=97#src-97">97</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 97, 'Tests that hit deserialize(DataInputStream)&#160;:&#160;void');" ><span title="Line 97, Col 2: method entered 164 times." class="nolink">&#160;164</span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 97, 'Tests that hit decode(DataInputStream)&#160;:&#160;void');" ><span title="Line 97, Col 2: method entered 164 times." class="nolink">&#160;164</span></td>
 <td class=" methodStart  srcCell" id="id-97"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 97,104);" id="img-97" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-97" class="srcLine"><span class="nolink" title="Line 97, Col 2: method entered 164 times.">    @Override</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-97'), 97,104);" id="e97" style="display:none;border:none;">...</span></span></td>
 </tr>
  <tr id="l98">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=98#src-98">98</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-98" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> deserialize(DataInputStream in) <span class="keyword">throws</span> IOException {</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-98" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> decode(DataInputStream in) <span class="keyword">throws</span> IOException {</span></td>
 </tr>
  <tr id="l99">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=99#src-99">99</a></td>
@@ -2084,8 +2075,8 @@
 </tr>
  <tr id="l119">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=119#src-119">119</a></td>
-<td align="right" class="coverageCount Bad hitByTest"   onclick="return showTestsForLine(this, 119, 'Tests that hit line # 119');" ><span title="Line 119, Col 6: true branch executed 0 times branch executed 29 times." class="nolink">&#160;29</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-119" class="srcLineHilight"><span class="nolink" title="Line 119, Col 6: true branch executed 0 times branch executed 29 times.">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj)</span></span></td>
+<td align="right" class="coverageCount Bad hitByTest"   onclick="return showTestsForLine(this, 119, 'Tests that hit line # 119');" ><span title="Line 119, Col 6: true branch executed 0 times, false branch executed 29 times." class="nolink">&#160;29</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-119" class="srcLineHilight"><span class="nolink" title="Line 119, Col 6: true branch executed 0 times, false branch executed 29 times.">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj)</span></span></td>
 </tr>
  <tr id="l120">
 <td align="right" class="lineCount Bad"><a class="lineNumHref" href="?line=120#src-120">120</a></td>
@@ -2094,8 +2085,8 @@
 </tr>
  <tr id="l121">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=121#src-121">121</a></td>
-<td align="right" class="coverageCount Bad hitByTest"   onclick="return showTestsForLine(this, 121, 'Tests that hit line # 121');" ><span title="Line 121, Col 6: true branch executed 0 times branch executed 29 times." class="nolink">&#160;29</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-121" class="srcLineHilight"><span class="nolink" title="Line 121, Col 6: true branch executed 0 times branch executed 29 times.">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>)</span></span></td>
+<td align="right" class="coverageCount Bad hitByTest"   onclick="return showTestsForLine(this, 121, 'Tests that hit line # 121');" ><span title="Line 121, Col 6: true branch executed 0 times, false branch executed 29 times." class="nolink">&#160;29</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-121" class="srcLineHilight"><span class="nolink" title="Line 121, Col 6: true branch executed 0 times, false branch executed 29 times.">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>)</span></span></td>
 </tr>
  <tr id="l122">
 <td align="right" class="lineCount Bad"><a class="lineNumHref" href="?line=122#src-122">122</a></td>
@@ -2104,8 +2095,8 @@
 </tr>
  <tr id="l123">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=123#src-123">123</a></td>
-<td align="right" class="coverageCount Bad hitByTest"   onclick="return showTestsForLine(this, 123, 'Tests that hit line # 123');" ><span title="Line 123, Col 6: true branch executed 0 times branch executed 29 times." class="nolink">&#160;29</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-123" class="srcLineHilight"><span class="nolink" title="Line 123, Col 6: true branch executed 0 times branch executed 29 times.">        <span class="keyword">if</span> (getClass() != obj.getClass())</span></span></td>
+<td align="right" class="coverageCount Bad hitByTest"   onclick="return showTestsForLine(this, 123, 'Tests that hit line # 123');" ><span title="Line 123, Col 6: true branch executed 0 times, false branch executed 29 times." class="nolink">&#160;29</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-123" class="srcLineHilight"><span class="nolink" title="Line 123, Col 6: true branch executed 0 times, false branch executed 29 times.">        <span class="keyword">if</span> (getClass() != obj.getClass())</span></span></td>
 </tr>
  <tr id="l124">
 <td align="right" class="lineCount Bad"><a class="lineNumHref" href="?line=124#src-124">124</a></td>
@@ -2119,8 +2110,8 @@
 </tr>
  <tr id="l126">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=126#src-126">126</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 126, 'Tests that hit line # 126');" ><span title="Line 126, Col 6: true branch executed 3 times branch executed 26 times." class="nolink">&#160;29</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-126" class="srcLine"><span class="nolink" title="Line 126, Col 6: true branch executed 3 times branch executed 26 times.">        <span class="keyword">if</span> (latitude != other.latitude)</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 126, 'Tests that hit line # 126');" ><span title="Line 126, Col 6: true branch executed 3 times, false branch executed 26 times." class="nolink">&#160;29</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-126" class="srcLine"><span class="nolink" title="Line 126, Col 6: true branch executed 3 times, false branch executed 26 times.">        <span class="keyword">if</span> (latitude != other.latitude)</span></span></td>
 </tr>
  <tr id="l127">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=127#src-127">127</a></td>
@@ -2129,8 +2120,8 @@
 </tr>
  <tr id="l128">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=128#src-128">128</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 128, 'Tests that hit line # 128');" ><span title="Line 128, Col 6: true branch executed 4 times branch executed 22 times." class="nolink">&#160;26</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-128" class="srcLine"><span class="nolink" title="Line 128, Col 6: true branch executed 4 times branch executed 22 times.">        <span class="keyword">if</span> (longitude != other.longitude)</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 128, 'Tests that hit line # 128');" ><span title="Line 128, Col 6: true branch executed 4 times, false branch executed 22 times." class="nolink">&#160;26</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-128" class="srcLine"><span class="nolink" title="Line 128, Col 6: true branch executed 4 times, false branch executed 22 times.">        <span class="keyword">if</span> (longitude != other.longitude)</span></span></td>
 </tr>
  <tr id="l129">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=129#src-129">129</a></td>
@@ -2240,16 +2231,13 @@
 </script>
 <script src="TwoDLocation.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -2261,7 +2249,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.msg">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="testsrc-pkg-summary.html">        Package org.certificateservices.custom.c2x.its.datastructs.msg</a></li> 
     </ol>
     
@@ -190,7 +181,7 @@
     </div>
             <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of lines of code in this file">LOC:</label></div>
-        <div class="stats-box-value">148</div>
+        <div class="stats-box-value">147</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of non-comment lines of code in this file">NCLOC:</label></div>
@@ -243,7 +234,7 @@
     </div>
             <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of lines of code in this file">LOC:</label></div>
-        <div class="stats-box-value">148</div>
+        <div class="stats-box-value">147</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of non-comment lines of code in this file">NCLOC:</label></div>
@@ -319,9 +310,9 @@
     </tr>         </thead>
         <tbody>
                               <tr> <td id="SecuredMessageSpec">
-        <span><a href="#57" title="SecuredMessageSpec" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '57');">SecuredMessageSpec</a></span>
+        <span><a href="#56" title="SecuredMessageSpec" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '56');">SecuredMessageSpec</a></span>
 </td>
-<td>57<a name="sl-57"></a></td>
+<td>56<a name="sl-56"></a></td>
     <td class="">33</td>
     <td class="">0%</td>
     <td class="">7</td>
@@ -355,9 +346,9 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                     <thead>
                                                  <tr> <th id="SecuredMessageSpec">
-    Class<br/>    <span><a href="#57" title="SecuredMessageSpec" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '57');">SecuredMessageSpec</a></span>
+    Class<br/>    <span><a href="#56" title="SecuredMessageSpec" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '56');">SecuredMessageSpec</a></span>
 </th>
-<th>Line #<br/>57<a name="sl-57"></a></th>
+<th>Line #<br/>56<a name="sl-56"></a></th>
     <th class=""><label  title="The total number of statements.">Total Statements</label><br/>33</th>
     <th class=""><label  title="The percentage of elements that have been filtered from this report.">% Filtered</label><br/>0%</th>
     <th class=""><label  title="Cyclomatic complexity is a measure of the number of paths in your code.">Complexity</label><br/>7</th>
@@ -368,11 +359,11 @@
 </tr>                     </thead>
                     <tbody id="dialog-SecuredMessageSpec-methods-body">
                                                                                                             <tr id="SecuredMessageSpec-1">
-<td id="summary-147-2">
+<td id="summary-146-2">
  <span class="sortValue">field&#160;externalSecureMessage1()</span>
-&#160;&#160;<a href="?line=29#147" title="field&#160;externalSecureMessage1()" name="sl-147" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '147');">field&#160;externalSecureMessage1()</a>
+&#160;&#160;<a href="?line=29#146" title="field&#160;externalSecureMessage1()" name="sl-146" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '146');">field&#160;externalSecureMessage1()</a>
 </td>
-<td align="right"><span class="sortValue">147</span>147</td>
+<td align="right"><span class="sortValue">146</span>146</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0</td>
 <td class="" align="right"><span class="sortValue">-1.0</span> - </td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -381,11 +372,11 @@
 <div class="barGraphValue"><span class="sortValue">-1.0</span> - </div><div style="display: table-cell">
 <div title="Empty" class="barEmpty" style="min-width:200px;"></div></div></div></td>
  </tr>                                                                                                                <tr id="SecuredMessageSpec-2">
-<td id="summary-74-2">
+<td id="summary-73-2">
  <span class="sortValue">Verify&#160;the&#160;constructors,&#160;getters&#160;and&#160;attachSignature</span>
-&#160;&#160;<a href="?line=29#74" title="Verify&#160;the&#160;constructors,&#160;getters&#160;and&#160;attachSignature" name="sl-74" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '74');">Verify&#160;the&#160;constructors,&#160;getters&#160;and&#160;attachSignature</a>
+&#160;&#160;<a href="?line=29#73" title="Verify&#160;the&#160;constructors,&#160;getters&#160;and&#160;attachSignature" name="sl-73" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '73');">Verify&#160;the&#160;constructors,&#160;getters&#160;and&#160;attachSignature</a>
 </td>
-<td align="right"><span class="sortValue">74</span>74</td>
+<td align="right"><span class="sortValue">73</span>73</td>
 <td class="" align="right"><span class="sortValue">17.0</span>17</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -394,11 +385,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="SecuredMessageSpec-3">
-<td id="summary-103-2">
+<td id="summary-102-2">
  <span class="sortValue">Verify&#160;serialization</span>
-&#160;&#160;<a href="?line=29#103" title="Verify&#160;serialization" name="sl-103" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '103');">Verify&#160;serialization</a>
+&#160;&#160;<a href="?line=29#102" title="Verify&#160;serialization" name="sl-102" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '102');">Verify&#160;serialization</a>
 </td>
-<td align="right"><span class="sortValue">103</span>103</td>
+<td align="right"><span class="sortValue">102</span>102</td>
 <td class="" align="right"><span class="sortValue">2.0</span>2</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -407,11 +398,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="SecuredMessageSpec-4">
-<td id="summary-109-2">
+<td id="summary-108-2">
  <span class="sortValue">Verify&#160;deserialization</span>
-&#160;&#160;<a href="?line=29#109" title="Verify&#160;deserialization" name="sl-109" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '109');">Verify&#160;deserialization</a>
+&#160;&#160;<a href="?line=29#108" title="Verify&#160;deserialization" name="sl-108" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '108');">Verify&#160;deserialization</a>
 </td>
-<td align="right"><span class="sortValue">109</span>109</td>
+<td align="right"><span class="sortValue">108</span>108</td>
 <td class="" align="right"><span class="sortValue">6.0</span>6</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -420,11 +411,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="SecuredMessageSpec-5">
-<td id="summary-124-2">
+<td id="summary-123-2">
  <span class="sortValue">Verify&#160;toString</span>
-&#160;&#160;<a href="?line=29#124" title="Verify&#160;toString" name="sl-124" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '124');">Verify&#160;toString</a>
+&#160;&#160;<a href="?line=29#123" title="Verify&#160;toString" name="sl-123" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '123');">Verify&#160;toString</a>
 </td>
-<td align="right"><span class="sortValue">124</span>124</td>
+<td align="right"><span class="sortValue">123</span>123</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -433,11 +424,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="SecuredMessageSpec-6">
-<td id="summary-129-2">
+<td id="summary-128-2">
  <span class="sortValue">Verify&#160;getEncoded</span>
-&#160;&#160;<a href="?line=29#129" title="Verify&#160;getEncoded" name="sl-129" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '129');">Verify&#160;getEncoded</a>
+&#160;&#160;<a href="?line=29#128" title="Verify&#160;getEncoded" name="sl-128" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '128');">Verify&#160;getEncoded</a>
 </td>
-<td align="right"><span class="sortValue">129</span>129</td>
+<td align="right"><span class="sortValue">128</span>128</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -446,11 +437,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="SecuredMessageSpec-7">
-<td id="summary-134-2">
+<td id="summary-133-2">
  <span class="sortValue">Verify&#160;that&#160;it&#160;is&#160;possible&#160;to&#160;parse&#160;a&#160;SecureMessage&#160;generate&#160;by&#160;interoperability&#160;site&#160;at&#160;https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</span>
-&#160;&#160;<a href="?line=29#134" title="Verify&#160;that&#160;it&#160;is&#160;possible&#160;to&#160;parse&#160;a&#160;SecureMessage&#160;generate&#160;by&#160;interoperability&#160;site&#160;at&#160;https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/" name="sl-134" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '134');">Verify&#160;that&#160;it&#160;is&#160;possible&#160;to&#160;parse&#160;a&#160;SecureMessage&#160;generate&#160;by&#160;interoperability&#160;site&#160;at&#160;https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</a>
+&#160;&#160;<a href="?line=29#133" title="Verify&#160;that&#160;it&#160;is&#160;possible&#160;to&#160;parse&#160;a&#160;SecureMessage&#160;generate&#160;by&#160;interoperability&#160;site&#160;at&#160;https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/" name="sl-133" onclick="closeDialogAndScrollTo('dialog-SecuredMessageSpec', '133');">Verify&#160;that&#160;it&#160;is&#160;possible&#160;to&#160;parse&#160;a&#160;SecureMessage&#160;generate&#160;by&#160;interoperability&#160;site&#160;at&#160;https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</a>
 </td>
-<td align="right"><span class="sortValue">134</span>134</td>
+<td align="right"><span class="sortValue">133</span>133</td>
 <td class="" align="right"><span class="sortValue">6.0</span>6</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -530,100 +521,100 @@
             </thead>
             <tbody id="tests-body">
 
-<tr id="test-378">
-<td><a name="testA-378"></a><input type="checkbox" id="cb-378" value="378" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_the_constructors__getters_and_attachSignature_ai.html';">
+<tr id="test-767">
+<td><a name="testA-767"></a><input type="checkbox" id="cb-767" value="767" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_the_constructors__getters_and_attachSignature_lb.html';">
 <span class="sortValue">0.45</span>
 <div>
 <div title="45% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:45%"></div></div></div></td>
-<td id="tc-378">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify the constructors, getters and attachSignature</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_the_constructors__getters_and_attachSignature_ai.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify the constructors, getters and attachSignature</a>
+<td id="tc-767">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify the constructors, getters and attachSignature</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_the_constructors__getters_and_attachSignature_lb.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify the constructors, getters and attachSignature</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=74#src-74" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=73#src-73" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_the_constructors__getters_and_attachSignature_ai.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_the_constructors__getters_and_attachSignature_lb.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-87">
-<td><a name="testA-87"></a><input type="checkbox" id="cb-87" value="87" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_2f.html';">
+<tr id="test-597">
+<td><a name="testA-597"></a><input type="checkbox" id="cb-597" value="597" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_gl.html';">
 <span class="sortValue">0.175</span>
 <div>
 <div title="17.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.5%"></div></div></div></td>
-<td id="tc-87">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_2f.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify deserialization</a>
+<td id="tc-597">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_gl.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=109#src-109" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=108#src-108" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_2f.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_gl.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-6">
-<td><a name="testA-6"></a><input type="checkbox" id="cb-6" value="6" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__6.html';">
+<tr id="test-694">
+<td><a name="testA-694"></a><input type="checkbox" id="cb-694" value="694" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ja.html';">
 <span class="sortValue">0.175</span>
 <div>
 <div title="17.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:17.5%"></div></div></div></td>
-<td id="tc-6">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__6.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</a>
+<td id="tc-694">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ja.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=134#src-134" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=133#src-133" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__6.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ja.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-154">
-<td><a name="testA-154"></a><input type="checkbox" id="cb-154" value="154" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_4a.html';">
+<tr id="test-99">
+<td><a name="testA-99"></a><input type="checkbox" id="cb-99" value="99" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_2r.html';">
 <span class="sortValue">0.075</span>
 <div>
 <div title="7.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:7.5%"></div></div></div></td>
-<td id="tc-154">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_4a.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify serialization</a>
+<td id="tc-99">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_2r.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=103#src-103" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=102#src-102" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_4a.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_2r.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-133">
-<td><a name="testA-133"></a><input type="checkbox" id="cb-133" value="133" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_3p.html';">
+<tr id="test-570">
+<td><a name="testA-570"></a><input type="checkbox" id="cb-570" value="570" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_fu.html';">
 <span class="sortValue">0.05</span>
 <div>
 <div title="5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:5%"></div></div></div></td>
-<td id="tc-133">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify getEncoded</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_3p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify getEncoded</a>
+<td id="tc-570">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_fu.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=129#src-129" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=123#src-123" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_3p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_fu.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-354">
-<td><a name="testA-354"></a><input type="checkbox" id="cb-354" value="354" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_9u.html';">
+<tr id="test-719">
+<td><a name="testA-719"></a><input type="checkbox" id="cb-719" value="719" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_jz.html';">
 <span class="sortValue">0.05</span>
 <div>
 <div title="5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:5%"></div></div></div></td>
-<td id="tc-354">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_9u.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify toString</a>
+<td id="tc-719">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify getEncoded</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_jz.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify getEncoded</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=124#src-124" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=128#src-128" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_9u.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_jz.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
 
@@ -750,7 +741,7 @@
  <tr id="l13">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=13#src-13">13</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../msg/pkg-summary.html">msg</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../msg/pkg-summary.html">msg</a></span></td>
 </tr>
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
@@ -770,12 +761,12 @@
  <tr id="l17">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=17#src-17">17</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-17" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-17" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../common/pkg-summary.html">common</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/common/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a>;</span></td>
 </tr>
  <tr id="l18">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=18#src-18">18</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-18" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-18" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a></span></td>
 </tr>
  <tr id="l19">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=19#src-19">19</a></td>
@@ -790,12 +781,12 @@
  <tr id="l21">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=21#src-21">21</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-21" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointType.html#EccPointType">EccPointType</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-21" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointType.html#EccPointType">EccPointType</a>;</span></td>
 </tr>
  <tr id="l22">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=22#src-22">22</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-22" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EcdsaSignature.html#EcdsaSignature">EcdsaSignature</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-22" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EcdsaSignature.html#EcdsaSignature">EcdsaSignature</a></span></td>
 </tr>
  <tr id="l23">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=23#src-23">23</a></td>
@@ -835,17 +826,17 @@
  <tr id="l30">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=30#src-30">30</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-30" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionType.html#RegionType">RegionType</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-30" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionType.html#RegionType">RegionType</a>;</span></td>
 </tr>
  <tr id="l31">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=31#src-31">31</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-31" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Signature.html#Signature">Signature</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-31" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Signature.html#Signature">Signature</a>;</span></td>
 </tr>
  <tr id="l32">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=32#src-32">32</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-32" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html#SignerInfo">SignerInfo</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-32" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html#SignerInfo">SignerInfo</a></span></td>
 </tr>
  <tr id="l33">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=33#src-33">33</a></td>
@@ -855,7 +846,7 @@
  <tr id="l34">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=34#src-34">34</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-34" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocation.html#ThreeDLocation">ThreeDLocation</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-34" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocation.html#ThreeDLocation">ThreeDLocation</a></span></td>
 </tr>
  <tr id="l35">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=35#src-35">35</a></td>
@@ -880,7 +871,7 @@
  <tr id="l39">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=39#src-39">39</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-39" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time32.html#Time32">Time32</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-39" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time32.html#Time32">Time32</a></span></td>
 </tr>
  <tr id="l40">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=40#src-40">40</a></td>
@@ -890,22 +881,22 @@
  <tr id="l41">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=41#src-41">41</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-41" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../msg/pkg-summary.html">msg</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/Payload.html#Payload">Payload</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-41" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../msg/pkg-summary.html">msg</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/Payload.html#Payload">Payload</a>;</span></td>
 </tr>
  <tr id="l42">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=42#src-42">42</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-42" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../msg/pkg-summary.html">msg</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/PayloadType.html#PayloadType">PayloadType</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-42" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../msg/pkg-summary.html">msg</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/PayloadType.html#PayloadType">PayloadType</a>;</span></td>
 </tr>
  <tr id="l43">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=43#src-43">43</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-43" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../msg/pkg-summary.html">msg</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-43" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../msg/pkg-summary.html">msg</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>;</span></td>
 </tr>
  <tr id="l44">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=44#src-44">44</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-44" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../msg/pkg-summary.html">msg</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/TrailerField.html#TrailerField">TrailerField</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-44" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../msg/pkg-summary.html">msg</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/TrailerField.html#TrailerField">TrailerField</a>;</span></td>
 </tr>
  <tr id="l45">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=45#src-45">45</a></td>
@@ -930,49 +921,44 @@
  <tr id="l49">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=49#src-49">49</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-49" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-49" class="srcLine"><span class="keyword">import</span> <span class="keyword">static</span> org.certificateservices.custom.c2x.its.datastructs.msg.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/PayloadType.html#PayloadType">PayloadType</a>.*;</span></td>
 </tr>
  <tr id="l50">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=50#src-50">50</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-50" class="srcLine"><span class="keyword">import</span> <span class="keyword">static</span> org.certificateservices.custom.c2x.its.datastructs.msg.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/PayloadType.html#PayloadType">PayloadType</a>.*;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-50" class="srcLine"></span></td>
 </tr>
  <tr id="l51">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=51#src-51">51</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-51" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-51" class="srcLine"><span class="comment">/**</span></span></td>
 </tr>
  <tr id="l52">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=52#src-52">52</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-52" class="srcLine"><span class="comment">/**</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-52" class="srcLine"><span class="comment"> *</span></span></td>
 </tr>
  <tr id="l53">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=53#src-53">53</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-53" class="srcLine"><span class="comment"> *</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-53" class="srcLine"><span class="comment"> * </span><span class="javadoc">@author</span><span class="comment"> Philip Vendil, p.vendil</span><span class="comment">@cgi.com</span></span></td>
 </tr>
  <tr id="l54">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=54#src-54">54</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-54" class="srcLine"><span class="comment"> * </span><span class="javadoc">@author</span><span class="comment"> Philip Vendil, p.vendil</span><span class="comment">@cgi.com</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-54" class="srcLine"><span class="comment"> *</span></span></td>
 </tr>
  <tr id="l55">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=55#src-55">55</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-55" class="srcLine"><span class="comment"> *</span></span></td>
-</tr>
- <tr id="l56">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=56#src-56">56</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-56" class="srcLine"><span class="comment"> */</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-55" class="srcLine"><span class="comment"> */</span></span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="57" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-57' onclick="toggleInlineStats(this, 'inlinestats-57');"/>
+<td class="coverageCount"><a name="56" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-56' onclick="toggleInlineStats(this, 'inlinestats-56');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-57" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-57'), 'inlinestats-57');return true;">
+        <table id="inlinestats-56" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-56'), 'inlinestats-56');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (40)</td>
@@ -982,97 +968,97 @@
         </table>
     </td>
 </tr>
-<tr id="l57">
+<tr id="l56">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=56#src-56">56</a></td>
+<td align="right" class="coverageCount NoHilight "   onclick="return showTestsForLine(this, 56, 'Tests that hit SecuredMessageSpec');" >&#160;&#160;</td>
+<td class=" srcCell" id="id-56"><span class="spacer"></span><span id="src-56" class="srcLine"><span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html#SecuredMessageSpec">SecuredMessageSpec</a> <span class="keyword">extends</span> <a href="../../../../../../../org/certificateservices/custom/c2x/common/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a> {</span></td>
+</tr>
+ <tr id="l57">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=57#src-57">57</a></td>
-<td align="right" class="coverageCount NoHilight "   onclick="return showTestsForLine(this, 57, 'Tests that hit SecuredMessageSpec');" >&#160;&#160;</td>
-<td class=" srcCell" id="id-57"><span class="spacer"></span><span id="src-57" class="srcLine"><span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html#SecuredMessageSpec">SecuredMessageSpec</a> <span class="keyword">extends</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a> {</span></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-57" class="srcLine">    </span></td>
 </tr>
  <tr id="l58">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=58#src-58">58</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-58" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-58" class="srcLine">    <span class="keyword">def</span> hfSignerInfo = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a>(<span class="keyword">new</span> SignerInfo(<span class="keyword">new</span> HashedId8(<span class="string">&quot;87654321&quot;</span>.getBytes())))</span></td>
 </tr>
  <tr id="l59">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=59#src-59">59</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-59" class="srcLine">    <span class="keyword">def</span> hfSignerInfo = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a>(<span class="keyword">new</span> SignerInfo(<span class="keyword">new</span> HashedId8(<span class="string">&quot;87654321&quot;</span>.getBytes())))</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-59" class="srcLine">    <span class="keyword">def</span> hfGenTime = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a>(<span class="keyword">new</span> Time64(<span class="keyword">new</span> Date(1416407150000L)))</span></td>
 </tr>
  <tr id="l60">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=60#src-60">60</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-60" class="srcLine">    <span class="keyword">def</span> hfGenTime = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a>(<span class="keyword">new</span> Time64(<span class="keyword">new</span> Date(1416407150000L)))</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-60" class="srcLine">    <span class="keyword">def</span> hfmt= <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a>(2)</span></td>
 </tr>
  <tr id="l61">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=61#src-61">61</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-61" class="srcLine">    <span class="keyword">def</span> hfmt= <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a>(2)</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-61" class="srcLine"></span></td>
 </tr>
  <tr id="l62">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=62#src-62">62</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-62" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-62" class="srcLine">    <span class="keyword">def</span> plSigned = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/Payload.html#Payload">Payload</a>(<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/PayloadType.html#PayloadType">PayloadType</a>.signed, <span class="keyword">new</span> <span class="keyword">byte</span>[0]);</span></td>
 </tr>
  <tr id="l63">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=63#src-63">63</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-63" class="srcLine">    <span class="keyword">def</span> plSigned = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/Payload.html#Payload">Payload</a>(<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/PayloadType.html#PayloadType">PayloadType</a>.signed, <span class="keyword">new</span> <span class="keyword">byte</span>[0]);</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-63" class="srcLine">    <span class="keyword">def</span> plSigExt = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/Payload.html#Payload">Payload</a>();</span></td>
 </tr>
  <tr id="l64">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=64#src-64">64</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-64" class="srcLine">    <span class="keyword">def</span> plSigExt = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/Payload.html#Payload">Payload</a>();</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-64" class="srcLine">    </span></td>
 </tr>
  <tr id="l65">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=65#src-65">65</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-65" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-65" class="srcLine">    <span class="keyword">byte</span>[] testSignature = Hex.decode(<span class="string">&quot;1122334455667788990011223344556677889900112233445566778899001122&quot;</span>);</span></td>
 </tr>
  <tr id="l66">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=66#src-66">66</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-66" class="srcLine">    <span class="keyword">byte</span>[] testSignature = Hex.decode(<span class="string">&quot;1122334455667788990011223344556677889900112233445566778899001122&quot;</span>);</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-66" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Signature.html#Signature">Signature</a> signature =<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Signature.html#Signature">Signature</a>(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,<span class="keyword">new</span> EcdsaSignature(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,<span class="keyword">new</span> EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointType.html#EccPointType">EccPointType</a>.compressed_lsb_y_0, <span class="keyword">new</span> BigInteger(1)), testSignature))</span></td>
 </tr>
  <tr id="l67">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=67#src-67">67</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-67" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Signature.html#Signature">Signature</a> signature =<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Signature.html#Signature">Signature</a>(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,<span class="keyword">new</span> EcdsaSignature(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,<span class="keyword">new</span> EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EccPointType.html#EccPointType">EccPointType</a>.compressed_lsb_y_0, <span class="keyword">new</span> BigInteger(1)), testSignature))</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-67" class="srcLine">    <span class="keyword">def</span> tf1 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/TrailerField.html#TrailerField">TrailerField</a>(signature)</span></td>
 </tr>
  <tr id="l68">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=68#src-68">68</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-68" class="srcLine">    <span class="keyword">def</span> tf1 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/TrailerField.html#TrailerField">TrailerField</a>(signature)</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-68" class="srcLine">    </span></td>
 </tr>
  <tr id="l69">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=69#src-69">69</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-69" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-69" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm1 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>.DEFAULT_SECURITY_PROFILE,[hfSignerInfo,hfGenTime,hfmt],[plSigned]);</span></td>
 </tr>
  <tr id="l70">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=70#src-70">70</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-70" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm1 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>.DEFAULT_SECURITY_PROFILE,[hfSignerInfo,hfGenTime,hfmt],[plSigned]);</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-70" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm2 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(2,3,[hfSignerInfo,hfGenTime,hfmt],[plSigned,plSigExt],[tf1]);</span></td>
 </tr>
  <tr id="l71">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=71#src-71">71</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-71" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm2 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(2,3,[hfSignerInfo,hfGenTime,hfmt],[plSigned,plSigExt],[tf1]);</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-71" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm3 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(Hex.decode(<span class="string">&quot;020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122&quot;</span>));</span></td>
 </tr>
  <tr id="l72">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=72#src-72">72</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-72" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm3 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(Hex.decode(<span class="string">&quot;020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122&quot;</span>));</span></td>
-</tr>
- <tr id="l73">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=73#src-73">73</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-73" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-72" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="74" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-74' onclick="toggleInlineStats(this, 'inlinestats-74');"/>
+<td class="coverageCount"><a name="73" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-73' onclick="toggleInlineStats(this, 'inlinestats-73');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-74" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-74'), 'inlinestats-74');return true;">
+        <table id="inlinestats-73" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-73'), 'inlinestats-73');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (17)</td>
@@ -1084,157 +1070,157 @@
         </table>
     </td>
 </tr>
-<tr id="l74">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=74#src-74">74</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 74, 'Tests that hit $spock_feature_1_0()&#160;:&#160;void');" ><span title="Line 74, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-74"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 74,100);" id="img-74" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-74" class="srcLine"><span class="nolink" title="Line 74, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify the constructors, getters and attachSignature&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-74'), 74,100);" id="e74" style="display:none;border:none;">...</span></span></td>
+<tr id="l73">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=73#src-73">73</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 73, 'Tests that hit $spock_feature_1_0()&#160;:&#160;void');" ><span title="Line 73, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-73"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 73,99);" id="img-73" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-73" class="srcLine"><span class="nolink" title="Line 73, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify the constructors, getters and attachSignature&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-73'), 73,99);" id="e73" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l74">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=74#src-74">74</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-74" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l75">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=75#src-75">75</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-75" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=75#src-75">75</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 75, 'Tests that hit line # 75');" ><span title="Line 75, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-75" class="srcLine"><span class="nolink" title="Line 75, Col 3: statement executed 1 time.">        sm1.protocolVersion == <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>.DEFAULT_PROTOCOL</span></span></td>
 </tr>
  <tr id="l76">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=76#src-76">76</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 76, 'Tests that hit line # 76');" ><span title="Line 76, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-76" class="srcLine"><span class="nolink" title="Line 76, Col 3: statement executed 1 time.">        sm1.protocolVersion == <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>.DEFAULT_PROTOCOL</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-76" class="srcLine"><span class="nolink" title="Line 76, Col 3: statement executed 1 time.">        sm1.securityProfile == <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>.DEFAULT_SECURITY_PROFILE</span></span></td>
 </tr>
  <tr id="l77">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=77#src-77">77</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 77, 'Tests that hit line # 77');" ><span title="Line 77, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-77" class="srcLine"><span class="nolink" title="Line 77, Col 3: statement executed 1 time.">        sm1.securityProfile == <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>.DEFAULT_SECURITY_PROFILE</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-77" class="srcLine"><span class="nolink" title="Line 77, Col 3: statement executed 1 time.">        sm1.headerFields.size() == 3</span></span></td>
 </tr>
  <tr id="l78">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=78#src-78">78</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 78, 'Tests that hit line # 78');" ><span title="Line 78, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-78" class="srcLine"><span class="nolink" title="Line 78, Col 3: statement executed 1 time.">        sm1.headerFields.size() == 3</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-78" class="srcLine"><span class="nolink" title="Line 78, Col 3: statement executed 1 time.">        sm1.payloadFields.size() == 1</span></span></td>
 </tr>
  <tr id="l79">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=79#src-79">79</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 79, 'Tests that hit line # 79');" ><span title="Line 79, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-79" class="srcLine"><span class="nolink" title="Line 79, Col 3: statement executed 1 time.">        sm1.payloadFields.size() == 1</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-79" class="srcLine"><span class="nolink" title="Line 79, Col 3: statement executed 1 time.">        sm1.trailerFields != <span class="keyword">null</span></span></span></td>
 </tr>
  <tr id="l80">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=80#src-80">80</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 80, 'Tests that hit line # 80');" ><span title="Line 80, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-80" class="srcLine"><span class="nolink" title="Line 80, Col 3: statement executed 1 time.">        sm1.trailerFields != <span class="keyword">null</span></span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=80#src-80">80</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-80" class="srcLine">        </span></td>
 </tr>
  <tr id="l81">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=81#src-81">81</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-81" class="srcLine">        </span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=81#src-81">81</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 81, 'Tests that hit line # 81');" ><span title="Line 81, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-81" class="srcLine"><span class="nolink" title="Line 81, Col 3: statement executed 1 time.">        sm2.protocolVersion == 2</span></span></td>
 </tr>
  <tr id="l82">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=82#src-82">82</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 82, 'Tests that hit line # 82');" ><span title="Line 82, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-82" class="srcLine"><span class="nolink" title="Line 82, Col 3: statement executed 1 time.">        sm2.protocolVersion == 2</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-82" class="srcLine"><span class="nolink" title="Line 82, Col 3: statement executed 1 time.">        sm2.securityProfile == 3</span></span></td>
 </tr>
  <tr id="l83">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=83#src-83">83</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 83, 'Tests that hit line # 83');" ><span title="Line 83, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-83" class="srcLine"><span class="nolink" title="Line 83, Col 3: statement executed 1 time.">        sm2.securityProfile == 3</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-83" class="srcLine"><span class="nolink" title="Line 83, Col 3: statement executed 1 time.">        sm2.headerFields.size() == 3</span></span></td>
 </tr>
  <tr id="l84">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=84#src-84">84</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 84, 'Tests that hit line # 84');" ><span title="Line 84, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-84" class="srcLine"><span class="nolink" title="Line 84, Col 3: statement executed 1 time.">        sm2.headerFields.size() == 3</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-84" class="srcLine"><span class="nolink" title="Line 84, Col 3: statement executed 1 time.">        sm2.payloadFields.size() == 2</span></span></td>
 </tr>
  <tr id="l85">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=85#src-85">85</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 85, 'Tests that hit line # 85');" ><span title="Line 85, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-85" class="srcLine"><span class="nolink" title="Line 85, Col 3: statement executed 1 time.">        sm2.payloadFields.size() == 2</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-85" class="srcLine"><span class="nolink" title="Line 85, Col 3: statement executed 1 time.">        sm2.trailerFields.size() == 1</span></span></td>
 </tr>
  <tr id="l86">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=86#src-86">86</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 86, 'Tests that hit line # 86');" ><span title="Line 86, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-86" class="srcLine"><span class="nolink" title="Line 86, Col 3: statement executed 1 time.">        sm2.trailerFields.size() == 1</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=86#src-86">86</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-86" class="srcLine">        </span></td>
 </tr>
  <tr id="l87">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=87#src-87">87</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-87" class="srcLine">        </span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=87#src-87">87</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 87, 'Tests that hit line # 87');" ><span title="Line 87, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-87" class="srcLine"><span class="nolink" title="Line 87, Col 3: statement executed 1 time.">        sm3.protocolVersion == 2</span></span></td>
 </tr>
  <tr id="l88">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=88#src-88">88</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 88, 'Tests that hit line # 88');" ><span title="Line 88, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-88" class="srcLine"><span class="nolink" title="Line 88, Col 3: statement executed 1 time.">        sm3.protocolVersion == 2</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-88" class="srcLine"><span class="nolink" title="Line 88, Col 3: statement executed 1 time.">        sm3.securityProfile == 3</span></span></td>
 </tr>
  <tr id="l89">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=89#src-89">89</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 89, 'Tests that hit line # 89');" ><span title="Line 89, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-89" class="srcLine"><span class="nolink" title="Line 89, Col 3: statement executed 1 time.">        sm3.securityProfile == 3</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-89" class="srcLine"><span class="nolink" title="Line 89, Col 3: statement executed 1 time.">        sm3.headerFields.size() == 3</span></span></td>
 </tr>
  <tr id="l90">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=90#src-90">90</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 90, 'Tests that hit line # 90');" ><span title="Line 90, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-90" class="srcLine"><span class="nolink" title="Line 90, Col 3: statement executed 1 time.">        sm3.headerFields.size() == 3</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-90" class="srcLine"><span class="nolink" title="Line 90, Col 3: statement executed 1 time.">        sm3.payloadFields.size() == 2</span></span></td>
 </tr>
  <tr id="l91">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=91#src-91">91</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 91, 'Tests that hit line # 91');" ><span title="Line 91, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-91" class="srcLine"><span class="nolink" title="Line 91, Col 3: statement executed 1 time.">        sm3.payloadFields.size() == 2</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-91" class="srcLine"><span class="nolink" title="Line 91, Col 3: statement executed 1 time.">        sm3.trailerFields.size() == 1</span></span></td>
 </tr>
  <tr id="l92">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=92#src-92">92</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 92, 'Tests that hit line # 92');" ><span title="Line 92, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-92" class="srcLine"><span class="nolink" title="Line 92, Col 3: statement executed 1 time.">        sm3.trailerFields.size() == 1</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=92#src-92">92</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-92" class="srcLine">        </span></td>
 </tr>
  <tr id="l93">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=93#src-93">93</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-93" class="srcLine">        </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-93" class="srcLine">        when:</span></td>
 </tr>
  <tr id="l94">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=94#src-94">94</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-94" class="srcLine">        when:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=94#src-94">94</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 94, 'Tests that hit line # 94');" ><span title="Line 94, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-94" class="srcLine"><span class="nolink" title="Line 94, Col 3: statement executed 1 time.">        sm1.attachSignature(signature)</span></span></td>
 </tr>
  <tr id="l95">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=95#src-95">95</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 95, 'Tests that hit line # 95');" ><span title="Line 95, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-95" class="srcLine"><span class="nolink" title="Line 95, Col 3: statement executed 1 time.">        sm1.attachSignature(signature)</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=95#src-95">95</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-95" class="srcLine">        </span></td>
 </tr>
  <tr id="l96">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=96#src-96">96</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-96" class="srcLine">        </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-96" class="srcLine">        then:</span></td>
 </tr>
  <tr id="l97">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=97#src-97">97</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-97" class="srcLine">        then:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=97#src-97">97</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 97, 'Tests that hit line # 97');" ><span title="Line 97, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-97" class="srcLine"><span class="nolink" title="Line 97, Col 3: statement executed 1 time.">        sm1.trailerFields.size() == 1</span></span></td>
 </tr>
  <tr id="l98">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=98#src-98">98</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 98, 'Tests that hit line # 98');" ><span title="Line 98, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-98" class="srcLine"><span class="nolink" title="Line 98, Col 3: statement executed 1 time.">        sm1.trailerFields.size() == 1</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=98#src-98">98</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-98" class="srcLine"></span></td>
 </tr>
  <tr id="l99">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=99#src-99">99</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-99" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-99" class="srcLine">    }</span></td>
 </tr>
  <tr id="l100">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=100#src-100">100</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-100" class="srcLine">    }</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-100" class="srcLine"></span></td>
 </tr>
  <tr id="l101">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=101#src-101">101</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-101" class="srcLine"></span></td>
-</tr>
- <tr id="l102">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=102#src-102">102</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-102" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-101" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="103" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-103' onclick="toggleInlineStats(this, 'inlinestats-103');"/>
+<td class="coverageCount"><a name="102" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-102' onclick="toggleInlineStats(this, 'inlinestats-102');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-103" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-103'), 'inlinestats-103');return true;">
+        <table id="inlinestats-102" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-102'), 'inlinestats-102');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (2)</td>
@@ -1246,42 +1232,42 @@
         </table>
     </td>
 </tr>
-<tr id="l103">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=103#src-103">103</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 103, 'Tests that hit $spock_feature_1_1()&#160;:&#160;void');" ><span title="Line 103, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-103"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 103,107);" id="img-103" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-103" class="srcLine"><span class="nolink" title="Line 103, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify serialization&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-103'), 103,107);" id="e103" style="display:none;border:none;">...</span></span></td>
+<tr id="l102">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=102#src-102">102</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 102, 'Tests that hit $spock_feature_1_1()&#160;:&#160;void');" ><span title="Line 102, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-102"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 102,106);" id="img-102" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-102" class="srcLine"><span class="nolink" title="Line 102, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify serialization&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-102'), 102,106);" id="e102" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l103">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=103#src-103">103</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-103" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l104">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=104#src-104">104</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-104" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=104#src-104">104</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 104, 'Tests that hit line # 104');" ><span title="Line 104, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-104" class="srcLine"><span class="nolink" title="Line 104, Col 3: statement executed 1 time.">        serializeToHex(sm1) == <span class="string">&quot;010016800138373635343332310000008c27ef92f9c0050002020100&quot;</span></span></span></td>
 </tr>
  <tr id="l105">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=105#src-105">105</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 105, 'Tests that hit line # 105');" ><span title="Line 105, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-105" class="srcLine"><span class="nolink" title="Line 105, Col 3: statement executed 1 time.">        serializeToHex(sm1) == <span class="string">&quot;010016800138373635343332310000008c27ef92f9c0050002020100&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-105" class="srcLine"><span class="nolink" title="Line 105, Col 3: statement executed 1 time.">        serializeToHex(sm2) == <span class="string">&quot;020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122&quot;</span>                </span></span></td>
 </tr>
  <tr id="l106">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=106#src-106">106</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 106, 'Tests that hit line # 106');" ><span title="Line 106, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-106" class="srcLine"><span class="nolink" title="Line 106, Col 3: statement executed 1 time.">        serializeToHex(sm2) == <span class="string">&quot;020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122&quot;</span>                </span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=106#src-106">106</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-106" class="srcLine">    }</span></td>
 </tr>
  <tr id="l107">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=107#src-107">107</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-107" class="srcLine">    }</span></td>
-</tr>
- <tr id="l108">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=108#src-108">108</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-108" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-107" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="109" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-109' onclick="toggleInlineStats(this, 'inlinestats-109');"/>
+<td class="coverageCount"><a name="108" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-108' onclick="toggleInlineStats(this, 'inlinestats-108');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-109" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-109'), 'inlinestats-109');return true;">
+        <table id="inlinestats-108" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-108'), 'inlinestats-108');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (6)</td>
@@ -1293,87 +1279,87 @@
         </table>
     </td>
 </tr>
-<tr id="l109">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=109#src-109">109</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 109, 'Tests that hit $spock_feature_1_2()&#160;:&#160;void');" ><span title="Line 109, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-109"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 109,120);" id="img-109" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-109" class="srcLine"><span class="nolink" title="Line 109, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify deserialization&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-109'), 109,120);" id="e109" style="display:none;border:none;">...</span></span></td>
+<tr id="l108">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=108#src-108">108</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 108, 'Tests that hit $spock_feature_1_2()&#160;:&#160;void');" ><span title="Line 108, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-108"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 108,119);" id="img-108" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-108" class="srcLine"><span class="nolink" title="Line 108, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify deserialization&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-108'), 108,119);" id="e108" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l109">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=109#src-109">109</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-109" class="srcLine">        setup:        </span></td>
 </tr>
  <tr id="l110">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=110#src-110">110</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-110" class="srcLine">        setup:        </span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=110#src-110">110</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 110, 'Tests that hit line # 110');" ><span title="Line 110, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-110" class="srcLine"><span class="nolink" title="Line 110, Col 3: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm22 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(),<span class="string">&quot;020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122&quot;</span>)</span></span></td>
 </tr>
  <tr id="l111">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=111#src-111">111</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 111, 'Tests that hit line # 111');" ><span title="Line 111, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-111" class="srcLine"><span class="nolink" title="Line 111, Col 3: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm22 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(),<span class="string">&quot;020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122&quot;</span>)</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=111#src-111">111</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-111" class="srcLine">        </span></td>
 </tr>
  <tr id="l112">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=112#src-112">112</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-112" class="srcLine">        </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-112" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l113">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=113#src-113">113</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-113" class="srcLine">        expect:</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-113" class="srcLine">        </span></td>
 </tr>
  <tr id="l114">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=114#src-114">114</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-114" class="srcLine">        </span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=114#src-114">114</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 114, 'Tests that hit line # 114');" ><span title="Line 114, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-114" class="srcLine"><span class="nolink" title="Line 114, Col 3: statement executed 1 time.">        sm22.protocolVersion == 2</span></span></td>
 </tr>
  <tr id="l115">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=115#src-115">115</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 115, 'Tests that hit line # 115');" ><span title="Line 115, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-115" class="srcLine"><span class="nolink" title="Line 115, Col 3: statement executed 1 time.">        sm22.protocolVersion == 2</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-115" class="srcLine"><span class="nolink" title="Line 115, Col 3: statement executed 1 time.">        sm22.securityProfile == 3</span></span></td>
 </tr>
  <tr id="l116">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=116#src-116">116</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 116, 'Tests that hit line # 116');" ><span title="Line 116, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-116" class="srcLine"><span class="nolink" title="Line 116, Col 3: statement executed 1 time.">        sm22.securityProfile == 3</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-116" class="srcLine"><span class="nolink" title="Line 116, Col 3: statement executed 1 time.">        sm22.headerFields.size() == 3</span></span></td>
 </tr>
  <tr id="l117">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=117#src-117">117</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 117, 'Tests that hit line # 117');" ><span title="Line 117, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-117" class="srcLine"><span class="nolink" title="Line 117, Col 3: statement executed 1 time.">        sm22.headerFields.size() == 3</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-117" class="srcLine"><span class="nolink" title="Line 117, Col 3: statement executed 1 time.">        sm22.payloadFields.size() == 2</span></span></td>
 </tr>
  <tr id="l118">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=118#src-118">118</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 118, 'Tests that hit line # 118');" ><span title="Line 118, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-118" class="srcLine"><span class="nolink" title="Line 118, Col 3: statement executed 1 time.">        sm22.payloadFields.size() == 2</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-118" class="srcLine"><span class="nolink" title="Line 118, Col 3: statement executed 1 time.">        sm22.trailerFields.size() == 1</span></span></td>
 </tr>
  <tr id="l119">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=119#src-119">119</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 119, 'Tests that hit line # 119');" ><span title="Line 119, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-119" class="srcLine"><span class="nolink" title="Line 119, Col 3: statement executed 1 time.">        sm22.trailerFields.size() == 1</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=119#src-119">119</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-119" class="srcLine">    }</span></td>
 </tr>
  <tr id="l120">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=120#src-120">120</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-120" class="srcLine">    }</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-120" class="srcLine">    </span></td>
 </tr>
  <tr id="l121">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=121#src-121">121</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-121" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-121" class="srcLine"></span></td>
 </tr>
  <tr id="l122">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=122#src-122">122</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-122" class="srcLine"></span></td>
-</tr>
- <tr id="l123">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=123#src-123">123</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-123" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-122" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="124" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-124' onclick="toggleInlineStats(this, 'inlinestats-124');"/>
+<td class="coverageCount"><a name="123" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-123' onclick="toggleInlineStats(this, 'inlinestats-123');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-124" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-124'), 'inlinestats-124');return true;">
+        <table id="inlinestats-123" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-123'), 'inlinestats-123');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (1)</td>
@@ -1385,37 +1371,37 @@
         </table>
     </td>
 </tr>
-<tr id="l124">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=124#src-124">124</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 124, 'Tests that hit $spock_feature_1_3()&#160;:&#160;void');" ><span title="Line 124, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-124"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 124,127);" id="img-124" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-124" class="srcLine"><span class="nolink" title="Line 124, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify toString&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-124'), 124,127);" id="e124" style="display:none;border:none;">...</span></span></td>
+<tr id="l123">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=123#src-123">123</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 123, 'Tests that hit $spock_feature_1_3()&#160;:&#160;void');" ><span title="Line 123, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-123"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 123,126);" id="img-123" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-123" class="srcLine"><span class="nolink" title="Line 123, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify toString&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-123'), 123,126);" id="e123" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l124">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=124#src-124">124</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-124" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l125">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=125#src-125">125</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-125" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=125#src-125">125</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 125, 'Tests that hit line # 125');" ><span title="Line 125, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-125" class="srcLine"><span class="nolink" title="Line 125, Col 3: statement executed 1 time.">        sm2.toString() == <span class="string">&quot;SecuredMessage [protocolVersion=2, securityProfile=3, headerFields=[HeaderField [headerFieldType=signer_info, signer=SignerInfo [signerInfoType=certificate_digest_with_ecdsap256, digest=HashedId8 [hashedId=[56, 55, 54, 53, 52, 51, 50, 49]]]], HeaderField [headerFieldType=generation_time, generationTime=Time64 [timeStamp=Wed Nov 19 15:25:50 CET 2014 (154103151000000)]], HeaderField [headerFieldType=message_type, messageType=2]], payloadFields=[Payload [payloadType=signed, data=[]], Payload [payloadType=signed_external]], trailerFields=[TrailerField [trailerFieldType=signature, signature=Signature [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=EcdsaSignature [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, compressedEncoding=null, eccPointType=compressed_lsb_y_0], signatureValue=[17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34]]]]]]&quot;</span></span></span></td>
 </tr>
  <tr id="l126">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=126#src-126">126</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 126, 'Tests that hit line # 126');" ><span title="Line 126, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-126" class="srcLine"><span class="nolink" title="Line 126, Col 3: statement executed 1 time.">        sm2.toString() == <span class="string">&quot;SecuredMessage [protocolVersion=2, securityProfile=3, headerFields=[HeaderField [headerFieldType=signer_info, signer=SignerInfo [signerInfoType=certificate_digest_with_ecdsap256, digest=HashedId8 [hashedId=[56, 55, 54, 53, 52, 51, 50, 49]]]], HeaderField [headerFieldType=generation_time, generationTime=Time64 [timeStamp=Wed Nov 19 15:25:50 CET 2014 (154103151000000)]], HeaderField [headerFieldType=message_type, messageType=2]], payloadFields=[Payload [payloadType=signed, data=[]], Payload [payloadType=signed_external]], trailerFields=[TrailerField [trailerFieldType=signature, signature=Signature [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=EcdsaSignature [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, compressedEncoding=null, eccPointType=compressed_lsb_y_0], signatureValue=[17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34]]]]]]&quot;</span></span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=126#src-126">126</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-126" class="srcLine">    }</span></td>
 </tr>
  <tr id="l127">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=127#src-127">127</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-127" class="srcLine">    }</span></td>
-</tr>
- <tr id="l128">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=128#src-128">128</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-128" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-127" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="129" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-129' onclick="toggleInlineStats(this, 'inlinestats-129');"/>
+<td class="coverageCount"><a name="128" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-128' onclick="toggleInlineStats(this, 'inlinestats-128');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-129" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-129'), 'inlinestats-129');return true;">
+        <table id="inlinestats-128" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-128'), 'inlinestats-128');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (1)</td>
@@ -1427,37 +1413,37 @@
         </table>
     </td>
 </tr>
-<tr id="l129">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=129#src-129">129</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 129, 'Tests that hit $spock_feature_1_4()&#160;:&#160;void');" ><span title="Line 129, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-129"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 129,132);" id="img-129" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-129" class="srcLine"><span class="nolink" title="Line 129, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify getEncoded&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-129'), 129,132);" id="e129" style="display:none;border:none;">...</span></span></td>
+<tr id="l128">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=128#src-128">128</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 128, 'Tests that hit $spock_feature_1_4()&#160;:&#160;void');" ><span title="Line 128, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-128"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 128,131);" id="img-128" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-128" class="srcLine"><span class="nolink" title="Line 128, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify getEncoded&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-128'), 128,131);" id="e128" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l129">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=129#src-129">129</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-129" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l130">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=130#src-130">130</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-130" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=130#src-130">130</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 130, 'Tests that hit line # 130');" ><span title="Line 130, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-130" class="srcLine"><span class="nolink" title="Line 130, Col 3: statement executed 1 time.">        <span class="keyword">new</span> String(Hex.encode(sm2.getEncoded())) == <span class="string">&quot;020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122&quot;</span></span></span></td>
 </tr>
  <tr id="l131">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=131#src-131">131</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 131, 'Tests that hit line # 131');" ><span title="Line 131, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-131" class="srcLine"><span class="nolink" title="Line 131, Col 3: statement executed 1 time.">        <span class="keyword">new</span> String(Hex.encode(sm2.getEncoded())) == <span class="string">&quot;020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122&quot;</span></span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=131#src-131">131</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-131" class="srcLine">    }</span></td>
 </tr>
  <tr id="l132">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=132#src-132">132</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-132" class="srcLine">    }</span></td>
-</tr>
- <tr id="l133">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=133#src-133">133</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-133" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-132" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="134" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-134' onclick="toggleInlineStats(this, 'inlinestats-134');"/>
+<td class="coverageCount"><a name="133" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-133' onclick="toggleInlineStats(this, 'inlinestats-133');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-134" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-134'), 'inlinestats-134');return true;">
+        <table id="inlinestats-133" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-133'), 'inlinestats-133');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (6)</td>
@@ -1469,77 +1455,77 @@
         </table>
     </td>
 </tr>
-<tr id="l134">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=134#src-134">134</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 134, 'Tests that hit $spock_feature_1_5()&#160;:&#160;void');" ><span title="Line 134, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-134"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 134,144);" id="img-134" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-134" class="srcLine"><span class="nolink" title="Line 134, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-134'), 134,144);" id="e134" style="display:none;border:none;">...</span></span></td>
+<tr id="l133">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=133#src-133">133</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 133, 'Tests that hit $spock_feature_1_5()&#160;:&#160;void');" ><span title="Line 133, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-133"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 133,143);" id="img-133" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-133" class="srcLine"><span class="nolink" title="Line 133, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-133'), 133,143);" id="e133" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l134">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=134#src-134">134</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-134" class="srcLine">        when:</span></td>
 </tr>
  <tr id="l135">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=135#src-135">135</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-135" class="srcLine">        when:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=135#src-135">135</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 135, 'Tests that hit line # 135');" ><span title="Line 135, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-135" class="srcLine"><span class="nolink" title="Line 135, Col 3: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(externalSecureMessage1)</span></span></td>
 </tr>
  <tr id="l136">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=136#src-136">136</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 136, 'Tests that hit line # 136');" ><span title="Line 136, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-136" class="srcLine"><span class="nolink" title="Line 136, Col 3: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a> sm = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessage.html#SecuredMessage">SecuredMessage</a>(externalSecureMessage1)</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=136#src-136">136</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-136" class="srcLine"></span></td>
 </tr>
  <tr id="l137">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=137#src-137">137</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-137" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-137" class="srcLine">        then:</span></td>
 </tr>
  <tr id="l138">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=138#src-138">138</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-138" class="srcLine">        then:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=138#src-138">138</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 138, 'Tests that hit line # 138');" ><span title="Line 138, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-138" class="srcLine"><span class="nolink" title="Line 138, Col 3: statement executed 1 time.">        sm.protocolVersion == 1</span></span></td>
 </tr>
  <tr id="l139">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=139#src-139">139</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 139, 'Tests that hit line # 139');" ><span title="Line 139, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-139" class="srcLine"><span class="nolink" title="Line 139, Col 3: statement executed 1 time.">        sm.protocolVersion == 1</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-139" class="srcLine"><span class="nolink" title="Line 139, Col 3: statement executed 1 time.">        sm.securityProfile == 1 </span></span></td>
 </tr>
  <tr id="l140">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=140#src-140">140</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 140, 'Tests that hit line # 140');" ><span title="Line 140, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-140" class="srcLine"><span class="nolink" title="Line 140, Col 3: statement executed 1 time.">        sm.securityProfile == 1 </span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-140" class="srcLine"><span class="nolink" title="Line 140, Col 3: statement executed 1 time.">        sm.headerFields.size() == 3</span></span></td>
 </tr>
  <tr id="l141">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=141#src-141">141</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 141, 'Tests that hit line # 141');" ><span title="Line 141, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-141" class="srcLine"><span class="nolink" title="Line 141, Col 3: statement executed 1 time.">        sm.headerFields.size() == 3</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-141" class="srcLine"><span class="nolink" title="Line 141, Col 3: statement executed 1 time.">        sm.payloadFields.size() == 1</span></span></td>
 </tr>
  <tr id="l142">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=142#src-142">142</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 142, 'Tests that hit line # 142');" ><span title="Line 142, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-142" class="srcLine"><span class="nolink" title="Line 142, Col 3: statement executed 1 time.">        sm.payloadFields.size() == 1</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-142" class="srcLine"><span class="nolink" title="Line 142, Col 3: statement executed 1 time.">        sm.trailerFields.size() == 1</span></span></td>
 </tr>
  <tr id="l143">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=143#src-143">143</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 143, 'Tests that hit line # 143');" ><span title="Line 143, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-143" class="srcLine"><span class="nolink" title="Line 143, Col 3: statement executed 1 time.">        sm.trailerFields.size() == 1</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=143#src-143">143</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-143" class="srcLine">    }</span></td>
 </tr>
  <tr id="l144">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=144#src-144">144</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-144" class="srcLine">    }</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-144" class="srcLine">    </span></td>
 </tr>
  <tr id="l145">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=145#src-145">145</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
 <td class=" srcCell" ><span class="spacer"></span><span id="src-145" class="srcLine">    </span></td>
 </tr>
- <tr id="l146">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=146#src-146">146</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-146" class="srcLine">    </span></td>
-</tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="147" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-147' onclick="toggleInlineStats(this, 'inlinestats-147');"/>
+<td class="coverageCount"><a name="146" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-146' onclick="toggleInlineStats(this, 'inlinestats-146');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-147" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-147'), 'inlinestats-147');return true;">
+        <table id="inlinestats-146" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-146'), 'inlinestats-146');return true;">
                 <td><div>
 <div title="Empty" class="barEmpty" style="min-width:40px;"></div>
 </div></td><td> - </td>
@@ -1550,20 +1536,20 @@
         </table>
     </td>
 </tr>
-<tr id="l147">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=147#src-147">147</a></td>
-<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 147, Col 2: field initialised 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-147"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 147,147);" id="img-147" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-147" class="srcLine"><span class="nolink" title="Line 147, Col 2: field initialised 1 time.">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">def</span> externalSecureMessage1 = Hex.decode(<span class="string">&quot;010181038002010901A8ED6DF65B0E6D6A0100809400000418929DB6A9E452223062C52028E956BF9874E0A40D21D5F9F56564F39C5DD187C922F2E5F0630373879A43393373B9F6205BF01FBD9C1F113165C291C376F535010004EABA91A915D81807E910FD292D99DF8B401EED88CF7F031412D5ED9905F9996469798C412FC8F7237A3AB3469795E2DEF5E1B783EA4F6B6A2359D21772B2EA9D0200210AC040800101C0408101010F01099EB20109B1270003040100960000004B2E6D0D0EE9BC4AD9CD087B601E9AF06031995443D652763455FBB794B33982889260740EF64CFA8C6808A58F98E06CE42A1E9C22A0785D7242647F7895ABFC0000009373931CD7580500021E011C983E690E5F6D755BD4871578A9427E7BC383903DC7DA3B560384013643010000FE8566BEA87B39E6411F80226E792D6E01E77B598F2BB1FCE7F2DD441185C07CEF0573FBFB9876B99FE811486F6F5D499E6114FC0724A67F8D71D2A897A7EB34&quot;</span>)</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-147'), 147,147);" id="e147" style="display:none;border:none;">...</span></span></td>
+<tr id="l146">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=146#src-146">146</a></td>
+<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 146, Col 2: field initialised 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-146"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 146,146);" id="img-146" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-146" class="srcLine"><span class="nolink" title="Line 146, Col 2: field initialised 1 time.">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">def</span> externalSecureMessage1 = Hex.decode(<span class="string">&quot;010181038002010901A8ED6DF65B0E6D6A0100809400000418929DB6A9E452223062C52028E956BF9874E0A40D21D5F9F56564F39C5DD187C922F2E5F0630373879A43393373B9F6205BF01FBD9C1F113165C291C376F535010004EABA91A915D81807E910FD292D99DF8B401EED88CF7F031412D5ED9905F9996469798C412FC8F7237A3AB3469795E2DEF5E1B783EA4F6B6A2359D21772B2EA9D0200210AC040800101C0408101010F01099EB20109B1270003040100960000004B2E6D0D0EE9BC4AD9CD087B601E9AF06031995443D652763455FBB794B33982889260740EF64CFA8C6808A58F98E06CE42A1E9C22A0785D7242647F7895ABFC0000009373931CD7580500021E011C983E690E5F6D755BD4871578A9427E7BC383903DC7DA3B560384013643010000FE8566BEA87B39E6411F80226E792D6E01E77B598F2BB1FCE7F2DD441185C07CEF0573FBFB9876B99FE811486F6F5D499E6114FC0724A67F8D71D2A897A7EB34&quot;</span>)</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-146'), 146,146);" id="e146" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l147">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=147#src-147">147</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-147" class="srcLine">}</span></td>
 </tr>
  <tr id="l148">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=148#src-148">148</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-148" class="srcLine">}</span></td>
-</tr>
- <tr id="l149">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=149#src-149">149</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-149" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-148" class="srcLine"></span></td>
 </tr>
  
     </tbody></table>    </div>
@@ -1583,16 +1569,13 @@
 </script>
 <script src="SecuredMessageSpec.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -1604,7 +1587,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

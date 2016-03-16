@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body>
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.msg">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <div class="aui-page-header-main"><ol class="aui-nav aui-nav-breadcrumbs">
     
-    <li><a href="../../../../../../../dashboard.html"> Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li>
+    <li><a href="../../../../../../../dashboard.html"> Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li>
      <li><a href="test-pkg-summary.html">Package org.certificateservices.custom.c2x.its.datastructs.msg</a></li>
 </ol></div>
     
@@ -176,7 +167,7 @@
         <td class="testPasses"><span class="sortValue">10</span>10</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td>0.004</td>
+        <td>0.001</td>
         <td class="align-middle">
             
 
@@ -212,8 +203,80 @@
 
 
 <tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns unsecured for 0</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_unsecured_for_0_9b.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns unsecured for 0</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084021</span>1 Apr 14:08:04</td>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that signed has bytevalue 1</span><a href="PayloadTypeSpec_Verify_that_signed_has_bytevalue_1_ay.html">PayloadTypeSpec.Verify that signed has bytevalue 1</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575027</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that encrypted has bytevalue 2</span><a href="PayloadTypeSpec_Verify_that_encrypted_has_bytevalue_2_ho.html">PayloadTypeSpec.Verify that encrypted has bytevalue 2</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575028</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed_and_encrypted for 4</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_signed_and_encrypted_for_4_lt.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed_and_encrypted for 4</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575036</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed_external for 3</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_signed_external_for_3_41.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed_external for 3</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575035</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns encrypted for 2</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_encrypted_for_2_c6.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns encrypted for 2</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575034</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed for 1</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_signed_for_1_7g.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed for 1</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575033</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that unsecured has bytevalue 0</span><a href="PayloadTypeSpec_Verify_that_unsecured_has_bytevalue_0_ou.html">PayloadTypeSpec.Verify that unsecured has bytevalue 0</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575026</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that signed_and_encrypted has bytevalue 4</span><a href="PayloadTypeSpec_Verify_that_signed_and_encrypted_has_bytevalue_4_o1.html">PayloadTypeSpec.Verify that signed_and_encrypted has bytevalue 4</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575030</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns unsecured for 0</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_unsecured_for_0_ai.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns unsecured for 0</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575031</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
@@ -221,80 +284,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that signed has bytevalue 1</span><a href="PayloadTypeSpec_Verify_that_signed_has_bytevalue_1_3m.html">PayloadTypeSpec.Verify that signed has bytevalue 1</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084015</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.001</span>0.001</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that unsecured has bytevalue 0</span><a href="PayloadTypeSpec_Verify_that_unsecured_has_bytevalue_0_1i.html">PayloadTypeSpec.Verify that unsecured has bytevalue 0</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084012</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.002</span>0.002</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that encrypted has bytevalue 2</span><a href="PayloadTypeSpec_Verify_that_encrypted_has_bytevalue_2_9w.html">PayloadTypeSpec.Verify that encrypted has bytevalue 2</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084017</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that signed_and_encrypted has bytevalue 4</span><a href="PayloadTypeSpec_Verify_that_signed_and_encrypted_has_bytevalue_4_36.html">PayloadTypeSpec.Verify that signed_and_encrypted has bytevalue 4</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084020</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed for 1</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_signed_for_1_1r.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed for 1</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084023</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed_external for 3</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_signed_external_for_3_3c.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed_external for 3</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084026</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that signed_external has bytevalue 3</span><a href="PayloadTypeSpec_Verify_that_signed_external_has_bytevalue_3_1g.html">PayloadTypeSpec.Verify that signed_external has bytevalue 3</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084018</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed_and_encrypted for 4</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_signed_and_encrypted_for_4_a0.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns signed_and_encrypted for 4</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084027</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns encrypted for 2</span><a href="PayloadTypeSpec_Verify_that_TrailerFieldType_getByValue_returns_encrypted_for_2_as.html">PayloadTypeSpec.Verify that TrailerFieldType.getByValue returns encrypted for 2</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084024</span>1 Apr 14:08:04</td>
+    <td><span class="sortValue">PayloadTypeSpec.Verify that signed_external has bytevalue 3</span><a href="PayloadTypeSpec_Verify_that_signed_external_has_bytevalue_3_iw.html">PayloadTypeSpec.Verify that signed_external has bytevalue 3</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575029</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -308,16 +299,13 @@
     </div> <!-- tabs-pane -->
 </div> <!-- aui-tabs horizontal-tabs -->
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -329,7 +317,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

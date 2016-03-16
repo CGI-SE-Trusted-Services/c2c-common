@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.basic">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="pkg-summary.html">        Package org.certificateservices.custom.c2x.its.datastructs.basic</a></li> 
     </ol>
     
@@ -164,19 +155,19 @@
                     <img src="../../../../../../../img/srcFileCovDistChart8.png" alt="../../../../../../../img/srcFileCovDistChart8.png"
                          usemap="#srcFileCovDistChart8.png" class="clover-histogram-img"/>
                     <map id="srcFileCovDistChart8.png" name="srcFileCovDistChart8.png">
-<area shape="rect" coords="81,22,87,48" title="18 files have 91-100% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="74,8,80,49" title="28 files have 81-90% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="67,33,73,49" title="11 files have 71-80% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="60,46,66,48" title="2 files have 61-70% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="53,49,59,50" title="0 files have 51-60% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="46,47,52,48" title="1 file has 41-50% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="39,49,45,50" title="0 files have 31-40% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="32,49,38,50" title="0 files have 21-30% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="25,49,31,50" title="0 files have 11-20% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="18,49,24,50" title="0 files have 1-10% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="11,47,17,48" title="1 file has 0% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="100,8,107,65" title="153 files have 91-100% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="91,50,98,66" title="43 files have 81-90% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="82,59,89,66" title="20 files have 71-80% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="73,65,80,66" title="4 files have 61-70% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="64,66,71,67" title="1 file has 51-60% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="56,66,63,67" title="2 files have 41-50% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="47,66,54,67" title="0 files have 31-40% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="38,66,45,67" title="0 files have 21-30% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="29,66,36,67" title="0 files have 11-20% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="20,66,27,67" title="0 files have 1-10% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="11,66,18,67" title="2 files have 0% coverage" alt="" nohref="nohref"/>
 </map><br />
-                    <span class="subtle"><strong>75% </strong>of files have more coverage</span>
+                    <span class="subtle"><strong>87% </strong>of files have more coverage</span>
                 </div>
             </div>
         </div>
@@ -440,8 +431,8 @@
  <div title="0% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="CircularRegion-5">
 <td id="summary-76-2">
- <span class="sortValue">serialize(DataOutputStream)&#160;:&#160;void</span>
-&#160;&#160;<a href="?line=29#76" title="serialize(DataOutputStream)&#160;:&#160;void" name="sl-76" onclick="closeDialogAndScrollTo('dialog-CircularRegion', '76');">serialize(DataOutputStream)&#160;:&#160;void</a>
+ <span class="sortValue">encode(DataOutputStream)&#160;:&#160;void</span>
+&#160;&#160;<a href="?line=29#76" title="encode(DataOutputStream)&#160;:&#160;void" name="sl-76" onclick="closeDialogAndScrollTo('dialog-CircularRegion', '76');">encode(DataOutputStream)&#160;:&#160;void</a>
 </td>
 <td align="right"><span class="sortValue">76</span>76</td>
 <td class="" align="right"><span class="sortValue">2.0</span>2</td>
@@ -453,8 +444,8 @@
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="CircularRegion-6">
 <td id="summary-82-2">
- <span class="sortValue">deserialize(DataInputStream)&#160;:&#160;void</span>
-&#160;&#160;<a href="?line=29#82" title="deserialize(DataInputStream)&#160;:&#160;void" name="sl-82" onclick="closeDialogAndScrollTo('dialog-CircularRegion', '82');">deserialize(DataInputStream)&#160;:&#160;void</a>
+ <span class="sortValue">decode(DataInputStream)&#160;:&#160;void</span>
+&#160;&#160;<a href="?line=29#82" title="decode(DataInputStream)&#160;:&#160;void" name="sl-82" onclick="closeDialogAndScrollTo('dialog-CircularRegion', '82');">decode(DataInputStream)&#160;:&#160;void</a>
 </td>
 <td align="right"><span class="sortValue">82</span>82</td>
 <td class="" align="right"><span class="sortValue">5.0</span>5</td>
@@ -636,7 +627,7 @@
  <tr id="l13">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=13#src-13">13</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>;</span></td>
 </tr>
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
@@ -671,7 +662,7 @@
  <tr id="l20">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=20#src-20">20</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-20" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-20" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../common/pkg-summary.html">common</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>;</span></td>
 </tr>
  <tr id="l21">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=21#src-21">21</a></td>
@@ -736,7 +727,7 @@
 <tr id="l30">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=30#src-30">30</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" id="id-30"><span class="spacer"></span><span id="src-30" class="srcLine"><span class="keyword">public</span> <span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a> <span class="keyword">implements</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>{</span></td>
+<td class=" srcCell" id="id-30"><span class="spacer"></span><span id="src-30" class="srcLine"><span class="keyword">public</span> <span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a> <span class="keyword">implements</span> <a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>{</span></td>
 </tr>
  <tr id="l31">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=31#src-31">31</a></td>
@@ -820,8 +811,8 @@
 </tr>
  <tr id="l44">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=44#src-44">44</a></td>
-<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 44, Col 5: true branch executed 1 time branch executed 20 times." class="nolink">&#160;21</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-44" class="srcLine"><span class="nolink" title="Line 44, Col 5: true branch executed 1 time branch executed 20 times.">        <span class="keyword">if</span>(radius &gt; MAX_RADIUS){</span></span></td>
+<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 44, Col 5: true branch executed 1 time, false branch executed 20 times." class="nolink">&#160;21</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-44" class="srcLine"><span class="nolink" title="Line 44, Col 5: true branch executed 1 time, false branch executed 20 times.">        <span class="keyword">if</span>(radius &gt; MAX_RADIUS){</span></span></td>
 </tr>
  <tr id="l45">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=45#src-45">45</a></td>
@@ -1047,12 +1038,12 @@
  <tr id="l77">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=77#src-77">77</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-77" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> serialize(DataOutputStream out) <span class="keyword">throws</span> IOException {</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-77" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> encode(DataOutputStream out) <span class="keyword">throws</span> IOException {</span></td>
 </tr>
  <tr id="l78">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=78#src-78">78</a></td>
 <td align="right" class="coverageCount Good missedByTest"   ><span title="Line 78, Col 3: statement executed 7 times." class="nolink">&#160;7</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-78" class="srcLine"><span class="nolink" title="Line 78, Col 3: statement executed 7 times.">        center.serialize(out);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-78" class="srcLine"><span class="nolink" title="Line 78, Col 3: statement executed 7 times.">        center.encode(out);</span></span></td>
 </tr>
  <tr id="l79">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=79#src-79">79</a></td>
@@ -1092,7 +1083,7 @@
  <tr id="l83">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=83#src-83">83</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-83" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> deserialize(DataInputStream in) <span class="keyword">throws</span> IOException {</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-83" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> decode(DataInputStream in) <span class="keyword">throws</span> IOException {</span></td>
 </tr>
  <tr id="l84">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=84#src-84">84</a></td>
@@ -1102,7 +1093,7 @@
  <tr id="l85">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=85#src-85">85</a></td>
 <td align="right" class="coverageCount Good missedByTest"   ><span title="Line 85, Col 3: statement executed 6 times." class="nolink">&#160;6</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-85" class="srcLine"><span class="nolink" title="Line 85, Col 3: statement executed 6 times.">        center.deserialize(in);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-85" class="srcLine"><span class="nolink" title="Line 85, Col 3: statement executed 6 times.">        center.decode(in);</span></span></td>
 </tr>
  <tr id="l86">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=86#src-86">86</a></td>
@@ -1171,8 +1162,8 @@
 </tr>
  <tr id="l96">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=96#src-96">96</a></td>
-<td align="right" class="coverageCount Bad missedByTest"   ><span title="Line 96, Col 29: true branch executed 0 times branch executed 13 times." class="nolink">&#160;13</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-96" class="srcLineHilight"><span class="nolink" title="Line 96, Col 29: true branch executed 0 times branch executed 13 times.">        result = prime * result + ((center == <span class="keyword">null</span>) ? 0 : center.hashCode());</span></span></td>
+<td align="right" class="coverageCount Bad missedByTest"   ><span title="Line 96, Col 29: true branch executed 0 times, false branch executed 13 times." class="nolink">&#160;13</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-96" class="srcLineHilight"><span class="nolink" title="Line 96, Col 29: true branch executed 0 times, false branch executed 13 times.">        result = prime * result + ((center == <span class="keyword">null</span>) ? 0 : center.hashCode());</span></span></td>
 </tr>
  <tr id="l97">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=97#src-97">97</a></td>
@@ -1226,8 +1217,8 @@
 </tr>
  <tr id="l104">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=104#src-104">104</a></td>
-<td align="right" class="coverageCount Bad missedByTest"   ><span title="Line 104, Col 6: true branch executed 0 times branch executed 7 times." class="nolink">&#160;7</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-104" class="srcLineHilight"><span class="nolink" title="Line 104, Col 6: true branch executed 0 times branch executed 7 times.">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj)</span></span></td>
+<td align="right" class="coverageCount Bad missedByTest"   ><span title="Line 104, Col 6: true branch executed 0 times, false branch executed 7 times." class="nolink">&#160;7</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-104" class="srcLineHilight"><span class="nolink" title="Line 104, Col 6: true branch executed 0 times, false branch executed 7 times.">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj)</span></span></td>
 </tr>
  <tr id="l105">
 <td align="right" class="lineCount Bad"><a class="lineNumHref" href="?line=105#src-105">105</a></td>
@@ -1236,8 +1227,8 @@
 </tr>
  <tr id="l106">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=106#src-106">106</a></td>
-<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 106, Col 6: true branch executed 4 times branch executed 3 times." class="nolink">&#160;7</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-106" class="srcLine"><span class="nolink" title="Line 106, Col 6: true branch executed 4 times branch executed 3 times.">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>)</span></span></td>
+<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 106, Col 6: true branch executed 4 times, false branch executed 3 times." class="nolink">&#160;7</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-106" class="srcLine"><span class="nolink" title="Line 106, Col 6: true branch executed 4 times, false branch executed 3 times.">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>)</span></span></td>
 </tr>
  <tr id="l107">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=107#src-107">107</a></td>
@@ -1246,8 +1237,8 @@
 </tr>
  <tr id="l108">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=108#src-108">108</a></td>
-<td align="right" class="coverageCount Bad missedByTest"   ><span title="Line 108, Col 6: true branch executed 0 times branch executed 3 times." class="nolink">&#160;3</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-108" class="srcLineHilight"><span class="nolink" title="Line 108, Col 6: true branch executed 0 times branch executed 3 times.">        <span class="keyword">if</span> (getClass() != obj.getClass())</span></span></td>
+<td align="right" class="coverageCount Bad missedByTest"   ><span title="Line 108, Col 6: true branch executed 0 times, false branch executed 3 times." class="nolink">&#160;3</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-108" class="srcLineHilight"><span class="nolink" title="Line 108, Col 6: true branch executed 0 times, false branch executed 3 times.">        <span class="keyword">if</span> (getClass() != obj.getClass())</span></span></td>
 </tr>
  <tr id="l109">
 <td align="right" class="lineCount Bad"><a class="lineNumHref" href="?line=109#src-109">109</a></td>
@@ -1261,8 +1252,8 @@
 </tr>
  <tr id="l111">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=111#src-111">111</a></td>
-<td align="right" class="coverageCount Bad missedByTest"   ><span title="Line 111, Col 6: true branch executed 0 times branch executed 3 times." class="nolink">&#160;3</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-111" class="srcLineHilight"><span class="nolink" title="Line 111, Col 6: true branch executed 0 times branch executed 3 times.">        <span class="keyword">if</span> (center == <span class="keyword">null</span>) {</span></span></td>
+<td align="right" class="coverageCount Bad missedByTest"   ><span title="Line 111, Col 6: true branch executed 0 times, false branch executed 3 times." class="nolink">&#160;3</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-111" class="srcLineHilight"><span class="nolink" title="Line 111, Col 6: true branch executed 0 times, false branch executed 3 times.">        <span class="keyword">if</span> (center == <span class="keyword">null</span>) {</span></span></td>
 </tr>
  <tr id="l112">
 <td align="right" class="lineCount Bad"><a class="lineNumHref" href="?line=112#src-112">112</a></td>
@@ -1276,8 +1267,8 @@
 </tr>
  <tr id="l114">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=114#src-114">114</a></td>
-<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 114, Col 13: true branch executed 1 time branch executed 2 times." class="nolink">&#160;3</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-114" class="srcLine"><span class="nolink" title="Line 114, Col 13: true branch executed 1 time branch executed 2 times.">        } <span class="keyword">else</span> <span class="keyword">if</span> (!center.equals(other.center))</span></span></td>
+<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 114, Col 13: true branch executed 1 time, false branch executed 2 times." class="nolink">&#160;3</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-114" class="srcLine"><span class="nolink" title="Line 114, Col 13: true branch executed 1 time, false branch executed 2 times.">        } <span class="keyword">else</span> <span class="keyword">if</span> (!center.equals(other.center))</span></span></td>
 </tr>
  <tr id="l115">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=115#src-115">115</a></td>
@@ -1286,8 +1277,8 @@
 </tr>
  <tr id="l116">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=116#src-116">116</a></td>
-<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 116, Col 6: true branch executed 1 time branch executed 1 time." class="nolink">&#160;2</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-116" class="srcLine"><span class="nolink" title="Line 116, Col 6: true branch executed 1 time branch executed 1 time.">        <span class="keyword">if</span> (radius != other.radius)</span></span></td>
+<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 116, Col 6: true branch executed 1 time, false branch executed 1 time." class="nolink">&#160;2</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-116" class="srcLine"><span class="nolink" title="Line 116, Col 6: true branch executed 1 time, false branch executed 1 time.">        <span class="keyword">if</span> (radius != other.radius)</span></span></td>
 </tr>
  <tr id="l117">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=117#src-117">117</a></td>
@@ -1377,16 +1368,13 @@
 </script>
 <script src="CircularRegion.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -1398,7 +1386,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

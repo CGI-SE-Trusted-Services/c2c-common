@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../style.css');
-        @import url('../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body>
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.crypto">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <div class="aui-page-header-main"><ol class="aui-nav aui-nav-breadcrumbs">
     
-    <li><a href="../../../../../../dashboard.html"> Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li>
+    <li><a href="../../../../../../dashboard.html"> Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li>
 </ol></div>
     
 
@@ -181,20 +172,15 @@
             <tbody>
                 <tr>
                     <td>org.certificateservices.custom.c2x.its.crypto</td>
-                    <td class="testPasses"><span class="sortValue">41</span>41</td>
+                    <td class="testPasses"><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-                    <td>0.235</td>
+                    <td>0</td>
                     <td>
                         
 
 <div style="display: table; width: 100%">
-            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
-            
-            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
-                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
-            </div>
-        </div>
+            <div title="Empty" class="barEmpty" style="min-width: 40px;"></div>
     </div>                    </td>
                 </tr>
             </tbody>
@@ -217,64 +203,19 @@
             <tbody>
 
 
-   
-    
-        
-        <tr>
-        <td><span class="sortValue">DefaultCryptoManagerSpec</span><a href="test-DefaultCryptoManagerSpec.html">DefaultCryptoManagerSpec</a></td>
-        <td class="testPasses"><span class="sortValue">40</span>40</td>
-<td class=""><span class="sortValue">0</span>0</td>
-<td class=""><span class="sortValue">0</span>0</td>
-        <td><span class="sortValue">0.23400000000000007</span>0.234</td>
-        <td>
-            
-
-<div style="display: table; width: 100%">
-            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
-            
-            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
-                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
-            </div>
-        </div>
-    </div>        </td>
-    </tr>
-      
-    
-        
-        <tr>
-        <td><span class="sortValue">DefaultCryptoManagerParamsSpec</span><a href="test-DefaultCryptoManagerParamsSpec.html">DefaultCryptoManagerParamsSpec</a></td>
-        <td class="testPasses"><span class="sortValue">1</span>1</td>
-<td class=""><span class="sortValue">0</span>0</td>
-<td class=""><span class="sortValue">0</span>0</td>
-        <td><span class="sortValue">0.001</span>0.001</td>
-        <td>
-            
-
-<div style="display: table; width: 100%">
-            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
-            
-            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
-                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
-            </div>
-        </div>
-    </div>        </td>
-    </tr>
-               </tbody>
+            </tbody>
         </table>
 
     </div> 
 </div> 
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -286,7 +227,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

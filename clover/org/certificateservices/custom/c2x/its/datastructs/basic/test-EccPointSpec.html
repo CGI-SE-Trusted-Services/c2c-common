@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body>
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.basic">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <div class="aui-page-header-main"><ol class="aui-nav aui-nav-breadcrumbs">
     
-    <li><a href="../../../../../../../dashboard.html"> Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li>
+    <li><a href="../../../../../../../dashboard.html"> Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li>
      <li><a href="test-pkg-summary.html">Package org.certificateservices.custom.c2x.its.datastructs.basic</a></li>
 </ol></div>
     
@@ -176,7 +167,7 @@
         <td class="testPasses"><span class="sortValue">13</span>13</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td>0.016</td>
+        <td>0.009</td>
         <td class="align-middle">
             
 
@@ -212,53 +203,8 @@
 
 
 <tr>
-    <td><span class="sortValue">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[0]</span><a href="EccPointSpec_Verify_that_readFixedFieldSizeKey_reads_from_byte_array_with_correct_fieldsize_0__2v.html">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[0]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085000</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.001</span>0.001</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[3]</span><a href="EccPointSpec_Verify_that_readFixedFieldSizeKey_reads_from_byte_array_with_correct_fieldsize_3__7n.html">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[3]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085004</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.001</span>0.001</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">EccPointSpec.Verify constructors and getters and setters</span><a href="EccPointSpec_Verify_constructors_and_getters_and_setters_9v.html">EccPointSpec.Verify constructors and getters and setters</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084990</span>1 Apr 14:08:04</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.003</span>0.003</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[2]</span><a href="EccPointSpec_Verify_that_readFixedFieldSizeKey_reads_from_byte_array_with_correct_fieldsize_2__96.html">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[2]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085003</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.001</span>0.001</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">EccPointSpec.Verify serialization of EccPoint</span><a href="EccPointSpec_Verify_serialization_of_EccPoint_6q.html">EccPointSpec.Verify serialization of EccPoint</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085006</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.001</span>0.001</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[1]</span><a href="EccPointSpec_Verify_that_writeFixedFieldSizeKey_writes_to_byte_array_with_correct_fieldsize_1__7r.html">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[1]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084996</span>1 Apr 14:08:04</td>
+    <td><span class="sortValue">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[2]</span><a href="EccPointSpec_Verify_that_readFixedFieldSizeKey_reads_from_byte_array_with_correct_fieldsize_2__dj.html">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[2]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575562</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -266,8 +212,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[2]</span><a href="EccPointSpec_Verify_that_writeFixedFieldSizeKey_writes_to_byte_array_with_correct_fieldsize_2__2a.html">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[2]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084997</span>1 Apr 14:08:04</td>
+    <td><span class="sortValue">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[0]</span><a href="EccPointSpec_Verify_that_writeFixedFieldSizeKey_writes_to_byte_array_with_correct_fieldsize_0__i4.html">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[0]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575555</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -275,17 +221,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">EccPointSpec.Verify toString</span><a href="EccPointSpec_Verify_toString_15.html">EccPointSpec.Verify toString</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085016</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.001</span>0.001</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[1]</span><a href="EccPointSpec_Verify_that_readFixedFieldSizeKey_reads_from_byte_array_with_correct_fieldsize_1__7v.html">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[1]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085002</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[3]</span><a href="EccPointSpec_Verify_that_readFixedFieldSizeKey_reads_from_byte_array_with_correct_fieldsize_3__m6.html">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[3]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575563</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -293,8 +230,26 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">EccPointSpec.Verify hashCode and equals</span><a href="EccPointSpec_Verify_hashCode_and_equals_9a.html">EccPointSpec.Verify hashCode and equals</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085013</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[3]</span><a href="EccPointSpec_Verify_that_writeFixedFieldSizeKey_writes_to_byte_array_with_correct_fieldsize_3__ow.html">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[3]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575558</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">EccPointSpec.Verify toString</span><a href="EccPointSpec_Verify_toString_h2.html">EccPointSpec.Verify toString</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575573</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">EccPointSpec.Verify constructors and getters and setters</span><a href="EccPointSpec_Verify_constructors_and_getters_and_setters_35.html">EccPointSpec.Verify constructors and getters and setters</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575552</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.002</span>0.002</td>
@@ -302,8 +257,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[0]</span><a href="EccPointSpec_Verify_that_writeFixedFieldSizeKey_writes_to_byte_array_with_correct_fieldsize_0__ar.html">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[0]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084994</span>1 Apr 14:08:04</td>
+    <td><span class="sortValue">EccPointSpec.Verify hashCode and equals</span><a href="EccPointSpec_Verify_hashCode_and_equals_mv.html">EccPointSpec.Verify hashCode and equals</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575571</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
@@ -311,8 +266,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[3]</span><a href="EccPointSpec_Verify_that_writeFixedFieldSizeKey_writes_to_byte_array_with_correct_fieldsize_3__5g.html">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[3]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890084998</span>1 Apr 14:08:04</td>
+    <td><span class="sortValue">EccPointSpec.Verify serialization of EccPoint</span><a href="EccPointSpec_Verify_serialization_of_EccPoint_p0.html">EccPointSpec.Verify serialization of EccPoint</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575564</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
@@ -320,8 +275,44 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">EccPointSpec.Verify deserialization of EccPoint</span><a href="EccPointSpec_Verify_deserialization_of_EccPoint_m.html">EccPointSpec.Verify deserialization of EccPoint</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085008</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[1]</span><a href="EccPointSpec_Verify_that_readFixedFieldSizeKey_reads_from_byte_array_with_correct_fieldsize_1__2k.html">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[1]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575561</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[0]</span><a href="EccPointSpec_Verify_that_readFixedFieldSizeKey_reads_from_byte_array_with_correct_fieldsize_0__fq.html">EccPointSpec.Verify that readFixedFieldSizeKey reads from byte array with correct fieldsize[0]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575559</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.001</span>0.001</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[1]</span><a href="EccPointSpec_Verify_that_writeFixedFieldSizeKey_writes_to_byte_array_with_correct_fieldsize_1__l3.html">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[1]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575556</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[2]</span><a href="EccPointSpec_Verify_that_writeFixedFieldSizeKey_writes_to_byte_array_with_correct_fieldsize_2__kx.html">EccPointSpec.Verify that writeFixedFieldSizeKey writes to byte array with correct fieldsize[2]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575557</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">EccPointSpec.Verify deserialization of EccPoint</span><a href="EccPointSpec_Verify_deserialization_of_EccPoint_8n.html">EccPointSpec.Verify deserialization of EccPoint</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575566</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.004</span>0.004</td>
@@ -335,16 +326,13 @@
     </div> <!-- tabs-pane -->
 </div> <!-- aui-tabs horizontal-tabs -->
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -356,7 +344,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

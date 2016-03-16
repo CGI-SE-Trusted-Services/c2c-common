@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.basic">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="testsrc-pkg-summary.html">        Package org.certificateservices.custom.c2x.its.datastructs.basic</a></li> 
     </ol>
     
@@ -517,100 +508,100 @@
             </thead>
             <tbody id="tests-body">
 
-<tr id="test-158">
-<td><a name="testA-158"></a><input type="checkbox" id="cb-158" value="158" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_hashCode_and_equals_4e.html';">
+<tr id="test-30">
+<td><a name="testA-30"></a><input type="checkbox" id="cb-30" value="30" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_hashCode_and_equals_u.html';">
 <span class="sortValue">0.33333334</span>
 <div>
 <div title="33.3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:33.3%"></div></div></div></td>
-<td id="tc-158">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_hashCode_and_equals_4e.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify hashCode and equals</a>
+<td id="tc-30">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_hashCode_and_equals_u.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify hashCode and equals</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html?line=62#src-62" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_hashCode_and_equals_4e.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_hashCode_and_equals_u.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-205">
-<td><a name="testA-205"></a><input type="checkbox" id="cb-205" value="205" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_the_constructors_and_asElapsedTime_5p.html';">
+<tr id="test-229">
+<td><a name="testA-229"></a><input type="checkbox" id="cb-229" value="229" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_the_constructors_and_asElapsedTime_6d.html';">
 <span class="sortValue">0.20833333</span>
 <div>
 <div title="20.8% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:20.8%"></div></div></div></td>
-<td id="tc-205">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify the constructors and asElapsedTime</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_the_constructors_and_asElapsedTime_5p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify the constructors and asElapsedTime</a>
+<td id="tc-229">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify the constructors and asElapsedTime</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_the_constructors_and_asElapsedTime_6d.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify the constructors and asElapsedTime</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html?line=31#src-31" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_the_constructors_and_asElapsedTime_5p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_the_constructors_and_asElapsedTime_6d.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-267">
-<td><a name="testA-267"></a><input type="checkbox" id="cb-267" value="267" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Make_sure_asDate_converts_the_date_correctly_7f.html';">
+<tr id="test-701">
+<td><a name="testA-701"></a><input type="checkbox" id="cb-701" value="701" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_serialization_jh.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-267">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Make sure asDate converts the date correctly</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Make_sure_asDate_converts_the_date_correctly_7f.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Make sure asDate converts the date correctly</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html?line=42#src-42" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Make_sure_asDate_converts_the_date_correctly_7f.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-164">
-<td><a name="testA-164"></a><input type="checkbox" id="cb-164" value="164" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_serialization_4k.html';">
-<span class="sortValue">0.125</span>
-<div>
-<div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-164">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_serialization_4k.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify serialization</a>
+<td id="tc-701">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_serialization_jh.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html?line=49#src-49" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_serialization_4k.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_serialization_jh.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-212">
-<td><a name="testA-212"></a><input type="checkbox" id="cb-212" value="212" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_deserialization_5w.html';">
+<tr id="test-7">
+<td><a name="testA-7"></a><input type="checkbox" id="cb-7" value="7" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_deserialization_7.html';">
 <span class="sortValue">0.125</span>
 <div>
 <div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
-<td id="tc-212">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_deserialization_5w.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify deserialization</a>
+<td id="tc-7">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_deserialization_7.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html?line=55#src-55" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_deserialization_5w.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_deserialization_7.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-126">
-<td><a name="testA-126"></a><input type="checkbox" id="cb-126" value="126" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_toString_3i.html';">
+<tr id="test-978">
+<td><a name="testA-978"></a><input type="checkbox" id="cb-978" value="978" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Make_sure_asDate_converts_the_date_correctly_r6.html';">
+<span class="sortValue">0.125</span>
+<div>
+<div title="12.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.5%"></div></div></div></td>
+<td id="tc-978">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Make sure asDate converts the date correctly</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Make_sure_asDate_converts_the_date_correctly_r6.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Make sure asDate converts the date correctly</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html?line=42#src-42" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Make_sure_asDate_converts_the_date_correctly_r6.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-419">
+<td><a name="testA-419"></a><input type="checkbox" id="cb-419" value="419" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_toString_bn.html';">
 <span class="sortValue">0.083333336</span>
 <div>
 <div title="8.3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:8.3%"></div></div></div></td>
-<td id="tc-126">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_toString_3i.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify toString</a>
+<td id="tc-419">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_toString_bn.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.Time64Spec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html?line=74#src-74" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_toString_3i.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec_Verify_toString_bn.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
 
@@ -737,7 +728,7 @@
  <tr id="l13">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=13#src-13">13</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a></span></td>
 </tr>
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
@@ -757,12 +748,12 @@
  <tr id="l17">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=17#src-17">17</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-17" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-17" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../common/pkg-summary.html">common</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/common/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a>;</span></td>
 </tr>
  <tr id="l18">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=18#src-18">18</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-18" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64.html#Time64">Time64</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-18" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64.html#Time64">Time64</a>;</span></td>
 </tr>
  <tr id="l19">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=19#src-19">19</a></td>
@@ -832,7 +823,7 @@
 <tr id="l29">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=29#src-29">29</a></td>
 <td align="right" class="coverageCount NoHilight "   onclick="return showTestsForLine(this, 29, 'Tests that hit Time64Spec');" >&#160;&#160;</td>
-<td class=" srcCell" id="id-29"><span class="spacer"></span><span id="src-29" class="srcLine"><span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html#Time64Spec">Time64Spec</a> <span class="keyword">extends</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a> {</span></td>
+<td class=" srcCell" id="id-29"><span class="spacer"></span><span id="src-29" class="srcLine"><span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64Spec.html#Time64Spec">Time64Spec</a> <span class="keyword">extends</span> <a href="../../../../../../../org/certificateservices/custom/c2x/common/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a> {</span></td>
 </tr>
  <tr id="l30">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=30#src-30">30</a></td>
@@ -1204,16 +1195,13 @@
 </script>
 <script src="Time64Spec.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -1225,7 +1213,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

@@ -1,10 +1,10 @@
 var clover = new Object();
 
 // JSON: {classes : [{name, id, sl, el,  methods : [{sl, el}, ...]}, ...]}
-clover.pageData = {"classes":[{"el":52,"id":4373,"methods":[{"el":40,"sc":2,"sl":31},{"el":50,"sc":2,"sl":42}],"name":"TrailerFieldTypeSpec","sl":29}]}
+clover.pageData = {"classes":[{"el":52,"id":10907,"methods":[{"el":40,"sc":2,"sl":31},{"el":50,"sc":2,"sl":42}],"name":"TrailerFieldTypeSpec","sl":29}]}
 
 // JSON: {test_ID : {"methods": [ID1, ID2, ID3...], "name" : "testXXX() void"}, ...};
-clover.testTargets = {"test_201":{"methods":[{"sl":31}],"name":"Verify that signature has bytevalue 1","pass":true,"statements":[{"sl":34},{"sl":35}]},"test_297":{"methods":[{"sl":42}],"name":"Verify that TrailerFieldType.getByValue returns signature for 1","pass":true,"statements":[{"sl":45}]}}
+clover.testTargets = {"test_341":{"methods":[{"sl":42}],"name":"Verify that TrailerFieldType.getByValue returns signature for 1","pass":true,"statements":[{"sl":45}]},"test_591":{"methods":[{"sl":31}],"name":"Verify that signature has bytevalue 1","pass":true,"statements":[{"sl":34},{"sl":35}]}}
 
 // JSON: { lines : [{tests : [testid1, testid2, testid3, ...]}, ...]};
-clover.srcFileLines = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [201], [], [], [201], [201], [], [], [], [], [], [], [297], [], [], [297], [], [], [], [], [], [], []]
+clover.srcFileLines = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [591], [], [], [591], [591], [], [], [], [], [], [], [341], [], [], [341], [], [], [], [], [], [], []]

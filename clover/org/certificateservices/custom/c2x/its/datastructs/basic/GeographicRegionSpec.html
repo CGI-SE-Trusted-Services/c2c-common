@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.basic">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="testsrc-pkg-summary.html">        Package org.certificateservices.custom.c2x.its.datastructs.basic</a></li> 
     </ol>
     
@@ -190,7 +181,7 @@
     </div>
             <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of lines of code in this file">LOC:</label></div>
-        <div class="stats-box-value">114</div>
+        <div class="stats-box-value">113</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of non-comment lines of code in this file">NCLOC:</label></div>
@@ -243,7 +234,7 @@
     </div>
             <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of lines of code in this file">LOC:</label></div>
-        <div class="stats-box-value">114</div>
+        <div class="stats-box-value">113</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of non-comment lines of code in this file">NCLOC:</label></div>
@@ -319,9 +310,9 @@
     </tr>         </thead>
         <tbody>
                               <tr> <td id="GeographicRegionSpec">
-        <span><a href="#38" title="GeographicRegionSpec" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '38');">GeographicRegionSpec</a></span>
+        <span><a href="#37" title="GeographicRegionSpec" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '37');">GeographicRegionSpec</a></span>
 </td>
-<td>38<a name="sl-38"></a></td>
+<td>37<a name="sl-37"></a></td>
     <td class="">44</td>
     <td class="">0%</td>
     <td class="">5</td>
@@ -355,9 +346,9 @@
                                                                                                                                                                                                                                                                                                                                                                                             
                     <thead>
                                                  <tr> <th id="GeographicRegionSpec">
-    Class<br/>    <span><a href="#38" title="GeographicRegionSpec" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '38');">GeographicRegionSpec</a></span>
+    Class<br/>    <span><a href="#37" title="GeographicRegionSpec" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '37');">GeographicRegionSpec</a></span>
 </th>
-<th>Line #<br/>38<a name="sl-38"></a></th>
+<th>Line #<br/>37<a name="sl-37"></a></th>
     <th class=""><label  title="The total number of statements.">Total Statements</label><br/>44</th>
     <th class=""><label  title="The percentage of elements that have been filtered from this report.">% Filtered</label><br/>0%</th>
     <th class=""><label  title="Cyclomatic complexity is a measure of the number of paths in your code.">Complexity</label><br/>5</th>
@@ -368,11 +359,11 @@
 </tr>                     </thead>
                     <tbody id="dialog-GeographicRegionSpec-methods-body">
                                                                                                             <tr id="GeographicRegionSpec-1">
-<td id="summary-46-2">
+<td id="summary-45-2">
  <span class="sortValue">Verify&#160;the&#160;constructors&#160;and&#160;getters</span>
-&#160;&#160;<a href="?line=29#46" title="Verify&#160;the&#160;constructors&#160;and&#160;getters" name="sl-46" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '46');">Verify&#160;the&#160;constructors&#160;and&#160;getters</a>
+&#160;&#160;<a href="?line=29#45" title="Verify&#160;the&#160;constructors&#160;and&#160;getters" name="sl-45" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '45');">Verify&#160;the&#160;constructors&#160;and&#160;getters</a>
 </td>
-<td align="right"><span class="sortValue">46</span>46</td>
+<td align="right"><span class="sortValue">45</span>45</td>
 <td class="" align="right"><span class="sortValue">9.0</span>9</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -381,11 +372,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="GeographicRegionSpec-2">
-<td id="summary-60-2">
+<td id="summary-59-2">
  <span class="sortValue">Verify&#160;serialization</span>
-&#160;&#160;<a href="?line=29#60" title="Verify&#160;serialization" name="sl-60" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '60');">Verify&#160;serialization</a>
+&#160;&#160;<a href="?line=29#59" title="Verify&#160;serialization" name="sl-59" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '59');">Verify&#160;serialization</a>
 </td>
-<td align="right"><span class="sortValue">60</span>60</td>
+<td align="right"><span class="sortValue">59</span>59</td>
 <td class="" align="right"><span class="sortValue">5.0</span>5</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -394,11 +385,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="GeographicRegionSpec-3">
-<td id="summary-69-2">
+<td id="summary-68-2">
  <span class="sortValue">Verify&#160;deserialization</span>
-&#160;&#160;<a href="?line=29#69" title="Verify&#160;deserialization" name="sl-69" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '69');">Verify&#160;deserialization</a>
+&#160;&#160;<a href="?line=29#68" title="Verify&#160;deserialization" name="sl-68" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '68');">Verify&#160;deserialization</a>
 </td>
-<td align="right"><span class="sortValue">69</span>69</td>
+<td align="right"><span class="sortValue">68</span>68</td>
 <td class="" align="right"><span class="sortValue">14.0</span>14</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -407,11 +398,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="GeographicRegionSpec-4">
-<td id="summary-89-2">
+<td id="summary-88-2">
  <span class="sortValue">Verify&#160;hashCode&#160;and&#160;equals</span>
-&#160;&#160;<a href="?line=29#89" title="Verify&#160;hashCode&#160;and&#160;equals" name="sl-89" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '89');">Verify&#160;hashCode&#160;and&#160;equals</a>
+&#160;&#160;<a href="?line=29#88" title="Verify&#160;hashCode&#160;and&#160;equals" name="sl-88" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '88');">Verify&#160;hashCode&#160;and&#160;equals</a>
 </td>
-<td align="right"><span class="sortValue">89</span>89</td>
+<td align="right"><span class="sortValue">88</span>88</td>
 <td class="" align="right"><span class="sortValue">11.0</span>11</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -420,11 +411,11 @@
 <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="GeographicRegionSpec-5">
-<td id="summary-106-2">
+<td id="summary-105-2">
  <span class="sortValue">Verify&#160;toString</span>
-&#160;&#160;<a href="?line=29#106" title="Verify&#160;toString" name="sl-106" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '106');">Verify&#160;toString</a>
+&#160;&#160;<a href="?line=29#105" title="Verify&#160;toString" name="sl-105" onclick="closeDialogAndScrollTo('dialog-GeographicRegionSpec', '105');">Verify&#160;toString</a>
 </td>
-<td align="right"><span class="sortValue">106</span>106</td>
+<td align="right"><span class="sortValue">105</span>105</td>
 <td class="" align="right"><span class="sortValue">5.0</span>5</td>
 <td class="" align="right"><span class="sortValue">0.0</span>0%</td>
 <td class="" align="right"><span class="sortValue">1.0</span>1</td>
@@ -504,84 +495,84 @@
             </thead>
             <tbody id="tests-body">
 
-<tr id="test-92">
-<td><a name="testA-92"></a><input type="checkbox" id="cb-92" value="92" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_2k.html';">
+<tr id="test-594">
+<td><a name="testA-594"></a><input type="checkbox" id="cb-594" value="594" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_gi.html';">
 <span class="sortValue">0.30612245</span>
 <div>
 <div title="30.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:30.6%"></div></div></div></td>
-<td id="tc-92">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_2k.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify deserialization</a>
+<td id="tc-594">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_gi.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=69#src-69" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=68#src-68" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_2k.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_deserialization_gi.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-179">
-<td><a name="testA-179"></a><input type="checkbox" id="cb-179" value="179" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_4z.html';">
+<tr id="test-804">
+<td><a name="testA-804"></a><input type="checkbox" id="cb-804" value="804" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_mc.html';">
 <span class="sortValue">0.24489796</span>
 <div>
 <div title="24.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:24.5%"></div></div></div></td>
-<td id="tc-179">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_4z.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify hashCode and equals</a>
+<td id="tc-804">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify hashCode and equals</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_mc.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify hashCode and equals</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=89#src-89" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=88#src-88" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_4z.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_hashCode_and_equals_mc.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-281">
-<td><a name="testA-281"></a><input type="checkbox" id="cb-281" value="281" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_the_constructors_and_getters_7t.html';">
+<tr id="test-262">
+<td><a name="testA-262"></a><input type="checkbox" id="cb-262" value="262" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_the_constructors_and_getters_7a.html';">
 <span class="sortValue">0.20408164</span>
 <div>
 <div title="20.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:20.4%"></div></div></div></td>
-<td id="tc-281">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_the_constructors_and_getters_7t.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify the constructors and getters</a>
+<td id="tc-262">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_the_constructors_and_getters_7a.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify the constructors and getters</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=46#src-46" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=45#src-45" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_the_constructors_and_getters_7t.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_the_constructors_and_getters_7a.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-401">
-<td><a name="testA-401"></a><input type="checkbox" id="cb-401" value="401" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_b5.html';">
+<tr id="test-187">
+<td><a name="testA-187"></a><input type="checkbox" id="cb-187" value="187" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_57.html';">
 <span class="sortValue">0.12244898</span>
 <div>
 <div title="12.2% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.2%"></div></div></div></td>
-<td id="tc-401">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_b5.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify toString</a>
+<td id="tc-187">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_57.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=106#src-106" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=59#src-59" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_b5.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_57.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-226">
-<td><a name="testA-226"></a><input type="checkbox" id="cb-226" value="226" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_6a.html';">
+<tr id="test-287">
+<td><a name="testA-287"></a><input type="checkbox" id="cb-287" value="287" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_7z.html';">
 <span class="sortValue">0.12244898</span>
 <div>
 <div title="12.2% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:12.2%"></div></div></div></td>
-<td id="tc-226">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_6a.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify serialization</a>
+<td id="tc-287">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_7z.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegionSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=60#src-60" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html?line=105#src-105" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_serialization_6a.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec_Verify_toString_7z.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
 
@@ -708,7 +699,7 @@
  <tr id="l13">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=13#src-13">13</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a></span></td>
 </tr>
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
@@ -728,47 +719,47 @@
  <tr id="l17">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=17#src-17">17</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-17" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-17" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../common/pkg-summary.html">common</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/common/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a>;</span></td>
 </tr>
  <tr id="l18">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=18#src-18">18</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-18" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-18" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a>;</span></td>
 </tr>
  <tr id="l19">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=19#src-19">19</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-19" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-19" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>;</span></td>
 </tr>
  <tr id="l20">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=20#src-20">20</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-20" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/IdentifiedRegion.html#IdentifiedRegion">IdentifiedRegion</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-20" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/IdentifiedRegion.html#IdentifiedRegion">IdentifiedRegion</a>;</span></td>
 </tr>
  <tr id="l21">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=21#src-21">21</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-21" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/IntX.html#IntX">IntX</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-21" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/IntX.html#IntX">IntX</a>;</span></td>
 </tr>
  <tr id="l22">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=22#src-22">22</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-22" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegion.html#PolygonalRegion">PolygonalRegion</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-22" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegion.html#PolygonalRegion">PolygonalRegion</a>;</span></td>
 </tr>
  <tr id="l23">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=23#src-23">23</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-23" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html#RectangularRegion">RectangularRegion</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-23" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html#RectangularRegion">RectangularRegion</a>;</span></td>
 </tr>
  <tr id="l24">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=24#src-24">24</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-24" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionDictionary.html#RegionDictionary">RegionDictionary</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-24" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionDictionary.html#RegionDictionary">RegionDictionary</a>;</span></td>
 </tr>
  <tr id="l25">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=25#src-25">25</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-25" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-25" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>;</span></td>
 </tr>
  <tr id="l26">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=26#src-26">26</a></td>
@@ -793,49 +784,44 @@
  <tr id="l30">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=30#src-30">30</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-30" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-30" class="srcLine"><span class="keyword">import</span> <span class="keyword">static</span> org.certificateservices.custom.c2x.its.datastructs.basic.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionType.html#RegionType">RegionType</a>.*;</span></td>
 </tr>
  <tr id="l31">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=31#src-31">31</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-31" class="srcLine"><span class="keyword">import</span> <span class="keyword">static</span> org.certificateservices.custom.c2x.its.datastructs.basic.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionType.html#RegionType">RegionType</a>.*;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-31" class="srcLine"></span></td>
 </tr>
  <tr id="l32">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=32#src-32">32</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-32" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-32" class="srcLine"><span class="comment">/**</span></span></td>
 </tr>
  <tr id="l33">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=33#src-33">33</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-33" class="srcLine"><span class="comment">/**</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-33" class="srcLine"><span class="comment"> *</span></span></td>
 </tr>
  <tr id="l34">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=34#src-34">34</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-34" class="srcLine"><span class="comment"> *</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-34" class="srcLine"><span class="comment"> * </span><span class="javadoc">@author</span><span class="comment"> Philip Vendil, p.vendil</span><span class="comment">@cgi.com</span></span></td>
 </tr>
  <tr id="l35">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=35#src-35">35</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-35" class="srcLine"><span class="comment"> * </span><span class="javadoc">@author</span><span class="comment"> Philip Vendil, p.vendil</span><span class="comment">@cgi.com</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-35" class="srcLine"><span class="comment"> *</span></span></td>
 </tr>
  <tr id="l36">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=36#src-36">36</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-36" class="srcLine"><span class="comment"> *</span></span></td>
-</tr>
- <tr id="l37">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=37#src-37">37</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-37" class="srcLine"><span class="comment"> */</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-36" class="srcLine"><span class="comment"> */</span></span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="38" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-38' onclick="toggleInlineStats(this, 'inlinestats-38');"/>
+<td class="coverageCount"><a name="37" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-37' onclick="toggleInlineStats(this, 'inlinestats-37');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-38" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-38'), 'inlinestats-38');return true;">
+        <table id="inlinestats-37" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-37'), 'inlinestats-37');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (49)</td>
@@ -845,52 +831,52 @@
         </table>
     </td>
 </tr>
-<tr id="l38">
+<tr id="l37">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=37#src-37">37</a></td>
+<td align="right" class="coverageCount NoHilight "   onclick="return showTestsForLine(this, 37, 'Tests that hit GeographicRegionSpec');" >&#160;&#160;</td>
+<td class=" srcCell" id="id-37"><span class="spacer"></span><span id="src-37" class="srcLine"><span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html#GeographicRegionSpec">GeographicRegionSpec</a> <span class="keyword">extends</span> <a href="../../../../../../../org/certificateservices/custom/c2x/common/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a> {</span></td>
+</tr>
+ <tr id="l38">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=38#src-38">38</a></td>
-<td align="right" class="coverageCount NoHilight "   onclick="return showTestsForLine(this, 38, 'Tests that hit GeographicRegionSpec');" >&#160;&#160;</td>
-<td class=" srcCell" id="id-38"><span class="spacer"></span><span id="src-38" class="srcLine"><span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegionSpec.html#GeographicRegionSpec">GeographicRegionSpec</a> <span class="keyword">extends</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/BaseStructSpec.html#BaseStructSpec">BaseStructSpec</a> {</span></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-38" class="srcLine">    </span></td>
 </tr>
  <tr id="l39">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=39#src-39">39</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-39" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-39" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grn = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>();</span></td>
 </tr>
  <tr id="l40">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=40#src-40">40</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-40" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grn = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>();</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-40" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grc = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-150,150), 1));</span></td>
 </tr>
  <tr id="l41">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=41#src-41">41</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-41" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grc = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-150,150), 1));</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-41" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grr = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>([<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html#RectangularRegion">RectangularRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-150,150), <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-250,250)), <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html#RectangularRegion">RectangularRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-100,100), <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-200,200))]);</span></td>
 </tr>
  <tr id="l42">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=42#src-42">42</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-42" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grr = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>([<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html#RectangularRegion">RectangularRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-150,150), <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-250,250)), <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RectangularRegion.html#RectangularRegion">RectangularRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-100,100), <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-200,200))]);</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-42" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grp = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegion.html#PolygonalRegion">PolygonalRegion</a>([<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(1, -1),<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(2, -2)]));</span></td>
 </tr>
  <tr id="l43">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=43#src-43">43</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-43" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grp = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/PolygonalRegion.html#PolygonalRegion">PolygonalRegion</a>([<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(1, -1),<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(2, -2)]));</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-43" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> gri = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/IdentifiedRegion.html#IdentifiedRegion">IdentifiedRegion</a>(<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionDictionary.html#RegionDictionary">RegionDictionary</a>.un_stats, 123, <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/IntX.html#IntX">IntX</a>(<span class="keyword">new</span> BigInteger(321))));</span></td>
 </tr>
  <tr id="l44">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=44#src-44">44</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-44" class="srcLine">    <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> gri = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/IdentifiedRegion.html#IdentifiedRegion">IdentifiedRegion</a>(<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/RegionDictionary.html#RegionDictionary">RegionDictionary</a>.un_stats, 123, <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/IntX.html#IntX">IntX</a>(<span class="keyword">new</span> BigInteger(321))));</span></td>
-</tr>
- <tr id="l45">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=45#src-45">45</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-45" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-44" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="46" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-46' onclick="toggleInlineStats(this, 'inlinestats-46');"/>
+<td class="coverageCount"><a name="45" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-45' onclick="toggleInlineStats(this, 'inlinestats-45');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-46" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-46'), 'inlinestats-46');return true;">
+        <table id="inlinestats-45" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-45'), 'inlinestats-45');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (9)</td>
@@ -902,82 +888,82 @@
         </table>
     </td>
 </tr>
-<tr id="l46">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=46#src-46">46</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 46, 'Tests that hit $spock_feature_1_0()&#160;:&#160;void');" ><span title="Line 46, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-46"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 46,57);" id="img-46" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-46" class="srcLine"><span class="nolink" title="Line 46, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify the constructors and getters&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-46'), 46,57);" id="e46" style="display:none;border:none;">...</span></span></td>
+<tr id="l45">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=45#src-45">45</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 45, 'Tests that hit $spock_feature_1_0()&#160;:&#160;void');" ><span title="Line 45, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-45"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 45,56);" id="img-45" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-45" class="srcLine"><span class="nolink" title="Line 45, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify the constructors and getters&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-45'), 45,56);" id="e45" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l46">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=46#src-46">46</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-46" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l47">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=47#src-47">47</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-47" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=47#src-47">47</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 47, 'Tests that hit line # 47');" ><span title="Line 47, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-47" class="srcLine"><span class="nolink" title="Line 47, Col 3: statement executed 1 time.">        grn.regionType == none</span></span></td>
 </tr>
  <tr id="l48">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=48#src-48">48</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 48, 'Tests that hit line # 48');" ><span title="Line 48, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-48" class="srcLine"><span class="nolink" title="Line 48, Col 3: statement executed 1 time.">        grn.regionType == none</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-48" class="srcLine"><span class="nolink" title="Line 48, Col 3: statement executed 1 time.">        grc.regionType == circle</span></span></td>
 </tr>
  <tr id="l49">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=49#src-49">49</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 49, 'Tests that hit line # 49');" ><span title="Line 49, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-49" class="srcLine"><span class="nolink" title="Line 49, Col 3: statement executed 1 time.">        grc.regionType == circle</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-49" class="srcLine"><span class="nolink" title="Line 49, Col 3: statement executed 1 time.">        grc.circularRegion != <span class="keyword">null</span></span></span></td>
 </tr>
  <tr id="l50">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=50#src-50">50</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 50, 'Tests that hit line # 50');" ><span title="Line 50, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-50" class="srcLine"><span class="nolink" title="Line 50, Col 3: statement executed 1 time.">        grc.circularRegion != <span class="keyword">null</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-50" class="srcLine"><span class="nolink" title="Line 50, Col 3: statement executed 1 time.">        grr.regionType == rectangle</span></span></td>
 </tr>
  <tr id="l51">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=51#src-51">51</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 51, 'Tests that hit line # 51');" ><span title="Line 51, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-51" class="srcLine"><span class="nolink" title="Line 51, Col 3: statement executed 1 time.">        grr.regionType == rectangle</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-51" class="srcLine"><span class="nolink" title="Line 51, Col 3: statement executed 1 time.">        grr.rectangularRegions.size() == 2</span></span></td>
 </tr>
  <tr id="l52">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=52#src-52">52</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 52, 'Tests that hit line # 52');" ><span title="Line 52, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-52" class="srcLine"><span class="nolink" title="Line 52, Col 3: statement executed 1 time.">        grr.rectangularRegions.size() == 2</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-52" class="srcLine"><span class="nolink" title="Line 52, Col 3: statement executed 1 time.">        grp.regionType == polygon</span></span></td>
 </tr>
  <tr id="l53">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=53#src-53">53</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 53, 'Tests that hit line # 53');" ><span title="Line 53, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-53" class="srcLine"><span class="nolink" title="Line 53, Col 3: statement executed 1 time.">        grp.regionType == polygon</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-53" class="srcLine"><span class="nolink" title="Line 53, Col 3: statement executed 1 time.">        grp.polygonalRegion != <span class="keyword">null</span></span></span></td>
 </tr>
  <tr id="l54">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=54#src-54">54</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 54, 'Tests that hit line # 54');" ><span title="Line 54, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-54" class="srcLine"><span class="nolink" title="Line 54, Col 3: statement executed 1 time.">        grp.polygonalRegion != <span class="keyword">null</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-54" class="srcLine"><span class="nolink" title="Line 54, Col 3: statement executed 1 time.">        gri.regionType == id</span></span></td>
 </tr>
  <tr id="l55">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=55#src-55">55</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 55, 'Tests that hit line # 55');" ><span title="Line 55, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-55" class="srcLine"><span class="nolink" title="Line 55, Col 3: statement executed 1 time.">        gri.regionType == id</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-55" class="srcLine"><span class="nolink" title="Line 55, Col 3: statement executed 1 time.">        gri.identifiedRegion != <span class="keyword">null</span></span></span></td>
 </tr>
  <tr id="l56">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=56#src-56">56</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 56, 'Tests that hit line # 56');" ><span title="Line 56, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-56" class="srcLine"><span class="nolink" title="Line 56, Col 3: statement executed 1 time.">        gri.identifiedRegion != <span class="keyword">null</span></span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=56#src-56">56</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-56" class="srcLine">    }</span></td>
 </tr>
  <tr id="l57">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=57#src-57">57</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-57" class="srcLine">    }</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-57" class="srcLine"></span></td>
 </tr>
  <tr id="l58">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=58#src-58">58</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-58" class="srcLine"></span></td>
-</tr>
- <tr id="l59">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=59#src-59">59</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-59" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-58" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="60" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-60' onclick="toggleInlineStats(this, 'inlinestats-60');"/>
+<td class="coverageCount"><a name="59" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-59' onclick="toggleInlineStats(this, 'inlinestats-59');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-60" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-60'), 'inlinestats-60');return true;">
+        <table id="inlinestats-59" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-59'), 'inlinestats-59');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (5)</td>
@@ -989,57 +975,57 @@
         </table>
     </td>
 </tr>
-<tr id="l60">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=60#src-60">60</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 60, 'Tests that hit $spock_feature_1_1()&#160;:&#160;void');" ><span title="Line 60, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-60"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 60,67);" id="img-60" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-60" class="srcLine"><span class="nolink" title="Line 60, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify serialization&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-60'), 60,67);" id="e60" style="display:none;border:none;">...</span></span></td>
+<tr id="l59">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=59#src-59">59</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 59, 'Tests that hit $spock_feature_1_1()&#160;:&#160;void');" ><span title="Line 59, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-59"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 59,66);" id="img-59" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-59" class="srcLine"><span class="nolink" title="Line 59, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify serialization&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-59'), 59,66);" id="e59" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l60">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=60#src-60">60</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-60" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l61">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=61#src-61">61</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-61" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=61#src-61">61</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 61, 'Tests that hit line # 61');" ><span title="Line 61, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-61" class="srcLine"><span class="nolink" title="Line 61, Col 3: statement executed 1 time.">        serializeToHex(grn) == <span class="string">&quot;00&quot;</span></span></span></td>
 </tr>
  <tr id="l62">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=62#src-62">62</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 62, 'Tests that hit line # 62');" ><span title="Line 62, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-62" class="srcLine"><span class="nolink" title="Line 62, Col 3: statement executed 1 time.">        serializeToHex(grn) == <span class="string">&quot;00&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-62" class="srcLine"><span class="nolink" title="Line 62, Col 3: statement executed 1 time.">        serializeToHex(grc) == <span class="string">&quot;01ffffff6a000000960001&quot;</span></span></span></td>
 </tr>
  <tr id="l63">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=63#src-63">63</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 63, 'Tests that hit line # 63');" ><span title="Line 63, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-63" class="srcLine"><span class="nolink" title="Line 63, Col 3: statement executed 1 time.">        serializeToHex(grc) == <span class="string">&quot;01ffffff6a000000960001&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-63" class="srcLine"><span class="nolink" title="Line 63, Col 3: statement executed 1 time.">        serializeToHex(grr) == <span class="string">&quot;0220ffffff6a00000096ffffff06000000faffffff9c00000064ffffff38000000c8&quot;</span></span></span></td>
 </tr>
  <tr id="l64">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=64#src-64">64</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 64, 'Tests that hit line # 64');" ><span title="Line 64, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-64" class="srcLine"><span class="nolink" title="Line 64, Col 3: statement executed 1 time.">        serializeToHex(grr) == <span class="string">&quot;0220ffffff6a00000096ffffff06000000faffffff9c00000064ffffff38000000c8&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-64" class="srcLine"><span class="nolink" title="Line 64, Col 3: statement executed 1 time.">        serializeToHex(grp) == <span class="string">&quot;031000000001ffffffff00000002fffffffe&quot;</span></span></span></td>
 </tr>
  <tr id="l65">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=65#src-65">65</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 65, 'Tests that hit line # 65');" ><span title="Line 65, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-65" class="srcLine"><span class="nolink" title="Line 65, Col 3: statement executed 1 time.">        serializeToHex(grp) == <span class="string">&quot;031000000001ffffffff00000002fffffffe&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-65" class="srcLine"><span class="nolink" title="Line 65, Col 3: statement executed 1 time.">        serializeToHex(gri) == <span class="string">&quot;0401007b8141&quot;</span>        </span></span></td>
 </tr>
  <tr id="l66">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=66#src-66">66</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 66, 'Tests that hit line # 66');" ><span title="Line 66, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-66" class="srcLine"><span class="nolink" title="Line 66, Col 3: statement executed 1 time.">        serializeToHex(gri) == <span class="string">&quot;0401007b8141&quot;</span>        </span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=66#src-66">66</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-66" class="srcLine">    }</span></td>
 </tr>
  <tr id="l67">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=67#src-67">67</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-67" class="srcLine">    }</span></td>
-</tr>
- <tr id="l68">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=68#src-68">68</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-68" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-67" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="69" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-69' onclick="toggleInlineStats(this, 'inlinestats-69');"/>
+<td class="coverageCount"><a name="68" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-68' onclick="toggleInlineStats(this, 'inlinestats-68');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-69" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-69'), 'inlinestats-69');return true;">
+        <table id="inlinestats-68" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-68'), 'inlinestats-68');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (14)</td>
@@ -1051,112 +1037,112 @@
         </table>
     </td>
 </tr>
-<tr id="l69">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=69#src-69">69</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 69, 'Tests that hit $spock_feature_1_2()&#160;:&#160;void');" ><span title="Line 69, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-69"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 69,87);" id="img-69" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-69" class="srcLine"><span class="nolink" title="Line 69, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify deserialization&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-69'), 69,87);" id="e69" style="display:none;border:none;">...</span></span></td>
+<tr id="l68">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=68#src-68">68</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 68, 'Tests that hit $spock_feature_1_2()&#160;:&#160;void');" ><span title="Line 68, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-68"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 68,86);" id="img-68" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-68" class="srcLine"><span class="nolink" title="Line 68, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify deserialization&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-68'), 68,86);" id="e68" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l69">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=69#src-69">69</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-69" class="srcLine">        setup:</span></td>
 </tr>
  <tr id="l70">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=70#src-70">70</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-70" class="srcLine">        setup:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=70#src-70">70</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 70, 'Tests that hit line # 70');" ><span title="Line 70, Col 6: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-70" class="srcLine"><span class="nolink" title="Line 70, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grn2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;00&quot;</span>);</span></span></td>
 </tr>
  <tr id="l71">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=71#src-71">71</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 71, 'Tests that hit line # 71');" ><span title="Line 71, Col 6: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-71" class="srcLine"><span class="nolink" title="Line 71, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grn2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;00&quot;</span>);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-71" class="srcLine"><span class="nolink" title="Line 71, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grc2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;01ffffff6a000000960001&quot;</span>);</span></span></td>
 </tr>
  <tr id="l72">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=72#src-72">72</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 72, 'Tests that hit line # 72');" ><span title="Line 72, Col 6: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-72" class="srcLine"><span class="nolink" title="Line 72, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grc2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;01ffffff6a000000960001&quot;</span>);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-72" class="srcLine"><span class="nolink" title="Line 72, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grr2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;0220ffffff6a00000096ffffff06000000faffffff9c00000064ffffff38000000c8&quot;</span>);</span></span></td>
 </tr>
  <tr id="l73">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=73#src-73">73</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 73, 'Tests that hit line # 73');" ><span title="Line 73, Col 6: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-73" class="srcLine"><span class="nolink" title="Line 73, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grr2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;0220ffffff6a00000096ffffff06000000faffffff9c00000064ffffff38000000c8&quot;</span>);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-73" class="srcLine"><span class="nolink" title="Line 73, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grp2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;030200000001ffffffff00000002fffffffe&quot;</span>);</span></span></td>
 </tr>
  <tr id="l74">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=74#src-74">74</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 74, 'Tests that hit line # 74');" ><span title="Line 74, Col 6: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-74" class="srcLine"><span class="nolink" title="Line 74, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grp2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;030200000001ffffffff00000002fffffffe&quot;</span>);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-74" class="srcLine"><span class="nolink" title="Line 74, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> gri2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;0401007b8141&quot;</span>);</span></span></td>
 </tr>
  <tr id="l75">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=75#src-75">75</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 75, 'Tests that hit line # 75');" ><span title="Line 75, Col 6: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-75" class="srcLine"><span class="nolink" title="Line 75, Col 6: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> gri2 = deserializeFromHex(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(),<span class="string">&quot;0401007b8141&quot;</span>);</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=75#src-75">75</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-75" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l76">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=76#src-76">76</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-76" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=76#src-76">76</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 76, 'Tests that hit line # 76');" ><span title="Line 76, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-76" class="srcLine"><span class="nolink" title="Line 76, Col 3: statement executed 1 time.">        grn2.regionType == none</span></span></td>
 </tr>
  <tr id="l77">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=77#src-77">77</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 77, 'Tests that hit line # 77');" ><span title="Line 77, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-77" class="srcLine"><span class="nolink" title="Line 77, Col 3: statement executed 1 time.">        grn2.regionType == none</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-77" class="srcLine"><span class="nolink" title="Line 77, Col 3: statement executed 1 time.">        grc2.regionType == circle</span></span></td>
 </tr>
  <tr id="l78">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=78#src-78">78</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 78, 'Tests that hit line # 78');" ><span title="Line 78, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-78" class="srcLine"><span class="nolink" title="Line 78, Col 3: statement executed 1 time.">        grc2.regionType == circle</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-78" class="srcLine"><span class="nolink" title="Line 78, Col 3: statement executed 1 time.">        grc2.circularRegion != <span class="keyword">null</span></span></span></td>
 </tr>
  <tr id="l79">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=79#src-79">79</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 79, 'Tests that hit line # 79');" ><span title="Line 79, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-79" class="srcLine"><span class="nolink" title="Line 79, Col 3: statement executed 1 time.">        grc2.circularRegion != <span class="keyword">null</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-79" class="srcLine"><span class="nolink" title="Line 79, Col 3: statement executed 1 time.">        grr2.regionType == rectangle</span></span></td>
 </tr>
  <tr id="l80">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=80#src-80">80</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 80, 'Tests that hit line # 80');" ><span title="Line 80, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-80" class="srcLine"><span class="nolink" title="Line 80, Col 3: statement executed 1 time.">        grr2.regionType == rectangle</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-80" class="srcLine"><span class="nolink" title="Line 80, Col 3: statement executed 1 time.">        grr2.rectangularRegions.size() == 2</span></span></td>
 </tr>
  <tr id="l81">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=81#src-81">81</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 81, 'Tests that hit line # 81');" ><span title="Line 81, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-81" class="srcLine"><span class="nolink" title="Line 81, Col 3: statement executed 1 time.">        grr2.rectangularRegions.size() == 2</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-81" class="srcLine"><span class="nolink" title="Line 81, Col 3: statement executed 1 time.">        grp2.regionType == polygon</span></span></td>
 </tr>
  <tr id="l82">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=82#src-82">82</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 82, 'Tests that hit line # 82');" ><span title="Line 82, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-82" class="srcLine"><span class="nolink" title="Line 82, Col 3: statement executed 1 time.">        grp2.regionType == polygon</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-82" class="srcLine"><span class="nolink" title="Line 82, Col 3: statement executed 1 time.">        grp2.polygonalRegion != <span class="keyword">null</span></span></span></td>
 </tr>
  <tr id="l83">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=83#src-83">83</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 83, 'Tests that hit line # 83');" ><span title="Line 83, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-83" class="srcLine"><span class="nolink" title="Line 83, Col 3: statement executed 1 time.">        grp2.polygonalRegion != <span class="keyword">null</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-83" class="srcLine"><span class="nolink" title="Line 83, Col 3: statement executed 1 time.">        gri2.regionType == id</span></span></td>
 </tr>
  <tr id="l84">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=84#src-84">84</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 84, 'Tests that hit line # 84');" ><span title="Line 84, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-84" class="srcLine"><span class="nolink" title="Line 84, Col 3: statement executed 1 time.">        gri2.regionType == id</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-84" class="srcLine"><span class="nolink" title="Line 84, Col 3: statement executed 1 time.">        gri2.identifiedRegion != <span class="keyword">null</span></span></span></td>
 </tr>
  <tr id="l85">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=85#src-85">85</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 85, 'Tests that hit line # 85');" ><span title="Line 85, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-85" class="srcLine"><span class="nolink" title="Line 85, Col 3: statement executed 1 time.">        gri2.identifiedRegion != <span class="keyword">null</span></span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=85#src-85">85</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-85" class="srcLine"></span></td>
 </tr>
  <tr id="l86">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=86#src-86">86</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-86" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-86" class="srcLine">    }</span></td>
 </tr>
  <tr id="l87">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=87#src-87">87</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-87" class="srcLine">    }</span></td>
-</tr>
- <tr id="l88">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=88#src-88">88</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-88" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-87" class="srcLine"></span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="89" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-89' onclick="toggleInlineStats(this, 'inlinestats-89');"/>
+<td class="coverageCount"><a name="88" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-88' onclick="toggleInlineStats(this, 'inlinestats-88');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-89" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-89'), 'inlinestats-89');return true;">
+        <table id="inlinestats-88" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-88'), 'inlinestats-88');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (11)</td>
@@ -1168,97 +1154,97 @@
         </table>
     </td>
 </tr>
-<tr id="l89">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=89#src-89">89</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 89, 'Tests that hit $spock_feature_1_3()&#160;:&#160;void');" ><span title="Line 89, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-89"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 89,104);" id="img-89" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-89" class="srcLine"><span class="nolink" title="Line 89, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify hashCode and equals&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-89'), 89,104);" id="e89" style="display:none;border:none;">...</span></span></td>
+<tr id="l88">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=88#src-88">88</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 88, 'Tests that hit $spock_feature_1_3()&#160;:&#160;void');" ><span title="Line 88, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-88"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 88,103);" id="img-88" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-88" class="srcLine"><span class="nolink" title="Line 88, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify hashCode and equals&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-88'), 88,103);" id="e88" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l89">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=89#src-89">89</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-89" class="srcLine">        setup:</span></td>
 </tr>
  <tr id="l90">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=90#src-90">90</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-90" class="srcLine">        setup:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=90#src-90">90</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 90, 'Tests that hit line # 90');" ><span title="Line 90, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-90" class="srcLine"><span class="nolink" title="Line 90, Col 3: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grc2 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-150,150), 1));        </span></span></td>
 </tr>
  <tr id="l91">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=91#src-91">91</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 91, 'Tests that hit line # 91');" ><span title="Line 91, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-91" class="srcLine"><span class="nolink" title="Line 91, Col 3: statement executed 1 time.">        <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a> grc2 = <span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/GeographicRegion.html#GeographicRegion">GeographicRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/CircularRegion.html#CircularRegion">CircularRegion</a>(<span class="keyword">new</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/TwoDLocation.html#TwoDLocation">TwoDLocation</a>(-150,150), 1));        </span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=91#src-91">91</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-91" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l92">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=92#src-92">92</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-92" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=92#src-92">92</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 92, 'Tests that hit line # 92');" ><span title="Line 92, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-92" class="srcLine"><span class="nolink" title="Line 92, Col 3: statement executed 1 time.">        grc == grc</span></span></td>
 </tr>
  <tr id="l93">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=93#src-93">93</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 93, 'Tests that hit line # 93');" ><span title="Line 93, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-93" class="srcLine"><span class="nolink" title="Line 93, Col 3: statement executed 1 time.">        grc == grc</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-93" class="srcLine"><span class="nolink" title="Line 93, Col 3: statement executed 1 time.">        grc != grn</span></span></td>
 </tr>
  <tr id="l94">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=94#src-94">94</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 94, 'Tests that hit line # 94');" ><span title="Line 94, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-94" class="srcLine"><span class="nolink" title="Line 94, Col 3: statement executed 1 time.">        grc != grn</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-94" class="srcLine"><span class="nolink" title="Line 94, Col 3: statement executed 1 time.">        grc != grr</span></span></td>
 </tr>
  <tr id="l95">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=95#src-95">95</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 95, 'Tests that hit line # 95');" ><span title="Line 95, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-95" class="srcLine"><span class="nolink" title="Line 95, Col 3: statement executed 1 time.">        grc != grr</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-95" class="srcLine"><span class="nolink" title="Line 95, Col 3: statement executed 1 time.">        grc != grp</span></span></td>
 </tr>
  <tr id="l96">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=96#src-96">96</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 96, 'Tests that hit line # 96');" ><span title="Line 96, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-96" class="srcLine"><span class="nolink" title="Line 96, Col 3: statement executed 1 time.">        grc != grp</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-96" class="srcLine"><span class="nolink" title="Line 96, Col 3: statement executed 1 time.">        grc != gri</span></span></td>
 </tr>
  <tr id="l97">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=97#src-97">97</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 97, 'Tests that hit line # 97');" ><span title="Line 97, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-97" class="srcLine"><span class="nolink" title="Line 97, Col 3: statement executed 1 time.">        grc != gri</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=97#src-97">97</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-97" class="srcLine">        </span></td>
 </tr>
  <tr id="l98">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=98#src-98">98</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-98" class="srcLine">        </span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=98#src-98">98</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 98, 'Tests that hit line # 98');" ><span title="Line 98, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-98" class="srcLine"><span class="nolink" title="Line 98, Col 3: statement executed 1 time.">        grc.hashCode() == grc.hashCode()</span></span></td>
 </tr>
  <tr id="l99">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=99#src-99">99</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 99, 'Tests that hit line # 99');" ><span title="Line 99, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-99" class="srcLine"><span class="nolink" title="Line 99, Col 3: statement executed 1 time.">        grc.hashCode() == grc.hashCode()</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-99" class="srcLine"><span class="nolink" title="Line 99, Col 3: statement executed 1 time.">        grc.hashCode() != grn.hashCode()</span></span></td>
 </tr>
  <tr id="l100">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=100#src-100">100</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 100, 'Tests that hit line # 100');" ><span title="Line 100, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-100" class="srcLine"><span class="nolink" title="Line 100, Col 3: statement executed 1 time.">        grc.hashCode() != grn.hashCode()</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-100" class="srcLine"><span class="nolink" title="Line 100, Col 3: statement executed 1 time.">        grc.hashCode() != grr.hashCode()</span></span></td>
 </tr>
  <tr id="l101">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=101#src-101">101</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 101, 'Tests that hit line # 101');" ><span title="Line 101, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-101" class="srcLine"><span class="nolink" title="Line 101, Col 3: statement executed 1 time.">        grc.hashCode() != grr.hashCode()</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-101" class="srcLine"><span class="nolink" title="Line 101, Col 3: statement executed 1 time.">        grc.hashCode() != grp.hashCode()</span></span></td>
 </tr>
  <tr id="l102">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=102#src-102">102</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 102, 'Tests that hit line # 102');" ><span title="Line 102, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-102" class="srcLine"><span class="nolink" title="Line 102, Col 3: statement executed 1 time.">        grc.hashCode() != grp.hashCode()</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-102" class="srcLine"><span class="nolink" title="Line 102, Col 3: statement executed 1 time.">        grc.hashCode() != gri.hashCode()</span></span></td>
 </tr>
  <tr id="l103">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=103#src-103">103</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 103, 'Tests that hit line # 103');" ><span title="Line 103, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-103" class="srcLine"><span class="nolink" title="Line 103, Col 3: statement executed 1 time.">        grc.hashCode() != gri.hashCode()</span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=103#src-103">103</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-103" class="srcLine">    }</span></td>
 </tr>
  <tr id="l104">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=104#src-104">104</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-104" class="srcLine">    }</span></td>
-</tr>
- <tr id="l105">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=105#src-105">105</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-105" class="srcLine">    </span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-104" class="srcLine">    </span></td>
 </tr>
 <tr class="inlineStatsRow" align="right" valign="middle">
-<td class="coverageCount"><a name="106" class="nolink">&#160;</a></td>
-    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-106' onclick="toggleInlineStats(this, 'inlinestats-106');"/>
+<td class="coverageCount"><a name="105" class="nolink">&#160;</a></td>
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='inlineStatsToggle-105' onclick="toggleInlineStats(this, 'inlinestats-105');"/>
     <td align="center" valign="middle">
-        <table id="inlinestats-106" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
-            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-106'), 'inlinestats-106');return true;">
+        <table id="inlinestats-105" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('inlineStatsToggle-105'), 'inlinestats-105');return true;">
                 <td><div>
 <div title="100% Covered" style="min-width:40px;" class="barNegative contribBarNegative barNegative"><div class="barPositive contribBarPositive barPositive" style="width:100%"></div></div></div></td><td>100%</td>
                 <td class="inlineStat">Uncovered Elements: 0 (5)</td>
@@ -1270,55 +1256,55 @@
         </table>
     </td>
 </tr>
-<tr id="l106">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=106#src-106">106</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 106, 'Tests that hit $spock_feature_1_4()&#160;:&#160;void');" ><span title="Line 106, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
-<td class=" methodStart  srcCell" id="id-106"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 106,113);" id="img-106" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-106" class="srcLine"><span class="nolink" title="Line 106, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify toString&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-106'), 106,113);" id="e106" style="display:none;border:none;">...</span></span></td>
+<tr id="l105">
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=105#src-105">105</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 105, 'Tests that hit $spock_feature_1_4()&#160;:&#160;void');" ><span title="Line 105, Col 2: method entered 1 time." class="nolink">&#160;1</span></td>
+<td class=" methodStart  srcCell" id="id-105"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 105,112);" id="img-105" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-105" class="srcLine"><span class="nolink" title="Line 105, Col 2: method entered 1 time.">    <span class="keyword">def</span> <span class="string">&quot;Verify toString&quot;</span>(){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-105'), 105,112);" id="e105" style="display:none;border:none;">...</span></span></td>
+</tr>
+ <tr id="l106">
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=106#src-106">106</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-106" class="srcLine">        expect:</span></td>
 </tr>
  <tr id="l107">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=107#src-107">107</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-107" class="srcLine">        expect:</span></td>
+<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=107#src-107">107</a></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 107, 'Tests that hit line # 107');" ><span title="Line 107, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-107" class="srcLine"><span class="nolink" title="Line 107, Col 3: statement executed 1 time.">        grn.toString() == <span class="string">&quot;GeographicRegion [regionType=none]&quot;</span></span></span></td>
 </tr>
  <tr id="l108">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=108#src-108">108</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 108, 'Tests that hit line # 108');" ><span title="Line 108, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-108" class="srcLine"><span class="nolink" title="Line 108, Col 3: statement executed 1 time.">        grn.toString() == <span class="string">&quot;GeographicRegion [regionType=none]&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-108" class="srcLine"><span class="nolink" title="Line 108, Col 3: statement executed 1 time.">        grc.toString() == <span class="string">&quot;GeographicRegion [regionType=circle, circularRegion=CircularRegion [center=TwoDLocation [latitude=-150, longitude=150], radius=1]]&quot;</span></span></span></td>
 </tr>
  <tr id="l109">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=109#src-109">109</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 109, 'Tests that hit line # 109');" ><span title="Line 109, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-109" class="srcLine"><span class="nolink" title="Line 109, Col 3: statement executed 1 time.">        grc.toString() == <span class="string">&quot;GeographicRegion [regionType=circle, circularRegion=CircularRegion [center=TwoDLocation [latitude=-150, longitude=150], radius=1]]&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-109" class="srcLine"><span class="nolink" title="Line 109, Col 3: statement executed 1 time.">        grr.toString() == <span class="string">&quot;GeographicRegion [regionType=rectangle, rectangularRegions=[RectangularRegion [northwest=TwoDLocation [latitude=-150, longitude=150], southeast=TwoDLocation [latitude=-250, longitude=250]], RectangularRegion [northwest=TwoDLocation [latitude=-100, longitude=100], southeast=TwoDLocation [latitude=-200, longitude=200]]]]&quot;</span></span></span></td>
 </tr>
  <tr id="l110">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=110#src-110">110</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 110, 'Tests that hit line # 110');" ><span title="Line 110, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-110" class="srcLine"><span class="nolink" title="Line 110, Col 3: statement executed 1 time.">        grr.toString() == <span class="string">&quot;GeographicRegion [regionType=rectangle, rectangularRegions=[RectangularRegion [northwest=TwoDLocation [latitude=-150, longitude=150], southeast=TwoDLocation [latitude=-250, longitude=250]], RectangularRegion [northwest=TwoDLocation [latitude=-100, longitude=100], southeast=TwoDLocation [latitude=-200, longitude=200]]]]&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-110" class="srcLine"><span class="nolink" title="Line 110, Col 3: statement executed 1 time.">        grp.toString() == <span class="string">&quot;GeographicRegion [regionType=polygon, polygonalRegion=PolygonalRegion [points=[TwoDLocation [latitude=1, longitude=-1], TwoDLocation [latitude=2, longitude=-2]]]]&quot;</span></span></span></td>
 </tr>
  <tr id="l111">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=111#src-111">111</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 111, 'Tests that hit line # 111');" ><span title="Line 111, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-111" class="srcLine"><span class="nolink" title="Line 111, Col 3: statement executed 1 time.">        grp.toString() == <span class="string">&quot;GeographicRegion [regionType=polygon, polygonalRegion=PolygonalRegion [points=[TwoDLocation [latitude=1, longitude=-1], TwoDLocation [latitude=2, longitude=-2]]]]&quot;</span></span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-111" class="srcLine"><span class="nolink" title="Line 111, Col 3: statement executed 1 time.">        gri.toString() == <span class="string">&quot;GeographicRegion [regionType=id, identifiedRegion=IdentifiedRegion [regionDictionary=un_stats, regionIdentifier=123, localRegion=IntX [value=321]]]&quot;</span></span></span></td>
 </tr>
  <tr id="l112">
-<td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=112#src-112">112</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 112, 'Tests that hit line # 112');" ><span title="Line 112, Col 3: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-112" class="srcLine"><span class="nolink" title="Line 112, Col 3: statement executed 1 time.">        gri.toString() == <span class="string">&quot;GeographicRegion [regionType=id, identifiedRegion=IdentifiedRegion [regionDictionary=un_stats, regionIdentifier=123, localRegion=IntX [value=321]]]&quot;</span></span></span></td>
+<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=112#src-112">112</a></td>
+<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-112" class="srcLine">    }</span></td>
 </tr>
  <tr id="l113">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=113#src-113">113</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-113" class="srcLine">    }</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-113" class="srcLine">}</span></td>
 </tr>
  <tr id="l114">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=114#src-114">114</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-114" class="srcLine">}</span></td>
-</tr>
- <tr id="l115">
-<td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=115#src-115">115</a></td>
-<td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-115" class="srcLine"></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-114" class="srcLine"></span></td>
 </tr>
  
     </tbody></table>    </div>
@@ -1338,16 +1324,13 @@
 </script>
 <script src="GeographicRegionSpec.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -1359,7 +1342,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

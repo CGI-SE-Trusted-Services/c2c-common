@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('style.css');
-        @import url('jstree/jstree.styles.css');
         @import url('tree.css');
         
     </style>
 
     <script src="jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="jstree/jstree.min.js" type="text/javascript"></script>
     <script src="aui/js/aui.min.js" type="text/javascript"></script>
     <script src="aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="package-nodes-tree.js" type="text/javascript"></script>
+    <script src="clover-tree.js" type="text/javascript"></script>
     <script src="clover.js" type="text/javascript"></script>
+    <script src="clover-descriptions.js" type="text/javascript"></script>
     <script src="cloud.js" type="text/javascript"></script>
     <script src="help.js" type="text/javascript"></script>
     <script src="overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="sorttable.js" type="text/javascript"></script>
     <script src="utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body  >
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                   <div class="packages-tree-wrapper" data-root-relative="" data-package-name="">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li>
+        <li><a href="dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li>
     </ol>
     
 <h1 class="aui-h2-clover">
@@ -177,61 +168,61 @@
 <div style="display: table">
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of branches in this project">Branches:</label></div>
-        <div class="stats-box-value">792</div>
+        <div class="stats-box-value">1,740</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of statements in this project">Statements:</label></div>
-        <div class="stats-box-value">2,104</div>
+        <div class="stats-box-value">5,044</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of methods in this project">Methods:</label></div>
-        <div class="stats-box-value">499</div>
+        <div class="stats-box-value">1,479</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of classes in this project">Classes:</label></div>
-        <div class="stats-box-value">63</div>
+        <div class="stats-box-value">264</div>
     </div>
             <div class="stats-box">
             <div class="stats-box-label"><label title="Total number of files in this project">Files:</label></div>
-            <div class="stats-box-value">62</div>
+            <div class="stats-box-value">233</div>
         </div>
                 <div class="stats-box">
             <div class="stats-box-label"><label title="Total number of packages in this project">Packages:</label></div>
-            <div class="stats-box-value">6</div>
+            <div class="stats-box-value">20</div>
         </div>
         <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of lines of code in this project">LOC:</label></div>
-        <div class="stats-box-value">9,316</div>
+        <div class="stats-box-value">26,174</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of non-comment lines of code in this project">NCLOC:</label></div>
-        <div class="stats-box-value">4,658</div>
+        <div class="stats-box-value">12,492</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Cyclomatic complexity is the number of paths in this project">Total complexity:</label></div>
-        <div class="stats-box-value">1,045</div>
+        <div class="stats-box-value">2,669</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label">
             <label title="Complexity density is the complexity divided by the number of statements in this project">Complexity density:</label>
         </div>
-        <div class="stats-box-value">0.5</div>
+        <div class="stats-box-value">0.53</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Number of statements per method.">Statements/Method:</label></div>
-        <div class="stats-box-value">4.22</div>
+        <div class="stats-box-value">3.41</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Number of methods per class.">Methods/Class:</label></div>
-        <div class="stats-box-value">7.92</div>
+        <div class="stats-box-value">5.6</div>
     </div>
             <div class="stats-box">
             <div class="stats-box-label"><label title="Number of classes per package.">Classes/Package:</label></div>
-            <div class="stats-box-value">10.5</div>
+            <div class="stats-box-value">13.2</div>
         </div>
         <div class="stats-box">
         <div class="stats-box-label"><label title="Complexity divided by the number of methods in this project">Average method complexity:</label></div>
-        <div class="stats-box-value">2.09</div>
+        <div class="stats-box-value">1.8</div>
     </div>
 </div>
 
@@ -242,61 +233,61 @@
 <div style="display: table">
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of branches in this project">Branches:</label></div>
-        <div class="stats-box-value">792</div>
+        <div class="stats-box-value">1,740</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of statements in this project">Statements:</label></div>
-        <div class="stats-box-value">2,104</div>
+        <div class="stats-box-value">5,044</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of methods in this project">Methods:</label></div>
-        <div class="stats-box-value">499</div>
+        <div class="stats-box-value">1,479</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of classes in this project">Classes:</label></div>
-        <div class="stats-box-value">63</div>
+        <div class="stats-box-value">264</div>
     </div>
             <div class="stats-box">
             <div class="stats-box-label"><label title="Total number of files in this project">Files:</label></div>
-            <div class="stats-box-value">62</div>
+            <div class="stats-box-value">233</div>
         </div>
                 <div class="stats-box">
             <div class="stats-box-label"><label title="Total number of packages in this project">Packages:</label></div>
-            <div class="stats-box-value">6</div>
+            <div class="stats-box-value">20</div>
         </div>
         <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of lines of code in this project">LOC:</label></div>
-        <div class="stats-box-value">9,316</div>
+        <div class="stats-box-value">26,174</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of non-comment lines of code in this project">NCLOC:</label></div>
-        <div class="stats-box-value">4,658</div>
+        <div class="stats-box-value">12,492</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Cyclomatic complexity is the number of paths in this project">Total complexity:</label></div>
-        <div class="stats-box-value">1,045</div>
+        <div class="stats-box-value">2,669</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label">
             <label title="Complexity density is the complexity divided by the number of statements in this project">Complexity density:</label>
         </div>
-        <div class="stats-box-value">0.5</div>
+        <div class="stats-box-value">0.53</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Number of statements per method.">Statements/Method:</label></div>
-        <div class="stats-box-value">4.22</div>
+        <div class="stats-box-value">3.41</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Number of methods per class.">Methods/Class:</label></div>
-        <div class="stats-box-value">7.92</div>
+        <div class="stats-box-value">5.6</div>
     </div>
             <div class="stats-box">
             <div class="stats-box-label"><label title="Number of classes per package.">Classes/Package:</label></div>
-            <div class="stats-box-value">10.5</div>
+            <div class="stats-box-value">13.2</div>
         </div>
         <div class="stats-box">
         <div class="stats-box-label"><label title="Complexity divided by the number of methods in this project">Average method complexity:</label></div>
-        <div class="stats-box-value">2.09</div>
+        <div class="stats-box-value">1.8</div>
     </div>
 </div>
 
@@ -330,14 +321,14 @@
             <tbody>
                                 <tr>
     <td>
-                <span class="sortValue">Clover&#160;database&#160;Wed&#160;Apr&#160;1&#160;2015&#160;14:07:59&#160;CEST</span>
-                    Clover&#160;database&#160;Wed&#160;Apr&#160;1&#160;2015&#160;14:07:59&#160;CEST
+                <span class="sortValue">Clover&#160;database&#160;Wed&#160;Mar&#160;16&#160;2016&#160;10:12:50&#160;CET</span>
+                    Clover&#160;database&#160;Wed&#160;Mar&#160;16&#160;2016&#160;10:12:50&#160;CET
                     </td>
 
                 
         <td class=" " align="right">
-            <span class="sortValue">6.0</span>
-            6
+            <span class="sortValue">20.0</span>
+            20
         </td>
         
             
@@ -348,29 +339,29 @@
         
             
         <td class=" " align="right">
-            <span class="sortValue">2.0941885</span>
-            2.09
+            <span class="sortValue">1.8045977</span>
+            1.8
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">558.0</span>
-            558
+            <span class="sortValue">1145.0</span>
+            1,145
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">0.83564067</span>
+            <span class="sortValue">0.86143047</span>
             <div style="display: table; width: 100%">
-<div class="barGraphValue"><span class="sortValue">0.83564067</span>83.6%</div><div style="display: table-cell">
- <div title="83.6% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:83.6%"></div></div></div></div>
+<div class="barGraphValue"><span class="sortValue">0.86143047</span>86.1%</div><div style="display: table-cell">
+ <div title="86.1% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:86.1%"></div></div></div></div>
         </td>
         
     </tr>
             </tbody>
         </table>
 
-                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                             <div>&#160;</div>
                         <div>
     Metrics from sub-packages:
@@ -422,7 +413,85 @@
 </thead>
                 <tbody>
                     
-                                                                                            <tr>
+                                                                                                                                                                                    <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.common.crypto</span>
+                    <a href="org/certificateservices/custom/c2x/common/crypto/pkg-summary.html" title="org.certificateservices.custom.c2x.common.crypto">org.certificateservices.custom.c2x.common.crypto</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">10.0</span>
+            10
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">2.4591837</span>
+            2.46
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">231.0</span>
+            231
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.7588726</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.7588726</span>75.9%</div><div style="display: table-cell">
+ <div title="75.9% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:75.9%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.asn1.coer</span>
+                    <a href="org/certificateservices/custom/c2x/asn1/coer/pkg-summary.html" title="org.certificateservices.custom.c2x.asn1.coer">org.certificateservices.custom.c2x.asn1.coer</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">15.0</span>
+            15
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">2.29375</span>
+            2.29
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">241.0</span>
+            241
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.7966245</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.7966245</span>79.7%</div><div style="display: table-cell">
+ <div title="79.7% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:79.7%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
     <td>
                 <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.cert</span>
                     <a href="org/certificateservices/custom/c2x/its/datastructs/cert/pkg-summary.html" title="org.certificateservices.custom.c2x.its.datastructs.cert">org.certificateservices.custom.c2x.its.datastructs.cert</a>
@@ -463,6 +532,45 @@
     </tr>
                                                                                                 <tr>
     <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.secenv</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/crl/secenv/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.secenv">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.secenv</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">3.0</span>
+            3
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.9375</span>
+            1.94
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">14.0</span>
+            14
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.82051283</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.82051283</span>82.1%</div><div style="display: table-cell">
+ <div title="82.1% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:82.1%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
                 <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.basic</span>
                     <a href="org/certificateservices/custom/c2x/its/datastructs/basic/pkg-summary.html" title="org.certificateservices.custom.c2x.its.datastructs.basic">org.certificateservices.custom.c2x.its.datastructs.basic</a>
                     </td>
@@ -481,29 +589,29 @@
         
             
         <td class=" " align="right">
-            <span class="sortValue">2.0301723</span>
+            <span class="sortValue">2.0299146</span>
             2.03
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">266.0</span>
-            266
+            <span class="sortValue">268.0</span>
+            268
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">0.82123655</span>
+            <span class="sortValue">0.8210948</span>
             <div style="display: table; width: 100%">
-<div class="barGraphValue"><span class="sortValue">0.82123655</span>82.1%</div><div style="display: table-cell">
+<div class="barGraphValue"><span class="sortValue">0.8210948</span>82.1%</div><div style="display: table-cell">
  <div title="82.1% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:82.1%"></div></div></div></div>
         </td>
         
     </tr>
                                                                                                 <tr>
     <td>
-                <span class="sortValue">org.certificateservices.custom.c2x.its.crypto</span>
-                    <a href="org/certificateservices/custom/c2x/its/crypto/pkg-summary.html" title="org.certificateservices.custom.c2x.its.crypto">org.certificateservices.custom.c2x.its.crypto</a>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/generator/recipient/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient">org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient</a>
                     </td>
 
                 
@@ -520,8 +628,47 @@
         
             
         <td class=" " align="right">
-            <span class="sortValue">2.3584905</span>
-            2.36
+            <span class="sortValue">1.8888888</span>
+            1.89
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">12.0</span>
+            12
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.82857144</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.82857144</span>82.9%</div><div style="display: table-cell">
+ <div title="82.9% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:82.9%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.generator</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/generator/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.generator">org.certificateservices.custom.c2x.ieee1609dot2.generator</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">7.0</span>
+            7
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">2.7142856</span>
+            2.71
         </td>
         
             
@@ -532,10 +679,10 @@
         
             
         <td class=" " align="right">
-            <span class="sortValue">0.8340249</span>
+            <span class="sortValue">0.8484849</span>
             <div style="display: table; width: 100%">
-<div class="barGraphValue"><span class="sortValue">0.8340249</span>83.4%</div><div style="display: table-cell">
- <div title="83.4% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:83.4%"></div></div></div></div>
+<div class="barGraphValue"><span class="sortValue">0.8484849</span>84.8%</div><div style="display: table-cell">
+ <div title="84.8% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:84.8%"></div></div></div></div>
         </td>
         
     </tr>
@@ -619,8 +766,8 @@
     </tr>
                                                                                                 <tr>
     <td>
-                <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs</span>
-                    <a href="org/certificateservices/custom/c2x/its/datastructs/pkg-summary.html" title="org.certificateservices.custom.c2x.its.datastructs">org.certificateservices.custom.c2x.its.datastructs</a>
+                <span class="sortValue">org.certificateservices.custom.c2x.common</span>
+                    <a href="org/certificateservices/custom/c2x/common/pkg-summary.html" title="org.certificateservices.custom.c2x.common">org.certificateservices.custom.c2x.common</a>
                     </td>
 
                 
@@ -656,22 +803,331 @@
         </td>
         
     </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/crl/basic/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">17.0</span>
+            17
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.4271845</span>
+            1.43
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">17.0</span>
+            17
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.95981085</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.95981085</span>96%</div><div style="display: table-cell">
+ <div title="96% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:96%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/basic/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">72.0</span>
+            72
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.2969697</span>
+            1.3
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">45.0</span>
+            45
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.9603524</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.9603524</span>96%</div><div style="display: table-cell">
+ <div title="96% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:96%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.p2p</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/p2p/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.datastructs.p2p">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.p2p</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">4.0</span>
+            4
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.2222222</span>
+            1.22
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">2.0</span>
+            2
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.9607843</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.9607843</span>96.1%</div><div style="display: table-cell">
+ <div title="96.1% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:96.1%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/crl/ssp/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">3.0</span>
+            3
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.5</span>
+            1.5
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">2.0</span>
+            2
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.96153843</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.96153843</span>96.2%</div><div style="display: table-cell">
+ <div title="96.2% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:96.2%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/secureddata/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">10.0</span>
+            10
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.4864864</span>
+            1.49
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">9.0</span>
+            9
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.96896553</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.96896553</span>96.9%</div><div style="display: table-cell">
+ <div title="96.9% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:96.9%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/enc/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">9.0</span>
+            9
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.25</span>
+            1.25
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">4.0</span>
+            4
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.9754601</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.9754601</span>97.5%</div><div style="display: table-cell">
+ <div title="97.5% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:97.5%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/datastructs/cert/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert">org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">12.0</span>
+            12
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.5</span>
+            1.5
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">8.0</span>
+            8
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.97783935</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.97783935</span>97.8%</div><div style="display: table-cell">
+ <div title="97.8% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:97.8%"></div></div></div></div>
+        </td>
+        
+    </tr>
+                                                                                                <tr>
+    <td>
+                <span class="sortValue">org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver</span>
+                    <a href="org/certificateservices/custom/c2x/ieee1609dot2/generator/receiver/pkg-summary.html" title="org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver">org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver</a>
+                    </td>
+
+                
+        <td class=" " align="right">
+            <span class="sortValue">7.0</span>
+            7
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0%
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.0588236</span>
+            1.06
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">0.0</span>
+            0
+        </td>
+        
+            
+        <td class=" " align="right">
+            <span class="sortValue">1.0</span>
+            <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">1.0</span>100%</div><div style="display: table-cell">
+ <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div>
+        </td>
+        
+    </tr>
                                                             </tbody>
             </table>
         
     </div> <!-- tabs-pane active-pane -->
 </div> <!-- aui-tabs horizontal-tabs -->
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -683,7 +1139,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

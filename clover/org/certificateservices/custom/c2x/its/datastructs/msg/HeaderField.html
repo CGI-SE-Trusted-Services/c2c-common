@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.msg">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="pkg-summary.html">        Package org.certificateservices.custom.c2x.its.datastructs.msg</a></li> 
     </ol>
     
@@ -164,17 +155,17 @@
                     <img src="../../../../../../../img/srcFileCovDistChart10.png" alt="../../../../../../../img/srcFileCovDistChart10.png"
                          usemap="#srcFileCovDistChart10.png" class="clover-histogram-img"/>
                     <map id="srcFileCovDistChart10.png" name="srcFileCovDistChart10.png">
-<area shape="rect" coords="81,22,87,48" title="18 files have 91-100% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="74,8,80,49" title="28 files have 81-90% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="67,33,73,49" title="11 files have 71-80% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="60,46,66,48" title="2 files have 61-70% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="53,49,59,50" title="0 files have 51-60% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="46,47,52,48" title="1 file has 41-50% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="39,49,45,50" title="0 files have 31-40% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="32,49,38,50" title="0 files have 21-30% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="25,49,31,50" title="0 files have 11-20% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="18,49,24,50" title="0 files have 1-10% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="11,47,17,48" title="1 file has 0% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="100,8,107,65" title="153 files have 91-100% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="91,50,98,66" title="43 files have 81-90% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="82,59,89,66" title="20 files have 71-80% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="73,65,80,66" title="4 files have 61-70% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="64,66,71,67" title="1 file has 51-60% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="56,66,63,67" title="2 files have 41-50% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="47,66,54,67" title="0 files have 31-40% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="38,66,45,67" title="0 files have 21-30% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="29,66,36,67" title="0 files have 11-20% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="20,66,27,67" title="0 files have 1-10% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="11,66,18,67" title="2 files have 0% coverage" alt="" nohref="nohref"/>
 </map><br />
                     <span class="subtle"><strong>0% </strong>of files have more coverage</span>
                 </div>
@@ -440,8 +431,8 @@
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="HeaderField-5">
 <td id="summary-126-2">
- <span class="sortValue">HeaderField(HeaderFieldType,List&lt;StructSerializer&gt;)</span>
-&#160;&#160;<a href="?line=29#126" title="HeaderField(HeaderFieldType,List&lt;StructSerializer&gt;)" name="sl-126" onclick="closeDialogAndScrollTo('dialog-HeaderField', '126');">HeaderField(HeaderFieldType,List&lt;StructSerializer&gt;)</a>
+ <span class="sortValue">HeaderField(HeaderFieldType,List&lt;Encodable&gt;)</span>
+&#160;&#160;<a href="?line=29#126" title="HeaderField(HeaderFieldType,List&lt;Encodable&gt;)" name="sl-126" onclick="closeDialogAndScrollTo('dialog-HeaderField', '126');">HeaderField(HeaderFieldType,List&lt;Encodable&gt;)</a>
 </td>
 <td align="right"><span class="sortValue">126</span>126</td>
 <td class="" align="right"><span class="sortValue">4.0</span>4</td>
@@ -570,8 +561,8 @@
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="HeaderField-15">
 <td id="summary-227-2">
- <span class="sortValue">getDigests()&#160;:&#160;List&lt;StructSerializer&gt;</span>
-&#160;&#160;<a href="?line=29#227" title="getDigests()&#160;:&#160;List&lt;StructSerializer&gt;" name="sl-227" onclick="closeDialogAndScrollTo('dialog-HeaderField', '227');">getDigests()&#160;:&#160;List&lt;StructSerializer&gt;</a>
+ <span class="sortValue">getDigests()&#160;:&#160;List&lt;Encodable&gt;</span>
+&#160;&#160;<a href="?line=29#227" title="getDigests()&#160;:&#160;List&lt;Encodable&gt;" name="sl-227" onclick="closeDialogAndScrollTo('dialog-HeaderField', '227');">getDigests()&#160;:&#160;List&lt;Encodable&gt;</a>
 </td>
 <td align="right"><span class="sortValue">227</span>227</td>
 <td class="" align="right"><span class="sortValue">3.0</span>3</td>
@@ -583,8 +574,8 @@
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="HeaderField-16">
 <td id="summary-240-2">
- <span class="sortValue">getRecipients()&#160;:&#160;List&lt;StructSerializer&gt;</span>
-&#160;&#160;<a href="?line=29#240" title="getRecipients()&#160;:&#160;List&lt;StructSerializer&gt;" name="sl-240" onclick="closeDialogAndScrollTo('dialog-HeaderField', '240');">getRecipients()&#160;:&#160;List&lt;StructSerializer&gt;</a>
+ <span class="sortValue">getRecipients()&#160;:&#160;List&lt;Encodable&gt;</span>
+&#160;&#160;<a href="?line=29#240" title="getRecipients()&#160;:&#160;List&lt;Encodable&gt;" name="sl-240" onclick="closeDialogAndScrollTo('dialog-HeaderField', '240');">getRecipients()&#160;:&#160;List&lt;Encodable&gt;</a>
 </td>
 <td align="right"><span class="sortValue">240</span>240</td>
 <td class="" align="right"><span class="sortValue">3.0</span>3</td>
@@ -635,8 +626,8 @@
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="HeaderField-20">
 <td id="summary-278-2">
- <span class="sortValue">serialize(DataOutputStream)&#160;:&#160;void</span>
-&#160;&#160;<a href="?line=29#278" title="serialize(DataOutputStream)&#160;:&#160;void" name="sl-278" onclick="closeDialogAndScrollTo('dialog-HeaderField', '278');">serialize(DataOutputStream)&#160;:&#160;void</a>
+ <span class="sortValue">encode(DataOutputStream)&#160;:&#160;void</span>
+&#160;&#160;<a href="?line=29#278" title="encode(DataOutputStream)&#160;:&#160;void" name="sl-278" onclick="closeDialogAndScrollTo('dialog-HeaderField', '278');">encode(DataOutputStream)&#160;:&#160;void</a>
 </td>
 <td align="right"><span class="sortValue">278</span>278</td>
 <td class="" align="right"><span class="sortValue">27.0</span>27</td>
@@ -648,8 +639,8 @@
  <div title="100% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:100%"></div></div></div></div></td>
  </tr>                                                                                                                <tr id="HeaderField-21">
 <td id="summary-312-2">
- <span class="sortValue">deserialize(DataInputStream)&#160;:&#160;void</span>
-&#160;&#160;<a href="?line=29#312" title="deserialize(DataInputStream)&#160;:&#160;void" name="sl-312" onclick="closeDialogAndScrollTo('dialog-HeaderField', '312');">deserialize(DataInputStream)&#160;:&#160;void</a>
+ <span class="sortValue">decode(DataInputStream)&#160;:&#160;void</span>
+&#160;&#160;<a href="?line=29#312" title="decode(DataInputStream)&#160;:&#160;void" name="sl-312" onclick="closeDialogAndScrollTo('dialog-HeaderField', '312');">decode(DataInputStream)&#160;:&#160;void</a>
 </td>
 <td align="right"><span class="sortValue">312</span>312</td>
 <td class="" align="right"><span class="sortValue">37.0</span>37</td>
@@ -744,340 +735,340 @@
             </thead>
             <tbody id="tests-body">
 
-<tr id="test-232">
-<td><a name="testA-232"></a><input type="checkbox" id="cb-232" value="232" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_6g.html';">
+<tr id="test-28">
+<td><a name="testA-28"></a><input type="checkbox" id="cb-28" value="28" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_s.html';">
 <span class="sortValue">0.47586206</span>
 <div>
 <div title="47.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:47.6%"></div></div></div></td>
-<td id="tc-232">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that signAndEncryptSecureMessage and verifyAndDecryptSecuredMessage both encrypts and signs properly</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_6g.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that signAndEncryptSecureMessage and verifyAndDecryptSecuredMessage both encrypts and signs properly</a>
+<td id="tc-28">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that signAndEncryptSecureMessage and verifyAndDecryptSecuredMessage both encrypts and signs properly</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_s.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that signAndEncryptSecureMessage and verifyAndDecryptSecuredMessage both encrypts and signs properly</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=560#src-560" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=670#src-670" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_6g.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_s.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-138">
-<td><a name="testA-138"></a><input type="checkbox" id="cb-138" value="138" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_3u.html';">
+<tr id="test-913">
+<td><a name="testA-913"></a><input type="checkbox" id="cb-913" value="913" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_pd.html';">
 <span class="sortValue">0.46206897</span>
 <div>
 <div title="46.2% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:46.2%"></div></div></div></td>
-<td id="tc-138">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_3u.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify deserialization</a>
+<td id="tc-913">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_pd.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=126#src-126" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=125#src-125" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_3u.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_deserialization_pd.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-357">
-<td><a name="testA-357"></a><input type="checkbox" id="cb-357" value="357" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_verify_that_encryptSecureMessage_and_decryptSecureMessage_encrypts_and_decrypts_correctly_9x.html';">
+<tr id="test-359">
+<td><a name="testA-359"></a><input type="checkbox" id="cb-359" value="359" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_verify_that_encryptSecureMessage_and_decryptSecureMessage_encrypts_and_decrypts_correctly_9z.html';">
 <span class="sortValue">0.31724137</span>
 <div>
 <div title="31.7% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:31.7%"></div></div></div></td>
-<td id="tc-357">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.verify that encryptSecureMessage and decryptSecureMessage encrypts and decrypts correctly</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_verify_that_encryptSecureMessage_and_decryptSecureMessage_encrypts_and_decrypts_correctly_9x.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.verify that encryptSecureMessage and decryptSecureMessage encrypts and decrypts correctly</a>
+<td id="tc-359">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.verify that encryptSecureMessage and decryptSecureMessage encrypts and decrypts correctly</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_verify_that_encryptSecureMessage_and_decryptSecureMessage_encrypts_and_decrypts_correctly_9z.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.verify that encryptSecureMessage and decryptSecureMessage encrypts and decrypts correctly</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=488#src-488" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=598#src-598" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_verify_that_encryptSecureMessage_and_decryptSecureMessage_encrypts_and_decrypts_correctly_9x.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_verify_that_encryptSecureMessage_and_decryptSecureMessage_encrypts_and_decrypts_correctly_9z.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-148">
-<td><a name="testA-148"></a><input type="checkbox" id="cb-148" value="148" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html';">
+<tr id="test-292">
+<td><a name="testA-292"></a><input type="checkbox" id="cb-292" value="292" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html';">
 <span class="sortValue">0.28965518</span>
 <div>
 <div title="29% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:29%"></div></div></div></td>
-<td id="tc-148">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</a>
+<td id="tc-292">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=420#src-420" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=530#src-530" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-1">
-<td><a name="testA-1"></a><input type="checkbox" id="cb-1" value="1" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__1.html';">
+<tr id="test-159">
+<td><a name="testA-159"></a><input type="checkbox" id="cb-159" value="159" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__4f.html';">
 <span class="sortValue">0.28275862</span>
 <div>
 <div title="28.3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.3%"></div></div></div></td>
-<td id="tc-1">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__1.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies.</a>
+<td id="tc-159">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__4f.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=187#src-187" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__1.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__4f.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-27">
-<td><a name="testA-27"></a><input type="checkbox" id="cb-27" value="27" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html';">
+<tr id="test-846">
+<td><a name="testA-846"></a><input type="checkbox" id="cb-846" value="846" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html';">
 <span class="sortValue">0.27586207</span>
 <div>
 <div title="27.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:27.6%"></div></div></div></td>
-<td id="tc-27">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</a>
+<td id="tc-846">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=420#src-420" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=530#src-530" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-13">
-<td><a name="testA-13"></a><input type="checkbox" id="cb-13" value="13" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html';">
+<tr id="test-915">
+<td><a name="testA-915"></a><input type="checkbox" id="cb-915" value="915" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html';">
 <span class="sortValue">0.2551724</span>
 <div>
 <div title="25.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:25.5%"></div></div></div></td>
-<td id="tc-13">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</a>
+<td id="tc-915">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=217#src-217" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-376">
-<td><a name="testA-376"></a><input type="checkbox" id="cb-376" value="376" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_signature_of_reference_secure_messages_from_interoperabiltity_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ag.html';">
+<tr id="test-353">
+<td><a name="testA-353"></a><input type="checkbox" id="cb-353" value="353" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_signature_of_reference_secure_messages_from_interoperabiltity_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__9t.html';">
 <span class="sortValue">0.22758621</span>
 <div>
 <div title="22.8% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:22.8%"></div></div></div></td>
-<td id="tc-376">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify signature of reference secure messages from interoperabiltity site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_signature_of_reference_secure_messages_from_interoperabiltity_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ag.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify signature of reference secure messages from interoperabiltity site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</a>
+<td id="tc-353">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify signature of reference secure messages from interoperabiltity site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_signature_of_reference_secure_messages_from_interoperabiltity_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__9t.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify signature of reference secure messages from interoperabiltity site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=668#src-668" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=778#src-778" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_signature_of_reference_secure_messages_from_interoperabiltity_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ag.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_signature_of_reference_secure_messages_from_interoperabiltity_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__9t.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-227">
-<td><a name="testA-227"></a><input type="checkbox" id="cb-227" value="227" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_the_constructors_and_getters_6b.html';">
+<tr id="test-126">
+<td><a name="testA-126"></a><input type="checkbox" id="cb-126" value="126" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_the_constructors_and_getters_3i.html';">
 <span class="sortValue">0.22068965</span>
 <div>
 <div title="22.1% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:22.1%"></div></div></div></td>
-<td id="tc-227">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_the_constructors_and_getters_6b.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify the constructors and getters</a>
+<td id="tc-126">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify the constructors and getters</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_the_constructors_and_getters_3i.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify the constructors and getters</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=70#src-70" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=69#src-69" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_the_constructors_and_getters_6b.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_the_constructors_and_getters_3i.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-26">
-<td><a name="testA-26"></a><input type="checkbox" id="cb-26" value="26" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_q.html';">
+<tr id="test-669">
+<td><a name="testA-669"></a><input type="checkbox" id="cb-669" value="669" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_il.html';">
 <span class="sortValue">0.2137931</span>
 <div>
 <div title="21.4% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:21.4%"></div></div></div></td>
-<td id="tc-26">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_q.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</a>
+<td id="tc-669">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_il.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT.html?line=150#src-150" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_q.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_il.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-277">
-<td><a name="testA-277"></a><input type="checkbox" id="cb-277" value="277" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__7p.html';">
+<tr id="test-709">
+<td><a name="testA-709"></a><input type="checkbox" id="cb-709" value="709" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__jp.html';">
 <span class="sortValue">0.2</span>
 <div>
 <div title="20% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:20%"></div></div></div></td>
-<td id="tc-277">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Message with and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__7p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Message with and verify that all required fields are set and signature verifies.</a>
+<td id="tc-709">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Message with and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__jp.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Message with and verify that all required fields are set and signature verifies.</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=103#src-103" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__7p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__jp.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-241">
-<td><a name="testA-241"></a><input type="checkbox" id="cb-241" value="241" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_6p.html';">
+<tr id="test-376">
+<td><a name="testA-376"></a><input type="checkbox" id="cb-376" value="376" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_toString_ag.html';">
 <span class="sortValue">0.19310345</span>
 <div>
 <div title="19.3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.3%"></div></div></div></td>
-<td id="tc-241">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_6p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify serialization</a>
+<td id="tc-376">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_toString_ag.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=112#src-112" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=170#src-170" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_6p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_toString_ag.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-252">
-<td><a name="testA-252"></a><input type="checkbox" id="cb-252" value="252" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_toString_70.html';">
+<tr id="test-3">
+<td><a name="testA-3"></a><input type="checkbox" id="cb-3" value="3" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_3.html';">
 <span class="sortValue">0.19310345</span>
 <div>
 <div title="19.3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:19.3%"></div></div></div></td>
-<td id="tc-252">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_toString_70.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify toString</a>
+<td id="tc-3">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_3.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.HeaderFieldSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=171#src-171" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec.html?line=111#src-111" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_toString_70.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldSpec_Verify_serialization_3.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-6">
-<td><a name="testA-6"></a><input type="checkbox" id="cb-6" value="6" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__6.html';">
+<tr id="test-597">
+<td><a name="testA-597"></a><input type="checkbox" id="cb-597" value="597" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_gl.html';">
 <span class="sortValue">0.11724138</span>
 <div>
 <div title="11.7% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:11.7%"></div></div></div></td>
-<td id="tc-6">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__6.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</a>
+<td id="tc-597">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_gl.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify deserialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=134#src-134" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=108#src-108" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__6.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_gl.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-87">
-<td><a name="testA-87"></a><input type="checkbox" id="cb-87" value="87" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_2f.html';">
+<tr id="test-694">
+<td><a name="testA-694"></a><input type="checkbox" id="cb-694" value="694" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ja.html';">
 <span class="sortValue">0.11724138</span>
 <div>
 <div title="11.7% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:11.7%"></div></div></div></td>
-<td id="tc-87">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify deserialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_2f.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify deserialization</a>
+<td id="tc-694">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ja.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=109#src-109" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=133#src-133" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_deserialization_2f.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_that_it_is_possible_to_parse_a_SecureMessage_generate_by_interoperability_site_at_https___werkzeug_dcaiti_tu_berlin_de_etsi_ts103097__ja.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-380">
-<td><a name="testA-380"></a><input type="checkbox" id="cb-380" value="380" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_ak.html';">
+<tr id="test-888">
+<td><a name="testA-888"></a><input type="checkbox" id="cb-888" value="888" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_oo.html';">
 <span class="sortValue">0.10344828</span>
 <div>
 <div title="10.3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:10.3%"></div></div></div></td>
-<td id="tc-380">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_ak.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification</a>
+<td id="tc-888">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_oo.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=405#src-405" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=515#src-515" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_ak.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_oo.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-343">
-<td><a name="testA-343"></a><input type="checkbox" id="cb-343" value="343" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_addHeader_adds_the_header_value_in_correct_order_9j.html';">
+<tr id="test-692">
+<td><a name="testA-692"></a><input type="checkbox" id="cb-692" value="692" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_addHeader_adds_the_header_value_in_correct_order_j8.html';">
 <span class="sortValue">0.096551724</span>
 <div>
 <div title="9.7% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:9.7%"></div></div></div></td>
-<td id="tc-343">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that addHeader adds the header value in correct order</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_addHeader_adds_the_header_value_in_correct_order_9j.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that addHeader adds the header value in correct order</a>
+<td id="tc-692">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that addHeader adds the header value in correct order</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_addHeader_adds_the_header_value_in_correct_order_j8.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that addHeader adds the header value in correct order</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=596#src-596" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=706#src-706" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_addHeader_adds_the_header_value_in_correct_order_9j.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_addHeader_adds_the_header_value_in_correct_order_j8.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-133">
-<td><a name="testA-133"></a><input type="checkbox" id="cb-133" value="133" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_3p.html';">
+<tr id="test-99">
+<td><a name="testA-99"></a><input type="checkbox" id="cb-99" value="99" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_2r.html';">
 <span class="sortValue">0.08275862</span>
 <div>
 <div title="8.3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:8.3%"></div></div></div></td>
-<td id="tc-133">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify getEncoded</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_3p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify getEncoded</a>
+<td id="tc-99">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_2r.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify serialization</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=129#src-129" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=102#src-102" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_3p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_2r.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-154">
-<td><a name="testA-154"></a><input type="checkbox" id="cb-154" value="154" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_4a.html';">
+<tr id="test-719">
+<td><a name="testA-719"></a><input type="checkbox" id="cb-719" value="719" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_jz.html';">
 <span class="sortValue">0.08275862</span>
 <div>
 <div title="8.3% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:8.3%"></div></div></div></td>
-<td id="tc-154">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify serialization</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_4a.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify serialization</a>
+<td id="tc-719">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify getEncoded</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_jz.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify getEncoded</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=103#src-103" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=128#src-128" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_serialization_4a.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_getEncoded_jz.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-144">
-<td><a name="testA-144"></a><input type="checkbox" id="cb-144" value="144" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_findHeader_finds_the_correct_header_in_a_SecureMessage_40.html';">
+<tr id="test-961">
+<td><a name="testA-961"></a><input type="checkbox" id="cb-961" value="961" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_findHeader_finds_the_correct_header_in_a_SecureMessage_qp.html';">
 <span class="sortValue">0.07586207</span>
 <div>
 <div title="7.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:7.6%"></div></div></div></td>
-<td id="tc-144">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that findHeader finds the correct header in a SecureMessage</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_findHeader_finds_the_correct_header_in_a_SecureMessage_40.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that findHeader finds the correct header in a SecureMessage</a>
+<td id="tc-961">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that findHeader finds the correct header in a SecureMessage</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_findHeader_finds_the_correct_header_in_a_SecureMessage_qp.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that findHeader finds the correct header in a SecureMessage</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=626#src-626" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=736#src-736" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_findHeader_finds_the_correct_header_in_a_SecureMessage_40.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_findHeader_finds_the_correct_header_in_a_SecureMessage_qp.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
-<tr id="test-354">
-<td><a name="testA-354"></a><input type="checkbox" id="cb-354" value="354" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_9u.html';">
+<tr id="test-570">
+<td><a name="testA-570"></a><input type="checkbox" id="cb-570" value="570" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_fu.html';">
 <span class="sortValue">0.055172414</span>
 <div>
 <div title="5.5% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:5.5%"></div></div></div></td>
-<td id="tc-354">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_9u.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify toString</a>
+<td id="tc-570">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify toString</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_fu.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessageSpec.Verify toString</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=124#src-124" title="View Test Source">
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec.html?line=123#src-123" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_9u.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/SecuredMessageSpec_Verify_toString_fu.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
 
@@ -1204,7 +1195,7 @@
  <tr id="l13">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=13#src-13">13</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../msg/pkg-summary.html">msg</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../msg/pkg-summary.html">msg</a>;</span></td>
 </tr>
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
@@ -1244,47 +1235,47 @@
  <tr id="l21">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=21#src-21">21</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-21" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/SerializationHelper.html#SerializationHelper">SerializationHelper</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-21" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../common/pkg-summary.html">common</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/common/EncodeHelper.html#EncodeHelper">EncodeHelper</a>;</span></td>
 </tr>
  <tr id="l22">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=22#src-22">22</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-22" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-22" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../common/pkg-summary.html">common</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>;</span></td>
 </tr>
  <tr id="l23">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=23#src-23">23</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-23" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EncryptionParameters.html#EncryptionParameters">EncryptionParameters</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-23" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/EncryptionParameters.html#EncryptionParameters">EncryptionParameters</a>;</span></td>
 </tr>
  <tr id="l24">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=24#src-24">24</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-24" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/HashedId3.html#HashedId3">HashedId3</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-24" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/HashedId3.html#HashedId3">HashedId3</a>;</span></td>
 </tr>
  <tr id="l25">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=25#src-25">25</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-25" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html#SignerInfo">SignerInfo</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-25" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/SignerInfo.html#SignerInfo">SignerInfo</a>;</span></td>
 </tr>
  <tr id="l26">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=26#src-26">26</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-26" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocation.html#ThreeDLocation">ThreeDLocation</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-26" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/ThreeDLocation.html#ThreeDLocation">ThreeDLocation</a>;</span></td>
 </tr>
  <tr id="l27">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=27#src-27">27</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-27" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time32.html#Time32">Time32</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-27" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time32.html#Time32">Time32</a>;</span></td>
 </tr>
  <tr id="l28">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=28#src-28">28</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-28" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64.html#Time64">Time64</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-28" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64.html#Time64">Time64</a>;</span></td>
 </tr>
  <tr id="l29">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=29#src-29">29</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-29" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64WithStandardDeviation.html#Time64WithStandardDeviation">Time64WithStandardDeviation</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-29" class="srcLine"><span class="keyword">import</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../basic/pkg-summary.html">basic</a>.<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/Time64WithStandardDeviation.html#Time64WithStandardDeviation">Time64WithStandardDeviation</a>;</span></td>
 </tr>
  <tr id="l30">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=30#src-30">30</a></td>
@@ -1464,7 +1455,7 @@
 <tr id="l62">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=62#src-62">62</a></td>
 <td align="right" class="coverageCount NoHilight "   onclick="return showTestsForLine(this, 62, 'Tests that hit HeaderField');" >&#160;&#160;</td>
-<td class=" srcCell" id="id-62"><span class="spacer"></span><span id="src-62" class="srcLine"><span class="keyword">public</span> <span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a> <span class="keyword">implements</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>{</span></td>
+<td class=" srcCell" id="id-62"><span class="spacer"></span><span id="src-62" class="srcLine"><span class="keyword">public</span> <span class="keyword">class</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a> <span class="keyword">implements</span> <a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>{</span></td>
 </tr>
  <tr id="l63">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=63#src-63">63</a></td>
@@ -1499,7 +1490,7 @@
  <tr id="l69">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=69#src-69">69</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-69" class="srcLine">    <span class="keyword">private</span> List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>&gt; relatedData;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-69" class="srcLine">    <span class="keyword">private</span> List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>&gt; relatedData;</span></td>
 </tr>
  <tr id="l70">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=70#src-70">70</a></td>
@@ -1858,13 +1849,13 @@
 </tr>
 <tr id="l126">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=126#src-126">126</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 126, 'Tests that hit HeaderField(HeaderFieldType,List&lt;StructSerializer&gt;)');" ><span title="Line 126, Col 2: method entered 17 times." class="nolink">&#160;17</span></td>
-<td class=" methodStart  srcCell" id="id-126"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 126,133);" id="img-126" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-126" class="srcLine"><span class="nolink" title="Line 126, Col 2: method entered 17 times.">    <span class="keyword">public</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a>(<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldType.html#HeaderFieldType">HeaderFieldType</a> headerFieldType, List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>&gt; relatedData){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-126'), 126,133);" id="e126" style="display:none;border:none;">...</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 126, 'Tests that hit HeaderField(HeaderFieldType,List&lt;Encodable&gt;)');" ><span title="Line 126, Col 2: method entered 17 times." class="nolink">&#160;17</span></td>
+<td class=" methodStart  srcCell" id="id-126"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 126,133);" id="img-126" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-126" class="srcLine"><span class="nolink" title="Line 126, Col 2: method entered 17 times.">    <span class="keyword">public</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderField.html#HeaderField">HeaderField</a>(<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldType.html#HeaderFieldType">HeaderFieldType</a> headerFieldType, List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>&gt; relatedData){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-126'), 126,133);" id="e126" style="display:none;border:none;">...</span></span></td>
 </tr>
  <tr id="l127">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=127#src-127">127</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 127, 'Tests that hit line # 127');" ><span title="Line 127, Col 5: true branch executed 1 time branch executed 16 times." class="nolink">&#160;17</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-127" class="srcLine"><span class="nolink" title="Line 127, Col 5: true branch executed 1 time branch executed 16 times.">        <span class="keyword">if</span>(headerFieldType != <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldType.html#HeaderFieldType">HeaderFieldType</a>.request_unrecognized_certificate &amp;&amp;</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 127, 'Tests that hit line # 127');" ><span title="Line 127, Col 5: true branch executed 1 time, false branch executed 16 times." class="nolink">&#160;17</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-127" class="srcLine"><span class="nolink" title="Line 127, Col 5: true branch executed 1 time, false branch executed 16 times.">        <span class="keyword">if</span>(headerFieldType != <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldType.html#HeaderFieldType">HeaderFieldType</a>.request_unrecognized_certificate &amp;&amp;</span></span></td>
 </tr>
  <tr id="l128">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=128#src-128">128</a></td>
@@ -2514,13 +2505,13 @@
 </tr>
 <tr id="l227">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=227#src-227">227</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 227, 'Tests that hit getDigests()&#160;:&#160;List&lt;StructSerializer&gt;');" ><span title="Line 227, Col 2: method entered 6 times." class="nolink">&#160;6</span></td>
-<td class=" methodStart  srcCell" id="id-227"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 227,232);" id="img-227" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-227" class="srcLine"><span class="nolink" title="Line 227, Col 2: method entered 6 times.">    <span class="keyword">public</span> List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>&gt; getDigests() {</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-227'), 227,232);" id="e227" style="display:none;border:none;">...</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 227, 'Tests that hit getDigests()&#160;:&#160;List&lt;Encodable&gt;');" ><span title="Line 227, Col 2: method entered 6 times." class="nolink">&#160;6</span></td>
+<td class=" methodStart  srcCell" id="id-227"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 227,232);" id="img-227" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-227" class="srcLine"><span class="nolink" title="Line 227, Col 2: method entered 6 times.">    <span class="keyword">public</span> List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>&gt; getDigests() {</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-227'), 227,232);" id="e227" style="display:none;border:none;">...</span></span></td>
 </tr>
  <tr id="l228">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=228#src-228">228</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 228, 'Tests that hit line # 228');" ><span title="Line 228, Col 5: true branch executed 2 times branch executed 4 times." class="nolink">&#160;6</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-228" class="srcLine"><span class="nolink" title="Line 228, Col 5: true branch executed 2 times branch executed 4 times.">        <span class="keyword">if</span>(headerFieldType != <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldType.html#HeaderFieldType">HeaderFieldType</a>.request_unrecognized_certificate){</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 228, 'Tests that hit line # 228');" ><span title="Line 228, Col 5: true branch executed 2 times, false branch executed 4 times." class="nolink">&#160;6</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-228" class="srcLine"><span class="nolink" title="Line 228, Col 5: true branch executed 2 times, false branch executed 4 times.">        <span class="keyword">if</span>(headerFieldType != <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldType.html#HeaderFieldType">HeaderFieldType</a>.request_unrecognized_certificate){</span></span></td>
 </tr>
  <tr id="l229">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=229#src-229">229</a></td>
@@ -2594,13 +2585,13 @@
 </tr>
 <tr id="l240">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=240#src-240">240</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 240, 'Tests that hit getRecipients()&#160;:&#160;List&lt;StructSerializer&gt;');" ><span title="Line 240, Col 2: method entered 13 times." class="nolink">&#160;13</span></td>
-<td class=" methodStart  srcCell" id="id-240"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 240,245);" id="img-240" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-240" class="srcLine"><span class="nolink" title="Line 240, Col 2: method entered 13 times.">    <span class="keyword">public</span> List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>&gt; getRecipients() {</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-240'), 240,245);" id="e240" style="display:none;border:none;">...</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 240, 'Tests that hit getRecipients()&#160;:&#160;List&lt;Encodable&gt;');" ><span title="Line 240, Col 2: method entered 13 times." class="nolink">&#160;13</span></td>
+<td class=" methodStart  srcCell" id="id-240"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 240,245);" id="img-240" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-240" class="srcLine"><span class="nolink" title="Line 240, Col 2: method entered 13 times.">    <span class="keyword">public</span> List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>&gt; getRecipients() {</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-240'), 240,245);" id="e240" style="display:none;border:none;">...</span></span></td>
 </tr>
  <tr id="l241">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=241#src-241">241</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 241, 'Tests that hit line # 241');" ><span title="Line 241, Col 5: true branch executed 2 times branch executed 11 times." class="nolink">&#160;13</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-241" class="srcLine"><span class="nolink" title="Line 241, Col 5: true branch executed 2 times branch executed 11 times.">        <span class="keyword">if</span>(headerFieldType != <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldType.html#HeaderFieldType">HeaderFieldType</a>.recipient_info){</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 241, 'Tests that hit line # 241');" ><span title="Line 241, Col 5: true branch executed 2 times, false branch executed 11 times." class="nolink">&#160;13</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-241" class="srcLine"><span class="nolink" title="Line 241, Col 5: true branch executed 2 times, false branch executed 11 times.">        <span class="keyword">if</span>(headerFieldType != <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/HeaderFieldType.html#HeaderFieldType">HeaderFieldType</a>.recipient_info){</span></span></td>
 </tr>
  <tr id="l242">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=242#src-242">242</a></td>
@@ -2844,13 +2835,13 @@
 </tr>
 <tr id="l278">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=278#src-278">278</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 278, 'Tests that hit serialize(DataOutputStream)&#160;:&#160;void');" ><span title="Line 278, Col 2: method entered 222 times." class="nolink">&#160;222</span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 278, 'Tests that hit encode(DataOutputStream)&#160;:&#160;void');" ><span title="Line 278, Col 2: method entered 222 times." class="nolink">&#160;222</span></td>
 <td class=" methodStart  srcCell" id="id-278"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 278,310);" id="img-278" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-278" class="srcLine"><span class="nolink" title="Line 278, Col 2: method entered 222 times.">    @Override</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-278'), 278,310);" id="e278" style="display:none;border:none;">...</span></span></td>
 </tr>
  <tr id="l279">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=279#src-279">279</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-279" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> serialize(DataOutputStream out) <span class="keyword">throws</span> IOException {</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-279" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> encode(DataOutputStream out) <span class="keyword">throws</span> IOException {</span></td>
 </tr>
  <tr id="l280">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=280#src-280">280</a></td>
@@ -2870,7 +2861,7 @@
  <tr id="l283">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=283#src-283">283</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 283, 'Tests that hit line # 283');" ><span title="Line 283, Col 4: statement executed 60 times." class="nolink">&#160;60</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-283" class="srcLine"><span class="nolink" title="Line 283, Col 4: statement executed 60 times.">            generationTime.serialize(out);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-283" class="srcLine"><span class="nolink" title="Line 283, Col 4: statement executed 60 times.">            generationTime.encode(out);</span></span></td>
 </tr>
  <tr id="l284">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=284#src-284">284</a></td>
@@ -2885,7 +2876,7 @@
  <tr id="l286">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=286#src-286">286</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 286, 'Tests that hit line # 286');" ><span title="Line 286, Col 4: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-286" class="srcLine"><span class="nolink" title="Line 286, Col 4: statement executed 1 time.">            generationTimeWithSdtDeviation.serialize(out);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-286" class="srcLine"><span class="nolink" title="Line 286, Col 4: statement executed 1 time.">            generationTimeWithSdtDeviation.encode(out);</span></span></td>
 </tr>
  <tr id="l287">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=287#src-287">287</a></td>
@@ -2900,7 +2891,7 @@
  <tr id="l289">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=289#src-289">289</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 289, 'Tests that hit line # 289');" ><span title="Line 289, Col 4: statement executed 2 times." class="nolink">&#160;2</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-289" class="srcLine"><span class="nolink" title="Line 289, Col 4: statement executed 2 times.">            expireTime.serialize(out);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-289" class="srcLine"><span class="nolink" title="Line 289, Col 4: statement executed 2 times.">            expireTime.encode(out);</span></span></td>
 </tr>
  <tr id="l290">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=290#src-290">290</a></td>
@@ -2915,7 +2906,7 @@
  <tr id="l292">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=292#src-292">292</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 292, 'Tests that hit line # 292');" ><span title="Line 292, Col 4: statement executed 16 times." class="nolink">&#160;16</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-292" class="srcLine"><span class="nolink" title="Line 292, Col 4: statement executed 16 times.">            generationLocation.serialize(out);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-292" class="srcLine"><span class="nolink" title="Line 292, Col 4: statement executed 16 times.">            generationLocation.encode(out);</span></span></td>
 </tr>
  <tr id="l293">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=293#src-293">293</a></td>
@@ -2935,7 +2926,7 @@
  <tr id="l296">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=296#src-296">296</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 296, 'Tests that hit line # 296');" ><span title="Line 296, Col 4: statement executed 24 times." class="nolink">&#160;24</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-296" class="srcLine"><span class="nolink" title="Line 296, Col 4: statement executed 24 times.">            <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/SerializationHelper.html#SerializationHelper">SerializationHelper</a>.encodeVariableSizeVector(out, relatedData);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-296" class="srcLine"><span class="nolink" title="Line 296, Col 4: statement executed 24 times.">            <a href="../../../../../../../org/certificateservices/custom/c2x/common/EncodeHelper.html#EncodeHelper">EncodeHelper</a>.encodeVariableSizeVector(out, relatedData);</span></span></td>
 </tr>
  <tr id="l297">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=297#src-297">297</a></td>
@@ -2965,7 +2956,7 @@
  <tr id="l302">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=302#src-302">302</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 302, 'Tests that hit line # 302');" ><span title="Line 302, Col 4: statement executed 49 times." class="nolink">&#160;49</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-302" class="srcLine"><span class="nolink" title="Line 302, Col 4: statement executed 49 times.">            signer.serialize(out);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-302" class="srcLine"><span class="nolink" title="Line 302, Col 4: statement executed 49 times.">            signer.encode(out);</span></span></td>
 </tr>
  <tr id="l303">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=303#src-303">303</a></td>
@@ -2980,7 +2971,7 @@
  <tr id="l305">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=305#src-305">305</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 305, 'Tests that hit line # 305');" ><span title="Line 305, Col 4: statement executed 16 times." class="nolink">&#160;16</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-305" class="srcLine"><span class="nolink" title="Line 305, Col 4: statement executed 16 times.">            encParams.serialize(out);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-305" class="srcLine"><span class="nolink" title="Line 305, Col 4: statement executed 16 times.">            encParams.encode(out);</span></span></td>
 </tr>
  <tr id="l306">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=306#src-306">306</a></td>
@@ -3029,7 +3020,7 @@
 </tr>
 <tr id="l312">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=312#src-312">312</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 312, 'Tests that hit deserialize(DataInputStream)&#160;:&#160;void');" ><span title="Line 312, Col 2: method entered 96 times." class="nolink">&#160;96</span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 312, 'Tests that hit decode(DataInputStream)&#160;:&#160;void');" ><span title="Line 312, Col 2: method entered 96 times." class="nolink">&#160;96</span></td>
 <td class=" methodStart  srcCell" id="id-312"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 312,354);" id="img-312" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-312" class="srcLine"><span class="nolink" title="Line 312, Col 2: method entered 96 times.">    @SuppressWarnings(<span class="string">&quot;unchecked&quot;</span>)</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-312'), 312,354);" id="e312" style="display:none;border:none;">...</span></span></td>
 </tr>
  <tr id="l313">
@@ -3040,7 +3031,7 @@
  <tr id="l314">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=314#src-314">314</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-314" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> deserialize(DataInputStream in) <span class="keyword">throws</span> IOException {</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-314" class="srcLine">    <span class="keyword">public</span> <span class="keyword">void</span> decode(DataInputStream in) <span class="keyword">throws</span> IOException {</span></td>
 </tr>
  <tr id="l315">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=315#src-315">315</a></td>
@@ -3065,7 +3056,7 @@
  <tr id="l319">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=319#src-319">319</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 319, 'Tests that hit line # 319');" ><span title="Line 319, Col 4: statement executed 29 times." class="nolink">&#160;29</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-319" class="srcLine"><span class="nolink" title="Line 319, Col 4: statement executed 29 times.">            generationTime.deserialize(in);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-319" class="srcLine"><span class="nolink" title="Line 319, Col 4: statement executed 29 times.">            generationTime.decode(in);</span></span></td>
 </tr>
  <tr id="l320">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=320#src-320">320</a></td>
@@ -3085,7 +3076,7 @@
  <tr id="l323">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=323#src-323">323</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 323, 'Tests that hit line # 323');" ><span title="Line 323, Col 4: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-323" class="srcLine"><span class="nolink" title="Line 323, Col 4: statement executed 1 time.">            generationTimeWithSdtDeviation.deserialize(in);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-323" class="srcLine"><span class="nolink" title="Line 323, Col 4: statement executed 1 time.">            generationTimeWithSdtDeviation.decode(in);</span></span></td>
 </tr>
  <tr id="l324">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=324#src-324">324</a></td>
@@ -3105,7 +3096,7 @@
  <tr id="l327">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=327#src-327">327</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 327, 'Tests that hit line # 327');" ><span title="Line 327, Col 4: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-327" class="srcLine"><span class="nolink" title="Line 327, Col 4: statement executed 1 time.">            expireTime.deserialize(in);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-327" class="srcLine"><span class="nolink" title="Line 327, Col 4: statement executed 1 time.">            expireTime.decode(in);</span></span></td>
 </tr>
  <tr id="l328">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=328#src-328">328</a></td>
@@ -3125,7 +3116,7 @@
  <tr id="l331">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=331#src-331">331</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 331, 'Tests that hit line # 331');" ><span title="Line 331, Col 4: statement executed 6 times." class="nolink">&#160;6</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-331" class="srcLine"><span class="nolink" title="Line 331, Col 4: statement executed 6 times.">            generationLocation.deserialize(in);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-331" class="srcLine"><span class="nolink" title="Line 331, Col 4: statement executed 6 times.">            generationLocation.decode(in);</span></span></td>
 </tr>
  <tr id="l332">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=332#src-332">332</a></td>
@@ -3140,7 +3131,7 @@
  <tr id="l334">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=334#src-334">334</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 334, 'Tests that hit line # 334');" ><span title="Line 334, Col 4: statement executed 1 time." class="nolink">&#160;1</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-334" class="srcLine"><span class="nolink" title="Line 334, Col 4: statement executed 1 time.">            relatedData = (List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>&gt;) <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/SerializationHelper.html#SerializationHelper">SerializationHelper</a>.decodeVariableSizeVector(in, <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/HashedId3.html#HashedId3">HashedId3</a>.<span class="keyword">class</span>);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-334" class="srcLine"><span class="nolink" title="Line 334, Col 4: statement executed 1 time.">            relatedData = (List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>&gt;) <a href="../../../../../../../org/certificateservices/custom/c2x/common/EncodeHelper.html#EncodeHelper">EncodeHelper</a>.decodeVariableSizeVector(in, <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/basic/HashedId3.html#HashedId3">HashedId3</a>.<span class="keyword">class</span>);</span></span></td>
 </tr>
  <tr id="l335">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=335#src-335">335</a></td>
@@ -3155,7 +3146,7 @@
  <tr id="l337">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=337#src-337">337</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 337, 'Tests that hit line # 337');" ><span title="Line 337, Col 4: statement executed 9 times." class="nolink">&#160;9</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-337" class="srcLine"><span class="nolink" title="Line 337, Col 4: statement executed 9 times.">            relatedData = (List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/StructSerializer.html#StructSerializer">StructSerializer</a>&gt;) <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/SerializationHelper.html#SerializationHelper">SerializationHelper</a>.decodeVariableSizeVector(in, <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/RecipientInfo.html#RecipientInfo">RecipientInfo</a>.<span class="keyword">class</span>);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-337" class="srcLine"><span class="nolink" title="Line 337, Col 4: statement executed 9 times.">            relatedData = (List&lt;<a href="../../../../../../../org/certificateservices/custom/c2x/common/Encodable.html#Encodable">Encodable</a>&gt;) <a href="../../../../../../../org/certificateservices/custom/c2x/common/EncodeHelper.html#EncodeHelper">EncodeHelper</a>.decodeVariableSizeVector(in, <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/RecipientInfo.html#RecipientInfo">RecipientInfo</a>.<span class="keyword">class</span>);</span></span></td>
 </tr>
  <tr id="l338">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=338#src-338">338</a></td>
@@ -3200,7 +3191,7 @@
  <tr id="l346">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=346#src-346">346</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 346, 'Tests that hit line # 346');" ><span title="Line 346, Col 4: statement executed 18 times." class="nolink">&#160;18</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-346" class="srcLine"><span class="nolink" title="Line 346, Col 4: statement executed 18 times.">            signer.deserialize(in);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-346" class="srcLine"><span class="nolink" title="Line 346, Col 4: statement executed 18 times.">            signer.decode(in);</span></span></td>
 </tr>
  <tr id="l347">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=347#src-347">347</a></td>
@@ -3220,7 +3211,7 @@
  <tr id="l350">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=350#src-350">350</a></td>
 <td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 350, 'Tests that hit line # 350');" ><span title="Line 350, Col 4: statement executed 9 times." class="nolink">&#160;9</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-350" class="srcLine"><span class="nolink" title="Line 350, Col 4: statement executed 9 times.">            encParams.deserialize(in);</span></span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-350" class="srcLine"><span class="nolink" title="Line 350, Col 4: statement executed 9 times.">            encParams.decode(in);</span></span></td>
 </tr>
  <tr id="l351">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=351#src-351">351</a></td>
@@ -3515,16 +3506,13 @@
 </script>
 <script src="HeaderField.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -3536,7 +3524,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

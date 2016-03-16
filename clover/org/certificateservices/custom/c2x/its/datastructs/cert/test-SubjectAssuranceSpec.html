@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body>
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.cert">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <div class="aui-page-header-main"><ol class="aui-nav aui-nav-breadcrumbs">
     
-    <li><a href="../../../../../../../dashboard.html"> Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li>
+    <li><a href="../../../../../../../dashboard.html"> Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li>
      <li><a href="test-pkg-summary.html">Package org.certificateservices.custom.c2x.its.datastructs.cert</a></li>
 </ol></div>
     
@@ -176,7 +167,7 @@
         <td class="testPasses"><span class="sortValue">16</span>16</td>
 <td class=""><span class="sortValue">0</span>0</td>
 <td class=""><span class="sortValue">0</span>0</td>
-        <td>0.006</td>
+        <td>0.008</td>
         <td class="align-middle">
             
 
@@ -212,8 +203,8 @@
 
 
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance calculates a byte value of: 227 for assuranceLevel: 7 and confidenceLevel: 3</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_calculates_a_byte_value_of__227_for_assuranceLevel__7_and_confidenceLevel__3_n.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance calculates a byte value of: 227 for assuranceLevel: 7 and confidenceLevel: 3</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085385</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: -1</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_throws_IllegalArgumentException_on_invalid_confidenceLevel___1_oc.html">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: -1</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575370</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -221,8 +212,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: 10</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_throws_IllegalArgumentException_on_invalid_assuranceLevel__10_78.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: 10</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085389</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify toString</span><a href="SubjectAssuranceSpec_Verify_toString_fm.html">SubjectAssuranceSpec.Verify toString</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575380</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
@@ -230,8 +221,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: 10</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_throws_IllegalArgumentException_on_invalid_confidenceLevel__10_9t.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: 10</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085393</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance calculates a byte value of: 227 for assuranceLevel: 7 and confidenceLevel: 3</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_calculates_a_byte_value_of__227_for_assuranceLevel__7_and_confidenceLevel__3_f3.html">SubjectAssuranceSpec.Verify that subjectAssurance calculates a byte value of: 227 for assuranceLevel: 7 and confidenceLevel: 3</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575365</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -239,8 +230,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance calculates a byte value of: 0 for assuranceLevel: 0 and confidenceLevel: 0</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_calculates_a_byte_value_of__0_for_assuranceLevel__0_and_confidenceLevel__0_b0.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance calculates a byte value of: 0 for assuranceLevel: 0 and confidenceLevel: 0</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085381</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that serialization produces correct output[1]</span><a href="SubjectAssuranceSpec_Verify_that_serialization_produces_correct_output_1__69.html">SubjectAssuranceSpec.Verify that serialization produces correct output[1]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575376</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -248,8 +239,17 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify getAssurranceLevel and getConfidence</span><a href="SubjectAssuranceSpec_Verify_getAssurranceLevel_and_getConfidence_42.html">SubjectAssuranceSpec.Verify getAssurranceLevel and getConfidence</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085378</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify getAssurranceLevel and getConfidence</span><a href="SubjectAssuranceSpec_Verify_getAssurranceLevel_and_getConfidence_p3.html">SubjectAssuranceSpec.Verify getAssurranceLevel and getConfidence</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575358</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.002</span>0.002</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: 10</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_throws_IllegalArgumentException_on_invalid_confidenceLevel__10_p7.html">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: 10</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575372</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
@@ -257,8 +257,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: -1</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_throws_IllegalArgumentException_on_invalid_assuranceLevel___1_8k.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: -1</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085387</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance calculates a byte value of: 0 for assuranceLevel: 0 and confidenceLevel: 0</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_calculates_a_byte_value_of__0_for_assuranceLevel__0_and_confidenceLevel__0_hw.html">SubjectAssuranceSpec.Verify that subjectAssurance calculates a byte value of: 0 for assuranceLevel: 0 and confidenceLevel: 0</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575361</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -266,8 +266,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify toString</span><a href="SubjectAssuranceSpec_Verify_toString_7k.html">SubjectAssuranceSpec.Verify toString</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085401</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: -1</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_throws_IllegalArgumentException_on_invalid_assuranceLevel___1_gd.html">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: -1</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575366</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
@@ -275,8 +275,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that serialization produces correct output[1]</span><a href="SubjectAssuranceSpec_Verify_that_serialization_produces_correct_output_1__3a.html">SubjectAssuranceSpec.Verify that serialization produces correct output[1]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085396</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: 8</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_throws_IllegalArgumentException_on_invalid_assuranceLevel__8_3n.html">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: 8</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575368</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -284,44 +284,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: 4</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_throws_IllegalArgumentException_on_invalid_confidenceLevel__4_4l.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: 4</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085392</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: -1</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_throws_IllegalArgumentException_on_invalid_confidenceLevel___1_at.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: -1</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085391</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance calculates a byte value of: 33 for assuranceLevel: 1 and confidenceLevel: 1</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_calculates_a_byte_value_of__33_for_assuranceLevel__1_and_confidenceLevel__1_3o.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance calculates a byte value of: 33 for assuranceLevel: 1 and confidenceLevel: 1</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085384</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: 8</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_throws_IllegalArgumentException_on_invalid_assuranceLevel__8_3w.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: 8</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085388</span>1 Apr 14:08:05</td>
-    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-    <td><span class="sortValue">0.0</span>0</td>
-    <td style="width:50%">
-     &#160;     </td>
-</tr>
-<tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that serialization produces correct output[2]</span><a href="SubjectAssuranceSpec_Verify_that_serialization_produces_correct_output_2__3t.html">SubjectAssuranceSpec.Verify that serialization produces correct output[2]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085397</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that serialization produces correct output[2]</span><a href="SubjectAssuranceSpec_Verify_that_serialization_produces_correct_output_2__9e.html">SubjectAssuranceSpec.Verify that serialization produces correct output[2]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575377</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
@@ -329,8 +293,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that serialization produces correct output[0]</span><a href="SubjectAssuranceSpec_Verify_that_serialization_produces_correct_output_0__3q.html">SubjectAssuranceSpec.Verify that serialization produces correct output[0]</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085395</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: 10</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_throws_IllegalArgumentException_on_invalid_assuranceLevel__10_em.html">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: 10</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575369</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.0</span>0</td>
@@ -338,8 +302,8 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify that #Error:subjectAssurance calculates a byte value of: 1 for assuranceLevel: 0 and confidenceLevel: 1</span><a href="SubjectAssuranceSpec_Verify_that__Error_subjectAssurance_calculates_a_byte_value_of__1_for_assuranceLevel__0_and_confidenceLevel__1_54.html">SubjectAssuranceSpec.Verify that #Error:subjectAssurance calculates a byte value of: 1 for assuranceLevel: 0 and confidenceLevel: 1</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085382</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: 4</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_throws_IllegalArgumentException_on_invalid_confidenceLevel__4_c7.html">SubjectAssuranceSpec.Verify that subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: 4</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575371</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
@@ -347,11 +311,38 @@
      &#160;     </td>
 </tr>
 <tr>
-    <td><span class="sortValue">SubjectAssuranceSpec.Verify hashCode and equals</span><a href="SubjectAssuranceSpec_Verify_hashCode_and_equals_l.html">SubjectAssuranceSpec.Verify hashCode and equals</a></td>
-    <td style="whitespace:nowrap;"><span class="sortValue">1427890085399</span>1 Apr 14:08:05</td>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance calculates a byte value of: 33 for assuranceLevel: 1 and confidenceLevel: 1</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_calculates_a_byte_value_of__33_for_assuranceLevel__1_and_confidenceLevel__1_5i.html">SubjectAssuranceSpec.Verify that subjectAssurance calculates a byte value of: 33 for assuranceLevel: 1 and confidenceLevel: 1</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575363</span>16 Mar 10:12:55</td>
     <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
     <td><span class="sortValue">0.001</span>0.001</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that serialization produces correct output[0]</span><a href="SubjectAssuranceSpec_Verify_that_serialization_produces_correct_output_0__62.html">SubjectAssuranceSpec.Verify that serialization produces correct output[0]</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575374</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify hashCode and equals</span><a href="SubjectAssuranceSpec_Verify_hashCode_and_equals_lv.html">SubjectAssuranceSpec.Verify hashCode and equals</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575379</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
+    <td style="width:50%">
+     &#160;     </td>
+</tr>
+<tr>
+    <td><span class="sortValue">SubjectAssuranceSpec.Verify that subjectAssurance calculates a byte value of: 1 for assuranceLevel: 0 and confidenceLevel: 1</span><a href="SubjectAssuranceSpec_Verify_that_subjectAssurance_calculates_a_byte_value_of__1_for_assuranceLevel__0_and_confidenceLevel__1_63.html">SubjectAssuranceSpec.Verify that subjectAssurance calculates a byte value of: 1 for assuranceLevel: 0 and confidenceLevel: 1</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">1458119575362</span>16 Mar 10:12:55</td>
+    <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+    <td><span class="sortValue">0.0</span>0</td>
     <td style="width:50%">
      &#160;     </td>
 </tr>
@@ -362,16 +353,13 @@
     </div> <!-- tabs-pane -->
 </div> <!-- aui-tabs horizontal-tabs -->
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -383,7 +371,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

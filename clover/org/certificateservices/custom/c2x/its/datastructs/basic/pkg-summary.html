@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 <body  >
@@ -82,7 +82,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -99,39 +99,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.basic">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
     </ol>
     
 <h1 class="aui-h2-clover">
@@ -175,11 +166,11 @@
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of statements in this package">Statements:</label></div>
-        <div class="stats-box-value">858</div>
+        <div class="stats-box-value">866</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of methods in this package">Methods:</label></div>
-        <div class="stats-box-value">232</div>
+        <div class="stats-box-value">234</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of classes in this package">Classes:</label></div>
@@ -191,15 +182,15 @@
         </div>
             <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of lines of code in this package">LOC:</label></div>
-        <div class="stats-box-value">3,551</div>
+        <div class="stats-box-value">3,577</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of non-comment lines of code in this package">NCLOC:</label></div>
-        <div class="stats-box-value">1,826</div>
+        <div class="stats-box-value">1,849</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Cyclomatic complexity is the number of paths in this package">Total complexity:</label></div>
-        <div class="stats-box-value">471</div>
+        <div class="stats-box-value">475</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label">
@@ -213,7 +204,7 @@
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Number of methods per class.">Methods/Class:</label></div>
-        <div class="stats-box-value">8</div>
+        <div class="stats-box-value">8.07</div>
     </div>
         <div class="stats-box">
         <div class="stats-box-label"><label title="Complexity divided by the number of methods in this package">Average method complexity:</label></div>
@@ -232,11 +223,11 @@
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of statements in this package">Statements:</label></div>
-        <div class="stats-box-value">858</div>
+        <div class="stats-box-value">866</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of methods in this package">Methods:</label></div>
-        <div class="stats-box-value">232</div>
+        <div class="stats-box-value">234</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of classes in this package">Classes:</label></div>
@@ -248,15 +239,15 @@
         </div>
             <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of lines of code in this package">LOC:</label></div>
-        <div class="stats-box-value">3,551</div>
+        <div class="stats-box-value">3,577</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Total number of non-comment lines of code in this package">NCLOC:</label></div>
-        <div class="stats-box-value">1,826</div>
+        <div class="stats-box-value">1,849</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Cyclomatic complexity is the number of paths in this package">Total complexity:</label></div>
-        <div class="stats-box-value">471</div>
+        <div class="stats-box-value">475</div>
     </div>
     <div class="stats-box">
         <div class="stats-box-label">
@@ -270,7 +261,7 @@
     </div>
     <div class="stats-box">
         <div class="stats-box-label"><label title="Number of methods per class.">Methods/Class:</label></div>
-        <div class="stats-box-value">8</div>
+        <div class="stats-box-value">8.07</div>
     </div>
         <div class="stats-box">
         <div class="stats-box-label"><label title="Complexity divided by the number of methods in this package">Average method complexity:</label></div>
@@ -328,21 +319,21 @@
         
             
         <td class=" " align="right">
-            <span class="sortValue">2.0301723</span>
+            <span class="sortValue">2.0299146</span>
             2.03
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">266.0</span>
-            266
+            <span class="sortValue">268.0</span>
+            268
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">0.82123655</span>
+            <span class="sortValue">0.8210948</span>
             <div style="display: table; width: 100%">
-<div class="barGraphValue"><span class="sortValue">0.82123655</span>82.1%</div><div style="display: table-cell">
+<div class="barGraphValue"><span class="sortValue">0.8210948</span>82.1%</div><div style="display: table-cell">
  <div title="82.1% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:82.1%"></div></div></div></div>
         </td>
         
@@ -828,14 +819,14 @@
                                                                                                                                 <tr>
     <td>
                     
-                <span class="sortValue">SymmetricAlgorithm</span>
-                    <a href="SymmetricAlgorithm.html" title="SymmetricAlgorithm">SymmetricAlgorithm</a>
+                <span class="sortValue">PublicKeyAlgorithm</span>
+                    <a href="PublicKeyAlgorithm.html" title="PublicKeyAlgorithm">PublicKeyAlgorithm</a>
                     </td>
 
                 
         <td class=" " align="right">
-            <span class="sortValue">4.0</span>
-            4
+            <span class="sortValue">6.0</span>
+            6
         </td>
         
             
@@ -846,22 +837,22 @@
         
             
         <td class=" " align="right">
-            <span class="sortValue">1.25</span>
-            1.25
+            <span class="sortValue">1.8333334</span>
+            1.83
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">2.0</span>
-            2
+            <span class="sortValue">5.0</span>
+            5
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">0.85714287</span>
+            <span class="sortValue">0.8484849</span>
             <div style="display: table; width: 100%">
-<div class="barGraphValue"><span class="sortValue">0.85714287</span>85.7%</div><div style="display: table-cell">
- <div title="85.7% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:85.7%"></div></div></div></div>
+<div class="barGraphValue"><span class="sortValue">0.8484849</span>84.8%</div><div style="display: table-cell">
+ <div title="84.8% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:84.8%"></div></div></div></div>
         </td>
         
     </tr>
@@ -908,8 +899,8 @@
                                                                                                                                 <tr>
     <td>
                     
-                <span class="sortValue">PublicKeyAlgorithm</span>
-                    <a href="PublicKeyAlgorithm.html" title="PublicKeyAlgorithm">PublicKeyAlgorithm</a>
+                <span class="sortValue">SymmetricAlgorithm</span>
+                    <a href="SymmetricAlgorithm.html" title="SymmetricAlgorithm">SymmetricAlgorithm</a>
                     </td>
 
                 
@@ -926,22 +917,22 @@
         
             
         <td class=" " align="right">
-            <span class="sortValue">1.6</span>
-            1.6
+            <span class="sortValue">1.2</span>
+            1.2
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">3.0</span>
-            3
+            <span class="sortValue">2.0</span>
+            2
         </td>
         
             
         <td class=" " align="right">
-            <span class="sortValue">0.88</span>
+            <span class="sortValue">0.875</span>
             <div style="display: table; width: 100%">
-<div class="barGraphValue"><span class="sortValue">0.88</span>88%</div><div style="display: table-cell">
- <div title="88% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:88%"></div></div></div></div>
+<div class="barGraphValue"><span class="sortValue">0.875</span>87.5%</div><div style="display: table-cell">
+ <div title="87.5% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:87.5%"></div></div></div></div>
         </td>
         
     </tr>
@@ -1551,16 +1542,13 @@
     </div> <!-- tabs-pane active-pane -->
 </div>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -1572,7 +1560,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

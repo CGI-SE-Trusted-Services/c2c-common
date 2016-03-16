@@ -1,0 +1,10 @@
+var clover = new Object();
+
+// JSON: {classes : [{name, id, sl, el,  methods : [{sl, el}, ...]}, ...]}
+clover.pageData = {"classes":[{"el":97,"id":13570,"methods":[{"el":66,"sc":2,"sl":44},{"el":82,"sc":2,"sl":68},{"el":89,"sc":2,"sl":84},{"el":94,"sc":2,"sl":91}],"name":"PublicVerificationKeySpec","sl":39}]}
+
+// JSON: {test_ID : {"methods": [ID1, ID2, ID3...], "name" : "testXXX() void"}, ...};
+clover.testTargets = {"test_214":{"methods":[{"sl":68}],"name":"Verify correct algorithms indicator is returned for ecdsaNistP256","pass":true,"statements":[{"sl":71},{"sl":73},{"sl":74},{"sl":75},{"sl":76}]},"test_423":{"methods":[{"sl":84}],"name":"Verify that xonly ecc curve points throws IllegalArgumentException","pass":true,"statements":[{"sl":86},{"sl":88}]},"test_463":{"methods":[{"sl":44}],"name":"Verify that PublicVerificationKey is correctly encoded for type ecdsaNistP256","pass":true,"statements":[{"sl":47},{"sl":50},{"sl":53},{"sl":56},{"sl":57},{"sl":58}]},"test_660":{"methods":[{"sl":44}],"name":"Verify that PublicVerificationKey is correctly encoded for type ecdsaBrainpoolP256r1","pass":true,"statements":[{"sl":47},{"sl":50},{"sl":53},{"sl":56},{"sl":57},{"sl":58}]},"test_88":{"methods":[{"sl":91}],"name":"Verify toString","pass":true,"statements":[{"sl":93}]},"test_918":{"methods":[{"sl":68}],"name":"Verify correct algorithms indicator is returned for ecdsaBrainpoolP256r1","pass":true,"statements":[{"sl":71},{"sl":73},{"sl":74},{"sl":75},{"sl":76}]}}
+
+// JSON: { lines : [{tests : [testid1, testid2, testid3, ...]}, ...]};
+clover.srcFileLines = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [660, 463], [], [], [660, 463], [], [], [660, 463], [], [], [660, 463], [], [], [660, 463], [660, 463], [660, 463], [], [], [], [], [], [], [], [], [], [918, 214], [], [], [918, 214], [], [918, 214], [918, 214], [918, 214], [918, 214], [], [], [], [], [], [], [], [423], [], [423], [], [423], [], [], [88], [], [88], [], [], [], []]

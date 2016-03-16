@@ -13,19 +13,19 @@
 
     <style type="text/css" media="all">
         @import url('../../../../../../../style.css');
-        @import url('../../../../../../../jstree/jstree.styles.css');
         @import url('../../../../../../../tree.css');
         
     </style>
 
     <script src="../../../../../../../jquery-1.8.3.min.js" type="text/javascript"></script>
-    <script src="../../../../../../../jstree/jstree.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-experimental.min.js" type="text/javascript"></script>
     <script src="../../../../../../../aui/js/aui-soy.min.js" type="text/javascript"></script>
 
     <script src="../../../../../../../package-nodes-tree.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-tree.js" type="text/javascript"></script>
     <script src="../../../../../../../clover.js" type="text/javascript"></script>
+    <script src="../../../../../../../clover-descriptions.js" type="text/javascript"></script>
     <script src="../../../../../../../cloud.js" type="text/javascript"></script>
     <script src="../../../../../../../help.js" type="text/javascript"></script>
     <script src="../../../../../../../overlibmws.js" type="text/javascript"><!-- overLIB (c) Erik Bosrup --></script>
@@ -33,7 +33,7 @@
     <script src="../../../../../../../sorttable.js" type="text/javascript"></script>
     <script src="../../../../../../../utils.js" type="text/javascript"></script>
 
-            <title>c2c-common 0.9.6</title>
+            <title>c2c-common 0.9.7</title>
     </head>
 
 
@@ -83,7 +83,7 @@
     <div class="aui-page-header-main" >
         <h1>
                             <a href="http://www.cgi.com.se" target="_top">
-                                        c2c-common 0.9.6
+                                        c2c-common 0.9.7
                                         </a>
                     </h1>
     </div>
@@ -100,39 +100,30 @@
                 <div class="aui-nav-heading packages-nav-heading">
             <strong>Packages</strong>
         </div>
-        <ul class="aui-nav project-packages">
-            <li>
-                <form method="get" action="#" class="aui package-filter-container">
-                    <input type="text" autocomplete="off" class="package-filter text" placeholder="Type and press enter to filter packages..." name="package-filter" id="package-filter" title="Type package name (or part of it) and press enter"/>
-                </form>
-                <p class="package-filter-message package-filter-search-message hidden">
-                    <small>Searching...</small>
-                </p>
-                <p class="package-filter-message package-filter-results-message hidden">
-                    <small><span class="package-filter-results-total">1234</span> <span class="package-filter-results-word">results</span> found.</small>
-                </p>
-                <p class="package-filter-message package-filter-no-results-message hidden">
-                    <small>No results found.</small>
-                </p>
-                <p class="package-filter-message package-filter-partial-results-message hidden">
-                    <small>Showing first <span class="package-filter-results-number">24</span> of
-                        <span class="package-filter-results-total">1234</span> results.</small>
-                </p>
-            </li>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
                                                 <div class="packages-tree-wrapper" data-root-relative="../../../../../../../" data-package-name="org.certificateservices.custom.c2x.its.datastructs.msg">
                 <div class="packages-tree-container"></div>
-                <div class="packages-tree-lozenges"></div>
+                <div class="clover-packages-lozenges"></div>
             </div>
-        </ul>
+        </div>
         
             </div>
 </nav>                </div>
                 <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
 
                     
                     <ol class="aui-nav aui-nav-breadcrumbs">
             
-        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Apr 1 2015 14:07:59 CEST</a></li> 
+        <li><a href="../../../../../../../dashboard.html">Project Clover database Wed Mar 16 2016 10:12:50 CET</a></li> 
         <li><a href="pkg-summary.html">        Package org.certificateservices.custom.c2x.its.datastructs.msg</a></li> 
     </ol>
     
@@ -164,17 +155,17 @@
                     <img src="../../../../../../../img/srcFileCovDistChart10.png" alt="../../../../../../../img/srcFileCovDistChart10.png"
                          usemap="#srcFileCovDistChart10.png" class="clover-histogram-img"/>
                     <map id="srcFileCovDistChart10.png" name="srcFileCovDistChart10.png">
-<area shape="rect" coords="81,22,87,48" title="18 files have 91-100% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="74,8,80,49" title="28 files have 81-90% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="67,33,73,49" title="11 files have 71-80% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="60,46,66,48" title="2 files have 61-70% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="53,49,59,50" title="0 files have 51-60% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="46,47,52,48" title="1 file has 41-50% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="39,49,45,50" title="0 files have 31-40% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="32,49,38,50" title="0 files have 21-30% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="25,49,31,50" title="0 files have 11-20% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="18,49,24,50" title="0 files have 1-10% coverage" alt="" nohref="nohref"/>
-<area shape="rect" coords="11,47,17,48" title="1 file has 0% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="100,8,107,65" title="153 files have 91-100% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="91,50,98,66" title="43 files have 81-90% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="82,59,89,66" title="20 files have 71-80% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="73,65,80,66" title="4 files have 61-70% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="64,66,71,67" title="1 file has 51-60% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="56,66,63,67" title="2 files have 41-50% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="47,66,54,67" title="0 files have 31-40% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="38,66,45,67" title="0 files have 21-30% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="29,66,36,67" title="0 files have 11-20% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="20,66,27,67" title="0 files have 1-10% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="11,66,18,67" title="2 files have 0% coverage" alt="" nohref="nohref"/>
 </map><br />
                     <span class="subtle"><strong>0% </strong>of files have more coverage</span>
                 </div>
@@ -510,196 +501,196 @@
             </thead>
             <tbody id="tests-body">
 
-<tr id="test-383">
-<td><a name="testA-383"></a><input type="checkbox" id="cb-383" value="383" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_DENM_for_1_an.html';">
-<span class="sortValue">0.42857143</span>
+<tr id="test-669">
+<td><a name="testA-669"></a><input type="checkbox" id="cb-669" value="669" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_il.html';">
+<span class="sortValue">0.5</span>
 <div>
-<div title="42.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:42.9%"></div></div></div></td>
-<td id="tc-383">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that SecurityProfile.getByValue returns DENM for 1</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_DENM_for_1_an.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that SecurityProfile.getByValue returns DENM for 1</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.html?line=43#src-43" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_DENM_for_1_an.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-237">
-<td><a name="testA-237"></a><input type="checkbox" id="cb-237" value="237" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_CAM_for_2_6l.html';">
-<span class="sortValue">0.35714287</span>
-<div>
-<div title="35.7% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:35.7%"></div></div></div></td>
-<td id="tc-237">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that SecurityProfile.getByValue returns CAM for 2</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_CAM_for_2_6l.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that SecurityProfile.getByValue returns CAM for 2</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.html?line=43#src-43" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_CAM_for_2_6l.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-148">
-<td><a name="testA-148"></a><input type="checkbox" id="cb-148" value="148" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-148">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=420#src-420" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__44.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-232">
-<td><a name="testA-232"></a><input type="checkbox" id="cb-232" value="232" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_6g.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-232">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that signAndEncryptSecureMessage and verifyAndDecryptSecuredMessage both encrypts and signs properly</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_6g.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that signAndEncryptSecureMessage and verifyAndDecryptSecuredMessage both encrypts and signs properly</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=560#src-560" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_6g.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-13">
-<td><a name="testA-13"></a><input type="checkbox" id="cb-13" value="13" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-13">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=217#src-217" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__d.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-277">
-<td><a name="testA-277"></a><input type="checkbox" id="cb-277" value="277" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__7p.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-277">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Message with and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__7p.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Message with and verify that all required fields are set and signature verifies.</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=103#src-103" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__7p.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-1">
-<td><a name="testA-1"></a><input type="checkbox" id="cb-1" value="1" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__1.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-1">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__1.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies.</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=187#src-187" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__1.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-27">
-<td><a name="testA-27"></a><input type="checkbox" id="cb-27" value="27" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-27">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=420#src-420" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__r.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-374">
-<td><a name="testA-374"></a><input type="checkbox" id="cb-374" value="374" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_CAM_has_value_2_and_security_profile_ae.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-374">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that CAM has value 2 and security profile</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_CAM_has_value_2_and_security_profile_ae.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that CAM has value 2 and security profile</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.html?line=30#src-30" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_CAM_has_value_2_and_security_profile_ae.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-46">
-<td><a name="testA-46"></a><input type="checkbox" id="cb-46" value="46" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_DENM_has_value_1_and_security_profile_1a.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-46">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that DENM has value 1 and security profile</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_DENM_has_value_1_and_security_profile_1a.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that DENM has value 1 and security profile</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.html?line=30#src-30" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_DENM_has_value_1_and_security_profile_1a.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-380">
-<td><a name="testA-380"></a><input type="checkbox" id="cb-380" value="380" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_ak.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-380">  <span class="sortValue">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_ak.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.crypto.DefaultCryptoManagerSpec.Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification</a>
-</td>
-<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
-  </td>
-<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec.html?line=405#src-405" title="View Test Source">
- <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
-</a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_ak.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
-</td>
-</tr>
-<tr id="test-26">
-<td><a name="testA-26"></a><input type="checkbox" id="cb-26" value="26" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
-<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_q.html';">
-<span class="sortValue">0.2857143</span>
-<div>
-<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
-<td id="tc-26">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_q.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</a>
+<div title="50% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:50%"></div></div></div></td>
+<td id="tc-669">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_il.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.MessageAndCertificateValidationIT.Generate Authorization Ticket and Signed Secured Message v1 for interoperability testing</a>
 </td>
 <td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
   </td>
 <td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT.html?line=150#src-150" title="View Test Source">
  <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
 </a>
-<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_q.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/MessageAndCertificateValidationIT_Generate_Authorization_Ticket_and_Signed_Secured_Message_v1_for_interoperability_testing_il.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-888">
+<td><a name="testA-888"></a><input type="checkbox" id="cb-888" value="888" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_oo.html';">
+<span class="sortValue">0.5</span>
+<div>
+<div title="50% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:50%"></div></div></div></td>
+<td id="tc-888">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_oo.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=515#src-515" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_serializeDataToBeSignedInSecuredMessage_serializes_according_to_signature_verification_it_ETSI_specifification_oo.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-57">
+<td><a name="testA-57"></a><input type="checkbox" id="cb-57" value="57" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_DENM_for_1_1l.html';">
+<span class="sortValue">0.42857143</span>
+<div>
+<div title="42.9% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:42.9%"></div></div></div></td>
+<td id="tc-57">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that SecurityProfile.getByValue returns DENM for 1</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_DENM_for_1_1l.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that SecurityProfile.getByValue returns DENM for 1</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.html?line=43#src-43" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_DENM_for_1_1l.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-953">
+<td><a name="testA-953"></a><input type="checkbox" id="cb-953" value="953" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_CAM_for_2_qh.html';">
+<span class="sortValue">0.35714287</span>
+<div>
+<div title="35.7% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:35.7%"></div></div></div></td>
+<td id="tc-953">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that SecurityProfile.getByValue returns CAM for 2</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_CAM_for_2_qh.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that SecurityProfile.getByValue returns CAM for 2</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.html?line=43#src-43" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_SecurityProfile_getByValue_returns_CAM_for_2_qh.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-292">
+<td><a name="testA-292"></a><input type="checkbox" id="cb-292" value="292" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html';">
+<span class="sortValue">0.2857143</span>
+<div>
+<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
+<td id="tc-292">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate generates a valid signature and that verifySecuredMessage can verify it.</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=530#src-530" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__84.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-709">
+<td><a name="testA-709"></a><input type="checkbox" id="cb-709" value="709" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__jp.html';">
+<span class="sortValue">0.2857143</span>
+<div>
+<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
+<td id="tc-709">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Message with and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__jp.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Message with and verify that all required fields are set and signature verifies.</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=103#src-103" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Message_with_and_verify_that_all_required_fields_are_set_and_signature_verifies__jp.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-848">
+<td><a name="testA-848"></a><input type="checkbox" id="cb-848" value="848" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_DENM_has_value_1_and_security_profile_nk.html';">
+<span class="sortValue">0.2857143</span>
+<div>
+<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
+<td id="tc-848">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that DENM has value 1 and security profile</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_DENM_has_value_1_and_security_profile_nk.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that DENM has value 1 and security profile</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.html?line=30#src-30" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_DENM_has_value_1_and_security_profile_nk.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-846">
+<td><a name="testA-846"></a><input type="checkbox" id="cb-846" value="846" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html';">
+<span class="sortValue">0.2857143</span>
+<div>
+<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
+<td id="tc-846">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify SignSecuredMessage using signer info type: certificate_digest_with_ecdsap256 generates a valid signature and that verifySecuredMessage can verify it.</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=530#src-530" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_SignSecuredMessage_using_signer_info_type__certificate_digest_with_ecdsap256_generates_a_valid_signature_and_that_verifySecuredMessage_can_verify_it__ni.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-28">
+<td><a name="testA-28"></a><input type="checkbox" id="cb-28" value="28" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_s.html';">
+<span class="sortValue">0.2857143</span>
+<div>
+<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
+<td id="tc-28">  <span class="sortValue">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that signAndEncryptSecureMessage and verifyAndDecryptSecuredMessage both encrypts and signs properly</span><a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_s.html" title="View Test Summary Page">org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerSpec.Verify that signAndEncryptSecureMessage and verifyAndDecryptSecuredMessage both encrypts and signs properly</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec.html?line=670#src-670" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/common/crypto/DefaultCryptoManagerSpec_Verify_that_signAndEncryptSecureMessage_and_verifyAndDecryptSecuredMessage_both_encrypts_and_signs_properly_s.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-159">
+<td><a name="testA-159"></a><input type="checkbox" id="cb-159" value="159" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__4f.html';">
+<span class="sortValue">0.2857143</span>
+<div>
+<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
+<td id="tc-159">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__4f.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed CAM Unrecognized Certificates Message and verify that all required fields are set and signature verifies.</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=187#src-187" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_CAM_Unrecognized_Certificates_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__4f.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-915">
+<td><a name="testA-915"></a><input type="checkbox" id="cb-915" value="915" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html';">
+<span class="sortValue">0.2857143</span>
+<div>
+<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
+<td id="tc-915">  <span class="sortValue">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.generator.SecuredMessageGeneratorSpec.Generate Signed DENM Message and verify that all required fields are set and signature verifies.</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec.html?line=217#src-217" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/generator/SecuredMessageGeneratorSpec_Generate_Signed_DENM_Message_and_verify_that_all_required_fields_are_set_and_signature_verifies__pf.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+</td>
+</tr>
+<tr id="test-595">
+<td><a name="testA-595"></a><input type="checkbox" id="cb-595" value="595" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle"  class="link" onclick="window.location.href='../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_CAM_has_value_2_and_security_profile_gj.html';">
+<span class="sortValue">0.2857143</span>
+<div>
+<div title="28.6% Covered" style="min-width:40px;" class="barNegative contribBarNegative contribBarNegative"><div class="barPositive contribBarPositive contribBarPositive" style="width:28.6%"></div></div></div></td>
+<td id="tc-595">  <span class="sortValue">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that CAM has value 2 and security profile</span><a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_CAM_has_value_2_and_security_profile_gj.html" title="View Test Summary Page">org.certificateservices.custom.c2x.its.datastructs.msg.MessageTypeSpec.Verify that CAM has value 2 and security profile</a>
+</td>
+<td>      <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  </td>
+<td> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec.html?line=30#src-30" title="View Test Source">
+ <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+</a>
+<a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageTypeSpec_Verify_that_CAM_has_value_2_and_security_profile_gj.html" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
 </td>
 </tr>
 
@@ -826,7 +817,7 @@
  <tr id="l13">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=13#src-13">13</a></td>
 <td align="right" class="coverageCount NoHilight "   >&#160;&#160;</td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.<a href="../../../its/pkg-summary.html">its</a>.<a href="../../datastructs/pkg-summary.html">datastructs</a>.<a href="../msg/pkg-summary.html">msg</a>;</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-13" class="srcLine"><span class="keyword">package</span> org.certificateservices.custom.c2x.its.datastructs.<a href="../msg/pkg-summary.html">msg</a>;</span></td>
 </tr>
  <tr id="l14">
 <td align="right" class="lineCount NoHilight"><a class="lineNumHref" href="?line=14#src-14">14</a></td>
@@ -930,17 +921,17 @@
 </tr>
 <tr id="l28">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=28#src-28">28</a></td>
-<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 28, Col 2: method entered 4 times." class="nolink">&#160;4</span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 28, 'Tests that hit MessageType(int,int)');" ><span title="Line 28, Col 2: method entered 4 times." class="nolink">&#160;4</span></td>
 <td class=" methodStart  srcCell" id="id-28"><img title="Method Statistics" onclick="toggleSrcRowVis(this, 28,31);" id="img-28" src="../../../../../../../img/collapse.gif"  alt="toggle" class="icon"/><span id="src-28" class="srcLine"><span class="nolink" title="Line 28, Col 2: method entered 4 times.">    <span class="keyword">private</span> <a href="../../../../../../../org/certificateservices/custom/c2x/its/datastructs/msg/MessageType.html#MessageType">MessageType</a>(<span class="keyword">int</span> value, <span class="keyword">int</span> securityProfile){</span><span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-28'), 28,31);" id="e28" style="display:none;border:none;">...</span></span></td>
 </tr>
  <tr id="l29">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=29#src-29">29</a></td>
-<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 29, Col 3: statement executed 4 times." class="nolink">&#160;4</span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 29, 'Tests that hit line # 29');" ><span title="Line 29, Col 3: statement executed 4 times." class="nolink">&#160;4</span></td>
 <td class=" srcCell" ><span class="spacer"></span><span id="src-29" class="srcLine"><span class="nolink" title="Line 29, Col 3: statement executed 4 times.">        <span class="keyword">this</span>.value = value;</span></span></td>
 </tr>
  <tr id="l30">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=30#src-30">30</a></td>
-<td align="right" class="coverageCount Good missedByTest"   ><span title="Line 30, Col 3: statement executed 4 times." class="nolink">&#160;4</span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 30, 'Tests that hit line # 30');" ><span title="Line 30, Col 3: statement executed 4 times." class="nolink">&#160;4</span></td>
 <td class=" srcCell" ><span class="spacer"></span><span id="src-30" class="srcLine"><span class="nolink" title="Line 30, Col 3: statement executed 4 times.">        <span class="keyword">this</span>.securityProfile = securityProfile;</span></span></td>
 </tr>
  <tr id="l31">
@@ -1065,8 +1056,8 @@
 </tr>
  <tr id="l46">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=46#src-46">46</a></td>
-<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 46, 'Tests that hit line # 46');" ><span title="Line 46, Col 6: true branch executed 2 times branch executed 1 time." class="nolink">&#160;3</span></td>
-<td class=" srcCell" ><span class="spacer"></span><span id="src-46" class="srcLine"><span class="nolink" title="Line 46, Col 6: true branch executed 2 times branch executed 1 time.">            <span class="keyword">if</span>(next.value == value){</span></span></td>
+<td align="right" class="coverageCount Good hitByTest"   onclick="return showTestsForLine(this, 46, 'Tests that hit line # 46');" ><span title="Line 46, Col 6: true branch executed 2 times, false branch executed 1 time." class="nolink">&#160;3</span></td>
+<td class=" srcCell" ><span class="spacer"></span><span id="src-46" class="srcLine"><span class="nolink" title="Line 46, Col 6: true branch executed 2 times, false branch executed 1 time.">            <span class="keyword">if</span>(next.value == value){</span></span></td>
 </tr>
  <tr id="l47">
 <td align="right" class="lineCount Good"><a class="lineNumHref" href="?line=47#src-47">47</a></td>
@@ -1121,16 +1112,13 @@
 </script>
 <script src="MessageType.js" type="text/javascript"></script>
 
-                </section> <!-- class="aui-page-panel-content" -->
-            </div> <!-- class="aui-page-panel-inner" -->
-        </div> <!-- class="aui-page-panel" -->
-
-        <footer id="footer" role="contentinfo">
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
     <section class="footer-body">
         <ul>
             <li>
-                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.1
-                on Wed Apr 1 2015 14:08:58 CEST using coverage data from Wed Apr 1 2015 14:08:13 CEST.
+                Report generated by <a target="_new" href="http://www.atlassian.com/software/clover">Atlassian Clover</a> v 4.0.5
+                on Wed Mar 16 2016 10:13:29 CET using coverage data from Wed Mar 16 2016 10:13:14 CET.
             </li>
         </ul>
         <ul>
@@ -1142,7 +1130,9 @@
             </a>
         </div>
     </section>
-</footer>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
     </div> <!-- id="page" -->
 </body>
 </html>

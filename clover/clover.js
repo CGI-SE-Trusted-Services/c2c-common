@@ -55,402 +55,100 @@ AJS.$(function($) {
         hiLightByTest($(this).prop('value'), $(this).prop('checked'));
     });
 
-    var packages = [];
-    var $packages = $('.project-packages .package');
-    $packages.each(function () {
-        var $this = $(this);
-        packages.push({
-            element: $this,
-            text: $this.text().toLowerCase()
-        });
+    // ======================================================================
+
+    var $packagesTree = $(".packages-tree-container");
+    var $packagesWrapper = $(".packages-tree-wrapper");
+
+    $packagesTree.cloverPackages({
+        currentPackage: $packagesTree.parent().data("package-name"),
+        lozengesPlaceholder: ".clover-packages-lozenges",
+        noResultsMessage: ".package-filter-no-results-message",
+        packages: Packages.nodes,
+        urlPrefix: $packagesTree.parent().data("root-relative"),
+        wrapper: ".packages-tree-wrapper"
     });
+    $packagesTree.data("current-search", "");
 
     var $filterForm = $('.package-filter-container');
     var $filterInput = $('#package-filter');
 
-    var $noResultsMsg = $(".package-filter-no-results-message");
-    var $partialResultsMsg = $(".package-filter-partial-results-message");
-    var $resultsMsg = $(".package-filter-results-message");
-    var $searchMsg = $(".package-filter-search-message");
-
-    function forceDOMrefresh(){
-        var div = document.createElement("div");
-        div.className = "force-dom-refresh-placeholder";
-        div.innerHTML = "placeholder";
-        div.style.height = "1px";
-        div.style.position = "fixed";
-        document.body.insertBefore(div, document.body.firstChild);
-        setTimeout(function(){
-            document.body.removeChild(div);
-        }, 1);
-
-        var offset = $searchMsg[0].offsetTop;
-    }
-
     $filterForm.submit(function(e) {
         e.preventDefault();
-
-        var query = $filterInput.val().trim();
-
-        if (query.length < 3){
-            $filterInput.trigger("input");
-            return;
-        }
-
-        $noResultsMsg.addClass("hidden");
-        $partialResultsMsg.addClass("hidden");
-        $resultsMsg.addClass("hidden");
-        $searchMsg.removeClass("hidden");
-        forceDOMrefresh();
-
-        $searchMsg[0].display = "none";
-        setTimeout(function(){
-            $searchMsg[0].display = "block";
-
-            setTimeout(function(){
-                var data = $('.packages-tree-container').jstree(true).search(query);
-
-                if (!data.totalResults){
-                    $noResultsMsg.removeClass("hidden");
-                } else if (data.shown != data.totalResults){
-                    $partialResultsMsg.find(".package-filter-results-number").text(data.shown);
-                    $partialResultsMsg.find(".package-filter-results-total").text(data.totalResults);
-                    $partialResultsMsg.removeClass("hidden");
-                } else {
-                    $resultsMsg.find(".package-filter-results-total").text(data.totalResults);
-                    $resultsMsg.find(".package-filter-results-word").text(pluralise(data.totalResults, "result", "results"));
-                    $resultsMsg.removeClass("hidden");
-                }
-
-                $searchMsg.addClass("hidden");
-            }, 0);
-        }, 0);
     });
 
-    $filterInput.on("input keyup", function(){
-        if ($filterForm.data("cleaning-in-progress")){
-            return true;
-        }
+    $filterInput.on("input keyup", function(e){
+        var val = $filterInput.val();
 
-        if (!$(this).val().trim().length){
-            $filterForm.data("cleaning-in-progress", true);
+        if ($packagesTree.data("current-search") !== val){
+            $packagesTree.data("current-search", val);
 
-            $noResultsMsg.addClass("hidden");
-            $partialResultsMsg.addClass("hidden");
-            $resultsMsg.addClass("hidden");
-            $searchMsg.addClass("hidden");
-
-            setTimeout(function(){
-                $('.packages-tree-container').jstree(true).clearSearch(function(){
-                    $filterForm.data("cleaning-in-progress", false);
-                });
-            }, 0);
-        }
-    });
-
-//    $filterInput.on("keydown", function(e) {
-//        var keyCode = e.keyCode;
-//
-//        var $visiblePackages = $packages.filter(':not(.hidden)');
-//        var $selected = $visiblePackages.filter('.active');
-//
-//        if (keyCode === 38) { // UP
-//            if (!$selected.length) {
-//                $selected = $packages.filter(':not(.hidden):first').addClass("active");
-//            }
-//            $selected.removeClass("active");
-//            if ($selected.prevAll(".package:not(.hidden)").length) {
-//                $selected.prevAll(".package:not(.hidden):first").addClass("active");
-//            } else {
-//                $visiblePackages.filter(":last:not(.hidden)").addClass("active");
-//            }
-//
-//        } else if (keyCode === 40) { // DOWN
-//            if (!$selected.length) {
-//                $selected = $packages.filter(':not(.hidden):last').addClass("active");
-//            }
-//            $selected.removeClass("active");
-//            if ($selected.nextAll(".package:not(.hidden)").length) {
-//                $selected.nextAll(".package:not(.hidden):first").addClass("active");
-//            } else {
-//                $visiblePackages.filter(":first:not(.hidden)").addClass("active");
-//            }
-//        } else if (keyCode === 13) { // ENTER
-//            e.preventDefault();
-//            if (!$selected.length) {
-//                $selected = $packages.filter(':not(.hidden):first');
-//            }
-//            window.location = $selected.find("a").attr("href");
-//        }
-//    });
-
-    $('.project-packages li').on("mouseenter", function() {
-        $packages.removeClass("active");
-    });
-
-    $.jstree.plugins.cloverplugin = function(options, parent){
-        // after jstree is initiated on DOM element, no tree changes are made,
-        // so we can assume this method will be called just once
-        this._append_json_data = function(obj, data){
-            var currentPackage = this.get_container().parent().data("package-name");
-            var prefix = this.get_container().parent().data("root-relative");
-
-            var func = function(nodes){
-                $.each(nodes, function(index, node){
-                    var href = node.a_attr.href;
-
-                    // show current package
-                    node.state = node.state || {};
-                    node.state.opened = currentPackage.indexOf(node.id + ".") === 0;
-
-                    node.a_attr.class = currentPackage === node.id ? "current-package" : "";
-
-                    if (href) node.a_attr.href = (prefix ? prefix : "") + href;
-
-                    if (node.children) func(node.children);
-                });
-            };
-            func(data);
-
-            return parent._append_json_data.call(this, obj, data);
-        };
-
-        this.select_node = function(obj, supress_event, prevent_open){
-            this.toggle_node(obj);
-        };
-
-        this.open_node = function(obj, callback, animation){
-            // don't open node, if object is a valid link;
-            // the node will be opened after page reload
-            if ($(obj).attr("href")) return;
-
-            var ret = parent.open_node.call(this, obj, callback, animation);
-
-            this.set_icon(obj, Packages.settings.icons.package.open);
-            this.redraw_node(this.get_node(obj).id);
-            this.renderLozenges();
-
-            return ret;
-        };
-
-        this.close_node = function(obj, animation){
-            var ret = parent.close_node.call(this, obj, animation);
-
-            this.set_icon(obj, Packages.settings.icons.package.closed);
-            this.redraw_node(this.get_node(obj).id);
-            this.renderLozenges();
-
-            return ret;
-        };
-
-        this.redraw_node = function(node, deep, is_callback){
-            var resultNode = parent.redraw_node.call(this, node, deep, is_callback);
-            var nodeData = this.get_node(node);
-
-            if (!node) return resultNode;
-
-            // show expanded / collapsed / no icon
-            var $icon = $(resultNode).children("i");
-            $icon.removeClass(Packages.settings.icons.state.forRemoval);
-
-            if (!nodeData.children.length){
-                $icon.addClass("hidden");
-            } else {
-                var open = nodeData.state.opened;
-                $icon.addClass(Packages.settings.icons.state[open ? "expanded" : "collapsed"]);
-            }
-
-
-            this.renderLozenges();
-            return resultNode;
-        };
-
-        this._getVisibleNodes = function(hidden){
-            // if hidden is passed, it contains all the ids of hidden nodes, not only parent's ones
-            var hidden = hidden || [];
-
-            var func = $.proxy(function(nodes, visible, opened){
-                $.each(nodes, $.proxy(function(index, node){
-                    // nodes from json representation don't contain any custom data
-                    node = this.get_node(node);
-
-                    if (hidden.indexOf(node.id) !== -1){
-                        return;
-                    }
-
-                    if (node.state.opened){
-                        visible.push(node);
-                        opened[node.id] = true;
-
-                        func(node.children, visible, opened);
-                    } else if (opened[node.parent]) {
-                        visible.push(node);
-                    }
-                }, this));
-
-                return visible;
-            }, this);
-
-            return func(this.get_json(null, {flat: false}), [], {"#": true});
-        };
-
-        this.renderLozenges = function(hidden){
-            var $lozenges = this.get_container().siblings(".packages-tree-lozenges");
-
-            $lozenges.html("");
-            $.each(this._getVisibleNodes(hidden), $.proxy(function(index, node){
-                $lozenges.append(this._createLozengeWithWrapper(node));
-            }, this));
-        };
-
-        this._createLozengeWithWrapper = function(node){
-            var coverage = node.original.coverage;
-            var $wrapper = $("<div></div>").addClass("packages-tree-lozenge-line");
-
-            if (coverage){
-                var $lozenge = $("<span></span>")
-                    .addClass("aui-lozenge aui-lozenge-subtle")
-                    .html(coverage);
-
-                $wrapper.append($lozenge);
-            }
-
-            return $wrapper;
-        };
-
-        this.search = function(query){
-            var hidden = [], results = {}, order = [];
-            var limit = 15, query = query.trim(), totalResults = 0;
-            var hasDot = query.indexOf(".");
-
-            if (!query.length){
-                this.clearSearch();
-                return;
-            }
-
-            // check if id1 is (direct or indirect) parent of id2
-            var isParentOf = function(id1, id2){
-                return id2.indexOf(id1 + ".") === 0;
-            };
-
-            var isSiblingOf = function(id1, id2){
-                var pos1 = id1.lastIndexOf(".");
-                var pos2 = id2.lastIndexOf(".");
-
-                return id1.substr(0, pos1) === id2.substr(0, pos2);
-            };
-
-            var collectResult = function(id){
-                var childrenAlready = false;
-                var siblingAlready = false;
-
-                Object.keys(results).forEach(function(elem){
-                    if (!childrenAlready && !siblingAlready && isParentOf(id, elem)){
-                        childrenAlready = true;
-                        results[elem]++;
-                        totalResults++;
-                    }
-
-                    if (!childrenAlready && !siblingAlready && isSiblingOf(id, elem)){
-                        siblingAlready = true;
-                        results[elem]++;
-                        totalResults++;
-                    }
-                });
-
-                if (!childrenAlready && !siblingAlready){
-                    results[id] = 1;
-                    totalResults++;
-                    order.push(id);
-                }
-            };
-
-            var func = $.proxy(function(nodes){
-                var foundInChildren = false;
-                var foundInNodes = false;
-
-                $.each(nodes, $.proxy(function(index, node){
-                    var foundInSingleNode = false;
-
-                    node = this.get_node(node);
-
-                    if (!hasDot && node.text.indexOf(query) !== -1){
-                        foundInSingleNode = true;
-                    } else if (hasDot && node.id.indexOf(query) !== -1){
-                        foundInSingleNode = true;
-                    }
-
-                    if (node.children){
-                        foundInChildren = func(node.children)
-                    }
-
-                    foundInNodes = foundInNodes || foundInSingleNode || foundInChildren;
-
-                    if (!foundInSingleNode && !foundInChildren){
-                        hidden.push(node.id);
-                    } else if (foundInSingleNode) {
-                        collectResult(node.id);
-                    }
-                }, this));
-
-                return foundInNodes;
-            }, this);
-
-            this.close_all();
-            func(this.get_json(null, {flat: false}));
-
-            // open necessary nodes, but consider limit
-            var shown = 0;
-            order.slice(0, limit).forEach($.proxy(function(id){
-                this._open_to(id);
-                shown += results[id];
-            }, this));
-
-            // hide nodes not relevant to the query
-            hidden.forEach(function(id){
-                $("li[id='" + id + "']").addClass("hidden");
+            $packagesTree.cloverPackages({
+                "search": val
             });
+        }
+    });
 
-            // update lozenges
-            this.renderLozenges(hidden);
+    $filterInput.on("keydown", function(e){
+        var special = [13, 27, 37, 38, 39, 40];
 
-            return {
-                shown: shown,
-                totalResults: totalResults
-            };
-        };
+        if (special.indexOf(e.which) !== -1){
+            e.preventDefault();
 
-        this.clearSearch = function(doneCallback){
-            $(".jstree-node").removeClass("hidden");
+            if (e.which === 27){
+                $filterInput.val("");
 
-            this.close_all();
-            this.renderLozenges();
+                $packagesTree.data("current-search", "");
+                $packagesTree.cloverPackages({
+                    "search": ""
+                });
+            } else {
+                $packagesTree.cloverPackages({
+                    "keyDown": e.which
+                });
+            }
+        }
+    });
 
-            setTimeout(function(){
-                doneCallback();
-            }, 0);
-        };
+    $filterInput.on("blur", function(){
+        $packagesTree.cloverPackages({
+            "resetKeyboardSelection": true
+        });
+    });
+
+    /* === sidebar === */
+
+    var updateSidebarHeight = function(){
+        var $footer = $("#footer");
+        var $sidebar = $(".aui-page-panel-nav-clover");
+        var clientHeight = document.documentElement.clientHeight;
+        var height = clientHeight - parseInt($sidebar.css("top"));
+
+        $sidebar.css({
+            height: height+"px",
+            visibility: "visible"
+        });
+
+        $packagesWrapper.css({
+            height: height-217+"px"
+        });
+
+        $footer.css("margin-top", "0px");
+
+        var footerOffset = $footer.offset();
+        var footerHeight = $footer.outerHeight();
+        var marginTop = clientHeight - footerOffset.top - footerHeight - 1;
+
+        if (marginTop > 0){
+            $footer.css("margin-top", marginTop + "px");
+        }
+
+        $filterInput.focus();
     };
 
-    $('.packages-tree-container').jstree({
-        core: {
-            animation: 0,
-            data: Packages.nodes,
-            themes : {
-                dots: false,
-                stripes: false,
-                variant : "medium"
-            }},
-        plugins: ["cloverplugin", "wholerow"]
-    }).on("ready.jstree", function(e, data){
-        data.instance.renderLozenges();
-    });
+    updateSidebarHeight();
 
-    $(".packages-tree-container").on("click", "a", function(){
-        var href = $(this).attr("href");
-
-        if (href) location.href = href;
-    });
+    $(window).on("resize", updateSidebarHeight);
 });
 
 
@@ -1128,6 +826,23 @@ function replaceImg(ele, regex, newClass) {
 
 
 function createTreeMap(json) {
+
+    // our own colour interpolation - see also ReportColors.ADG_HEAT_COLORS, as colours should match (moreless)
+    TM.Squarified.implement({
+        'setColor': function (json) {
+            var x = (json.data.$color - 0);
+            if (x > 80) {
+                var alpha = 0.75 - 0.50 * (x - 80.0)/20.0;
+                return "rgba(20,137,44," + alpha + ")"; // ADG green 75%-25%
+            } else if (x > 60) {
+                var alpha = 0.75 - 0.50 * (x - 60.0)/20.0;
+                return "rgba(246,195,66," + alpha + ")"; // ADG yellow 75%-25%
+            } else {
+                var alpha = 0.75 - 0.50 * x/60.0;
+                return "rgba(208,68,55," + alpha + ")"; // ADG red 75%-25%
+            }
+        }
+    });
 
     return new TM.Squarified({
         //Where to inject the Treemap
