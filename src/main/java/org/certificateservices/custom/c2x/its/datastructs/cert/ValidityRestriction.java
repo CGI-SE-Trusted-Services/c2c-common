@@ -238,23 +238,42 @@ public class ValidityRestriction implements Encodable{
 
 	@Override
 	public String toString() {
+		return toString(null);
+	}
+	
+	/**
+	 * Alternative to String version that gives more verbose time information.
+	 * @param certificateVersion, null for the less verbose version
+	 * @return a more verbose toString information than standard implementation.
+	 */
+	public String toString(Integer certificateVersion) {
 		switch (validityRestrictionType) {
 		case time_end:
 			return "ValidityRestriction [type=" + validityRestrictionType
-					+ ", end_validity=" + endValidity + "]";
+					+ ", end_validity=" + getTime32(certificateVersion,endValidity) + "]";
         case time_start_and_end:
-			return "ValidityRestriction [type=" + validityRestrictionType +", start_validity=" + startValidity 
-					 +", end_validity=" + endValidity + "]";
+			return "ValidityRestriction [type=" + validityRestrictionType +", start_validity=" + getTime32(certificateVersion,startValidity) 
+					 +", end_validity=" + getTime32(certificateVersion,endValidity) + "]";
         case time_start_and_duration:
-			return  "ValidityRestriction [type=" + validityRestrictionType +", start_validity=" + startValidity 
-					 +", duration=" + duration + "]";
+			return  "ValidityRestriction [type=" + validityRestrictionType +", start_validity=" + getTime32(certificateVersion,startValidity) 
+					 +", duration=" + duration.toString().replace("Duration ", "") + "]";
         case region:
 			return "ValidityRestriction [type=" + validityRestrictionType
-					+ ", region:=" + region + "]";
+					+ ", region:=" + region.toString().replace("GeographicRegion " , "") + "]";
 		default:
 			break;
 		}
 		return "ValidityRestriction [type=unknown]";
+	}
+	
+	private String getTime32(Integer certificateVersion, Time32 timeStamp){
+		String retval;
+		if(certificateVersion == null){
+			retval = timeStamp.toString();
+		}else{
+			retval = timeStamp.toString(certificateVersion);
+		}
+		return retval.replace("Time32 ", "");
 	}
 
 

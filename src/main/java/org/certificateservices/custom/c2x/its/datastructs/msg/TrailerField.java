@@ -107,7 +107,7 @@ public class TrailerField implements Encodable{
 	@Override
 	public String toString() {
 		return "TrailerField [trailerFieldType=" + trailerFieldType
-				+ ", signature=" + signature + "]";
+				+ ", signature=" + signature.toString().replace("Signature ", "") + "]";
 	}
 	
 

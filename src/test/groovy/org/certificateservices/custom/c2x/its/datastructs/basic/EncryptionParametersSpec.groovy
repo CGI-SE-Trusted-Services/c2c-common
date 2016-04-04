@@ -76,7 +76,7 @@ class EncryptionParametersSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		 new EncryptionParameters(SymmetricAlgorithm.aes_128_ccm, new byte[12]).toString() == "EncryptionParameters [symmetricAlgorithm=aes_128_ccm, nonce=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]"
+		 new EncryptionParameters(SymmetricAlgorithm.aes_128_ccm, new byte[12]).toString() == "EncryptionParameters [symmetricAlgorithm=aes_128_ccm, nonce=000000000000000000000000]"
 	}
 
 	

@@ -65,6 +65,21 @@ public class IntX implements Encodable{
 		return value;
 	}
 	
+	/**
+	 * Returns the IntX value as integer, only use if you know that the ITS value fits with an integer.
+	 * @return the IntX value as integer
+	 */
+	public int asInt(){
+		return value.intValue();
+	}
+
+	/**
+	 * Returns the IntX value as long, only use if you know that the ITS value fits with an long.
+	 * @return the IntX value as long
+	 */
+	public long asLong(){
+		return value.longValue();
+	}
 	
 	/**
 	 * 
@@ -172,7 +187,7 @@ public class IntX implements Encodable{
 
 	@Override
 	public String toString() {
-		return "IntX [value=" + value + "]";
+		return "IntX [" + value + "]";
 	}
 
 

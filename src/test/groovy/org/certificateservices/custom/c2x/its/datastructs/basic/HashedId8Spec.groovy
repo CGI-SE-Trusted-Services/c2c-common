@@ -37,7 +37,7 @@ class HashedId8Spec extends BaseStructSpec {
 
 	def "Verify toString"(){
 		expect:
-		 new HashedId8(Hex.decode("998877665544332222")).toString() == "HashedId8 [hashedId=[-120, 119, 102, 85, 68, 51, 34, 34]]"
+		 new HashedId8(Hex.decode("998877665544332222")).toString() == "HashedId8 [8877665544332222]"
 	}
 
 }

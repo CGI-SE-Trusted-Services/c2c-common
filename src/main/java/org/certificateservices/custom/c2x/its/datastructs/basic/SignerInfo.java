@@ -259,18 +259,26 @@ public class SignerInfo implements Encodable{
 	public String toString() {
 		switch (signerInfoType) {
 		case self:
-			return "SignerInfo [signerInfoType=" + signerInfoType + "]";
+			return "SignerInfo [type=" + signerInfoType + "]";
         case certificate_digest_with_ecdsap256:
-    		return "SignerInfo [signerInfoType=" + signerInfoType + ", digest="
-			+ digest +"]";
+    		return "SignerInfo [type=" + signerInfoType + ", digest="
+			+ digest.toString().replace("HashedId8 ", "") +"]";
         case certificate:
-    		return "SignerInfo [signerInfoType=" + signerInfoType + ", certificate=" + certificate + "]";
+    		return "SignerInfo [type=" + signerInfoType + ", certificate=\n  " + certificate.toString().replace("Certificate ", "").replaceAll("\n", "\n  ") + "\n]";
         case certificate_chain:
-    		return "SignerInfo [signerInfoType=" + signerInfoType 
-			+ ", certificateChain=" + certificateChain + "]";
+        	String certChainString = "";
+        	for(int i=0;i<certificateChain.size() -1; i++){
+        		certChainString += certificateChain.get(i).toString().replace("Certificate ", "").replaceAll("\n", "\n  ") + ",\n  ";
+        	}
+        	if(certificateChain.size() > 0){
+        		certChainString = "\n  " + certChainString;
+        		certChainString += certificateChain.get(certificateChain.size()-1).toString().replace("Certificate ", "").replaceAll("\n", "\n  ");
+        	}
+    		return "SignerInfo [type=" + signerInfoType 
+			+ ", certificateChain=" + certChainString + "\n]";
         case certificate_digest_with_other_algorithm:
-    		return "SignerInfo [signerInfoType=" + signerInfoType + ", digest="
-			+ digest + ", publicKeyAlgorithm=" + publicKeyAlgorithm + "]";
+    		return "SignerInfo [type=" + signerInfoType + ", digest="
+			+ digest.toString().replace("HashedId8 ", "") + ", publicKeyAlgorithm=" + publicKeyAlgorithm + "]";
 		default:
 			break;
 		}

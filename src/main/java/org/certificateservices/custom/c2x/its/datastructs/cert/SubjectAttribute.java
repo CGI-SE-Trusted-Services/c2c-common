@@ -100,8 +100,8 @@ public class SubjectAttribute implements Encodable{
 	 * <p>
 	 * <li>its_aid_list : IntX
 	 * <li>its_aid_ssp_list : ItsAidSsp
-	 * <li>priority_its_aid_list : ItsAidPriority
-	 * <li>priority_ssp_list : ItsAidPrioritySsp
+	 * <li>priority_its_aid_list : ItsAidPriority, Important only use this option for Version 1 certificates
+	 * <li>priority_ssp_list : ItsAidPrioritySsp, Important only use this option for Version 1 certificates
 	 * 
 	 */
 	public SubjectAttribute(SubjectAttributeType subjectAttributeType, List<Encodable> itsAidList) {
@@ -162,8 +162,8 @@ public class SubjectAttribute implements Encodable{
 	 * the type of the returned list is for type:
 	 * <li>its_aid_list : IntX
 	 * <li>its_aid_ssp_list : ItsAidSsp
-	 * <li>priority_its_aid_list : ItsAidPriority
-	 * <li>priority_ssp_list : ItsAidPrioritySsp
+	 * <li>priority_its_aid_list : ItsAidPriority, Important only use this option for Version 1 certificates
+	 * <li>priority_ssp_list : ItsAidPrioritySsp, Important only use this option for Version 1 certificates
 	 */
 	public List<Encodable> getItsAidList() {
 		return itsAidList;
@@ -285,22 +285,29 @@ public class SubjectAttribute implements Encodable{
 		switch (subjectAttributeType) {
 		case verification_key:
 		case encryption_key:
-			return "SubjectAttribute [subjectAttributeType=" + subjectAttributeType
-					+ ", key=" + key +  "]";
+			return "SubjectAttribute [type=" + subjectAttributeType
+					+ ", key=" + key.toString().replace("PublicKey ", "") +  "]";
         case reconstruction_value:
-    		return "SubjectAttribute [subjectAttributeType=" + subjectAttributeType
-    				+ ", rv=" + rv  + "]";			
+    		return "SubjectAttribute [type=" + subjectAttributeType
+    				+ ", rv=" + rv.toString().replace("EccPoint ", "")  + "]";			
         case assurance_level:
-    		return "SubjectAttribute [subjectAttributeType=" + subjectAttributeType
-    				+ ", assuranceLevel=" + assuranceLevel  + "]";
+    		return "SubjectAttribute [type=" + subjectAttributeType
+    				+ ", assuranceLevel=" + assuranceLevel.toString().replace("SubjectAssurance ", "")  + "]";
         case its_aid_list:
+        	return "SubjectAttribute [type=" + subjectAttributeType
+    				+ ", itsAidList=" + EncodeHelper.listToString(itsAidList, "IntX ")  + "]";
         case its_aid_ssp_list:
+        	return "SubjectAttribute [type=" + subjectAttributeType
+    				+ ", itsAidList=" + EncodeHelper.listToString(itsAidList, "ItsAidSsp ")  + "]";
         case priority_its_aid_list:
+        	return "SubjectAttribute [type=" + subjectAttributeType
+    				+ ", itsAidList=" + EncodeHelper.listToString(itsAidList, "ItsAidPriority ")  + "]";
         case priority_ssp_list:
-    		return "SubjectAttribute [subjectAttributeType=" + subjectAttributeType
-    				+ ", itsAidList=" + itsAidList  + "]";
+            return "SubjectAttribute [type=" + subjectAttributeType
+				+ ", itsAidList=" + EncodeHelper.listToString(itsAidList, "ItsAidPrioritySsp ")  + "]";
+    	
 		default:
-			return "SubjectAttribute [subjectAttributeType=unknown]";
+			return "SubjectAttribute [type=unknown]";
 		}
 
 	}

@@ -114,7 +114,7 @@ class DurationSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new Duration(100,MINUTES).toString() == "Duration [encodedDuration=8292 (value=100 MINUTES)]"
+		new Duration(100,MINUTES).toString() == "Duration [encoded=8292 (100 MINUTES)]"
 	}
 
 }

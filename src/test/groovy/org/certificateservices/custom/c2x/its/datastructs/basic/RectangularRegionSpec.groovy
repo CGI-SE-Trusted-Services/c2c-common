@@ -75,6 +75,6 @@ class RectangularRegionSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new RectangularRegion(new TwoDLocation(-150,150), new TwoDLocation(-250,250)).toString() == "RectangularRegion [northwest=TwoDLocation [latitude=-150, longitude=150], southeast=TwoDLocation [latitude=-250, longitude=250]]"
+		new RectangularRegion(new TwoDLocation(-150,150), new TwoDLocation(-250,250)).toString() == "RectangularRegion [northwest=[latitude=-150, longitude=150], southeast=[latitude=-250, longitude=250]]"
 	}
 }

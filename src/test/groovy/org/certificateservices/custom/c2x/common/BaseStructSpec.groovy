@@ -65,7 +65,7 @@ abstract class BaseStructSpec extends Specification {
 	// TODO Refactor everything
 
 	// TODO
-	Certificate genCertificate(SubjectType type, String subjectName, Certificate cACertificate=null){
+	Certificate genCertificate(int certVersion, SubjectType type, String subjectName, Certificate cACertificate=null){
 		
 		SignerInfo si = new SignerInfo();
 		if(cACertificate != null){
@@ -79,14 +79,14 @@ abstract class BaseStructSpec extends Specification {
 		SubjectAttribute sae = new SubjectAttribute(new SubjectAssurance(4, 2));
 		SubjectAttribute sal = new SubjectAttribute(SubjectAttributeType.its_aid_ssp_list, [new ItsAidSsp(new IntX(1L), new byte[2])]);
 		
-		ValidityRestriction vr1 = new ValidityRestriction(new Time32(new Date(1416581892590L)));
-		ValidityRestriction vr2 = new ValidityRestriction(new Time32(new Date(1416581882582L)),new Time32(new Date(1416581892590L)));
+		ValidityRestriction vr1 = new ValidityRestriction(new Time32(certVersion,new Date(1416581892590L)));
+		ValidityRestriction vr2 = new ValidityRestriction(new Time32(certVersion,new Date(1416581882582L)),new Time32(certVersion,new Date(1416581892590L)));
 		
 		SubjectInfo subjectInfo = new SubjectInfo(type, subjectName.getBytes());
 		
 		Signature sig = new Signature(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, new EcdsaSignature(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(1)), new byte[32]))
 		
-		return new Certificate(1, [si], subjectInfo, [sav,sae,sal],[vr1,vr2],sig);
+		return new Certificate(certVersion, [si], subjectInfo, [sav,sae,sal],[vr1,vr2],sig);
 	}
 
 }

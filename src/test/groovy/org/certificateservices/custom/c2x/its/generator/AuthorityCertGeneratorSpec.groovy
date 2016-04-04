@@ -21,6 +21,7 @@ import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.CircularRegion
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
+import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.RegionType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
@@ -36,6 +37,7 @@ import org.certificateservices.custom.c2x.its.generator.AuthorityCertGenerator;
 import spock.lang.IgnoreRest;
 import spock.lang.Shared;
 import spock.lang.Specification;
+import spock.lang.Unroll;
 
 /**
  *
@@ -43,36 +45,37 @@ import spock.lang.Specification;
  *
  */
 public class AuthorityCertGeneratorSpec extends Specification {
-	
-	AuthorityCertGenerator acg
+
+	@Shared AuthorityCertGenerator acg_v1
+	@Shared AuthorityCertGenerator acg_v2
 	@Shared ITSCryptoManager cryptoManager
 	@Shared KeyPair rootCAKeys
 	@Shared KeyPair signKeys
-	@Shared KeyPair encKeys 
-	
+	@Shared KeyPair encKeys
+
 	def setupSpec(){
 		cryptoManager = new DefaultCryptoManager()
 		cryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"))
 		rootCAKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		signKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		encKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecies_nistp256)
+		acg_v1 = new AuthorityCertGenerator(Certificate.CERTIFICATE_VERSION_1,cryptoManager)
+		acg_v2 = new AuthorityCertGenerator(Certificate.CERTIFICATE_VERSION_2,cryptoManager)
 	}
-	
-	def setup(){
 
-		acg = new AuthorityCertGenerator(cryptoManager)
-	}
-	
-	def "Generate RootCA with Encryption Key and Geographic region and verify that all attributes are set."(){
-		setup:		
+
+
+	@Unroll
+	def "Generate version #version RootCA with Encryption Key and Geographic region and verify that all attributes are set."(){
+		setup:
 		GeographicRegion geoRegion = new GeographicRegion(new CircularRegion(new TwoDLocation(15, 18), 5000))
-		
+
 		when:
-		Certificate cert = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 7, 0, new Date(1417536852024L), new Date(1417536952031L + 315360000000L), geoRegion, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), signKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, encKeys.getPublic())
+		Certificate cert = generator.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 7, 0, new Date(1417536852024L), new Date(1417536952031L + 315360000000L), geoRegion, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), signKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, encKeys.getPublic())
 		then:
-		cert.version == 1
-		println "Root CA: " + new String(Hex.encode(cert.getEncoded()))
-		
+		cert.version == version
+		//println "Root CA: " + new String(Hex.encode(cert.getEncoded()))
+
 		cryptoManager.verifyCertificate(cert);
 		cert.signerInfos.size() == 1
 		cert.signerInfos[0].signerInfoType == SignerInfoType.self
@@ -81,43 +84,48 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.subjectAttributes.size() == 4
 		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
-		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1 		
+		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
 		cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, cert.subjectAttributes[0].publicKey.publicKey) == signKeys.publicKey
-		
+
 		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.encryption_key
 		cert.subjectAttributes[1].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecies_nistp256
 		cert.subjectAttributes[1].publicKey.supportedSymmAlg == SymmetricAlgorithm.aes_128_ccm
 		cert.subjectAttributes[1].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[1].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
 		cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecies_nistp256, cert.subjectAttributes[1].publicKey.publicKey) == encKeys.publicKey
-		
+
 		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[2].subjectAssurance.assuranceLevel == 7
 		cert.subjectAttributes[2].subjectAssurance.confidenceLevel == 0
-		
+
 		cert.subjectAttributes[3].subjectAttributeType == SubjectAttributeType.its_aid_list
 		cert.subjectAttributes[3].itsAidList.size() == 2
 		cert.subjectAttributes[3].itsAidList[0].value == new BigInteger(1234)
 		cert.subjectAttributes[3].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 2
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == (1417536952000L + 315360000000L)
-		
+		cert.validityRestrictions[0].startValidity.asElapsedTime() > 0
+		cert.validityRestrictions[0].endValidity.asElapsedTime() > cert.validityRestrictions[0].startValidity.asElapsedTime()
+
 		cert.validityRestrictions[1].validityRestrictionType == ValidityRestrictionType.region
 		cert.validityRestrictions[1].region.regionType == RegionType.circle
 		cert.validityRestrictions[1].region.circularRegion.center.latitude == 15
 		cert.validityRestrictions[1].region.circularRegion.center.longitude == 18
 		cert.validityRestrictions[1].region.circularRegion.radius == 5000
-		
+
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.signature.ecdsaSignature != null
-		
+		where:
+		generator      | version
+		acg_v1         | 1
+		acg_v2         | 2
 	}
-	
-	def "Generate RootCA without Encryption Key and Geographic region and verify that all other attributes are set."(){
-		
+
+
+	@Unroll
+	def "Generate version #version RootCA without Encryption Key and Geographic region and verify that all other attributes are set."(){
+
 		when:
-		Certificate cert = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), signKeys.getPrivate(), null, null)
+		Certificate cert = generator.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), signKeys.getPrivate(), null, null)
 		then:
 		cryptoManager.verifyCertificate(cert);
 		cert.signerInfos.size() == 1
@@ -129,39 +137,47 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
 		cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, cert.subjectAttributes[0].publicKey.publicKey) == signKeys.publicKey
-		
+
 		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
-		
+
 		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
 		cert.subjectAttributes[2].itsAidList.size() == 2
 		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
 		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
-				
+		cert.validityRestrictions[0].startValidity.asElapsedTime() < cert.validityRestrictions[0].endValidity.asElapsedTime()
+
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.signature.ecdsaSignature != null
-		
+		where:
+		generator      | version
+		acg_v1         | 1
+		acg_v2         | 2
 	}
-	
 
-	def "Generate Authorization Authority and verify that it is signed by the Root CA"(){
+	
+	@Unroll
+	def "Generate version #version Authorization Authority and verify that it is signed by the Root CA"(){
 		setup:
-		Certificate rootCA = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
-		
+		Certificate rootCA = generator.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
+
 		when:
-		Certificate cert = acg.genAuthorizationAuthorityCA("TestAuthorizationAuthority".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417636852024L), new Date(1417636952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null, rootCAKeys.getPrivate(), rootCA)
+		Certificate cert = generator.genAuthorizationAuthorityCA("TestAuthorizationAuthority".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417636852024L), new Date(1417636952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null, rootCAKeys.getPrivate(), rootCA)
 		then:
-		cert.version == 1
-		println "Authority CA: " + new String(Hex.encode(cert.getEncoded()))
-		cryptoManager.verifyCertificate(cert);
-		
+		cert.version == version
+		println "Authority CA v" + version + ": " + new String(Hex.encode(cert.getEncoded()))
+		cryptoManager.verifyCertificate(cert, rootCA);
+
 		cert.signerInfos.size() == 1
-		cert.signerInfos[0].signerInfoType == SignerInfoType.certificate
+		if(version == 1){
+			assert cert.signerInfos[0].signerInfoType == SignerInfoType.certificate
+		}else{
+			assert cert.signerInfos[0].signerInfoType == SignerInfoType.certificate_digest_with_ecdsap256
+			assert cert.signerInfos[0].digest == new HashedId8(cryptoManager.digest(rootCA.encoded, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256))
+		}
 		cert.subjectInfo.subjectType == SubjectType.authorization_authority
 		cert.subjectInfo.subjectName == "TestAuthorizationAuthority".getBytes("UTF-8")
 		cert.subjectAttributes.size() == 3
@@ -169,7 +185,7 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
 		cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, cert.subjectAttributes[0].publicKey.publicKey) == signKeys.publicKey
-				
+
 		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
 		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
 		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
@@ -178,58 +194,71 @@ public class AuthorityCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[2].itsAidList.size() == 2
 		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
 		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
-		
+
 		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417636852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417636952000L
-				
+		cert.validityRestrictions[0].startValidity.asElapsedTime() <cert.validityRestrictions[0].endValidity.asElapsedTime()
+
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.signature.ecdsaSignature != null
-		
+
+		where:
+		generator      | version
+		acg_v1         | 1
+		acg_v2         | 2
 	}
-		
-	def "Generate Enrollment Authority and verify that it is signed by the Root CA"(){
-			setup:
-			Certificate rootCA = acg.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
-			
-			when:
-			Certificate cert = acg.genEnrollmentAuthorityCA("TestEnrollmentAuthority".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417736852024L), new Date(1417736952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null, rootCAKeys.getPrivate(), rootCA)
-			then:
-			cert.version == 1
-			println "Enrollment CA: " + new String(Hex.encode(cert.getEncoded()))
-			cryptoManager.verifyCertificate(cert);
-			
-			cert.signerInfos.size() == 1
-			cert.signerInfos[0].signerInfoType == SignerInfoType.certificate
-			cert.subjectInfo.subjectType == SubjectType.enrollment_authority
-			cert.subjectInfo.subjectName == "TestEnrollmentAuthority".getBytes("UTF-8")
-			cert.subjectAttributes.size() == 3
-			cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
-			cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
-			cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
-			cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, cert.subjectAttributes[0].publicKey.publicKey) == signKeys.publicKey
-					
-			cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
-			cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
-			cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
-			
-			cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
-			cert.subjectAttributes[2].itsAidList.size() == 2
-			cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
-			cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
+
 	
-			cert.validityRestrictions.size() == 1
-			cert.validityRestrictions[0].startValidity.asDate().time == 1417736852000L
-			cert.validityRestrictions[0].endValidity.asDate().time == 1417736952000L
-					
-			cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
-			cert.signature.ecdsaSignature != null
-			
+	@Unroll
+	def "Generate version #version Enrollment Authority and verify that it is signed by the Root CA"(){
+		setup:
+		Certificate rootCA = generator.genRootCA("TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, rootCAKeys.getPublic(), rootCAKeys.getPrivate(), null, null)
+
+		when:
+		Certificate cert = generator.genEnrollmentAuthorityCA("TestEnrollmentAuthority".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417736852024L), new Date(1417736952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null, rootCAKeys.getPrivate(), rootCA)
+		then:
+		cert.version == version
+		println "Enrollment CA v" + version + ": " + new String(Hex.encode(cert.getEncoded()))
+		cryptoManager.verifyCertificate(cert, rootCA);
+
+		cert.signerInfos.size() == 1
+		if(version == 1){
+			assert cert.signerInfos[0].signerInfoType == SignerInfoType.certificate
+		}else{
+			assert cert.signerInfos[0].signerInfoType == SignerInfoType.certificate_digest_with_ecdsap256
+			assert cert.signerInfos[0].digest == new HashedId8(cryptoManager.digest(rootCA.encoded, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256))
+		}
+		cert.subjectInfo.subjectType == SubjectType.enrollment_authority
+		cert.subjectInfo.subjectName == "TestEnrollmentAuthority".getBytes("UTF-8")
+		cert.subjectAttributes.size() == 3
+		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
+		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
+		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
+		cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, cert.subjectAttributes[0].publicKey.publicKey) == signKeys.publicKey
+
+		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
+		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
+		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
+
+		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
+		cert.subjectAttributes[2].itsAidList.size() == 2
+		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
+		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
+
+		cert.validityRestrictions.size() == 1
+		cert.validityRestrictions[0].startValidity.asElapsedTime() < cert.validityRestrictions[0].endValidity.asElapsedTime()
+
+		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
+		cert.signature.ecdsaSignature != null
+
+		where:
+		generator      | version
+		acg_v1         | 1
+		acg_v2         | 2
 	}
 
 	def "Verify illegal subjec type no root ca and CA certificate null throws illegal argument exception"(){
 		when:
-		acg.genCA(SubjectType.authorization_authority, "TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null, signKeys.getPrivate(), null)
+		acg_v1.genCA(SubjectType.authorization_authority, "TestRootCA".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null, signKeys.getPrivate(), null)
 		then:
 		thrown IllegalArgumentException
 	}

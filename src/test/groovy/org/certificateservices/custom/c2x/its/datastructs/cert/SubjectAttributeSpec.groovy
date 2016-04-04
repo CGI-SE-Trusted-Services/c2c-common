@@ -167,13 +167,13 @@ class SubjectAttributeSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		sav.toString() == "SubjectAttribute [subjectAttributeType=verification_key, key=PublicKey [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, x=1, eccPointType=x_coordinate_only], supportedSymmAlg=null]]"
-		sae.toString() == "SubjectAttribute [subjectAttributeType=encryption_key, key=PublicKey [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, x=2, eccPointType=x_coordinate_only], supportedSymmAlg=null]]"
-		sas.toString() == "SubjectAttribute [subjectAttributeType=assurance_level, assuranceLevel=SubjectAssurance [subjectAssurance=67 (assuranceLevel=2, confidenceLevel= 3 )]]"
-		sal1.toString() == "SubjectAttribute [subjectAttributeType=its_aid_list, itsAidList=[IntX [value=1], IntX [value=2], IntX [value=3]]]"
-		sal2.toString() == "SubjectAttribute [subjectAttributeType=its_aid_ssp_list, itsAidList=[ItsAidSsp [itsAid=IntX [value=1], serviceSpecificPermissions=[0]], ItsAidSsp [itsAid=IntX [value=2], serviceSpecificPermissions=[0, 0]]]]"
-		sal3.toString() == "SubjectAttribute [subjectAttributeType=priority_its_aid_list, itsAidList=[ItsAidPriority [itsAid=IntX [value=1], maxPriority=1], ItsAidPriority [itsAid=IntX [value=2], maxPriority=2]]]"
-		sal4.toString() == "SubjectAttribute [subjectAttributeType=priority_ssp_list, itsAidList=[ItsAidPrioritySsp [itsAid=IntX [value=1], maxPriority=1, serviceSpecificPermissions=[0]], ItsAidPrioritySsp [itsAid=IntX [value=2], maxPriority=2, serviceSpecificPermissions=[0, 0]]]]"
+		sav.toString() == "SubjectAttribute [type=verification_key, key=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=[eccPointType=x_coordinate_only, x=1], supportedSymmAlg=null]]"
+		sae.toString() == "SubjectAttribute [type=encryption_key, key=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=[eccPointType=x_coordinate_only, x=2], supportedSymmAlg=null]]"
+		sas.toString() == "SubjectAttribute [type=assurance_level, assuranceLevel=[value=67 (assuranceLevel=2, confidenceLevel= 3 )]]"
+		sal1.toString() == "SubjectAttribute [type=its_aid_list, itsAidList=[1], [2], [3]]"
+		sal2.toString() == "SubjectAttribute [type=its_aid_ssp_list, itsAidList=[itsAid=[1], serviceSpecificPermissions=00], [itsAid=[2], serviceSpecificPermissions=0000]]"
+		sal3.toString() == "SubjectAttribute [type=priority_its_aid_list, itsAidList=[itsAid=[1], maxPriority=1], [itsAid=[2], maxPriority=2]]"
+		sal4.toString() == "SubjectAttribute [type=priority_ssp_list, itsAidList=[itsAid=[1], maxPriority=1, serviceSpecificPermissions=00], [itsAid=[2], maxPriority=2, serviceSpecificPermissions=0000]]"
 			
 	}
 }

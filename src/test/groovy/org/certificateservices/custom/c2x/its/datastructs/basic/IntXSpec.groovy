@@ -128,11 +128,17 @@ class IntXSpec extends BaseStructSpec{
 	
 	def "Verify toString"(){
 		expect:
-		new IntX(new BigInteger(141640715)).toString() == "IntX [value=141640715]"
+		new IntX(new BigInteger(141640715)).toString() == "IntX [141640715]"
 	}
 	
 	def "Verify long value constructor"(){
 		expect:
 		new IntX(1234L).value.longValue() == 1234L
+	}
+	
+	def "Verify asInt and asLong getters"(){
+		expect:
+		new IntX(1234L).asInt() == 1234
+		new IntX(1234123123123123123L).asLong() == 1234123123123123123L
 	}
 }

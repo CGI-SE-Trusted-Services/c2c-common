@@ -17,6 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 
@@ -32,6 +33,8 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
  * This structure is a combination of ItsAidSsp and ItsAidPriority. It defines how an ITS-AID is associated with
  * its specific permission set and maximum priority of CA certificates. service_specific_permissions shall
  * have a maximum length of 31 octets.
+ * 
+ * <b>Important:</b>This structure is used for version 1 certificates only.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -144,9 +147,9 @@ public class ItsAidPrioritySsp implements Encodable{
 
 	@Override
 	public String toString() {
-		return "ItsAidPrioritySsp [itsAid=" + itsAid + ", maxPriority="
+		return "ItsAidPrioritySsp [itsAid=" + itsAid.toString().replace("IntX ", "") + ", maxPriority="
 				+ maxPriority + ", serviceSpecificPermissions="
-				+ Arrays.toString(serviceSpecificPermissions) + "]";
+				+ Hex.toHexString(serviceSpecificPermissions) + "]";
 	}
 
 

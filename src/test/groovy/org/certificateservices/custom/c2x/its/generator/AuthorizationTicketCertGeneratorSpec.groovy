@@ -38,6 +38,7 @@ import org.certificateservices.custom.c2x.its.generator.AuthorizationTicketCertG
 import spock.lang.IgnoreRest;
 import spock.lang.Shared;
 import spock.lang.Specification;
+import spock.lang.Unroll;
 
 /**
  *
@@ -46,7 +47,8 @@ import spock.lang.Specification;
  */
 public class AuthorizationTicketCertGeneratorSpec extends Specification {
 	
-	AuthorizationTicketCertGenerator atg
+	@Shared AuthorizationTicketCertGenerator atg_v1
+	@Shared AuthorizationTicketCertGenerator atg_v2
 	@Shared ITSCryptoManager cryptoManager
 	
 	@Shared KeyPair authorizationCAKeys
@@ -71,18 +73,18 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		
 		signKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		encKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecies_nistp256)
+		
+		atg_v1 = new AuthorizationTicketCertGenerator(Certificate.CERTIFICATE_VERSION_1,cryptoManager, authorizationCA, authorizationCAKeys.privateKey);
+		atg_v2 = new AuthorizationTicketCertGenerator(Certificate.CERTIFICATE_VERSION_2,cryptoManager, authorizationCA, authorizationCAKeys.privateKey);
 	}
-	
-	def setup(){
-		atg = new AuthorizationTicketCertGenerator(cryptoManager, authorizationCA, authorizationCAKeys.privateKey);
-	}
-	
-	def "Generate Authorization Ticket with a digest as signer info"(){
+
+	@Unroll
+	def "Generate version #version Authorization Ticket with a digest as signer info"(){
 		when:
-		Certificate cert = atg.genAuthorizationTicket(SignerInfoType.certificate_digest_with_ecdsap256 , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		Certificate cert = generator.genAuthorizationTicket(SignerInfoType.certificate_digest_with_ecdsap256 , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
-		cert.version == 1
-		println "Authorization Ticket: " + new String(Hex.encode(cert.getEncoded()))
+		cert.version == version
+		println "Authorization Ticket v" + version +": " + new String(Hex.encode(cert.getEncoded()))
 		
 		cryptoManager.verifyCertificate(cert, authorizationCA);
 		cert.signerInfos.size() == 1
@@ -106,18 +108,20 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
-		
+		cert.validityRestrictions[0].startValidity.asElapsedTime() < cert.validityRestrictions[0].endValidity.asElapsedTime()
 		
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.signature.ecdsaSignature != null
 		
+		where:
+		generator      | version
+		atg_v1         | 1
+		atg_v2         | 2
 	}
 	
-	def "Generate Authorization Ticket with a certificate as signer info"(){
+	def "Generate version 1 Authorization Ticket with a certificate as signer info"(){
 		when:
-		Certificate cert = atg.genAuthorizationTicket(SignerInfoType.certificate , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		Certificate cert = atg_v1.genAuthorizationTicket(SignerInfoType.certificate , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		cert.version == 1
 		
@@ -143,19 +147,28 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
-		
+		cert.validityRestrictions[0].startValidity.asElapsedTime() < cert.validityRestrictions[0].endValidity.asElapsedTime()
 		
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.signature.ecdsaSignature != null
 		
 	}
 	
-
-	def "Generate Authorization Credential with a certificate chain as signer info"(){
+	def "Verify that version 2 Authorization Ticket throws IllegalArgumentException when using a certificate or certificate_chain as signer info"(){
 		when:
-		Certificate cert = atg.genAuthorizationTicket([rootCA, authorizationCA] , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		atg_v2.genAuthorizationTicket(SignerInfoType.certificate , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		then:
+		thrown IllegalArgumentException
+		when:
+		atg_v2.genAuthorizationTicket([authorizationCA] , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		then:
+		thrown IllegalArgumentException
+	}
+	
+
+	def "Generate version 1 Authorization Credential with a certificate chain as signer info"(){
+		when:
+		Certificate cert = atg_v1.genAuthorizationTicket([rootCA, authorizationCA] , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		cert.version == 1
 		
@@ -183,15 +196,13 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
-		
-		
+		cert.validityRestrictions[0].startValidity.asElapsedTime() < cert.validityRestrictions[0].endValidity.asElapsedTime()
+	
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.signature.ecdsaSignature != null
 		
 		when: // Verify that only one ca certificate works
-		cert =  atg.genAuthorizationTicket([authorizationCA] , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		cert =  atg_v1.genAuthorizationTicket([authorizationCA] , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		cert.version == 1
 		
@@ -200,36 +211,12 @@ public class AuthorizationTicketCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].signerInfoType == SignerInfoType.certificate_chain
 		cert.signerInfos[0].certificateChain.size() == 1
 		cert.signerInfos[0].certificateChain[0].getSubjectInfo().getSubjectName() == "TestAuthorizationCA".getBytes("UTF-8")
-		cert.subjectInfo.subjectType == SubjectType.authorization_ticket
-		cert.subjectInfo.subjectName.length == 0
-		cert.subjectAttributes.size() == 3
-		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
-		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
-		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
-		cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, cert.subjectAttributes[0].publicKey.publicKey) == signKeys.publicKey
-				
-		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
-		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
-		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
-		
-		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
-		cert.subjectAttributes[2].itsAidList.size() == 2
-		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
-		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
-		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
-		
-		
-		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
-		cert.signature.ecdsaSignature != null
-		
 	}
 
 	def "Verify that illegal argument exception is thrown for messages with unsupported subject type"(){
 		when:
-		atg.genAuthorizationTicket(SignerInfoType.certificate_digest_with_other_algorithm , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		atg_v1.genAuthorizationTicket(SignerInfoType.certificate_digest_with_other_algorithm , [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		thrown IllegalArgumentException
 	}

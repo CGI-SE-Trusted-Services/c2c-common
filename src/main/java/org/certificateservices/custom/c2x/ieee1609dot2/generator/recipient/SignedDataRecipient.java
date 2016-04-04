@@ -73,7 +73,7 @@ public class SignedDataRecipient extends BasePKRecipient{
 		PublicKey certEncKey = (PublicKey) cryptoManager.decodeEccPoint(pubKeyAlg, (EccP256CurvePoint) basePubEncKey.getValue());
 		
 		byte[] dataHash = cryptoManager.digest(signedData.getEncoded(), HashAlgorithm.sha256);
-		EncryptedDataEncryptionKey encKey = cryptoManager.eCEISEncryptSymmetricKey(getEncKeyType(pubEncKey.getPublicKey().getType()), certEncKey, encryptionKey, pubEncKey.getSupportedSymmAlg(), dataHash);
+		EncryptedDataEncryptionKey encKey = cryptoManager.ieeeEceisEncryptSymmetricKey(getEncKeyType(pubEncKey.getPublicKey().getType()), certEncKey, encryptionKey, pubEncKey.getSupportedSymmAlg(), dataHash);
 		
 		PKRecipientInfo  pkRecInfo = new PKRecipientInfo(new HashedId8(dataHash), encKey);
 		return new RecipientInfo(RecipientInfoChoices.signedDataRecipInfo, pkRecInfo);

@@ -22,21 +22,22 @@ import java.util.List;
 
 import org.certificateservices.custom.c2x.common.EncodeHelper;
 import org.certificateservices.custom.c2x.common.Encodable;
+import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
 
 /**
  *This structure defines how to encode a generic secured message:
  *
- * <li> protocol_version specifies the applied protocol version. For compliance with the present document,
- * protocol version 1 shall be used.
+ * <li> protocol_version specifies the applied protocol version. 
  * <li> security_profile specifies the security profile for this secured message. The profiles define the contents
  * of the variable header, payload and trailer fields. A message that does not conform to the profile is invalid. The
- * default value shall be set to 0, if no specific profile is used.
+ * default value shall be set to 0, if no specific profile is used. Not used for version 2 messages.
+ * 
  * <li> header_fields is a variable-length vector that contains multiple information fields of interest to the
  * security layer. If not defined otherwise in a message profile, the sequence of header fields shall be encoded in
  * ascending numerical order of their type value.
  * <li> payload_fields is a variable-length vector containing the message's payload. Multiple payload types in
- * one message are allowed. 
+ * one message are allowed in version 1 but not in version 2.
  * <li> trailer_fields is a variable-length vector containing information after the payload, for example,
  * necessary to verify the message's authenticity and integrity. If not defined otherwise in a message profile, the
  * sequence of trailer fields shall be encoded in ascending numerical order of the type value.
@@ -48,18 +49,24 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.Signature;
  */
 public class SecuredMessage implements Encodable{
 	
-	public static final int DEFAULT_PROTOCOL = 1;
 	public static final int DEFAULT_SECURITY_PROFILE = 0;
 	
+	public static final int DEFAULT_PROTOCOL = 2;
+	
+	public static final int PROTOCOL_VERSION_1 = 1;
+	public static final int PROTOCOL_VERSION_2 = 2;
+	
     private int protocolVersion = DEFAULT_PROTOCOL;	
-	private int securityProfile = DEFAULT_SECURITY_PROFILE;
+    
+    
+	private Integer securityProfile = null;
 	private List<HeaderField> headerFields;
 	private List<Payload> payloadFields;
 	private List<TrailerField> trailerFields;
 
 		
 	/**
-	 * Main constructor of a SecuredMessage using the default protocol and security profile before signing, i.e no trailer fields
+	 * Main constructor for version 1 type of a SecuredMessage using the default protocol and security profile before signing, i.e no trailer fields
 	 * are necessary.
 	 * 
 	 * @param securityProfile the security profile used for the message.
@@ -70,9 +77,32 @@ public class SecuredMessage implements Encodable{
      * one message are allowed.   
 	 */
 	public SecuredMessage(int securityProfile, List<HeaderField> headerFields, List<Payload> payloadFields){
+		this.protocolVersion = 1;
 		this.securityProfile = securityProfile;
 		this.headerFields = headerFields;
 		this.payloadFields = payloadFields;
+		this.trailerFields = new ArrayList<TrailerField>();
+	}
+	
+	/**
+	 * Main constructor for version 2 type of a SecuredMessage using the default protocol and security profile before signing, i.e no trailer fields
+	 * are necessary.
+	 * 
+	 * @param securityProfile the security profile used for the message.
+	 * @param headerFields is a variable-length vector that contains multiple information fields of interest to the
+     * security layer. If not defined otherwise in a message profile, the sequence of header fields shall be encoded in
+     * ascending numerical order of their type value. 
+     * @param payloadField the message payload.   
+     * @throws IllegalArgumentException if invalid parameters was given for the specific protocol version. 
+	 */
+	public SecuredMessage(List<HeaderField> headerFields, Payload payloadField) throws IllegalArgumentException{
+		this.protocolVersion = 2;
+		this.headerFields = headerFields;
+		if(payloadField == null){
+			throw new IllegalArgumentException("Error payload field cannot be null");
+		}
+		this.payloadFields = new ArrayList<Payload>(1);
+		this.payloadFields.add(payloadField);
 		this.trailerFields = new ArrayList<TrailerField>();
 	}
 	
@@ -80,7 +110,7 @@ public class SecuredMessage implements Encodable{
 	* Main constructor of a SecuredMessage using the default protocol and security profile.
 	*
 	* @param protocolVersion the protocol version used for the message.
-	* @param securityProfile the security profile used for the message.
+	* @param securityProfile the security profile used for the message. Null for version 2 messages
 	* @param headerFields is a variable-length vector that contains multiple information fields of interest to the
     * security layer. If not defined otherwise in a message profile, the sequence of header fields shall be encoded in
     * ascending numerical order of their type value. 
@@ -89,11 +119,22 @@ public class SecuredMessage implements Encodable{
     * @param trailerFields is a variable-length vector containing information after the payload, for example,
     * necessary to verify the message's authenticity and integrity. If not defined otherwise in a message profile, the
     * sequence of trailer fields shall be encoded in ascending numerical order of the type value.   
+    * @throws IllegalArgumentException if invalid parameters was given for the specific protocol version.
 	 */
-	public SecuredMessage(int protocolVersion, int securityProfile, List<HeaderField> headerFields, List<Payload> payloadFields, List<TrailerField> trailerFields){
+	public SecuredMessage(int protocolVersion, Integer securityProfile, List<HeaderField> headerFields, List<Payload> payloadFields, List<TrailerField> trailerFields) throws IllegalArgumentException{
+		if(protocolVersion > 1){
+			if(payloadFields.size() != 1){
+				throw new IllegalArgumentException("Error Version 2 secure message must only have one payload");
+			}
+			if(securityProfile != null){
+				throw new IllegalArgumentException("Error Version 2 secure message doesn't support security profile, must be null.");
+			}
+				
+		}
 		this.protocolVersion = protocolVersion;
 		this.securityProfile = securityProfile;
 		this.headerFields = headerFields;
+		
 		this.payloadFields = payloadFields;
 		this.trailerFields = trailerFields;
 	}
@@ -126,9 +167,9 @@ public class SecuredMessage implements Encodable{
 	}
 
 	/**
-	 * @return  the security profile used for the message.
+	 * @return  the security profile used for the message. Null of protocols over 1.
 	 */
-	public int getSecurityProfile() {
+	public Integer getSecurityProfile() {
 		return securityProfile;
 	}
 
@@ -147,6 +188,15 @@ public class SecuredMessage implements Encodable{
 	 */
 	public List<Payload> getPayloadFields() {
 		return payloadFields;
+	}
+	
+	/** 
+	 * Method to fetch the version 2 payload.
+	 * 
+	 * @return  the message payload.
+	 */
+	public Payload getPayload() {
+		return payloadFields.get(0);
 	}
 
 	/**
@@ -173,10 +223,15 @@ public class SecuredMessage implements Encodable{
 	@Override
 	public void encode(DataOutputStream out) throws IOException {
 		out.write(protocolVersion);
-		out.write(securityProfile);
-		
+		if(protocolVersion == 1){
+		  out.write(securityProfile);
+		}
 		EncodeHelper.encodeVariableSizeVector(out, headerFields);
-		EncodeHelper.encodeVariableSizeVector(out, payloadFields);
+		if(protocolVersion == 1){
+		  EncodeHelper.encodeVariableSizeVector(out, payloadFields);
+		}else{
+		  payloadFields.get(0).encode(out);
+		}
 		if(trailerFields != null && trailerFields.size() > 0){
 		  EncodeHelper.encodeVariableSizeVector(out, trailerFields);
 		}
@@ -186,10 +241,18 @@ public class SecuredMessage implements Encodable{
 	@Override
 	public void decode(DataInputStream in) throws IOException {	
 		protocolVersion = in.read();
-		securityProfile = in.read();
-		
-		headerFields = (List<HeaderField>) EncodeHelper.decodeVariableSizeVector(in, HeaderField.class);
-		payloadFields = (List<Payload>) EncodeHelper.decodeVariableSizeVector(in, Payload.class);
+		if(protocolVersion == 1){
+		  securityProfile = in.read();
+		}
+		headerFields = decodeHeaderField(in);
+		if(protocolVersion == 1){
+		  payloadFields = (List<Payload>) EncodeHelper.decodeVariableSizeVector(in, Payload.class);
+		}else{
+			Payload payloadField = new Payload();
+			payloadField.decode(in);
+			this.payloadFields = new ArrayList<Payload>(1);
+			this.payloadFields.add(payloadField);
+		}
 		if(in.available() > 0){
 		  trailerFields = (List<TrailerField>) EncodeHelper.decodeVariableSizeVector(in, TrailerField.class);
 		}else{
@@ -199,10 +262,19 @@ public class SecuredMessage implements Encodable{
 
 	@Override
 	public String toString() {
-		return "SecuredMessage [protocolVersion=" + protocolVersion
-				+ ", securityProfile=" + securityProfile + ", headerFields="
-				+ headerFields + ", payloadFields=" + payloadFields
-				+ ", trailerFields=" + trailerFields + "]";
+		if(protocolVersion == 1){
+		  return "SecuredMessage [protocolVersion=" + protocolVersion + ", securityProfile=" + securityProfile + "\n" +
+		        "  headers:" + EncodeHelper.listToString(headerFields, "HeaderField ", true, 4) + "\n" +
+				"  payloads:" + EncodeHelper.listToString(payloadFields, "Payload ", true, 4)  + "\n" +
+				"  trailers:" + EncodeHelper.listToString(trailerFields, "TrailerField ", true, 4) + "\n" +
+				"]";
+		}
+		return "SecuredMessage [protocolVersion=" + protocolVersion + "\n" +
+				"  headers:" + EncodeHelper.listToString(headerFields, "HeaderField ", true, 4) + "\n" +
+			    "  payload:\n" +
+				"    " + getPayload().toString().replace("Payload ", "") + "\n" +
+				"  trailers:" + EncodeHelper.listToString(trailerFields, "TrailerField ", true, 4) + "\n" +
+				"]";
 	}
 
 	/**
@@ -218,4 +290,29 @@ public class SecuredMessage implements Encodable{
 		return baos.toByteArray();		
 	}
 	
+	/**
+	 * Help method that serializes variable sized vector to the supplied data output stream.
+	 * 
+	 * @param in the data input stream to decode the variable sized vector from.
+	 * 
+	 * @param c class of the objects contained in data stream, the class must implement a StructSerializer
+	 * @throws IOException if serialization failed.
+	 */
+	private  List<HeaderField> decodeHeaderField(DataInputStream in) throws IOException{
+		ArrayList<HeaderField> retval = new ArrayList<HeaderField>();
+    
+		IntX size = new IntX();
+		size.decode(in);
+		byte[] data = new byte[size.getValue().intValue()];
+		in.read(data);
+		DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
+		while(dis.available() > 0){
+			HeaderField ss = new HeaderField(protocolVersion);
+			ss.decode(dis);
+			retval.add(ss);    		
+		}
+
+    	
+    	return retval;
+	}
 }

@@ -17,9 +17,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.security.PublicKey;
+import java.security.SignatureException;
+import java.security.interfaces.ECPublicKey;
+import java.security.spec.InvalidKeySpecException;
 
+import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COEREnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
+import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
@@ -55,12 +66,10 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Verifica
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class Certificate extends COERSequence {
+public class Certificate extends COERSequence implements org.certificateservices.custom.c2x.common.Certificate {
 	
 
 	public static int CURRENT_VERSION = 3;
-	
-	// TODO Common Certificate interface
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -220,6 +229,41 @@ public class Certificate extends COERSequence {
 	    "  toBeSigned=" + getToBeSigned().toString().replaceAll("ToBeSignedCertificate ", "").replaceAll("\n","\n  ") + "\n" +
 	    "  signature=" + ( getSignature() != null ? getSignature().toString().replaceAll("Signature ", "") : "NONE") + "\n" +
 	    "]";
+	}
+
+	@Override
+	public PublicKey getPublicKey(CryptoManager cryptoManager, AlgorithmIndicator alg, org.certificateservices.custom.c2x.common.Certificate signerCertificate, PublicKey signerCertificatePublicKey) throws InvalidKeySpecException, SignatureException, IllegalArgumentException {
+		if(!(cryptoManager instanceof Ieee1609Dot2CryptoManager)){
+			throw new IllegalArgumentException("Error extracting public key from IEEE 1609.2 certificate, related crypto manager must be a Ieee1609Dot2CryptoManager implementation.");
+		}
+		Ieee1609Dot2CryptoManager ieeeCryptoMgr = (Ieee1609Dot2CryptoManager) cryptoManager;
+		if(getType() == CertificateType.implicit){
+			if(!(signerCertificate instanceof Certificate)){
+				throw new IllegalArgumentException("Error signerCertificate must be aIEEE 1609.2 certificate.");
+			}
+			if(!(signerCertificatePublicKey instanceof ECPublicKey)){
+				throw new IllegalArgumentException("Error signerPublicKey must be of type be of type ECPublicKey.");
+			}
+			ECQVHelper helper = new ECQVHelper(ieeeCryptoMgr);
+			
+			BCECPublicKey bcCaPubKey = ieeeCryptoMgr.toBCECPublicKey(alg, (ECPublicKey) signerCertificatePublicKey);
+			try {
+				return helper.extractPublicKey(this, bcCaPubKey, alg, (Certificate) signerCertificate);
+			} catch (IOException e) {
+				throw new SignatureException("Error reconstructing implicit certificate public key: " + e.getMessage(),e);
+			}
+		}else{
+			PublicVerificationKey pubVerKey = (PublicVerificationKey) getToBeSigned().getVerifyKeyIndicator().getValue();
+			return (PublicKey) ieeeCryptoMgr.decodeEccPoint(pubVerKey.getType(),(EccP256CurvePoint) pubVerKey.getValue());
+		}
+	}
+
+	@Override
+	public Type getCertificateType() {
+		if(getType() == CertificateType.implicit){
+			return org.certificateservices.custom.c2x.common.Certificate.Type.IMPLICIT;
+		}
+		return org.certificateservices.custom.c2x.common.Certificate.Type.EXPLICIT;
 	}
 	
 }

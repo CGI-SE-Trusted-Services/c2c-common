@@ -12,21 +12,22 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.its.datastructs.basic;
 
+import static org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm.aes_128_ccm;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.Encodable;
-
-import static org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorithm.*;
 
 /**
  * This structure holds basic parameters and additional data required for encryption and decryption of data using different
- * symmetric encryption algorithms. In case of aes_128_ccm a 12 octet nonce shall be given. In other cases the data
- * shall be given as a variable-length vector containing opaque data. It is out of scope of this definition how resulting
- * ciphertexts are transported. Typically, a ciphertext should be put into a Payload data structure marked as
- * encrypted using the PayloadType.
+ * symmetric encryption algorithms. In case of aes_128_ccm a 12 octet nonce shall be given. The parameter Tlen
+ * according to NIST SP 800-38C [4] shall be set to Tlen = 128 (bits) and no associated data shall be given. In other
+ * cases the data shall be given as a variable-length vector containing opaque data. It is out of scope of this definition
+ * how resulting ciphertexts are transported. Typically, a ciphertext should be put into a Payload data structure marked
+ * as encrypted using the PayloadType. 
  *
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -86,7 +87,7 @@ public class EncryptionParameters implements Encodable{
 	@Override
 	public String toString() {
 		return "EncryptionParameters [symmetricAlgorithm=" + symmetricAlgorithm
-				+ ", nonce=" + Arrays.toString(nonce) + "]";
+				+ ", nonce=" + new String(Hex.encode(nonce)) + "]";
 	}
 
 }

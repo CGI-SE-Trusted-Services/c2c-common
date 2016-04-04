@@ -241,16 +241,23 @@ public class GeographicRegion implements Encodable{
 		switch (regionType) {
 		case circle:
 			return "GeographicRegion [regionType=" + regionType
-					+ ", circularRegion=" + circularRegion + "]";
+					+ ", circularRegion=" + circularRegion.toString().replace("CircularRegion ", "") + "]";
         case rectangle:
+    		String recString = "";
+    		for(int i=0; i < rectangularRegions.size() -1; i++){
+    			recString += rectangularRegions.get(i).toString().replace("RectangularRegion ","") + ", ";
+    		}
+    		if(rectangularRegions.size() > 0){
+    			recString += rectangularRegions.get(rectangularRegions.size()-1).toString().replace("RectangularRegion ","");
+    		}
 			return "GeographicRegion [regionType=" + regionType
-					+ ", rectangularRegions=" + rectangularRegions + "]";
+					+ ", rectangularRegions=" + recString + "]";
         case polygon:
 			return "GeographicRegion [regionType=" + regionType
-					+ ", polygonalRegion=" + polygonalRegion + "]";
+					+ ", polygonalRegion=" + polygonalRegion.toString().replace("PolygonalRegion ", "") + "]";
         case id:
 			return "GeographicRegion [regionType=" + regionType
-					+ ", identifiedRegion=" + identifiedRegion + "]";
+					+ ", identifiedRegion=" + identifiedRegion.toString().replace("IdentifiedRegion ", "") + "]";
 		default:
 			break;
 		}

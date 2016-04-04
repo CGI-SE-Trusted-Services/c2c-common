@@ -98,7 +98,7 @@ class SubjectAssuranceSpec extends BaseStructSpec{
 	
 	def "Verify toString"(){
 		expect:
-		new SubjectAssurance(5, 3).toString() == "SubjectAssurance [subjectAssurance=163 (assuranceLevel=5, confidenceLevel= 3 )]"
+		new SubjectAssurance(5, 3).toString() == "SubjectAssurance [value=163 (assuranceLevel=5, confidenceLevel= 3 )]"
 	}
 
 }

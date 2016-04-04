@@ -15,8 +15,8 @@ package org.certificateservices.custom.c2x.its.datastructs.msg;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 
@@ -106,7 +106,7 @@ public class Payload implements Encodable{
 			return "Payload [payloadType=" + payloadType  + "]";
 		}
 		return "Payload [payloadType=" + payloadType + ", data="
-				+ Arrays.toString(data) + "]";
+				+ new String(Hex.encode(data)) + "]";
 	}
 
 	

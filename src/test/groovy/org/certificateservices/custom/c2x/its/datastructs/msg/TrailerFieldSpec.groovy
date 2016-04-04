@@ -72,7 +72,7 @@ class TrailerFieldSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		 tf1.toString() == "TrailerField [trailerFieldType=signature, signature=Signature [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=EcdsaSignature [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, compressedEncoding=null, eccPointType=compressed_lsb_y_0], signatureValue=[17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34]]]]"
+		 tf1.toString() == "TrailerField [trailerFieldType=signature, signature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=[eccPointType=compressed_lsb_y_0, compressedEncoding=null], signatureValue=1122334455667788990011223344556677889900112233445566778899001122]]]"
 	}
 
 }

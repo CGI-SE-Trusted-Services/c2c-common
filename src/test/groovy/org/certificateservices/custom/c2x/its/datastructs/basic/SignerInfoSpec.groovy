@@ -37,9 +37,9 @@ class SignerInfoSpec extends BaseStructSpec {
 	SignerInfo sid = new SignerInfo(new HashedId8(Hex.decode("998877665544332222")));
 	
 
-	Certificate authCa = genCertificate(SubjectType.authorization_authority,"TestCA")
+	Certificate authCa = genCertificate(1,SubjectType.authorization_authority,"TestCA")
 	SignerInfo sic = new SignerInfo(authCa);
-	SignerInfo sicc = new SignerInfo([genCertificate(SubjectType.authorization_authority,"TestCA",authCa),authCa]);
+	SignerInfo sicc = new SignerInfo([genCertificate(1,SubjectType.authorization_authority,"TestCA",authCa),authCa]);
 
 	SignerInfo sipd = new SignerInfo(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, new HashedId8(Hex.decode("998877665544332111")));
 
@@ -62,6 +62,7 @@ class SignerInfoSpec extends BaseStructSpec {
 		sipd.digest.hashedId.length == 8
 
 	}
+
 
 	
 	def "Verify serialization"(){
@@ -117,11 +118,74 @@ class SignerInfoSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		sis.toString() == "SignerInfo [signerInfoType=self]"
-		sid.toString() == "SignerInfo [signerInfoType=certificate_digest_with_ecdsap256, digest=HashedId8 [hashedId=[-120, 119, 102, 85, 68, 51, 34, 34]]]"
-		// TOOD sic
-		// TOOD sicc
-		sipd.toString() == "SignerInfo [signerInfoType=certificate_digest_with_other_algorithm, digest=HashedId8 [hashedId=[-120, 119, 102, 85, 68, 51, 33, 17]], publicKeyAlgorithm=ecdsa_nistp256_with_sha256]"
+		sis.toString() == "SignerInfo [type=self]"
+		sid.toString() == "SignerInfo [type=certificate_digest_with_ecdsap256, digest=[8877665544332222]]"
+		sic.toString() == """SignerInfo [type=certificate, certificate=
+  [version=1
+    signerInfos:
+      [type=self]
+    subjectInfo:
+      [subjectType=authorization_authority, name=TestCA (546573744341)]
+    subjectAttributes:
+      [type=verification_key, key=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=[eccPointType=x_coordinate_only, x=1], supportedSymmAlg=null]],
+      [type=assurance_level, assuranceLevel=[value=130 (assuranceLevel=4, confidenceLevel= 2 )]],
+      [type=its_aid_ssp_list, itsAidList=[itsAid=[1], serviceSpecificPermissions=0000]]
+    validityRestrictions:
+      [type=time_end, end_validity=[154277893]],
+      [type=time_start_and_end, start_validity=[154277883], end_validity=[154277893]]
+    signature:
+      [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=[eccPointType=x_coordinate_only, x=1], signatureValue=0000000000000000000000000000000000000000000000000000000000000000]]
+  ]
+]"""
+		sicc.toString() == """SignerInfo [type=certificate_chain, certificateChain=
+  [version=1
+    signerInfos:
+      [type=certificate, certificate=
+        [version=1
+          signerInfos:
+            [type=self]
+          subjectInfo:
+            [subjectType=authorization_authority, name=TestCA (546573744341)]
+          subjectAttributes:
+            [type=verification_key, key=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=[eccPointType=x_coordinate_only, x=1], supportedSymmAlg=null]],
+            [type=assurance_level, assuranceLevel=[value=130 (assuranceLevel=4, confidenceLevel= 2 )]],
+            [type=its_aid_ssp_list, itsAidList=[itsAid=[1], serviceSpecificPermissions=0000]]
+          validityRestrictions:
+            [type=time_end, end_validity=[154277893]],
+            [type=time_start_and_end, start_validity=[154277883], end_validity=[154277893]]
+          signature:
+            [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=[eccPointType=x_coordinate_only, x=1], signatureValue=0000000000000000000000000000000000000000000000000000000000000000]]
+        ]
+      ]
+    subjectInfo:
+      [subjectType=authorization_authority, name=TestCA (546573744341)]
+    subjectAttributes:
+      [type=verification_key, key=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=[eccPointType=x_coordinate_only, x=1], supportedSymmAlg=null]],
+      [type=assurance_level, assuranceLevel=[value=130 (assuranceLevel=4, confidenceLevel= 2 )]],
+      [type=its_aid_ssp_list, itsAidList=[itsAid=[1], serviceSpecificPermissions=0000]]
+    validityRestrictions:
+      [type=time_end, end_validity=[154277893]],
+      [type=time_start_and_end, start_validity=[154277883], end_validity=[154277893]]
+    signature:
+      [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=[eccPointType=x_coordinate_only, x=1], signatureValue=0000000000000000000000000000000000000000000000000000000000000000]]
+  ],
+  [version=1
+    signerInfos:
+      [type=self]
+    subjectInfo:
+      [subjectType=authorization_authority, name=TestCA (546573744341)]
+    subjectAttributes:
+      [type=verification_key, key=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=[eccPointType=x_coordinate_only, x=1], supportedSymmAlg=null]],
+      [type=assurance_level, assuranceLevel=[value=130 (assuranceLevel=4, confidenceLevel= 2 )]],
+      [type=its_aid_ssp_list, itsAidList=[itsAid=[1], serviceSpecificPermissions=0000]]
+    validityRestrictions:
+      [type=time_end, end_validity=[154277893]],
+      [type=time_start_and_end, start_validity=[154277883], end_validity=[154277893]]
+    signature:
+      [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=[eccPointType=x_coordinate_only, x=1], signatureValue=0000000000000000000000000000000000000000000000000000000000000000]]
+  ]
+]"""
+		sipd.toString() == "SignerInfo [type=certificate_digest_with_other_algorithm, digest=[8877665544332111], publicKeyAlgorithm=ecdsa_nistp256_with_sha256]"
 	}
 }
 

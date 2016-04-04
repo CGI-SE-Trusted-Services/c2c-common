@@ -209,9 +209,9 @@ class EccPointSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		 new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.uncompressed, new BigInteger(1), new BigInteger(2)).toString() == "EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, x=1, y=2, eccPointType=uncompressed]"		 
-		 new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(1)).toString() == "EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, x=1, eccPointType=x_coordinate_only]"
-		 new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, compressedData1).toString() == "EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, compressedEncoding=[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], eccPointType=compressed_lsb_y_0]"
+		 new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.uncompressed, new BigInteger(1), new BigInteger(2)).toString() == "EccPoint [eccPointType=uncompressed, x=1, y=2]"		 
+		 new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(1)).toString() == "EccPoint [eccPointType=x_coordinate_only, x=1]"
+		 new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, compressedData1).toString() == "EccPoint [eccPointType=compressed_lsb_y_0, compressedEncoding=[2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]"
 	}
 
 }

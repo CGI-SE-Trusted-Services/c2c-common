@@ -106,7 +106,7 @@ public class SubjectAssurance implements Encodable{
 
 	@Override
 	public String toString() {
-		return "SubjectAssurance [subjectAssurance=" + subjectAssurance + " (assuranceLevel=" + getAssuranceLevel() + ", confidenceLevel= " + getConfidenceLevel() +" )]";
+		return "SubjectAssurance [value=" + subjectAssurance + " (assuranceLevel=" + getAssuranceLevel() + ", confidenceLevel= " + getConfidenceLevel() +" )]";
 	}
 	
 	

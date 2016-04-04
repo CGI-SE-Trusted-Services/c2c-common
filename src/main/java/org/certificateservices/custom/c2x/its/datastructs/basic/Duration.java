@@ -161,7 +161,7 @@ public class Duration implements Encodable{
 
 	@Override
 	public String toString() {
-		return "Duration [encodedDuration=" + encodedDuration + " (value=" + getDurationValue() + " " + getUnit() + ")]";
+		return "Duration [encoded=" + encodedDuration + " (" + getDurationValue() + " " + getUnit() + ")]";
 	}
 
 

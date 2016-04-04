@@ -37,6 +37,7 @@ public class RecipientInfo implements Encodable{
 
     private HashedId8 certId;	
 	private PublicKeyAlgorithm publicKeyAlgorithm;
+	private int protocolVersion;
 	private EciesNistP256EncryptedKey pkEncryption;
 	
 
@@ -57,7 +58,8 @@ public class RecipientInfo implements Encodable{
 	 * Constructor used during serializing.
 	 * 
 	 */
-	public RecipientInfo(){
+	public RecipientInfo(int protocolVersion){
+		this.protocolVersion = protocolVersion;
 	}
 	
 	/** 
@@ -104,7 +106,7 @@ public class RecipientInfo implements Encodable{
 		publicKeyAlgorithm = PublicKeyAlgorithm.getByValue(in.read());
 		switch(publicKeyAlgorithm){
 		case ecies_nistp256:
-			pkEncryption = new EciesNistP256EncryptedKey(publicKeyAlgorithm);
+			pkEncryption = new EciesNistP256EncryptedKey(protocolVersion,publicKeyAlgorithm);
 			pkEncryption.decode(in);	
 			break;
 		default:
@@ -153,8 +155,8 @@ public class RecipientInfo implements Encodable{
 
 	@Override
 	public String toString() {
-		return "RecipientInfo [certId=" + certId + ", publicKeyAlgorithm="
-				+ publicKeyAlgorithm + ", pkEncryption=" + pkEncryption + "]";
+		return "RecipientInfo [certId=" + certId.toString().replace("HashedId8 ", "") + ", publicKeyAlgorithm="
+				+ publicKeyAlgorithm + ", pkEncryption=" + pkEncryption.toString().replace("EciesNistP256EncryptedKey ", "") + "]";
 	}
 
 

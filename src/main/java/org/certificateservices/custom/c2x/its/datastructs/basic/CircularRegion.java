@@ -21,8 +21,10 @@ import org.certificateservices.custom.c2x.common.Encodable;
 
 
 /**
- * This structure defines a circular region with radius given in meters and center at center. The region shall include
- * all points on the reference ellipsoid's surface with a distance smaller or equal than the radius to the center point.
+ * This structure defines a circular region with radius given in metres and center at center. The region shall include
+ * all points on the reference ellipsoid's surface with a distance over surface of Earth equal to or less than the radius to the
+ * center point. For a location of type ThreeDLocation, i.e. the location contains an elevation component, the
+ * horizontal projection onto the reference ellipsoid is used to determine if the location lies within the circular region. 
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -121,7 +123,7 @@ public class CircularRegion implements Encodable{
 
 	@Override
 	public String toString() {
-		return "CircularRegion [center=" + center + ", radius=" + radius + "]";
+		return "CircularRegion [center=" + center.toString().replace("TwoDLocation ", "") + ", radius=" + radius + "]";
 	}
 
 }

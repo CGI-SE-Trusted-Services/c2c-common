@@ -105,10 +105,10 @@ class GeographicRegionSpec extends BaseStructSpec {
 	def "Verify toString"(){
 		expect:
 		grn.toString() == "GeographicRegion [regionType=none]"
-		grc.toString() == "GeographicRegion [regionType=circle, circularRegion=CircularRegion [center=TwoDLocation [latitude=-150, longitude=150], radius=1]]"
-		grr.toString() == "GeographicRegion [regionType=rectangle, rectangularRegions=[RectangularRegion [northwest=TwoDLocation [latitude=-150, longitude=150], southeast=TwoDLocation [latitude=-250, longitude=250]], RectangularRegion [northwest=TwoDLocation [latitude=-100, longitude=100], southeast=TwoDLocation [latitude=-200, longitude=200]]]]"
-		grp.toString() == "GeographicRegion [regionType=polygon, polygonalRegion=PolygonalRegion [points=[TwoDLocation [latitude=1, longitude=-1], TwoDLocation [latitude=2, longitude=-2]]]]"
-		gri.toString() == "GeographicRegion [regionType=id, identifiedRegion=IdentifiedRegion [regionDictionary=un_stats, regionIdentifier=123, localRegion=IntX [value=321]]]"
+		grc.toString() == "GeographicRegion [regionType=circle, circularRegion=[center=[latitude=-150, longitude=150], radius=1]]"
+		grr.toString() == "GeographicRegion [regionType=rectangle, rectangularRegions=[northwest=[latitude=-150, longitude=150], southeast=[latitude=-250, longitude=250]], [northwest=[latitude=-100, longitude=100], southeast=[latitude=-200, longitude=200]]]"
+		grp.toString() == "GeographicRegion [regionType=polygon, polygonalRegion=[[latitude=1, longitude=-1], [latitude=2, longitude=-2]]]"
+		gri.toString() == "GeographicRegion [regionType=id, identifiedRegion=[regionDictionary=un_stats, regionIdentifier=123, localRegion=[321]]]"
 	}
 }
 

@@ -38,6 +38,7 @@ import org.certificateservices.custom.c2x.its.generator.EnrollmentCredentialCert
 import spock.lang.IgnoreRest;
 import spock.lang.Shared;
 import spock.lang.Specification;
+import spock.lang.Unroll;
 
 /**
  *
@@ -46,7 +47,8 @@ import spock.lang.Specification;
  */
 public class EnrollmentCredentialCertGeneratorSpec extends Specification {
 	
-	EnrollmentCredentialCertGenerator ecg
+	@Shared EnrollmentCredentialCertGenerator ecg_v1
+	@Shared EnrollmentCredentialCertGenerator ecg_v2
 	@Shared ITSCryptoManager cryptoManager
 	
 	@Shared KeyPair enrollmentCAKeys
@@ -71,18 +73,18 @@ public class EnrollmentCredentialCertGeneratorSpec extends Specification {
 		
 		signKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		encKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecies_nistp256)
+		
+		ecg_v1 = new EnrollmentCredentialCertGenerator(Certificate.CERTIFICATE_VERSION_1,cryptoManager, enrollmentCA, enrollmentCAKeys.privateKey);
+		ecg_v2 = new EnrollmentCredentialCertGenerator(cryptoManager, enrollmentCA, enrollmentCAKeys.privateKey);
 	}
 	
-	def setup(){
-		ecg = new EnrollmentCredentialCertGenerator(cryptoManager, enrollmentCA, enrollmentCAKeys.privateKey);
-	}
-	
-	def "Generate Enrollment Credential with a digest as signer info"(){
+	@Unroll
+	def "Generate version #version Enrollment Credential with a digest as signer info"(){
 		when:
-		Certificate cert = ecg.genEnrollmentCredential(SignerInfoType.certificate_digest_with_ecdsap256 ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		Certificate cert = generator.genEnrollmentCredential(SignerInfoType.certificate_digest_with_ecdsap256 ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
-		cert.version == 1
-		println "Enrollment Credential: " + new String(Hex.encode(cert.getEncoded()))
+		cert.version == version
+		//println "Enrollment Credential v" + version + ": " + new String(Hex.encode(cert.getEncoded()))
 		
 		cryptoManager.verifyCertificate(cert, enrollmentCA);
 		cert.signerInfos.size() == 1
@@ -106,18 +108,20 @@ public class EnrollmentCredentialCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
-		
+		cert.validityRestrictions[0].startValidity.asElapsedTime() < cert.validityRestrictions[0].endValidity.asElapsedTime()
 		
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.signature.ecdsaSignature != null
 		
+		where:
+		generator      | version
+		ecg_v1         | 1
+		ecg_v2         | 2
 	}
 	
-	def "Generate Enrollment Credential with a certificate as signer info"(){
+	def "Generate version 1 Enrollment Credential with a certificate as signer info"(){
 		when:
-		Certificate cert = ecg.genEnrollmentCredential(SignerInfoType.certificate ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		Certificate cert = ecg_v1.genEnrollmentCredential(SignerInfoType.certificate ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		cert.version == 1
 		
@@ -143,8 +147,7 @@ public class EnrollmentCredentialCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 		
 		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
+		cert.validityRestrictions[0].startValidity.asElapsedTime() < cert.validityRestrictions[0].endValidity.asElapsedTime()
 		
 		
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
@@ -152,10 +155,20 @@ public class EnrollmentCredentialCertGeneratorSpec extends Specification {
 		
 	}
 	
-
-	def "Generate Enrollment Credential with a certificate chain as signer info"(){
+	def "Verify that version 2 EnrollmentCert throws IllegalArgumentException when using a certificate or certificate_chain as signer info"(){
 		when:
-		Certificate cert = ecg.genEnrollmentCredential([rootCA, enrollmentCA] ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		ecg_v2.genEnrollmentCredential(SignerInfoType.certificate ,"TestEnrollmentCredential".getBytes("UTF-8"),  [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		then:
+		thrown IllegalArgumentException
+		when:
+		ecg_v2.genEnrollmentCredential([enrollmentCA] , "TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		then:
+		thrown IllegalArgumentException
+	}
+
+	def "Generate version 1 Enrollment Credential with a certificate chain as signer info"(){
+		when:
+		Certificate cert = ecg_v1.genEnrollmentCredential([rootCA, enrollmentCA] ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		cert.version == 1
 		
@@ -183,15 +196,13 @@ public class EnrollmentCredentialCertGeneratorSpec extends Specification {
 		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
 		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
-		
-		
+		cert.validityRestrictions[0].startValidity.asElapsedTime() < cert.validityRestrictions[0].endValidity.asElapsedTime()
+	
 		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
 		cert.signature.ecdsaSignature != null
 		
 		when: // Verify that only one ca certificate works
-		cert = ecg.genEnrollmentCredential([enrollmentCA] ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		cert = ecg_v1.genEnrollmentCredential([enrollmentCA] ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		cert.version == 1
 		
@@ -200,36 +211,12 @@ public class EnrollmentCredentialCertGeneratorSpec extends Specification {
 		cert.signerInfos[0].signerInfoType == SignerInfoType.certificate_chain
 		cert.signerInfos[0].certificateChain.size() == 1
 		cert.signerInfos[0].certificateChain[0].getSubjectInfo().getSubjectName() == "TestEnrollmentCA".getBytes("UTF-8")
-		cert.subjectInfo.subjectType == SubjectType.enrollment_credential
-		cert.subjectInfo.subjectName == "TestEnrollmentCredential".getBytes("UTF-8")
-		cert.subjectAttributes.size() == 3
-		cert.subjectAttributes[0].subjectAttributeType == SubjectAttributeType.verification_key
-		cert.subjectAttributes[0].publicKey.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
-		cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_0 || cert.subjectAttributes[0].publicKey.publicKey.eccPointType == EccPointType.compressed_lsb_y_1
-		cryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, cert.subjectAttributes[0].publicKey.publicKey) == signKeys.publicKey
-				
-		cert.subjectAttributes[1].subjectAttributeType == SubjectAttributeType.assurance_level
-		cert.subjectAttributes[1].subjectAssurance.assuranceLevel == 1
-		cert.subjectAttributes[1].subjectAssurance.confidenceLevel == 0
-		
-		cert.subjectAttributes[2].subjectAttributeType == SubjectAttributeType.its_aid_list
-		cert.subjectAttributes[2].itsAidList.size() == 2
-		cert.subjectAttributes[2].itsAidList[0].value == new BigInteger(1234)
-		cert.subjectAttributes[2].itsAidList[1].value == new BigInteger(2345)
 
-		cert.validityRestrictions.size() == 1
-		cert.validityRestrictions[0].startValidity.asDate().time == 1417536852000L
-		cert.validityRestrictions[0].endValidity.asDate().time == 1417536952000L
-		
-		
-		cert.signature.publicKeyAlgorithm == PublicKeyAlgorithm.ecdsa_nistp256_with_sha256
-		cert.signature.ecdsaSignature != null
-		
 	}
 
 	def "Verify that illegal argument exception is thrown for messages with unsupported subject type"(){
 		when:
-		ecg.genEnrollmentCredential(SignerInfoType.certificate_digest_with_other_algorithm ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
+		ecg_v1.genEnrollmentCredential(SignerInfoType.certificate_digest_with_other_algorithm ,"TestEnrollmentCredential".getBytes("UTF-8"), [new BigInteger(1234), new BigInteger(2345)], 1, 0, new Date(1417536852024L), new Date(1417536952031L), null, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, signKeys.getPublic(), null, null)
 		then:
 		thrown IllegalArgumentException
 	}

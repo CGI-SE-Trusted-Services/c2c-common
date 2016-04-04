@@ -15,8 +15,8 @@ package org.certificateservices.custom.c2x.its.datastructs.basic;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
@@ -69,6 +69,14 @@ public class EcdsaSignature implements Encodable{
 		return r;
 	}
 	
+	/**
+	 * Method to update the signature r value. Used when normalizing.
+	 * @param r the new r value.
+	 */
+	public void setR(EccPoint r){
+		this.r = r;
+	}
+	
 	/** 
 	 * @return the signature value, should have the size of the related public key algorithms associated field size.
 	 */
@@ -97,8 +105,8 @@ public class EcdsaSignature implements Encodable{
 	@Override
 	public String toString() {
 		return "EcdsaSignature [publicKeyAlgorithm=" + publicKeyAlgorithm
-				+ ", r=" + r + ", signatureValue="
-				+ Arrays.toString(signatureValue) + "]";
+				+ ", r=" + r.toString().replace("EccPoint ", "") + ", signatureValue="
+				+ new String(Hex.encode(signatureValue)) + "]";
 	}
 	
 

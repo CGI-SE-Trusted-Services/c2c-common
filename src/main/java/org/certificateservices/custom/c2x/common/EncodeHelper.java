@@ -104,6 +104,82 @@ public class EncodeHelper {
 		return new BigInteger(data);
 	}
 	
+	/**
+	 * Help Method to create a displayable string a list of object and replace a substring if necessary.
+	 * 
+	 * @param list the list to build a displayable string of.
+	 * @param removePart substring to remove, use null when retaining all.
+	 * @return a displayable string
+	 */
+	public static String listToString(List<?> list, String removePart){
+		return listToString(list, removePart, false, 0);
+	}
+		
+	/**
+	 * Help Method to create a displayable string a list of object and replace a substring if necessary.
+	 * 
+	 * @param list the list to build a displayable string of.
+	 * @param removePart substring to remove, use null when retaining all.
+	 * @param insertNewline if a new line should be added after each entry
+	 * @param indentLevel the number of spaces to a insert before the entry. (only used if insertNewline is true)
+	 * @return a displayable string
+	 */
+	public static String listToString(List<?> list, String removePart, boolean insertNewline, int indentLevel){
+		return listToString(list, removePart, insertNewline, indentLevel, null);
+	}
 	
+	/**
+	 * Help Method to create a displayable string a list of object and replace a substring if necessary.
+	 * 
+	 * @param list the list to build a displayable string of.
+	 * @param removePart substring to remove, use null when retaining all.
+	 * @param insertNewline if a new line should be added after each entry
+	 * @param indentLevel the number of spaces to a insert before the entry. (only used if insertNewline is true)
+	 * @param toStringCallback callback to handle each object in list toString method separately. null for standard toString behaviour.
+	 * @return a displayable string
+	 */
+	public static String listToString(List<?> list, String removePart, boolean insertNewline, int indentLevel, ToStringCallback toStringCallback){
+		String string = "";
+		
+		String indentString = "";
+		for(int i=0;i< indentLevel; i++){
+			indentString += " ";
+		}
+		if(insertNewline && list.size() > 0){
+			string += "\n";
+		}
+		
+		for(int i=0; i < list.size() -1; i++){
+			Object o = list.get(i);
+			String objectString = (toStringCallback == null ? o.toString() : toStringCallback.toString(o));
+			if(removePart != null){
+				objectString = objectString.replace(removePart, "");
+			}
+			
+			if(insertNewline){
+				string += objectString + ",\n";
+			}else{
+				string += objectString + ", ";	
+			}
+		}
+		if(list.size() > 0){
+			Object o = list.get(list.size()-1);
+			String objectString = (toStringCallback == null ? o.toString() : toStringCallback.toString(o));
+			if(removePart != null){
+				objectString = objectString.replace(removePart, "");
+			}
+			string += objectString;
+		}
+		
+		return string.replace("\n", "\n" + indentString);
+	}
+	
+	/**
+	 * Special interface to handle special cases of toString handling of separate objects in a list.
+	 *
+	 */
+	public interface ToStringCallback{
+		String toString(Object o);
+	}
 
 }

@@ -15,8 +15,12 @@ package org.certificateservices.custom.c2x.its.datastructs.basic
 
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams
+import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId3;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
+import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate
 
 import spock.lang.IgnoreRest;
 import spock.lang.Specification;
@@ -71,5 +75,33 @@ class HashedIdSpec extends BaseStructSpec {
 		t1 != t3
 		t1.hashCode() == t2.hashCode()
 		t1.hashCode() != t3.hashCode()
+	}
+	
+	def "Verify that certificate signature R point normalises signature r value to X only"(){
+		setup:
+		ITSCryptoManager cm = new DefaultCryptoManager();
+		cm.setupAndConnect(new DefaultCryptoManagerParams("BC"))
+
+		expect:
+		new HashedId3(getSignatureWithUncompressedR(),cm) == new HashedId3(getSignatureWithXOnlyR(),cm)
+		new HashedId8(getSignatureWithUncompressedR(),cm) == new HashedId8(getSignatureWithXOnlyR(),cm)
+	}
+	
+	
+	static def byte[] certXOnlyData = Hex.decode("0200040049000004C75A096E2C522BA46E81B1DE939DBB2253AEA3A3311F2FCEC5B770F08289F314BAD63CE192DD0221DDA60FA6B68942B1CB4F2018519EE13F0ED0B9DCD6CAA7C702C0200224250B0114B12B0316925E8403000000324FA8D25CA88619E29CE89DBF410F6DF555498850341E3791552B473B54168409FEF44BC7910C5D61D7D138B710D2693B37980B287077A70E01A341FD6A2599")
+	static def Certificate getSignatureWithUncompressedR(){
+		
+		
+		
+		Certificate c = new Certificate(certXOnlyData);
+		
+		BigInteger x = c.getSignature().signatureValue.getR().x
+		c.getSignature().signatureValue.setR(new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.uncompressed, x, new BigInteger(123L)));
+		
+		return c
+	}
+	
+	static def Certificate getSignatureWithXOnlyR(){
+		return new Certificate(certXOnlyData)
 	}
 }

@@ -18,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 import java.util.List;
 
@@ -55,9 +56,23 @@ public class AuthorizationTicketCertGenerator extends BaseCertGenerator {
 		this.authorizationCA = authorizationCA;
 		this.authorizationCAPrivateKey = authorizationCAPrivateKey;
 	}
-
-
 	
+	/**
+	 * Constructor where it is possible to specify the certificate version to use.
+	 * 
+	 * @param certificateVersion the version to generate certificates for see Certificate.CERTIFICATE_VERSION_ constants.
+	 * @param cryptoManager the crypto manager to use.
+	 * @param authorizationCA the CA certificate of the authorization CA to use.
+	 * @param authorizationCAPrivateKey the private key of the authorization CA.
+	 * 
+	 */
+	public AuthorizationTicketCertGenerator(int certificateVersion, ITSCryptoManager cryptoManager, Certificate authorizationCA, PrivateKey authorizationCAPrivateKey) {
+		super(certificateVersion, cryptoManager);
+		this.authorizationCA = authorizationCA;
+		this.authorizationCAPrivateKey = authorizationCAPrivateKey;
+	}
+
+
 	/**
 	 * Method to generate an Authorization Ticket using one of the signer infos certificate_digest_with_ecdsap256 or certificate
 	 * 
@@ -94,13 +109,19 @@ public class AuthorizationTicketCertGenerator extends BaseCertGenerator {
 		if(signerInfoType == SignerInfoType.certificate || signerInfoType == SignerInfoType.certificate_digest_with_ecdsap256){
 			SignerInfo signerInfo = null;
 			if(signerInfoType == SignerInfoType.certificate){
-				signerInfo = new SignerInfo(authorizationCA);
+				if(certificateVersion != Certificate.CERTIFICATE_VERSION_1){
+				  throw new IllegalArgumentException("Invalid signer info type certificate is not supported for version 2 certificates");	
+				}else{
+				  signerInfo = new SignerInfo(authorizationCA);
+				}
 			}else{
 				try {
-					HashedId8 hash = new HashedId8(cryptoManager.digest(authorizationCA.getEncoded(), PublicKeyAlgorithm.ecdsa_nistp256_with_sha256));
+					HashedId8 hash = new HashedId8(authorizationCA,cryptoManager);
 					signerInfo = new SignerInfo(hash);
 				} catch (NoSuchAlgorithmException e) {
 					throw new SignatureException("Error generating certificate, no such algorithm: " + e.getMessage(),e);
+				} catch (InvalidKeySpecException e) {
+					throw new SignatureException("Error generating certificate, invalid key: " + e.getMessage(),e);
 				}				
 			}
 		
@@ -111,7 +132,9 @@ public class AuthorizationTicketCertGenerator extends BaseCertGenerator {
 	}
 	
 	/**
-	 * Method to generate an Authorization Ticket using signer info  certificate_chain
+	 * Method to generate an Authorization Ticket using signer info  certificate_chain.
+	 * 
+	 * <b>Important</b>:only supported for version 1 certificates.
 	 * 
 	 * @param signerInfoCAChain the certificate chain to include in the signer info. The last element of the chain shall contain 
 	 * the certificate used to sign the message, the next to last element shall contain the certificate of the CA that signed the 
@@ -144,9 +167,11 @@ public class AuthorizationTicketCertGenerator extends BaseCertGenerator {
 			PublicKey signPublicKey, 
 			PublicKeyAlgorithm encPublicKeyAlgorithm,
 			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
-
-			SignerInfo signerInfo = new SignerInfo(signerInfoCAChain);					
-			return genCert(signerInfo, SubjectType.authorization_ticket, null, itsAidList, assuranceLevel, confidenceLevel, validFrom, validTo, geographicRegion, signingPublicKeyAlgorithm, signPublicKey, encPublicKeyAlgorithm, encPublicKey, authorizationCAPrivateKey, authorizationCA);
+		if(certificateVersion != Certificate.CERTIFICATE_VERSION_1){
+			throw new IllegalArgumentException("Authorization ticket with certificate chain as signer info is only supported for version 1 certificates");
+		}
+		SignerInfo signerInfo = new SignerInfo(signerInfoCAChain);					
+		return genCert(signerInfo, SubjectType.authorization_ticket, null, itsAidList, assuranceLevel, confidenceLevel, validFrom, validTo, geographicRegion, signingPublicKeyAlgorithm, signPublicKey, encPublicKeyAlgorithm, encPublicKey, authorizationCAPrivateKey, authorizationCA);
 	}
 
 

@@ -14,14 +14,17 @@ package org.certificateservices.custom.c2x.its.generator;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 import java.util.List;
 
 import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.GeographicRegion;
+import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfo;
 import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate;
@@ -41,6 +44,16 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 	 */
 	public AuthorityCertGenerator(ITSCryptoManager cryptoManager) {
 		super(cryptoManager);
+	}
+	
+	/**
+	 * Constructor where it is possible to specify the certificate version to use.
+	 * 
+	 * @param certificateVersion the version to generate certificates for see Certificate.CERTIFICATE_VERSION_ constants.
+	 * @param cryptoManager the crypto manager to use.
+	 */
+	public AuthorityCertGenerator(int certificateVersion, ITSCryptoManager cryptoManager) {
+		super(certificateVersion, cryptoManager);
 	}
 
 	/**
@@ -204,7 +217,17 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 		
 		SignerInfo signerInfo;
 		if(subjectType != SubjectType.root_ca){
-			signerInfo = new SignerInfo(caCertificate);	
+			if(certificateVersion == Certificate.CERTIFICATE_VERSION_1){
+			  signerInfo = new SignerInfo(caCertificate);
+			}else{
+				try {
+					signerInfo = new SignerInfo(new HashedId8(caCertificate, cryptoManager));
+				} catch (NoSuchAlgorithmException e) {
+					throw new SignatureException("Error no such algorithm exception: " + e.getMessage());
+				} catch (InvalidKeySpecException e) {
+					throw new SignatureException("Error invalid key exception: " + e.getMessage());
+				}
+			}
 		}else{
 			signerInfo = new SignerInfo(); // Self signed
 		}

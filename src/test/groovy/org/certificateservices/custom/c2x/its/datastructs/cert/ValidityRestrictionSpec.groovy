@@ -36,28 +36,28 @@ import static org.certificateservices.custom.c2x.its.datastructs.cert.ValidityRe
  */
 class ValidityRestrictionSpec extends BaseStructSpec {
 	
-	ValidityRestriction vre = new ValidityRestriction(new Time32(new Date(1416581892590L)));
-	ValidityRestriction vres = new ValidityRestriction(new Time32(new Date(1416581882582L)),new Time32(new Date(1416581892590L)));
-	ValidityRestriction vrsd = new ValidityRestriction(new Time32(new Date(1416581882582L)), new Duration(12, Unit.HOURS));
+	ValidityRestriction vre = new ValidityRestriction(new Time32(1,new Date(1416581892590L)));
+	ValidityRestriction vres = new ValidityRestriction(new Time32(1,new Date(1416581882582L)),new Time32(1,new Date(1416581892590L)));
+	ValidityRestriction vrsd = new ValidityRestriction(new Time32(1,new Date(1416581882582L)), new Duration(12, Unit.HOURS));
 	ValidityRestriction vrer = new ValidityRestriction(new GeographicRegion(new CircularRegion(new TwoDLocation(-150,150), 1)));
 	
 	def "Verify the constructors and getters"(){
 		expect:
 		vre.validityRestrictionType == time_end
-		vre.endValidity.asDate().time == 1416581892000L
+		vre.endValidity.asDate(1).time == 1416581892000L
 		vre.startValidity == null
 		vre.duration == null
 		vre.region == null
 		
 		vres.validityRestrictionType == time_start_and_end
-		vres.endValidity.asDate().time == 1416581892000L
-		vres.startValidity.asDate().time == 1416581882000L
+		vres.endValidity.asDate(1).time == 1416581892000L
+		vres.startValidity.asDate(1).time == 1416581882000L
 		vres.duration == null
 		vres.region == null
 		
 		vrsd.validityRestrictionType == time_start_and_duration
 		vrsd.endValidity == null
-		vrsd.startValidity.asDate().time == 1416581882000L
+		vrsd.startValidity.asDate(1).time == 1416581882000L
 		vrsd.duration.getDurationValue() == 12
 		vrsd.region == null
 		
@@ -86,14 +86,14 @@ class ValidityRestrictionSpec extends BaseStructSpec {
 	    ValidityRestriction vrer2 = deserializeFromHex(new ValidityRestriction(),"0301ffffff6a000000960001");
 		expect:
 		vre2.validityRestrictionType == time_end
-		vre2.endValidity.asDate().time == 1416581892000L
+		vre2.endValidity.asDate(1).time == 1416581892000L
 		
 		vres2.validityRestrictionType == time_start_and_end
-		vres2.startValidity.asDate().time == 1416581882000L
-		vres2.endValidity.asDate().time == 1416581892000L
+		vres2.startValidity.asDate(1).time == 1416581882000L
+		vres2.endValidity.asDate(1).time == 1416581892000L
 		
 		vrsd2.validityRestrictionType == time_start_and_duration
-		vrsd2.startValidity.asDate().time == 1416581882000L
+		vrsd2.startValidity.asDate(1).time == 1416581882000L
 		vrsd2.duration.getDurationValue() == 12
 		
 		vrer2.validityRestrictionType == region
@@ -103,7 +103,7 @@ class ValidityRestrictionSpec extends BaseStructSpec {
 
 	def "Verify hashCode and equals"(){
 		setup:
-		ValidityRestriction vre2= new ValidityRestriction(new Time32(new Date(1416581892590L)));	
+		ValidityRestriction vre2= new ValidityRestriction(new Time32(1,new Date(1416581892590L)));	
 		expect:
 		vre == vre2
 		vre != vres
@@ -118,10 +118,20 @@ class ValidityRestrictionSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		vre.toString() == "ValidityRestriction [type=time_end, end_validity=Time32 [timeStamp=Fri Nov 21 15:58:12 CET 2014 (154277893)]]"
-		vres.toString() == "ValidityRestriction [type=time_start_and_end, start_validity=Time32 [timeStamp=Fri Nov 21 15:58:02 CET 2014 (154277883)], end_validity=Time32 [timeStamp=Fri Nov 21 15:58:12 CET 2014 (154277893)]]"
-		vrsd.toString() == "ValidityRestriction [type=time_start_and_duration, start_validity=Time32 [timeStamp=Fri Nov 21 15:58:02 CET 2014 (154277883)], duration=Duration [encodedDuration=16396 (value=12 HOURS)]]"
-		vrer.toString() == "ValidityRestriction [type=region, region:=GeographicRegion [regionType=circle, circularRegion=CircularRegion [center=TwoDLocation [latitude=-150, longitude=150], radius=1]]]"
+		vre.toString() == "ValidityRestriction [type=time_end, end_validity=[154277893]]"
+		vres.toString() == "ValidityRestriction [type=time_start_and_end, start_validity=[154277883], end_validity=[154277893]]"
+		vrsd.toString() == "ValidityRestriction [type=time_start_and_duration, start_validity=[154277883], duration=[encoded=16396 (12 HOURS)]]"
+		vrer.toString() == "ValidityRestriction [type=region, region:=[regionType=circle, circularRegion=[center=[latitude=-150, longitude=150], radius=1]]]"
+		
+		vre.toString(1) == "ValidityRestriction [type=time_end, end_validity=[Fri Nov 21 15:58:12 CET 2014 (154277893)]]"
+		vres.toString(1) == "ValidityRestriction [type=time_start_and_end, start_validity=[Fri Nov 21 15:58:02 CET 2014 (154277883)], end_validity=[Fri Nov 21 15:58:12 CET 2014 (154277893)]]"
+		vrsd.toString(1) == "ValidityRestriction [type=time_start_and_duration, start_validity=[Fri Nov 21 15:58:02 CET 2014 (154277883)], duration=[encoded=16396 (12 HOURS)]]"
+		vrer.toString(1) == "ValidityRestriction [type=region, region:=[regionType=circle, circularRegion=[center=[latitude=-150, longitude=150], radius=1]]]"
+		
+		vre.toString(2) == "ValidityRestriction [type=time_end, end_validity=[Thu Nov 20 15:58:12 CET 2008 (154277893)]]"
+		vres.toString(2) == "ValidityRestriction [type=time_start_and_end, start_validity=[Thu Nov 20 15:58:02 CET 2008 (154277883)], end_validity=[Thu Nov 20 15:58:12 CET 2008 (154277893)]]"
+		vrsd.toString(2) == "ValidityRestriction [type=time_start_and_duration, start_validity=[Thu Nov 20 15:58:02 CET 2008 (154277883)], duration=[encoded=16396 (12 HOURS)]]"
+		vrer.toString(2) == "ValidityRestriction [type=region, region:=[regionType=circle, circularRegion=[center=[latitude=-150, longitude=150], radius=1]]]"
 	}
 }
 

@@ -17,6 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
@@ -32,14 +33,18 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.SymmetricAlgorit
  * symm_alg can be resolved, this EciesNistP256EncryptedKey structure shall be preceded by an according
  * EncryptionParameters structure.
  * 
+ * For version 1 messages are the output tag 20 bytes and version 2 16 bytes
+ * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
 public class EciesNistP256EncryptedKey implements Encodable{
 	
-	public static final int OUTPUT_TAG_LENGTH = 20;
+	public static final int VER1_OUTPUT_TAG_LENGTH = 20;
+	public static final int VER2_OUTPUT_TAG_LENGTH = 16;
 	
 	private PublicKeyAlgorithm publicKeyAlgorithm;
+	private int protocolVersion;
 	private EccPoint v;
 	private byte[] c;
 	private byte[] t;
@@ -53,9 +58,10 @@ public class EciesNistP256EncryptedKey implements Encodable{
 	 * @param c the vector c contains the encrypted public key
 	 * @param t the vector t contains the output tag
 	 */
-	public EciesNistP256EncryptedKey(PublicKeyAlgorithm publicKeyAlgorithm, EccPoint v, byte[] c, byte[] t){
-		if(t.length != OUTPUT_TAG_LENGTH){
-			throw new IllegalArgumentException("Illegal argument, t value must be " + OUTPUT_TAG_LENGTH + " bytes.");
+	public EciesNistP256EncryptedKey(int protocolVersion, PublicKeyAlgorithm publicKeyAlgorithm, EccPoint v, byte[] c, byte[] t){
+		this.protocolVersion = protocolVersion;
+		if(t.length != getTagLength(protocolVersion)){
+			throw new IllegalArgumentException("Illegal argument, t value must be " + getTagLength(protocolVersion) + " bytes.");
 		}
 		if(c.length != publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength()){
 			throw new IllegalArgumentException("Illegal argument, c value length " + c.length + " doesn't match related symmetric algorithm key length " + publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength() + ".");
@@ -71,7 +77,8 @@ public class EciesNistP256EncryptedKey implements Encodable{
 	 * 
 	 * @param publicKeyAlgorithm the related public key algorithm
 	 */
-	public EciesNistP256EncryptedKey(PublicKeyAlgorithm publicKeyAlgorithm){
+	public EciesNistP256EncryptedKey(int protocolVersion, PublicKeyAlgorithm publicKeyAlgorithm){
+		this.protocolVersion = protocolVersion;
 		this.publicKeyAlgorithm = publicKeyAlgorithm;
 	}
 	
@@ -124,9 +131,8 @@ public class EciesNistP256EncryptedKey implements Encodable{
 		v.decode(in);
 		c = new byte[publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength()];
 		in.read(c);
-		t = new byte[OUTPUT_TAG_LENGTH];
+		t = new byte[getTagLength(protocolVersion)];
 		in.read(t);
-			
 	}
 
 	@Override
@@ -170,12 +176,18 @@ public class EciesNistP256EncryptedKey implements Encodable{
 	public String toString() {
 		return "EciesNistP256EncryptedKey [publicKeyAlgorithm="
 				+ publicKeyAlgorithm + ", symmetricAlgorithm="
-				+ publicKeyAlgorithm.getRelatedSymmetricAlgorithm() + ", v=" + v + ", c=" + Arrays.toString(c)
-				+ ", t=" + Arrays.toString(t) + "]";
+				+ publicKeyAlgorithm.getRelatedSymmetricAlgorithm() + ", v=" + v.toString().replace("EccPoint ", "") + ", c=" + new String(Hex.encode(c))
+				+ ", t=" + new String(Hex.encode(t)) + "]";
 	}
 
 
 
+	private int getTagLength(int protocolVersion){
+		if(protocolVersion == 1){
+			return VER1_OUTPUT_TAG_LENGTH;
+		}
+		return VER2_OUTPUT_TAG_LENGTH;
+	}
 
 	
 

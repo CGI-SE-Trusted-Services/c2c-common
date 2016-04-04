@@ -122,7 +122,8 @@ class PublicKeySpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		 new PublicKey(PublicKeyAlgorithm.ecies_nistp256, publicKey, SymmetricAlgorithm.aes_128_ccm).toString() == "PublicKey [publicKeyAlgorithm=ecies_nistp256, publicKey=EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, x=1, eccPointType=x_coordinate_only], supportedSymmAlg=aes_128_ccm]"
+		 new PublicKey(PublicKeyAlgorithm.ecies_nistp256, publicKey, SymmetricAlgorithm.aes_128_ccm).toString() == 
+		 """PublicKey [publicKeyAlgorithm=ecies_nistp256, publicKey=[eccPointType=x_coordinate_only, x=1], supportedSymmAlg=aes_128_ccm]"""
 	}
 	
 

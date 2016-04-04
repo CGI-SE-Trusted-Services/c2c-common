@@ -143,7 +143,7 @@ public class IdentifiedRegion implements Encodable{
 	public String toString() {
 		return "IdentifiedRegion [regionDictionary=" + regionDictionary
 				+ ", regionIdentifier=" + regionIdentifier + ", localRegion="
-				+ localRegion + "]";
+				+ localRegion.toString().replace("IntX ", "") + "]";
 	}
 
 

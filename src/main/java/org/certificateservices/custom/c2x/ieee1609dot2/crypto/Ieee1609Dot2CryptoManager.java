@@ -78,35 +78,6 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 */
 	Signature signMessageDigest(byte[] message, AlgorithmIndicator alg, PrivateKey privateKey) throws IllegalArgumentException, SignatureException, IOException;
 		
-//	
-//	/**
-//	 * Method to sign and encrypt a secured message using the given algorithm and private keys and returns another message with
-//	 * an attached signature according to the ITS specification with EccPointType x_coordinate_only containing the R value.
-//	 * <p>
-//	 * This method will only encrypt payload with type signed_and_encrypted
-//	 * <p>
-//	 * <b>Important: This method will add signing and encryption header to the message automatically and it doesn't need to be added manually.</b>
-//	 * 
-//	 * @param secureMessage the message data to sign and encrypt.
-//	 * @param signerCertificate the certificate used when signing.
-//	 * @param signerInfoType indicates the type of SignerInfo inserted into generated messages, supported values are:
-//	 * certificate_digest_with_ecdsap256 or certificate.
-//	 * @param signAlg the signing public key algorithm scheme to use.
-//	 * @param signPrivateKey the private key used to sign the message.
-//	 * @param encryptionAlg encryption algorithm to use.
-//	 * @param receipients a list of certificates of recipients, must have a encryption key specified in each certificate.
-//	 * @return the message ITS Signature data structure containing the generated signature attached.
-//	 * 
-//	 * @throws IllegalArgumentException if supplied arguments was invalid.
-//	 * @throws GeneralSecurityException if internal problems occurred encrypting or generating the signature.
-//	 * @throws IOException if communication problems occurred with underlying components.
-//	 */
-//	SecuredMessage encryptAndSignSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, 
-//			    SignerInfoType signerInfoType, PublicKeyAlgorithm signAlg,
-//				PrivateKey signPrivateKey, PublicKeyAlgorithm encryptionAlg, List<Certificate> receipients) throws IllegalArgumentException, GeneralSecurityException, IOException;
-//	
-//
-//
 	
 	/**
 	 * Method used to verify a IEEE Signature data structure given the digest and the signers public key
@@ -229,7 +200,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws GeneralSecurityException if internal problems occurred encrypting the symmetric key.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	 EncryptedDataEncryptionKey eCEISEncryptSymmetricKey(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, AlgorithmIndicator alg,byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException;
+	 EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, AlgorithmIndicator alg,byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException;
 	
 	 /**
 	  * Help method to perform a ECIES decryption by a recipient to retrieve the symmetric key. 
@@ -244,7 +215,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws GeneralSecurityException if internal problems occurred decrypting the symmetric key.
 	 * @throws IOException if communication problems occurred with underlying components.
 	  */
-	 SecretKey eCEISDecryptSymmetricKey(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, AlgorithmIndicator alg, byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException;
+	 SecretKey ieeeECEISDecryptSymmetricKey(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, AlgorithmIndicator alg, byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException;
 	 
 	/**
 	 * Method to convert a EC public key to a BCECPublicKey
