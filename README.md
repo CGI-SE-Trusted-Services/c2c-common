@@ -178,7 +178,7 @@ To create an Enrollment Credential use the EnrollmentCredentialCertGenerator.
 	    enrollCredItsAidList.add(new BigInteger("4"));
 	    // Then use the following command to generate a enrollment credential
 	    Certificate enrollmentCredential = enrollmentCredentialCertGenerator.genEnrollmentCredential(
-	    		SignerInfoType.certificate,//signerInfoType 
+	    		SignerInfoType.certificate_digest_with_ecdsap256,//signerInfoType 
 	    		"TestEnrollmentCredential".getBytes("UTF-8"),// subjectName 
 	    		enrollCredItsAidList,// itsAidList 
 	    		4,// assuranceLevel 
@@ -214,7 +214,7 @@ To create an Authorization Ticket l use the AuthorizationTicketCertGenerator.
 	    authTicketItsAidList.add(new BigInteger("4"));
 	    
 	    Certificate authorizationTicket = authorizationTicketCertGenerator.genAuthorizationTicket(
-	    		SignerInfoType.certificate,//signerInfoType 
+	    		SignerInfoType.certificate_digest_with_ecdsap256,//signerInfoType 
 	    		enrollCredItsAidList,// itsAidList 
 	    		4,// assuranceLevel 
 	    		3,// confidenceLevel 
