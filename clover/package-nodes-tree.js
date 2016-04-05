@@ -2,7 +2,21 @@
 
 var Packages = {
     nodes: [
-                                                                                                        
+                                                                                                                        
+                
+{
+    "id": "default-pkg",
+    "text": "default-pkg",
+    "package": "default-pkg",
+    "url": "default-pkg/testsrc-pkg-summary.html",
+            "coverage": " - ",
+        "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
+            "li_attr": {"data-is-link": "true"},
+        "a_attr": {"href": "default-pkg/testsrc-pkg-summary.html"},
+    "children": [
+                    ]
+},
+                                            
                 
 {
     "id": "org.certificateservices.custom.c2x",
@@ -33,7 +47,7 @@ var Packages = {
     "text": "common",
     "package": "org.certificateservices.custom.c2x.common",
     "url": "org/certificateservices/custom/c2x/common/pkg-summary.html",
-            "coverage": "98.1%",
+            "coverage": "97.4%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "org/certificateservices/custom/c2x/common/pkg-summary.html"},
@@ -45,7 +59,7 @@ var Packages = {
     "text": "crypto",
     "package": "org.certificateservices.custom.c2x.common.crypto",
     "url": "org/certificateservices/custom/c2x/common/crypto/pkg-summary.html",
-            "coverage": "82.4%",
+            "coverage": "79.6%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "org/certificateservices/custom/c2x/common/crypto/pkg-summary.html"},
@@ -61,7 +75,7 @@ var Packages = {
     "text": "demo",
     "package": "org.certificateservices.custom.c2x.demo",
     "url": "org/certificateservices/custom/c2x/demo/testsrc-pkg-summary.html",
-            "coverage": "50.8%",
+            "coverage": "51.2%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "org/certificateservices/custom/c2x/demo/testsrc-pkg-summary.html"},
@@ -123,7 +137,7 @@ var Packages = {
     "text": "cert",
     "package": "org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert",
     "url": "org/certificateservices/custom/c2x/ieee1609dot2/datastructs/cert/pkg-summary.html",
-            "coverage": "96.6%",
+            "coverage": "96.7%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "org/certificateservices/custom/c2x/ieee1609dot2/datastructs/cert/pkg-summary.html"},
@@ -313,7 +327,7 @@ var Packages = {
     "text": "basic",
     "package": "org.certificateservices.custom.c2x.its.datastructs.basic",
     "url": "org/certificateservices/custom/c2x/its/datastructs/basic/pkg-summary.html",
-            "coverage": "88.2%",
+            "coverage": "88.7%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "org/certificateservices/custom/c2x/its/datastructs/basic/pkg-summary.html"},
@@ -327,7 +341,7 @@ var Packages = {
     "text": "cert",
     "package": "org.certificateservices.custom.c2x.its.datastructs.cert",
     "url": "org/certificateservices/custom/c2x/its/datastructs/cert/pkg-summary.html",
-            "coverage": "86.5%",
+            "coverage": "87.5%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "org/certificateservices/custom/c2x/its/datastructs/cert/pkg-summary.html"},
@@ -341,7 +355,7 @@ var Packages = {
     "text": "msg",
     "package": "org.certificateservices.custom.c2x.its.datastructs.msg",
     "url": "org/certificateservices/custom/c2x/its/datastructs/msg/pkg-summary.html",
-            "coverage": "92.4%",
+            "coverage": "93.1%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "org/certificateservices/custom/c2x/its/datastructs/msg/pkg-summary.html"},
@@ -357,7 +371,7 @@ var Packages = {
     "text": "generator",
     "package": "org.certificateservices.custom.c2x.its.generator",
     "url": "org/certificateservices/custom/c2x/its/generator/pkg-summary.html",
-            "coverage": "97.8%",
+            "coverage": "97.4%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "org/certificateservices/custom/c2x/its/generator/pkg-summary.html"},
@@ -368,7 +382,7 @@ var Packages = {
 },
             ]
 },
-            ],
+                        ],
     settings: {
         "icons": {
             "package": {
