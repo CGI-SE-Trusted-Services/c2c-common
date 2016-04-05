@@ -8,7 +8,8 @@ The software is released under AGPL, see LICENSE.txt for more details. In order 
 
 # What's new in 0.9.8
 
-- Added support for ETSI TS 103 097 V1.2.1 (Version 2 certificate and SecureMessages)
+- Added support for ETSI TS 103 097 V1.2.1 (Version 2 certificate and SecureMessages), V2 Certificates and SecureMessages have been interoperability tested 
+with ETSI test tool from ts_10309603v010201p0 package. (Tests was done to verify generated messages and generation and parsing of certificates). 
 - Added utility methods to retrieve java.security variant of verification public key from certificates (common API for both US and EU standard)
 
 

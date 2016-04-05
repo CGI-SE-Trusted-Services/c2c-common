@@ -108,8 +108,8 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		sbg_v2 = new SecuredMessageGenerator(cryptoManager, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,authorizationTicket_v2, [authorizationCA_v2] as Certificate[],authorizationTicketKeys.getPrivate(), null,null);
 	}
 	
-//	@IgnoreRest
-//	def "asdf"(){
+	
+//	def "Test to generate Certificates and Secured Messages"(){
 //		when:
 //		println "Root v2 " + (new HashedId8(rootCA_v2, cryptoManager)) + " : " + Hex.toHexString(rootCA_v2.encoded)
 //		println rootCA_v2
@@ -121,8 +121,13 @@ public class SecuredMessageGeneratorSpec extends Specification {
 //		println authorizationTicket_v2
 //		
 //		def sm = sbg_v2.genSignedCAMMessage(SignerInfoType.certificate_digest_with_ecdsap256, "SomeMessageData".getBytes())
-//		println "Singed cam data: " + Hex.toHexString(sm.encoded)
-//		println "SignedCAM: " + sm
+//		println "Signed CAM data: " + Hex.toHexString(sm.encoded)
+//		println "Signed CAM: " + sm
+//		
+//		sm = sbg_v2.genSignedDENMMessage(new ThreeDLocation(1, 2, 10), "SomeMessageData".getBytes())
+//		println "Signed DENM data: " + Hex.toHexString(sm.encoded)
+//		println "Signed DENM: " + sm
+//		
 //		then:
 //		true
 //	}
@@ -426,25 +431,5 @@ public class SecuredMessageGeneratorSpec extends Specification {
 		msg.trailerFields[0].signature != null
 	}
 
-//	@IgnoreRest
-//	def "Interop"(){
-//		setup:
-//		
-//		
-//		Certificate c = new Certificate(Hex.decode("0200040a54657374526f6f74434128000003b060341ef10d6baf769bb03a778df5d08f5bdc0d8d82d4d3bca5d9320dc1108d022020017f0901148a8257275685bb00009daddaaac9ce9a25054846f03900b204ee5c2f1241e10fd8528e0d09bef803826fd93c0dd36f68b447e541ff1ecc7a8408a0139ac9e429872012dbfa5804e14a"))
-//		//Certificate c = new Certificate(Hex.decode("0201c33fc87aedf5c40f01004c000002b40e820268ebf7b4570d37b005cb2f12e77f3b8bcc6b2a434ce42ba5188ced3301010002a74519cfb66b200312824751ef1e514b24550f29a61d45b70129b65d5fd2bbcc022020017f0901170ec45c170f34dc00001a822967783be803c4ea98c1b10dabf1b539eb299e6095feb1bb0779afbf0433366d707a9d9bf02dbb467dbaa53c68d66b768ae7c106bc103de3d4bb2b0474f0"))
-//		
-//		println "Cert: " + c
-//		
-//		println Hex.toHexString(cryptoManager.digest(c.encoded, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256))
-//		
-//		HashedId8 h = new HashedId8(c, cryptoManager);
-//		println "hash: " + h
-//		
-//		
-//		
-//		
-//	}
-	
 
 }
