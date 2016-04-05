@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 import java.util.Date;
 
 import org.certificateservices.custom.c2x.common.Encodable;
+import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate;
 
 import net.time4j.Moment;
 import net.time4j.TemporalType;
@@ -27,6 +28,13 @@ import net.time4j.scale.TimeScale;
 
 
 /**
+ * For Version 2 certificates:
+ * <p>
+ * Time32 is an unsigned 32-bit integer, encoded in big-endian format, giving the number of International Atomic Time
+ * (TAI) seconds since 00:00:00 UTC, 01 January 2004. 
+ * <p>
+ * For Version 1 certificates:
+ * <p>
  * Time32 is an unsigned 32-bit integer, encoded in big-endian format, giving the number of International Atomic Time
  * (TAI) seconds since 00:00:00 UTC, 1 January, 2010.
  * <p>
@@ -37,6 +45,7 @@ import net.time4j.scale.TimeScale;
  */
 public class Time32 implements Encodable{
 	
+	private static final long SECONDSBETWEENTAIZEROAND2004 = 1009843232L;
 	private static final long SECONDSBETWEENTAIZEROAND2010 = 1199232034L;
 	
 	private long timeStamp;
@@ -46,13 +55,17 @@ public class Time32 implements Encodable{
 	 * 
 	 * <b>Important: Note that this transformation is sometimes lossy: Leap seconds will get lost as well as micro- or nanoseconds.
 	 * 
+	 * @param certVersion version of certificate
 	 * @param timeStamp   java date timestamp to convert
 	 */
-	public Time32(Date timeStamp) {		
+	public Time32(int certVersion, Date timeStamp) {		
 		Moment moment = TemporalType.JAVA_UTIL_DATE.translate(timeStamp);
 		BigDecimal bd = moment.transform(TimeScale.TAI);
-		this.timeStamp = bd.subtract(new BigDecimal(SECONDSBETWEENTAIZEROAND2010)).longValue();
-		
+		if(certVersion == Certificate.CERTIFICATE_VERSION_1){
+		  this.timeStamp = bd.subtract(new BigDecimal(SECONDSBETWEENTAIZEROAND2010)).longValue();
+		}else{
+			this.timeStamp = bd.subtract(new BigDecimal(SECONDSBETWEENTAIZEROAND2004)).longValue();
+		}
 	}
 	
 	/**
@@ -76,11 +89,19 @@ public class Time32 implements Encodable{
 	/** 
 	 * Returns the timestamp as a Java util date.
 	 * 
+	 * @param certVersion indicating with certificate version to parse the value as, since the different
+	 * versions have different base times.
+	 * 
 	 * <b>Important: Note that this transformation is sometimes lossy: Leap seconds will get lost as well as micro- or nanoseconds.
 	 * @return the timestamp value
 	 */
-	public Date asDate(){
-		Moment m = Moment.of(this.timeStamp + SECONDSBETWEENTAIZEROAND2010, TimeScale.TAI);
+	public Date asDate(int certVersion){
+		Moment m; 
+		if(certVersion == Certificate.CERTIFICATE_VERSION_1){
+			m = Moment.of(this.timeStamp + SECONDSBETWEENTAIZEROAND2010, TimeScale.TAI);
+		}else{
+			m = Moment.of(this.timeStamp + SECONDSBETWEENTAIZEROAND2004, TimeScale.TAI);
+		}
 		return TemporalType.JAVA_UTIL_DATE.from(m);
 	}
 	
@@ -107,7 +128,16 @@ public class Time32 implements Encodable{
 
 	@Override
 	public String toString() {
-		return "Time32 [timeStamp=" + asDate() + " (" + timeStamp + ")]";
+		return "Time32 [" +timeStamp + "]";
+	}
+	
+	/**
+	 * Alternative toString version to get more verbose information
+	 * @param certVersion the version of the certificate.
+	 * @return a more verbose string version.
+	 */
+	public String toString(int certVersion) {
+		return "Time32 [" + asDate(certVersion) + " (" + timeStamp + ")]";
 	}
 
 	@Override

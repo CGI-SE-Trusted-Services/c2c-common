@@ -92,7 +92,7 @@ public enum PublicKeyAlgorithm implements AlgorithmIndicator{
 		case ecdsa_nistp256_with_sha256:
 			return new Algorithm(null, Signature.ecdsaNistP256, null, Hash.sha256);
 		case ecies_nistp256:
-			return new Algorithm(Symmetric.aes128Ccm, Signature.ecdsaNistP256, Encryption.ecies, null);
+			return new Algorithm(Symmetric.aes128Ccm, Signature.ecdsaNistP256, Encryption.ecies, Hash.sha256);
 		default:
 			throw new IllegalArgumentException("Unsupported algorithm: " + this);
 		}

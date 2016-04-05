@@ -30,13 +30,13 @@ import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointT
  */
 class SubjectInfoSpec extends BaseStructSpec {
 	
-	SubjectInfo si = new SubjectInfo(SubjectType.enrollment_credential, "123456789".getBytes());
+	SubjectInfo si = new SubjectInfo(SubjectType.enrollment_credential, "TestCA".getBytes("UTF-8"));
 	SubjectInfo siNull = new SubjectInfo(SubjectType.authorization_ticket, null);
 	
 	def "Verify constructors and getters and setters"(){
 		expect:
 		si.subjectType == SubjectType.enrollment_credential
-		new String(si.subjectName) == "123456789"
+		new String(si.subjectName) == "TestCA"
 		siNull.subjectType == SubjectType.authorization_ticket
 		siNull.subjectName.length == 0
 		when:
@@ -48,17 +48,17 @@ class SubjectInfoSpec extends BaseStructSpec {
 
 	def "Verify serialization of SubjectInfo"(){
 		expect : 
-		serializeToHex(si) == "0009313233343536373839"
+		serializeToHex(si) == "0006546573744341"
 		serializeToHex(siNull) == "0100"
 
 	}
 	
-	def "Verify deserialization ofSignature"(){
+	def "Verify deserialization of SubjectInfo"(){
 		when:                                                 // type// size // data
-		SubjectInfo si2 = deserializeFromHex(new SubjectInfo(), "00" + "09" + "313233343536373839");
+		SubjectInfo si2 = deserializeFromHex(new SubjectInfo(), "0006546573744341");
 		then:
 		si2.subjectType == SubjectType.enrollment_credential
-		new String(si2.subjectName) == "123456789"
+		new String(si2.subjectName) == "TestCA"
 		when:                                                 // type// size 
 		SubjectInfo siNull2 = deserializeFromHex(new SubjectInfo(), "01" + "00" );
 		then:
@@ -68,9 +68,9 @@ class SubjectInfoSpec extends BaseStructSpec {
 	
 	def "Verify hashCode and equals"(){
 		setup:		
-		def o1  = new SubjectInfo(SubjectType.enrollment_credential, "123456789".getBytes());
+		def o1  = new SubjectInfo(SubjectType.enrollment_credential, "TestCA".getBytes("UTF-8"));
 		def o2  = new SubjectInfo(SubjectType.enrollment_credential, "12345678".getBytes());
-		def o3  = new SubjectInfo(SubjectType.authorization_ticket, "123456789".getBytes())
+		def o3  = new SubjectInfo(SubjectType.authorization_ticket, "TestCA".getBytes("UTF-8"))
 		expect:
 		si == o1
 		si != siNull
@@ -84,8 +84,8 @@ class SubjectInfoSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		 si.toString() == "SubjectInfo [subjectType=enrollment_credential, subjectName=[49, 50, 51, 52, 53, 54, 55, 56, 57]]";
-		 siNull.toString() == "SubjectInfo [subjectType=authorization_ticket, subjectName=[]]";
+		 si.toString() == "SubjectInfo [subjectType=enrollment_credential, name=TestCA (546573744341)]";
+		 siNull.toString() == "SubjectInfo [subjectType=authorization_ticket, name=none]";
 	}
 
 }

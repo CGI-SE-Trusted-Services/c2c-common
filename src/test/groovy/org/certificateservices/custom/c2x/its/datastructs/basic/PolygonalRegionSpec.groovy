@@ -95,6 +95,6 @@ class PolygonalRegionSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new PolygonalRegion(points).toString() == "PolygonalRegion [points=[TwoDLocation [latitude=0, longitude=0], TwoDLocation [latitude=1, longitude=-1], TwoDLocation [latitude=2, longitude=-2], TwoDLocation [latitude=3, longitude=-3], TwoDLocation [latitude=4, longitude=-4], TwoDLocation [latitude=5, longitude=-5], TwoDLocation [latitude=6, longitude=-6], TwoDLocation [latitude=7, longitude=-7], TwoDLocation [latitude=8, longitude=-8], TwoDLocation [latitude=9, longitude=-9], TwoDLocation [latitude=10, longitude=-10], TwoDLocation [latitude=11, longitude=-11]]]"
+		new PolygonalRegion(points).toString() == "PolygonalRegion [[latitude=0, longitude=0], [latitude=1, longitude=-1], [latitude=2, longitude=-2], [latitude=3, longitude=-3], [latitude=4, longitude=-4], [latitude=5, longitude=-5], [latitude=6, longitude=-6], [latitude=7, longitude=-7], [latitude=8, longitude=-8], [latitude=9, longitude=-9], [latitude=10, longitude=-10], [latitude=11, longitude=-11]]"
 	}
 }

@@ -1,10 +1,17 @@
 # Java Implementation of ITS Intelligent Transport Systems (ITS) Security Security header and certificate formats
-# ETSI TS 103 097 V1.1.1 and IEEE 1609.2 2015
+# ETSI TS 103 097 V1.2.1 and IEEE 1609.2 2015
 
 This is a library used to generate data structures from the ETSI TS 103 097 (EU) and IEEE 1609.2 2015 (US) specification.
 
 # License
 The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
+
+# What's new in 0.9.8
+
+- Added support for ETSI TS 103 097 V1.2.1 (Version 2 certificate and SecureMessages), V2 Certificates and SecureMessages have been interoperability tested 
+with ETSI test tool from ts_10309603v010201p0 package. (Tests was done to verify generated messages and generation and parsing of certificates). 
+- Added utility methods to retrieve java.security variant of verification public key from certificates (common API for both US and EU standard)
+
 
 # What's New in 0.9.7
 
@@ -64,7 +71,8 @@ Example code on how to generate Root a CA, use the AuthorityCertGenerator:
 
 ```
 
-        // Create an authority certificate generator and initialize it with the crypto manager. 
+	    // Create an authority certificate generator and initialize it with the crypto manager. 
+	    // This constructor creates a Version 2 generator, use alternate constructor where certificate version can be specified for version 1.
 	    AuthorityCertGenerator authorityCertGenerator = new AuthorityCertGenerator(cryptoManager);
 	    
 	    // Generate a reference to the Root CA Signing Keys	    
@@ -95,7 +103,7 @@ To generate an Enrollment CA:
 
 ```
 
-        // Generate a reference to the Enrollment CA Signing Keys        
+	    // Generate a reference to the Enrollment CA Signing Keys	    
 	    KeyPair enrollmentCASigningKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
 	    
 	    // Generate the list of ITS AID values for the Enrollment CA
@@ -125,12 +133,13 @@ To generate an Authority CA:
 
 ```
 
-        // Generate a reference to the Authorization CA Signing Keys	    
+	    // Generate a reference to the Authorization CA Signing Keys	    
 	    KeyPair authorityCASigningKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
 	    
 	    // Generate the list of ITS AID values for the Authorization CA
 	    List<BigInteger> authorityCAItsAidList = new ArrayList<BigInteger>();
-	    authorityCAItsAidList.add(new BigInteger("3"));
+	    authorityCAItsAidList.add(new BigInteger(""+SecuredMessageGenerator.ITS_AID_CAM));
+	    authorityCAItsAidList.add(new BigInteger(""+SecuredMessageGenerator.ITS_AID_DENM));
 
 	    // Generate a reference to the Authorization CA Signing Keys
 	    Certificate authorityCACertificate = authorityCertGenerator.genAuthorizationAuthorityCA(
@@ -156,8 +165,10 @@ To create an Enrollment Credential use the EnrollmentCredentialCertGenerator.
 
 ```
 
-        // First we create a Enrollment Credential Cert Generator using the newly created Enrollment CA.
-        EnrollmentCredentialCertGenerator enrollmentCredentialCertGenerator = new EnrollmentCredentialCertGenerator(cryptoManager, enrollmentCACertificate, enrollmentCASigningKeys.getPrivate());
+	    // Now we have the CA hierarchy, the next step is to generate an enrollment credential
+	    // First we create a Enrollment Credential Cert Generator using the newly created Enrollment CA.
+	    // This constructor creates a Version 2 generator, use alternate constructor where certificate version can be specified for version 1.
+	    EnrollmentCredentialCertGenerator enrollmentCredentialCertGenerator = new EnrollmentCredentialCertGenerator(cryptoManager, enrollmentCACertificate, enrollmentCASigningKeys.getPrivate());
 	    // Next we generate keys for an enrollment credential.
 	    KeyPair enrollmentCredentialSigningKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
 	    // Next we generate keys for an enrollment credential.
@@ -168,7 +179,7 @@ To create an Enrollment Credential use the EnrollmentCredentialCertGenerator.
 	    enrollCredItsAidList.add(new BigInteger("4"));
 	    // Then use the following command to generate a enrollment credential
 	    Certificate enrollmentCredential = enrollmentCredentialCertGenerator.genEnrollmentCredential(
-	    		SignerInfoType.certificate,//signerInfoType 
+	    		SignerInfoType.certificate_digest_with_ecdsap256,//signerInfoType 
 	    		"TestEnrollmentCredential".getBytes("UTF-8"),// subjectName 
 	    		enrollCredItsAidList,// itsAidList 
 	    		4,// assuranceLevel 
@@ -181,6 +192,7 @@ To create an Enrollment Credential use the EnrollmentCredentialCertGenerator.
 	    		PublicKeyAlgorithm.ecies_nistp256,// encPublicKeyAlgorithm 
 	    		enrollmentCredentialEncryptionKeys.getPublic() // encPublicKey
 	    		);
+	    		
 ```
 
 ### Authorization Ticket 
@@ -188,7 +200,8 @@ To create an Authorization Ticket l use the AuthorizationTicketCertGenerator.
 
 ```
 
-        // Authorization Tickets are created by the AuthorizationTicketCertGenerator
+	    // Authorization Tickets are created by the AuthorizationTicketCertGenerator
+	    // This constructor creates a Version 2 generator, use alternate constructor where certificate version can be specified for version 1.
 	    AuthorizationTicketCertGenerator authorizationTicketCertGenerator = new AuthorizationTicketCertGenerator(cryptoManager, authorityCACertificate, authorityCASigningKeys.getPrivate());
 	    
 	    // Next we generate keys for an authorization ticket.
@@ -202,7 +215,7 @@ To create an Authorization Ticket l use the AuthorizationTicketCertGenerator.
 	    authTicketItsAidList.add(new BigInteger("4"));
 	    
 	    Certificate authorizationTicket = authorizationTicketCertGenerator.genAuthorizationTicket(
-	    		SignerInfoType.certificate,//signerInfoType 
+	    		SignerInfoType.certificate_digest_with_ecdsap256,//signerInfoType 
 	    		enrollCredItsAidList,// itsAidList 
 	    		4,// assuranceLevel 
 	    		3,// confidenceLevel 
@@ -221,8 +234,9 @@ To create Secured Messages use the SecuredMessageGenerator.
 
 ```
 
-        // Secure Messages are created by the Secure Message Generator
-	    SecuredMessageGenerator securedMessageGenerator = new SecuredMessageGenerator(cryptoManager, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationTicket, authorityCASigningKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, authorizationTicketEncryptionKeys.getPrivate());
+	    // Secure Messages are created by the Secure Message Generator
+	    // This constructor creates a Version 2 generator, use alternate constructor where certificate version can be specified for version 1.
+	    SecuredMessageGenerator securedMessageGenerator = new SecuredMessageGenerator(cryptoManager, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationTicket, new Certificate[]{},authorityCASigningKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, authorizationTicketEncryptionKeys.getPrivate());
 	    
 	    // Next to generate a CAM Message, supported SignerIntoTypes are certificate_digest_with_ecdsap256 and certificate
 	    SecuredMessage signedCAMMessage = securedMessageGenerator.genSignedCAMMessage(SignerInfoType.certificate_digest_with_ecdsap256, "SomeMessageData".getBytes("UTF-8"));
@@ -244,16 +258,14 @@ Neither CAM nor DENM messages should be encrypted, so in this example is a Secur
 ```
 
 		List<HeaderField> headerFields = new ArrayList<HeaderField>();
-		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
-		headerFields.add(new HeaderField(generationLocation));
-        headerFields.add(new HeaderField(123)); // Just have any value since no known message type uses encryption
+		headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,new Time64(Certificate.CERTIFICATE_VERSION_2,new Date()))); // generate generation time
+		headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,generationLocation));
+        headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,new IntX(123))); // Just have any value since no known message type uses encryption
         
-        // There is no need to add recipient_info or encryption_parameters, these will be calculated and appended automatically by the crypto manager.
-		List<Payload> payloadFields = new ArrayList<Payload>();
 		// The payload that should be encrypted should have type encrypted, others will be ignored.
-		payloadFields.add(new Payload(PayloadType.encrypted,"SomeClearText".getBytes("UTF-8")));
+		Payload  payload = new Payload(PayloadType.encrypted,"SomeClearText".getBytes("UTF-8"));
 		
-		SecuredMessage secureMessage = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE, headerFields, payloadFields);
+		SecuredMessage secureMessage = new SecuredMessage(headerFields, payload);
 		
 		// First we create a list of receipients certificates that should be able to decrypt the payload.
 		List<Certificate> receipients = new ArrayList<Certificate>();
@@ -270,6 +282,7 @@ Neither CAM nor DENM messages should be encrypted, so in this example is a Secur
 		
 		// Verify that the payload is in clear text again. 
 		assert new String(decryptedMessage.getPayloadFields().get(0).getData(), "UTF-8").equals("SomeClearText");
+		
 ```
 
 ### Encrypted And Signed Secured Messages
@@ -279,18 +292,18 @@ In this example we generate messages with payload type signed_and_encrypted, i.e
 
 		// We start with constructing a secured message
 		headerFields = new ArrayList<HeaderField>();
-		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
-		headerFields.add(new HeaderField(generationLocation));
-        headerFields.add(new HeaderField(123)); // Just have any value since no known message type uses encryption
+		headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,new Time64(Certificate.CERTIFICATE_VERSION_2,new Date()))); // generate generation time
+		headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,generationLocation));
+        headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,new IntX(123))); // ITS_AID, Just have any value since no known message type uses encryption
         
         // There is no need to add recipient_info or encryption_parameters, these will be calculated and appended automatically by the crypto manager.
-		payloadFields = new ArrayList<Payload>();
 		// The payload that should be encrypted should have type encrypted, others will be ignored.
-		payloadFields.add(new Payload(PayloadType.signed_and_encrypted,"SomeClearText".getBytes("UTF-8")));
+		payload = new Payload(PayloadType.signed_and_encrypted,"SomeClearText".getBytes("UTF-8"));
 		
-		secureMessage = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE, headerFields, payloadFields);
+		secureMessage = new SecuredMessage(headerFields, payload);
 		
-		SecuredMessage encryptedAndSignedMessage = cryptoManager.encryptAndSignSecureMessage(secureMessage, enrollmentCredential, SignerInfoType.certificate, 
+		SecuredMessage encryptedAndSignedMessage = cryptoManager.encryptAndSignSecureMessage(secureMessage, enrollmentCredential, new Certificate[]{enrollmentCACertificate},
+				SignerInfoType.certificate, 
 				PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, 
 				enrollmentCredentialSigningKeys.getPrivate(), 
 				PublicKeyAlgorithm.ecies_nistp256, receipients);
@@ -302,8 +315,7 @@ In this example we generate messages with payload type signed_and_encrypted, i.e
 		
 		// To verify and decrypt the message use the following method, if signer info type is certificate_digest_with_ecdsap256, you need to verify with
 		// alternative method where signer certificate is specified.
-		SecuredMessage decryptedAndVerifiedMessage = cryptoManager.verifyAndDecryptSecuredMessage(encryptedAndSignedMessage, authorizationTicket, 
-		authorizationTicketEncryptionKeys.getPrivate());
+		SecuredMessage decryptedAndVerifiedMessage = cryptoManager.verifyAndDecryptSecuredMessage(encryptedAndSignedMessage, authorizationTicket, authorizationTicketEncryptionKeys.getPrivate());
 		assert new String(decryptedAndVerifiedMessage.getPayloadFields().get(0).getData(), "UTF-8").equals("SomeClearText");
 
 ```
@@ -312,18 +324,33 @@ In this example we generate messages with payload type signed_and_encrypted, i.e
 
 ```
 
-        // To encode a certificate to a byte array use the following method
+		// To encode a certificate to a byte array use the following method
 	    byte[] certificateData = authorizationTicket.getEncoded();
 	    
 	    // To decode certificate data use the following constructor
 	    Certificate decodedCertificate = new Certificate(certificateData);
-
-        // To encode a secured message to a byte array use the following method.
+	    
+	    // To encode a secured message to a byte array use the following method.
 	    byte[] messageData = signedDENMMessage.getEncoded();
 	    
 	    // To decode message data use the following constructor.
 	    SecuredMessage decodedMessage = new SecuredMessage(messageData);
 ```
+
+### HashedXId Example 
+
+```
+
+	    // To calculate correct Certificate HashedId3 or 8 use the constructor supplying the certificate and cryptomanager to automatically normalize the certificate before calculating
+	    // the hash value.
+	    HashedId8 certHash = new HashedId8(authorizationTicket, cryptoManager);
+	    
+	    // The certificate hash value can be extracted with.
+	    certHash.getHashedId();
+
+```
+
+
 
 # US Standard IEEE 1609.2
 

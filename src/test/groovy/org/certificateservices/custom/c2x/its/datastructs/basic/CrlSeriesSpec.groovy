@@ -80,7 +80,7 @@ class CrlSeriesSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		 new CrlSeries(2).toString() == "CrlSeries [value=2]"
+		 new CrlSeries(2).toString() == "CrlSeries [2]"
 	}
 
 	

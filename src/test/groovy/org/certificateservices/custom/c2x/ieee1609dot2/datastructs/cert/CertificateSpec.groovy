@@ -12,10 +12,16 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert
 
+import java.security.KeyPair
+import java.security.PublicKey;
+
 import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.common.BaseStructSpec;
+import org.certificateservices.custom.c2x.common.Certificate.Type;
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
@@ -62,9 +68,11 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Sequence
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.ToBeSignedCertificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.BaseCertGeneratorSpec;
 import org.junit.Ignore;
 
 import spock.lang.IgnoreRest;
+import spock.lang.Shared
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
@@ -75,7 +83,7 @@ import spock.lang.Unroll;
  *
  */
 
-class CertificateSpec extends BaseStructSpec {
+class CertificateSpec extends  BaseCertGeneratorSpec {
 
 	ToBeSignedCertificate implicitToBeSigned = genToBeSignedCertificate(true)
 	ToBeSignedCertificate explicitToBeSigned = genToBeSignedCertificate(false)
@@ -83,6 +91,8 @@ class CertificateSpec extends BaseStructSpec {
 	Signature signature = new Signature(SignatureChoices.ecdsaNistP256Signature, new EcdsaP256Signature(new EccP256CurvePoint(new BigInteger(123)),COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),32)))
 
 
+	
+	
 	def "Verify that constructor and getters are correct and it is correctly encoded for explicit certificates"(){
 		when:
 		
@@ -110,6 +120,59 @@ class CertificateSpec extends BaseStructSpec {
 		c4.getVersion() == 4
 	}
 	
+	@Unroll
+	def "Verify that getType and getPublicKey works for both implicit and explicit certificates for alg #alg"(){
+		setup:
+		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
+		
+		Certificate rootCA = genRootCA(rootCAKeys, alg)
+		Certificate explicitCert = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys, rootCAKeys, rootCA)
+		Certificate implicitCert = genEnrollCA(CertificateType.implicit, alg, enrollCAKeys, rootCAKeys, rootCA)
+		PublicKey implicitPubKey = ecqvHelper.extractPublicKey(implicitCert, rootCAKeys.getPublic(), alg, rootCA)
+		
+		expect:
+		implicitCert.getCertificateType() == Type.IMPLICIT
+		explicitCert.getCertificateType() == Type.EXPLICIT
+		
+		explicitCert.getPublicKey(cryptoManager, null, null, null).encoded == enrollCAKeys.getPublic().encoded
+		implicitCert.getPublicKey(cryptoManager, alg, rootCA, rootCAKeys.getPublic()).encoded == implicitPubKey.encoded
+		where:
+		alg << [SignatureChoices.ecdsaNistP256Signature, SignatureChoices.ecdsaBrainpoolP256r1Signature]
+	}
+	
+	def "Verify that getPublicKey throws IllegalArgumentException if invalid parameters was given"(){
+		setup:
+		def alg = SignatureChoices.ecdsaNistP256Signature
+		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
+		
+		Certificate rootCA = genRootCA(rootCAKeys, alg)
+		Certificate explicitCert = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys, rootCAKeys, rootCA)
+		Certificate implicitCert = genEnrollCA(CertificateType.implicit, alg, enrollCAKeys, rootCAKeys, rootCA)
+		PublicKey implicitPubKey = ecqvHelper.extractPublicKey(implicitCert, rootCAKeys.getPublic(), alg, rootCA)
+		when:
+		explicitCert.getPublicKey(null, null, null, null)
+		then:
+		thrown IllegalArgumentException
+		when:
+		implicitCert.getPublicKey(null, null, null, null)
+		then:
+		thrown IllegalArgumentException
+		when:
+		implicitCert.getPublicKey(cryptoManager, null, null, null)
+		then:
+		thrown IllegalArgumentException
+		when:
+		implicitCert.getPublicKey(cryptoManager, alg, null, null)
+		then:
+		thrown IllegalArgumentException
+		when:
+		implicitCert.getPublicKey(cryptoManager, alg, rootCA, null)
+		then:
+		thrown IllegalArgumentException
+		
+	}
 	
 	def "Verify that constructor and getters are correct and it is correctly encoded for implicit certificates"(){
 		when:

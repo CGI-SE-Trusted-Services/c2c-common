@@ -165,7 +165,7 @@ public class PublicKey implements Encodable{
 	@Override
 	public String toString() {
 		return "PublicKey [publicKeyAlgorithm=" + publicKeyAlgorithm
-				+ ", publicKey=" + publicKey + ", supportedSymmAlg="
+				+ ", publicKey=" + publicKey.toString().replaceAll("EccPoint ", "") + ", supportedSymmAlg="
 				+ supportedSymmAlg + "]";
 	}
 

@@ -52,6 +52,7 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.EccPoint
 import org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType
 import org.certificateservices.custom.c2x.its.datastructs.basic.EcdsaSignature
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8
+import org.certificateservices.custom.c2x.its.datastructs.basic.IntX
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm
 import org.certificateservices.custom.c2x.its.datastructs.basic.Signature
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType
@@ -72,6 +73,7 @@ import org.certificateservices.custom.c2x.its.datastructs.msg.SecuredMessage
 import org.certificateservices.custom.c2x.its.datastructs.msg.TrailerField
 import org.certificateservices.custom.c2x.its.generator.AuthorityCertGenerator
 import org.certificateservices.custom.c2x.its.generator.AuthorizationTicketCertGenerator
+import org.certificateservices.custom.c2x.its.generator.SecuredMessageGenerator;
 
 import spock.lang.Ignore;
 import spock.lang.IgnoreRest;
@@ -142,35 +144,12 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		then:
 		defaultCryptoManager.verifySignature(message, signature, keyPair.getPublic())
 		defaultCryptoManager.verifySignature(message, signature, defaultCryptoManager.encodeEccPoint(pubAlg, EccPointType.compressed_lsb_y_0, keyPair.getPublic()))
-		// TODO Test with certificate
 		!defaultCryptoManager.verifySignature(invalidMessage, signature, keyPair.getPublic())
 		
 		where:
 		pubAlg << [ecdsa_nistp256_with_sha256]
 	}
 	
-// TODO	
-//	@Unroll
-//	@Ignore
-//	def "Test to generate IEEE ECDSA Signature and then verify the signature for algorithm: #pubAlg"(){
-//		when:
-//		byte[] message = "Testmessage".getBytes()
-//		byte[] invalidMessage = "T1estmessage".getBytes()
-//		KeyPair keyPair = defaultCryptoManager.generateKeyPair(pubAlg)
-//		org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature = defaultCryptoManager.signMessage(message,
-//									 pubAlg,
-//									  keyPair.privateKey, null)
-//			
-//		then:
-//		
-//		defaultCryptoManager.verifySignature(message, signature, keyPair.getPublic())
-//		defaultCryptoManager.verifySignature(message, signature, defaultCryptoManager.encodeEccPoint(pubAlg, EccP256CurvePointChoices.compressedy0, keyPair.getPublic()))
-////		// TODO Test with certificate
-//        !defaultCryptoManager.verifySignature(invalidMessage, signature, keyPair.getPublic())
-//		
-//		where:
-//		pubAlg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
-//	}
 
 	def "Test to verifyCertificate"(){
 		expect:
@@ -181,8 +160,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		defaultCryptoManager.verifyCertificate(getTestATCertificate(), defaultCryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, defaultCryptoManager.getVerificationKey(getTestAACertificate())))
 		!defaultCryptoManager.verifyCertificate(getTestATCertificate(), defaultCryptoManager.decodeEccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, defaultCryptoManager.getVerificationKey(getTestATCertificate())))
 		defaultCryptoManager.verifyCertificate(getTestRootCertificate())
-		// TOOD test cert with signer info cert
-		// TODO test cert with signer info cert chain
+
 	}
 	
 	@Unroll
@@ -384,8 +362,8 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 
 	def "Verify getEncryptionKey"(){
 		expect:
-		defaultCryptoManager.getEncryptionKey(getTestAACertificate()) != null
-		defaultCryptoManager.getEncryptionKey(getTestAACertificate()).getPublicKeyAlgorithm() == PublicKeyAlgorithm.ecies_nistp256
+		defaultCryptoManager.getEncryptionKey(getTestATCertificate()) != null
+		defaultCryptoManager.getEncryptionKey(getTestATCertificate()).getPublicKeyAlgorithm() == PublicKeyAlgorithm.ecies_nistp256
 		when:
 		defaultCryptoManager.getVerificationKey(new Certificate(new ArrayList<?>(), new SubjectInfo(), new ArrayList<?>(), new ArrayList<?>()))
 		then:
@@ -395,8 +373,8 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	
 	def "Verify that serializeCertWithoutSignature encodes the certificate without the signature correcly"(){
 		expect:
-		new String(Hex.encode(defaultCryptoManager.serializeCertWithoutSignature(getTestAACertificate()))) == "028112020201000412455453495f506c7567746573745f526f6f748091000004bf8a03e7a5c26ecc9cde8199ac933b4f934ea2e5555acffd71c81e127ef15a75ed5f95ea1ec498d2bd01974676e7812bbffd0cac6f37db20cf8791e3a458a7d901010004bcdc54771cb782683d4cdeca0853d11600756ace9120b672caba69976b145f6f49a72be0141b8ed085371cb33aa4c2dc2c80aee7448a130d07d38cdda65ca78002202006c04080c04081240153f89ded5a391aed0303181db9cf7c052616001db9566e0526872a1d53f0d005278350000041001bca24d594da442a1e653dd618ccddca435ac6308b53018e881dea14a31e64b7d4da721ef2ff7c67563b4bf16ad79b3288a3878c821dfe394c5484ca7f790210455453495f506c7567746573745f41418091000004f4c5e1e8650fef248fb90a38499c11fe8e4a58ed25c368ee36790232e0d770f5619f7174da9629f981f5d365e3eddfe406ffe4920c723dad473a87b5b05ae57f010100045b36e9ab76e977f6cb1b822e8bdee82ee72f28f1055128c0051c9f85699abebe5b36e9ab76e977f6cb1b822e8bdee82ee72f28f1055128c0051c9f85699abebe02202006c04080c04081240153f89ded5a391aed0303181db9cf7c052616001db9566e0526872a1d53f0d005278350"
-		new String(Hex.encode(defaultCryptoManager.serializeCertWithoutSignature(getTestATCertificate()))) == "020901bae315dc4e2c97f801008095000004b462520bee11df3cd826e969e4db0ba4327e686e2526fa05bffa617773d217fdca45fb75c453430521484332a0835f5bb690201b1ef3d8fe2c43bdf2eb3865a6010100049f803aaf544262eb522c5ce2332f018cac4d9817b6fddda97d12b01bcdaf56f92bf1ea0b3d0d969cb5d3c1d5fce9eba043d340b76ba7f44e4fc83d6f753517cf0220210ac040800100c040810100240153f89ded5a391aed0303181db9cf7c052616001db9566e0526872a1d53f0d005278350"
+		new String(Hex.encode(defaultCryptoManager.serializeCertWithoutSignature(getTestAACertificate()))) == "0201ac50a61acf58df6e021354657374417574686f72697a6174696f6e434128000002cd6f09f4696712a254d4f29a9a0a500f678ed549eddb4f8e04979777cb54777d022020017f0901148a82bb27565eab"
+		new String(Hex.encode(defaultCryptoManager.serializeCertWithoutSignature(getTestATCertificate()))) == "020115fbb923af7faed701004c0000035359dc6e4d6a5301f01f6a6853a54aef637c7131fa3f37a0e9144ad14ea2c2f1010100038f598ce6d4920494f1fa91e4a4c04889a2a50f7c7a983db4267c1e6d1b38a565022020017f0901170b0de5170b7e65"
 	}
 	
 	def "Verify that getECCurve returns correct curve"(){
@@ -514,7 +492,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	
 	def "Verify that serializeDataToBeSignedInSecuredMessage serializes according to signature verification it ETSI specifification"(){
 		setup:
-		SecuredMessage sm = new SecuredMessage(MessageType.CAM.getSecurityProfile(),[new HeaderField(new Time32(1000)),new HeaderField(MessageType.CAM.getValue())],[new Payload(PayloadType.unsecured, new byte[3]),new Payload(PayloadType.signed, Hex.decode("01020304"))])
+		SecuredMessage sm = new SecuredMessage([new HeaderField(2,new Time32(1000)),new HeaderField(2, new IntX(123))],new Payload(PayloadType.signed, Hex.decode("01020304")))
 		EcdsaSignature ecsig = new EcdsaSignature(ecdsa_nistp256_with_sha256)
 		ecsig.r = new EccPoint(ecdsa_nistp256_with_sha256)
 		ecsig.r.eccPointType = EccPointType.x_coordinate_only
@@ -522,8 +500,8 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		signature.publicKeyAlgorithm = ecdsa_nistp256_with_sha256
 		when:
 		def result = new String(Hex.encode(defaultCryptoManager.serializeDataToBeSignedInSecuredMessage(sm, signature)));
-		then:    // version,  sec prof, header length,  expiration, expiration value, message type, CAM value, payload length, unsecured, length, signed + length, data        trailer field length (66)  trailer field signature
-		result == "01"       + "01" +  "08"           + "02"      + "000003e8"     + "05"         + "0002"   + "0b"         + "00"      + "03" +  "01" +  "04" + "01020304" + "43"                       + "01";
+		then:    // version,  header length,  expiration, expiration value, message type, itsaid,   payload signed + length, data        trailer field length (66)  trailer field signature
+		result == "02"        +  "07"           + "02"      + "000003e8"     + "05"         + "7b"   +  "01" +  "04" + "01020304" + "43"                       + "01";
 	}
 	
 
@@ -531,7 +509,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	def "Verify SignSecuredMessage using signer info type: #signInfoType generates a valid signature and that verifySecuredMessage can verify it."(){
 		
 		when:
-		SecuredMessage sm = defaultCryptoManager.signSecureMessage(genSecuredMessage(SignerInfoType.certificate, authTicket, Hex.decode("4321")), authTicket, signInfoType ,PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, testSignatureKeys.getPrivate())
+		SecuredMessage sm = defaultCryptoManager.signSecureMessage(genSecuredMessage(SignerInfoType.certificate, authTicket, Hex.decode("4321")), authTicket, null, signInfoType ,PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, testSignatureKeys.getPrivate())
 		byte[] messageData = sm.encoded
 		then:
 		sm.getTrailerFields().size() == 1
@@ -563,13 +541,13 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		SecretKey key = kgen.generateKey();
 		KeyPair kp = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		when:
-		def ecies = defaultCryptoManager.eCEISEncryptSymmetricKey(PublicKeyAlgorithm.ecies_nistp256, kp.getPublic(), key)
+		def ecies = defaultCryptoManager.itsEceisEncryptSymmetricKeyVer2(PublicKeyAlgorithm.ecies_nistp256, kp.getPublic(), key)
 		then:
 		ecies.v != null
 		ecies.c != null
 		ecies.t != null
 		when:
-		SecretKey decryptedKey = defaultCryptoManager.eCEISDecryptSymmetricKey(ecies, kp.getPrivate())
+		SecretKey decryptedKey = defaultCryptoManager.itsEciesDecryptSymmetricKeyVer2(ecies, kp.getPrivate())
 		then:
 		key.getEncoded() == decryptedKey.getEncoded()
 	}
@@ -597,57 +575,43 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	
 	def "verify that encryptSecureMessage and decryptSecureMessage encrypts and decrypts correctly"(){
 		setup:
-		SecuredMessage sm = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE,[new HeaderField(new Time64(10000000000L))],[
-			new Payload(PayloadType.encrypted, "Encrypt1".getBytes("UTF-8")),
-			new Payload(PayloadType.unsecured, "Ensecured".getBytes("UTF-8")),
-		    new Payload(PayloadType.encrypted, "Encrypt2".getBytes("UTF-8"))])
+		SecuredMessage sm = new SecuredMessage([new HeaderField(2,new Time64(10000000000L))],new Payload(PayloadType.encrypted, "Encrypt1".getBytes("UTF-8")))
 		when:
 		SecuredMessage esm = defaultCryptoManager.encryptSecureMessage(sm, PublicKeyAlgorithm.ecies_nistp256, [authTicket,altAuthTicket])
 		then: "Verify that encrypt adds the correct headers and encrypts values"
 		esm.headerFields.size() == 3
 		esm.headerFields[0].headerFieldType == HeaderFieldType.generation_time
-		esm.headerFields[1].headerFieldType == HeaderFieldType.recipient_info
-		esm.headerFields[2].headerFieldType == HeaderFieldType.encryption_parameters
+		esm.headerFields[1].headerFieldType == HeaderFieldType.encryption_parameters
+		esm.headerFields[2].headerFieldType == HeaderFieldType.recipient_info
 		
-		esm.payloadFields.size() == 3
+		esm.payloadFields.size() == 1
 		esm.payloadFields[0].payloadType == PayloadType.encrypted
 		new String(esm.payloadFields[0].getData(),"UTF-8") != "Encrypt1"
-		esm.payloadFields[1].payloadType == PayloadType.unsecured
-		new String(esm.payloadFields[1].getData(),"UTF-8") == "Ensecured"
-		esm.payloadFields[2].payloadType == PayloadType.encrypted
-		new String(esm.payloadFields[2].getData(),"UTF-8") != "Encrypt2"
 		
 		when:
 		SecuredMessage dsm = defaultCryptoManager.decryptSecureMessage(esm, authTicket, testEncKeys.privateKey)
 		then:
 		dsm.headerFields.size() == 3
 		dsm.headerFields[0].headerFieldType == HeaderFieldType.generation_time
-		dsm.headerFields[1].headerFieldType == HeaderFieldType.recipient_info
-		dsm.headerFields[2].headerFieldType == HeaderFieldType.encryption_parameters
+		dsm.headerFields[1].headerFieldType == HeaderFieldType.encryption_parameters
+		dsm.headerFields[2].headerFieldType == HeaderFieldType.recipient_info
 		
-		dsm.payloadFields.size() == 3
+		dsm.payloadFields.size() == 1
 		dsm.payloadFields[0].payloadType == PayloadType.encrypted
 		new String(dsm.payloadFields[0].getData(),"UTF-8") == "Encrypt1"
-		dsm.payloadFields[1].payloadType == PayloadType.unsecured
-		new String(dsm.payloadFields[1].getData(),"UTF-8") == "Ensecured"
-		dsm.payloadFields[2].payloadType == PayloadType.encrypted
-		new String(dsm.payloadFields[2].getData(),"UTF-8") == "Encrypt2"
 		
 		when: "Verify that alternate reveiptient also can decrypt"
 		SecuredMessage dsm2 = defaultCryptoManager.decryptSecureMessage(esm, altAuthTicket, altTestEncKeys.privateKey)
 		then:
 		dsm2.headerFields.size() == 3
 		dsm2.headerFields[0].headerFieldType == HeaderFieldType.generation_time
-		dsm2.headerFields[1].headerFieldType == HeaderFieldType.recipient_info
-		dsm2.headerFields[2].headerFieldType == HeaderFieldType.encryption_parameters
+		dsm2.headerFields[1].headerFieldType == HeaderFieldType.encryption_parameters
+		dsm2.headerFields[2].headerFieldType == HeaderFieldType.recipient_info
 		
-		dsm2.payloadFields.size() == 3
+		dsm2.payloadFields.size() == 1
 		dsm2.payloadFields[0].payloadType == PayloadType.encrypted
 		new String(dsm2.payloadFields[0].getData(),"UTF-8") == "Encrypt1"
-		dsm2.payloadFields[1].payloadType == PayloadType.unsecured
-		new String(dsm2.payloadFields[1].getData(),"UTF-8") == "Ensecured"
-		dsm2.payloadFields[2].payloadType == PayloadType.encrypted
-		new String(dsm2.payloadFields[2].getData(),"UTF-8") == "Encrypt2"
+
 		
 		when: "Verify that decrypting message without proper headers throws IllegalArgumentException"
 		defaultCryptoManager.decryptSecureMessage(sm, altAuthTicket, altTestEncKeys.privateKey)
@@ -672,17 +636,17 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	  SecuredMessage sm = genSecuredMessage(SignerInfoType.certificate, authTicket, "4321".getBytes("UTF-8"), PayloadType.signed_and_encrypted)
 	  
 	  when: "Try to encrypt and sign a message"
-	  SecuredMessage esm = defaultCryptoManager.encryptAndSignSecureMessage(sm, authTicket, SignerInfoType.certificate, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, testSignatureKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, [authTicket,altAuthTicket])
+	  SecuredMessage esm = defaultCryptoManager.encryptAndSignSecureMessage(sm, authTicket, null,SignerInfoType.certificate, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, testSignatureKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, [authTicket,altAuthTicket])
 	  then:"Verify signature, that content is encrypted and that correct header fields have been set."
 	  defaultCryptoManager.verifySecuredMessage(esm)
 	  esm.payloadFields.size() == 1
 	  new String(esm.payloadFields[0].data,"UTF-8") != "4321"
 	  esm.headerFields.size() == 5
-	  esm.headerFields[0].headerFieldType == HeaderFieldType.generation_time
-	  esm.headerFields[1].headerFieldType == HeaderFieldType.message_type
-	  esm.headerFields[2].headerFieldType == HeaderFieldType.signer_info
-	  esm.headerFields[3].headerFieldType == HeaderFieldType.recipient_info
-	  esm.headerFields[4].headerFieldType == HeaderFieldType.encryption_parameters
+	  esm.headerFields[0].headerFieldType == HeaderFieldType.signer_info
+	  esm.headerFields[1].headerFieldType == HeaderFieldType.generation_time
+	  esm.headerFields[2].headerFieldType == HeaderFieldType.its_aid
+	  esm.headerFields[3].headerFieldType == HeaderFieldType.encryption_parameters
+	  esm.headerFields[4].headerFieldType == HeaderFieldType.recipient_info
 	  
 	  when: "Decrypt and verify message"
 	  SecuredMessage dsm = defaultCryptoManager.verifyAndDecryptSecuredMessage(esm, authTicket, testEncKeys.privateKey)
@@ -705,17 +669,17 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 
 	def "Verify that addHeader adds the header value in correct order"(){
 		setup:
-		SecuredMessage sm = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE, [], [])
+		SecuredMessage sm = new SecuredMessage([], new Payload(PayloadType.unsecured,new byte[0]))
 		
 		when: "Verify that empty header value just inserts it"
-		defaultCryptoManager.addHeader(sm, new HeaderField(new Time64(new Date(10000000000000L))))
+		defaultCryptoManager.addHeader(sm, new HeaderField(2,new Time64(2,new Date(10000000000000L))))
 		then:
 		sm.headerFields.size() == 1
 		sm.headerFields[0].headerFieldType == HeaderFieldType.generation_time
-		defaultCryptoManager.addHeader(sm, new HeaderField(new Time32(new Date(10000000000000L))))
+		defaultCryptoManager.addHeader(sm, new HeaderField(2,new Time32(2,new Date(10000000000000L))))
 		when: "If type value is in the middle it is inserted in the correct location"
 		
-		defaultCryptoManager.addHeader(sm, new HeaderField(new Time64WithStandardDeviation(new Time64(new Date(10000000000000L)), 2)))
+		defaultCryptoManager.addHeader(sm, new HeaderField(2,new Time64WithStandardDeviation(new Time64(2,new Date(10000000000000L)), 2)))
 		then:
 		sm.headerFields.size() == 3
 		sm.headerFields[0].headerFieldType == HeaderFieldType.generation_time
@@ -723,21 +687,21 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		sm.headerFields[2].headerFieldType == HeaderFieldType.expiration
 		
 		when: "If it should be at the end of the list it is appended"
-		defaultCryptoManager.addHeader(sm, new HeaderField(4))
+		defaultCryptoManager.addHeader(sm, new HeaderField(2,new IntX(123)))
 		then:
 		sm.headerFields.size() == 4
 		sm.headerFields[0].headerFieldType == HeaderFieldType.generation_time
 		sm.headerFields[1].headerFieldType == HeaderFieldType.generation_time_confidence
 		sm.headerFields[2].headerFieldType == HeaderFieldType.expiration
-		sm.headerFields[3].headerFieldType == HeaderFieldType.message_type
+		sm.headerFields[3].headerFieldType == HeaderFieldType.its_aid
 		
 	}
 	
 	def "Verify that findHeader finds the correct header in a SecureMessage"(){
 		setup:
-		SecuredMessage sm = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE, [new HeaderField(new Time64(new Date(10000000000000L))),
-			new HeaderField(new Time64WithStandardDeviation(new Time64(new Date(10000000000000L)), 2)),
-			new HeaderField(new Time32(new Date(10000000000000L)))], [])
+		SecuredMessage sm = new SecuredMessage([new HeaderField(2,new Time64(2,new Date(10000000000000L))),
+			new HeaderField(2,new Time64WithStandardDeviation(new Time64(2,new Date(10000000000000L)), 2)),
+			new HeaderField(2,new Time32(2,new Date(10000000000000L)))], new Payload(PayloadType.unsecured, new byte[0]))
 		
 		when: "Verify that correct header value is found."
 		HeaderField h1 = defaultCryptoManager.findHeader(sm, HeaderFieldType.generation_time, false)
@@ -759,7 +723,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	def "Verify that findRecipientInfo find correct RecipientInfo"(){
 		setup:
 		HashedId8 rootHashId = new HashedId8(getTestRootCertificate().getEncoded())
-		def keyInfo = new EciesNistP256EncryptedKey(PublicKeyAlgorithm.ecies_nistp256)
+		def keyInfo = new EciesNistP256EncryptedKey(2,PublicKeyAlgorithm.ecies_nistp256)
 		def rInfos = [new RecipientInfo(new HashedId8(getTestRootCertificate().getEncoded()), keyInfo),
 			new RecipientInfo(new HashedId8(getTestAACertificate().getEncoded()), keyInfo),
 			new RecipientInfo(new HashedId8(getTestATCertificate().getEncoded()), keyInfo)]
@@ -804,19 +768,19 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	}
 	
 	private Certificate getTestRootCertificate(){
-		String rootCertOrgString = "0201000412455453495f506c7567746573745f526f6f748091000004bf8a03e7a5c26ecc9cde8199ac933b4f934ea2e5555acffd71c81e127ef15a75ed5f95ea1ec498d2bd01974676e7812bbffd0cac6f37db20cf8791e3a458a7d901010004bcdc54771cb782683d4cdeca0853d11600756ace9120b672caba69976b145f6f49a72be0141b8ed085371cb33aa4c2dc2c80aee7448a130d07d38cdda65ca78002202006c04080c04081240153f89ded5a391aed0303181db9cf7c052616001db9566e0526872a1d53f0d005278350000041001bca24d594da442a1e653dd618ccddca435ac6308b53018e881dea14a31e64b7d4da721ef2ff7c67563b4bf16ad79b3288a3878c821dfe394c5484ca7f79"
+		String rootCertOrgString = "0200040a54657374526f6f744341280000031ef2e88fa036fe7bc1a5b19ac18c3b5db36c2148de0b09d646d4a72a19174ea0022020017f0901148a8257275685bb000071bf074aed5db8af658b64a7e6ca66fb1b074d96b913add727f27625d4602487b0815d20cc23340e57d675cb594815638f4f57462a8c713b77f1dfaf1d152e33"
 		Certificate cert = deserializeFromHex(new Certificate(),rootCertOrgString);
 		return cert;
 	}
 	
 	private Certificate getTestAACertificate(){
-		String aaCertOrgString = "028112020201000412455453495f506c7567746573745f526f6f748091000004bf8a03e7a5c26ecc9cde8199ac933b4f934ea2e5555acffd71c81e127ef15a75ed5f95ea1ec498d2bd01974676e7812bbffd0cac6f37db20cf8791e3a458a7d901010004bcdc54771cb782683d4cdeca0853d11600756ace9120b672caba69976b145f6f49a72be0141b8ed085371cb33aa4c2dc2c80aee7448a130d07d38cdda65ca78002202006c04080c04081240153f89ded5a391aed0303181db9cf7c052616001db9566e0526872a1d53f0d005278350000041001bca24d594da442a1e653dd618ccddca435ac6308b53018e881dea14a31e64b7d4da721ef2ff7c67563b4bf16ad79b3288a3878c821dfe394c5484ca7f790210455453495f506c7567746573745f41418091000004f4c5e1e8650fef248fb90a38499c11fe8e4a58ed25c368ee36790232e0d770f5619f7174da9629f981f5d365e3eddfe406ffe4920c723dad473a87b5b05ae57f010100045b36e9ab76e977f6cb1b822e8bdee82ee72f28f1055128c0051c9f85699abebe5b36e9ab76e977f6cb1b822e8bdee82ee72f28f1055128c0051c9f85699abebe02202006c04080c04081240153f89ded5a391aed0303181db9cf7c052616001db9566e0526872a1d53f0d0052783500000be28371f8b18d411581c10f30310128625f78f9c69761757d58203c6c757f38ec10d683159c9a52bc3f3e9563194ccaf694cadac56cbaee575bc7366f02ea09d"
+		String aaCertOrgString = "0201ac50a61acf58df6e021354657374417574686f72697a6174696f6e434128000002cd6f09f4696712a254d4f29a9a0a500f678ed549eddb4f8e04979777cb54777d022020017f0901148a82bb27565eab0000898804ab8dffc01d55af7bac4ee764e05f4f5c619bb51c3856c7a071d96f2433c07ce44f536f4a1b22dad9043c289670e26c333350f546054fc89e9551b87cd4"
 		Certificate cert = deserializeFromHex(new Certificate(),aaCertOrgString);
 		return cert;
 	}
 	
 	private Certificate getTestATCertificate(){
-		String atCertOrgString = "020901bae315dc4e2c97f801008095000004b462520bee11df3cd826e969e4db0ba4327e686e2526fa05bffa617773d217fdca45fb75c453430521484332a0835f5bb690201b1ef3d8fe2c43bdf2eb3865a6010100049f803aaf544262eb522c5ce2332f018cac4d9817b6fddda97d12b01bcdaf56f92bf1ea0b3d0d969cb5d3c1d5fce9eba043d340b76ba7f44e4fc83d6f753517cf0220210ac040800100c040810100240153f89ded5a391aed0303181db9cf7c052616001db9566e0526872a1d53f0d0052783500000d8dfca3197ff2177e8d7e169266a7e78192f0c656ceb07f1e2035044509c05609c7efb2f953a2019d7a0c7a0cd7ce5a52cc1544ee92cafa74857b1489f419f46"
+		String atCertOrgString = "020115fbb923af7faed701004c0000035359dc6e4d6a5301f01f6a6853a54aef637c7131fa3f37a0e9144ad14ea2c2f1010100038f598ce6d4920494f1fa91e4a4c04889a2a50f7c7a983db4267c1e6d1b38a565022020017f0901170b0de5170b7e65000093e0736bf8a32aa09268aa63b233ccfcf0d785ebd9a002f83af765f86c440bc5aa75e2092f5ff1e7dacc0d42bd5e8b3c42410e6f28ba85820e5c3038c660f66b"
 		Certificate cert = deserializeFromHex(new Certificate(),atCertOrgString);
 		return cert;
 	}
@@ -827,17 +791,17 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		}
 		
 		List<HeaderField> headerFields = new ArrayList<HeaderField>();
-		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
-		headerFields.add(new HeaderField(MessageType.CAM.getValue())); // generate generation time
+		headerFields.add(new HeaderField(senderCertificate.getVersion(),new Time64(senderCertificate.getVersion(),new Date()))); // generate generation time
+		headerFields.add(new HeaderField(senderCertificate.getVersion(),new IntX(SecuredMessageGenerator.ITS_AID_CAM)));
 		
-		List<Payload> pl = new ArrayList<Payload>();
+		Payload pl;
 		if(payLoad == null){
-			pl.add(new Payload(payLoadType,new byte[0]));
+			pl = new Payload(payLoadType,new byte[0]);
 		}else{
-			pl.add(new Payload(payLoadType,payLoad));
+			pl = new Payload(payLoadType,payLoad)
 		}
 		
-		return new SecuredMessage(MessageType.CAM.securityProfile, headerFields, pl);
+		return new SecuredMessage(headerFields, pl);
 	}
 	
 	

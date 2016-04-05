@@ -21,6 +21,7 @@ import spock.lang.IgnoreRest;
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
+import static org.certificateservices.custom.c2x.its.datastructs.cert.Certificate.*
 /**
  *
  * @author Philip Vendil, p.vendil@cgi.com
@@ -28,22 +29,30 @@ import spock.lang.Unroll;
  */
 class Time64Spec extends BaseStructSpec {
 	
-	def "Verify the constructors and asElapsedTime"(){
+	@Unroll
+	def "Verify the constructors and asElapsedTime for certificate version #version"(){
 		when:
-		Time64 t1 = new Time64(new Date(1416407150000L))
+		Time64 t1 = new Time64(version, new Date(timestamp))
 		then:
-		t1.asElapsedTime().toString() == "154103151000000"
-		when:
-		t1 = new Time64(new Date(1416407150001L))
-		then:
-		t1.asElapsedTime().toString() == "154103151001000"
+		t1.asElapsedTime().toString() == expectedElapsedTime
+		where:
+		version                | timestamp           | expectedElapsedTime
+		CERTIFICATE_VERSION_1  | 1416407150000L      | "154103151000000"
+		CERTIFICATE_VERSION_1  | 1416407150001L      | "154103151001000"
+		CERTIFICATE_VERSION_2  | 1227018350000L      | "154103151000000"
+		CERTIFICATE_VERSION_2  | 1227018350001L      | "154103151001000"
 	}
 	
+	@Unroll
 	def "Make sure asDate converts the date correctly"(){
 		when:
 		Time64 t1 = new Time64(new BigInteger("154103151000000"))
 		then:
-		t1.asDate().time == 1416407150000L
+		t1.asDate(version).time == timeStamp 
+		where:
+		version                | timeStamp
+		CERTIFICATE_VERSION_1  |1416407150000L
+		CERTIFICATE_VERSION_2  |1227018350000L
 	}
 	
 	def "Verify serialization"(){
@@ -54,16 +63,16 @@ class Time64Spec extends BaseStructSpec {
 	
 	def "Verify deserialization"(){
 		expect:
-		deserializeFromHex(new Time64(),"00008c27ef92f9c0").asDate().time == 1416407150000L
-		deserializeFromHex(new Time64(),"0000000000000001").asDate().time == 1262304000000L
+		deserializeFromHex(new Time64(),"00008c27ef92f9c0").asDate(CERTIFICATE_VERSION_1).time == 1416407150000L
+		deserializeFromHex(new Time64(),"0000000000000001").asDate(CERTIFICATE_VERSION_1).time == 1262304000000L
 
 	}
 	
 	def "Verify hashCode and equals"(){
 		setup:
-		def t1  = new Time64(new Date(1416407150000L));
-		def t2  = new Time64(new Date(1416407150000L));
-		def t3  = new Time64(new Date(1416407160000L));
+		def t1  = new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L));
+		def t2  = new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L));
+		def t3  = new Time64(CERTIFICATE_VERSION_1,new Date(1416407160000L));
 		expect:
 		t1 == t2
 		t1 != t3		
@@ -73,7 +82,9 @@ class Time64Spec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new Time64(new Date(1416407150000L)).toString() == "Time64 [timeStamp=Wed Nov 19 15:25:50 CET 2014 (154103151000000)]"
+		new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L)).toString() == "Time64 [154103151000000]"
+		new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L)).toString(CERTIFICATE_VERSION_1) == "Time64 [Wed Nov 19 15:25:50 CET 2014 (154103151000000)]"
+		new Time64(CERTIFICATE_VERSION_2,new Date(1416407150000L)).toString(CERTIFICATE_VERSION_2) == "Time64 [Wed Nov 19 15:25:50 CET 2014 (343491953000000)]"
 	}
 
 }

@@ -94,7 +94,7 @@ public class Signature implements Encodable{
 	@Override
 	public String toString() {
 		return "Signature [publicKeyAlgorithm=" + publicKeyAlgorithm
-				+ ", ecdsaSignature=" + ecdsaSignature + "]";
+				+ ", ecdsaSignature=" + ecdsaSignature.toString().replace("EcdsaSignature ", "") + "]";
 	}
 	
 

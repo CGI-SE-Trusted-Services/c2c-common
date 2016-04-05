@@ -90,7 +90,7 @@ class ItsAidPrioritySspSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		ias1.toString() == "ItsAidPrioritySsp [itsAid=IntX [value=123], maxPriority=255, serviceSpecificPermissions=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]"		
+		ias1.toString() == "ItsAidPrioritySsp [itsAid=[123], maxPriority=255, serviceSpecificPermissions=00000000000000000000000000000000000000000000000000000000000000]"		
 	}
 }
 

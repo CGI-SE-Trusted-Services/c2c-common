@@ -47,13 +47,6 @@ class PublicKeyAlgorithmSpec extends Specification{
 
 	}
 	
-//	def "Verify that UnsupportedOperationException is thrown for a public key with unspecified field size"(){
-//		when:
-//		ecies_nistp256.fieldSize
-//		then:
-//		thrown UnsupportedOperationException
-//	}
-//	
 	
 	@Unroll
 	def "Verify correct algorithms indicator is returned for #algType."(){
@@ -68,7 +61,7 @@ class PublicKeyAlgorithmSpec extends Specification{
 		where:
 		algType                                              | expectedSignature                          | expectedHash            | expectedEncryption            | expectedSymmetric
 		PublicKeyAlgorithm.ecdsa_nistp256_with_sha256        | Algorithm.Signature.ecdsaNistP256          | Algorithm.Hash.sha256   | null                          | null
-		PublicKeyAlgorithm.ecies_nistp256                    | Algorithm.Signature.ecdsaNistP256          | null                    | Algorithm.Encryption.ecies    | Algorithm.Symmetric.aes128Ccm
+		PublicKeyAlgorithm.ecies_nistp256                    | Algorithm.Signature.ecdsaNistP256          | Algorithm.Hash.sha256   | Algorithm.Encryption.ecies    | Algorithm.Symmetric.aes128Ccm
 	}
 	def "Verify that UnsupportedOperationException is thrown for a public key with unsupported related symmetric algorithm"(){
 		when:

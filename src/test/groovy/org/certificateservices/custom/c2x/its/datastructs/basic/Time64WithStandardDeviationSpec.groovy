@@ -22,6 +22,8 @@ import spock.lang.IgnoreRest;
 import spock.lang.Specification;
 import spock.lang.Unroll;
 
+import static org.certificateservices.custom.c2x.its.datastructs.cert.Certificate.*
+
 /**
  *
  * @author Philip Vendil, p.vendil@cgi.com
@@ -31,7 +33,7 @@ class Time64WithStandardDeviationSpec extends BaseStructSpec {
 	
 	def "Verify the constructors and getters"(){
 		when:
-		Time64WithStandardDeviation t1 = new Time64WithStandardDeviation(new Time64(new Date(1416407150000L)),1);
+		Time64WithStandardDeviation t1 = new Time64WithStandardDeviation(new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L)),1);
 		then:
 		t1.getTime().asElapsedTime().toString() == "154103151000000"
 		t1.getLogStdDev() == 1
@@ -49,16 +51,16 @@ class Time64WithStandardDeviationSpec extends BaseStructSpec {
 		when:
 		def t = deserializeFromHex(new Time64WithStandardDeviation(),"00008c27ef92f9c001")
 		then:
-		t.getTime().asDate().time == 1416407150000L
+		t.getTime().asDate(CERTIFICATE_VERSION_1).time == 1416407150000L
 		t.getLogStdDev() == 1
 	}
 	
 	def "Verify hashCode and equals"(){
 		setup:
-		def t1  = new Time64WithStandardDeviation(new Time64(new Date(1416407150000L)),1)
-		def t2  = new Time64WithStandardDeviation(new Time64(new Date(1416407150000L)),1)
-		def t3  = new Time64WithStandardDeviation(new Time64(new Date(1416407150000L)),2)
-		def t4  = new Time64WithStandardDeviation(new Time64(new Date(1416407160000L)),1)
+		def t1  = new Time64WithStandardDeviation(new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L)),1)
+		def t2  = new Time64WithStandardDeviation(new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L)),1)
+		def t3  = new Time64WithStandardDeviation(new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L)),2)
+		def t4  = new Time64WithStandardDeviation(new Time64(CERTIFICATE_VERSION_1,new Date(1416407160000L)),1)
 		expect:
 		t1 == t2
 		t1 != t3
@@ -70,7 +72,9 @@ class Time64WithStandardDeviationSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new Time64WithStandardDeviation(new Time64(new Date(1416407150000L)),1).toString() == "Time64WithStandardDeviation [time=Time64 [timeStamp=Wed Nov 19 15:25:50 CET 2014 (154103151000000)], logStdDev=1]"
+		new Time64WithStandardDeviation(new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L)),1).toString() == "Time64WithStandardDeviation [time=[154103151000000], logStdDev=1]"
+		new Time64WithStandardDeviation(new Time64(CERTIFICATE_VERSION_1,new Date(1416407150000L)),1).toString(CERTIFICATE_VERSION_1) == "Time64WithStandardDeviation [time=[Wed Nov 19 15:25:50 CET 2014 (154103151000000)], logStdDev=1]"
+		new Time64WithStandardDeviation(new Time64(CERTIFICATE_VERSION_2,new Date(1416407150000L)),1).toString(CERTIFICATE_VERSION_2) == "Time64WithStandardDeviation [time=[Wed Nov 19 15:25:50 CET 2014 (343491953000000)], logStdDev=1]"
 	}
 
 }

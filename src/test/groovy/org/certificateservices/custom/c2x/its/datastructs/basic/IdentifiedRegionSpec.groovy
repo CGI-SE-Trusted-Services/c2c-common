@@ -77,6 +77,6 @@ class IdentifiedRegionSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		ir.toString() == "IdentifiedRegion [regionDictionary=un_stats, regionIdentifier=123, localRegion=IntX [value=321]]"
+		ir.toString() == "IdentifiedRegion [regionDictionary=un_stats, regionIdentifier=123, localRegion=[321]]"
 	}
 }

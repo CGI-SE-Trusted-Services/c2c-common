@@ -108,7 +108,15 @@ public class PolygonalRegion implements Encodable{
 
 	@Override
 	public String toString() {
-		return "PolygonalRegion [points=" + points + "]";
+		String pointString = "";
+		for(int i=0; i < points.size() -1; i++){
+			pointString += points.get(i).toString().replace("TwoDLocation ","") + ", ";
+		}
+		if(points.size() > 0){
+			pointString += points.get(points.size()-1).toString().replace("TwoDLocation ","");
+		}
+				
+		return "PolygonalRegion [" + pointString + "]";
 	}
 
 

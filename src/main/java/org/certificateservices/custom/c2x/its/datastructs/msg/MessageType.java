@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.its.datastructs.msg;
 
 /**
  * Enumeration defining available security profiles used with Secured Messages.
+ * <p>
+ * This enumeration is only used for version 1 of the Secured Message Protocol.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

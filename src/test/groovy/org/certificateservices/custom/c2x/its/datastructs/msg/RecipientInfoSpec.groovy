@@ -35,7 +35,7 @@ import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointT
  */
 class RecipientInfoSpec extends BaseStructSpec {
 	
-	EciesNistP256EncryptedKey key1 = new EciesNistP256EncryptedKey(PublicKeyAlgorithm.ecies_nistp256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(1)), new byte[SymmetricAlgorithm.aes_128_ccm.keyLength], new byte[EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH]);
+	EciesNistP256EncryptedKey key1 = new EciesNistP256EncryptedKey(2,PublicKeyAlgorithm.ecies_nistp256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(1)), new byte[SymmetricAlgorithm.aes_128_ccm.keyLength], new byte[EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH]);
 	RecipientInfo ri1 = new RecipientInfo(new HashedId8("123456789".getBytes()), key1);
 	
 	def "Verify constructors and getters and setters"(){
@@ -50,19 +50,19 @@ class RecipientInfoSpec extends BaseStructSpec {
 		when: 
 		String result = serializeToHex(ri1);
 		then:
-		result.length() /2 == 78;
+		result.length() /2 == 74;
 		result.substring(0,16) == "3233343536373839" // cert id
 		result.substring(16,18) == "01" // public key algorithm
 		result.substring(18,20) == "00" // v.EccPointType is correct
 		result.substring(20,84) == "0000000000000000000000000000000000000000000000000000000000000001" // v.X Value have been serialized.
 		result.substring(84,116) == "00000000000000000000000000000000" // the c key (16 bytes)
-		result.substring(116) == "0000000000000000000000000000000000000000" // the t output tag (20 bytes)
+		result.substring(116) == "00000000000000000000000000000000" // the t output tag (16 bytes)
 
 	}
 	
 	def "Verify deserialization of EciesNistP256EncryptedKey"(){
-		when:                                                        // cert id  // pk alg  // ecc point type // x key value                                                 // the c key (16 bytes)                 // the t output tag (20 bytes)
-		RecipientInfo ri1 = deserializeFromHex(new RecipientInfo(), "3233343536373839" + "01" + "00" + "0000000000000000000000000000000000000000000000000000000000000001" + "00000000000000000000000000000000" + "0000000000000000000000000000000000000000");
+		when:                                                        // cert id  // pk alg  // ecc point type // x key value                                                 // the c key (16 bytes)                 // the t output tag (16 bytes)
+		RecipientInfo ri1 = deserializeFromHex(new RecipientInfo(2), "3233343536373839" + "01" + "00" + "0000000000000000000000000000000000000000000000000000000000000001" + "00000000000000000000000000000000" + "00000000000000000000000000000000");
 		then:
 		ri1.publicKeyAlgorithm == PublicKeyAlgorithm.ecies_nistp256
 		ri1.certId != null
@@ -75,7 +75,7 @@ class RecipientInfoSpec extends BaseStructSpec {
 		setup:
 		def o1  = new RecipientInfo(new HashedId8("123456789".getBytes()), key1);
 		def o2  = new RecipientInfo(new HashedId8("133456789".getBytes()), key1);
-		def o3  = new RecipientInfo(new HashedId8("123456789".getBytes()), new EciesNistP256EncryptedKey(PublicKeyAlgorithm.ecies_nistp256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(2)), new byte[SymmetricAlgorithm.aes_128_ccm.keyLength], new byte[EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH]));
+		def o3  = new RecipientInfo(new HashedId8("123456789".getBytes()), new EciesNistP256EncryptedKey(2,PublicKeyAlgorithm.ecies_nistp256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(2)), new byte[SymmetricAlgorithm.aes_128_ccm.keyLength], new byte[EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH]));
 		
 		expect:
 		ri1 == o1
@@ -89,7 +89,7 @@ class RecipientInfoSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		 ri1.toString() == "RecipientInfo [certId=HashedId8 [hashedId=[50, 51, 52, 53, 54, 55, 56, 57]], publicKeyAlgorithm=ecies_nistp256, pkEncryption=EciesNistP256EncryptedKey [publicKeyAlgorithm=ecies_nistp256, symmetricAlgorithm=aes_128_ccm, v=EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, x=1, eccPointType=x_coordinate_only], c=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], t=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]]"
+		 ri1.toString() == "RecipientInfo [certId=[3233343536373839], publicKeyAlgorithm=ecies_nistp256, pkEncryption=[publicKeyAlgorithm=ecies_nistp256, symmetricAlgorithm=aes_128_ccm, v=[eccPointType=x_coordinate_only, x=1], c=00000000000000000000000000000000, t=00000000000000000000000000000000]]"
 	}
 
 }

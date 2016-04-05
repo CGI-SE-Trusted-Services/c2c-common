@@ -118,9 +118,21 @@ public class Time64WithStandardDeviation implements Encodable{
 
 	@Override
 	public String toString() {
-		return "Time64WithStandardDeviation [time=" + time + ", logStdDev="
+		return "Time64WithStandardDeviation [time=" + time.toString().replace("Time64 ", "") + ", logStdDev="
 				+ logStdDev + "]";
 	}
+	
+	/**
+	 * Alternative toString version to get more verbose information
+	 * @param certVersion the version of the certificate.
+	 * @return a more verbose string version.
+	 */
+	public String toString(int certVersion) {
+		return "Time64WithStandardDeviation [time=" + time.toString(certVersion).replace("Time64 ", "") + ", logStdDev="
+				+ logStdDev + "]";
+	}
+	
+	
 
 	
 }

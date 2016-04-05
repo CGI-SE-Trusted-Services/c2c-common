@@ -90,6 +90,6 @@ class ThreeDLocationSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new ThreeDLocation(-900000000,-1800000000, 160).toString() == "ThreeDLocation [encodedElevation=160 ( 160 decimeters), latitude=-900000000, longitude=-1800000000]"
+		new ThreeDLocation(-900000000,-1800000000, 160).toString() == "ThreeDLocation [encodedElevation=160 (160 decimeters), latitude=-900000000, longitude=-1800000000]"
 	}
 }

@@ -22,8 +22,8 @@ package org.certificateservices.custom.c2x.its.datastructs.cert;
  *   reconstruction_value(3),
  *   its_aid_list(32),
  *   its_aid_ssp_list(33),
- *   priority_its_aid_list(34),
- *   priority_ssp_list(35),
+ *   priority_its_aid_list(34), // Only for version 1
+ *   priority_ssp_list(35), // Only for version 1
  * } SubjectAttributeType;
  * </code>
  * 
@@ -37,8 +37,8 @@ public enum SubjectAttributeType {
 	reconstruction_value( 3),
 	its_aid_list( 32),
 	its_aid_ssp_list( 33),
-	priority_its_aid_list( 34),
-	priority_ssp_list( 35);
+	priority_its_aid_list( 34), // Only for version 1
+	priority_ssp_list( 35); // Only for version 1
 	
 	
 	private int byteValue;

@@ -15,8 +15,10 @@ package org.certificateservices.custom.c2x.its.datastructs.cert;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.Encodable;
 
 /**
@@ -117,8 +119,16 @@ public class SubjectInfo implements Encodable {
 
 	@Override
 	public String toString() {
-		return "SubjectInfo [subjectType=" + subjectType + ", subjectName="
-				+ Arrays.toString(subjectName) + "]";
+		try {
+			if(subjectName.length == 0){
+				return "SubjectInfo [subjectType=" + subjectType + ", name=none]";	
+			}else{
+			  return "SubjectInfo [subjectType=" + subjectType + ", name=" + new String(subjectName,"UTF-8")
+					+ " ("+ Hex.toHexString(subjectName) + ")]";
+			}
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Unsupported encoding UTF-8");
+		}
 	}
 	
 }

@@ -30,6 +30,8 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
  * This structure defines how to encode an ITS-AID with an associated maximum priority. The priority defines an order
  * for processing of different messages. Higher numbers equal higher priority.
  * 
+ * <b>Important:</b>This structure is used for version 1 certificates only.
+ * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -114,7 +116,7 @@ public class ItsAidPriority implements Encodable{
 
 	@Override
 	public String toString() {
-		return "ItsAidPriority [itsAid=" + itsAid + ", maxPriority="
+		return "ItsAidPriority [itsAid=" + itsAid.toString().replace("IntX ", "")  + ", maxPriority="
 				+ maxPriority + "]";
 	}
 

@@ -37,6 +37,8 @@ import org.certificateservices.custom.c2x.its.datastructs.basic.Time64WithStanda
 import org.certificateservices.custom.c2x.its.datastructs.basic.TwoDLocation
 import org.certificateservices.custom.c2x.its.datastructs.basic.Duration.Unit;
 import org.certificateservices.custom.c2x.its.datastructs.basic.Time32
+import org.certificateservices.custom.c2x.its.datastructs.cert.Certificate;
+import org.certificateservices.custom.c2x.its.datastructs.cert.SubjectType;
 import org.certificateservices.custom.c2x.its.datastructs.msg.HeaderField;
 import org.certificateservices.custom.c2x.its.datastructs.msg.Payload;
 import org.certificateservices.custom.c2x.its.datastructs.msg.PayloadType;
@@ -55,40 +57,53 @@ import static org.certificateservices.custom.c2x.its.datastructs.msg.PayloadType
  */
 class SecuredMessageSpec extends BaseStructSpec {
 	
-	def hfSignerInfo = new HeaderField(new SignerInfo(new HashedId8("87654321".getBytes())))
-	def hfGenTime = new HeaderField(new Time64(new Date(1416407150000L)))
-	def hfmt= new HeaderField(2)
+	def hfSignerInfo = new HeaderField(2,new SignerInfo(new HashedId8("87654321".getBytes())))
+	def hfGenTime = new HeaderField(2,new Time64(2,new Date(1416407150000L)))
+	def hfmt= new HeaderField(1,2)
 
-	def plSigned = new Payload(PayloadType.signed, new byte[0]);
+	def plSigned = new Payload(PayloadType.signed, Hex.decode("05"));
 	def plSigExt = new Payload();
 	
 	byte[] testSignature = Hex.decode("1122334455667788990011223344556677889900112233445566778899001122");
 	Signature signature =new Signature(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,new EcdsaSignature(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256,new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.compressed_lsb_y_0, new BigInteger(1)), testSignature))
 	def tf1 = new TrailerField(signature)
 	
+	
+	Certificate rootCa = genCertificate(2,SubjectType.root_ca,"RootCA")
+	Certificate authCa = genCertificate(2,SubjectType.authorization_authority,"TestCA")
+	SignerInfo sicn = new SignerInfo([authCa, rootCa])
+	def hfSignerInfoChain = new HeaderField(2,sicn)
+	
 	SecuredMessage sm1 = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE,[hfSignerInfo,hfGenTime,hfmt],[plSigned]);
-	SecuredMessage sm2 = new SecuredMessage(2,3,[hfSignerInfo,hfGenTime,hfmt],[plSigned,plSigExt],[tf1]);
-	SecuredMessage sm3 = new SecuredMessage(Hex.decode("020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122"));
+	SecuredMessage sm2 = new SecuredMessage(1,3,[hfSignerInfo,hfGenTime,hfmt],[plSigned,plSigExt],[tf1]);
+	SecuredMessage sm3 = new SecuredMessage(Hex.decode("010316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122"));
+	
+	SecuredMessage sm_v2 = new SecuredMessage([hfSignerInfo,hfGenTime], plSigned)
+	SecuredMessage sm2_v2 = new SecuredMessage([hfSignerInfoChain,hfGenTime], plSigned)
 	
 	def "Verify the constructors, getters and attachSignature"(){
 		expect:
-		sm1.protocolVersion == SecuredMessage.DEFAULT_PROTOCOL
+		sm1.protocolVersion == 1
 		sm1.securityProfile == SecuredMessage.DEFAULT_SECURITY_PROFILE
 		sm1.headerFields.size() == 3
 		sm1.payloadFields.size() == 1
 		sm1.trailerFields != null
 		
-		sm2.protocolVersion == 2
+		sm2.protocolVersion == 1
 		sm2.securityProfile == 3
 		sm2.headerFields.size() == 3
 		sm2.payloadFields.size() == 2
 		sm2.trailerFields.size() == 1
 		
-		sm3.protocolVersion == 2
+		sm3.protocolVersion == 1
 		sm3.securityProfile == 3
 		sm3.headerFields.size() == 3
 		sm3.payloadFields.size() == 2
 		sm3.trailerFields.size() == 1
+		
+		sm_v2.protocolVersion == SecuredMessage.DEFAULT_PROTOCOL
+		sm_v2.headerFields.size() == 2
+		sm_v2.payloadFields.size() == 1
 		
 		when:
 		sm1.attachSignature(signature)
@@ -98,36 +113,103 @@ class SecuredMessageSpec extends BaseStructSpec {
 
 	}
 
+	// Verify exception
 	
 	def "Verify serialization"(){
 		expect:
-		serializeToHex(sm1) == "010016800138373635343332310000008c27ef92f9c0050002020100"
-		serializeToHex(sm2) == "020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122"				
+		serializeToHex(sm1) == "01001680013837363534333231000001386773d77e4005000203010105"
+		serializeToHex(sm2) == "01031680013837363534333231000001386773d77e4005000204010105034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122"
+		serializeToHex(sm_v2) == "021380013837363534333231000001386773d77e40010105"
 	}
 	
+	// TODO
 	def "Verify deserialization"(){
 		setup:		
-		SecuredMessage sm22 = deserializeFromHex(new SecuredMessage(),"020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122")
-		
+		SecuredMessage sm22 = deserializeFromHex(new SecuredMessage(),"010316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122")
+		SecuredMessage sm_v22 = deserializeFromHex(new SecuredMessage(),"021380013837363534333231000001386773d77e40010105")
 		expect:
 		
-		sm22.protocolVersion == 2
+		sm22.protocolVersion == 1
 		sm22.securityProfile == 3
 		sm22.headerFields.size() == 3
 		sm22.payloadFields.size() == 2
 		sm22.trailerFields.size() == 1
+		
+		sm_v22.protocolVersion == 2
+		sm_v22.securityProfile == null
+		sm_v22.headerFields.size() == 2
+		sm_v22.payloadFields.size() == 1
+		
 	}
+	
 	
 
 	
 	def "Verify toString"(){
 		expect:
-		sm2.toString() == "SecuredMessage [protocolVersion=2, securityProfile=3, headerFields=[HeaderField [headerFieldType=signer_info, signer=SignerInfo [signerInfoType=certificate_digest_with_ecdsap256, digest=HashedId8 [hashedId=[56, 55, 54, 53, 52, 51, 50, 49]]]], HeaderField [headerFieldType=generation_time, generationTime=Time64 [timeStamp=Wed Nov 19 15:25:50 CET 2014 (154103151000000)]], HeaderField [headerFieldType=message_type, messageType=2]], payloadFields=[Payload [payloadType=signed, data=[]], Payload [payloadType=signed_external]], trailerFields=[TrailerField [trailerFieldType=signature, signature=Signature [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=EcdsaSignature [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=EccPoint [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, compressedEncoding=null, eccPointType=compressed_lsb_y_0], signatureValue=[17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34, 51, 68, 85, 102, 119, -120, -103, 0, 17, 34]]]]]]"
+		sm2.toString() == """SecuredMessage [protocolVersion=1, securityProfile=3
+  headers:
+    [type=signer_info, signer=[type=certificate_digest_with_ecdsap256, digest=[3837363534333231]]],
+    [type=generation_time, generationTime=[Wed Nov 19 15:25:50 CET 2014 (343491953000000)]],
+    [type=message_type, messageType=2]
+  payloads:
+    [payloadType=signed, data=05],
+    [payloadType=signed_external]
+  trailers:
+    [trailerFieldType=signature, signature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=[eccPointType=compressed_lsb_y_0, compressedEncoding=null], signatureValue=1122334455667788990011223344556677889900112233445566778899001122]]]
+]"""
+		sm_v2.toString() == """SecuredMessage [protocolVersion=2
+  headers:
+    [type=signer_info, signer=[type=certificate_digest_with_ecdsap256, digest=[3837363534333231]]],
+    [type=generation_time, generationTime=[Wed Nov 19 15:25:50 CET 2014 (343491953000000)]]
+  payload:
+    [payloadType=signed, data=05]
+  trailers:
+]"""
+		sm2_v2.toString() == """SecuredMessage [protocolVersion=2
+  headers:
+    [type=signer_info, signer=[type=certificate_chain, certificateChain=
+      [version=2
+        signerInfo:
+          [type=self]
+        subjectInfo:
+          [subjectType=authorization_authority, name=TestCA (546573744341)]
+        subjectAttributes:
+          [type=verification_key, key=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=[eccPointType=x_coordinate_only, x=1], supportedSymmAlg=null]],
+          [type=assurance_level, assuranceLevel=[value=130 (assuranceLevel=4, confidenceLevel= 2 )]],
+          [type=its_aid_ssp_list, itsAidList=[itsAid=[1], serviceSpecificPermissions=0000]]
+        validityRestrictions:
+          [type=time_end, end_validity=[Fri Nov 21 15:58:12 CET 2014 (343666695)]],
+          [type=time_start_and_end, start_validity=[Fri Nov 21 15:58:02 CET 2014 (343666685)], end_validity=[Fri Nov 21 15:58:12 CET 2014 (343666695)]]
+        signature:
+          [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=[eccPointType=x_coordinate_only, x=1], signatureValue=0000000000000000000000000000000000000000000000000000000000000000]]
+      ],
+      [version=2
+        signerInfo:
+          [type=self]
+        subjectInfo:
+          [subjectType=root_ca, name=RootCA (526f6f744341)]
+        subjectAttributes:
+          [type=verification_key, key=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, publicKey=[eccPointType=x_coordinate_only, x=1], supportedSymmAlg=null]],
+          [type=assurance_level, assuranceLevel=[value=130 (assuranceLevel=4, confidenceLevel= 2 )]],
+          [type=its_aid_ssp_list, itsAidList=[itsAid=[1], serviceSpecificPermissions=0000]]
+        validityRestrictions:
+          [type=time_end, end_validity=[Fri Nov 21 15:58:12 CET 2014 (343666695)]],
+          [type=time_start_and_end, start_validity=[Fri Nov 21 15:58:02 CET 2014 (343666685)], end_validity=[Fri Nov 21 15:58:12 CET 2014 (343666695)]]
+        signature:
+          [publicKeyAlgorithm=ecdsa_nistp256_with_sha256, ecdsaSignature=[publicKeyAlgorithm=ecdsa_nistp256_with_sha256, r=[eccPointType=x_coordinate_only, x=1], signatureValue=0000000000000000000000000000000000000000000000000000000000000000]]
+      ]
+    ]],
+    [type=generation_time, generationTime=[Wed Nov 19 15:25:50 CET 2014 (343491953000000)]]
+  payload:
+    [payloadType=signed, data=05]
+  trailers:
+]"""
 	}
 	
 	def "Verify getEncoded"(){
 		expect:
-		new String(Hex.encode(sm2.getEncoded())) == "020316800138373635343332310000008c27ef92f9c0050002030100034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122"
+		new String(Hex.encode(sm2.getEncoded())) == "01031680013837363534333231000001386773d77e4005000204010105034301000200000000000000000000000000000000000000000000000000000000000000011122334455667788990011223344556677889900112233445566778899001122"
 	}
 	
 	def "Verify that it is possible to parse a SecureMessage generate by interoperability site at https://werkzeug.dcaiti.tu-berlin.de/etsi/ts103097/"(){

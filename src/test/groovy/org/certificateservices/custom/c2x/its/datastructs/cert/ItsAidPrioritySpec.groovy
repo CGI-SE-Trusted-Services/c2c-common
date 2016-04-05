@@ -78,7 +78,7 @@ class ItsAidPrioritySpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		iap1.toString() == "ItsAidPriority [itsAid=IntX [value=123], maxPriority=255]"		
+		iap1.toString() == "ItsAidPriority [itsAid=[123], maxPriority=255]"		
 	}
 }
 

@@ -17,6 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 
@@ -128,8 +129,8 @@ public class ItsAidSsp implements Encodable{
 
 	@Override
 	public String toString() {
-		return "ItsAidSsp [itsAid=" + itsAid + ", serviceSpecificPermissions="
-				+ Arrays.toString(serviceSpecificPermissions) + "]";
+		return "ItsAidSsp [itsAid=" + itsAid.toString().replace("IntX ", "") + ", serviceSpecificPermissions="
+				+ Hex.toHexString(serviceSpecificPermissions) + "]";
 	}
 
 }

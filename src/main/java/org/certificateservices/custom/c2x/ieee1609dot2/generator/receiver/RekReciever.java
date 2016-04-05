@@ -46,7 +46,7 @@ public class RekReciever extends BasePKReceiver {
 			throws IllegalArgumentException, GeneralSecurityException,
 			IOException {
 		PKRecipientInfo pkRecInfo = (PKRecipientInfo) recipientInfo.getValue();
-		return cryptoManager.eCEISDecryptSymmetricKey(pkRecInfo.getEncKey(), privateKey, pkRecInfo.getEncKey().getType(), null);
+		return cryptoManager.ieeeECEISDecryptSymmetricKey(pkRecInfo.getEncKey(), privateKey, pkRecInfo.getEncKey().getType(), null);
 	}
 
 	@Override

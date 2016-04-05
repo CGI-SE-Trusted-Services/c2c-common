@@ -52,7 +52,7 @@ public  abstract class BasePKReceiver implements Receiver {
 			IOException {
 		PKRecipientInfo pkRecInfo = (PKRecipientInfo) recipientInfo.getValue();
 		
-		return cryptoManager.eCEISDecryptSymmetricKey(pkRecInfo.getEncKey(), privateKey, pkRecInfo.getEncKey().getType(), getHashedReference(pkRecInfo.getEncKey().getType(), cryptoManager));
+		return cryptoManager.ieeeECEISDecryptSymmetricKey(pkRecInfo.getEncKey(), privateKey, pkRecInfo.getEncKey().getType(), getHashedReference(pkRecInfo.getEncKey().getType(), cryptoManager));
 	}
 
 	private byte[] hashReference = null;

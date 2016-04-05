@@ -53,9 +53,26 @@ public abstract class BaseCertGenerator {
 	protected static final int DEFAULT_CERT_VERSION = 1;
 	
 	ITSCryptoManager cryptoManager = null;
+	int certificateVersion = Certificate.DEFAULT_CERTIFICATE_VERSION;
 	
+	/**
+	 * Creates a certificate generator using default version of certificates.
+	 * 
+	 * @param cryptoManager the cryptographic manager to use.
+	 */
 	public BaseCertGenerator(ITSCryptoManager cryptoManager){
+		this(Certificate.DEFAULT_CERTIFICATE_VERSION,cryptoManager);
+	}
+	
+	/**
+	 * Creates a certificate generator for a specific certificate version.
+	 * 
+	 * @param certificateVersion the version to generate certificates for see Certificate.CERTIFICATE_VERSION_ constants.
+	 * @param cryptoManager the cryptographic manager to use.
+	 */
+	public BaseCertGenerator(int certificateVersion, ITSCryptoManager cryptoManager){
 		this.cryptoManager = cryptoManager;
+		this.certificateVersion = certificateVersion;
 	}
 	
 	/**
@@ -141,12 +158,12 @@ public abstract class BaseCertGenerator {
 
 
 		List<ValidityRestriction> validityRestrictions = new ArrayList<ValidityRestriction>();
-		validityRestrictions.add(new ValidityRestriction(new Time32(validFrom), new Time32(validTo)));
+		validityRestrictions.add(new ValidityRestriction(new Time32(certificateVersion,validFrom), new Time32(certificateVersion,validTo)));
 		if(geographicRegion != null){
 			validityRestrictions.add(new ValidityRestriction(geographicRegion)); 
 		}
 
-		Certificate cert = new Certificate(signerInfos, subjectInfo, subjectAttributes, validityRestrictions);
+		Certificate cert = new Certificate(certificateVersion ,signerInfos, subjectInfo, subjectAttributes, validityRestrictions);
 				
 		cert = signCertificate(cert, signingPublicKeyAlgorithm, caPrivateKey);
 

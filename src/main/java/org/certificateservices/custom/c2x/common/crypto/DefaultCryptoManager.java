@@ -205,12 +205,17 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			org.certificateservices.custom.c2x.its.datastructs.basic.PublicKey encKey = getEncryptionKey(c);
 			PublicKey encryptionKey = (PublicKey) decodeEccPoint(encKey.getPublicKeyAlgorithm(), encKey.getPublicKey());
 			HashedId8 certHash = new HashedId8(c.getEncoded());
-			EciesNistP256EncryptedKey encryptedKey = eCEISEncryptSymmetricKey(encryptionAlg, encryptionKey, symmetricKey);
+			EciesNistP256EncryptedKey encryptedKey;
+			if(secureMessage.getProtocolVersion() == SecuredMessage.PROTOCOL_VERSION_1){
+				encryptedKey = itsEceisEncryptSymmetricKeyVer1(encryptionAlg, encryptionKey, symmetricKey);
+			}else{
+				encryptedKey = itsEceisEncryptSymmetricKeyVer2(encryptionAlg, encryptionKey, symmetricKey);
+			}
 			reciptientInfos.add(new RecipientInfo(certHash, encryptedKey));
 		}
 		
-		addHeader(secureMessage, new HeaderField(HeaderFieldType.recipient_info, reciptientInfos));
-		addHeader(secureMessage,new HeaderField(encParams));
+		addHeader(secureMessage, new HeaderField(secureMessage.getProtocolVersion(),HeaderFieldType.recipient_info, reciptientInfos));
+		addHeader(secureMessage,new HeaderField(secureMessage.getProtocolVersion(),encParams));
 		
 		for(Payload payload : secureMessage.getPayloadFields()){
 			if(payload.getPayloadType() == payloadType){
@@ -223,17 +228,17 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	
 
 	/**
-	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#signAndEncryptSecureMessage(SecuredMessage, Certificate, SignerInfoType, PublicKeyAlgorithm, PrivateKey, PublicKeyAlgorithm, List)
+	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#signAndEncryptSecureMessage(SecuredMessage, Certificate, Certificate[],SignerInfoType, PublicKeyAlgorithm, PrivateKey, PublicKeyAlgorithm, List)
 	 */
 	@Override
 	public SecuredMessage encryptAndSignSecureMessage(
-			SecuredMessage secureMessage, Certificate signerCertificate,
+			SecuredMessage secureMessage, Certificate signerCertificate, Certificate[] signerCACertificates,
 			SignerInfoType signInfoType, PublicKeyAlgorithm signAlg,
 			PrivateKey signPrivateKey, PublicKeyAlgorithm encryptionAlg,
 			List<Certificate> receipients) throws IllegalArgumentException,
 			GeneralSecurityException, IOException {
 		SecuredMessage encryptedMessage = encryptSecureMessage(secureMessage, encryptionAlg, receipients, PayloadType.signed_and_encrypted);
-		return signSecureMessage(encryptedMessage, signerCertificate, signInfoType, signAlg, signPrivateKey);
+		return signSecureMessage(encryptedMessage, signerCertificate, signerCACertificates, signInfoType, signAlg, signPrivateKey);
 	}
 
 	
@@ -250,7 +255,12 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	  secureMessage = new SecuredMessage(secureMessage.getEncoded()); // Make sure to return a clone of the input message.
 	  EncryptionParameters encParams = findHeader(secureMessage, HeaderFieldType.encryption_parameters, true).getEncParams(); 
 	  RecipientInfo receipentInfo = findRecipientInfo(receiverCertificate, findHeader(secureMessage, HeaderFieldType.recipient_info, true).getRecipients());
-	  Key symmetricKey = eCEISDecryptSymmetricKey(receipentInfo.getPkEncryption(), receiverKey);
+	  Key symmetricKey;
+	  if(secureMessage.getProtocolVersion() == SecuredMessage.PROTOCOL_VERSION_1){
+		  symmetricKey = itsEceisDecryptSymmetricKeyVer1(receipentInfo.getPkEncryption(), receiverKey);
+	  }else{
+		  symmetricKey = itsEciesDecryptSymmetricKeyVer2(receipentInfo.getPkEncryption(), receiverKey);
+	  }
 	
 	  for(Payload payload : secureMessage.getPayloadFields()){
 			if(payload.getPayloadType() == payloadType){
@@ -288,21 +298,38 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 
 	/**
-	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#signSecureMessage(SecuredMessage, Certificate, SignerInfoType, PublicKeyAlgorithm, PrivateKey)
+	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#signSecureMessage(SecuredMessage, Certificate, Certificate[], SignerInfoType, PublicKeyAlgorithm, PrivateKey)
 	 */
 	@Override
-	public SecuredMessage signSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, SignerInfoType signerInfoType, PublicKeyAlgorithm alg,
+	public SecuredMessage signSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, Certificate[] signerCACertificates,SignerInfoType signerInfoType, PublicKeyAlgorithm alg,
 			PrivateKey privateKey) throws IllegalArgumentException, SignatureException, IOException {	
+		if(secureMessage.getProtocolVersion() == SecuredMessage.PROTOCOL_VERSION_1 &&
+		   signerInfoType == SignerInfoType.certificate_chain){
+			throw new IllegalArgumentException("Error signing SecureMessage, Version 1 message doesn't support signer info certificate_chain");
+		}
 		
         if(signerInfoType == SignerInfoType.certificate){
-            addHeader(secureMessage,new HeaderField(new SignerInfo(signerCertificate)));
-        }else{        	
-			try {
-				HashedId8 hash = new HashedId8(digest(signerCertificate.getEncoded(), PublicKeyAlgorithm.ecdsa_nistp256_with_sha256));
-				addHeader(secureMessage,new HeaderField(new SignerInfo(hash)));
-			} catch (NoSuchAlgorithmException e) {
-				throw new SignatureException("Error generating secured message, no such algorithm: " + e.getMessage(),e);
-			}		
+            addHeader(secureMessage,new HeaderField(secureMessage.getProtocolVersion(),new SignerInfo(signerCertificate)));
+        }else{ 
+        	if(signerInfoType == SignerInfoType.certificate_chain){
+        		List<Certificate> chain = new ArrayList<Certificate>();
+        		if(signerCACertificates != null){
+        			for(Certificate cACert :signerCACertificates){
+        				chain.add(cACert);
+        			}
+        			chain.add(signerCertificate);
+        		}
+        		addHeader(secureMessage,new HeaderField(secureMessage.getProtocolVersion(),new SignerInfo(chain)));
+        	}else{
+        		try {
+        			HashedId8 hash = new HashedId8(signerCertificate, this);
+        			addHeader(secureMessage,new HeaderField(secureMessage.getProtocolVersion(),new SignerInfo(hash)));
+        		} catch (NoSuchAlgorithmException e) {
+        			throw new SignatureException("Error generating secured message, no such algorithm: " + e.getMessage(),e);
+        		} catch (InvalidKeySpecException e) {
+        			throw new SignatureException("Error generating secured message, invalid key: " + e.getMessage(),e);
+				}		
+        	}
         }
 		
 		Signature dummySignature =  dummySignatures.get(alg);
@@ -886,7 +913,6 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		}
 	}
 		
-
 	
 	/**
 	 * Help method to generate a certificate digest according to 1609.2 section 5.3.1 Signature algorithm.
@@ -917,10 +943,11 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		
 	}
 	
-	protected final int ECIES_NIST_P256_V_LENGTH = 65;
+	protected final int ECIES_NIST_P256_V_LENGTH_VER1 = 65;
+	protected final int ECIES_NIST_P256_V_LENGTH_VER2 = 33;
 	
 	/**
-	 * Help method to perform a ECIES encryption to a recipient of a symmetric key. 
+	 * Help method to perform a ECIES encryption to a recipient of a symmetric key according to the protool version 1 standard. 
 	 * 
 	 * @param publicKeyAlgorithm the algorithm used.
 	 * @param encryptionKey the public encryption key of the recipient
@@ -935,9 +962,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	 * @throws InvalidKeySpecException if supplied key specification was faulty.
 	 * @throws IOException if communication problem occurred with underlying systems.
 	 */
-	
-
-	protected EciesNistP256EncryptedKey eCEISEncryptSymmetricKey(PublicKeyAlgorithm publicKeyAlgorithm, PublicKey encryptionKey, Key symmetricKey) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
+	protected EciesNistP256EncryptedKey itsEceisEncryptSymmetricKeyVer1(PublicKeyAlgorithm publicKeyAlgorithm, PublicKey encryptionKey, Key symmetricKey) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
 		if(publicKeyAlgorithm != PublicKeyAlgorithm.ecies_nistp256){
 			throw new IllegalArgumentException("Unsupported encryption public key algorithm: " + publicKeyAlgorithm);
 		}
@@ -948,17 +973,59 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 				
 		byte[] encryptedData = eCIESCipher.engineDoFinal(keyData, 0, keyData.length);
 		
-		byte[] v = new byte[ECIES_NIST_P256_V_LENGTH];
-		System.arraycopy(encryptedData, 0, v, 0,ECIES_NIST_P256_V_LENGTH);
+		byte[] v = new byte[ECIES_NIST_P256_V_LENGTH_VER1];
+		System.arraycopy(encryptedData, 0, v, 0,ECIES_NIST_P256_V_LENGTH_VER1);
         
         EccPoint p = new EccPoint(publicKeyAlgorithm);
         p.decode(new DataInputStream(new ByteArrayInputStream(v)));
         
 		byte[] c = new byte[publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength()];
-		byte[] t = new byte[EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH];
-		System.arraycopy(encryptedData, ECIES_NIST_P256_V_LENGTH, c, 0, publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength());
-		System.arraycopy(encryptedData, ECIES_NIST_P256_V_LENGTH + publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength(), t, 0, EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH);
-		return new EciesNistP256EncryptedKey(publicKeyAlgorithm, p, c,t); 
+		byte[] t = new byte[EciesNistP256EncryptedKey.VER1_OUTPUT_TAG_LENGTH];
+		System.arraycopy(encryptedData, ECIES_NIST_P256_V_LENGTH_VER1, c, 0, publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength());
+		System.arraycopy(encryptedData, ECIES_NIST_P256_V_LENGTH_VER1 + publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength(), t, 0, EciesNistP256EncryptedKey.VER1_OUTPUT_TAG_LENGTH);
+		
+		return new EciesNistP256EncryptedKey(1,publicKeyAlgorithm, p, c,t); 
+	}
+	
+	/**
+	 * Help method to perform a ECIES encryption to a recipient of a symmetric key according to the protocol version 2 standard. 
+	 * 
+	 * @param publicKeyAlgorithm the algorithm used.
+	 * @param encryptionKey the public encryption key of the recipient
+	 * @param symmetricKey the symmetric key to encrypt
+	 * @return a EciesNistP256EncryptedKey to be included in a SecureMessage header.
+	 * 
+	 * @throws InvalidKeyException if supplied key was corrupt.
+	 * @throws InvalidAlgorithmParameterException if algorithm was badly specified.
+	 * @throws IllegalBlockSizeException if encrypted data was corrupt.
+	 * @throws BadPaddingException if encrypted data was corrupt.
+	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
+	 * @throws InvalidKeySpecException if supplied key specification was faulty.
+	 * @throws IOException if communication problem occurred with underlying systems.
+	 */
+	protected EciesNistP256EncryptedKey itsEceisEncryptSymmetricKeyVer2(PublicKeyAlgorithm publicKeyAlgorithm, PublicKey encryptionKey, Key symmetricKey) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
+		if(publicKeyAlgorithm != PublicKeyAlgorithm.ecies_nistp256){
+			throw new IllegalArgumentException("Unsupported encryption public key algorithm: " + publicKeyAlgorithm);
+		}
+		byte[] keyData = symmetricKey.getEncoded();
+		
+		IESCipher eCIESCipher = new IEEE1609Dot2ECIES();
+		eCIESCipher.engineInit(Cipher.ENCRYPT_MODE, encryptionKey,  new IESParameterSpec(null, null, 128,-1, null, true),secureRandom);
+				
+		byte[] encryptedData = eCIESCipher.engineDoFinal(keyData, 0, keyData.length);
+		
+		byte[] v = new byte[ECIES_NIST_P256_V_LENGTH_VER2];
+		System.arraycopy(encryptedData, 0, v, 0,ECIES_NIST_P256_V_LENGTH_VER2);
+        
+        EccPoint p = new EccPoint(publicKeyAlgorithm);
+        p.decode(new DataInputStream(new ByteArrayInputStream(v)));
+        
+		byte[] c = new byte[publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength()];
+		byte[] t = new byte[EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH];
+		System.arraycopy(encryptedData, ECIES_NIST_P256_V_LENGTH_VER2, c, 0, publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength());
+		System.arraycopy(encryptedData, ECIES_NIST_P256_V_LENGTH_VER2 + publicKeyAlgorithm.getRelatedSymmetricAlgorithm().getKeyLength(), t, 0, EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH);
+		
+		return new EciesNistP256EncryptedKey(SecuredMessage.PROTOCOL_VERSION_2,publicKeyAlgorithm, p, c,t); 
 	}
 	
 	/**
@@ -978,7 +1045,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	 * @throws IOException if communication problem occurred with underlying systems.
 	 */
 	@Override
-	public EncryptedDataEncryptionKey eCEISEncryptSymmetricKey(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, AlgorithmIndicator alg,byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException{
+	public EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, AlgorithmIndicator alg,byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException{
 		byte[] keyData = symmetricKey.getEncoded();
 
 		IESCipher eCIESCipher = new IEEE1609Dot2ECIES();
@@ -1002,7 +1069,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 	
 	/**
-	 * Help method to perform a ECIES decryption of a symmetric key. 
+	 * Help method to perform a ECIES decryption of a symmetric key using the ITS protocol version 1 specification. 
 	 * 
 	 * @param eciesNistP256EncryptedKey the EciesNistP256EncryptedKey header value from the SecuredMessage
 	 * @param decryptionKey the receiptients private key
@@ -1016,8 +1083,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	 * @throws InvalidKeySpecException if supplied key specification was faulty.
 	 * @throws IOException if communication problem occurred with underlying systems.
 	 */
-	 
-	protected Key eCEISDecryptSymmetricKey(EciesNistP256EncryptedKey eciesNistP256EncryptedKey, PrivateKey decryptionKey) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
+	protected Key itsEceisDecryptSymmetricKeyVer1(EciesNistP256EncryptedKey eciesNistP256EncryptedKey, PrivateKey decryptionKey) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
 		if(eciesNistP256EncryptedKey.getPublicKeyAlgorithm() != PublicKeyAlgorithm.ecies_nistp256){
 			throw new IllegalArgumentException("Unsupported encryption public key algorithm: " + eciesNistP256EncryptedKey.getPublicKeyAlgorithm() );
 		}
@@ -1025,15 +1091,55 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		IESCipher eCIESCipher = new ECIES();
 		eCIESCipher.engineInit(Cipher.DECRYPT_MODE, decryptionKey, new IESParameterSpec(null, null, 128),secureRandom);
 				
-		byte[] encryptedData = new byte[ECIES_NIST_P256_V_LENGTH + eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength() + EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH];
+		byte[] encryptedData = new byte[ECIES_NIST_P256_V_LENGTH_VER1 + eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength() + EciesNistP256EncryptedKey.VER1_OUTPUT_TAG_LENGTH];
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dis = new DataOutputStream(baos);
 		
 		eciesNistP256EncryptedKey.getV().encode(dis);
 		baos.close();
-		System.arraycopy(baos.toByteArray(), 0, encryptedData, 0, ECIES_NIST_P256_V_LENGTH);
-		System.arraycopy(eciesNistP256EncryptedKey.getC(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH, eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength());
-		System.arraycopy(eciesNistP256EncryptedKey.getT(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH+eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength(), EciesNistP256EncryptedKey.OUTPUT_TAG_LENGTH);
+		System.arraycopy(baos.toByteArray(), 0, encryptedData, 0, ECIES_NIST_P256_V_LENGTH_VER1);
+		System.arraycopy(eciesNistP256EncryptedKey.getC(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH_VER1, eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength());
+		System.arraycopy(eciesNistP256EncryptedKey.getT(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH_VER1+eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength(), EciesNistP256EncryptedKey.VER1_OUTPUT_TAG_LENGTH);
+		
+		
+		
+		byte[] decryptedData = eCIESCipher.engineDoFinal(encryptedData, 0, encryptedData.length);
+
+		return new SecretKeySpec(decryptedData, "AES");
+	}
+	
+	/**
+	 * Help method to perform a ECIES decryption of a symmetric key using the ITS protocol version 2 specification. 
+	 * 
+	 * @param eciesNistP256EncryptedKey the EciesNistP256EncryptedKey header value from the SecuredMessage
+	 * @param decryptionKey the receiptients private key
+	 * @return a decrypted symmetric key.
+	 * 
+	 * @throws InvalidKeyException if supplied key was corrupt.
+	 * @throws InvalidAlgorithmParameterException if algorithm was badly specified.
+	 * @throws IllegalBlockSizeException if encrypted data was corrupt.
+	 * @throws BadPaddingException if encrypted data was corrupt.
+	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
+	 * @throws InvalidKeySpecException if supplied key specification was faulty.
+	 * @throws IOException if communication problem occurred with underlying systems.
+	 */
+	protected Key itsEciesDecryptSymmetricKeyVer2(EciesNistP256EncryptedKey eciesNistP256EncryptedKey, PrivateKey decryptionKey) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
+		if(eciesNistP256EncryptedKey.getPublicKeyAlgorithm() != PublicKeyAlgorithm.ecies_nistp256){
+			throw new IllegalArgumentException("Unsupported encryption public key algorithm: " + eciesNistP256EncryptedKey.getPublicKeyAlgorithm() );
+		}
+		
+		IESCipher eCIESCipher = new IEEE1609Dot2ECIES();
+		eCIESCipher.engineInit(Cipher.DECRYPT_MODE, decryptionKey, new IESParameterSpec(null, null, 128,-1, null, true),secureRandom);
+				
+		byte[] encryptedData = new byte[ECIES_NIST_P256_V_LENGTH_VER2 + eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength() + EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH];
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		DataOutputStream dis = new DataOutputStream(baos);
+		
+		eciesNistP256EncryptedKey.getV().encode(dis);
+		baos.close();
+		System.arraycopy(baos.toByteArray(), 0, encryptedData, 0, ECIES_NIST_P256_V_LENGTH_VER2);
+		System.arraycopy(eciesNistP256EncryptedKey.getC(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH_VER2, eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength());
+		System.arraycopy(eciesNistP256EncryptedKey.getT(), 0, encryptedData, ECIES_NIST_P256_V_LENGTH_VER2+eciesNistP256EncryptedKey.getPublicKeyAlgorithm().getRelatedSymmetricAlgorithm().getKeyLength(), EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH);
 		
 		
 		
@@ -1056,7 +1162,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	 * @throws IOException if communication problem occurred with underlying systems.
 	 */
 	@Override
-	public SecretKey eCEISDecryptSymmetricKey(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, AlgorithmIndicator alg, byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException{
+	public SecretKey ieeeECEISDecryptSymmetricKey(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, AlgorithmIndicator alg, byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException{
 		try{
 			EncryptedDataEncryptionKeyChoices keyType = encryptedDataEncryptionKey.getType();
 			IESCipher eCIESCipher = new IEEE1609Dot2ECIES();
@@ -1150,7 +1256,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	protected void addHeader(SecuredMessage secureMessage, HeaderField headerField) {
 		List<HeaderField> headerFields = secureMessage.getHeaderFields();
 		for(int i = 0; i < headerFields.size();i++){
-			if(headerFields.get(i).getHeaderFieldType().getByteValue() > headerField.getHeaderFieldType().getByteValue()){
+			if(headerFields.get(i).getHeaderFieldType().getOrder(secureMessage.getProtocolVersion()) > headerField.getHeaderFieldType().getOrder(secureMessage.getProtocolVersion())){
 				headerFields.add(i, headerField);
 				return;
 			}
@@ -1289,8 +1395,9 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 
 	}
 	
-	protected EccPoint getVerificationKey(Certificate signerCert) throws IllegalArgumentException {
-		for(SubjectAttribute attr : signerCert.getSubjectAttributes()){
+	
+	public EccPoint getVerificationKey(Certificate cert) throws IllegalArgumentException {
+		for(SubjectAttribute attr : cert.getSubjectAttributes()){
 			if(attr.getSubjectAttributeType() == SubjectAttributeType.verification_key){
 				return attr.getPublicKey().getPublicKey();
 			}
@@ -1311,8 +1418,12 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	protected byte[] serializeCertWithoutSignature(Certificate certificate) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
-		dos.write(certificate.getVersion());		
-		EncodeHelper.encodeVariableSizeVector(dos, certificate.getSignerInfos());
+		dos.write(certificate.getVersion());	
+		if(certificate.getVersion() == Certificate.CERTIFICATE_VERSION_1){
+		  EncodeHelper.encodeVariableSizeVector(dos, certificate.getSignerInfos());
+		}else{
+			certificate.getSignerInfos().get(0).encode(dos);	
+		}
 		certificate.getSubjectInfo().encode(dos);
 		EncodeHelper.encodeVariableSizeVector(dos, certificate.getSubjectAttributes());
 		EncodeHelper.encodeVariableSizeVector(dos, certificate.getValidityRestrictions());
@@ -1324,11 +1435,14 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		dos.write(message.getProtocolVersion());
-		dos.write(message.getSecurityProfile());
+		if(message.getProtocolVersion() == SecuredMessage.PROTOCOL_VERSION_1){
+		  dos.write(message.getSecurityProfile());
+		}
 		
 		EncodeHelper.encodeVariableSizeVector(dos, message.getHeaderFields());
-		
-		serializeTotalPayloadSize(dos, message.getPayloadFields());
+		if(message.getProtocolVersion() == SecuredMessage.PROTOCOL_VERSION_1){
+		  serializeTotalPayloadSize(dos, message.getPayloadFields());
+		}
 		for(Payload pl : message.getPayloadFields()){
 			if(pl.getPayloadType() == PayloadType.encrypted || pl.getPayloadType() == PayloadType.unsecured){
 				// if payload shouldn't be included in the signature should only the type and length be included

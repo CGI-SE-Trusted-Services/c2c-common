@@ -37,7 +37,6 @@ import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointT
  * field_size containing opaque data shall be given.
  * <li> unknown: in all other cases, a variable-length vector containing opaque data shall be given.
  *
- * TODO determine why encoding of EccPointType is two octets
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -245,17 +244,16 @@ public class EccPoint implements Encodable{
 	public String toString() {
 		switch(eccPointType){
 		case x_coordinate_only:
-			return "EccPoint [publicKeyAlgorithm=" + publicKeyAlgorithm + ", x="
-			+ x + ", eccPointType=" + eccPointType + "]";
+			return "EccPoint [eccPointType=" + eccPointType + ", x="
+			+ x + "]";
 		case compressed_lsb_y_0:
 		case compressed_lsb_y_1:
-				 return "EccPoint [publicKeyAlgorithm=" + publicKeyAlgorithm + ", compressedEncoding="
-					+ Arrays.toString(compressedEncoding) + ", eccPointType=" + eccPointType + "]";
+				 return "EccPoint [eccPointType=" + eccPointType + ", compressedEncoding="
+					+ Arrays.toString(compressedEncoding) + "]";
 		case uncompressed:
 			break;
 		}
-		return "EccPoint [publicKeyAlgorithm=" + publicKeyAlgorithm + ", x="
-		+ x + ", y=" + y + ", eccPointType=" + eccPointType + "]";			
+		return "EccPoint [eccPointType=" + eccPointType + ", x=" + x + ", y=" + y +"]";			
 	}
 
 	

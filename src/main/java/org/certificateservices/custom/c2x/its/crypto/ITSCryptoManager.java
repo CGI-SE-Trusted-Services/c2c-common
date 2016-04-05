@@ -86,6 +86,8 @@ public interface ITSCryptoManager extends CryptoManager {
 	 * 
 	 * @param secureMessage the message data to sign.
 	 * @param signerCertificate the certificate used when signing.
+	 * @param signerCACertificates the CA certificate chain of the signer certificate, up to but not including trust chain, 
+	 * used if the signed info certificate_chain, otherwise it can be null. The top-most CA should be first and the CA signing the end user certificate last.
 	 * @param signerInfoType indicates the type of SignerInfo inserted into generated messages, supported values are:
 	 * certificate_digest_with_ecdsap256 or certificate.
 	 * @param alg the public key algorithm scheme to use.
@@ -96,7 +98,7 @@ public interface ITSCryptoManager extends CryptoManager {
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	SecuredMessage signSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, SignerInfoType signerInfoType, PublicKeyAlgorithm alg,
+	SecuredMessage signSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, Certificate[] signerCACertificates, SignerInfoType signerInfoType, PublicKeyAlgorithm alg,
 				PrivateKey privateKey) throws IllegalArgumentException, SignatureException, IOException;
 	
 	
@@ -127,6 +129,8 @@ public interface ITSCryptoManager extends CryptoManager {
 	 * 
 	 * @param secureMessage the message data to sign and encrypt.
 	 * @param signerCertificate the certificate used when signing.
+	 * @param signerCACertificates the CA certificate chain of the signer certificate, up to but not including trust chain, used 
+	 * if the signed info certificate_chain, otherwise it can be null. The top-most CA should be first and the CA signing the end user certificate last.
 	 * @param signerInfoType indicates the type of SignerInfo inserted into generated messages, supported values are:
 	 * certificate_digest_with_ecdsap256 or certificate.
 	 * @param signAlg the signing public key algorithm scheme to use.
@@ -139,7 +143,7 @@ public interface ITSCryptoManager extends CryptoManager {
 	 * @throws GeneralSecurityException if internal problems occurred encrypting or generating the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	SecuredMessage encryptAndSignSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, 
+	SecuredMessage encryptAndSignSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, Certificate[] signerCACertificates,
 			    SignerInfoType signerInfoType, PublicKeyAlgorithm signAlg,
 				PrivateKey signPrivateKey, PublicKeyAlgorithm encryptionAlg, List<Certificate> receipients) throws IllegalArgumentException, GeneralSecurityException, IOException;
 	
@@ -349,13 +353,16 @@ public interface ITSCryptoManager extends CryptoManager {
 	 * @param alg related public key algorithm.
 	 * 
 	 * @param eccPoint the ecc point to decode
-	 * @return If EccPointType is not x_coordinate_only will only a BigInteger representing the ecdsa signature 'r' value, otherwise a PublicKey
+	 * @return If EccPointType is x_coordinate_only will only a BigInteger representing the ecdsa signature 'r' value, otherwise a PublicKey
 	 * 
 	 * @throws InvalidKeySpecException if problems occurred decoding the key.
 	 */
 	Object decodeEccPoint(AlgorithmIndicator alg, EccPoint eccPoint) throws InvalidKeySpecException;
 	
-	
+	/**
+	 * Help method to extract verification key from an ETSI certificate
+	 */
+	public EccPoint getVerificationKey(Certificate cert) throws IllegalArgumentException;
 
 
 }

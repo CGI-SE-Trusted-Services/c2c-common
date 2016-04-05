@@ -78,6 +78,6 @@ class CircularRegionSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new CircularRegion(new TwoDLocation(-800000000,-1800000000),1).toString() == "CircularRegion [center=TwoDLocation [latitude=-800000000, longitude=-1800000000], radius=1]"
+		new CircularRegion(new TwoDLocation(-800000000,-1800000000),1).toString() == "CircularRegion [center=[latitude=-800000000, longitude=-1800000000], radius=1]"
 	}
 }

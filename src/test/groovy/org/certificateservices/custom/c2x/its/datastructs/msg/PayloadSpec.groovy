@@ -92,7 +92,7 @@ class PayloadSpec extends BaseStructSpec {
 	def "Verify toString"(){
 		expect:
 		plse.toString() == "Payload [payloadType=signed_external]"
-		ple.toString() == "Payload [payloadType=encrypted, data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]"
+		ple.toString() == "Payload [payloadType=encrypted, data=000000000000000000000000000000000000000000000000000000000000]"
 	}
 }
 

@@ -22,6 +22,8 @@ import org.certificateservices.custom.c2x.common.Encodable;
 /**
  * This number identifies a CRL series.
  * 
+ * Important: CRL Series isn't used in version 2 certificates.
+ * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -88,7 +90,7 @@ public class CrlSeries implements Encodable{
 
 	@Override
 	public String toString() {
-		return "CrlSeries [value=" + value + "]";
+		return "CrlSeries [" + value + "]";
 	}
 
 

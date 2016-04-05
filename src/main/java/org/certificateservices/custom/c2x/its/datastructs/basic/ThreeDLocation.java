@@ -138,7 +138,7 @@ public class ThreeDLocation extends TwoDLocation{
 	@Override
 	public String toString() {
 		return "ThreeDLocation [encodedElevation=" + encodedElevation
-				+ " ( " + getElevationInDecimeters() + " decimeters), latitude=" + latitude + ", longitude=" + longitude + "]";
+				+ " (" + getElevationInDecimeters() + " decimeters), latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
 
 	

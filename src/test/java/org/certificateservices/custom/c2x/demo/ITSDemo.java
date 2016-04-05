@@ -22,6 +22,8 @@ import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.its.crypto.ITSCryptoManager;
 import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId3;
+import org.certificateservices.custom.c2x.its.datastructs.basic.HashedId8;
+import org.certificateservices.custom.c2x.its.datastructs.basic.IntX;
 import org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm;
 import org.certificateservices.custom.c2x.its.datastructs.basic.SignerInfoType;
 import org.certificateservices.custom.c2x.its.datastructs.basic.ThreeDLocation;
@@ -55,6 +57,7 @@ public class ITSDemo {
 	    
 	    //----------------------------------- Generate CA Hierarchy Example ---------------------------------
 	    // Create an authority certificate generator and initialize it with the crypto manager. 
+	    // This constructor creates a Version 2 generator, use alternate constructor where certificate version can be specified for version 1.
 	    AuthorityCertGenerator authorityCertGenerator = new AuthorityCertGenerator(cryptoManager);
 	    
 	    // Generate a reference to the Root CA Signing Keys	    
@@ -106,7 +109,8 @@ public class ITSDemo {
 	    
 	    // Generate the list of ITS AID values for the Authorization CA
 	    List<BigInteger> authorityCAItsAidList = new ArrayList<BigInteger>();
-	    authorityCAItsAidList.add(new BigInteger("3"));
+	    authorityCAItsAidList.add(new BigInteger(""+SecuredMessageGenerator.ITS_AID_CAM));
+	    authorityCAItsAidList.add(new BigInteger(""+SecuredMessageGenerator.ITS_AID_DENM));
 
 	    // Generate a reference to the Authorization CA Signing Keys
 	    Certificate authorityCACertificate = authorityCertGenerator.genAuthorizationAuthorityCA(
@@ -127,6 +131,7 @@ public class ITSDemo {
 	    //----------------------------------- Enrollment Credential Example ---------------------------------	    
 	    // Now we have the CA hierarchy, the next step is to generate an enrollment credential
 	    // First we create a Enrollment Credential Cert Generator using the newly created Enrollment CA.
+	    // This constructor creates a Version 2 generator, use alternate constructor where certificate version can be specified for version 1.
 	    EnrollmentCredentialCertGenerator enrollmentCredentialCertGenerator = new EnrollmentCredentialCertGenerator(cryptoManager, enrollmentCACertificate, enrollmentCASigningKeys.getPrivate());
 	    // Next we generate keys for an enrollment credential.
 	    KeyPair enrollmentCredentialSigningKeys = cryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
@@ -138,7 +143,7 @@ public class ITSDemo {
 	    enrollCredItsAidList.add(new BigInteger("4"));
 	    // Then use the following command to generate a enrollment credential
 	    Certificate enrollmentCredential = enrollmentCredentialCertGenerator.genEnrollmentCredential(
-	    		SignerInfoType.certificate,//signerInfoType 
+	    		SignerInfoType.certificate_digest_with_ecdsap256,//signerInfoType 
 	    		"TestEnrollmentCredential".getBytes("UTF-8"),// subjectName 
 	    		enrollCredItsAidList,// itsAidList 
 	    		4,// assuranceLevel 
@@ -154,6 +159,7 @@ public class ITSDemo {
 	    
 	    //----------------------------------- Authorization Ticket Example ---------------------------------
 	    // Authorization Tickets are created by the AuthorizationTicketCertGenerator
+	    // This constructor creates a Version 2 generator, use alternate constructor where certificate version can be specified for version 1.
 	    AuthorizationTicketCertGenerator authorizationTicketCertGenerator = new AuthorizationTicketCertGenerator(cryptoManager, authorityCACertificate, authorityCASigningKeys.getPrivate());
 	    
 	    // Next we generate keys for an authorization ticket.
@@ -167,7 +173,7 @@ public class ITSDemo {
 	    authTicketItsAidList.add(new BigInteger("4"));
 	    
 	    Certificate authorizationTicket = authorizationTicketCertGenerator.genAuthorizationTicket(
-	    		SignerInfoType.certificate,//signerInfoType 
+	    		SignerInfoType.certificate_digest_with_ecdsap256,//signerInfoType 
 	    		enrollCredItsAidList,// itsAidList 
 	    		4,// assuranceLevel 
 	    		3,// confidenceLevel 
@@ -189,7 +195,8 @@ public class ITSDemo {
 	    
 	    //----------------------------------- CAM Message Example ---------------------------------
 	    // Secure Messages are created by the Secure Message Generator
-	    SecuredMessageGenerator securedMessageGenerator = new SecuredMessageGenerator(cryptoManager, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationTicket, authorityCASigningKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, authorizationTicketEncryptionKeys.getPrivate());
+	    // This constructor creates a Version 2 generator, use alternate constructor where certificate version can be specified for version 1.
+	    SecuredMessageGenerator securedMessageGenerator = new SecuredMessageGenerator(cryptoManager, PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, authorizationTicket, new Certificate[]{},authorityCASigningKeys.getPrivate(), PublicKeyAlgorithm.ecies_nistp256, authorizationTicketEncryptionKeys.getPrivate());
 	    
 	    // Next to generate a CAM Message, supported SignerIntoTypes are certificate_digest_with_ecdsap256 and certificate
 	    SecuredMessage signedCAMMessage = securedMessageGenerator.genSignedCAMMessage(SignerInfoType.certificate_digest_with_ecdsap256, "SomeMessageData".getBytes("UTF-8"));
@@ -205,19 +212,17 @@ public class ITSDemo {
 		SecuredMessage signedDENMMessage = securedMessageGenerator.genSignedDENMMessage(generationLocation, "SomeMessageData".getBytes("UTF-8"));
 		
 		//----------------------------------- Generating a Encrypted Secured Message Example ---------------------------------
-		// Neither CAM nor DENM messages should be encrypted, so in this example is a SecureMessage built manually
+		// Neither CAM nor DENM messages should be encrypted, so in this example is a SecureMessage build a version 2 manually
 		
 		List<HeaderField> headerFields = new ArrayList<HeaderField>();
-		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
-		headerFields.add(new HeaderField(generationLocation));
-        headerFields.add(new HeaderField(123)); // Just have any value since no known message type uses encryption
+		headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,new Time64(Certificate.CERTIFICATE_VERSION_2,new Date()))); // generate generation time
+		headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,generationLocation));
+        headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,new IntX(123))); // Just have any value since no known message type uses encryption
         
-        // There is no need to add recipient_info or encryption_parameters, these will be calculated and appended automatically by the crypto manager.
-		List<Payload> payloadFields = new ArrayList<Payload>();
 		// The payload that should be encrypted should have type encrypted, others will be ignored.
-		payloadFields.add(new Payload(PayloadType.encrypted,"SomeClearText".getBytes("UTF-8")));
+		Payload  payload = new Payload(PayloadType.encrypted,"SomeClearText".getBytes("UTF-8"));
 		
-		SecuredMessage secureMessage = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE, headerFields, payloadFields);
+		SecuredMessage secureMessage = new SecuredMessage(headerFields, payload);
 		
 		// First we create a list of receipients certificates that should be able to decrypt the payload.
 		List<Certificate> receipients = new ArrayList<Certificate>();
@@ -240,18 +245,18 @@ public class ITSDemo {
 		
 		// We start with constructing a secured message
 		headerFields = new ArrayList<HeaderField>();
-		headerFields.add(new HeaderField(new Time64(new Date()))); // generate generation time
-		headerFields.add(new HeaderField(generationLocation));
-        headerFields.add(new HeaderField(123)); // Just have any value since no known message type uses encryption
+		headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,new Time64(Certificate.CERTIFICATE_VERSION_2,new Date()))); // generate generation time
+		headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,generationLocation));
+        headerFields.add(new HeaderField(SecuredMessage.PROTOCOL_VERSION_2,new IntX(123))); // ITS_AID, Just have any value since no known message type uses encryption
         
         // There is no need to add recipient_info or encryption_parameters, these will be calculated and appended automatically by the crypto manager.
-		payloadFields = new ArrayList<Payload>();
 		// The payload that should be encrypted should have type encrypted, others will be ignored.
-		payloadFields.add(new Payload(PayloadType.signed_and_encrypted,"SomeClearText".getBytes("UTF-8")));
+		payload = new Payload(PayloadType.signed_and_encrypted,"SomeClearText".getBytes("UTF-8"));
 		
-		secureMessage = new SecuredMessage(SecuredMessage.DEFAULT_SECURITY_PROFILE, headerFields, payloadFields);
+		secureMessage = new SecuredMessage(headerFields, payload);
 		
-		SecuredMessage encryptedAndSignedMessage = cryptoManager.encryptAndSignSecureMessage(secureMessage, enrollmentCredential, SignerInfoType.certificate, 
+		SecuredMessage encryptedAndSignedMessage = cryptoManager.encryptAndSignSecureMessage(secureMessage, enrollmentCredential, new Certificate[]{enrollmentCACertificate},
+				SignerInfoType.certificate, 
 				PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, 
 				enrollmentCredentialSigningKeys.getPrivate(), 
 				PublicKeyAlgorithm.ecies_nistp256, receipients);
@@ -272,6 +277,14 @@ public class ITSDemo {
 	    
 	    // To decode message data use the following constructor.
 	    SecuredMessage decodedMessage = new SecuredMessage(messageData);
+	    
+	    //----------------------------------- HashedXId Example ---------------------------------
+	    // To calculate correct Certificate HashedId3 or 8 use the constructor supplying the certificate and cryptomanager to automatically normalize the certificate before  
+	    // calculating the hash value.
+	    HashedId8 certHash = new HashedId8(authorizationTicket, cryptoManager);
+	    
+	    // The certificate hash value can be extracted with.
+	    certHash.getHashedId();
 	}
 
 }
