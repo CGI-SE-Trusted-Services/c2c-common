@@ -32,8 +32,8 @@ public class COERBoolean implements COEREncodable{
 	public static COERBoolean TRUE = new COERBoolean(true);
 	public static COERBoolean FALSE = new COERBoolean(false);
 	
-	private static final int TRUE_ENCODED = 0x00;
-	private static final int FALSE_ENCODED = 0xFF;
+	private static final int TRUE_ENCODED = 0xFF;
+	private static final int FALSE_ENCODED = 0x00;
 
 	private boolean value;
 	
