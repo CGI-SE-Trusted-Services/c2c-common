@@ -12,18 +12,12 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic
 
-import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfUint16;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfUint3;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfUint8;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint16;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint3;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfUint16
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfUint8
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint16
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8
 
 /**
  * Test for all Uint classes
@@ -33,24 +27,7 @@ import spock.lang.Unroll;
 class AllSequenceUintSpec extends BaseStructSpec {
 
 	
-	def "Verify that SequenceOfUint3 is initialized properly"(){
-		when:
-		def u1 = deserializeFromHex(new SequenceOfUint3(),"01020304")
-		
-		then:
-		u1.getSequenceValues()[0].getValueAsLong() == 3
-		u1.getSequenceValues()[1].getValueAsLong() == 4
-		when:
-		def u2 = new SequenceOfUint3([new Uint3(3),new Uint3(4)] as Uint3[])
-		then:
-		u2.getSequenceValues()[0].getValueAsLong() == 3
-		u2.getSequenceValues()[1].getValueAsLong() == 4
-		when:
-		def u3 = new SequenceOfUint3([new Uint3(3),new Uint3(4)])
-		then:
-		u3.getSequenceValuesAsList()[0].getValueAsLong() == 3
-		u3.getSequenceValuesAsList()[1].getValueAsLong() == 4
-	}
+
 	
 	def "Verify that SequenceOfUint8 is initialized properly"(){
 		when:
@@ -92,10 +69,6 @@ class AllSequenceUintSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new SequenceOfUint3([new Uint3(3),new Uint3(4)] as Uint3[]).toString() == "SequenceOfUint3 [3,4]"
-		new SequenceOfUint3().toString() == "SequenceOfUint3 []"
-		new SequenceOfUint3([new Uint3(3)] as Uint3[]).toString() == "SequenceOfUint3 [3]"
-		
 		new SequenceOfUint8([new Uint8(3),new Uint8(4)] as Uint8[]).toString() == "SequenceOfUint8 [3,4]"
 		new SequenceOfUint8().toString() == "SequenceOfUint8 []"
 		new SequenceOfUint8([new Uint8(3)] as Uint8[]).toString() == "SequenceOfUint8 [3]"

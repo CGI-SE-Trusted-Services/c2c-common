@@ -71,6 +71,7 @@ class EncryptionKeySpec extends BaseStructSpec {
 		}
 		key2.choice == choice
 		key2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                              | value   | encoding   

@@ -44,8 +44,7 @@ public class COEREnumeration implements COEREncodable{
 	/**
 	 * Constructor used when encoding a COER Choice.
 	 * 
-	 * @param choice a enum value of an enumeration implementing COERChoiceEnumeration
-	 * @param value the related value.
+	 * @param enumerationValue a enum value of an enumeration implementing COEREnumerationType
 	 */
 	public COEREnumeration(COEREnumerationType enumerationValue){
 		this.enumerationValue = enumerationValue;

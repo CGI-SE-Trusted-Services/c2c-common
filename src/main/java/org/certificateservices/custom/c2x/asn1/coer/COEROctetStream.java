@@ -77,10 +77,10 @@ public class COEROctetStream implements COEREncodable{
 		this.upperBound = upperBound;
 		
 		if(data != null && lowerBound != null && data.length < lowerBound){
-			throw new IllegalArgumentException("Error given data to octed stream is less than minimal value of " + lowerBound);
+			throw new IllegalArgumentException("Error given data to octet stream is less than minimal value of " + lowerBound);
 		}
 		if(data != null && upperBound != null && data.length > upperBound){
-			throw new IllegalArgumentException("Error given data to octed stream is larger than maximal value of " + upperBound);
+			throw new IllegalArgumentException("Error given data to octet stream is larger than maximal value of " + upperBound);
 		}
 	}
 	
@@ -110,11 +110,11 @@ public class COEROctetStream implements COEREncodable{
 
 	@Override
 	public void encode(DataOutputStream out) throws IOException {
-		if(upperBound == null || lowerBound == null || upperBound != lowerBound){
-			COEREncodeHelper.writeLengthDeterminant(data.length, out);
-		}
 		if(data == null){
 			throw new IOException("Data was null in octed stream.");
+		}
+		if(upperBound == null || lowerBound == null || upperBound != lowerBound){
+			COEREncodeHelper.writeLengthDeterminant(data.length, out);
 		}
 		out.write(data);
 	}

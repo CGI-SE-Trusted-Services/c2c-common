@@ -51,7 +51,7 @@ class CrlContentsSpec extends BaseStructSpec {
 	ToBeSignedLinkageValueCrl tbsl = new ToBeSignedLinkageValueCrl(5,6, individual, null)
 	
 	CrlSeries crlSeries = new CrlSeries(7)
-	HashedId8  cracaId = new HashedId8(Hex.decode("0102030405060708"))
+	HashedId8  crlCraca = new HashedId8(Hex.decode("0102030405060708"))
 	Time32 issueDate = new Time32(4000)
 	Time32  nextCrl = new Time32(8000)
 	CrlPriorityInfo priorityInfo = new CrlPriorityInfo(new Uint8(8))
@@ -60,7 +60,7 @@ class CrlContentsSpec extends BaseStructSpec {
 	
 	def "Verify that constructor and getters are correct and it is correctly encoded"(){
 		when:
-		CrlContents cc1 = new CrlContents(crlSeries,cracaId,issueDate,nextCrl,priorityInfo,typeSpecific)
+		CrlContents cc1 = new CrlContents(crlSeries,crlCraca,issueDate,nextCrl,priorityInfo,typeSpecific)
 		then:
 		!cc1.hasExtension
 		serializeToHex(cc1) == "010007010203040506070800000fa000001f40400882400005060102000701020102030501020000070102000102030405060708091011121314151611121314151617181911212223242526002102030405060708091011121314151621121314151617181911212223242526000008010200210203040506070809101112131415162112131415161718191121222324252600310203040506070809101112131415163112131415161718191121222324252611021305010200000701020001020304050607080910111213141516111213141516171819112122232425260021020304050607080910111213141516211213141516171819112122232425260000080102002102030405060708091011121314151621121314151617181911212223242526003102030405060708091011121314151631121314151617181911212223242526000801020102030501020000070102000102030405060708091011121314151611121314151617181911212223242526002102030405060708091011121314151621121314151617181911212223242526000008010200210203040506070809101112131415162112131415161718191121222324252600310203040506070809101112131415163112131415161718191121222324252611021305010200000701020001020304050607080910111213141516111213141516171819112122232425260021020304050607080910111213141516211213141516171819112122232425260000080102002102030405060708091011121314151621121314151617181911212223242526003102030405060708091011121314151631121314151617181911212223242526"
@@ -70,14 +70,14 @@ class CrlContentsSpec extends BaseStructSpec {
 		!cc2.hasExtension
 		cc2.getVersion() == CrlContents.DEFAULT_VERSION
 		cc2.getCrlSeries() == crlSeries
-		cc2.getCracaId() == cracaId
+		cc2.getCrlCraca()== crlCraca
 		cc2.getIssueDate() == issueDate
 		cc2.getNextCrl() == nextCrl
 		cc2.getPriorityInfo() == priorityInfo
 		cc2.getTypeSpecific() == typeSpecific
 		
 		when:
-		CrlContents cc3 = new CrlContents(7,crlSeries,cracaId,issueDate,nextCrl,priorityInfo,typeSpecific)
+		CrlContents cc3 = new CrlContents(7,crlSeries,crlCraca,issueDate,nextCrl,priorityInfo,typeSpecific)
 		then:
 		serializeToHex(cc3) == "070007010203040506070800000fa000001f40400882400005060102000701020102030501020000070102000102030405060708091011121314151611121314151617181911212223242526002102030405060708091011121314151621121314151617181911212223242526000008010200210203040506070809101112131415162112131415161718191121222324252600310203040506070809101112131415163112131415161718191121222324252611021305010200000701020001020304050607080910111213141516111213141516171819112122232425260021020304050607080910111213141516211213141516171819112122232425260000080102002102030405060708091011121314151621121314151617181911212223242526003102030405060708091011121314151631121314151617181911212223242526000801020102030501020000070102000102030405060708091011121314151611121314151617181911212223242526002102030405060708091011121314151621121314151617181911212223242526000008010200210203040506070809101112131415162112131415161718191121222324252600310203040506070809101112131415163112131415161718191121222324252611021305010200000701020001020304050607080910111213141516111213141516171819112122232425260021020304050607080910111213141516211213141516171819112122232425260000080102002102030405060708091011121314151621121314151617181911212223242526003102030405060708091011121314151631121314151617181911212223242526"
 		when:
@@ -89,7 +89,7 @@ class CrlContentsSpec extends BaseStructSpec {
 	
 	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
 		when:
-		new CrlContents(null,cracaId,issueDate,nextCrl,priorityInfo,typeSpecific)
+		new CrlContents(null,crlCraca,issueDate,nextCrl,priorityInfo,typeSpecific)
 		then:
 		thrown IllegalArgumentException
 		when:
@@ -97,19 +97,19 @@ class CrlContentsSpec extends BaseStructSpec {
 		then:
 		thrown IllegalArgumentException
 		when:
-		new CrlContents(crlSeries,cracaId,null,nextCrl,priorityInfo,typeSpecific)
+		new CrlContents(crlSeries,crlCraca,null,nextCrl,priorityInfo,typeSpecific)
 		then:
 		thrown IllegalArgumentException
 		when:
-		new CrlContents(crlSeries,cracaId,issueDate,null,priorityInfo,typeSpecific)
+		new CrlContents(crlSeries,crlCraca,issueDate,null,priorityInfo,typeSpecific)
 		then:
 		thrown IllegalArgumentException
 		when:
-		new CrlContents(crlSeries,cracaId,issueDate,nextCrl,null,typeSpecific)
+		new CrlContents(crlSeries,crlCraca,issueDate,nextCrl,null,typeSpecific)
 		then:
 		thrown IllegalArgumentException
 		when:
-		new CrlContents(crlSeries,cracaId,issueDate,nextCrl,priorityInfo,null)
+		new CrlContents(crlSeries,crlCraca,issueDate,nextCrl,priorityInfo,null)
 		then:
 		thrown IllegalArgumentException
 	} 
@@ -117,14 +117,14 @@ class CrlContentsSpec extends BaseStructSpec {
 
 	def "Verify toString"(){
 		expect:
-		new CrlContents(crlSeries,cracaId,issueDate,nextCrl,priorityInfo,typeSpecific).toString() == """CrlContents [
+		new CrlContents(crlSeries,crlCraca,issueDate,nextCrl,priorityInfo,typeSpecific).toString() == """CrlContents [
   version=1,
   crlSeries=[7],
-  cracaId= [0102030405060708],
+  crlCraca= [0102030405060708],
   issueDate=[timeStamp=Thu Jan 01 02:06:40 CET 2004 (4000)],
   nextCrl=[timeStamp=Thu Jan 01 03:13:20 CET 2004 (8000)],
   priorityInfo=[priority=8],
-  typeSpecific=[fullLinkedCrl=[iRev=5, intervalWithinI=6,
+  typeSpecific=[fullLinkedCrl=[iRev=5, indexWithinI=6,
     individual=[
       [imax=7, contents=[
           [la1Id=[0102], la2Id=[0305], contents=[

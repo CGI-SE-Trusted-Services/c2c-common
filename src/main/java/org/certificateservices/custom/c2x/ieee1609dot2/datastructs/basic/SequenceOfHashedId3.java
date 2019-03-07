@@ -10,57 +10,58 @@
  *  See terms of license at gnu.org.                                     *
  *                                                                       *
  *************************************************************************/
-package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.secenv;
+package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
-import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Opaque;
+import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf;
+
+import java.util.List;
+
 
 /**
- * Structure defining a CRL Request
+ * Base type defining a sequence of HashedId3
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class CrlRequest extends COERSequence {
-	
-	private static final long serialVersionUID = 1L;
-	
+public class SequenceOfHashedId3 extends COERSequenceOf {
 
-	private static final int CONTENT = 0;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor used when decoding
 	 */
-	public CrlRequest(){
-		super(true,1);
-		init();
+	public SequenceOfHashedId3(){
+		super(new HashedId3());
 	}
-	
+
 	/**
 	 * Constructor used when encoding
 	 */
-	public CrlRequest(Opaque  content){
-		super(true,1);
-		init();
-		set(CONTENT, content);
+	public SequenceOfHashedId3(HashedId3[] sequenceValues){
+		super(sequenceValues);
 	}
-	
+
 	/**
-	 * 
-	 * @return Returns the content value
+	 * Constructor used when encoding
 	 */
-	public Opaque getContent(){
-		return  (Opaque) get(CONTENT);
+	public SequenceOfHashedId3(List<HashedId3> sequenceValues){
+		super((HashedId3[]) sequenceValues.toArray(new HashedId3[sequenceValues.size()]));
 	}
-	
-	private void init(){
-		addField(CONTENT, false, new Opaque(), null);
-	}
-	
 
 	@Override
 	public String toString() {
-		return "CrlRequest [content=" + getContent().toString().replace("Opaque ", "") + "]";
+		String retval = "SequenceOfHashedId3 [";
+		if(sequenceValues != null){
+			for(int i=0; i< sequenceValues.length -1;i++){
+				retval += new String(Hex.encode(((HashedId3) sequenceValues[i]).getHashedId())) + ",";
+			}
+			if(sequenceValues.length > 0){
+				retval += new String(Hex.encode(((HashedId3) sequenceValues[sequenceValues.length-1]).getHashedId())) ;
+			}
+		}
+		retval += "]";
+		return retval;
 	}
 	
 }

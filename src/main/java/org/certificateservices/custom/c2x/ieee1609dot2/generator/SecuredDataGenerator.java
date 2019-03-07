@@ -35,24 +35,10 @@ import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CrlSeries;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId3;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Opaque;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicEncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ThreeDLocation;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time64;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices;
@@ -286,7 +272,7 @@ public class SecuredDataGenerator {
     /**
      * Method to verify a signed data, method only verifies the signature, it doesn't validate it by permissions, validity or geographically.
      * @param signedData the signed data to verify.
-     * @param referenceData the signature refers to.
+     * @param referencedData the signature refers to.
      * @param certStore a list of known certificates that can be used to build a certificate path (excluding trust anchors).
      * @param trustStore certificates in trust store, must be explicit certificate in order to qualify as trust anchors.
      * @return true if data structure signature verifies.
@@ -506,12 +492,19 @@ public class SecuredDataGenerator {
 	 * @param crlSeries the crl series used in missing crl identifier, Optional.
 	 * @param encType the type of encryption used. if set must also encryption key be set, Optional
 	 * @param encryptionKey the encryption key to set.
+	 * @param inlineP2pcdRequest if present, is used by the SDS to request unknown certificates per the
+	 * inline peer-to-peer certificate distribution mechanism is given in Clause 8. This field shall only be
+	 * present if p2pcdLearningRequest is not present. The HashedId3 is calculated with the whole certificate
+	 * hash algorithm, determined as described in 6.4.3.
+	 * @param requestedCertificate if present, is used by the SDS to provide certificates per the “inline”
+	 * version of the peer-to-peer certificate distribution mechanism.
 	 * @return a generated header info structure.
 	 * @throws IllegalArgumentException if supplied arguments where invalid.
 	 * @throws InvalidKeySpecException if public key conversion failed.
 	 */
-	public HeaderInfo genHeaderInfo(long psid, Date generationTime, Date expiryTime, ThreeDLocation generationLocation, 
-			byte[] p2pcdLearningRequest, byte[] cracaid, Integer crlSeries, BasePublicEncryptionKeyChoices encType, PublicKey encryptionKey) throws IllegalArgumentException, InvalidKeySpecException{
+	public HeaderInfo genHeaderInfo(long psid, Date generationTime, Date expiryTime, ThreeDLocation generationLocation,
+									byte[] p2pcdLearningRequest, byte[] cracaid, Integer crlSeries, BasePublicEncryptionKeyChoices encType, PublicKey encryptionKey,
+									SequenceOfHashedId3 inlineP2pcdRequest, Certificate requestedCertificate) throws IllegalArgumentException, InvalidKeySpecException{
 		
 		MissingCrlIdentifier mci = null;
 		if(cracaid != null || crlSeries != null){
@@ -537,7 +530,7 @@ public class SecuredDataGenerator {
 				generationLocation,
 				(p2pcdLearningRequest != null ? new HashedId3(p2pcdLearningRequest) : null), 
 				mci, 
-				encKey);
+				encKey, inlineP2pcdRequest, requestedCertificate);
 	}
 
 	protected HashedId8 getReference(RecipientInfo ri) {

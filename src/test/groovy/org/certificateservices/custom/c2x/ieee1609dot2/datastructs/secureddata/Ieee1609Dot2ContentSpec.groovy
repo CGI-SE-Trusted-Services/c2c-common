@@ -92,7 +92,7 @@ class Ieee1609Dot2ContentSpec extends BaseStructSpec {
 	@Shared EncryptedData e = new EncryptedData(sri,sct)
 	
 	@Shared SignedDataPayload sdp = new SignedDataPayload(null, new HashedData(HashedDataChoices.sha256HashedData, Hex.decode("0102030405060708091011121314151617181920212223242526272829303132")))
-	@Shared HeaderInfo hi = new HeaderInfo(new Psid(100), null, null, null, null, null, null)
+	@Shared HeaderInfo hi = new HeaderInfo(new Psid(100), null, null, null, null, null, null, null,null)
 	@Shared ToBeSignedData tbsData = new ToBeSignedData(sdp,hi)
 	
 	@Shared HashedId8 h = new HashedId8(Hex.decode("0102030405060708"))
@@ -120,6 +120,7 @@ class Ieee1609Dot2ContentSpec extends BaseStructSpec {
 		ic.getValue() == value.getValue()
 		ic.choice == choice
 		ic.type == choice
+		!choice.extension
 		
 		where:
 		choice                                              | value                                                                           | encoding   

@@ -37,7 +37,7 @@ class COERBooleanSpec extends BaseStructSpec {
 		where:
 		encoded | value
 		"00"    | false
-		"ff"    | true	
+		"ff"    | true
 	}
 	
 	def "Verify that IOException is thrown when deserializing invalid COER boolean value"(){

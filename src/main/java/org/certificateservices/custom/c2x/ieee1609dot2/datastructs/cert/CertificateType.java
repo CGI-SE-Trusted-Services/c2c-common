@@ -16,6 +16,11 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREnumerationType;
 
 /**
  * This enumerated type indicates whether a certificate is explicit or implicit.
+ * <p>
+ *     <b>Critical information fields:</b>If present, this is a critical information field as defined in 5.2.5. An
+ * implementation that does not recognize the indicated CHOICE for this type when verifying a signed SPDU
+ * shall indicate that the signed SPDU is invalid.
+ * </p>
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

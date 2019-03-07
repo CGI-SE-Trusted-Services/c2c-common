@@ -25,9 +25,10 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EciesP2
  * This data structure contains an encrypted data encryption key.
  * <p>
  * <b>Critical information fields:</b> If present, this is a critical information field as defined in 5.2.5. 
- * An implementation that does not recognize the indicated enumerated value for this type in an encrypted SPDU shall 
- * reject the SPDU as invalid.
- * 
+ * If an implementation receives an encrypted SPDU and determines that one or more RecipientInfo fields are relevant to
+ * it, and if all of those RecipientInfos contain an EncryptedDataEncryptionKey such that the implementation does not
+ * recognize the indicated CHOICE, the implementation shall indicate that the encrypted SPDU is not decryptable.
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -44,7 +45,15 @@ public class EncryptedDataEncryptionKey extends COERChoice {
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 	      return new EciesP256EncryptedKey();
 		}
-		
+
+		/**
+		 * @return no extensions exists for enumeration
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
+
 		public int getVLength(){
 			switch(this){
 			case eciesNistP256:

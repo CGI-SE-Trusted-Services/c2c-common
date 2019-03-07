@@ -56,6 +56,14 @@ public class Ieee1609Dot2Content extends COERChoice {
 				return new Opaque();
 			}
 		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
 	}
 	
 	/**

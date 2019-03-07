@@ -22,7 +22,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
  * <li>v is the sender’s ephemeral public key, which is the output V from encryption as specified in 5.3.5.
  * <li>c is the encrypted symmetric key, which is the output C from encryption as specified in 5.3.5. The algorithm for the symmetric key is 
  * identified by the CHOICE indicated in the following SymmetricCiphertext.
- * <li>t is the authentication tag, , which is the output tag from encryption as specified in 5.3.5.
+ * <li>t is the authentication tag, which is the output tag from encryption as specified in 5.3.5.
  * 
  * Encryption and decryption are carried out as specified in 5.3.5.
  * 

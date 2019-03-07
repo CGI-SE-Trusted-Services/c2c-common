@@ -47,6 +47,7 @@ class DurationSpec extends BaseStructSpec {
 		d.valueAsInt == value
 		d.choice == choice
 		d.unit == choice
+		!choice.extension
 		
 		where:
 		choice                             | value            | encoding

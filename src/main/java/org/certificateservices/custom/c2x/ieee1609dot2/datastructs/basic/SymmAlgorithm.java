@@ -20,9 +20,6 @@ import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 /**
  * This enumerated value indicates supported symmetric algorithms. The only symmetric algorithm supported in this version of this standard is AES-CCM as specified in 5.3.8.
  * <p>
- * <b>Critical information fields:</b> 
- * If present, this is a critical information field as defined in 5.2.5. An implementation that does not recognize the indicated enumerated value for this type when 
- * verifying a signed SPDU shall indicate that the signed SPDU is invalid.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

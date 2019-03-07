@@ -20,7 +20,6 @@ import net.time4j.TemporalType;
 import net.time4j.scale.TimeScale;
 
 /**
- * 
  * This type gives the number of (TAI) seconds since 00:00:00 UTC, 1 January, 2004.
  * 
  * @author Philip Vendil, p.vendil@cgi.com

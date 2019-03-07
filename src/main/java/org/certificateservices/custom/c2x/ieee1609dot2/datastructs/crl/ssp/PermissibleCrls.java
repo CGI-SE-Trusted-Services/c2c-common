@@ -19,7 +19,9 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CrlSeri
 
 
 /**
- * This structure is a sequence of CrlSeries
+ * This type is used to determine the validity of the crlSeries field in the CrlContents structure. The
+ * crlSeries field in the CrlContents structure is invalid unless that value appears as an entry in the
+ * SEQUENCE contained in this field.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

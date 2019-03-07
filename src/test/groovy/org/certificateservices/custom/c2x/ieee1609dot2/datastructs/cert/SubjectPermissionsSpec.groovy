@@ -74,6 +74,7 @@ class SubjectPermissionsSpec extends BaseStructSpec {
 		key2.getValue() == (choice==SubjectPermissionsChoices.explicit? value : new COERNull())
 		key2.choice == choice
 		key2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                              | value   | encoding   

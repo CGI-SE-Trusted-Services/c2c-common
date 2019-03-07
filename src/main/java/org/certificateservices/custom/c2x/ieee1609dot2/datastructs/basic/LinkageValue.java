@@ -16,7 +16,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 
 /**
- * This is the individual linkage value. See 5.1.3, 7.3 for details of use.
+ * This is the individual linkage value. See 5.1.3 and 7.3 for details of use.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

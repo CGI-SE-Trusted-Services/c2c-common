@@ -32,24 +32,48 @@ public class Signature extends COERChoice {
 	
 	
 	private static final long serialVersionUID = 1L;
-	
+
+
 	public enum SignatureChoices implements COERChoiceEnumeration, AlgorithmIndicator{
-		ecdsaNistP256Signature,
-		ecdsaBrainpoolP256r1Signature;
+		ecdsaNistP256Signature(EcdsaP256Signature.class, false),
+		ecdsaBrainpoolP256r1Signature(EcdsaP256Signature.class, false),
+		ecdsaBrainpoolP384r1Signature(EcdsaP384Signature.class, true);
+
+		private Class<COEREncodable> emptyEncodableClass;
+		private boolean isExtension;
+
+		SignatureChoices(Class<?> emptyEncodableClass, boolean isExtension){
+			this.emptyEncodableClass = (Class<COEREncodable>) emptyEncodableClass;
+			this.isExtension = isExtension;
+		}
 
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
-			return new EcdsaP256Signature();
+			try {
+				return emptyEncodableClass.newInstance();
+			}catch (Exception e){
+				throw new IOException("Problems generating new instance of " + emptyEncodableClass.getName() + ", message: " + e.getMessage(),e);
+			}
+		}
+
+		/**
+		 * @return true if this entry is an extension or false if  regular choice
+		 */
+		@Override
+		public boolean isExtension() {
+			return isExtension;
 		}
 
 		@Override
 		public Algorithm getAlgorithm() {
 			switch (this) {
-			case ecdsaNistP256Signature:
-				return new Algorithm(null,Algorithm.Signature.ecdsaNistP256, null,Hash.sha256);
-			case ecdsaBrainpoolP256r1Signature:
-			default:
-				return new Algorithm(null,Algorithm.Signature.ecdsaBrainpoolP256r1, null,Hash.sha256);
+				case ecdsaNistP256Signature:
+					return new Algorithm(null,Algorithm.Signature.ecdsaNistP256, null,Hash.sha256);
+				case ecdsaBrainpoolP256r1Signature:
+					return new Algorithm(null,Algorithm.Signature.ecdsaBrainpoolP256r1, null,Hash.sha256);
+				case ecdsaBrainpoolP384r1Signature:
+				default:
+					return new Algorithm(null,Algorithm.Signature.ecdsaBrainpoolP384r1, null,Hash.sha384);
 			}	
 		}
 	}
@@ -58,6 +82,13 @@ public class Signature extends COERChoice {
 	 * Constructor used when encoding.
 	 */
 	public Signature(SignatureChoices choice, EcdsaP256Signature value) {
+		super(choice, value);
+	}
+
+	/**
+	 * Constructor used when encoding.
+	 */
+	public Signature(SignatureChoices choice, EcdsaP384Signature value) {
 		super(choice, value);
 	}
 

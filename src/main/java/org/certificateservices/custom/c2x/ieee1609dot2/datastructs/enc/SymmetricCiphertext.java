@@ -46,6 +46,14 @@ public class SymmetricCiphertext extends COERChoice {
 		public Algorithm getAlgorithm() {
 			return new Algorithm(Algorithm.Symmetric.aes128Ccm, null, null, null);
 		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
 	}
 	
 	/**

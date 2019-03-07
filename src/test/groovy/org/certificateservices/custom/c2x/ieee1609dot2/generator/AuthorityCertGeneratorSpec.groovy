@@ -99,7 +99,7 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList().size() == 1
 		PsidGroupPermissions pgp = c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList()[0]
-		pgp.getAppPermissions().type == SubjectPermissionsChoices.all
+		pgp.getSubjectPermissions().type == SubjectPermissionsChoices.all
 		pgp.getMinChainDepth() == 3
 		pgp.getChainDepthRange() == 4
 		pgp.getEEType().app
@@ -168,9 +168,9 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList().size() == 1
 		PsidGroupPermissions pgp = c1.getToBeSigned().certIssuePermissions.getSequenceValuesAsList()[0]
-		pgp.getAppPermissions().type == SubjectPermissionsChoices.explicit
-		((SequenceOfPsidSspRange) pgp.getAppPermissions().value).sequenceValuesAsList.size() == 1
-		((SequenceOfPsidSspRange) pgp.getAppPermissions().value).sequenceValuesAsList[0] == subjectPerms[0]
+		pgp.getSubjectPermissions().type == SubjectPermissionsChoices.explicit
+		((SequenceOfPsidSspRange) pgp.getSubjectPermissions().value).sequenceValuesAsList.size() == 1
+		((SequenceOfPsidSspRange) pgp.getSubjectPermissions().value).sequenceValuesAsList[0] == subjectPerms[0]
 		pgp.getMinChainDepth() == 3
 		pgp.getChainDepthRange() == 3
 		!pgp.getEEType().app

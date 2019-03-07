@@ -18,8 +18,10 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
 
 /**
- * Special form of Ieee1609Dot2Data with specified fields to fullfil the requirements
- * of a counter signature
+ * This data structure is used to perform a countersignature over an already-signed SPDU. This is the profile
+ * of an Ieee1609Dot2Data containing a signedData. The tbsData within content is composed of a payload
+ * containing the hash (extDataHash) of the externally generated, pre-signed SPDU over which the
+ * countersignature is performed.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

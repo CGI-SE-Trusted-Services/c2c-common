@@ -18,8 +18,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
 
 /**
- * This type gives the validity period of a certificate. 
- * The start of the validity period is given by start and the end is given by start + duration.
+ * This type gives the validity period of a certificate. The start of the validity period is given by start and
+ * the end is given by start + duration.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

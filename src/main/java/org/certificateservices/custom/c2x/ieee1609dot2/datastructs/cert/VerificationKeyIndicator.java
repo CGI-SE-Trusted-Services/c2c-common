@@ -22,9 +22,12 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicV
 
 /**
  * This structure represents a public key and states with what algorithm the public key is to be used. Cryptographic mechanisms are defined in 5.3.
- * 
+ * <p>
  * An EccP256CurvePoint within a PublicVerificationKey structure is invalid if it indicates the choice x- only.
- * 
+ * </p>
+ * <p>Critical information fields: If present, this is a critical information field as defined in 5.2.5. An
+ * implementation that does not recognize the indicated CHOICE for this type when verifying a signed SPDU
+ * shall indicate that the signed SPDU is invalid.</p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -43,6 +46,14 @@ public class VerificationKeyIndicator extends COERChoice {
 				return new PublicVerificationKey();
 			}
 			return new EccP256CurvePoint();
+		}
+
+		/**
+		 * @return always false, no extension choice exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
 		}
 	}
 	

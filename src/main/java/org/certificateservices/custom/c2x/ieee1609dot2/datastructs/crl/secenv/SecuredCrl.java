@@ -25,7 +25,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.S
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedDataPayload;
 
 /**
- * Special form of Ieee1609Dot2Data with specified fields to fullfil the requirements
+ * Special form of Ieee1609Dot2Data with specified fields to fulfill the requirements
  * of a secured crl.
  * <p>
  * See SecuredCRLGenerator class for methods on how to create a CRL. 

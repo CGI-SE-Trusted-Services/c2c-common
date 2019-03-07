@@ -23,16 +23,18 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
  *  EncryptedData. The option pskRecipInfo is selected if the EncryptedData was encrypted using the
  *  static encryption key approach specified in 5.3.4.2. The other options are selected if the EncryptedData was
  *  encrypted using the ephemeral encryption key approach specified in 5.3.4.1. The meanings of the choices are:
- *  
- *  <li>pskRecipInfo: The ciphertext was encrypted directly using a symmetric key.
- *  <li>symmRecipInfo: The data encryption key was encrypted using a symmetric key.
- *  <li>certRecipInfo: The data encryption key was encrypted using the public encryption key in a certificate. This field contains the HashedId8 of the certificate. In this case, the parameter P1 to ECIES as defined in 5.3.5 is the hash of the certificate.
- *  <li>signedDataRecipInfo: The data encryption key was encrypted using the public response encryption key from a SignedData. In this case, this field contains the HashedId8 of the1609Dot2Data containing the SignedData containing the encryption key. In this case, the parameter P1 to ECIES as defined in 5.3.5 is the SHA-256 hash of the Ieee1609Dot2Data containing the response encryption key.
- *  <li>rekRecipInfo: The data encryption key was encrypted using a public response encryption key that was not obtained from a SignedData. In this case, this field contains the HashedId8 of the response encryption key. In this case, the parameter P1 to ECIES as defined in 5.3.5 is the hash of the empty string.
- *  <p>
- *  <b>NOTE</b>The rekRecipInfo should only be used if the SignedData is not available as it potentially allows
- *  misbinding attacks: it is included in these structures specifically to enable certificate response encryption from a PCA
- *  to an end-entity device.
+ *
+ *  <ul>
+ *  <li>pskRecipInfo: The ciphertext was encrypted directly using a symmetric key.</li>
+ *  <li>symmRecipInfo: The data encryption key was encrypted using a symmetric key.</li>
+ *  <li>certRecipInfo: The data encryption key was encrypted using a public key encryption scheme,
+ * where the public encryption key was obtained from a certificate. In this case, the parameter P1 to ECIES as defined in 5.3.5 is the hash
+ * of the certificate.</li>
+ *  <li>signedDataRecipInfo: The data encryption key was encrypted using a public encryption key,
+ * where the encryption key was obtained as the public response encryption key from a SignedData.
+ * In this case, the parameter P1 to ECIES as defined in 5.3.5 is the SHA-256 hash of the Ieee1609Dot2Data containing the response encryption key.</li>
+ *  <li>rekRecipInfo: The data encryption key was encrypted using a public key that was not obtained from a SignedData. In this case. In this case, the parameter P1 to ECIES as defined in 5.3.5 is the hash of the empty string.</li>
+ *  </ul>
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -59,6 +61,14 @@ public class RecipientInfo extends COERChoice {
 			default:
 				return new PKRecipientInfo();
 			}
+		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
 		}
 	}
 	

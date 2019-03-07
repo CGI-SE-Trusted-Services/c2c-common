@@ -17,10 +17,16 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
 /**
  * In this type:
- * 
- * <li>region - identifies a region within a country as specified under CountryAndRegions.
- * <li>subregions - identifies one or more subregions as specified under CountryAndSubregions.
- * 
+ *
+ * <ul>
+ * <li>region - identifies a region within a country as specified under CountryAndRegions.</li>
+ * <li>subregions - identifies one or more subregions as specified under CountryAndSubregions.</li>
+ * </ul>
+ * <p>
+ *     <b>Critical information fields:</b>RegionAndSubregions is a critical information field as defined in 5.2.5. An
+ * implementation that does not detect or recognize the the region or subregions values when verifying a
+ * signed SPDU shall indicate that the signed SPDU is invalid.
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

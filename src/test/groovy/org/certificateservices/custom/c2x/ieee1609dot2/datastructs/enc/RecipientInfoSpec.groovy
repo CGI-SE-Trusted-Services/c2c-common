@@ -95,6 +95,7 @@ class RecipientInfoSpec extends BaseStructSpec {
 		o2.getValue() == value.getValue()
 		o2.choice == choice
 		o2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                                   | value                                     | encoding

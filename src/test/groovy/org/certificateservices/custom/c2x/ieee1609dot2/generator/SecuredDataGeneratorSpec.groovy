@@ -12,97 +12,35 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
-import java.security.InvalidKeyException;
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature
-import java.text.SimpleDateFormat;
+import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SequenceOfCertificate
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedData
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PKRecipientInfo
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo.RecipientInfoChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmRecipientInfo
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmetricCiphertext.SymmetricCiphertextChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.*
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData.HashedDataChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier.SignerIdentifierChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator.SignerIdentifierType
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.*
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.*
+import spock.lang.Unroll
 
 import javax.crypto.SecretKey
-
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
-import org.certificateservices.custom.c2x.common.BaseStructSpec
-import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.common.crypto.ECQVHelper
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion.GeographicRegionChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IdentifiedRegion.IdentifiedRegionChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PsidSspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfPsidSspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange.SspRangeChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CountryOnly
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId3;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Hostname
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IdentifiedRegion
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Opaque
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicEncryptionKey
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfIdentifiedRegion
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ThreeDLocation
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ValidityPeriod;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateId;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.PsidGroupPermissions;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SequenceOfCertificate;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedData
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PKRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PreSharedKeyRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo.RecipientInfoChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmetricCiphertext.SymmetricCiphertextChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData.HashedDataChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedData
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedDataPayload;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier.SignerIdentifierChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator.SignerIdentifierType;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.PreSharedKeyReceiver;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.RekReciever
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.SignedDataReciever
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.SymmetricKeyReceiver;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.CertificateRecipient
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.Recipient;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.RekReceipient;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.SignedDataRecipient
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.SymmetricKeyReceipient;
-import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
-import org.junit.Ignore;
-
-import spock.lang.IgnoreRest;
-import spock.lang.Shared;
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import java.security.InvalidKeyException
+import java.security.KeyPair
+import java.security.PrivateKey
+import java.security.PublicKey
+import java.text.SimpleDateFormat
 
 /**
  * Test for SecuredDataGenerator
@@ -131,7 +69,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		if(alg == PublicVerificationKeyChoices.ecdsaBrainpoolP256r1){
 			sdg = sdg_ecdsaBrainpoolP256r1
 		}
-		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null)
+		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null,null,null)
 		when:
 		Ieee1609Dot2Data sd = sdg.genSignedData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY,[enrollCert, enrollCA, rootCA] as Certificate[], enrollCertPrivateKey)
 		then:
@@ -172,7 +110,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		if(alg == PublicVerificationKeyChoices.ecdsaBrainpoolP256r1){
 			sdg = sdg_ecdsaBrainpoolP256r1
 		}
-		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null)
+		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null,null,null)
 
 		when:
 		Ieee1609Dot2Data sd = sdg.genReferencedSignedData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.CERT_CHAIN,[enrollCert, enrollCA, rootCA] as Certificate[], enrollCertPrivateKey)
@@ -339,8 +277,8 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair encKeys1 = cryptoManager.generateKeyPair(alg)
 		KeyPair encKeys2 = cryptoManager.generateKeyPair(alg)
 
-		Ieee1609Dot2Data sd1 = sdg.genSignedData(sdg.genHeaderInfo(1234, null,null,null,null,null,null, alg, encKeys1.public), "TestMessage1".getBytes(), SignerIdentifierType.SIGNER_CERTIFICATE, [enrollCert1] as Certificate[], enrollCertKeys1.private)
-		Ieee1609Dot2Data sd2 = sdg.genSignedData(sdg.genHeaderInfo(1234, null,null,null,null,null,null, alg, encKeys2.public), "TestMessage2".getBytes(), SignerIdentifierType.SIGNER_CERTIFICATE, [enrollCert2] as Certificate[], enrollCertKeys2.private)
+		Ieee1609Dot2Data sd1 = sdg.genSignedData(sdg.genHeaderInfo(1234, null,null,null,null,null,null, alg, encKeys1.public,null,null), "TestMessage1".getBytes(), SignerIdentifierType.SIGNER_CERTIFICATE, [enrollCert1] as Certificate[], enrollCertKeys1.private)
+		Ieee1609Dot2Data sd2 = sdg.genSignedData(sdg.genHeaderInfo(1234, null,null,null,null,null,null, alg, encKeys2.public,null,null), "TestMessage2".getBytes(), SignerIdentifierType.SIGNER_CERTIFICATE, [enrollCert2] as Certificate[], enrollCertKeys2.private)
 		
 		byte[] sd1Hash = cryptoManager.digest(sd1.getEncoded(), HashAlgorithm.sha256);
 		when:
@@ -433,7 +371,9 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		Date genDate = sdf.parse("2016-01-01")
 		Date expDate = sdf.parse("2016-02-01")
 		KeyPair kp = cryptoManager.generateKeyPair(BasePublicEncryptionKeyChoices.ecdsaNistP256)
-		HeaderInfo hi = sdg.genHeaderInfo(123L, genDate, expDate, new ThreeDLocation(3, 2, 1), Hex.decode("101112"),Hex.decode("131415"), 99, BasePublicEncryptionKeyChoices.ecdsaNistP256, kp.getPublic())
+		SequenceOfHashedId3 inlineP2pcdRequest = new SequenceOfHashedId3([new HashedId3(Hex.decode("ab1232")), new HashedId3(Hex.decode("ab1233"))])
+		Certificate requestedCertificate = deserializeFromHex(new Certificate(),"80030081007f810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e08101020103400102e08101050106c0e0810107010840008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5")
+		HeaderInfo hi = sdg.genHeaderInfo(123L, genDate, expDate, new ThreeDLocation(3, 2, 1), Hex.decode("101112"),Hex.decode("131415"), 99, BasePublicEncryptionKeyChoices.ecdsaNistP256, kp.getPublic(),inlineP2pcdRequest,requestedCertificate)
 		then:
 		hi.psid.valueAsLong == 123L
 		hi.generationTime.asDate() == genDate
@@ -444,11 +384,13 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		hi.p2pcdLearningRequest.data == Hex.decode("101112")
 		hi.missingCrlIdentifier.cracaid.data == Hex.decode("131415")
 		hi.missingCrlIdentifier.crlSeries.valueAsLong == 99
+		hi.inlineP2pcdRequest == inlineP2pcdRequest
+		hi.requestedCertificate == requestedCertificate
 		BasePublicEncryptionKey encKey = ((PublicEncryptionKey) hi.encryptionKey.value).publicKey
 		cryptoManager.decodeEccPoint(encKey.type, encKey.value) == kp.public
 		
 		when: "Generate minimal header"
-		hi = sdg.genHeaderInfo(124L, null, null, null, null, null, null, null, null)
+		hi = sdg.genHeaderInfo(124L, null, null, null, null, null, null, null, null,null,null)
 		then:
 		hi.psid.valueAsLong == 124L
 		hi.generationTime == null
@@ -459,20 +401,20 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		hi.encryptionKey == null
 		
 		when: "Verify that Illegal Argument Exception is thrown if not both missing crl arguments are set"
-		sdg.genHeaderInfo(124L, null, null, null, null, Hex.decode("131415"), null, null, null)
+		sdg.genHeaderInfo(124L, null, null, null, null, Hex.decode("131415"), null, null, null,null,null)
 		then:
 		thrown IllegalArgumentException
 		when:
-		sdg.genHeaderInfo(124L, null, null, null, null, null, 99, null, null)
+		sdg.genHeaderInfo(124L, null, null, null, null, null, 99, null, null,null,null)
 		then:
 		thrown IllegalArgumentException
 		
 		when: "Verify that Illegal Argument Exception is thrown if not both encryption key are set"
-		sdg.genHeaderInfo(124L, null, null, null, null, null, null, BasePublicEncryptionKeyChoices.ecdsaNistP256, null)
+		sdg.genHeaderInfo(124L, null, null, null, null, null, null, BasePublicEncryptionKeyChoices.ecdsaNistP256, null,null,null)
 		then:
 		thrown IllegalArgumentException
 		when:
-		sdg.genHeaderInfo(124L, null, null, null, null, null, null, null, kp.getPublic())
+		sdg.genHeaderInfo(124L, null, null, null, null, null, null, null, kp.getPublic(),null,null)
 		then:
 		thrown IllegalArgumentException
 	}
@@ -497,7 +439,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		Certificate enrollCert2= genEnrollCert(CertificateType.explicit, alg, enrollCertKeys2, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys2.publicKey)
 		
 		
-		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null)
+		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null,null,null)
 		def certStore = sdg.buildCertStore([enrollCA,enrollCert1])
 		def trustStore = sdg.buildCertStore([rootCA])
 		when:
@@ -866,7 +808,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		if(encPubKey != null){
 			encKey = new EncryptionKey(new PublicEncryptionKey(SymmAlgorithm.aes128Ccm, new BasePublicEncryptionKey(keyType, cryptoManager.encodeEccPoint(keyType, EccP256CurvePointChoices.compressedy0, encPubKey))))
 		}
-		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,encKey)
+		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,encKey,null,null)
 		
 		Ieee1609Dot2Data sd = sdg.genSignedData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY,certChain, privateKey)
 	}

@@ -14,8 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 
 /**
- * This is the integer representation of the country or area identifier as defined by the United Nations Statistics Division, October 2013 edition 
- * (see normative references in clause 2).
+ * This is the integer representation of the country or area identifier as defined by the United Nations Statistics
+ * Division in October 2013 (see normative references in Clause 2).
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

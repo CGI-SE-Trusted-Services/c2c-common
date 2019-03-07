@@ -15,9 +15,11 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
 /**
- * This structure specifies a circle with its center at center, its radius given in meters, and located tangential to the reference ellipsoid. The indicated region 
- * is all the points on the surface of the reference ellipsoid whose distance to the center point over the reference ellipsoid is less than or equal to the radius. 
- * A point which contains an elevation component is considered to be within the circular region if its horizontal projection onto the reference ellipsoid lies within the region.
+ * This structure specifies a circle with its center at center, its radius given in meters, and located
+ * tangential to the reference ellipsoid. The indicated region is all the points on the surface of the reference
+ * ellipsoid whose distance to the center point over the reference ellipsoid is less than or equal to the radius. A
+ * point which contains an elevation component is considered to be within the circular region if its horizontal
+ * projection onto the reference ellipsoid lies within the region.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

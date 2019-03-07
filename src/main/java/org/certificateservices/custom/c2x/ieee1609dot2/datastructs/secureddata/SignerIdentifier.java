@@ -27,7 +27,8 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Sequence
  * This structure allows the recipient of data to determine which keying material to use to authenticate the data. 
  * It also indicates the verification type to be used to generate the hash for verification, as specified in 
  * <li>If the choice indicated is digest:
- * <br>- The structure contains the HashedId8 of the relevant certificate, obtained as specified in the description of the HashedId8 structure.
+ * <br>- The structure contains the HashedId8 of the relevant certificate, The HashedId8 is calculated with the whole-certificate
+ * hash algorithm, determined as described in 6.4.3.
  * <br>- The verification type is certificate.
  * <li>If the choice indicated is certificate:
  * <br>- The structure contains one or more Certificate structures, in order such that the first certificate is the authorization certificate and 
@@ -61,6 +62,14 @@ public class SignerIdentifier extends COERChoice {
 	      default:
 	    	  return  new COERNull();
 	      }
+		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
 		}
 	}
 	

@@ -112,23 +112,23 @@ class SecuredCrlSpec extends BaseStructSpec {
 	HashedData extHash = new HashedData(HashedDataChoices.sha256HashedData, Hex.decode("0102030405060708091011121314151617181920212223242526272829303132"))
 	SignedDataPayload sdp = new SignedDataPayload(data, extHash)
 	
-	Ieee1609Dot2Data valid = genSignedData(new SignedDataPayload(data, null), new HeaderInfo(new CrlPsid(), null, null, null, null, null, null))
+	Ieee1609Dot2Data valid = genSignedData(new SignedDataPayload(data, null), new HeaderInfo(new CrlPsid(), null, null, null, null, null, null,null,null))
 	
 	def "Verify that fullfillsRequirements verifies all required fields"(){
 		expect:
 		!SecuredCrl.fullfillsRequirements(genUnsecured())
 		!SecuredCrl.fullfillsRequirements(genSignedCertificateRequest())
 		!SecuredCrl.fullfillsRequirements(genEncryptedData())
-		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, null, null, null, null, null, null)))
-		 SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(data, extHash), new HeaderInfo(psid, null, null, null, null, null, null)))
-		 SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(data, null), new HeaderInfo(psid, null, null, null, null, null, null)))
-		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(data, null), new HeaderInfo(invalidPsid, null, null, null, null, null, null)))
-		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, null, null, null, null, null, null)))
-		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, expiryTime, null, null, null, null)))
-		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, generationLocation, null, null, null)))
-		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, p2pcdLearningRequest, null, null)))
-		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, missingCrlIdentifier, null)))
-		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, encryptionKey)))
+		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, null, null, null, null, null, null,null,null)))
+		 SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(data, extHash), new HeaderInfo(psid, null, null, null, null, null, null,null,null)))
+		 SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(data, null), new HeaderInfo(psid, null, null, null, null, null, null,null,null)))
+		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(data, null), new HeaderInfo(invalidPsid, null, null, null, null, null, null,null,null)))
+		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, null, null, null, null, null, null,null,null)))
+		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, expiryTime, null, null, null, null,null,null)))
+		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, generationLocation, null, null, null,null,null)))
+		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, p2pcdLearningRequest, null, null,null,null)))
+		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, missingCrlIdentifier, null,null,null)))
+		!SecuredCrl.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, encryptionKey,null,null)))
 		
 	}
 	

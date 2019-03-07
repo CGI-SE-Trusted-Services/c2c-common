@@ -19,7 +19,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint32;
  * This data structure represents information about a revoked certificate:
  * 
  * <li>crlSerial is a counter that increments by 1 every time a new full or delta CRL is issued 
- * for the indicated cracaId and crlSeries values.
+ * for the indicated crlCraca and crlSeries values.
  * <li>entries contains the individual revocation information items.
  * 
  * @author Philip Vendil, p.vendil@cgi.com

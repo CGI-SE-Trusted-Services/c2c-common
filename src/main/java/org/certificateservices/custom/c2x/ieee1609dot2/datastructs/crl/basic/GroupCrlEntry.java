@@ -19,13 +19,14 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint16;
 
 /**
  * In this structure:
+ * <ul>
  * <li>iMax indicates that for these certificates, revocation information need no longer be calculated once iCert > iMax as the holders are known to have no more
- * valid certs for that (cracaId, crlSeries) at that point.
- * <li>la1Id is the value LinkageAuthorityIdentifier1 used in the algorithm given in 5.1.3.4. This value applies to all linkage-based revocation information included within contents.
- * <li>linkageSeed1 is the value LinkageSeed1 used in the algorithm given in 5.1.3.4.
- * <li>la2Id is the value LinkageAuthorityIdentifier2 used in the algorithm given in 5.1.3.4. This value applies to all linkage-based revocation information included within contents. 
- * <li>linkageSeed2 is the value LinkageSeed2 used in the algorithm given in 5.1.3.4.
- * 
+ * valid certs for that (crlCraca, crlSeries) at that point.</il>
+ * <li>la1Id is the value LinkageAuthorityIdentifier1 used in the algorithm given in 5.1.3.4. This value applies to all linkage-based revocation information included within contents.</il>
+ * <li>linkageSeed1 is the value LinkageSeed1 used in the algorithm given in 5.1.3.4.</il>
+ * <li>la2Id is the value LinkageAuthorityIdentifier2 used in the algorithm given in 5.1.3.4. This value applies to all linkage-based revocation information included within contents.</il>
+ * <li>linkageSeed2 is the value LinkageSeed2 used in the algorithm given in 5.1.3.4.</il>
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

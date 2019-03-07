@@ -24,34 +24,39 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
  *
  */
 public class UncompressedEccPoint extends COERSequence {
-	
-	private static final int OCTETSTRING_SIZE = 32;
-	
+
 	private static final long serialVersionUID = 1L;
 	
 	private static final int X = 0;
 	private static final int Y = 1;
 
+	private static int octetSize;
+
 	/**
 	 * Constructor used when decoding
+	 *
+	 * @param octetSize the size of the data in the EC Point, depends on curve used. 32 for EC P-256 and 48 for EC P-384.
 	 */
-	public UncompressedEccPoint(){
+	public UncompressedEccPoint(int octetSize){
 		super(false,2);
+		this.octetSize = octetSize;
 		init();
 	}
 	
 	/**
 	 * Constructor used when encoding
+	 * @param octetSize the size of the data in the EC Point, depends on curve used. 32 for EC P-256 and 48 for EC P-384.
 	 * @param x 32 byte coordinate
 	 * @param y 32 byte coordinate
 	 */
-	public UncompressedEccPoint(byte[] x, byte[] y){
+	public UncompressedEccPoint(int octetSize, byte[] x, byte[] y){
 		super(false,2);
 		init();
+		this.octetSize = octetSize;
 		x = normaliseLength(x);
 		y = normaliseLength(y);
-		set(X, new COEROctetStream(x, OCTETSTRING_SIZE, OCTETSTRING_SIZE));
-		set(Y, new COEROctetStream(y, OCTETSTRING_SIZE, OCTETSTRING_SIZE));
+		set(X, new COEROctetStream(x, octetSize, octetSize));
+		set(Y, new COEROctetStream(y, octetSize, octetSize));
 		
 	}
 
@@ -75,8 +80,8 @@ public class UncompressedEccPoint extends COERSequence {
 	
 
 	private void init(){
-		addField(X, false, new COEROctetStream(OCTETSTRING_SIZE, OCTETSTRING_SIZE), null);
-		addField(Y, false, new COEROctetStream(OCTETSTRING_SIZE, OCTETSTRING_SIZE), null);
+		addField(X, false, new COEROctetStream(octetSize, octetSize), null);
+		addField(Y, false, new COEROctetStream(octetSize, octetSize), null);
 	}
 	
 	@Override
@@ -88,7 +93,7 @@ public class UncompressedEccPoint extends COERSequence {
 	 * Pad zeros in beginning of array to make sure it's 32 bytes
 	 */
 	private byte[] normaliseLength(byte[] data) {
-		return COEREncodeHelper.padZerosToByteArray(data, OCTETSTRING_SIZE);
+		return COEREncodeHelper.padZerosToByteArray(data, octetSize);
 	}
 	
 }

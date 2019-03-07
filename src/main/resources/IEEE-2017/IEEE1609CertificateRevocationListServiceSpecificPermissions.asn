@@ -1,0 +1,29 @@
+IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)
+dot2(2) crl(3) service-specific-permissions (3) major-version-2(2)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+  CrlSeries,
+  Uint8
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609)
+    dot2(2) base(1) base-types(2)  major-version-2 (2)}
+;
+
+
+  CrlSsp::= SEQUENCE {
+      version         Uint8(1),
+      associatedCraca CracaType,
+      crls            PermissibleCrls,
+      ...
+  }
+
+  CracaType ::= ENUMERATED {isCraca, issuerIsCraca}
+
+  PermissibleCrls ::= SEQUENCE OF CrlSeries
+
+END

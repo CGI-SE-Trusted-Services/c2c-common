@@ -71,6 +71,42 @@ class VerificationKeyIndicatorSpec extends BaseStructSpec {
 		new VerificationKeyIndicator(pvk).toString() == "VerificationKeyIndicator [verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000143, y=00000000000000000000000000000000000000000000000000000000000001a7]]]]"
 		new VerificationKeyIndicator(r).toString() == "VerificationKeyIndicator [reconstructionValue=[uncompressed=[x=000000000000000000000000000000000000000000000000000000000000007b, y=00000000000000000000000000000000000000000000000000000000000000df]]]"
 	}
-	
+
+	def coerReferenceEncodingWithBrainPool256Choice = normalizeHex """80 81 80 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00"""
+
+	def coerReferenceEncodingWithBrainPool384Choice = normalizeHex """80 82 31 80 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00"""
+
+	def asdf = normalizeHex """
+80 80 80 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00"""
+
+
+
+	def "Verify asdf"(){
+		when:
+		VerificationKeyIndicator vi = deserializeFromHex(new VerificationKeyIndicator(), asdf)
+		then:
+		vi.toString() == "VerificationKeyIndicator [verificationKey=[ecdsaNistP256=[xonly=0000000000000000000000000000000000000000000000000000000000000000]]]"
+	}
+
+
+	def "Verify externally encoding COER with choice with extension"(){
+		when:
+		VerificationKeyIndicator vi = deserializeFromHex(new VerificationKeyIndicator(), coerReferenceEncodingWithBrainPool256Choice)
+		then:
+		serializeToHex(vi) == coerReferenceEncodingWithBrainPool256Choice
+		vi.toString() == "VerificationKeyIndicator [verificationKey=[ecdsaBrainpoolP256r1=[xonly=0000000000000000000000000000000000000000000000000000000000000000]]]"
+		when:
+		vi = deserializeFromHex(new VerificationKeyIndicator(), coerReferenceEncodingWithBrainPool384Choice)
+		then:
+		serializeToHex(vi) == coerReferenceEncodingWithBrainPool384Choice
+		vi.toString() == "VerificationKeyIndicator [verificationKey=[ecdsaBrainpoolP384r1=EccP384CurvePoint [xonly=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]]]"
+	}
 
 }

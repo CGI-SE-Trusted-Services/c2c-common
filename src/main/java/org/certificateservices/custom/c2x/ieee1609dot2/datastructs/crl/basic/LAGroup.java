@@ -17,13 +17,13 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LaId;
 
 /**
  * In this structure:
- * 
+ * <ul>
  * <li>la1Id is the value LinkageAuthorityIdentifier1 used in the algorithm given in 5.1.3.4. This value
- * applies to all linkage-based revocation information included within contents.
+ * applies to all linkage-based revocation information included within contents.</li>
  * <li>la2Id is the value LinkageAuthorityIdentifier2 used in the algorithm given in 5.1.3.4. This value
- * applies to all linkage-based revocation information included within contents.   
- * <li>contents contains individual linkage data.
- * 
+ * applies to all linkage-based revocation information included within contents.</li>
+ * <li>contents contains individual linkage data.</li>
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

@@ -30,7 +30,13 @@ public interface COERChoiceEnumeration {
 	 * <b>Important every call should return a new object.
 	 */
 	COEREncodable getEmptyCOEREncodable() throws IOException;
-	
+
+	/**
+	 *
+	 * @return true if this entry is an extension or false if  regular choice
+	 */
+	boolean isExtension();
+
 	/**
 	 * 
 	 * @return the enumeration ordinal which gives the tag number.

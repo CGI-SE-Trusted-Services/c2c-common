@@ -12,55 +12,16 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata
 
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CrlSeries
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EcdsaP256Signature
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Elevation
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId3;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Latitude
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Longitude
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Opaque;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmetricEncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmetricEncryptionKey.SymmetricEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ThreeDLocation;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time64;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Countersignature;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.MissingCrlIdentifier;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedData;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedDataPayload;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.ToBeSignedData;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.AesCcmCiphertext
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedData;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PreSharedKeyRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SequenceOfRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmetricCiphertext;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData.HashedDataChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
-import org.junit.Ignore;
-
-import spock.lang.IgnoreRest;
-import spock.lang.Shared;
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmetricEncryptionKey.SymmetricEncryptionKeyChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.*
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.*
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData.HashedDataChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices
 
 /**
  * Test for Countersignature
@@ -88,24 +49,23 @@ class CountersignatureSpec extends BaseStructSpec {
 	Ieee1609Dot2Content content = new Ieee1609Dot2Content(Ieee1609Dot2ContentChoices.unsecuredData,o)
 	Ieee1609Dot2Data data = new Ieee1609Dot2Data(content)
 	HashedData extHash = new HashedData(HashedDataChoices.sha256HashedData, Hex.decode("0102030405060708091011121314151617181920212223242526272829303132"))
-	SignedDataPayload sdp = new SignedDataPayload(data, extHash)
-	
-	Ieee1609Dot2Data valid = genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, null))
+
+	Ieee1609Dot2Data valid = genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, null,null,null))
 	
 	def "Verify that fullfillsRequirements verifies all required fields"(){
 		expect:
 		!Countersignature.fullfillsRequirements(genUnsecured())
 		!Countersignature.fullfillsRequirements(genSignedCertificateRequest())
 		!Countersignature.fullfillsRequirements(genEncryptedData())
-		Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, null)))
-		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(data, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, null)))
-		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(data, null), new HeaderInfo(psid, generationTime, null, null, null, null, null)))
-		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, null, null, null, null, null, null)))
-		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, expiryTime, null, null, null, null)))
-		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, generationLocation, null, null, null)))
-		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, p2pcdLearningRequest, null, null)))
-		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, missingCrlIdentifier, null)))
-		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, encryptionKey)))
+		Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, null,null,null)))
+		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(data, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, null,null,null)))
+		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(data, null), new HeaderInfo(psid, generationTime, null, null, null, null, null,null,null)))
+		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, null, null, null, null, null, null,null,null)))
+		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, expiryTime, null, null, null, null,null,null)))
+		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, generationLocation, null, null, null,null,null)))
+		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, p2pcdLearningRequest, null, null,null,null)))
+		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, missingCrlIdentifier, null,null,null)))
+		!Countersignature.fullfillsRequirements(genSignedData(new SignedDataPayload(null, extHash), new HeaderInfo(psid, generationTime, null, null, null, null, encryptionKey,null,null)))
 		
 	}
 	

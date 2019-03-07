@@ -15,13 +15,13 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp;
 import org.certificateservices.custom.c2x.asn1.coer.COEREnumerationType;
 
 /**
- * This enumerated value of available types fo craca
- * <p>
- * If this takes the value isCraca, the cracaId field in the CrlContents structure is invalid 
- * unless it indicates the certificate that signs the CRL.
- * <p>
- * If this takes the value issuer, the isCracaDelegate field in the CrlContents structure is invalid 
- * unless it indicates the certificate that issued the certificate that signs the CRL.
+ * This type is used to determine the validity of the cracaId field in the CrlContents structure.
+ * <ul>
+ *     <li>If this takes the value isCraca, the cracaId field in the CrlContents structure is invalid unless
+ * it indicates the certificate that signs the CRL.</li>
+ *     <li>If this takes the value issuer, the isCracaDelegate field in the CrlContents structure is invalid
+ * unless it indicates the certificate that issued the certificate that signs the CRL.</li>
+ * </ul>
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

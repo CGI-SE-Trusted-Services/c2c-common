@@ -35,6 +35,31 @@ class SubjectAssuranceSpec extends BaseStructSpec{
 		new SubjectAssurance(5, 1).getConfidenceLevel() == 1
 		new SubjectAssurance(2, 3).getConfidenceLevel() == 3
 	}
+
+	def "Verify serialization and deserialization"(){
+		expect:
+		serializeToHex(new SubjectAssurance(1, 3)) == "23"
+		when:
+		SubjectAssurance subjectAssurance = deserializeFromHex(new SubjectAssurance(),"23")
+		then:
+		subjectAssurance.getAssuranceLevel() == 1
+		subjectAssurance.getConfidenceLevel() == 3
+		when:
+		subjectAssurance = deserializeFromHex(new SubjectAssurance(),"a0")
+		then:
+		subjectAssurance.getAssuranceLevel() == 5
+		subjectAssurance.getConfidenceLevel() == 0
+		when:
+		subjectAssurance = deserializeFromHex(new SubjectAssurance(),"e3")
+		then:
+		subjectAssurance.getAssuranceLevel() == 7
+		subjectAssurance.getConfidenceLevel() == 3
+		when:
+		subjectAssurance = deserializeFromHex(new SubjectAssurance(),"00")
+		then:
+		subjectAssurance.getAssuranceLevel() == 0
+		subjectAssurance.getConfidenceLevel() == 0
+	}
 	
 	@Unroll
 	def "Verify that subjectAssurance calculates a byte value of: #byteValue for assuranceLevel: #assuranceLevel and confidenceLevel: #confidenceLevel"(){

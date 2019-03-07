@@ -17,11 +17,11 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
 /**
  * In this structure:
- * 
+ * <ul>
  * <li>jMax is the value jMax used in the algorithm given in 5.1.3.4. This value applies to all 
  * linkage-based revocation information included within contents.
  * <li>contents contains individual linkage data.
- * 
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

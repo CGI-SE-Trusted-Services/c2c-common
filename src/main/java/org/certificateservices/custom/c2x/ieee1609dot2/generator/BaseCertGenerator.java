@@ -89,7 +89,7 @@ public abstract class BaseCertGenerator {
 				issuerIdentifier = new IssuerIdentifier(HashAlgorithm.sha256);
 			}else{
 				HashedId8 h8 = new HashedId8(cryptoManager.digest(signingCert.getEncoded(), HashAlgorithm.sha256));
-				issuerIdentifier = new IssuerIdentifier(h8);
+				issuerIdentifier = new IssuerIdentifier(IssuerIdentifier.IssuerIdentifierChoices.sha256AndDigest,h8);
 			}
 			Signature signature;
 			if(certType == CertificateType.explicit){

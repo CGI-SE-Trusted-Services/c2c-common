@@ -12,6 +12,16 @@ t *  Certificate Service -  Car2Car Core                                  *
  *************************************************************************/
 package org.certificateservices.custom.c2x.common.crypto
 
+import com.sun.crypto.provider.AESKeyGenerator
+import org.bouncycastle.crypto.digests.SHA256Digest
+import org.bouncycastle.crypto.params.KeyParameter
+import org.bouncycastle.jce.ECNamedCurveTable
+import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec
+import org.bouncycastle.jce.spec.ECNamedCurveSpec
+
+import javax.crypto.spec.SecretKeySpec
+import java.security.interfaces.ECPrivateKey
+import java.security.spec.ECParameterSpec
 
 import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointType.*
 import static org.certificateservices.custom.c2x.its.datastructs.basic.PublicKeyAlgorithm.*
@@ -87,20 +97,17 @@ import spock.lang.Unroll
  */
 class DefaultCryptoManagerSpec extends BaseStructSpec {
 	
-	@Shared DefaultCryptoManager defaultCryptoManager = new DefaultCryptoManager();
-	@Shared KeyPairGenerator sunKeyGenerator = KeyPairGenerator.getInstance("EC", "SunEC");
+	@Shared DefaultCryptoManager defaultCryptoManager = new DefaultCryptoManager()
+	@Shared KeyPairGenerator sunKeyGenerator = KeyPairGenerator.getInstance("EC", "SunEC")
 	
-	@Shared KeyPair testSignatureKeys;
-	@Shared KeyPair testEncKeys;
-	@Shared Certificate authTicket;
+	@Shared KeyPair testSignatureKeys
+	@Shared KeyPair testEncKeys
+	@Shared Certificate authTicket
 	
-	@Shared KeyPair altTestSignatureKeys;
-	@Shared KeyPair altTestEncKeys;
-	@Shared Certificate altAuthTicket;
-	
-	
+	@Shared KeyPair altTestSignatureKeys
+	@Shared KeyPair altTestEncKeys
+	@Shared Certificate altAuthTicket
 
-	
 	def setupSpec(){		
 		
 		def subParamSpec
@@ -109,17 +116,17 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		}catch(MissingMethodException e){
 		    subParamSpec  = sun.security.util.ECUtil.getECParameterSpec(null, "secp256r1") 
 		}
-		sunKeyGenerator.initialize(subParamSpec, new SecureRandom());
+		sunKeyGenerator.initialize(subParamSpec, new SecureRandom())
 		
 		defaultCryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"))
 		
-		testSignatureKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
-		testEncKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
-		altTestSignatureKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
-		altTestEncKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
+		testSignatureKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
+		testEncKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
+		altTestSignatureKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
+		altTestEncKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		
-		KeyPair rootCAKeys =  defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
-		KeyPair authCAKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256);
+		KeyPair rootCAKeys =  defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
+		KeyPair authCAKeys = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		
 		AuthorityCertGenerator acg = new AuthorityCertGenerator(defaultCryptoManager)
 
@@ -343,8 +350,9 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		  new String(Hex.encode(defaultCryptoManager.digest(message.getBytes(),algIndicator))) == digest
 		where:
 		alg          | message      | digest
-		Hash.sha256  | "abc1234"    | "36f583dd16f4e1e201eb1e6f6d8e35a2ccb3bbe2658de46b4ffae7b0e9ed872e" 
-		
+		Hash.sha256  | "abc1234"    | "36f583dd16f4e1e201eb1e6f6d8e35a2ccb3bbe2658de46b4ffae7b0e9ed872e"
+		Hash.sha384  | "abc1234"    | "3e742be1e90f0023371e6c4b4b80716715f483a9451218bf14c317370d947719633628af4d8dde3f8d16846edc29ca50"
+
 	}
 		
 	def "Verify getVerificationKey"(){
@@ -536,9 +544,9 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	
 	def "Verify that eCEISEncryptSymmetricKey and eCEISDecryptSymmetricKey encrypts and decrypts symmetric key correcly."(){
 		setup:
-		KeyGenerator kgen = KeyGenerator.getInstance("AES","BC");
-		kgen.init(128);
-		SecretKey key = kgen.generateKey();
+		KeyGenerator kgen = KeyGenerator.getInstance("AES","BC")
+		kgen.init(128)
+		SecretKey key = kgen.generateKey()
 		KeyPair kp = defaultCryptoManager.generateKeyPair(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256)
 		when:
 		def ecies = defaultCryptoManager.itsEceisEncryptSymmetricKeyVer2(PublicKeyAlgorithm.ecies_nistp256, kp.getPublic(), key)
@@ -551,6 +559,36 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		then:
 		key.getEncoded() == decryptedKey.getEncoded()
 	}
+
+
+	static byte[] testVector_D6_2_1_emperical_privateKey_deviation = Hex.decode("1384C31D6982D52BCA3BED8A7E60F52F")
+	static byte[] testVector_D6_2_1_emperical_privateKey_encoding = Hex.decode("ECDAB44E5C0EA166815A8159E09FFB42")
+	static String testVector_D6_2_1_recipient_privateKey = "060E41440A4E35154CA0EFCB52412145836AD032833E6BC781E533BF14851085"
+	static byte[] testVector_D6_2_1_recipient_publicKey_x = Hex.decode("8C5E20FE31935F6FA682A1F6D46E4468534FFEA1A698B14B0B12513EED8DEB11")
+	static byte[] testVector_D6_2_1_recipient_publicKey_y = Hex.decode("1270FEC2427E6A154DFCAE3368584396C8251A04E2AE7D87B016FF65D22D6F9E")
+	static byte[] testVector_D6_2_1_symKey = Hex.decode("9169155B08B07674CBADF75FB46A7B0D")
+	static byte[] testVector_D6_2_1_recipientHash = Hex.decode("9169155B08B07674CBADF75FB46A7B0D")
+
+	def "Verify that test vector of IEEE 1609.2 2017 amendment is correct"(){
+		setup:
+		SecretKey aesKey = new SecretKeySpec(testVector_D6_2_1_symKey, "AES")
+		org.bouncycastle.jce.spec.ECParameterSpec ecNistP256Spec = ECNamedCurveTable.getParameterSpec("P-256")
+        org.bouncycastle.jce.spec.ECPrivateKeySpec recipientPrivateKeySpec = new org.bouncycastle.jce.spec.ECPrivateKeySpec(new BigInteger(testVector_D6_2_1_recipient_privateKey,16), ecNistP256Spec)
+		//org.bouncycastle.jce.spec.ECPrivateKeySpec empericalPrivateKeySpec = new org.bouncycastle.jce.spec.ECPrivateKeySpec(new BigInteger(testVector_D6_2_1_emperical_privateKey,16), ecNistP256Spec)
+		KeyFactory kf = KeyFactory.getInstance("EC", "BC")
+		ECPrivateKey recipientPrivateKey = kf.generatePrivate(recipientPrivateKeySpec)
+		//ECPrivateKey empericalPrivateKey = kf.generatePrivate(empericalPrivateKeySpec)
+		EccP256CurvePoint uncompressed_point = new EccP256CurvePoint(testVector_D6_2_1_recipient_publicKey_x,testVector_D6_2_1_recipient_publicKey_y)
+		ECPublicKey recipientPublicKey = defaultCryptoManager.decodeEccPoint(PublicVerificationKeyChoices.ecdsaNistP256, uncompressed_point)
+
+
+		when:
+		def ecies = defaultCryptoManager.itsEceisEncryptSymmetricKeyVer2(PublicKeyAlgorithm.ecies_nistp256, recipientPublicKey, aesKey, testVector_D6_2_1_emperical_privateKey_deviation,testVector_D6_2_1_emperical_privateKey_encoding,null)
+		then:
+		println Hex.toHexString(ecies.c)
+	}
+
+
 
 	def "Verify that symmetric encrypt and decrypt works for aes_128_ccm"(){
 		setup:
@@ -754,8 +792,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		SignatureChoices.ecdsaNistP256Signature        | Algorithm.Signature.ecdsaNistP256
 		SignatureChoices.ecdsaBrainpoolP256r1Signature | Algorithm.Signature.ecdsaBrainpoolP256r1
 	}
-	
-	
+
 	static final def externalSecureMessage1 = Hex.decode("010181038002010901A8ED6DF65B0E6D6A0100809400000418929DB6A9E452223062C52028E956BF9874E0A40D21D5F9F56564F39C5DD187C922F2E5F0630373879A43393373B9F6205BF01FBD9C1F113165C291C376F535010004EABA91A915D81807E910FD292D99DF8B401EED88CF7F031412D5ED9905F9996469798C412FC8F7237A3AB3469795E2DEF5E1B783EA4F6B6A2359D21772B2EA9D0200210AC040800101C0408101010F01099EB20109B1270003040100960000004B2E6D0D0EE9BC4AD9CD087B601E9AF06031995443D652763455FBB794B33982889260740EF64CFA8C6808A58F98E06CE42A1E9C22A0785D7242647F7895ABFC0000009373931CD7580500021E011C983E690E5F6D755BD4871578A9427E7BC383903DC7DA3B560384013643010000FE8566BEA87B39E6411F80226E792D6E01E77B598F2BB1FCE7F2DD441185C07CEF0573FBFB9876B99FE811486F6F5D499E6114FC0724A67F8D71D2A897A7EB34")
 	static final def externalSecureMessage2 = Hex.decode("010181038002010901A8ED6DF65B0E6D6A01008094000004C4EC137145DD4F450145DE530CCA36E73AB3D87FC8275847CDAD8248C1CD20879BD6A8CB54EA9E05D3B41376CE2F24789AEF82836CA818D568ADF4A140E96E48010004D6C268EE68B5B8B387B2312B7E1D21CE0C366D251A32431508B96EB6A3479CCF96A8738F30ED451F00DA8DDE84367C7EB16727D14FF14F5DD8F9791FE0A12A640200210AC040800101C0408101010F01099EB20109B1270003040100960000001EB035FE8E51DCDD8558DE0BE9B87895B36B420583A5C6B2B8B2EAB7F3D3C99163638FA025A0033D4BD80BBA02B8E3DE1B55766459D494677AF24917E51B80AC0000009373CC5F22C8050002220120F29384759027349075829034707ABABABABABAABAB98437985739845783974954301000081E7CDB6D2C741C1700822305C39E8E809622AF9FCA1C0786F762D08E80580C42F1FCC1D5499577210834C390BB4613E102DECB14F575A2820743DC9A66BBD7A")
 	static final def externalSecureMessage3 = Hex.decode("010181038002010901A8ED6DF65B0E6D6A010080940000040209B0434163CCBAFDD34A45333E418FB96C05BBE0E7E1D755D40D0B4BBE8DA508EC2F2723B7ADF0F27C39F3AECFF0783C196F9961F8821E6294375D9294CD6A01000452113CE698DB081491675DF8FFE81C23EA5D0071B2D2BF0E0DA4ADA0CDA58259CA5D999200B6565E194EDAB8BD3DCA863F2DDF39C13E7A0375ECE2566C5EB8C60200210AC040800101C0408101010F01099EB20109B1270003040100960000008DA1F3F9F35E04C3DE77D7438988A8D57EBE44DAA021A4269E297C177C9CFE458E128EC290785D6631961625020943B6D87DAA54919A98F7865709929A7C6E480000009373CF482D400500020A01080123456789ABCDEF43010000371423BBA0902D8AF2FB2226D73A7781D4D6B6772650A8BEE5A1AF198CEDABA2C9BF57540C629E6A1E629B8812AEBDDDBCAF472F6586F16C14B3DEFBE9B6ADB2")

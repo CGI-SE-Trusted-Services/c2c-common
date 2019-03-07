@@ -20,12 +20,16 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Opaque;
 /**
  * This data structure encapsulates an encrypted ciphertext for the AES-CCM symmetric algorithm. 
  * It contains the following fields:
- * <li>nonce contains the nonce N as specified in 5.3.8.
- * <li>ccmCiphertext contains the ciphertext C as specified in 5.3.8.
- * 
+ * <ul>
+ * <li>nonce contains the nonce N as specified in 5.3.8.</li>
+ * <li>ccmCiphertext contains the ciphertext C as specified in 5.3.8.</li>
+ * </ul>
+ * <p>
  * The ciphertext is 16 bytes longer than the corresponding plaintext.
+ * </p>
+ * <p>
  * The plaintext resulting from a correct decryption of the ciphertext is a COER-encoded Ieee1609Dot2Data structure.
- * 
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

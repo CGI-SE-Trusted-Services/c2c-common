@@ -75,6 +75,7 @@ class SignerIdentifierSpec extends BaseStructSpec {
 		si2.getValue() == value.getValue()
 		si2.choice == choice
 		si2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                              | value                    | encoding   

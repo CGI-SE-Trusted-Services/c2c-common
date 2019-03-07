@@ -74,7 +74,8 @@ class GeographicRegionSpec extends BaseStructSpec {
 		then:
 		d.value == value
 		d.getType() == choice
-		
+		!choice.extension
+
 		where:
 		choice                                           | value   |  encoding
 		GeographicRegionChoices.circularRegion           | cr1     | "800000007b000000ea0005"  

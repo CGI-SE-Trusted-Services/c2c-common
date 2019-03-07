@@ -17,13 +17,14 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
 /**
  * In this type:
- * 
+ *
+ * <ul>
  * <li>countryOnly - is a CountryOnly as defined in it's class.
  * <li>region - identifies one or more regions within the country. If countryOnly indicates the United States of America, 
- * the values in this field identify the state or statistically equivalent entity using the integer verision of the 2010 FIPS codes as 
- * provided by the United States Census Bureau (see normative references in clause 2). For other values of countryOnly, the meaning of region 
- * is not defined in this version of this standard.
- * 
+ * the values in this field identify the state or statistically equivalent entity using the integer version of the 2010
+ * FIPS codes as provided by the United States Census Bureau (see normative references in clause 2). For other values of
+ * countryOnly, the meaning of region is not defined in this version of this standard.
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

@@ -42,14 +42,14 @@ import spock.lang.Specification
 abstract class BaseStructSpec extends Specification {
 	
 	String serializeToHex(Encodable o){
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream()
+		DataOutputStream dos = new DataOutputStream(baos)
 		
-		o.encode(dos);
-		dos.close();
+		o.encode(dos)
+		dos.close()
 		
 		
-		return new String(Hex.encode(baos.toByteArray()));
+		return new String(Hex.encode(baos.toByteArray()))
 	}
 	
 	Encodable deserializeFromHex(Encodable o, String hexData){
@@ -87,6 +87,10 @@ abstract class BaseStructSpec extends Specification {
 		Signature sig = new Signature(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, new EcdsaSignature(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(1)), new byte[32]))
 		
 		return new Certificate(certVersion, [si], subjectInfo, [sav,sae,sal],[vr1,vr2],sig);
+	}
+
+	String normalizeHex(String hexData){
+		return hexData.replaceAll("\n","").replaceAll(" ","").toLowerCase()
 	}
 
 }

@@ -45,7 +45,7 @@ import spock.lang.Unroll;
 class ToBeSignedDataSpec extends BaseStructSpec {
 
     SignedDataPayload sdp = new SignedDataPayload(null, new HashedData(HashedDataChoices.sha256HashedData, Hex.decode("0102030405060708091011121314151617181920212223242526272829303132")))
-	HeaderInfo hi = new HeaderInfo(new Psid(100), null, null, null, null, null, null)
+	HeaderInfo hi = new HeaderInfo(new Psid(100), null, null, null, null, null, null, null,null)
 	
 	def "Verify that constructor and getters are correct and it is correctly encoded"(){
 		when:

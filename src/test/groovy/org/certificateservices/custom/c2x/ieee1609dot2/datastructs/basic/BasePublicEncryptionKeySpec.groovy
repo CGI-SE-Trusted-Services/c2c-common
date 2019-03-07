@@ -56,6 +56,7 @@ class BasePublicEncryptionKeySpec extends BaseStructSpec {
 		key2.getValue() == r
 		key2.choice == choice
 		key2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                              | encoding   

@@ -52,6 +52,14 @@ public class SubjectPermissions extends COERChoice {
 			}
 			return new COERNull();
 		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
 	}
 	
 	/**

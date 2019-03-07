@@ -36,8 +36,6 @@ import java.util.List;
 
 public class COERSequence implements COEREncodable {
 	
-	// TODO Extention fields isn't properly tested.
-	
 	private static final long serialVersionUID = 1L;
 	
 	public static final COEREncodable NO_DEFAULT = null;
@@ -209,7 +207,7 @@ public class COERSequence implements COEREncodable {
 			}
 		}
 		
-		if(hasExtension && extensionValues.size()>0){
+		if(hasExtension && hasExtensionValueSet()){
 		    writeExtensionPresenseMap(out);
 		    for(Field extensionValue: extensionValues){
 		    	if(extensionValue.value != null){
@@ -223,6 +221,19 @@ public class COERSequence implements COEREncodable {
 		}
 		
 	}
+
+    /**
+     *
+     * @return checks that there exists any extension value that isn't null.
+     */
+	private boolean hasExtensionValueSet(){
+	    for(Field extensionValue: extensionValues){
+	        if(extensionValue.value != null){
+	            return true;
+            }
+        }
+	    return false;
+    }
 
 
 	private void writeExtensionPresenseMap(DataOutputStream out) throws IOException {
@@ -238,7 +249,7 @@ public class COERSequence implements COEREncodable {
 			if(optionalFields.get(optionalFields.size()-1).value != null){
 				presenseMap++;
 			}
-			COERBitString bitString = new COERBitString(presenseMap, optionalFields.size() + (hasExtension? 1 : 0), false);
+			COERBitString bitString = new COERBitString(presenseMap, optionalFields.size(), false);
 			bitString.encode(out);
 		}
 	}
@@ -248,7 +259,7 @@ public class COERSequence implements COEREncodable {
 		List<Field> optionalFields = getOptionalFields();
 		if(hasExtension || optionalFields.size() > 0){
 			long preamble = 0;
-			if(hasExtension){
+			if(hasExtension && hasExtensionValueSet()){
 			  if(extensionValues.size() > 0){
 				  preamble++;
 			  }
@@ -263,7 +274,7 @@ public class COERSequence implements COEREncodable {
 			if(optionalFields.size() > 0 && optionalFields.get(optionalFields.size()-1).value != null){
 				preamble++;
 			}
-			COERBitString bitString = new COERBitString(preamble, optionalFields.size() + (hasExtension? 1 : 0), true);
+			COERBitString bitString = new COERBitString(preamble, optionalFields.size() + (hasExtension ? 1 : 0), true);
 			bitString.encode(out);
 		}
 	}

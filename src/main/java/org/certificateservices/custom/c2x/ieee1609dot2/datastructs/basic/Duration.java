@@ -44,7 +44,14 @@ public class Duration extends COERChoice {
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 			return new Uint16();
 		}
-		
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
 	}
 	
 	/**

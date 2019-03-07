@@ -73,6 +73,7 @@ class SymmetricCiphertextSpec extends BaseStructSpec {
 		o2.getValue() == value
 		o2.choice == choice
 		o2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                              | value                 | encoding   

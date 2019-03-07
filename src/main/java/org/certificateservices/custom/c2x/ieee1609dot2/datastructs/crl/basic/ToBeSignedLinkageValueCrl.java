@@ -18,15 +18,16 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
 /**
  * In this structure:
- * 
+ * <ul>
  * <li>iRev is the value iRev used in the algorithm given in 5.1.3.4. This value applies to all linkage-based 
- * revocation information included within either indvidual or groups.
- * <li>intervalWithinI is a counter that is set to 0 for the first CRL issued for the indicated 
- * combination of cracaId, crlSeries and iRev, and increments by 1 every time a new full or delta 
- * CRL is issued for the indicated cracaId and crlSeries values without changing iRev.
- * <li>individual contains individual linkage data.
- * <li>groups contains group linkage data.
- * 
+ * revocation information included within either indvidual or groups.</li>
+ * <li>indexWithinI is a counter that is set to 0 for the first CRL issued for the
+ * indicated combination of crlCraca, crlSeries, and iRev, and increments by 1
+ * every time a new full or delta CRL is issued for the indicated crlCraca and
+ * crlSeries values without changing iRev.</li>
+ * <li>individual contains individual linkage data.</li>
+ * <li>groups contains group linkage data.</li>
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -35,7 +36,7 @@ public class ToBeSignedLinkageValueCrl extends COERSequence {
 	private static final long serialVersionUID = 1L;
 	
 	private static final int IREV = 0;
-	private static final int INTERVALWITHINI = 1;
+	private static final int INDEXWITHINI = 1;
 	private static final int INDIVIDUAL = 2;
 	private static final int GROUPS = 3;
 
@@ -50,7 +51,7 @@ public class ToBeSignedLinkageValueCrl extends COERSequence {
 	/**
 	 * Constructor used when encoding, one of individual or groups must be present or IllegalArgumentException is thrown.
 	 */
-	public ToBeSignedLinkageValueCrl(int iRev, int intervalWithinI, SequenceOfJMaxGroup individual,SequenceOfGroupCrlEntry groups) throws IllegalArgumentException{
+	public ToBeSignedLinkageValueCrl(int iRev, int indexWithinI, SequenceOfJMaxGroup individual,SequenceOfGroupCrlEntry groups) throws IllegalArgumentException{
 		super(true,4);
 		init();
 		
@@ -58,7 +59,7 @@ public class ToBeSignedLinkageValueCrl extends COERSequence {
 			throw new IllegalArgumentException("Error in ToBeSignedLinkageValueCrl both individual and groups cannot be null.");
 		}
 		set(IREV, new IValue(iRev));
-		set(INTERVALWITHINI, new Uint8(intervalWithinI));
+		set(INDEXWITHINI, new Uint8(indexWithinI));
 		set(INDIVIDUAL, individual);
 		set(GROUPS, groups);
 	}
@@ -75,8 +76,8 @@ public class ToBeSignedLinkageValueCrl extends COERSequence {
 	 * 
 	 * @return Returns the intervalWithinI value
 	 */
-	public int getIntervalWithinI(){
-		return (int) ((Uint8) get(INTERVALWITHINI)).getValueAsLong();
+	public int getIndexWithinI(){
+		return (int) ((Uint8) get(INDEXWITHINI)).getValueAsLong();
 	}
 	
 	/**
@@ -99,7 +100,7 @@ public class ToBeSignedLinkageValueCrl extends COERSequence {
 	
 	private void init(){
 		addField(IREV, false, new IValue(), null);
-		addField(INTERVALWITHINI, false, new Uint8(), null);
+		addField(INDEXWITHINI, false, new Uint8(), null);
 		addField(INDIVIDUAL, true, new SequenceOfJMaxGroup(), null);
 		addField(GROUPS, true, new SequenceOfGroupCrlEntry(), null);
 	}
@@ -107,7 +108,7 @@ public class ToBeSignedLinkageValueCrl extends COERSequence {
 
 	@Override
 	public String toString() {
-		String retval = "ToBeSignedLinkageValueCrl [iRev=" + getIRev() + ", intervalWithinI=" + getIntervalWithinI() + ",";
+		String retval = "ToBeSignedLinkageValueCrl [iRev=" + getIRev() + ", indexWithinI=" + getIndexWithinI() + ",";
 		if(getIndividual() != null){
 			retval += "\n  individual=" + getIndividual().toString().replace("SequenceOfJMaxGroup ", "").replaceAll("\n", "\n  ");
 			if(getGroups() != null){

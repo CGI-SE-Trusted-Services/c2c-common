@@ -21,12 +21,12 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 
 /**
- * This structure provides the key bytes for use with an identified symmetric algorithm. The only supported
- * symmetric algorithm is AES-128 in CCM mode as specified in 5.3.8.
+ * This data structure encapsulates a ciphertext generated with an approved symmetric algorithm.
  * <p>
- * <b>Critical information fields:</b>
- * If present, this is a critical information field as defined in 5.2.5. An implementation that does not 
- * recognize the indicated CHOICE for this type when verifying a signed SPDU shall indicate that the signed SPDU is invalid.
+ *     <b>Critical information fields:</b>If present, this is a critical information field as defined in 5.2.5. An
+ * implementation that does not recognize the indicated CHOICE value for this type in an encrypted SPDU
+ * shall reject the SPDU as invalid.
+ * </p>
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -45,6 +45,13 @@ public class SymmetricEncryptionKey extends COERChoice {
 			return new COEROctetStream(OCTETSTRING_SIZE,OCTETSTRING_SIZE);
 		}
 
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
 	}
 	
 	/**

@@ -16,9 +16,25 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 
 /**
- *<li>recipientId contains the hash of the container for the encryption public key as specified in the definition of RecipientInfo.
- *<li>encKey contains the encrypted key.
- * 
+ * <ul>
+ *<li>recipientId contains the hash of the “container” for the encryption public key as specified in
+ * the definition of RecipientInfo. Specifically, depending on the choice indicated by the containing
+ * RecipientInfo structure:
+ * <br>
+ *     ⎯ If the containing RecipientInfo structure indicates certRecipInfo, this field
+ * contains the HashedId8 of the certificate. The HashedId8 is calculated with the wholecertificate
+ * hash algorithm, determined as described in 6.4.3.
+ * <br>
+ * ⎯ If the containing RecipientInfo structure indicates signedDataRecipInfo, this
+ * field contains the HashedId8 of the Ieee1609Dot2Data of type signed that contained the
+ * encryption key, with that Ieee1609Dot2Data canonicalized per 6.3.4. The HashedId8 is
+ * calculated with SHA-256.
+ * <br>
+ * ⎯ If the containing RecipientInfo structure indicates rekRecipInfo, this field contains
+ * the HashedId8 of the COER encoding of a PublicEncryptionKey structure containing the
+ * response encryption key. The HashedId8 is calculated with SHA-256.
+ *<li>encKey contains the encrypted key.</li>
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

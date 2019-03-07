@@ -22,12 +22,26 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signatu
  * <li>hashId indicates the hash algorithm to be used to generate the hash of the message for signing and verification.
  * <li>tbsData contains the data that is hashed as input to the signature.
  * <li>signer determines the keying material and hash algorithm used to sign the data. 
- * <li>signature contains the digital signature itself, calculated as specified in 5.3.1, with:
- * <br>- Data input equal to the COER encoding of the tbsData field canonicalized according to the encoding considerations given in 6.3.6,
- * <br>- Verification type equal to certificate,
- * <br>- Signer identifier input equal to the COER-encoding of the Certificate that is to be used to
- * verify the SPDU, canonicalized according to the encoding considerations given in 6.4.3.
- * 
+ * <li>signature contains the digital signature itself, calculated as specified in 5.3.1
+ * <p>
+ *     If signer indicates the choice self, then the signature calculation is parameterized as
+ * follows:
+ *  <li>Data input is equal to the COER encoding of the tbsData field canonicalized
+ * according to the encoding considerations given in 6.3.6.</li>
+ * <li>Verification type is equal to self.</li>
+ * <li>Signer identifier input is equal to the empty string.</li>
+ * </p>
+ * <p>
+ *     If signer indicates certificate or digest, then the signature calculation is
+ * parameterized as follows:
+ * <li>Data input is equal to the COER encoding of the tbsData field canonicalized
+ * according to the encoding considerations given in 6.3.6.</li>
+ * <li>Verification type is equal to certificate.</li>
+ * <li>Signer identifier input is equal to the COER encoding of the Certificate that is to
+ * be used to verify the SPDU, canonicalized according to the encoding considerations
+ * given in 6.4.3.</li>
+ * </p>
+
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

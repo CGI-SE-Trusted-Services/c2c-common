@@ -18,9 +18,18 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
  * This data structure encodes data that has been encrypted to one or more recipients using the recipients’ public or symmetric keys as specified in 5.3.4.
  * <p>
  * The type contains the following fields:
- * <li>recipients contains one or more RecipientInfos, defined below. If the ciphertext was produced using the static data encryption key approach specified in 5.3.4.2, recipients contains a single entry of type PreSharedKeyRecipientInfo. If the ciphertext was produced using the ephemeral data encryption key approach specified in 5.3.4.1, recipients contains one or more entries which are of any type other than PreSharedKeyRecipientInfo.
- * <li>ciphertext contains the encrypted data. This is the encryption of an encoded Ieee1609Dot2 Data structure.
- * 
+ * <li>recipients contains one or more RecipientInfos, defined below. If the ciphertext was produced using the static data encryption
+ * key approach specified in 5.3.4.2, recipients contains a single entry of type PreSharedKeyRecipientInfo. If the ciphertext
+ * was produced using the ephemeral data encryption key approach specified in 5.3.4.1, recipients contains one or more
+ * entries which are of any type other than PreSharedKeyRecipientInfo.</li>
+ * <li>ciphertext contains the encrypted data. This is the encryption of an encoded Ieee1609Dot2 Data structure.</li>
+ * </p>
+ * <p>
+ *     <b>Critical information fields:</b>If present, recipients is a critical information field as defined in 5.2.5. An implementation that
+ * does not support the number of RecipientInfo in recipients when decrypted shall indicate that
+ * the encrypted SPDU could not be decrypted due to unsupported critical information fields. A
+ * compliant implementation shall support recipients fields containing at least eight entries.
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

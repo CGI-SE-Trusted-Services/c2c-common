@@ -21,11 +21,16 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
  * <p>
  * If the signature process followed the specification of FIPS 186-4 and output the integer r, r is represented
  * as an EccP256CurvePoint indicating the selection x-only.
+ * </p>
  * <p>
  * If the signature process followed the specification of SEC 1 and output the elliptic curve point R to allow for 
  * fast verification, R is represented as an EccP256CurvePoint indicating the choice compressed-y-0, compressed-y-1, 
  * or uncompressed at the sender’s discretion
- * 
+ * </p>
+ * <p>
+ * <b>Encoding considerations:</b> If this structure is encoded for hashing, the EccP256CurvePoint in rSig shall
+ * be taken to be of form x-only.
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

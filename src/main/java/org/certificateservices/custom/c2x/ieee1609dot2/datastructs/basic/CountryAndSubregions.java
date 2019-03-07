@@ -17,10 +17,22 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
 /**
  * In this type:
- * 
- * <li>region -  identifies a region within a country as specified under CountryAndRegions.
- * <li>subregions - identifies one or more subregions as specified under CountryAndSubregions.
- * 
+ *
+ * <ul>
+ * <li>countryOnly is a CountryOnly as defined in CountryOnly.</li>
+ * <li>regionAndSubregions identifies one or more subregions within country. If country
+ * indicates the United States of America, the values in this field identify the county or county
+ * equivalent entity using the integer version of the 2010 FIPS codes as provided by the U.S.
+ * Census Bureau (see normative references in Clause 2). For other values of country, the meaning
+ * of regionAndSubregions is not defined in this version of this standard.</li>
+ * </ul>
+ * <p>
+ *     <b>Critical information fields:</b>If present, this is a critical information field as defined in 5.2.5. An
+ *     implementation that does not recognize RegionAndSubregions or CountryAndSubregions values
+ * when verifying a signed SPDU shall indicate that the signed SPDU is invalid. A compliant
+ * implementation shall support CountryAndSubregions containing at least eight
+ * RegionAndSubregions entries
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

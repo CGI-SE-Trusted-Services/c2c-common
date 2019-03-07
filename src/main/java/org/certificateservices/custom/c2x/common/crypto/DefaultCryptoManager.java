@@ -36,10 +36,7 @@ import java.security.SignatureException;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -56,22 +53,37 @@ import org.bouncycastle.asn1.ASN1Integer;
 import org.bouncycastle.asn1.DLSequence;
 import org.bouncycastle.asn1.teletrust.TeleTrusTNamedCurves;
 import org.bouncycastle.asn1.teletrust.TeleTrusTObjectIdentifiers;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.EphemeralKeyPair;
+import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.bouncycastle.crypto.KeyEncoder;
 import org.bouncycastle.crypto.agreement.ECDHCBasicAgreement;
 import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.engines.AESEngine;
 import org.bouncycastle.crypto.engines.IESEngine;
+import org.bouncycastle.crypto.generators.ECKeyPairGenerator;
+import org.bouncycastle.crypto.generators.EphemeralKeyPairGenerator;
 import org.bouncycastle.crypto.generators.KDF2BytesGenerator;
+import org.bouncycastle.crypto.modes.CCMBlockCipher;
+import org.bouncycastle.crypto.params.*;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.IESCipher.ECIES;
 import org.bouncycastle.jcajce.provider.asymmetric.util.EC5Util;
+import org.bouncycastle.jcajce.provider.asymmetric.util.ECUtil;
+import org.bouncycastle.jcajce.provider.asymmetric.util.IESUtil;
 import org.bouncycastle.jce.ECNamedCurveTable;
+import org.bouncycastle.jce.interfaces.IESKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
 import org.bouncycastle.jce.spec.IESParameterSpec;
 import org.bouncycastle.math.ec.ECCurve;
 import org.bouncycastle.math.ec.ECPoint;
+import org.bouncycastle.math.ec.FixedPointCombMultiplier;
 import org.bouncycastle.math.ec.custom.sec.SecP256R1Curve;
+import org.bouncycastle.util.BigIntegers;
+import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.Encodable;
 import org.certificateservices.custom.c2x.common.EncodeHelper;
@@ -125,15 +137,18 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
    
 	protected ECParameterSpec ecNistP256Spec = ECNamedCurveTable.getParameterSpec("P-256");
 	protected ECParameterSpec brainpoolp256r1Spec = ECNamedCurveTable.getParameterSpec("brainpoolp256r1");
+	protected ECParameterSpec brainpoolp384r1Spec = ECNamedCurveTable.getParameterSpec("brainpoolp384r1");
 	
 	protected KeyPairGenerator ecNistP256Generator;
-	protected KeyPairGenerator brainpoolp256r1P256Generator;
+	protected KeyPairGenerator brainpoolp256r1Generator;
+	protected KeyPairGenerator brainpoolp384r1Generator;
 	protected KeyGenerator aES128Generator;
 	protected SecureRandom secureRandom = new SecureRandom();
 	protected SecP256R1Curve ecNistP256Curve = new SecP256R1Curve();
 	protected ECCurve brainpoolp256r1 = TeleTrusTNamedCurves.getByOID(TeleTrusTObjectIdentifiers.brainpoolP256r1).getCurve();
 	protected KeyFactory keyFact;
 	protected MessageDigest sha256Digest;
+	protected MessageDigest sha384Digest;
 	protected ECQVHelper ecqvHelper;
 	
 	protected String provider;
@@ -161,9 +176,12 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			}
 			ecNistP256Generator = KeyPairGenerator.getInstance("ECDSA", provider);
 			ecNistP256Generator.initialize(ecNistP256Spec, secureRandom);
-			brainpoolp256r1P256Generator = KeyPairGenerator.getInstance("ECDSA", provider);
-			brainpoolp256r1P256Generator.initialize(brainpoolp256r1Spec,secureRandom);
+			brainpoolp256r1Generator = KeyPairGenerator.getInstance("ECDSA", provider);
+			brainpoolp256r1Generator.initialize(brainpoolp256r1Spec,secureRandom);
+			brainpoolp384r1Generator = KeyPairGenerator.getInstance("ECDSA", provider);
+			brainpoolp384r1Generator.initialize(brainpoolp384r1Spec,secureRandom);
 			sha256Digest = MessageDigest.getInstance("SHA-256","BC");
+			sha384Digest = MessageDigest.getInstance("SHA-384","BC");
 			keyFact = KeyFactory.getInstance("ECDSA", "BC");
 			aES128Generator = KeyGenerator.getInstance("AES","BC");
 			aES128Generator.init(128);
@@ -298,7 +316,7 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	}
 
 	/**
-	 * @see org.certificateservices.custom.c2x.its.crypto.CryptoManager#signSecureMessage(SecuredMessage, Certificate, Certificate[], SignerInfoType, PublicKeyAlgorithm, PrivateKey)
+	 * @see org.certificateservices.custom.c2x.common.its.CryptoManager#signSecureMessag
 	 */
 	@Override
 	public SecuredMessage signSecureMessage(SecuredMessage secureMessage, Certificate signerCertificate, Certificate[] signerCACertificates,SignerInfoType signerInfoType, PublicKeyAlgorithm alg,
@@ -781,7 +799,10 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			return ecNistP256Generator.generateKeyPair();
 		}
 		if(sigAlg == Algorithm.Signature.ecdsaBrainpoolP256r1){
-			return brainpoolp256r1P256Generator.generateKeyPair();
+			return brainpoolp256r1Generator.generateKeyPair();
+		}
+		if(sigAlg == Algorithm.Signature.ecdsaBrainpoolP384r1){
+			return brainpoolp384r1Generator.generateKeyPair();
 		}
 		throw new IllegalArgumentException("Error unsupported algorithm when generating key pair: " + sigAlg);
 	}
@@ -908,9 +929,13 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 			sha256Digest.reset();
             sha256Digest.update(message); 
 			return sha256Digest.digest();
-		}else{
-			throw new IllegalArgumentException("Unsupported hash algorithm: " + alg);
 		}
+		if(hashAlg != null && hashAlg == Hash.sha384){
+			sha384Digest.reset();
+			sha384Digest.update(message);
+			return sha384Digest.digest();
+		}
+		throw new IllegalArgumentException("Unsupported hash algorithm: " + alg);
 	}
 		
 	
@@ -986,7 +1011,11 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		
 		return new EciesNistP256EncryptedKey(1,publicKeyAlgorithm, p, c,t); 
 	}
-	
+
+	protected EciesNistP256EncryptedKey itsEceisEncryptSymmetricKeyVer2(PublicKeyAlgorithm publicKeyAlgorithm, PublicKey encryptionKey, Key symmetricKey) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
+		return itsEceisEncryptSymmetricKeyVer2(publicKeyAlgorithm,encryptionKey,symmetricKey,null,null,null);
+	}
+
 	/**
 	 * Help method to perform a ECIES encryption to a recipient of a symmetric key according to the protocol version 2 standard. 
 	 * 
@@ -1003,14 +1032,15 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	 * @throws InvalidKeySpecException if supplied key specification was faulty.
 	 * @throws IOException if communication problem occurred with underlying systems.
 	 */
-	protected EciesNistP256EncryptedKey itsEceisEncryptSymmetricKeyVer2(PublicKeyAlgorithm publicKeyAlgorithm, PublicKey encryptionKey, Key symmetricKey) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
+	protected EciesNistP256EncryptedKey itsEceisEncryptSymmetricKeyVer2(PublicKeyAlgorithm publicKeyAlgorithm, PublicKey encryptionKey, Key symmetricKey, byte[] derivation, byte[] encoding, byte[] nounce) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, IllegalArgumentException, InvalidKeySpecException, IOException{
 		if(publicKeyAlgorithm != PublicKeyAlgorithm.ecies_nistp256){
 			throw new IllegalArgumentException("Unsupported encryption public key algorithm: " + publicKeyAlgorithm);
 		}
 		byte[] keyData = symmetricKey.getEncoded();
-		
+
+
 		IESCipher eCIESCipher = new IEEE1609Dot2ECIES();
-		eCIESCipher.engineInit(Cipher.ENCRYPT_MODE, encryptionKey,  new IESParameterSpec(null, null, 128,-1, null, true),secureRandom);
+		eCIESCipher.engineInit(Cipher.ENCRYPT_MODE, encryptionKey,  new IESParameterSpec(derivation, encoding, 128,-1, nounce, true),secureRandom);
 				
 		byte[] encryptedData = eCIESCipher.engineDoFinal(keyData, 0, keyData.length);
 		
@@ -1067,7 +1097,179 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 		return new EncryptedDataEncryptionKey(keyType, key);
 		 
 	}
-	
+
+
+	/**
+	 * Method to encrypt a symmetric key according to IEEE 1609.2 2017 specification.
+	 *
+	 * @param keyType the algorithm specification of the recipients public key.
+	 * @param encryptionKey the recipients public key to encrypt to.
+	 * @param symmetricKey the symmetric key to encrypt (Should be AES 128)
+	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
+	 * @return a EncryptedDataEncryptionKey with v,c,t set.
+	 * @throws IllegalArgumentException if supplied parameters where invalid.
+	 * @throws GeneralSecurityException if problems occurred performing the encryption.
+	 */
+	public EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1) throws IllegalArgumentException, GeneralSecurityException, IOException{
+		return ieeeEceisEncryptSymmetricKey2017(keyType,encryptionKey,symmetricKey,p1,null);
+	}
+
+	/**
+	 * Method to encrypt a symmetric key according to IEEE 1609.2 2017 specification.
+	 * <p>
+	 *     <b>Important: this method should only be used when testing test vectors.</b>
+	 * </p>
+	 *
+	 * @param keyType the algorithm specification of the recipients public key.
+	 * @param encryptionKey the recipients public key to encrypt to.
+	 * @param symmetricKey the symmetric key to encrypt (Should be AES 128)
+	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
+	 * @param empericalPrivateKey use a specified empericalPrivate key, should only be used when testing predefiend test vector. And real use
+	 *                            of ECIES encryption should specify null. Then a new key is generated for each call.
+	 * @return a EncryptedDataEncryptionKey with v,c,t set.
+	 * @throws IllegalArgumentException if supplied parameters where invalid.
+	 * @throws GeneralSecurityException if problems occurred performing the encryption.
+	 */
+	public EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1, byte[] empericalPrivateKey) throws IllegalArgumentException, GeneralSecurityException{
+		byte[] keyData = symmetricKey.getEncoded();
+		ECDomainParameters domainParameters = keyType.getAlgorithm().getSignature().getECDomainParameters();
+
+		int k_len = keyType.getAlgorithm().getSymmetric().getKeyLength();
+		int p1_len = 32; //256/8
+		assert (keyData.length == k_len) : "input k must be of octet length: " + k_len;
+		assert p1.length == p1_len : "input P1 must be of octet length: " + p1_len;
+		assert encryptionKey instanceof ECPublicKey;
+		ECPublicKeyParameters publicKeyParams = (ECPublicKeyParameters) ECUtil.generatePublicKeyParameter(encryptionKey);
+		assert publicKeyParams.getQ().isValid() : "Public key is not on curve";
+
+		ECPrivateKeyParameters empericalPrivateKeyParams=null;
+		ECPublicKeyParameters empericalPublicKeyParams=null;
+
+		if(empericalPrivateKey == null){
+			EphemeralKeyPair ephemeralKeyPair = getEphemeralKeyPairGenerator(domainParameters).generate();
+			empericalPrivateKeyParams = (ECPrivateKeyParameters) ephemeralKeyPair.getKeyPair().getPrivate();
+			empericalPublicKeyParams = (ECPublicKeyParameters) ephemeralKeyPair.getKeyPair().getPublic();
+		}else{
+			BigInteger d = new BigInteger(Hex.toHexString(empericalPrivateKey),16);
+			empericalPrivateKeyParams = new ECPrivateKeyParameters(d,domainParameters);
+			ECPoint Q = new FixedPointCombMultiplier().multiply(domainParameters.getG(), d);
+			empericalPublicKeyParams = new ECPublicKeyParameters(Q, domainParameters);
+		}
+
+		ECDHCBasicAgreement agreement = new ECDHCBasicAgreement();
+		agreement.init(empericalPrivateKeyParams);
+		BigInteger ss = agreement.calculateAgreement(publicKeyParams);
+		byte[] SS = BigIntegers.asUnsignedByteArray(agreement.getFieldSize(), ss);
+
+		int K1_len = keyType.getAlgorithm().getSymmetric().getKeyLength();
+		int K2_len = 32; //256/8
+		int dl = K1_len + K2_len;
+		byte[] K1_K2 = new byte[dl];
+
+		KDF2BytesGenerator kdf2BytesGenerator = new KDF2BytesGenerator(new SHA256Digest());
+		kdf2BytesGenerator.init(new KDFParameters(SS, p1));
+		kdf2BytesGenerator.generateBytes(K1_K2,0,dl);
+
+		byte[] C = new byte[K1_len];
+		for(int i = 0; i != K1_len; ++i) {
+			C[i] = (byte)(keyData[i] ^ K1_K2[i]);
+		}
+
+		byte[] K2 = new byte[K2_len];
+		System.arraycopy(K1_K2,K1_len,K2,0,K2_len);
+		Mac1 mac1 = new Mac1(new SHA256Digest(),128);
+		mac1.init(new KeyParameter(K2));
+		mac1.update(C,0,C.length);
+		byte[] T = new byte[mac1.getMacSize()];
+		mac1.doFinal(T,0);
+
+		byte[] V = empericalPublicKeyParams.getQ().getEncoded(true);
+		EccP256CurvePoint vPubPoint = new EccP256CurvePoint(V);
+		EciesP256EncryptedKey key = new EciesP256EncryptedKey(vPubPoint,C,T);
+		return new EncryptedDataEncryptionKey(keyType, key);
+	}
+
+	/**
+	 * Help method to create a ephemeral key pair generator used to generate a unique key for
+	 * each ECIES encryption.
+	 * @param domainParameters the EC curve domain parameters used.
+	 * @return a new EphemeralKeyPairGenerator
+	 */
+	private EphemeralKeyPairGenerator getEphemeralKeyPairGenerator(ECDomainParameters domainParameters){
+		ECKeyGenerationParameters ecKeyGenerationParameters = new ECKeyGenerationParameters(domainParameters, new SecureRandom());
+		ECKeyPairGenerator ecKeyPairGenerator = new ECKeyPairGenerator();
+		ecKeyPairGenerator.init(ecKeyGenerationParameters);
+		EphemeralKeyPairGenerator ephemeralKeyPairGenerator = new EphemeralKeyPairGenerator(ecKeyPairGenerator, new KeyEncoder()
+		{
+			public byte[] getEncoded(AsymmetricKeyParameter keyParameter)
+			{
+				return ((ECPublicKeyParameters)keyParameter).getQ().getEncoded(true);
+			}
+		});
+		return ephemeralKeyPairGenerator;
+	}
+
+	/**
+	 * Method to decrypt symmetric key using the 1609.2 2017 defined ECIES encryption scheme.
+	 * @param encryptedDataEncryptionKey the type of encryption key.
+	 * @param decryptionKey the receiver's private key.
+	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
+	 * @return the decrypted AES symmetric key.
+	 * @throws InvalidKeyException if supplied private key was invalid
+	 * @throws IllegalArgumentException if invalid arguments where specified.
+	 * @throws InvalidKeySpecException if invalid key specification was given.
+	 */
+	protected Key ieeeEceisDecryptSymmetricKey2017(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, byte[] p1) throws InvalidKeyException, IllegalArgumentException, InvalidKeySpecException {
+		ECDomainParameters domainParameters = encryptedDataEncryptionKey.getType().getAlgorithm().getSignature().getECDomainParameters();
+
+		int k_len = encryptedDataEncryptionKey.getType().getAlgorithm().getSymmetric().getKeyLength();
+		int p1_len = 32; //256/8
+		EciesP256EncryptedKey eciesP256EncryptedKey = (EciesP256EncryptedKey) encryptedDataEncryptionKey.getValue();
+		assert (eciesP256EncryptedKey.getC().length== k_len) : "input C must be of octet length: " + k_len;
+		assert p1.length == p1_len : "input P1 must be of octet length: " + p1_len;
+		assert eciesP256EncryptedKey.getV().getType() == EccP256CurvePointChoices.compressedy0 || eciesP256EncryptedKey.getV().getType() == EccP256CurvePointChoices.compressedy1 : "V EC Point must be stored in compressed format.";
+		assert decryptionKey instanceof ECPrivateKey;
+		ECPrivateKeyParameters rPrivKeyParameter = (ECPrivateKeyParameters) ECUtil.generatePrivateKeyParameter(decryptionKey);
+
+		BCECPublicKey cPubKey = (BCECPublicKey) decodeEccPoint(encryptedDataEncryptionKey.getType(),eciesP256EncryptedKey.getV());
+		byte[] V = cPubKey.getQ().getEncoded(true);
+		ECPublicKeyParameters vPubParam = new ECPublicKeyParameters(domainParameters.getCurve().decodePoint(V), domainParameters);
+
+		ECDHCBasicAgreement agreement = new ECDHCBasicAgreement();
+		agreement.init(rPrivKeyParameter);
+		BigInteger ss = agreement.calculateAgreement(vPubParam);
+		byte[] SS = BigIntegers.asUnsignedByteArray(agreement.getFieldSize(), ss);
+
+		int K1_len = encryptedDataEncryptionKey.getType().getAlgorithm().getSymmetric().getKeyLength();
+		int K2_len = 32; //256/8
+		int dl = K1_len + K2_len;
+		byte[] K1_K2 = new byte[dl];
+
+		KDF2BytesGenerator kdf2BytesGenerator = new KDF2BytesGenerator(new SHA256Digest());
+		kdf2BytesGenerator.init(new KDFParameters(SS, p1));
+		kdf2BytesGenerator.generateBytes(K1_K2,0,dl);
+
+		byte[] C = eciesP256EncryptedKey.getC();
+		byte[] K2 = new byte[K2_len];
+		System.arraycopy(K1_K2,K1_len,K2,0,K2_len);
+		Mac1 mac1 = new Mac1(new SHA256Digest(),128);
+		mac1.init(new KeyParameter(K2));
+		mac1.update(C,0,C.length);
+		byte[] T = new byte[mac1.getMacSize()];
+		mac1.doFinal(T,0);
+
+		if(!Arrays.equals(T, eciesP256EncryptedKey.getT())){
+			throw new InvalidKeyException("Invalied ECIES Authentication MAC does not match");
+		}
+
+		byte[] keyData = new byte[K1_len];
+		for(int i = 0; i != K1_len; ++i) {
+			keyData[i] = (byte)(C[i] ^ K1_K2[i]);
+		}
+
+		return new SecretKeySpec(keyData,"AES");
+	}
+
 	/**
 	 * Help method to perform a ECIES decryption of a symmetric key using the ITS protocol version 1 specification. 
 	 * 
@@ -1192,9 +1394,49 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
 	public byte[] symmetricEncrypt(AlgorithmIndicator alg, byte[] data, Key symmetricKey, byte[] nounce) throws IllegalArgumentException, GeneralSecurityException{
 
 		Cipher c = getSymmetricCipher(alg, true);
-	    c.init(Cipher.ENCRYPT_MODE, symmetricKey, new IvParameterSpec(nounce));
+	    c.init(Cipher.ENCRYPT_MODE, symmetricKey);
 	    
 		return c.doFinal(data);	
+	}
+
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#symmetricEncrypt(AlgorithmIndicator, byte[], Key, byte[])
+	 */
+	public byte[] symmetricEncryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws IllegalArgumentException, InvalidCipherTextException {
+		if(alg.getAlgorithm().getSymmetric() == Symmetric.aes128Ccm) {
+			CCMBlockCipher ccmBlockCipher = new CCMBlockCipher(new AESEngine());
+
+			AEADParameters parameterSpec = new AEADParameters(new KeyParameter(symmetricKey), 128, nounce, null); //128 bit auth tag length
+			ccmBlockCipher.init(true, parameterSpec);
+
+			byte[] outData = new byte[ccmBlockCipher.getOutputSize(data.length)];
+			int outputLen = ccmBlockCipher.processBytes(data, 0, data.length,
+					outData, 0);
+			ccmBlockCipher.doFinal(outData, outputLen);
+
+			return outData;
+		}
+		throw new IllegalArgumentException("Unsupported symmetric encryption algorithm specified: " + alg.getAlgorithm().getSymmetric());
+	}
+
+	/**
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#symmetricEncrypt(AlgorithmIndicator, byte[], Key, byte[])
+	 */
+	public byte[] symmetricDecryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws IllegalArgumentException,  InvalidCipherTextException {
+		if(alg.getAlgorithm().getSymmetric() == Symmetric.aes128Ccm) {
+			CCMBlockCipher ccmBlockCipher = new CCMBlockCipher(new AESEngine());
+
+			AEADParameters parameterSpec = new AEADParameters(new KeyParameter(symmetricKey), 128, nounce, null); //128 bit auth tag length
+			ccmBlockCipher.init(false, parameterSpec);
+
+			byte[] outData = new byte[ccmBlockCipher.getOutputSize(data.length)];
+			int outputLen = ccmBlockCipher.processBytes(data, 0, data.length,
+					outData, 0);
+			ccmBlockCipher.doFinal(outData, outputLen);
+
+			return outData;
+		}
+		throw new IllegalArgumentException("Unsupported symmetric encryption algorithm specified: " + alg.getAlgorithm().getSymmetric());
 	}
 	
 	/**
@@ -1645,6 +1887,8 @@ public class DefaultCryptoManager implements ITSCryptoManager, Ieee1609Dot2Crypt
             new KDF2BytesGenerator(new SHA256Digest()),
             new Mac1(new SHA256Digest(),128)));
     }
+
+
 }
 
 
