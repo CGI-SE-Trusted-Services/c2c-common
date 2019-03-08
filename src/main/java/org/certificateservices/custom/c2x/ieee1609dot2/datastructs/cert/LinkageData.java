@@ -38,7 +38,7 @@ public class LinkageData extends COERSequence {
 	 * Constructor used when decoding
 	 */
 	public LinkageData(){
-		super(false,4);
+		super(false,3);
 		init();
 	}
 	

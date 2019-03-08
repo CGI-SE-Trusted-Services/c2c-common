@@ -274,7 +274,9 @@ public class Ieee1609Dot2Demo {
 	    		null, // cracaid Optional
 	    		null, // crlSeries Optional 
 	    		null, // encType Type of encryption when encrypting a message with a encryption key references in a signed message instead of a certificate. Optional
-	    		null // encryptionKey Optional
+	    		null, // encryptionKey Optional
+				null, // inlineP2pcdRequest Optional
+		null // requestedCertificate Optional
 	    		);
 	    
 	    // This method can be used to sign the data

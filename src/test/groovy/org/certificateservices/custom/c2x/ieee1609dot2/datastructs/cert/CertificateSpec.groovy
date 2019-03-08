@@ -352,7 +352,7 @@ class CertificateSpec extends  BaseCertGeneratorSpec {
 	}
 	
 	
-	private ToBeSignedCertificate genToBeSignedCertificate(boolean implicit){
+	static ToBeSignedCertificate genToBeSignedCertificate(boolean implicit){
 		byte[] sspData = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),30)
 		ServiceSpecificPermissions ssp = new ServiceSpecificPermissions(ServiceSpecificPermissionsChoices.opaque, sspData)
 		

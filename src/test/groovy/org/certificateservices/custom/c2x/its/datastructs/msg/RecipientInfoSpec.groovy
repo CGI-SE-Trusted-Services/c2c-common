@@ -35,8 +35,8 @@ import static org.certificateservices.custom.c2x.its.datastructs.basic.EccPointT
  */
 class RecipientInfoSpec extends BaseStructSpec {
 	
-	EciesNistP256EncryptedKey key1 = new EciesNistP256EncryptedKey(2,PublicKeyAlgorithm.ecies_nistp256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(1)), new byte[SymmetricAlgorithm.aes_128_ccm.keyLength], new byte[EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH]);
-	RecipientInfo ri1 = new RecipientInfo(new HashedId8("123456789".getBytes()), key1);
+	EciesNistP256EncryptedKey key1 = new EciesNistP256EncryptedKey(2,PublicKeyAlgorithm.ecies_nistp256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(1)), new byte[SymmetricAlgorithm.aes_128_ccm.keyLength], new byte[EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH])
+	RecipientInfo ri1 = new RecipientInfo(new HashedId8("123456789".getBytes()), key1)
 	
 	def "Verify constructors and getters and setters"(){
 		expect:		
@@ -48,7 +48,7 @@ class RecipientInfoSpec extends BaseStructSpec {
 
 	def "Verify serialization of RecipientInfo"(){
 		when: 
-		String result = serializeToHex(ri1);
+		String result = serializeToHex(ri1)
 		then:
 		result.length() /2 == 74;
 		result.substring(0,16) == "3233343536373839" // cert id
@@ -73,9 +73,9 @@ class RecipientInfoSpec extends BaseStructSpec {
 
 	def "Verify hashCode and equals"(){
 		setup:
-		def o1  = new RecipientInfo(new HashedId8("123456789".getBytes()), key1);
-		def o2  = new RecipientInfo(new HashedId8("133456789".getBytes()), key1);
-		def o3  = new RecipientInfo(new HashedId8("123456789".getBytes()), new EciesNistP256EncryptedKey(2,PublicKeyAlgorithm.ecies_nistp256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(2)), new byte[SymmetricAlgorithm.aes_128_ccm.keyLength], new byte[EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH]));
+		def o1  = new RecipientInfo(new HashedId8("123456789".getBytes()), key1)
+		def o2  = new RecipientInfo(new HashedId8("133456789".getBytes()), key1)
+		def o3  = new RecipientInfo(new HashedId8("123456789".getBytes()), new EciesNistP256EncryptedKey(2,PublicKeyAlgorithm.ecies_nistp256, new EccPoint(PublicKeyAlgorithm.ecdsa_nistp256_with_sha256, EccPointType.x_coordinate_only, new BigInteger(2)), new byte[SymmetricAlgorithm.aes_128_ccm.keyLength], new byte[EciesNistP256EncryptedKey.VER2_OUTPUT_TAG_LENGTH]))
 		
 		expect:
 		ri1 == o1
