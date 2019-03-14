@@ -64,8 +64,11 @@ public class BasePublicEncryptionKey extends COERChoice {
 	/**
 	 * Constructor used when encoding.
 	 */
-	public BasePublicEncryptionKey(BasePublicEncryptionKeyChoices choice, EccP256CurvePoint value) throws IllegalArgumentException{
+	public BasePublicEncryptionKey(BasePublicEncryptionKeyChoices choice, COEREncodable value) throws IllegalArgumentException{
 		super(choice, value);
+		if(!(value instanceof EccP256CurvePoint)){
+			throw new IllegalArgumentException("Invalid BasePublicEncryptionKey value, must be a EccP256CurvePoint.");
+		}
 	}
 
 

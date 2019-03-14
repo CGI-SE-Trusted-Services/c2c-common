@@ -89,14 +89,6 @@ class EtsiTs103097DataSpec extends BaseStructSpec {
         e.message == "Invalid EtsiTs103097Data, signed data tbsData headerInfo cannot have missingCrlIdentifier set."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if content type is signerInfo type is not certificate"(){
-        when:
-        new EtsiTs103097Data(genSignedData(new Time64(10000L), null, null, new SignerIdentifier()))
-        then:
-        def e = thrown(IllegalArgumentException)
-        e.message == "Invalid EtsiTs103097Data, signed data signer must be of type certificate."
-    }
-
     def "Verify that constructor throws IllegalArgumentException if more than 1 certificate exists for signerInfo"(){
         when:
         new EtsiTs103097Data(genSignedData(new Time64(10000L), null, null, genCertSigner([genCert(),genCert()])))

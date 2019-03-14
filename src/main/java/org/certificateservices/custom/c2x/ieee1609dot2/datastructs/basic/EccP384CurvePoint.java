@@ -33,7 +33,7 @@ import java.math.BigInteger;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class EccP384CurvePoint extends COERChoice {
+public class EccP384CurvePoint extends EccCurvePoint {
 
 	private static final int OCTETSTRING_SIZE = 48;
 

@@ -49,7 +49,8 @@ public class RekReceipient extends BasePKRecipient{
 			throws IllegalArgumentException, GeneralSecurityException, IOException {
 		
 		byte[] keyHash = cryptoManager.digest(publicKey.getEncoded(), HashAlgorithm.sha256);
-		EncryptedDataEncryptionKey encKey = cryptoManager.ieeeEceisEncryptSymmetricKey(getEncKeyType(alg), publicKey, encryptionKey, alg, new byte[0]);
+		byte[] p1Hash = cryptoManager.digest(new byte[0], HashAlgorithm.sha256);
+		EncryptedDataEncryptionKey encKey = cryptoManager.ieeeEceisEncryptSymmetricKey2017(getEncKeyType(alg), publicKey, encryptionKey, p1Hash);
 		
 		PKRecipientInfo  pkRecInfo = new PKRecipientInfo(new HashedId8(keyHash), encKey);
 		return new RecipientInfo(RecipientInfoChoices.rekRecipInfo, pkRecInfo);

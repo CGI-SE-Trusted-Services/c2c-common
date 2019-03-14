@@ -102,12 +102,11 @@ public class EtsiTs103097Data extends Ieee1609Dot2Data {
             if(signedData.getTbsData().getHeaderInfo().getMissingCrlIdentifier() != null){
                 throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data tbsData headerInfo cannot have missingCrlIdentifier set.");
             }
-            if(signedData.getSigner().getType() != SignerIdentifier.SignerIdentifierChoices.certificate){
-                throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data signer must be of type certificate.");
-            }
-            SequenceOfCertificate certificates = (SequenceOfCertificate) signedData.getSigner().getValue();
-            if(certificates.size() != 1){
-                throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data signer certificate sequence must be of size 1.");
+            if(signedData.getSigner().getType() == SignerIdentifier.SignerIdentifierChoices.certificate) {
+                SequenceOfCertificate certificates = (SequenceOfCertificate) signedData.getSigner().getValue();
+                if (certificates.size() != 1) {
+                    throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data signer certificate sequence must be of size 1.");
+                }
             }
         }
         if(getContent().getType() == Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.encryptedData){

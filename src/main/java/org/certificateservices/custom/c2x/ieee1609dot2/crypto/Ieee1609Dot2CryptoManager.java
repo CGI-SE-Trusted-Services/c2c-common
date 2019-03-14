@@ -14,22 +14,20 @@ package org.certificateservices.custom.c2x.ieee1609dot2.crypto;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.security.GeneralSecurityException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SignatureException;
+import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.SecretKey;
 
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccCurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP384CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
@@ -44,7 +42,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.Encrypted
  *
  */
 public interface Ieee1609Dot2CryptoManager extends CryptoManager {
-	
 
 
 	/**
@@ -76,7 +73,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	Signature signMessageDigest(byte[] message, AlgorithmIndicator alg, PrivateKey privateKey) throws IllegalArgumentException, SignatureException, IOException;
+	Signature signMessageDigest(byte[] digest, AlgorithmIndicator alg, PrivateKey privateKey) throws IllegalArgumentException, SignatureException, IOException;
 		
 	
 	/**
@@ -160,7 +157,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	/**
 	 * Help method to perform a symmetric encrypt of data.
 	 * 
-	 * @param symmetricAlgorithm the algorithm used to encrypt the data.
+	 * @param alg the algorithm used to encrypt the data.
 	 * @param data the encrypted data.
 	 * @param symmetricKey the encrypt key.
 	 * @param nounce related nounce.
@@ -169,12 +166,12 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
 	 * @throws GeneralSecurityException if internal problems occurred encrypting
 	 */
-	 byte[] symmetricEncrypt(AlgorithmIndicator alg, byte[] data, Key symmetricKey, byte[] nounce) throws IllegalArgumentException, GeneralSecurityException;
+	byte[] symmetricEncryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws IllegalArgumentException, GeneralSecurityException;
 	
 	/**
 	 * Help method to perform a symmetric decrypt of data.
 	 * 
-	 * @param symmetricAlgorithm the algorithm used to encrypt the data.
+	 * @param alg the algorithm used to encrypt the data.
 	 * @param data the encrypted data.
 	 * @param symmetricKey the decryption key.
 	 * @param nounce related nounce.
@@ -183,39 +180,33 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
 	 * @throws GeneralSecurityException if internal problems occurred encrypting
 	 */
-	 byte[] symmetricDecrypt(AlgorithmIndicator alg, byte[] data, Key symmetricKey, byte[] nounce) throws IllegalArgumentException, GeneralSecurityException;
-	
-	
+	byte[] symmetricDecryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws IllegalArgumentException,  GeneralSecurityException;
+
+
 	/**
-	 * Help method to perform a ECIES encryption to a recipient of a symmetric key. 
-	 * 
-	 * @param keyType type of encryption key used.
-	 * @param encryptionKey the public encryption key of the recipient
-	 * @param symmetricKey the symmetric key to encrypt
-	 * @param alg related algorithm specifying symmetric algorithm to use.
-	 * @param eciesDeviation deviation parameter used as P1 parameter in ECIES algorithm
-	 * @return a EncryptedDataEncryptionKey used in RecepientInfo 
-	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
-	 * @throws GeneralSecurityException if internal problems occurred encrypting the symmetric key.
-	 * @throws IOException if communication problems occurred with underlying components.
+	 * Method to encrypt a symmetric key according to IEEE 1609.2 2017 specification.
+	 *
+	 * @param keyType the algorithm specification of the recipients public key.
+	 * @param encryptionKey the recipients public key to encrypt to.
+	 * @param symmetricKey the symmetric key to encrypt (Should be AES 128)
+	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
+	 * @return a EncryptedDataEncryptionKey with v,c,t set.
+	 * @throws IllegalArgumentException if supplied parameters where invalid.
+	 * @throws GeneralSecurityException if problems occurred performing the encryption.
 	 */
-	 EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, AlgorithmIndicator alg,byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException;
-	
-	 /**
-	  * Help method to perform a ECIES decryption by a recipient to retrieve the symmetric key. 
-	 * 
-	 * @param encryptedDataEncryptionKey the symmetric key envelope
-	 * @param decryptionKey the decryption key to decrypt the envelope.
-	 * @param alg related algorithm specifying symmetric algorithm to use.
-	 * @param eciesDeviation deviation parameter used as P1 parameter in ECIES algorithm
-	 * @return a symmetric decryption key of the actual message data.
-	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
-	 * @throws GeneralSecurityException if internal problems occurred decrypting the symmetric key.
-	 * @throws IOException if communication problems occurred with underlying components.
-	  */
-	 SecretKey ieeeECEISDecryptSymmetricKey(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, AlgorithmIndicator alg, byte[] eciesDeviation) throws IllegalArgumentException, GeneralSecurityException, IOException;
+	EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1) throws IllegalArgumentException, GeneralSecurityException;
+
+	/**
+	 * Method to decrypt symmetric key using the 1609.2 2017 defined ECIES encryption scheme.
+	 * @param encryptedDataEncryptionKey the type of encryption key.
+	 * @param decryptionKey the receiver's private key.
+	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
+	 * @return the decrypted AES symmetric key.
+	 * @throws InvalidKeyException if supplied private key was invalid
+	 * @throws IllegalArgumentException if invalid arguments where specified.
+	 * @throws InvalidKeySpecException if invalid key specification was given.
+	 */
+	 SecretKey ieeeEceisDecryptSymmetricKey2017(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, byte[] p1) throws InvalidKeyException, IllegalArgumentException, InvalidKeySpecException;
 	 
 	/**
 	 * Method to convert a EC public key to a BCECPublicKey
@@ -240,7 +231,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	EccP256CurvePoint encodeEccPoint(AlgorithmIndicator alg, EccP256CurvePointChoices type, PublicKey publicKey) throws IllegalArgumentException, InvalidKeySpecException;
 	
 	/**
-	 * Help method to decode a EccP256CurvePoint to a EccPublic key or ECFieldElement depending on the type of EccPoint.
+	 * Help method to decode a EccP256CurvePoint or EccP384CurvePoint to a EccPublic key or ECFieldElement depending on the type of EccPoint.
 	 * 
 	 * @param alg related public key algorithm.
 	 * 
@@ -249,8 +240,21 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * 
 	 * @throws InvalidKeySpecException if problems occurred decoding the key.
 	 */
-	Object decodeEccPoint(AlgorithmIndicator alg, EccP256CurvePoint eccPoint) throws InvalidKeySpecException;
-	
+	Object decodeEccPoint(AlgorithmIndicator alg, EccCurvePoint eccPoint) throws InvalidKeySpecException;
+
+	/**
+	 * Help method used to convert a public key to a Ieee EccP384CurvePoint data structure.
+	 *
+	 * @param alg the public key algorithm scheme to use.
+	 * @param type the type of ECCPoint to create.
+	 * @param publicKey the related public key to convert.
+	 * @return a converted EccPoint data structure encoded according the the given ECC point type.
+	 * @throws IllegalArgumentException if public key was invalid or unsupported
+	 * @throws InvalidKeySpecException if the given public key contained invalid parameters related to the specified public key algorithm.
+	 */
+	EccP384CurvePoint encodeEccPoint(AlgorithmIndicator alg, EccP384CurvePoint.EccP384CurvePointChoices type, PublicKey publicKey) throws IllegalArgumentException, InvalidKeySpecException;
+
+
 	/**
 	 * Help method to generate a certificate digest according to 1609.2 section 5.3.1 Signature algorithm.
 	 * @param alg the algorithm to use.

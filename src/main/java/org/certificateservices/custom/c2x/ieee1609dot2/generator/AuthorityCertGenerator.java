@@ -17,23 +17,15 @@ import java.math.BigInteger;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CrlSeries;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId3;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PsidSspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicEncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfPsidSspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SubjectAssurance;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ValidityPeriod;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateId;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
@@ -52,7 +44,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Verifica
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class AuthorityCertGenerator extends BaseCertGenerator {
+public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 
 	/**
 	 * Main constructor using compressed keys.
@@ -106,34 +98,29 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
 			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
-
 		// See 6.4.8 ToBeSignedCertificate - certIssuePermissions for details
 		SubjectPermissions sp = new SubjectPermissions(SubjectPermissionsChoices.all, null);
 		
 		PsidGroupPermissions pgp =  new PsidGroupPermissions(sp, minChainDepth, chainDepthRange, new EndEntityType(true, true));
-		SequenceOfPsidGroupPermissions certIssuePermissions = new SequenceOfPsidGroupPermissions(new PsidGroupPermissions[] {pgp});
-		
-		PublicVerificationKey verifyKeyIndicator = new PublicVerificationKey(getPublicVerificationAlgorithm(signingPublicKeyAlgorithm), convertToPoint(signingPublicKeyAlgorithm, signPublicKey));
-		PublicEncryptionKey encryptionKey = null;
-		if(symmAlgorithm != null && encPublicKeyAlgorithm != null && encPublicKey != null){
-			encryptionKey = new PublicEncryptionKey(symmAlgorithm, new BasePublicEncryptionKey(encPublicKeyAlgorithm, convertToPoint(encPublicKeyAlgorithm, encPublicKey)));
-		}
+		PsidGroupPermissions[] certIssuePermissions = new PsidGroupPermissions[] {pgp};
 		SubjectAssurance subjectAssurance = new SubjectAssurance(assuranceLevel, confidenceLevel);
-		
-		VerificationKeyIndicator vki = new VerificationKeyIndicator(verifyKeyIndicator);
-		ToBeSignedCertificate tbs = new ToBeSignedCertificate(id, new HashedId3(Hex.decode("000000")), new CrlSeries(0), validityPeriod, region, subjectAssurance, null, certIssuePermissions, null, false, encryptionKey, vki);
-		return genCert(tbs, CertificateType.explicit, signingPublicKeyAlgorithm, signPublicKey,signPrivateKey, signPublicKey,null);
+
+		return genRootCA(id,validityPeriod,region,subjectAssurance,null,certIssuePermissions,signingPublicKeyAlgorithm,
+				signPublicKey,signPrivateKey,symmAlgorithm,encPublicKeyAlgorithm,encPublicKey);
 
 	}
-	
+
+
 	/**
 	 * Method to generate a Long term enrollment CA
-	 * 
+	 *
 	 * @param type indicates if this is a implicit or explicit certificate, Required
 	 * @param id the id if the certificate, see CertificateId for details, Required
 	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param region, the geographic region of the certificate, Optional
 	 * @param subjectPermissions a list of subject permissions, null of all.
+	 * @param cracaid cracaid value to set in certificate, Required.
+	 * @param crlSeries the crlSeries to set in certificate, Required.
 	 * @param assuranceLevel the assurance level to use, 0-7, Required
 	 * @param confidenceLevel the confidence level to use, 0-3, Required
 	 * @param minChainDepth the minimal chain length of this PKI hierarchy, Required
@@ -145,15 +132,15 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 	 * @param signCertificatePrivateKey the signing certificates private key, Required
 	 * @param encPublicKeyAlgorithm algorithm used for encryption, null if no encryption key should be included.
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
-	 * @return a new self signed certificate with root CA profile.
-	 * 
+	 * @return a new signed certificate with enrollment CA profile.
+	 *
 	 * @throws IllegalArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
 	public Certificate genLongTermEnrollmentCA(
 			CertificateType type,
-			CertificateId id, 
+			CertificateId id,
 			ValidityPeriod validityPeriod,
 			GeographicRegion region,
 			PsidSspRange[] subjectPermissions,
@@ -164,7 +151,7 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 			int minChainDepth,
 			int chainDepthRange,
 			AlgorithmIndicator signingPublicKeyAlgorithm,
-			PublicKey signPublicKey, 
+			PublicKey signPublicKey,
 			Certificate signerCertificate,
 			PublicKey signCertificatePublicKey,
 			PrivateKey signCertificatePrivateKey,
@@ -181,8 +168,10 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 	 * @param type indicates if this is a implicit or explicit certificate, Required
 	 * @param id the id if the certificate, see CertificateId for details, Required
 	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param region, the geographic region of the certificate, Optional
 	 * @param subjectPermissions a list of subject permissions, null of all.
+	 * @param cracaid cracaid value to set in certificate, Required.
+	 * @param crlSeries the crlSeries to set in certificate, Required.
 	 * @param assuranceLevel the assurance level to use, 0-7, Required
 	 * @param confidenceLevel the confidence level to use, 0-3, Required
 	 * @param minChainDepth the minimal chain length of this PKI hierarchy, Required
@@ -194,7 +183,7 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 	 * @param signCertificatePrivateKey the signing certificates private key, Required
 	 * @param encPublicKeyAlgorithm algorithm used for encryption, null if no encryption key should be included.
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
-	 * @return a new self signed certificate with root CA profile.
+	 * @return a new signed certificate with authorization CA profile.
 	 * 
 	 * @throws IllegalArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
@@ -223,66 +212,5 @@ public class AuthorityCertGenerator extends BaseCertGenerator {
 
 		return genSubCA(type, id, validityPeriod, region, subjectPermissions, false, cracaid, crlSeries, assuranceLevel, confidenceLevel, minChainDepth, chainDepthRange, signingPublicKeyAlgorithm, signPublicKey, signerCertificate, signPublicKey, signCertificatePrivateKey, symmAlgorithm, encPublicKeyAlgorithm, encPublicKey);
 	}
-	
-	
-	protected Certificate genSubCA(
-			CertificateType type,
-			CertificateId id, 
-			ValidityPeriod validityPeriod,
-			GeographicRegion region,
-			PsidSspRange[] subjectPermissions,
-			boolean enrollmentCA,
-			byte[] cracaid,
-			int crlSeries,
-			int assuranceLevel,
-			int confidenceLevel,
-			int minChainDepth,
-			int chainDepthRange,
-			AlgorithmIndicator signingPublicKeyAlgorithm,
-			PublicKey signPublicKey, 
-			Certificate signerCertificate,
-			PublicKey signCertificatePublicKey,
-			PrivateKey signCertificatePrivateKey,
-			SymmAlgorithm symmAlgorithm,
-			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
-
-		// See 6.4.8 ToBeSignedCertificate - certIssuePermissions for details
-		SubjectPermissions sp;
-		if(subjectPermissions == null){
-			sp = new SubjectPermissions(SubjectPermissionsChoices.all, null);
-		}else{
-			sp = new SubjectPermissions(SubjectPermissionsChoices.explicit, new SequenceOfPsidSspRange(subjectPermissions));
-		}
-		
-		PsidGroupPermissions pgp;
-		if(enrollmentCA){
-		  pgp =  new PsidGroupPermissions(sp, minChainDepth, chainDepthRange, new EndEntityType(false, true));
-		}else{
-		  pgp =  new PsidGroupPermissions(sp, minChainDepth, chainDepthRange, new EndEntityType(true, false));
-		}
-		SequenceOfPsidGroupPermissions certIssuePermissions = new SequenceOfPsidGroupPermissions(new PsidGroupPermissions[] {pgp});
-		
-		
-		PublicEncryptionKey encryptionKey = null;
-		if(symmAlgorithm != null && encPublicKeyAlgorithm != null && encPublicKey != null){
-			encryptionKey = new PublicEncryptionKey(symmAlgorithm, new BasePublicEncryptionKey(encPublicKeyAlgorithm, convertToPoint(encPublicKeyAlgorithm, encPublicKey)));
-		}
-		SubjectAssurance subjectAssurance = new SubjectAssurance(assuranceLevel, confidenceLevel);
-		VerificationKeyIndicator vki;
-		if(type == CertificateType.explicit){
-			PublicVerificationKey verifyKeyIndicator = new PublicVerificationKey(getPublicVerificationAlgorithm(signingPublicKeyAlgorithm), convertToPoint(signingPublicKeyAlgorithm, signPublicKey));
-		  vki = new VerificationKeyIndicator(verifyKeyIndicator);
-		}else{
-			EccP256CurvePoint rv = new EccP256CurvePoint(new BigInteger("0")); // This is just a placeholder. Real rv is set by ECQVHelper.
-		    vki = new VerificationKeyIndicator(rv);
-		}
-		ToBeSignedCertificate tbs = new ToBeSignedCertificate(id, new HashedId3(cracaid), new CrlSeries(crlSeries), validityPeriod, region, subjectAssurance, null, certIssuePermissions, null, false, encryptionKey, vki);
-		return genCert(tbs, type, signingPublicKeyAlgorithm, signPublicKey, signCertificatePrivateKey, signCertificatePublicKey,signerCertificate);
-
-	}
-
-
-	
 
 }

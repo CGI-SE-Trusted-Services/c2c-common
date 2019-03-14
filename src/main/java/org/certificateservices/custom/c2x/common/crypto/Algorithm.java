@@ -74,6 +74,10 @@ public class Algorithm {
 			return fieldSize;
 		}
 
+		public String getCurveName(){
+			return curveName;
+		}
+
 		public ECNamedCurveParameterSpec getECNamedCurveParameterSpec(){
 			return ECNamedCurveTable.getParameterSpec(curveName);
 		}

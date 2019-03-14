@@ -64,6 +64,15 @@ class BasePublicEncryptionKeySpec extends BaseStructSpec {
 		BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1 | "8180000000000000000000000000000000000000000000000000000000000000007b"      
 	
 	}
+
+	def "Verify that BasePublicEncryptionKey throws IllegalArgumentException for EC384Curve."(){
+		when:
+		new BasePublicEncryptionKey(BasePublicEncryptionKeyChoices.ecdsaNistP256, new EccP384CurvePoint())
+
+		then:
+		def e = thrown IllegalArgumentException
+		e.message == "Invalid BasePublicEncryptionKey value, must be a EccP256CurvePoint."
+	}
 	
 	@Unroll
 	def "Verify correct algorithms indicator is returned for #algType."(){

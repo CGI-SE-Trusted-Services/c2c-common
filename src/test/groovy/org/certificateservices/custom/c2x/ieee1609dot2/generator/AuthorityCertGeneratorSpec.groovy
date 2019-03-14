@@ -12,57 +12,26 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature
+import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange.SspRangeChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.*
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp.CracaType
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp.CrlSsp
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.ssp.PermissibleCrls
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices
+import spock.lang.Unroll
 
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
-import org.certificateservices.custom.c2x.common.BaseStructSpec
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.common.crypto.ECQVHelper
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion.GeographicRegionChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IdentifiedRegion.IdentifiedRegionChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PsidSspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfPsidSspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange.SspRangeChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CountryOnly
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId3;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Hostname
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IdentifiedRegion
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfIdentifiedRegion
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ValidityPeriod;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateId;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.PsidGroupPermissions;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
-import org.junit.Ignore;
-
-import spock.lang.IgnoreRest;
-import spock.lang.Shared;
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import java.security.KeyPair
+import java.security.PrivateKey
+import java.security.PublicKey
 
 /**
  * Test for AuthorityCertGenerator
@@ -127,8 +96,52 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		cryptoManager.decodeEccPoint(encAlg, (EccP256CurvePoint) c2.getToBeSigned().getEncryptionKey().getPublicKey().getValue()) == encKeys.public
 		
 		where:
-		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
-		encAlg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1,PublicVerificationKeyChoices.ecdsaBrainpoolP384r1]
+		encAlg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+	}
+
+	def "Test to generate a root certificate according to the profile i IEEE 1609.2 D 5.4"(){
+		setup:
+		def alg = PublicVerificationKeyChoices.ecdsaNistP256
+		CertificateId id = new CertificateId(new Hostname("v2xrootca.ghsiss.com"))
+		KeyPair rootCAKeys = staticNistP256KeyPair
+		long validityPeriodStart = 385689600000L
+		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(validityPeriodStart), DurationChoices.years, 70)
+		int ScmsSpclComponentCrlSeries = 256
+		Psid SecurityMgmtPsid = new Psid(35)
+		Psid MisbehaviorReportingPsid = new Psid(38)
+		Psid CrlPsid = new Psid(256)
+		CrlSsp crlSsp = new CrlSsp(CracaType.isCraca,new PermissibleCrls(new CrlSeries(ScmsSpclComponentCrlSeries)))
+		ServiceSpecificPermissions crlSspPerm = new ServiceSpecificPermissions(ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.opaque, COEREncodeHelper.encode(crlSsp))
+		def appPermissions = [new PsidSsp(SecurityMgmtPsid,null),new PsidSsp(CrlPsid,crlSspPerm)] as PsidSsp[]
+		def certIssuePermissions = [new PsidGroupPermissions(new SubjectPermissions(SubjectPermissionsChoices.all,null),3,-1, new EndEntityType(true,true)),
+									new PsidGroupPermissions(new SubjectPermissions(SubjectPermissionsChoices.explicit,new SequenceOfPsidSspRange([new PsidSspRange(SecurityMgmtPsid,null)])),1,-1, new EndEntityType(true,true)),
+									new PsidGroupPermissions(new SubjectPermissions(SubjectPermissionsChoices.explicit,new SequenceOfPsidSspRange([new PsidSspRange(MisbehaviorReportingPsid,null)])),1,-1, new EndEntityType(true,true)),
+									new PsidGroupPermissions(new SubjectPermissions(SubjectPermissionsChoices.explicit,new SequenceOfPsidSspRange([new PsidSspRange(CrlPsid,new SspRange(SspRangeChoices.all))])),1,-1, new EndEntityType(true,true))
+		] as PsidGroupPermissions[]
+		when:
+		Certificate c1 = acg.genRootCA(id, validityPeriod, null, null, appPermissions,certIssuePermissions, alg, rootCAKeys.public, rootCAKeys.private, null, null, null)
+		then:
+		c1.toString().startsWith( """Certificate [
+  version=3
+  type=explicit
+  issuer=[self=sha256]
+  toBeSigned=[
+    id=[name=[v2xrootca.ghsiss.com]]
+    cracaId=[000000]
+    crlSeries=[0]
+    validityPeriod=[start=Time32 [timeStamp=Tue Mar 23 01:00:00 CET 1982 (-687225612)], duration=Duration [70 years]]
+    region=NONE
+    assuranceLevel=NONE
+    appPermissions=[[psid=[35(23)], ssp=NULL],[psid=[256(100)], ssp=[opaque=[00010001010100]]]]
+    certIssuePermissions=[[subjectPermissions=[all], minChainDepth=3, chainDepthRange=-1, eeType=[app=true, enroll=true]],[subjectPermissions=[explicit=[[psid=[35(23)], sspRange=NULL]]], minChainDepth=1, chainDepthRange=-1, eeType=[app=true, enroll=true]],[subjectPermissions=[explicit=[[psid=[38(26)], sspRange=NULL]]], minChainDepth=1, chainDepthRange=-1, eeType=[app=true, enroll=true]],[subjectPermissions=[explicit=[[psid=[256(100)], sspRange=[all]]]], minChainDepth=1, chainDepthRange=-1, eeType=[app=true, enroll=true]]]
+    certRequestPermissions=NONE
+    canRequestRollover=false
+    encryptionKey=NONE
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=c2ef95391965aa57a4abde9e995157628ce76ce87678c4f0344cf0f252addc13]]]
+  ]
+  signature=[ecdsaNistP256Signature=EcdsaP256[""")
+
 	}
 	
 	@Unroll
@@ -138,7 +151,7 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair encKeys = cryptoManager.generateKeyPair(encAlg)
 		KeyPair signKeys = cryptoManager.generateKeyPair(alg)
 		
-		Certificate rootCA = genRootCA(rootCAKeys)
+		Certificate rootCA = genRootCA(rootCAKeys,alg)
 		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 34)
 		GeographicRegion region = GeographicRegion.generateRegionForCountrys([SWEDEN])
 		CertificateId id = new CertificateId(new Hostname("Test Longterm CA"))
@@ -159,8 +172,8 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		c1.getType() == CertificateType.explicit
 		
-		c1.getIssuer().getType() == IssuerIdentifierChoices.sha256AndDigest
-		c1.getIssuer().getValue() == new HashedId8(cryptoManager.digest(rootCA.encoded, HashAlgorithm.sha256))
+		c1.getIssuer().getType() == (alg == PublicVerificationKeyChoices.ecdsaBrainpoolP384r1 ? IssuerIdentifierChoices.sha384AndDigest : IssuerIdentifierChoices.sha256AndDigest)
+		c1.getIssuer().getValue() == new HashedId8(cryptoManager.digest(rootCA.encoded, alg))
 		c1.getToBeSigned().appPermissions == null
 		
 		c1.getToBeSigned().assuranceLevel.assuranceLevel == 7
@@ -204,8 +217,8 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		cryptoManager.decodeEccPoint(encAlg, (EccP256CurvePoint) c2.getToBeSigned().getEncryptionKey().getPublicKey().getValue()) == encKeys.public
 
 		where:
-		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
-		encAlg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1, PublicVerificationKeyChoices.ecdsaBrainpoolP384r1]
+		encAlg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
 	}
 	
 	@Unroll
@@ -214,7 +227,7 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
 		KeyPair signKeys = cryptoManager.generateKeyPair(alg)
 		
-		Certificate rootCA = genRootCA(rootCAKeys)
+		Certificate rootCA = genRootCA(rootCAKeys, alg)
 		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 34)
 		GeographicRegion region = GeographicRegion.generateRegionForCountrys([SWEDEN])
 		CertificateId id = new CertificateId(new Hostname("Test Longterm CA"))
@@ -247,7 +260,7 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		verifySignedDataECDSA(data, signature, reconstructedPubKey)
 		
 		where:
-		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
+		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
 				
 	}
 	
@@ -257,7 +270,7 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
 		KeyPair signKeys = cryptoManager.generateKeyPair(alg)
 		
-		Certificate rootCA = genRootCA(rootCAKeys)
+		Certificate rootCA = genRootCA(rootCAKeys, alg)
 		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 34)
 		GeographicRegion region = GeographicRegion.generateRegionForCountrys([SWEDEN])
 		CertificateId id = new CertificateId(new Hostname("Test Longterm CA"))
@@ -281,7 +294,7 @@ class AuthorityCertGeneratorSpec extends BaseCertGeneratorSpec {
 		!pgp.getEEType().enroll
 		
 		where:
-		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
+		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1, PublicVerificationKeyChoices.ecdsaBrainpoolP384r1]
 		
 	}
 	

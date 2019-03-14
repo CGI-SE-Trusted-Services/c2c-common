@@ -72,31 +72,30 @@ public class PublicVerificationKey extends COERChoice {
 	}
 
 	/**
-	 * Constructor used when encoding.
+	 * General Constructor used when encoding.
 	 */
-	public PublicVerificationKey(PublicVerificationKeyChoices choice, EccP384CurvePoint value) throws IllegalArgumentException{
+	public PublicVerificationKey(PublicVerificationKeyChoices choice, COERChoice value) throws IllegalArgumentException{
 		super(choice, value);
-		if(choice != PublicVerificationKeyChoices.ecdsaBrainpoolP384r1){
-			throw new IllegalArgumentException("EccP384CurvePoint is not supported for PublicVerificationKey with type " + choice + ".");
-		}
-		if(value.getType() == EccP384CurvePoint.EccP384CurvePointChoices.xonly){
-			throw new IllegalArgumentException("EccP384CurvePoint of type xonly is invalid for structure PublicVerificationKey");
+		if(value instanceof EccP384CurvePoint){
+			if(choice != PublicVerificationKeyChoices.ecdsaBrainpoolP384r1){
+				throw new IllegalArgumentException("EccP384CurvePoint is not supported for PublicVerificationKey with type " + choice + ".");
+			}
+			if(((EccP384CurvePoint) value).getType() == EccP384CurvePoint.EccP384CurvePointChoices.xonly){
+				throw new IllegalArgumentException("EccP384CurvePoint of type xonly is invalid for structure PublicVerificationKey");
+			}
+		}else{
+			if(value instanceof EccP256CurvePoint){
+				if(choice == PublicVerificationKeyChoices.ecdsaBrainpoolP384r1){
+					throw new IllegalArgumentException("EccP256CurvePoint is not supported for PublicVerificationKey with type " + choice + ".");
+				}
+				if(((EccP256CurvePoint) value).getType() == EccP256CurvePointChoices.xonly){
+					throw new IllegalArgumentException("EccP256CurvePoint of type xonly is invalid for structure PublicVerificationKey");
+				}
+			}else{
+				throw new IllegalArgumentException("Invalid value to PublicVerificationKey, must be either EccP384CurvePoint or EccP256CurvePoint, not " + value.getClass().getSimpleName());
+			}
 		}
 	}
-
-	/**
-	 * Constructor used when encoding.
-	 */
-	public PublicVerificationKey(PublicVerificationKeyChoices choice, EccP256CurvePoint value) throws IllegalArgumentException{
-		super(choice, value);
-		if(choice == PublicVerificationKeyChoices.ecdsaBrainpoolP384r1){
-			throw new IllegalArgumentException("EccP256CurvePoint is not supported for PublicVerificationKey with type ecdsaBrainpoolP384r1.");
-		}
-		if(value.getType() == EccP256CurvePointChoices.xonly){
-			throw new IllegalArgumentException("EccP256CurvePoint of type xonly is invalid for structure PublicVerificationKey");
-		}
-	}
-
 
 	/**
 	 * Constructor used when decoding.

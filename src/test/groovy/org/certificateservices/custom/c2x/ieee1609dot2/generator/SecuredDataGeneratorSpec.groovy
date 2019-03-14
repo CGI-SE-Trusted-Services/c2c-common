@@ -92,6 +92,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
 	}
 
+
 	@Unroll
 	def "Verify that signed Ieee1609Dot2Data with hashed reference is generated correctly for alg: #alg"(){
 		setup:
@@ -339,7 +340,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		then:
 		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
-		EncryptedData ed = enc.getContent().getValue();
+		EncryptedData ed = enc.getContent().getValue()
 		ed.getRecipients().size() == 1
 		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
 		ri.getType() == RecipientInfoChoices.rekRecipInfo
@@ -424,41 +425,46 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 	def "Verify that signAndEncryptData and decryptAndVerifySignedData generates encrypted and signed data structures for alg: #alg"(){
 		setup:
 		def sdg = sdg_ecdsaNistP256
-		if(alg == BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1){
+		if(certAlg == PublicVerificationKeyChoices.ecdsaBrainpoolP256r1){
 			sdg = sdg_ecdsaBrainpoolP256r1
 		}
-		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
-		Certificate rootCA = genRootCA(rootCAKeys)
-		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
-		Certificate enrollCA = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys, rootCAKeys, rootCA)
-		KeyPair enrollCertKeys1 = cryptoManager.generateKeyPair(alg)
+		if(certAlg == PublicVerificationKeyChoices.ecdsaBrainpoolP384r1){
+			sdg = sdg_ecdsaBrainpoolP384r1
+		}
+		KeyPair rootCAKeys = cryptoManager.generateKeyPair(certAlg)
+		Certificate rootCA = genRootCA(rootCAKeys,certAlg)
+		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(certAlg)
+		Certificate enrollCA = genEnrollCA(CertificateType.explicit, certAlg, enrollCAKeys, rootCAKeys, rootCA)
+		KeyPair enrollCertKeys1 = cryptoManager.generateKeyPair(certAlg)
 		KeyPair encKeys1 = cryptoManager.generateKeyPair(alg)
-		Certificate enrollCert1 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys1, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys1.publicKey)
-		KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(alg)
+		Certificate enrollCert1 = genEnrollCert(CertificateType.explicit, certAlg, enrollCertKeys1, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys1.publicKey)
+		KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(certAlg)
 		KeyPair encKeys2 = cryptoManager.generateKeyPair(alg)
-		Certificate enrollCert2= genEnrollCert(CertificateType.explicit, alg, enrollCertKeys2, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys2.publicKey)
+		Certificate enrollCert2= genEnrollCert(CertificateType.explicit, certAlg, enrollCertKeys2, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA, alg, encKeys2.publicKey)
 		
 		
 		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null,null,null)
 		def certStore = sdg.buildCertStore([enrollCA,enrollCert1])
 		def trustStore = sdg.buildCertStore([rootCA])
 		when:
-		byte[] encData = sdg.signAndEncryptData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY, [enrollCert1, enrollCA, rootCA] as Certificate[], enrollCertKeys1.private, alg, [new CertificateRecipient(enrollCert2)] as Recipient[])
+		byte[] encData = sdg.signAndEncryptData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY, [enrollCert1, enrollCA, rootCA] as Certificate[], enrollCertKeys1.private, alg, [new CertificateRecipient(enrollCert2)] as Recipient[]).getEncoded()
 		
 		then:
 		new Ieee1609Dot2Data(encData).getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
 		when:
-		byte[] data = sdg.decryptAndVerifySignedData(encData, certStore, trustStore, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), true, true)
+		DecryptAndVerifyResult r = sdg.decryptAndVerifySignedData(encData, certStore, trustStore, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), true, true)
 		
 		then:
-		data == "TestData".getBytes("UTF-8")
+		r.headerInfo == hi
+		r.signerIdentifier.type == SignerIdentifierChoices.digest
+		r.data == "TestData".getBytes("UTF-8")
 		
 		
 		when: "Verify that decrypt and verify returns a verified only if a signed data is given and encryption isn't required"
 		byte[] signedData = sdg.genSignedData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY, [enrollCert1, enrollCA, rootCA] as Certificate[], enrollCertKeys1.private).encoded
-		data = sdg.decryptAndVerifySignedData(signedData, certStore, trustStore, null, true, false)
+		r = sdg.decryptAndVerifySignedData(signedData, certStore, trustStore, null, true, false)
 		then:
-		data == "TestData".getBytes("UTF-8")
+		r.data == "TestData".getBytes("UTF-8")
 		
 		when: "Verify that decrypt and verify thrown IllegalArgumentException if data is not encrypted but required"
 		sdg.decryptAndVerifySignedData(signedData, certStore, trustStore, null, true, true)
@@ -467,23 +473,26 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		when: "Verify that decrypt and verify returns unencrypted data if enryption and signature isn't required"
 		byte[] ensecured = new Ieee1609Dot2Data(new Ieee1609Dot2Content(Ieee1609Dot2ContentChoices.unsecuredData, new Opaque("TestData".getBytes("UTF-8")))).encoded
-		data = sdg.decryptAndVerifySignedData(ensecured, null, null, null, false, false)
+		r = sdg.decryptAndVerifySignedData(ensecured, null, null, null, false, false)
 		then:
-		data == "TestData".getBytes("UTF-8")
+		r.headerInfo == null
+		r.signerIdentifier == null
+		r.data == "TestData".getBytes("UTF-8")
 		
 		when: "Verify that decrypt and verify thrown IllegalArgumentException for unencrypted data if signature is required"
-		data = sdg.decryptAndVerifySignedData(ensecured, certStore, trustStore, null, true, false)
+		sdg.decryptAndVerifySignedData(ensecured, certStore, trustStore, null, true, false)
 		then:
 		thrown IllegalArgumentException
 		
 		when: "Verify that decrypt and verify returns decrypted data but doesn't verify data in not required, i.e encrypted data contains unsecuredData"
 		byte[] encDataOnly = sdg.encryptData(alg, ensecured,  [new CertificateRecipient(enrollCert2)] as Recipient[]).encoded
-		data = sdg.decryptAndVerifySignedData(encDataOnly, null, null, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), false, true)
+		r = sdg.decryptAndVerifySignedData(encDataOnly, null, null, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), false, true)
 		then:
-		data == "TestData".getBytes("UTF-8")
+		r.data == "TestData".getBytes("UTF-8")
 		
 		where:
-		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+		certAlg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1, PublicVerificationKeyChoices.ecdsaBrainpoolP384r1]
+		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
 	}
 	
 	def "Verify that return first certificates public key of complete chain consists of explicit certificates"(){

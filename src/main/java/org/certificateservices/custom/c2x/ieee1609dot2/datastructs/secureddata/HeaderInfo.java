@@ -189,7 +189,7 @@ public class HeaderInfo extends COERSequence {
 	    (getMissingCrlIdentifier() != null ? "  missingCrlIdentifier=" + getMissingCrlIdentifier().toString().replace("MissingCrlIdentifier ", "")   +  ",\n" : "")+
 	    (getEncryptionKey() != null ? "  encryptionKey=" + getEncryptionKey().toString().replace("EncryptionKey ", "")   +  ",\n" : "")+
 		(getInlineP2pcdRequest() != null ? "  inlineP2pcdRequest=" + getInlineP2pcdRequest().toString().replace("SequenceOfHashedId3 ", "")   +  ",\n" : "")+
-		(getRequestedCertificate() != null ? "  requestedCertificate=" + getRequestedCertificate().toString().replace("Certificate ", "").replaceAll("\n","\n  ")   +  "\n" : "")+
+		(getRequestedCertificate() != null ? "  requestedCertificate=" + getRequestedCertificate().toString().replace("EtsiTs103097Certificate ","").replace("Certificate ", "").replaceAll("\n","\n  ")   +  "\n" : "")+
 		"]";
 		if(retval.endsWith(",\n]")){
 			retval = retval.substring(0, retval.length()-3) + "\n]";

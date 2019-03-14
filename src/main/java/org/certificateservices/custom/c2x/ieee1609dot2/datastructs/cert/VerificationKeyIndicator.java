@@ -17,7 +17,9 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccCurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP384CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
 
 /**
@@ -67,11 +69,9 @@ public class VerificationKeyIndicator extends COERChoice {
 	/**
 	 * Constructor used when encoding of type reconstructionValue
 	 */
-	public VerificationKeyIndicator(EccP256CurvePoint value) throws IllegalArgumentException{
+	public VerificationKeyIndicator(EccCurvePoint value) throws IllegalArgumentException{
 		super(VerificationKeyIndicatorChoices.reconstructionValue, value);
 	}
-
-
 
 	/**
 	 * Constructor used when decoding.

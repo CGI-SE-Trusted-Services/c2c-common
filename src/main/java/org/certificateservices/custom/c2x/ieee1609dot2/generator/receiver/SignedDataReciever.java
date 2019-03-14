@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver;
 import java.io.IOException;
 import java.security.PrivateKey;
 
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data;
 
 /**
@@ -37,4 +39,11 @@ public class SignedDataReciever extends BasePKReceiver {
 		return signedData.getEncoded();
 	}
 
+	/**
+	 * @return the hash algorithm used to calculate the related HashedId8 reference.
+	 */
+	@Override
+	public AlgorithmIndicator getHashAlgorithm() {
+		return HashAlgorithm.sha256; // Only sha256 signed data is supported using ecies.
+	}
 }

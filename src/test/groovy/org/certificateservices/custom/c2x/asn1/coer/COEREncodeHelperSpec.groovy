@@ -12,6 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer
 
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
+
 import java.security.SecureRandom;
 
 import org.bouncycastle.asn1.ASN1Boolean
@@ -171,6 +173,19 @@ class COEREncodeHelperSpec extends BaseStructSpec {
 		COEREncodeHelper.padZerosToByteArray(null, 5) == null
 		new String(Hex.encode(COEREncodeHelper.padZerosToByteArray(data1, 5))) == "0000001000"
 		new String(Hex.encode(COEREncodeHelper.padZerosToByteArray(data1, 2))) == "1000"
+	}
+
+	def "Verify that encode and decode"(){
+		setup:
+		Psid o1 = new Psid(1)
+		when:
+		byte[] data = COEREncodeHelper.encode(o1)
+		then:
+		Hex.toHexString(data) == "0101"
+		when:
+		Psid o2 = COEREncodeHelper.decode(new Psid(),data)
+		then:
+		o2 == o1
 	}
 
 

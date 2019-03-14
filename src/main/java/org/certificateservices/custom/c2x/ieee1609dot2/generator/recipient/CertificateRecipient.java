@@ -60,7 +60,7 @@ public class CertificateRecipient extends BasePKRecipient{
 		PublicKey certEncKey = (PublicKey) cryptoManager.decodeEccPoint(pubKeyAlg, (EccP256CurvePoint) pubEncKey.getPublicKey().getValue());
 		
 		byte[] certHash = cryptoManager.digest(certificate.getEncoded(), HashAlgorithm.sha256);
-		EncryptedDataEncryptionKey encKey = cryptoManager.ieeeEceisEncryptSymmetricKey(getEncKeyType(pubEncKey.getPublicKey().getType()), certEncKey, encryptionKey, pubEncKey.getSupportedSymmAlg(), certHash);
+		EncryptedDataEncryptionKey encKey = cryptoManager.ieeeEceisEncryptSymmetricKey2017(getEncKeyType(pubEncKey.getPublicKey().getType()), certEncKey, encryptionKey,  certHash);
 		
 		PKRecipientInfo  pkRecInfo = new PKRecipientInfo(new HashedId8(certHash), encKey);
 		return new RecipientInfo(RecipientInfoChoices.certRecipInfo, pkRecInfo);

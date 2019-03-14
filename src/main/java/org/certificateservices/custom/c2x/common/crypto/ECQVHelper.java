@@ -17,8 +17,11 @@ import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.spec.ECPrivateKeySpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
 import org.bouncycastle.math.ec.ECPoint;
+import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccCurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP384CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.ToBeSignedCertificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator;
@@ -90,7 +93,12 @@ public class ECQVHelper {
 			Pu = Ru.getQ().add(((BCECPublicKey) k_kG.getPublic()).getQ());
 
 			// 3.4 Action 5 Convert Pu to the octet string PU
-			EccP256CurvePoint PU =  new EccP256CurvePoint(Pu.getEncoded(true));
+			EccCurvePoint PU;
+			if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP384r1){
+				PU =  new EccP384CurvePoint(Pu.getEncoded(true));
+			}else{
+				PU =  new EccP256CurvePoint(Pu.getEncoded(true));
+			}
 			
 			// 3.4 Action 6 Create Certificate Structure
 			// Create a reconstruction value
@@ -143,7 +151,7 @@ public class ECQVHelper {
 		
 		
 		// Get public key from reconstruction value
-		EccP256CurvePoint PU = (EccP256CurvePoint) tbs.getVerifyKeyIndicator().getValue();
+		EccCurvePoint PU = (EccCurvePoint) tbs.getVerifyKeyIndicator().getValue();
 		BCECPublicKey Pu = (BCECPublicKey) cryptoManager.decodeEccPoint(alg, PU);
 		
 		if(!Pu.getQ().isValid()){

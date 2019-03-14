@@ -161,7 +161,6 @@ FF FF FF"""
 
 		when:
 		d = new Ieee1609Dot2Data( Hex.decode(coerReferenceWithSha384Values))
-		println d.toString()
 		then:
 		Hex.toHexString(d.encoded) == coerReferenceWithSha384Values
 	}

@@ -260,7 +260,32 @@ public class COEREncodeHelper {
 			return new BigInteger(lengthValue);
 		}
 	}
-	
+
+
+	/**
+	 * Help method to encode a COEREncodable to byte array.
+	 * @param encodable the COEREncodable to encode.
+	 * @return related byte array.
+	 * @throws IOException if problems occurred encoding the object.
+	 */
+	public static byte[] encode(COEREncodable encodable) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(baos);
+		encodable.encode(dos);
+		return baos.toByteArray();
+	}
+
+	/**
+	 * Help method to decode a COEREncodable from byte array.
+	 * @param newObject a new COEREncodable created with the empty constructor.
+	 * @param data the data to decode.
+	 * @return given object populated with decoded data.
+	 * @throws IOException if problems occurred decoding the object.
+	 */
+	public static COEREncodable decode(COEREncodable newObject, byte[] data) throws IOException {
+		newObject.decode(new DataInputStream(new ByteArrayInputStream(data)));
+		return newObject;
+	}
 	
 		
 }

@@ -81,7 +81,7 @@ class EnrollmentCertGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair encKeys = cryptoManager.generateKeyPair(encAlg)
 		KeyPair signKeys = cryptoManager.generateKeyPair(alg)
 		
-		Certificate rootCA = genRootCA(rootCAKeys)
+		Certificate rootCA = genRootCA(rootCAKeys, alg)
 		Certificate enrollCA = genEnrollCA(CertificateType.explicit,alg, enrollCAKeys, rootCAKeys, rootCA)
 		
 		ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 33)
@@ -97,8 +97,8 @@ class EnrollmentCertGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		c1.getType() == CertificateType.explicit
 		
-		c1.getIssuer().getType() == IssuerIdentifierChoices.sha256AndDigest
-		c1.getIssuer().getValue() == new HashedId8(cryptoManager.digest(enrollCA.encoded, HashAlgorithm.sha256))
+		c1.getIssuer().getType() == (alg == PublicVerificationKeyChoices.ecdsaBrainpoolP384r1 ? IssuerIdentifierChoices.sha384AndDigest : IssuerIdentifierChoices.sha256AndDigest)
+		c1.getIssuer().getValue() == new HashedId8(cryptoManager.digest(enrollCA.encoded, alg))
 		c1.getToBeSigned().appPermissions == null
 		
 		c1.getToBeSigned().assuranceLevel.assuranceLevel == 7
@@ -137,8 +137,8 @@ class EnrollmentCertGeneratorSpec extends BaseCertGeneratorSpec {
 		cryptoManager.decodeEccPoint(encAlg, (EccP256CurvePoint) c2.getToBeSigned().getEncryptionKey().getPublicKey().getValue()) == encKeys.publicKey
 
 		where:
-		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
-		encAlg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
+		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1, PublicVerificationKeyChoices.ecdsaBrainpoolP384r1]
+		encAlg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
 	}
 	
 	@Unroll

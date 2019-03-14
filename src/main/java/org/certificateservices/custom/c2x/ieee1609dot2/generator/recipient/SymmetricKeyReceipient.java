@@ -46,7 +46,7 @@ public class SymmetricKeyReceipient implements Recipient {
 	public RecipientInfo toRecipientInfo(AlgorithmIndicator alg,Ieee1609Dot2CryptoManager cryptoManager, SecretKey encryptionKey) throws IllegalArgumentException, GeneralSecurityException {
 		
 		byte[] nounce = cryptoManager.genNounce(alg);
-		byte[] encData = cryptoManager.symmetricEncrypt(alg, encryptionKey.getEncoded(), symmetricKey, nounce);
+		byte[] encData = cryptoManager.symmetricEncryptIEEE1609_2_2017(alg, encryptionKey.getEncoded(), symmetricKey.getEncoded(), nounce);
 		SymmetricCiphertext symmetricCiphertext;
 		switch (alg.getAlgorithm().getSymmetric()) {
 		case aes128Ccm:

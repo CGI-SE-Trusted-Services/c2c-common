@@ -33,7 +33,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class EccP256CurvePoint extends COERChoice {
+public class EccP256CurvePoint extends EccCurvePoint {
 	
 	private static final int OCTETSTRING_SIZE = 32;
 	

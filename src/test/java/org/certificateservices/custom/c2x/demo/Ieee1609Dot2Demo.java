@@ -42,11 +42,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certific
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.AuthorityCertGenerator;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.AuthorizationCertGenerator;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.EnrollmentCertGenerator;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.ImplicitCertificateData;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator.SignerIdentifierType;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
@@ -301,7 +297,7 @@ public class Ieee1609Dot2Demo {
 	    		new Certificate[] {authorizationCert,authorityCACertificate, rootCACertificate}, 
 	    		authorizationCertSigningPrivateKey, // Important to use the reconstructed private key for implicit certificates
 	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, 
-	    		new Recipient[] {new CertificateRecipient(enrollmentCredential)});
+	    		new Recipient[] {new CertificateRecipient(enrollmentCredential)}).getEncoded();
 	    
 	    // To decrypt and verify a signed message it is possible to use the following
 	      // First build a truststore of trust anchors (root CA certificate or equivalent)
@@ -312,15 +308,17 @@ public class Ieee1609Dot2Demo {
 	      // in header, symmetric key or pre shared key.
 	    Map<HashedId8, Receiver> recieverStore = securedMessageGenerator.buildRecieverStore(new Receiver[] { new CertificateReciever(enrollmentCredentialEncryptionKeys.getPrivate(), enrollmentCredential)});
 		  // Finally perform the decryption with.
-	    byte[] decryptedMessage = securedMessageGenerator.decryptAndVerifySignedData(encryptedAndSignedMessage, 
+		DecryptAndVerifyResult decryptAndVerifyResult = securedMessageGenerator.decryptAndVerifySignedData(encryptedAndSignedMessage,
 	    		certStore, 
 	    		trustStore,
 	    		recieverStore, 
 	    		true, //requiredSignature true if message must be signed otherwise a IllegalArgument is throwm
 	    		true //requireEncryption true if message must be encrypted otherwise a IllegalArgument is throwm
 	    		);
-	      // It is also possilbe to use the methods decryptData or verifySignedData (or verifyReferencedSignedData) for alternative methods to verify and decrypt messages.
-	    
+		   // The decryptAndVerifyResult contains the inner opaque data, the related header info and signer identifier
+		   // if related message was signed.
+
+	      // It is also possible to use the methods decryptData or verifySignedData (or verifyReferencedSignedData) for alternative methods to verify and decrypt messages.
 
 		//----------------------------------- Secured Data Encoding and Decoding Example ---------------------------------
 	    // To encode a secured message to a byte array use the following method.

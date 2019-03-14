@@ -247,7 +247,6 @@ class CertificateSpec extends  BaseCertGeneratorSpec {
 		when:
 		Certificate c = new Certificate(Hex.decode(referenceCert))
 		then:
-		println c.toString()
 		serializeToHex(c) == referenceCert
 	}
 
