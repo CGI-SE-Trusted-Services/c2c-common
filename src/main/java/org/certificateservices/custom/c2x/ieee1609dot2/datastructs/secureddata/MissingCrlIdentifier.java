@@ -19,7 +19,8 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedI
 /**
  * This structure may be used to request a CRL that the SSME knows to have been issued but has not yet received. It is provided for 
  * future use and its use is not defined in this version of this standard.
- * <li>cracaId is the HashedId3 of the CRACA, as defined in 5.1.3.
+ * <li>cracaId is the HashedId3 of the CRACA, as defined in 5.1.3. The HashedId3 is calculated with
+ * the whole-certificate hash algorithm, determined as described in 6.4.3.
  * <li>crlSeries is the requested CRL Series value. See 5.1.3 for more information.
  * 
  * @author Philip Vendil, p.vendil@cgi.com

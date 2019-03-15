@@ -17,9 +17,10 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Linkage
 
 /**
  * In this structure:
- * <li>linkageSeed1 is the value LinkageSeed1 used in the algorithm given in 5.1.3.4.
- * <li>linkageSeed2 is the value LinkageSeed2 used in the algorithm given in 5.1.3.4.
- * 
+ * <ul>
+ * <li>linkageSeed1 is the value LinkageSeed1 used in the algorithm given in 5.1.3.4.</li>
+ * <li>linkageSeed2 is the value LinkageSeed2 used in the algorithm given in 5.1.3.4.</li>
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

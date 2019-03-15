@@ -15,6 +15,9 @@ package org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver;
 import java.io.IOException;
 import java.security.PrivateKey;
 
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 
 /**
@@ -42,6 +45,14 @@ public class CertificateReciever extends BasePKReceiver {
 	protected byte[] getReferenceData() throws IOException {
 		return certificate.getEncoded();
 	}
-	
+
+	@Override
+	public AlgorithmIndicator getHashAlgorithm() {
+		if(certificate.getSignature() != null){
+			certificate.getSignature().getType().getAlgorithm();
+		}
+		return HashAlgorithm.sha256;
+	}
+
 
 }

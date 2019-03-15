@@ -38,7 +38,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Identif
  * in rectangularRegions when verifying a signed SPDU shall indicate that the signed SPDU is invalid. A compliant implementation shall support rectangularRegions 
  * fields containing at least eight entries.
  * <li>If selected, identifiedRegion is a critical information field as defined in 5.2.5. An implementation that does not support the number of IdentifiedRegion in 
- * identifiedRegion shall reject the encrypted SPDU as invalid. A compliant implementation shall support identifiedRegion fields containing at least eight entries.
+ * identifiedRegion shall reject the signed SPDU as invalid. A compliant implementation shall support identifiedRegion fields containing at least eight entries.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -61,6 +61,14 @@ public class GeographicRegion extends COERChoice {
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 			return COEREncodeHelper.deserialize(emptyCOEREncodable);
+		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
 		}
 	}
 	

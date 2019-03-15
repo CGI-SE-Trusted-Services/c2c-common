@@ -82,6 +82,7 @@ abstract class BaseCertGeneratorSpec extends BaseStructSpec {
 	SecuredDataGenerator sdg
 	SecuredDataGenerator sdg_ecdsaNistP256
 	SecuredDataGenerator sdg_ecdsaBrainpoolP256r1
+	SecuredDataGenerator sdg_ecdsaBrainpoolP384r1
 	SecuredCrlGenerator scg
 	
 	@Shared Ieee1609Dot2CryptoManager cryptoManager
@@ -101,6 +102,7 @@ abstract class BaseCertGeneratorSpec extends BaseStructSpec {
 		sdg_ecdsaNistP256 = new SecuredDataGenerator(SecuredDataGenerator.DEFAULT_VERSION, cryptoManager, HashAlgorithm.sha256, SignatureChoices.ecdsaNistP256Signature)
 		sdg = sdg_ecdsaNistP256
 		sdg_ecdsaBrainpoolP256r1 = new SecuredDataGenerator(SecuredDataGenerator.DEFAULT_VERSION, cryptoManager, HashAlgorithm.sha256, SignatureChoices.ecdsaBrainpoolP256r1Signature)
+		sdg_ecdsaBrainpoolP384r1 = new SecuredDataGenerator(SecuredDataGenerator.DEFAULT_VERSION, cryptoManager, HashAlgorithm.sha384, SignatureChoices.ecdsaBrainpoolP384r1Signature)
 		scg = new SecuredCrlGenerator(SecuredDataGenerator.DEFAULT_VERSION, cryptoManager, HashAlgorithm.sha256, SignatureChoices.ecdsaNistP256Signature)
 	}
 	

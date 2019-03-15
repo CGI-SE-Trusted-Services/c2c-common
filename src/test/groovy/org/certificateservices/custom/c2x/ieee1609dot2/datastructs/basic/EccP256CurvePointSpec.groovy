@@ -69,6 +69,7 @@ class EccP256CurvePointSpec extends BaseStructSpec {
 		}
 		p.choice == choice
 		p.type == choice
+		!choice.extension
 		
 		where:
 		choice                                | value                             | encoding   

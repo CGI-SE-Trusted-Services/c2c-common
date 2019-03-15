@@ -20,7 +20,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
  * <p>
  * <li>psid identifies the application area
  * <li>sspRange identifies the SSPs associated with that PSID for which the holder may issue or request certificates. 
- * If sspRange is omitted, the holder may only issue or request certificates for the default SSP for that psid.
+ * If sspRange is omitted, the holder may issue or request certificates for any SSP
+ * for that PSID.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

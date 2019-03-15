@@ -25,10 +25,13 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Hostnam
 /**
  * This structure contains information that is used to identify the certificate holder if necessary.
  * <li>linkageData is used to identify the certificate for revocation purposes in the case of certificates that appear on linked certificate CRLs. See 5.1.3, 7.3 for further discussion.
- * <li>name is used to identify the certificate holder in the case of non-anonymous certificates. The contents of this field are a matter of policy but should be human-readable.
+ * <li>name is used to identify the certificate holder in the case of non-anonymous certificates. The contents of this field are a matter of policy and should be human-readable.
  * <li>binaryId supports identifiers that are not human-readable.
  * <li>none indicates that the certificate does not include an identifier.
- * 
+ * <p>
+ *     <b>Critical information fields:</b>If present, this is a critical information field as defined in 5.2.5. An
+ *     implementation that does not recognize the choice indicated in this field shall reject a signed SPDU as invalid.
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -55,6 +58,14 @@ public class CertificateId extends COERChoice {
 			default:
 				return new COERNull();
 			}
+		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
 		}
 	}
 	

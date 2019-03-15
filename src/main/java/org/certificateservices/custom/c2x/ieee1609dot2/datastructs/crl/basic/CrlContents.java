@@ -26,23 +26,71 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
 /**
  * In this structure:
- * 
- * <li>version is the version number of the CRL. For this version of this standard it is 1.
- * <li>crlSeries represents the CRL series to which this CRL belongs. This is used to determine whether 
- * the revocation information in a CRL is relevant to a particular certificate as specified in 5.1.3.2.
- * <li>cracaId contains the low-order eight octets of the hash of the certificate of the Certificate 
- * Revocation Authorization CA (CRACA) that ultimately authorized the issuance of this CRL. This is used to 
- * determine whether the revocation information in a CRL is relevant to a particular certificate as specified 
- * in 5.1.3.2. In a valid signed CRL as specified in 7.4 the cracaId is consistent with the associatedCraca 
- * field in the Service Specific Permissions as defined in 7.4.3.3.
- * <li>issueDate specifies the time when the CRL was issued.
- * <li>nextCrl contains the time when the next CRL with the same crlSeries and cracaId is expected to be issued. 
- * The CRL is invalid unless nextCrl is strictly after issueDate. This field is used to set the expected
- * update time for revocation information associated with the (cracaId, crlSeries) pair as specified in 5.1.3.6.
- * <li>priorityInfo contains information that assists devices with limited storage space in determining which 
- * revocation information to retain and which to discard.
+ *
+ * <ul>
+ * <li>is the version number of the CRL. For this version of this standard it is 1.</li>
+ * <li>crlSeries represents the CRL series to which this CRL belongs. This is used to determine
+ * whether the revocation information in a CRL is relevant to a particular certificate as specified in
+ * 5.1.3.2.</li>
+ * <li>crlCraca contains the low-order eight octets of the hash of the certificate of the
+ * Certificate Revocation Authorization CA (CRACA) that ultimately authorized the issuance of this
+ * CRL. This is used to determine whether the revocation information in a CRL is relevant to a
+ * particular certificate as specified in 5.1.3.2. In a valid signed CRL as specified in 7.4 the
+ * crlCraca is consistent with the associatedCraca field in the Service Specific
+ * Permissions as defined in 7.4.3.3. The HashedId8 is calculated with the whole-certificate hash
+ * algorithm, determined as described in 6.4.3.</li>
+ * <li>issueDate specifies the time when the CRL was issued.</li>
+ * <li>nextCrl contains the time when the next CRL with the same crlSeries and
+ * crlCraca is expected to be issued. The CRL is invalid unless nextCrl is strictly
+ * after issueDate. This field is used to set the expected update time for revocation information
+ * associated with the (crlCraca, crlSeries) pair as specified in 5.1.3.6.</li>
+ * <li>priorityInfo contains information that assists devices with limited storage space in
+ * determining which revocation information to retain and which to discard.</li>
  * <li>typeSpecific contains the CRL body:
- * 
+ * <ul>
+ *     <li>
+ *         fullHashCrl contains a full hash-based CRL, i.e., a listing of the hashes of all certificates
+ * that:
+ *         <ul>
+ *             <li>contain the indicated cracaId and crlSeries values, and</li>
+ *             <li>are revoked by hash, and</li>
+ *             <li>have been revoked, and</li>
+ *             <li>have not expired.</li>
+ *         </ul>
+ *     </li>
+ *     <li>
+ *         deltaHashCrl contains a delta hash-based CRL, i.e., a listing of the hashes of all
+ * certificates that:
+ *         <ul>
+ *             <li>contain the specified cracaId and crlSeries values, and</li>
+ *             <li>are revoked by hash, and</li>
+ *             <li>have been revoked since the previous CRL that contained the indicated cracaId and
+ * crlSeries values.</li>
+ *         </ul>
+ *     </li>
+ *     <il>
+ *         fullLinkedCrl contains a full linkage ID-based CRL, i.e., a listing of the individual
+ * and/or group linkage data for all certificates that:
+ *         <ul>
+ *             <li>contain the indicated cracaId and crlSeries values, and</li>
+ *             <li>are revoked by linkage data, and</li>
+ *             <li>have been revoked, and</li>
+ *             <li>have not expired.</li>
+ *         </ul>
+ *     </il>
+ *     <li>
+ *         deltaLinkedCrl contains a delta linkage ID-based CRL, i.e., a listing of the individual
+ * and/or group linkage data for all certificates that:
+ *         <ul>
+ *             <li>contain the specified cracaId and crlSeries values, and</li>
+ *             <li>are revoked by linkage data, and</li>
+ *             <li>have been revoked since the previous CRL that contained the indicated cracaId and
+ * crlSeries values.</li>
+ *         </ul>
+ *     </li>
+ * </ul>
+ * </li>
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -54,7 +102,7 @@ public class CrlContents extends COERSequence {
 	
 	private static final int VERSION = 0;
 	private static final int CRLSERIES = 1;
-	private static final int CRACAID = 2;
+	private static final int CRLCRACA = 2;
 	private static final int ISSUEDATE = 3;
 	private static final int NEXTCRL = 4;
 	private static final int PRIORITYINFO = 5;
@@ -71,21 +119,21 @@ public class CrlContents extends COERSequence {
 	/**
 	 * Constructor used when encoding and default version
 	 */
-	public CrlContents(CrlSeries crlSeries, HashedId8  cracaId,Time32 issueDate, Time32  nextCrl,
+	public CrlContents(CrlSeries crlSeries, HashedId8 crlCraca,Time32 issueDate, Time32  nextCrl,
 			CrlPriorityInfo priorityInfo, CrlContentsType typeSpecific){
-		this(DEFAULT_VERSION, crlSeries, cracaId, issueDate, nextCrl, priorityInfo, typeSpecific);
+		this(DEFAULT_VERSION, crlSeries, crlCraca, issueDate, nextCrl, priorityInfo, typeSpecific);
 	}
 	
 	/**
 	 * Constructor used when encoding
 	 */
-	public CrlContents(int version, CrlSeries crlSeries, HashedId8  cracaId,Time32 issueDate, Time32  nextCrl,
+	public CrlContents(int version, CrlSeries crlSeries, HashedId8 crlCraca,Time32 issueDate, Time32  nextCrl,
 			CrlPriorityInfo priorityInfo, CrlContentsType typeSpecific){
 		super(false,7);
 		init();
 		set(VERSION, new Uint8(version));
 		set(CRLSERIES, crlSeries);
-		set(CRACAID, cracaId);
+		set(CRLCRACA, crlCraca);
 		set(ISSUEDATE, issueDate);
 		set(NEXTCRL, nextCrl);
 		set(PRIORITYINFO, priorityInfo);
@@ -126,8 +174,8 @@ public class CrlContents extends COERSequence {
 	 * 
 	 * @return Returns the cracaId value
 	 */
-	public HashedId8 getCracaId(){
-		return (HashedId8) get(CRACAID);
+	public HashedId8 getCrlCraca(){
+		return (HashedId8) get(CRLCRACA);
 	}
 	
 	/**
@@ -178,7 +226,7 @@ public class CrlContents extends COERSequence {
 	private void init(){
 		addField(VERSION, false, new Uint8(), null);
 		addField(CRLSERIES, false, new CrlSeries(), null);
-		addField(CRACAID, false, new HashedId8(), null);
+		addField(CRLCRACA, false, new HashedId8(), null);
 		addField(ISSUEDATE, false, new Time32(), null);
 		addField(NEXTCRL, false, new Time32(), null);
 		addField(PRIORITYINFO, false, new CrlPriorityInfo(), null);
@@ -191,7 +239,7 @@ public class CrlContents extends COERSequence {
 		return "CrlContents [\n" +
 	"  version=" + getVersion() + ",\n" +
 	"  crlSeries=" + getCrlSeries().toString().replace("CrlSeries ", "") + ",\n" +
-	"  cracaId=" + getCracaId().toString().replace("HashedId8", "") + ",\n" +
+	"  crlCraca=" + getCrlCraca().toString().replace("HashedId8", "") + ",\n" +
 	"  issueDate=" + getIssueDate().toString().replace("Time32 ", "") + ",\n" +
 	"  nextCrl=" + getNextCrl().toString().replace("Time32 ", "")  + ",\n" +
 	"  priorityInfo=" + getPriorityInfo().toString().replace("CrlPriorityInfo ", "")  + ",\n" +

@@ -37,7 +37,7 @@ public class LinkageSeed extends COEROctetStream{
 	
 	/**
 	 * Constructor used to create a linkageSeed.
-	 * @param linkageValue a 16 byte array.
+	 * @param linkageSeed a 16 byte array.
 	 * @throws IllegalArgumentException if linkageSeed was invalid
 	 */
 	public LinkageSeed(byte[] linkageSeed) throws IllegalArgumentException {

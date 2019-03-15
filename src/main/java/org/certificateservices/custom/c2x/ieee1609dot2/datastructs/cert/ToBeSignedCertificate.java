@@ -32,7 +32,9 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
  * The fields in the ToBeSignedCertificate structure have the following meaning:
  * 
  * <li>id contains information that is used to identify the certificate holder if necessary.
- * <li>cracaId identifies the Certificate Revocation Authorization CA (CRACA) responsible for Certificate Revocation Lists (CRLs) on which this certificate might appear. Use of the cracaId is specified in 5.1.3.
+ * <li>cracaId identifies the Certificate Revocation Authorization CA (CRACA) responsible for Certificate Revocation
+ * Lists (CRLs) on which this certificate might appear. Use of the cracaId is specified in 5.1.3.The HashedId3 is
+ * calculated with the whole-certificate hash algorithm, determined as described in 6.4.3.
  * <li>crlSeries represents the CRL series relevant to a particular Certificate Revocation Authorization CA (CRACA) on which the certificate might appear. Use of this field is specified in 5.1.3.
  * <li>validityPeriod contains the validity period of the certificate.
  * <li>region, if present, indicates the validity region of the certificate. If it is omitted the validity
@@ -41,6 +43,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
  * -If enclosing certificate is self-signed, i.e. the choice indicated by the issuer field in the enclosing certificate structure is self, the certificate is valid worldwide.
  * <br>
  * -Otherwise, the certificate has the same validity region as the certificate that issued it.
+ * <ul>
  * <li>assuranceLevel indicates the assurance level of the certificate holder.
  * <li>appPermissions indicates the permissions that the certificate holder has to sign application data with this certificate. A valid instance of appPermissions contains any particular Psid value in at most one entry.
  * <li>certIssuePermissions indicates the permissions that the certificate holder has to sign certificates with this certificate. A valid instance of this array contains no more than one entry whose psidSspRange field indicates all. If the array has multiple entries and one entry has its psidSspRange field indicate all, then the entry indicating all specifies the permissions for all PSIDs other than the ones explicitly specified in the other entries. See the descr iption of PsidGroupPermissions for further discussion.
@@ -48,11 +51,52 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
  * <li>canRequestRollover indicates that the certificate may be used to sign a request for another certificate with the same permissions. This field is provided for future use and its use is not defined in this version of this standard.
  * <li>encryptionKey contains a public key for encryption for which the certificate holder holds the corresponding private key.
  * <li>verifyKeyIndicator contains material that may be used to recover the public key that may be used to verify data signed by this certificate.
- * 
+ * </ul>
+ * <p>
+ *     <b>Encoding considerations:</b> The encoding of toBeSigned which is input to the hash uses the compressed
+ * form for all public keys and reconstruction values that are elliptic curve points: that is, those points (which
+ * in this standard are all EccP256CurvePoints) indicate a choice of compressed-y-0 or compressedy-
+ * 1. The encoding of the issuing certificate uses the compressed form for all public key and reconstruction
+ * values and takes the r value of an ECDSA signature, which in this standard is an ECC
+ * curve point, to be of type x-only.
+ * For both implicit and explicit certificates, when the certificate is hashed to create or recover the public key
+ * (in the case of an implicit certificate) or to generate or verify the signature (in the case of an explicit
+ * certificate), the hash is Hash (Data input) || Hash (Signer identifier input), where:
+ * <ul>
+ * <li>Data input is the COER encoding of toBeSigned, canonicalized as described above.</li>
+ * <li></li>Signer identifier input depends on the verification type, which in turn depends on the choice
+ * indicated by issuer. If the choice indicated by issuer is self, the verification type is selfsigned
+ * and the signer identifier input is the empty string. If the choice indicated by issuer is not
+ * self, the verification type is certificate and the signer identifier input is the COER encoding of
+ * the canonicalization per 6.4.3 of the certificate indicated by issuer.</li>
+ * </ul>
+ * In other words, for implicit certificates, the value H (CertU) in SEC 4, section 3, is for purposes of this
+ * standard taken to be H [H (canonicalized ToBeSignedCertificate from the subordinate certificate) || H
+ * (canonicalized entirety of issuer Certificate)]. See 5.3.2 for further discussion, including material
+ * differences between this
+ * </p>
+ * <p>
+ * <b>Critical information fields:</b>
+ * <ul>
+ * <li>If present, appPermissions is a critical information field as defined in 5.2.5. An
+ * implementation that does not support the number of PsidSsp in appPermissions shall reject
+ * the encrypted signed SPDU as invalid. A compliant implementation shall support
+ * appPermissions fields containing at least eight entries.</li>
+ * <li>If present, certIssuePermissions is a critical information field as defined in 5.2.5. An
+ * implementation that does not support the number of PsidGroupPermissions in
+ * certIssuePermissions shall reject the encrypted signed SPDU as invalid. A compliant
+ * implementation shall support certIssuePermissions fields containing at least eight entries.</li>
+ * <li>If present, certRequestPermissions is a critical information field as defined in 5.2.5. An
+ * implementation that does not support the number of PsidGroupPermissions in
+ * certRequestPermissions shall reject the encrypted signed SPDU as invalid. A compliant
+ * implementation shall support certRequestPermissions fields containing at least eight
+ * entries.</li>
+ * </ul>
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class ToBeSignedCertificate extends COERSequence {
+	public class ToBeSignedCertificate extends COERSequence {
 	
 
 	private static final long serialVersionUID = 1L;

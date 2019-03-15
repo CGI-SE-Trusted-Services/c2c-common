@@ -18,10 +18,13 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 /**
  * This data structure contains information that assists devices with limited storage 
  * space in determining which revocation information to retain and which to discard.
- * 
- * <li>priority indicates the priority of the revocation information relative to other 
- * CRLs issued for certificates with the same cracaId and crlSeries values. A higher 
- * value for this field indicates higher importance of this revocation information.
+ *
+ * <ul>
+ * <li>priority indicates the priority of the revocation information relative to other CRLs issued for
+ * certificates with the same cracaId and crlSeries values. A higher value for this field
+ * indicates higher importance of this revocation information.</li>
+ * </ul>
+ * <p>NOTE—This mechanism is for future use; details are not specified in this version of the standard.</p>
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

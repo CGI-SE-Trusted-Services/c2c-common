@@ -30,7 +30,7 @@ import spock.lang.Unroll;
 class HashAlgorithmSpec extends BaseStructSpec {
 
 
-	def "Verify correct algorithms indicator is returned."(){
+	def "Verify correct algorithms indicator for sha256 is returned."(){
 		when:
 		Algorithm alg = HashAlgorithm.sha256.getAlgorithm()
 		then:
@@ -38,7 +38,16 @@ class HashAlgorithmSpec extends BaseStructSpec {
 		alg.getSymmetric() == null
 		alg.getSignature() == null
 		alg.getEncryption() == null
-		
+	}
+
+	def "Verify correct algorithms indicator for sha384 is returned."(){
+		when:
+		Algorithm alg = HashAlgorithm.sha384.getAlgorithm()
+		then:
+		alg.getHash() == Algorithm.Hash.sha384
+		alg.getSymmetric() == null
+		alg.getSignature() == null
+		alg.getEncryption() == null
 	}
 	
 }

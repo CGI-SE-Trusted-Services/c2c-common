@@ -16,15 +16,15 @@ import org.bouncycastle.util.encoders.Hex;
 
 /**
  * This data structure contains the truncated hash of another data structure. The HashedId3 for a given data
- * structure is calculated by calculating the SHA-256 hash of the encoded data structure and taking the low-
- * order three bytes of the hash output. The low-order three bytes are the last three bytes of the 32-byte hash.
- * 
- * <b>ENCODING CONSIDERATIONS:</b> If the data structure is a Certificate, the encoded Certificate which is
- * input to the hash uses the compressed form for all elliptic curve points within the ToBeSignedCertificate
- * and takes the r value of an ECDSA signature to be of type x-only. If the data structure is a Ieee1609-
- * Dot2Data containing a SignedData, the encoding takes the r value of an ECDSA signature to be of type x-
- * only.
- * 
+ * structure is calculated by calculating the hash of the encoded data structure and taking the low-
+ * order three bytes of the hash output. If the data structure is subject to canonicalization it is canonicalized
+ * before hashing. The low-order three bytes are the last three bytes of the hash when represented in
+ * network byte order.
+ * <p>
+ * The hash algorithm to be used to calculate a HashedId3 within a structure depends on the context. In this
+ * standard, for each structure that includes a HashedId3 field, the corresponding text indicates how the hash
+ * algorithm is determined.
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

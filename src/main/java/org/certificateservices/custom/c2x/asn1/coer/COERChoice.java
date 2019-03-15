@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.io.IOException;
  * <p> 
  * For more information see ISO/IEC 8825-7:2015 Section 20
  * <p>
- * An enum implementing the COERChouceEnumeration should be used in combination with this COERChoice.
+ * An enum implementing the COERChoiceEnumeration should be used in combination with this COERChoice.
  * 
  * @see COERChoiceEnumeration
  * 
@@ -76,7 +77,16 @@ public class COERChoice implements COEREncodable{
 	public void encode(DataOutputStream out) throws IOException {
 		COERTag tag = new COERTag(COERTag.CONTEXT_SPECIFIC_TAG_CLASS, choice.ordinal());
 		tag.encode(out);
-		value.encode(out);
+		if(choice.isExtension()){
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			DataOutputStream daos = new DataOutputStream(baos);
+			value.encode(daos);
+			byte[] data = baos.toByteArray();
+			COEREncodeHelper.writeLengthDeterminant(data.length, out);
+			out.write(data);
+		}else {
+			value.encode(out);
+		}
 	}
 
 	@Override
@@ -84,7 +94,10 @@ public class COERChoice implements COEREncodable{
 		COERTag tag = new COERTag();
 		tag.decode(in);
 		choice = (COERChoiceEnumeration) choiceEnum.getEnumConstants()[(int) tag.getTagNumber()];
-	
+		if(choice.isExtension()){
+			int size = COEREncodeHelper.readLengthDeterminantAsInt(in);
+			// For now all choices are supported, in future should the unsupported choices be skipped.
+		}
 		value = choice.getEmptyCOEREncodable();
 		value.decode(in);
 	}

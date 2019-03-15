@@ -19,6 +19,7 @@ import javax.crypto.SecretKey;
 
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
 
@@ -49,6 +50,13 @@ public class PreSharedKeyReceiver implements Receiver {
 		return secretKey;
 	}
 
+	/**
+	 * @return the hash algorithm used to calculate the related HashedId8 reference.
+	 */
+	@Override
+	public AlgorithmIndicator getHashAlgorithm() {
+		return HashAlgorithm.sha256;
+	}
 
 
 }

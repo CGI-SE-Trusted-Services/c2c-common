@@ -16,7 +16,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COERBitString;
 
 /**
  * This type indicates which type of permissions may appear in end-entity certificates the chain of whose permissions passes 
- * through the ItsSspDepthRange field containing this value. If app is indicated, the end- entity certificate may contain an 
+ * through the PsidGroupPermissions field containing this value. If app is indicated, the end- entity certificate may contain an
  * appPermissions field. If enroll is indicated, the end-entity certificate may contain an certRequestPermissions field.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
@@ -43,6 +43,9 @@ public class EndEntityType extends COERBitString {
 	 */
 	public EndEntityType(boolean app, boolean enroll) throws IllegalArgumentException{
 		super(0,BITSTRING_SIZE,true);
+		if(!app && !enroll){
+			throw new IllegalArgumentException("Invalid EndEntityType, either app or enroll flag must be set.");
+		}
 		setFlag(APP, app);
 		setFlag(ENROLL, enroll);
 	}

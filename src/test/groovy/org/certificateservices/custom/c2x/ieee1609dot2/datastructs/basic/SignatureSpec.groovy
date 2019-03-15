@@ -12,22 +12,15 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic
 
-import java.awt.Choice;
-
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
-import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EcdsaP256Signature;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
-
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EcdsaP256Signature
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator
+import spock.lang.Shared
+import spock.lang.Unroll
 
 /**
  * Test for Signature
@@ -38,13 +31,16 @@ import spock.lang.Unroll;
 class SignatureSpec extends BaseStructSpec {
 	
 	
-	EccP256CurvePoint r = new EccP256CurvePoint(new BigInteger(123))
-	byte[] s = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),32)
+	@Shared EccP256CurvePoint r_32 = new EccP256CurvePoint(new BigInteger(123))
+	@Shared byte[] s_32 = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),32)
+
+	@Shared EccP384CurvePoint r_48 = new EccP384CurvePoint(new BigInteger(123))
+	@Shared byte[] s_48 = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),48)
 
 	@Unroll
 	def "Verify that Signature is correctly encoded for type #choice"(){
 		when:
-		def sig = new Signature(choice, new EcdsaP256Signature(r,s))
+		def sig = new Signature(choice, getSignature(r,s))
 		
 		then:
 		serializeToHex(sig) == encoding
@@ -54,22 +50,46 @@ class SignatureSpec extends BaseStructSpec {
 		
 		then:
 		
-		sig2.getValue() == new EcdsaP256Signature(r,s)
+		sig2.getValue() == getSignature(r,s)
 		sig2.choice == choice
 		sig2.type == choice
+		choice.extension == extension
 		
 		where:
-		choice                                         | encoding   
-		SignatureChoices.ecdsaNistP256Signature        | "8080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5"   
-		SignatureChoices.ecdsaBrainpoolP256r1Signature | "8180000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5"      
+		choice                                         | r    | s    | extension | encoding
+		SignatureChoices.ecdsaNistP256Signature        | r_32 | s_32 | false     | "8080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5"
+		SignatureChoices.ecdsaBrainpoolP256r1Signature | r_32 | s_32 | false     | "8180000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5"
+		SignatureChoices.ecdsaBrainpoolP384r1Signature | r_48 | s_48 | true      | "82618000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f5"
 
 		
 	}
 	
 	def "Verify toString"(){
 		expect:
-		new Signature(SignatureChoices.ecdsaNistP256Signature, new EcdsaP256Signature(r,s)).toString() == "Signature [ecdsaNistP256Signature=EcdsaP256Signature [r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]"
+		new Signature(SignatureChoices.ecdsaNistP256Signature, new EcdsaP256Signature(r_32,s_32)).toString() == "Signature [ecdsaNistP256Signature=EcdsaP256Signature [r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]"
 	}
-	
 
+	private def getSignature(def r, byte[] s){
+		if(r instanceof EccP256CurvePoint){
+			return new EcdsaP256Signature(r,s)
+		}
+		if(r instanceof EccP384CurvePoint){
+			return new EcdsaP384Signature(r,s)
+		}
+		assert false
+	}
+
+
+	def coerReferenceEncodingWithNist256 = """80 80 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00""".replaceAll("\n","").replaceAll(" ","").toLowerCase()
+
+	def "Verify externally encoding COER with choice with extension"(){
+		when:
+		Signature s = deserializeFromHex(new Signature(), coerReferenceEncodingWithNist256)
+		then:
+		serializeToHex(s) == coerReferenceEncodingWithNist256
+	}
 }

@@ -21,12 +21,11 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 
 /**
  * This type indicates the region of validity of a certificate using region identifiers.
- * 
- * <b>Critical information fields</b>
- * 
- * If present, this is a critical information field as defined in 5.2.5. An implementation that does not recognize the indicated CHOICE 
- * when verifying a signed SPDU shall indicate that the signed SPDU is invalid.
- * 
+ * <p>
+ * <b>Critical information fields</b>If present, this is a critical information field as defined in 5.2.5. An
+ * implementation that does not recognize the indicated CHOICE when verifying a signed SPDU shall indicate that the
+ * signed SPDU is invalid.
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -47,6 +46,14 @@ public class IdentifiedRegion extends COERChoice {
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 			return COEREncodeHelper.deserialize(emptyCOEREncodable);
+		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
 		}
 	}
 	

@@ -12,20 +12,12 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert
 
-import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GroupLinkageValue;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IValue;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LinkageValue;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.LinkageData;
-import org.junit.Ignore;
 
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GroupLinkageValue
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IValue
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LinkageValue
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.LinkageData
 
 /**
  * Test for LinkageData

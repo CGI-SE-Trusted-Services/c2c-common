@@ -12,22 +12,12 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic
 
-import java.awt.Choice;
-
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
-import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ServiceSpecificPermissions.ServiceSpecificPermissionsChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ServiceSpecificPermissions;
-
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ServiceSpecificPermissions
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ServiceSpecificPermissions.ServiceSpecificPermissionsChoices
+import spock.lang.Shared
+import spock.lang.Unroll
 
 /**
  * Test for ServiceSpecificPermissions
@@ -37,12 +27,13 @@ import spock.lang.Unroll;
  */
 class ServiceSpecificPermissionsSpec extends BaseStructSpec {
 	
-	byte[] x = new BigInteger(123).toByteArray()
+	@Shared byte[] x = new BigInteger(123).toByteArray()
+	@Shared BitmapSsp bitmapSsp = new BitmapSsp(Hex.decode("121314"))
 	
 	@Unroll
 	def "Verify that ServiceSpecificPermissions is correctly encoded for type #choice"(){
 		when:
-		def p = new ServiceSpecificPermissions(choice, x)
+		def p = new ServiceSpecificPermissions(choice, value)
 		
 		then:
 		serializeToHex(p) == encoding
@@ -51,24 +42,26 @@ class ServiceSpecificPermissionsSpec extends BaseStructSpec {
 		ServiceSpecificPermissions p2 = deserializeFromHex(new ServiceSpecificPermissions(), encoding)
 		
 		then:
-		p2.getData() == x
+		if(choice == ServiceSpecificPermissionsChoices.opaque){
+			p2.getData() == x
+		}
+		if(choice == ServiceSpecificPermissionsChoices.bitmapSsp){
+			p2.getBitmapSsp() == bitmapSsp
+		}
 		p2.choice == choice
 		p2.type == choice
+		choice.extension == extension
 		
 		where:
-		choice                                            | encoding   
-		ServiceSpecificPermissionsChoices.opaque          | "80017b"   
-		    
-
-		
+		choice                                      | value    | extension | encoding
+		ServiceSpecificPermissionsChoices.opaque    | x        | false     | "80017b"
+		ServiceSpecificPermissionsChoices.bitmapSsp | bitmapSsp| true      | "810403121314"
 	}
-	
 
-	
 	def "Verify toString"(){
 		expect:
 		new ServiceSpecificPermissions(ServiceSpecificPermissionsChoices.opaque, x).toString() == "ServiceSpecificPermissions [opaque=[7b]]"
+		new ServiceSpecificPermissions(ServiceSpecificPermissionsChoices.bitmapSsp, bitmapSsp).toString() == "ServiceSpecificPermissions [bitmapSsp=[[121314]]]"
 	}
-	
 
 }

@@ -17,8 +17,10 @@ import java.security.GeneralSecurityException;
 
 import javax.crypto.SecretKey;
 
+import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmRecipientInfo;
@@ -53,8 +55,16 @@ public class SymmetricKeyReceiver implements Receiver {
 		SymmRecipientInfo sri = (SymmRecipientInfo) recipientInfo.getValue();
 		
 		SymmetricCiphertext symmetricCiphertext = sri.getEncKey();
-		byte[] keyData = cryptoManager.symmetricDecrypt(symmetricCiphertext.getType(), SecuredDataGenerator.getEncryptedData(symmetricCiphertext), symmetricKey, SecuredDataGenerator.getNounce(symmetricCiphertext));
+
+		byte[] keyData = cryptoManager.symmetricDecryptIEEE1609_2_2017(symmetricCiphertext.getType(), SecuredDataGenerator.getEncryptedData(symmetricCiphertext), symmetricKey.getEncoded(), SecuredDataGenerator.getNounce(symmetricCiphertext));
 		return cryptoManager.constructSecretKey(symmetricCiphertext.getType(), keyData);
 	}
 
+	/**
+	 * @return the hash algorithm used to calculate the related HashedId8 reference.
+	 */
+	@Override
+	public AlgorithmIndicator getHashAlgorithm() {
+		return HashAlgorithm.sha256;
+	}
 }

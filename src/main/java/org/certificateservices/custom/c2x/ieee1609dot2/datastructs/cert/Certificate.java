@@ -40,15 +40,17 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Verifica
  * 
  * The fields in this structure have the following meaning:
  * <p>
- * <li>version contains the version of the certificate format. In this version of the data structures, this field is set to 3.
+ *
+ * <li>version contains the version of the certificate format. In this version of the data structures, this field is set to 3.</li>
  * <li>type states whether the certificate is implicit or explicit. This field is set to explicit for explicit certificates and to implicit for 
- * implicit certificates. See ExplicitCertificate and ImplicitCertificate for more details.
- * <li>issuer identifies the issuer of the certificate.
+ * implicit certificates. See ExplicitCertificate and ImplicitCertificate for more details.</li>
+ * <li>issuer identifies the issuer of the certificate.</li>
  * <li>toBeSigned is the certificate contents. This field is an input to the hash when generating or verifying signatures for an explicit certificate, 
  * or generating or verifying the public key from the reconstruction value for an implicit certificate. The details of how this field are encoded are 
- * given in the description of the ToBeSignedCertificate type.
+ * given in the description of the ToBeSignedCertificate type.</li>
  * <li>signature is included in an ExplicitCertificate. It is the signature, calculated by the signer identified in the issuer field, over the hash 
- * of toBeSigned. The hash is calculated as specified in 5.3.1, where
+ * of toBeSigned. The hash is calculated as specified in 5.3.1.</li>
+ * </ul>
  * <br>
  * -Data input is the encoding of toBeSigned following the COER.
  * <br>
@@ -59,10 +61,22 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Verifica
  * <p>
  * <b>ENCODING CONSIDERATIONS:</b>When a certificate is encoded for hashing, for example to generate its
  * HashedId8, or when it is to be used as the signer identifier information for verification, it is canonicalized as follows:
- * <li>The encoding of toBeSigned uses the compressed form for all elliptic curve points: that is, those points (which in this standard are all EccP256CurvePoints) 
- * indicate a choice of compressed- y-0 or compressed-y-1.
- * <li>The encoding of the signature, if present and if an ECDSA signature, takes the r value to be an EccP256CurvePoint indicating the choice x-only.
- * 
+ * <ul>
+ * <li>The encoding of toBeSigned uses the compressed form for all elliptic curve points: that is, those points
+ * indicate a choice of compressed- y-0 or compressed-y-1.</li>
+ * <li>The encoding of the signature, if present and if an ECDSA signature, takes the r value to be an EccP256CurvePoint or EccP384CurvePoint indicating the choice x-only.</li>
+ * </ul>
+ * <p>
+ *     <b>Whole-certificate hash:</b>If the entirety of a certificate is hashed to calculate a HashedId3, HashedId8, or
+ * HashedId10, the algorithm used for this purpose is known as the whole-certificate hash.
+ * <ul>
+ * <li>The whole-certificate hash is SHA-256 if the certificate is an implicit certificate.</li>
+ * <li>The whole-certificate hash is SHA-256 if the certificate is an explicit certificate and
+ * toBeSigned.verifyKeyIndicator.verificationKey is an EccP256CurvePoint.</li>
+ * <li>The whole-certificate hash is SHA-384 if the certificate is an explicit certificate and
+ * toBeSigned.verifyKeyIndicator.verificationKey is an EccP384CurvePoint.</li>
+ * </ul>
+ * </p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

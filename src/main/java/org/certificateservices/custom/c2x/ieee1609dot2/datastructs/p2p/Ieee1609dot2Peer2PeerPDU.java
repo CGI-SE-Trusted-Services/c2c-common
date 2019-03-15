@@ -56,6 +56,8 @@ public class Ieee1609dot2Peer2PeerPDU extends COERSequence {
 		this(DEFAULT_VERSION,content);
 	}
 
+
+
 	/**
 	 * 
 	 * @return version

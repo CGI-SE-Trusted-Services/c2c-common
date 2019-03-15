@@ -12,14 +12,10 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic
 
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid;
 
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
+import spock.lang.Unroll
 
 /**
  * Test for Psid

@@ -55,7 +55,7 @@ class SignedDataSpec extends BaseStructSpec {
 
 	HashAlgorithm ha = HashAlgorithm.sha256
 	SignedDataPayload sdp = new SignedDataPayload(null, new HashedData(HashedDataChoices.sha256HashedData, Hex.decode("0102030405060708091011121314151617181920212223242526272829303132")))
-	HeaderInfo hi = new HeaderInfo(new Psid(100), null, null, null, null, null, null)
+	HeaderInfo hi = new HeaderInfo(new Psid(100), null, null, null, null, null, null, null,null)
 	ToBeSignedData tbs = new ToBeSignedData(sdp,hi)
 	
 	HashedId8 h = new HashedId8(Hex.decode("0102030405060708"))
@@ -83,8 +83,6 @@ class SignedDataSpec extends BaseStructSpec {
 		sd2.getTbsData() == tbs
 		sd2.getSigner() == signer
 		sd2.getSignature() == signature
-		
-		
 	}
 	
 	def "Verify that IllegalArgumentException is thrown if both data and exthash is null"(){

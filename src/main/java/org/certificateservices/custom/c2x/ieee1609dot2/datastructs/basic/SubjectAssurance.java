@@ -53,7 +53,7 @@ public class SubjectAssurance extends COEROctetStream {
      * keys as well as the confidence in this assessment.
      * 
 	 * @param assuranceLevel denotes bit fields specifying an assurance level, between 0 and 7.
-	 * @param confidenceLevel enotes bit fields specifying an confidence. level, between 0 and 3.
+	 * @param confidenceLevel denotes bit fields specifying an confidence. level, between 0 and 3.
 	 * @throws IllegalArgumentException if supplied arguments where invalid.
 	 */
 	public SubjectAssurance(int assuranceLevel, int confidenceLevel) throws IllegalArgumentException{
@@ -78,7 +78,13 @@ public class SubjectAssurance extends COEROctetStream {
 	 */
 	public int getSubjectAssurance(){
 		if(subjectAssurance == null){
-			subjectAssurance = ByteBuffer.allocate(4).put(data, 3, 1).asIntBuffer().get();
+			byte[] intData = new byte[4];
+			intData[3] = data[0];
+			ByteBuffer byteBuffer = ByteBuffer.allocate(4);
+			byteBuffer.put(intData);
+			byteBuffer.position(0);
+
+			subjectAssurance = byteBuffer.asIntBuffer().get();
 		}
 		return subjectAssurance;
 	}
@@ -93,7 +99,7 @@ public class SubjectAssurance extends COEROctetStream {
 	
 	@Override
 	public String toString() {
-		return "SubjectAssurance [subjectAssurance=" + subjectAssurance + " (assuranceLevel=" + getAssuranceLevel() + ", confidenceLevel= " + getConfidenceLevel() +" )]";
+		return "SubjectAssurance [subjectAssurance=" + getSubjectAssurance() + " (assuranceLevel=" + getAssuranceLevel() + ", confidenceLevel= " + getConfidenceLevel() +" )]";
 	}
 	
 	

@@ -53,6 +53,7 @@ class SymmetricEncryptionKeySpec extends BaseStructSpec {
 	
 		p.choice == choice
 		p.type == choice
+		!choice.extension
 		
 		where:
 		choice                                   | encoding   

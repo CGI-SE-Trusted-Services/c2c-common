@@ -69,7 +69,7 @@ public class SecuredCrlGenerator extends SecuredDataGenerator{
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 */
 	public SecuredCrl genSecuredCrl(CrlContents contents, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
-		HeaderInfo hi = new HeaderInfo(new CrlPsid(), null, null, null, null, null, null);
+		HeaderInfo hi = new HeaderInfo(new CrlPsid(), null, null, null, null, null, null, null,null);
 		return new SecuredCrl(genSignedData(hi, contents.getEncoded(), signerIdentifierType, signerCertificateChain, signerPrivateKey));
 	}
 

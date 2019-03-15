@@ -38,4 +38,12 @@ public enum TestCOEREnumeration implements COERChoiceEnumeration {
 			return ois.readObject();
 	}
 
+	/**
+	 *
+	 * @return true if this entry is an extension or false if  regular choice
+	 */
+	@Override
+	boolean isExtension() {
+		return false
+	}
 }

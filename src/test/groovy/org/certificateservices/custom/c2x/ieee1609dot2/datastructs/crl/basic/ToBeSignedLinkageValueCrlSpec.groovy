@@ -61,7 +61,7 @@ class ToBeSignedLinkageValueCrlSpec extends BaseStructSpec {
 		then:
 		tbs1.hasExtension
 		tbs1.getIRev() == 9
-		tbs1.getIntervalWithinI() == 6
+		tbs1.getIndexWithinI() == 6
 		tbs1.getIndividual() == individual
 		tbs1.getGroups() == groups
 		
@@ -75,7 +75,7 @@ class ToBeSignedLinkageValueCrlSpec extends BaseStructSpec {
 		then:
 		tbs4.hasExtension
 		tbs4.getIRev() == 9
-		tbs4.getIntervalWithinI() == 6
+		tbs4.getIndexWithinI() == 6
 		tbs4.getIndividual() == individual
 		tbs4.getGroups() == null
 		
@@ -89,7 +89,7 @@ class ToBeSignedLinkageValueCrlSpec extends BaseStructSpec {
 		then:
 		tbs6.hasExtension
 		tbs6.getIRev() == 9
-		tbs6.getIntervalWithinI() == 6
+		tbs6.getIndexWithinI() == 6
 		tbs6.getIndividual() == null
 		tbs6.getGroups() == groups
 	}
@@ -104,7 +104,7 @@ class ToBeSignedLinkageValueCrlSpec extends BaseStructSpec {
 
 	def "Verify toString"(){
 		expect:
-		new ToBeSignedLinkageValueCrl(9,6,individual,groups).toString() == """ToBeSignedLinkageValueCrl [iRev=9, intervalWithinI=6,
+		new ToBeSignedLinkageValueCrl(9,6,individual,groups).toString() == """ToBeSignedLinkageValueCrl [iRev=9, indexWithinI=6,
   individual=[
     [imax=7, contents=[
         [la1Id=[0102], la2Id=[0305], contents=[
@@ -170,7 +170,7 @@ class ToBeSignedLinkageValueCrlSpec extends BaseStructSpec {
     [iMax=6, la1Id=[0102], linkageSeed1=[01020304050607080910111213141516], la2Id=[0305], linkageSeed2=[11121314151617181911212223242526]]
   ]
 ]"""
-		new ToBeSignedLinkageValueCrl(9,6,individual,null).toString() == """ToBeSignedLinkageValueCrl [iRev=9, intervalWithinI=6,
+		new ToBeSignedLinkageValueCrl(9,6,individual,null).toString() == """ToBeSignedLinkageValueCrl [iRev=9, indexWithinI=6,
   individual=[
     [imax=7, contents=[
         [la1Id=[0102], la2Id=[0305], contents=[
@@ -232,7 +232,7 @@ class ToBeSignedLinkageValueCrlSpec extends BaseStructSpec {
     ]
   ]
 ]"""
-		new ToBeSignedLinkageValueCrl(9,6,null,groups).toString() == """ToBeSignedLinkageValueCrl [iRev=9, intervalWithinI=6,
+		new ToBeSignedLinkageValueCrl(9,6,null,groups).toString() == """ToBeSignedLinkageValueCrl [iRev=9, indexWithinI=6,
   groups=SequenceOfGroupCrlEntry [
     [iMax=4, la1Id=[0102], linkageSeed1=[01020304050607080910111213141516], la2Id=[0305], linkageSeed2=[11121314151617181911212223242526]],
     [iMax=6, la1Id=[0102], linkageSeed1=[01020304050607080910111213141516], la2Id=[0305], linkageSeed2=[11121314151617181911212223242526]]

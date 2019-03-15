@@ -39,12 +39,13 @@ class SequenceOfPsidGroupPermissionsSpec extends BaseStructSpec {
 	
 	def "Verify that SequenceOfPsidGroupPermissions is initialized properly"(){
 		when:
-		def u1 = deserializeFromHex(new SequenceOfPsidGroupPermissions(),"01020081c0c0810102010340")
+		def u1 = deserializeFromHex(new SequenceOfPsidGroupPermissions(),"01022081c0e0810102010340")
 		then:
 		u1.getSequenceValues()[0] == perm1
 		u1.getSequenceValues()[1] == perm2
 		when:
 		def u2 = new SequenceOfPsidGroupPermissions([perm1,perm2] as PsidGroupPermissions[])
+		println serializeToHex(u2)
 		then:
 		u2.getSequenceValues()[0] == perm1
 		u2.getSequenceValues()[1] == perm2
@@ -59,9 +60,9 @@ class SequenceOfPsidGroupPermissionsSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new SequenceOfPsidGroupPermissions([perm1,perm2]).toString() == "SequenceOfPsidGroupPermissions [[appPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=true]],[appPermissions=[all], minChainDepth=2, chainDepthRange=3, eeType=[app=false, enroll=true]]]"
+		new SequenceOfPsidGroupPermissions([perm1,perm2]).toString() == "SequenceOfPsidGroupPermissions [[subjectPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=true]],[subjectPermissions=[all], minChainDepth=2, chainDepthRange=3, eeType=[app=false, enroll=true]]]"
 		new SequenceOfPsidGroupPermissions().toString() == "SequenceOfPsidGroupPermissions []"
-		new SequenceOfPsidGroupPermissions([perm1]).toString() == "SequenceOfPsidGroupPermissions [[appPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=true]]]"
+		new SequenceOfPsidGroupPermissions([perm1]).toString() == "SequenceOfPsidGroupPermissions [[subjectPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=true]]]"
 		
 	
 	}

@@ -17,14 +17,14 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint16;
 
 /**
  * In this structure:
- * 
+ * <ul>
  * <li>iMax indicates that for the entries in contents, revocation information need no longer be 
  * calculated once iCert > iMax as the holder is known to have no more valid certs at that point. 
  * iMax is not directly used in the calculation of the linkage values but is used to determine when 
- * revocation information can safely be deleted.
+ * revocation information can safely be deleted.</li>
  * 
- * <li>contents contains individual linkage data
- * 
+ * <li>contents contains individual linkage data</li>
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

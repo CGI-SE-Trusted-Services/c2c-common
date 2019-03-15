@@ -27,13 +27,13 @@ import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
  * Brainpool p256r1 as defined in RFC 5639. The fields in this structure are OCTET STRINGS produced with the elliptic curve point encoding and decoding methods defined in 
  * IEEE Std 1363-2000 clause 5.5.6. The x-coordinate is encoded as an unsigned integer of length 32 octets in network byte order for all values of the CHOICE; the encoding 
  * of the y-coordinate y depends on whether the point is x-only, compressed, or uncompressed. If the point is x-only, y is omitted. If the point is compressed, the value of 
- * type depends on the LSB of y: if the LSB of y is 0, type takes the value compressed-y-0, and if the LSB of y is 1, type takes the value compressed-y-1. If the point is 
+ * type depends on the least significant bit of y: if the least significant bit of y is 0, type takes the value compressed-y-0, and if the least significant bit of y is 1, type takes the value compressed-y-1. If the point is
  * uncompressed, y is encoded explicitly as an unsigned integer of length 32 octets in network byte order.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-public class EccP256CurvePoint extends COERChoice {
+public class EccP256CurvePoint extends EccCurvePoint {
 	
 	private static final int OCTETSTRING_SIZE = 32;
 	
@@ -49,9 +49,17 @@ public class EccP256CurvePoint extends COERChoice {
 		@Override
 		public COEREncodable getEmptyCOEREncodable() throws IOException {
 			if(this.equals(uncompressed)){
-				return new UncompressedEccPoint();
+				return new UncompressedEccPoint(OCTETSTRING_SIZE);
 			}
 			return new COEROctetStream(OCTETSTRING_SIZE,OCTETSTRING_SIZE);
+		}
+
+		/**
+		 * @return no extensions exists, always false.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
 		}
 	}
 	
@@ -75,8 +83,9 @@ public class EccP256CurvePoint extends COERChoice {
 			System.arraycopy(encoded, 1, x, 0, OCTETSTRING_SIZE);
 			byte[] y = new byte[OCTETSTRING_SIZE];
 			System.arraycopy(encoded, OCTETSTRING_SIZE+1, y, 0, OCTETSTRING_SIZE);
-			value = new UncompressedEccPoint(x,y);
+			value = new UncompressedEccPoint(OCTETSTRING_SIZE,x,y);
 		}else{
+		  // TODO x-only
 		  value = new COEROctetStream(COEREncodeHelper.padZerosToByteArray(removeFirstByte(encoded), OCTETSTRING_SIZE), OCTETSTRING_SIZE,OCTETSTRING_SIZE);
 		}
 	}
@@ -88,14 +97,14 @@ public class EccP256CurvePoint extends COERChoice {
 	 * Constructor used when encoding of type uncompressed
 	 */
 	public EccP256CurvePoint(byte[] uncompressed_x, byte[] uncompressed_y) {
-		super(EccP256CurvePointChoices.uncompressed, new UncompressedEccPoint(uncompressed_x, uncompressed_y));
+		super(EccP256CurvePointChoices.uncompressed, new UncompressedEccPoint(OCTETSTRING_SIZE,uncompressed_x, uncompressed_y));
 	}
 	
 	/**
 	 * Constructor used when encoding of type uncompressed
 	 */
 	public EccP256CurvePoint(BigInteger uncompressed_x, BigInteger uncompressed_y) {
-		super(EccP256CurvePointChoices.uncompressed, new UncompressedEccPoint(fromBigInteger(uncompressed_x), fromBigInteger(uncompressed_y)));
+		super(EccP256CurvePointChoices.uncompressed, new UncompressedEccPoint(OCTETSTRING_SIZE,fromBigInteger(uncompressed_x), fromBigInteger(uncompressed_y)));
 	}	
 
 	/**

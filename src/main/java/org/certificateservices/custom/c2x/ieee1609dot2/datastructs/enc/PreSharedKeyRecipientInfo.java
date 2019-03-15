@@ -17,9 +17,9 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedI
 
 /**
  * This data structure is used to indicate a symmetric key that may be used directly to decrypt a
- * SymmetricCiphertext. It consists of the low-order 8 bytes of the SHA-256 hash of the symmetric key in
- * question. The symmetric key may be established by any appropriate means agreed by the two parties to the
- * exchange.
+ * SymmetricCiphertext. It consists of the low-order 8 bytes of the SHA-256 hash of the COER encoding of a
+ * SymmetricEncryptionKey structure containing the symmetric key in question. The symmetric key may be
+ * established by any appropriate means agreed by the two parties to the exchange.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

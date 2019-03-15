@@ -12,19 +12,13 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic
 
+import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId10
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId3
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
+
 import java.security.MessageDigest
-
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId10;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId3;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId32;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId4;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
-
-import spock.lang.Specification;
-import spock.lang.Unroll;
 
 /**
  * Test for all HashedIdX classes
@@ -34,7 +28,7 @@ import spock.lang.Unroll;
 class AllHashedIdSpec extends BaseStructSpec {
 	
 	byte[] fullHashValue;
-	
+	byte[] referenseHash = Hex.decode("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
 	def setup(){
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		md.update("Some Text to be Hashed".getBytes("UTF-8"))
@@ -56,21 +50,11 @@ class AllHashedIdSpec extends BaseStructSpec {
 		HashedId3 h2 = deserializeFromHex(new HashedId3(), "944d99")
 		then:
 		h2.getHashedId() == h1.getHashedId()
-	}
-	
-	def "Verify that HashedId4 only stores the 4 least significant bytes"(){
+
 		when:
-		HashedId4 h1 = new HashedId4(fullHashValue)
+		HashedId3 h3 = new HashedId3(referenseHash)
 		then:
-		h1.getHashedId() == h1.getData(); // verify the methods returns the same data
-		h1.getHashedId().length == 4
-		h1.getHashLength() == 4
-		serializeToHex(h1) == "f1944d99"
-		
-		when:
-		HashedId4 h2 = deserializeFromHex(new HashedId4(), "f1944d99")
-		then:
-		h2.getHashedId() == h1.getHashedId()
+		serializeToHex(h3) == "52b855"
 	}
 	
 	def "Verify that HashedId8 only stores the 8 least significant bytes"(){
@@ -86,6 +70,11 @@ class AllHashedIdSpec extends BaseStructSpec {
 		HashedId8 h2 = deserializeFromHex(new HashedId8(), "d778056af1944d99")
 		then:
 		h2.getHashedId() == h1.getHashedId()
+
+		when:
+		HashedId8 h3 = new HashedId8(referenseHash)
+		then:
+		serializeToHex(h3) == "a495991b7852b855"
 	}
 	
 	def "Verify that HashedId10 only stores the 10 least significant bytes"(){
@@ -101,29 +90,17 @@ class AllHashedIdSpec extends BaseStructSpec {
 		HashedId10 h2 = deserializeFromHex(new HashedId10(), "9187d778056af1944d99")
 		then:
 		h2.getHashedId() == h1.getHashedId()
-	}
-	
-	def "Verify that HashedId32 only stores the 32 least significant bytes"(){
+
 		when:
-		HashedId32 h1 = new HashedId32(fullHashValue)
+		HashedId10 h3 = new HashedId10(referenseHash)
 		then:
-		h1.getHashedId() == h1.getData(); // verify the methods returns the same data
-		h1.getHashedId().length == 32
-		h1.getHashLength() == 32
-		serializeToHex(h1) == "c32e18f74a92f3e413f2510eda33e23f29f3f25b8f7e9187d778056af1944d99"
-		
-		when:
-		HashedId32 h2 = deserializeFromHex(new HashedId32(), "c32e18f74a92f3e413f2510eda33e23f29f3f25b8f7e9187d778056af1944d99")
-		then:
-		h2.getHashedId() == h1.getHashedId()
+		serializeToHex(h3) == "934ca495991b7852b855"
 	}
 
 	def "Verify toString"(){
 		expect:
 		new HashedId3(fullHashValue).toString() == "HashedId3 [944d99]"
-		new HashedId4(fullHashValue).toString() == "HashedId4 [f1944d99]"
 		new HashedId8(fullHashValue).toString() == "HashedId8 [d778056af1944d99]"
 		new HashedId10(fullHashValue).toString() == "HashedId10 [9187d778056af1944d99]"
-		new HashedId32(fullHashValue).toString() == "HashedId32 [c32e18f74a92f3e413f2510eda33e23f29f3f25b8f7e9187d778056af1944d99]"
 	}
 }

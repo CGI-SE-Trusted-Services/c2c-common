@@ -94,6 +94,7 @@ class CrlContentsTypeSpec extends BaseStructSpec {
 		o2.getValue() == value
 		o2.choice == choice
 		o2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                       | value                            | encoding   
@@ -114,7 +115,7 @@ class CrlContentsTypeSpec extends BaseStructSpec {
     [id=[11121314051617181920], expiry=[timeStamp=Thu Jan 01 03:30:00 CET 2004 (9000)]]
   ]
 ]]"""
-  new CrlContentsType(CrlContentsTypeChoices.fullLinkedCrl, tbsl).toString() == """CrlContentsType [fullLinkedCrl=[iRev=5, intervalWithinI=6,
+  new CrlContentsType(CrlContentsTypeChoices.fullLinkedCrl, tbsl).toString() == """CrlContentsType [fullLinkedCrl=[iRev=5, indexWithinI=6,
   individual=[
     [imax=7, contents=[
         [la1Id=[0102], la2Id=[0305], contents=[

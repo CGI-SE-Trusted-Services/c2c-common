@@ -17,14 +17,19 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccCurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP384CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
 
 /**
  * This structure represents a public key and states with what algorithm the public key is to be used. Cryptographic mechanisms are defined in 5.3.
- * 
+ * <p>
  * An EccP256CurvePoint within a PublicVerificationKey structure is invalid if it indicates the choice x- only.
- * 
+ * </p>
+ * <p>Critical information fields: If present, this is a critical information field as defined in 5.2.5. An
+ * implementation that does not recognize the indicated CHOICE for this type when verifying a signed SPDU
+ * shall indicate that the signed SPDU is invalid.</p>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
@@ -44,6 +49,14 @@ public class VerificationKeyIndicator extends COERChoice {
 			}
 			return new EccP256CurvePoint();
 		}
+
+		/**
+		 * @return always false, no extension choice exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
 	}
 	
 	/**
@@ -56,11 +69,9 @@ public class VerificationKeyIndicator extends COERChoice {
 	/**
 	 * Constructor used when encoding of type reconstructionValue
 	 */
-	public VerificationKeyIndicator(EccP256CurvePoint value) throws IllegalArgumentException{
+	public VerificationKeyIndicator(EccCurvePoint value) throws IllegalArgumentException{
 		super(VerificationKeyIndicatorChoices.reconstructionValue, value);
 	}
-
-
 
 	/**
 	 * Constructor used when decoding.

@@ -18,9 +18,9 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IValue;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LinkageValue;
 
 /**
- * This structure contains information that is matched against information obtained 
- * from a linkage ID-based CRL to determine whether the containing certificate has 
- * been revoked. 
+ * This structure contains information that is matched against information obtained from a linkage ID-based
+ * CRL to determine whether the containing certificate has been revoked. See 5.1.3.4 and 7.3 for details of
+ * use.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -38,7 +38,7 @@ public class LinkageData extends COERSequence {
 	 * Constructor used when decoding
 	 */
 	public LinkageData(){
-		super(false,4);
+		super(false,3);
 		init();
 	}
 	

@@ -17,7 +17,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
 /**
- * This is the group linkage value. See 5.1.3, 7.3 for details of use.
+ * This is the group linkage value. See 5.1.3 and 7.3 for details of use.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

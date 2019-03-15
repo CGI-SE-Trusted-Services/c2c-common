@@ -52,4 +52,10 @@ public interface Receiver {
 	 * @throws IOException if IO exception occurred communicating with underlying systems
 	 */
 	SecretKey extractDecryptionKey(Ieee1609Dot2CryptoManager cryptoManager, RecipientInfo recipientInfo) throws IllegalArgumentException, GeneralSecurityException, IOException;
+
+	/**
+	 *
+	 * @return the hash algorithm used to calculate the related HashedId8 reference.
+	 */
+	AlgorithmIndicator getHashAlgorithm();
 }

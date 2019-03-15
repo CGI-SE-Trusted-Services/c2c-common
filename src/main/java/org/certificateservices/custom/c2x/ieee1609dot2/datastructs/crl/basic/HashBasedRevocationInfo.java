@@ -20,7 +20,8 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32;
  * In this structure:
  * 
  * <li>id is the CertId10 identifying the revoked certificate
- * <li>expiry is the value from the expiry field in that certificate.
+ * <li>expiry is the value computed from the validity period’s start and duration
+ * values in that certificate.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

@@ -34,28 +34,41 @@ class UncompressedEccPointSpec extends BaseStructSpec {
 	byte[] y = new BigInteger(245).toByteArray()
 	
 	
-	def "Verify that constructor and getters are correct and it is correctly encoded"(){
+	def "Verify that constructor and getters are correct and it is correctly encoded with octet size 32"(){
 		when:
-		UncompressedEccPoint p1 = new UncompressedEccPoint(x,y)
+		UncompressedEccPoint p1 = new UncompressedEccPoint(32, x,y)
 		then:
 		serializeToHex(p1) == "000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5"
 		when:
-		UncompressedEccPoint p2 = deserializeFromHex(new UncompressedEccPoint(), "000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5")
+		UncompressedEccPoint p2 = deserializeFromHex(new UncompressedEccPoint(32), "000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5")
 		then:
 		p2.getX().length == 32
 		p2.getY().length == 32
 		new BigInteger(1,p2.getX()).intValue() == 123
 		new BigInteger(1,p2.getY()).intValue() == 245
-		
+	}
+
+	def "Verify that constructor and getters are correct and it is correctly encoded with octet size 48"(){
+		when:
+		UncompressedEccPoint p1 = new UncompressedEccPoint(48, x,y)
+		then:
+		serializeToHex(p1) == "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f5"
+		when:
+		UncompressedEccPoint p2 = deserializeFromHex(new UncompressedEccPoint(48), "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f5")
+		then:
+		p2.getX().length == 48
+		p2.getY().length == 48
+		new BigInteger(1,p2.getX()).intValue() == 123
+		new BigInteger(1,p2.getY()).intValue() == 245
 	}
 	
 	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
-		serializeToHex(new UncompressedEccPoint(x,null))
+		serializeToHex(new UncompressedEccPoint(32,x,null))
 		then:
 		thrown IOException
 		when:
-		serializeToHex(new UncompressedEccPoint(null,y))
+		serializeToHex(new UncompressedEccPoint(32,null,y))
 		then:
 		thrown IOException
 	} 
@@ -64,7 +77,7 @@ class UncompressedEccPointSpec extends BaseStructSpec {
 	
 	def "Verify toString"(){
 		expect:
-		new UncompressedEccPoint(x,y).toString() == "UncompressedEccPoint [x=000000000000000000000000000000000000000000000000000000000000007b, y=00000000000000000000000000000000000000000000000000000000000000f5]"
+		new UncompressedEccPoint(32,x,y).toString() == "UncompressedEccPoint [x=000000000000000000000000000000000000000000000000000000000000007b, y=00000000000000000000000000000000000000000000000000000000000000f5]"
 	}
 	
 

@@ -18,13 +18,25 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf;
 
 
 /**
- * This data structure defines a region using a series of distinct geographic points, defined on the surface of the reference ellipsoid. The region is 
- * specified by connecting the points in the order they appear, with each pair of points connected by the geodesic on the reference ellipsoid. The polygon is 
- * completed by connecting the final point to the first point. The allowed region is the interior of the polygon and its boundary.
+ * This data structure defines a region using a series of distinct geographic points, defined on the surface of
+ * the reference ellipsoid. The region is specified by connecting the points in the order they appear, with each
+ * pair of points connected by the geodesic on the reference ellipsoid. The polygon is completed by
+ * connecting the final point to the first point. The allowed region is the interior of the polygon and its
+ * boundary.
  * <p>
- * A point which contains an elevation component is considered to be within the polygonal region if its horizontal projection onto the reference 
- * ellipsoid lies within the region. A valid PolygonalRegion contains at least three points. In a valid PolygonalRegion, the implied lines that make 
- * up the sides of the polygon do not intersect.
+ * A point which contains an elevation component is considered to be within the polygonal region if its
+ * horizontal projection onto the reference ellipsoid lies within the region.
+ * </p>
+ * <p>
+ * A valid PolygonalRegion contains at least three points. In a valid PolygonalRegion, the implied lines that
+ * make up the sides of the polygon do not intersect.
+ * </p>
+ * <p>
+ *     <b>Critical information fields:</b>If present, this is a critical information field as defined in 5.2.5. An
+ *     implementation that does not support the number of TwoDLocation in the PolygonalRegion when verifying a signed
+ *     SPDU shall indicate that the signed SPDU is invalid. A compliant implementation shall support
+ *     PolygonalRegions containing at least eight TwoDLocation entries.
+ * </p>
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

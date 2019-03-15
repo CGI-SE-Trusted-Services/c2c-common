@@ -12,33 +12,9 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert
 
-import java.awt.Choice;
-
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
-import org.certificateservices.custom.c2x.asn1.coer.COERNull
-import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PsidSspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfOctetString;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfPsidSspRange
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange.SspRangeChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType;
-
-import spock.lang.Shared;
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType
+import spock.lang.Unroll
 
 /**
  * Test for EndEntityType
@@ -73,10 +49,16 @@ class EndEntityTypeSpec extends BaseStructSpec {
 		true | true     | "11000000"
 		false| true     | "1000000"
 		true | false    | "10000000"
-		false| false    | "00000000"
-		      
+
 	}
 
+	def "Verify that either app or enroll must be true"(){
+		when:
+		new EndEntityType(false,false)
+		then:
+		def e = thrown IllegalArgumentException
+		e.message == "Invalid EndEntityType, either app or enroll flag must be set."
+	}
 	
 	def "Verify toString"(){
 		expect:

@@ -12,6 +12,13 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.common.crypto;
 
+
+import org.bouncycastle.crypto.params.ECDomainParameters;
+import org.bouncycastle.jce.ECNamedCurveTable;
+import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
+
+import java.security.spec.ECParameterSpec;
+
 /**
  * Common enumeration of available key algorithms used by ITS and IEEE implementation.
  * 
@@ -51,11 +58,34 @@ public class Algorithm {
 	}
 	
 	public enum Signature{
-		ecdsaNistP256,
-		ecdsaBrainpoolP256r1;
-		
+		ecdsaNistP256("P-256",32),
+		ecdsaBrainpoolP256r1("brainpoolP256r1",32),
+		ecdsaBrainpoolP384r1("brainpoolP384r1",48);
+
+		private String curveName;
+		private int fieldSize;
+
+		Signature(String curveName, int fieldSize){
+			this.curveName = curveName;
+			this.fieldSize = fieldSize;
+		}
+
 		public int getFieldSize(){
-			return 32;
+			return fieldSize;
+		}
+
+		public String getCurveName(){
+			return curveName;
+		}
+
+		public ECNamedCurveParameterSpec getECNamedCurveParameterSpec(){
+			return ECNamedCurveTable.getParameterSpec(curveName);
+		}
+
+		// TODO
+		public ECDomainParameters getECDomainParameters(){
+			ECNamedCurveParameterSpec spec = getECNamedCurveParameterSpec();
+			return new ECDomainParameters(spec.getCurve(), spec.getG(), spec.getN());
 		}
 	}
 
@@ -65,7 +95,8 @@ public class Algorithm {
 	
 	public enum Hash{
 		// Hash algorithms
-		sha256;
+		sha256,
+		sha384
 	}
 
 

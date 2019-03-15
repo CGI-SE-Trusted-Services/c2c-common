@@ -18,14 +18,16 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
 /**
  * Structure defining a CrlSsp
- * 
- * <li>version is the version number of the SSP and is 1 for this version of the SSP.
- * <li>associatedCraca identifies the relationship between this certificate and the CRACA. If associatedCraca = isCraca, 
- * this certificate is the CRACA certificate and signs CRLs for certificates which chain back to this certificate. If
- * associatedCraca = issuerIsCraca, the issuer of this certificate is the CRACA and this certificate may sign CRLs for 
- * certificates which chain back to its issuer.
- * <li>crls  identifies what type of CRLs may be issued by the certificate holder.
- * 
+ *
+ * <ul>
+ * <li>is the version number of the SSP and is 1 for this version of the SSP.</li>
+ * <li>associatedCraca identifies the relationship between this certificate and the CRACA. If
+ * associatedCraca = isCraca, this certificate is the CRACA certificate and signs CRLs for
+ * certificates which chain back to this certificate. If associatedCraca = issuerIsCraca, the
+ * issuer of this certificate is the CRACA and this certificate may sign CRLs for certificates which
+ * chain back to its issuer.</li>
+ * <li>crls identifies what type of CRLs may be issued by the certificate holder.</li>
+ * </ul>
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */

@@ -12,40 +12,15 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert
 
-import java.awt.Choice;
+import org.certificateservices.custom.c2x.common.BaseStructSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices
+import spock.lang.Shared
+import spock.lang.Unroll
 
-import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
-import org.certificateservices.custom.c2x.asn1.coer.COERNull
-import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
-import org.certificateservices.custom.c2x.common.BaseStructSpec;
-import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Hostname
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IValue
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LinkageValue
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PsidSspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfOctetString;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfPsidSspRange
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange.SspRangeChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateId.CertificateIdChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier;
-
-import spock.lang.Shared;
-import spock.lang.Specification;
-import spock.lang.Unroll;
+import static org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices.*
 
 /**
  * Test for IssuerIdentifier
@@ -53,15 +28,21 @@ import spock.lang.Unroll;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-class IssuerIdentifierSpec extends BaseStructSpec {
+class 	IssuerIdentifierSpec extends BaseStructSpec {
 	
 	@Shared HashedId8 h = new HashedId8("SomeHostname".bytes)
 	@Shared HashAlgorithm hashAlg = HashAlgorithm.sha256
 		
 	@Unroll
 	def "Verify that IssuerIdentifier is correctly encoded for type #choice"(){
+		setup:
+		def id
 		when:
-		def id = new IssuerIdentifier(value)
+		if(choice == IssuerIdentifierChoices.self) {
+			id = new IssuerIdentifier(value)
+		}else{
+			id = new IssuerIdentifier(choice,value)
+		}
 		
 		then:
 		serializeToHex(id) == encoding
@@ -78,18 +59,21 @@ class IssuerIdentifierSpec extends BaseStructSpec {
 		}else{
 		  id2.getValue() == value
 		}
-		
+		choice.extension == extension
+
 		where:
-		choice                                              | value                 | encoding   
-		IssuerIdentifierChoices.sha256AndDigest             | h                     | "80486f73746e616d65"   
-		IssuerIdentifierChoices.self                        | hashAlg               | "8100"
+		choice                      | value                 | encoding                | extension
+		sha256AndDigest             | h                     | "80486f73746e616d65"    | false
+		sha384AndDigest             | h                     | "8208486f73746e616d65"  | true
+		self                        | hashAlg               | "8100"                  | false
 		
 	}
 
 	
 	def "Verify toString"(){
 		expect:
-		new IssuerIdentifier(h).toString() == "IssuerIdentifier [sha256AndDigest=[486f73746e616d65]]"
+		new IssuerIdentifier(sha256AndDigest,h).toString() == "IssuerIdentifier [sha256AndDigest=[486f73746e616d65]]"
+		new IssuerIdentifier(sha384AndDigest,h).toString() == "IssuerIdentifier [sha384AndDigest=[486f73746e616d65]]"
 		new IssuerIdentifier(hashAlg).toString() == "IssuerIdentifier [self=sha256]"
 
 	}

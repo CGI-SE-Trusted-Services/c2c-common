@@ -72,6 +72,7 @@ class CertificateIdSpec extends BaseStructSpec {
 		id2.getValue() == value.getValue()
 		id2.choice == choice
 		id2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                              | value                 | encoding   

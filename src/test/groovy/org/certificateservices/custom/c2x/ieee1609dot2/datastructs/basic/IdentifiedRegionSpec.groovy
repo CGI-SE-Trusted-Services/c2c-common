@@ -58,6 +58,7 @@ class IdentifiedRegionSpec extends BaseStructSpec {
 		then:
 		d.value == value
 		d.getType() == choice
+		!choice.extension
 		
 		where:
 		choice                                        | encoding                                 | value

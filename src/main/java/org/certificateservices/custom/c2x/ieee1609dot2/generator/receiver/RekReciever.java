@@ -19,9 +19,14 @@ import java.security.PublicKey;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PKRecipientInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData;
 
 /**
  * PublicKey Receiver used for public keys not associated with any certificate or SignedData. Should be used with caution.
@@ -43,15 +48,20 @@ public class RekReciever extends BasePKReceiver {
 	@Override
 	public SecretKey extractDecryptionKey(
 			Ieee1609Dot2CryptoManager cryptoManager, RecipientInfo recipientInfo)
-			throws IllegalArgumentException, GeneralSecurityException,
-			IOException {
+			throws IllegalArgumentException, GeneralSecurityException{
 		PKRecipientInfo pkRecInfo = (PKRecipientInfo) recipientInfo.getValue();
-		return cryptoManager.ieeeECEISDecryptSymmetricKey(pkRecInfo.getEncKey(), privateKey, pkRecInfo.getEncKey().getType(), null);
+		byte[] p1Hash = cryptoManager.digest(new byte[0], EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices.eciesNistP256); // Always use hash 256
+		return cryptoManager.ieeeEceisDecryptSymmetricKey2017(pkRecInfo.getEncKey(), privateKey, p1Hash);
 	}
 
 	@Override
 	protected byte[] getReferenceData() throws IOException {
 		return publicKey.getEncoded();
+	}
+
+	@Override
+	public AlgorithmIndicator getHashAlgorithm() {
+		return HashAlgorithm.sha256; // Always use hash 256
 	}
 
 }

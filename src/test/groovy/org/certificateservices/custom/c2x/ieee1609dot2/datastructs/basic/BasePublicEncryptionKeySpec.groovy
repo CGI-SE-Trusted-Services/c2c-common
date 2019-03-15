@@ -56,12 +56,22 @@ class BasePublicEncryptionKeySpec extends BaseStructSpec {
 		key2.getValue() == r
 		key2.choice == choice
 		key2.type == choice
+		!choice.extension
 		
 		where:
 		choice                                              | encoding   
 		BasePublicEncryptionKeyChoices.ecdsaNistP256        | "8080000000000000000000000000000000000000000000000000000000000000007b"   
 		BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1 | "8180000000000000000000000000000000000000000000000000000000000000007b"      
 	
+	}
+
+	def "Verify that BasePublicEncryptionKey throws IllegalArgumentException for EC384Curve."(){
+		when:
+		new BasePublicEncryptionKey(BasePublicEncryptionKeyChoices.ecdsaNistP256, new EccP384CurvePoint())
+
+		then:
+		def e = thrown IllegalArgumentException
+		e.message == "Invalid BasePublicEncryptionKey value, must be a EccP256CurvePoint."
 	}
 	
 	@Unroll

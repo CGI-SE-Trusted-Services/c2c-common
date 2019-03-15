@@ -45,6 +45,14 @@ public class EncryptionKey extends COERChoice {
 			}
 			return new SymmetricEncryptionKey();
 		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
 	}
 	
 	/**

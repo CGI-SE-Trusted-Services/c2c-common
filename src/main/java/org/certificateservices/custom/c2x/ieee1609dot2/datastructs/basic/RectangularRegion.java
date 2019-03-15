@@ -15,8 +15,14 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
 /**
- * A RectangularRegion is valid only if the northWest value is north and west of the southEast 
- * value, i.e., the two points cannot have equal latitude or equal longitude.
+ * This structure specifies a rectangle formed by connecting in sequence: (northWest.latitude,
+ * northWest.longitude), (southEast.latitude, northWest.longitude),
+ * (southEast.latitude, southEast.longitude), and (northWest.latitude,
+ * southEast.longitude). The points are connected by lines of constant latitude or longitude. A point
+ * which contains an elevation component is considered to be within the rectangular region if its horizontal
+ * projection onto the reference ellipsoid lies within the region. A RectangularRegion is valid only if the
+ * northWest value is north and west of the southEast value, i.e., the two points cannot have equal
+ * latitude or equal longitude.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

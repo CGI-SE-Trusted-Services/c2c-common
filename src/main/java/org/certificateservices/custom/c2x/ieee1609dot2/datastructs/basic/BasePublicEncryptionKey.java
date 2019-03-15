@@ -23,10 +23,6 @@ import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 /**
  * This structure specifies the bytes of a public encryption key for a particular algorithm. The only algorithm
  * supported is ECIES over either the NIST P256 or the Brainpool P256r1 curve as specified in 5.3.5.
- * <p>
- * <b>Critical Information Fields</b>If present, this is a critical information field as defined in 5.2.5. An
- * implementation that does not recognize the indicated CHOICE for this type when verifying a signed SPDU
- * shall indicate that the signed SPDU is invalid.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -55,13 +51,24 @@ public class BasePublicEncryptionKey extends COERChoice {
 				return new Algorithm(Algorithm.Symmetric.aes128Ccm,Algorithm.Signature.ecdsaBrainpoolP256r1, Algorithm.Encryption.ecies,Algorithm.Hash.sha256);
 			}	
 		}
+
+		/**
+		 * @return always false, no extension exists.
+		 */
+		@Override
+		public boolean isExtension() {
+			return false;
+		}
 	}
 	
 	/**
 	 * Constructor used when encoding.
 	 */
-	public BasePublicEncryptionKey(BasePublicEncryptionKeyChoices choice, EccP256CurvePoint value) throws IllegalArgumentException{
+	public BasePublicEncryptionKey(BasePublicEncryptionKeyChoices choice, COEREncodable value) throws IllegalArgumentException{
 		super(choice, value);
+		if(!(value instanceof EccP256CurvePoint)){
+			throw new IllegalArgumentException("Invalid BasePublicEncryptionKey value, must be a EccP256CurvePoint.");
+		}
 	}
 
 

@@ -17,7 +17,9 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedI
 
 /**
  * <li>recipientId contains the hash of the symmetric key encryption key that may be used to decrypt
- * the data encryption key.
+ * the data encryption key. It consists of the low-order 8 bytes of the SHA-256 hash of the COER
+ * encoding of a SymmetricEncryptionKey structure containing the symmetric key in question. The symmetric key may be
+ * established by any appropriate means agreed by the two parties to the exchange.
  * <li>encKey contains the encrypted data encryption key within an AES-CCM ciphertext.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
