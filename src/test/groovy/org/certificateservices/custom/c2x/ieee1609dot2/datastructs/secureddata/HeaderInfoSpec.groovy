@@ -122,8 +122,8 @@ class HeaderInfoSpec extends BaseCertGeneratorSpec {
 		expect:
 		new HeaderInfo(psid,generationTime, expiryTime, generationLocation, p2pcdLearningRequest, missingCrlIdentifier, encryptionKey, inlineP2pcdRequest,requestedCertificate).toString() == """HeaderInfo [
   psid=[64(40)],
-  generationTime=[timeStamp=Thu Jan 01 01:00:05 CET 2004 (5000000)],
-  expiryTime=[timeStamp=Thu Jan 01 01:00:06 CET 2004 (6000000)],
+  generationTime=[timeStamp=Thu Jan 01 02:23:20 CET 2004 (5000000)],
+  expiryTime=[timeStamp=Thu Jan 01 02:40:00 CET 2004 (6000000)],
   generationLocation=[latitude=50, longitude=100, elevation=55],
   p2pcdLearningRequest=[101112],
   missingCrlIdentifier=[cracaid=[101112], crlSeries=[100]],

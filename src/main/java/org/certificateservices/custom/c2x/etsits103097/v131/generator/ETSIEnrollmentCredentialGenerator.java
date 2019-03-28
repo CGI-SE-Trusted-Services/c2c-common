@@ -14,18 +14,14 @@ package org.certificateservices.custom.c2x.etsits103097.v131.generator;
 
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
-import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID;
-import org.certificateservices.custom.c2x.etsits103097.v131.cert.EtsiTs103097Certificate;
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.*;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions.SubjectPermissionsChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.generator.BaseAuthorityCertGenerator;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.BaseCertGenerator;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;

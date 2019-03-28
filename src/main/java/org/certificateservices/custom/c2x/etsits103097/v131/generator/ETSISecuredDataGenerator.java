@@ -14,9 +14,9 @@ package org.certificateservices.custom.c2x.etsits103097.v131.generator;
 
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID;
-import org.certificateservices.custom.c2x.etsits103097.v131.secureddata.EtsiTs103097DataEncrypted;
-import org.certificateservices.custom.c2x.etsits103097.v131.secureddata.EtsiTs103097DataSigned;
-import org.certificateservices.custom.c2x.etsits103097.v131.secureddata.EtsiTs103097DataSignedExternalPayload;
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataEncrypted;
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSigned;
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSignedExternalPayload;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
@@ -29,6 +29,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.Recip
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.SignatureException;
 
 /**
@@ -110,6 +111,23 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      */
     public EtsiTs103097DataSigned genEtsiTs103097DataSigned(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
         return (EtsiTs103097DataSigned) super.genSignedData(headerInfo,message, signerIdentifierType,signerCertificateChain,signerPrivateKey);
+    }
+
+    /**
+     * Method to generate a general Signed EtsiTs103097DataSigned containing an unsecured inner data with signer type as
+     * self.
+     *
+     * @param headerInfo the header information data to include.
+     * @param message the message data to sign.
+     * @param signerPublicKey public key of the self signer of a message.
+     * @param signerPrivateKey private key of signer.
+     *
+     * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+     * @throws SignatureException if internal problems occurred generating the signature.
+     * @throws IOException if IO exception occurred communicating with underlying systems.
+     */
+    public EtsiTs103097DataSigned genEtsiTs103097DataSigned(HeaderInfo headerInfo, byte[] message, PublicKey signerPublicKey, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+        return (EtsiTs103097DataSigned) super.genSignedData(headerInfo, message, signerPublicKey, signerPrivateKey);
     }
 
     /**

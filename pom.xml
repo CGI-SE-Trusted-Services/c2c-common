@@ -12,7 +12,7 @@
 	<description>Project site for Car 2 Car ITS Certificate and Message generation according to ETSI TS 103 097 V1.1.1, see README for more details.</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<build.version>2.0.0-Beta1</build.version>
+		<build.version>2.0.0-Beta2</build.version>
 	</properties>
 
 	<dependencies>
@@ -112,8 +112,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 
 			</plugin>
@@ -385,67 +385,4 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<profiles>
-		<profile>
-			<id>clover.report</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.atlassian.maven.plugins</groupId>
-						<artifactId>maven-clover2-plugin</artifactId>
-						<version>4.0.5</version>
-						<executions>
-							<execution>
-								<id>clover</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>instrument</goal>
-									<goal>check</goal>
-									<goal>clover</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-			<reporting>
-				<plugins>
-					<plugin>
-						<groupId>com.atlassian.maven.plugins</groupId>
-						<artifactId>maven-clover2-plugin</artifactId>
-						<version>4.0.5</version>
-					</plugin>
-				</plugins>
-			</reporting>
-		</profile>
-		<profile>
-			<id>tag</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-scm-plugin</artifactId>
-						<version>1.1</version>
-						<configuration>
-							<tag>VER_${project.version}</tag>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
-	<distributionManagement>
-		<repository>
-			<id>dev.certificateservices.org-release</id>
-			<name>dev.certificateservices.org</name>
-			<url>https://dev.certificateservices.org/artifactory/private-libs-release-local</url>
-		</repository>
-		<snapshotRepository>
-			<id>dev.certificateservices.org-snapshot</id>
-			<name>dev.certificateservices.org</name>
-			<url>https://dev.certificateservices.org/artifactory/private-libs-snapshot-local</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 </project>

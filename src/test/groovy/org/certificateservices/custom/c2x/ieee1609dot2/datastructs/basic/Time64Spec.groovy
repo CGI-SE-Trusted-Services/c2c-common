@@ -34,11 +34,11 @@ import spock.lang.Unroll;
 class Time64Spec extends BaseStructSpec {
 
 
-	Calendar cal = Calendar.getInstance();
+	Calendar cal = Calendar.getInstance()
 	
 	def setup(){
-		cal.setTimeInMillis(0);
-		cal.set(2010, 01, 02, 02, 04, 30);
+		cal.setTimeInMillis(0)
+		cal.set(2010, 01, 02, 02, 04, 30)
 	}
 	
 	def "Verify that Time64 converts date correctly"(){
@@ -48,7 +48,7 @@ class Time64Spec extends BaseStructSpec {
 		def t = new Time64(time)
 		
 		then:
-		t.asElapsedTime().equals(new BigInteger(192157472000000))
+		t.asElapsedTime().equals(new BigInteger(192157472000))
 		
 		when:
 		Time64 t2 = deserializeFromHex(new Time64(), serializeToHex(t))
@@ -57,15 +57,15 @@ class Time64Spec extends BaseStructSpec {
 		
 
 		when:
-		def t3 = new Time64(new BigInteger(192157472000000)) // test long constructor
+		def t3 = new Time64(new BigInteger(192157472000)) // test long constructor
 		then:
-		t3.asElapsedTime().equals(new BigInteger(192157472000000))
+		t3.asElapsedTime().equals(new BigInteger(192157472000))
 		
 	}
 	
 	def "Verify toString"(){
 		expect:
-		new Time64(cal.getTime()).toString() == "Time64 [timeStamp=Tue Feb 02 02:04:30 CET 2010 (192157472000000)]"
+		new Time64(cal.getTime()).toString() == "Time64 [timeStamp=Tue Feb 02 02:04:30 CET 2010 (192157472000)]"
 	}
 
 

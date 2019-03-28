@@ -67,6 +67,7 @@ public class Time32 extends Uint32 {
 	 * @return the timestamp value
 	 */
 	public Date asDate(){
+
 		Moment m = Moment.of(this.getValueAsLong() + SECONDSBETWEENTAIZEROAND2004, TimeScale.TAI);
 		return TemporalType.JAVA_UTIL_DATE.from(m);
 	}

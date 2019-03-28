@@ -136,7 +136,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
 		init();
 		
 		if(appPermissions == null && certIssuePermissions == null && certRequestPermissions == null){
-			throw new IllegalArgumentException("Invalid ToBeSignedCertificate one or appPermissions, certIssuePermissions or certRequestPermissions must be present");
+			throw new IllegalArgumentException("Invalid ToBeSignedCertificate one of appPermissions, certIssuePermissions or certRequestPermissions must be present");
 		}
 		
 		set(ID, id);
@@ -274,7 +274,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
 	}
 	
 	/**
-	 * @param verifyKeyIndicator, required
+	 * @param verificationKeyIndicator, required
 	 */
 	public void setVerifyKeyIndicator(VerificationKeyIndicator verificationKeyIndicator) {
 		set(VERIFYKEYINDICATOR, verificationKeyIndicator);

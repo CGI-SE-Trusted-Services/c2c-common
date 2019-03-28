@@ -41,7 +41,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Verifica
 
 
 /**
- * Certificate Generator class for Authorization Cert, used by a Short Term (App) CA, using end entity certificate with cerificateRequest permissions.
+ * Certificate Generator class for Authorization Cert, used by a Short Term (App) CA, using end entity certificate with certificateRequest permissions.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -74,11 +74,8 @@ public class AuthorizationCertGenerator extends BaseCertGenerator {
 	 * @param id the id if the certificate, see CertificateId for details, Required
 	 * @param validityPeriod, the validity period of this certificate, Required
 	 * @param region, the geographic region of the certificate, Required
-	 * @param appPermission a list of app permissions.
 	 * @param assuranceLevel the assurance level to use, 0-7, Required
 	 * @param confidenceLevel the confidence level to use, 0-3, Required
-	 * @param minChainDepth the minimal chain length of this PKI hierarchy, Required
-	 * @param chainDepthRange the chain depth range, see 6.4.30 PsidGroupPermissions for details, Required
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required if type is explicit
 	 * @param signPublicKey public key used for verification of this certificate, Required
 	 * @param signerCertificate the signing certificate (Root CA), Required

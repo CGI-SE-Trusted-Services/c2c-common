@@ -25,6 +25,7 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
@@ -73,6 +74,13 @@ public abstract class BaseCertGenerator {
 	 * Help method to convert a public key to EccP256CurvePoint using given compression.
 	 */
 	protected COERChoice convertToPoint(AlgorithmIndicator alg, PublicKey pk) throws IllegalArgumentException{
+		return convertToPoint(alg, pk, cryptoManager, useUncompressed);
+	}
+
+	/**
+	 * Common static help method used by several generators to convert a public key to a ECPoint
+	 */
+	public static COERChoice convertToPoint(AlgorithmIndicator alg, PublicKey pk, Ieee1609Dot2CryptoManager cryptoManager, boolean useUncompressed){
 		try {
 			if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP384r1){
 				return cryptoManager.encodeEccPoint(alg, (useUncompressed ? EccP384CurvePoint.EccP384CurvePointChoices.uncompressed : EccP384CurvePoint.EccP384CurvePointChoices.compressedy0), pk);
@@ -114,7 +122,7 @@ public abstract class BaseCertGenerator {
 		return new Certificate(issuerIdentifier, tbs, signature);
 	}
 	
-	protected PublicVerificationKeyChoices getPublicVerificationAlgorithm(
+	public static PublicVerificationKeyChoices getPublicVerificationAlgorithm(
 			AlgorithmIndicator signingPublicKeyAlgorithm) {
 		switch(signingPublicKeyAlgorithm.getAlgorithm().getSignature()){
 		case ecdsaNistP256:

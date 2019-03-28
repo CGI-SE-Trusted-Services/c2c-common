@@ -120,7 +120,18 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 */
 	boolean verifySignature(byte[] message, Signature signature, Certificate signCert, PublicKey signedPublicKey) throws IllegalArgumentException,  SignatureException, IOException;
 
-	
+	/**
+	 * Method to verify a self signed message without any generated certificate. Used when signing POP and
+	 * related message.
+	 * @param message the message to verify.
+	 * @param signature the signature to verify.
+	 * @param signedPublicKey the signing public key.
+	 * @return true if signature verifies.
+	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws SignatureException if internal problems occurred verifying the signature.
+	 * @throws IOException if communication problems occurred with underlying components.
+	 */
+	boolean verifySelfSignedSignature(byte[] message, Signature signature, PublicKey signedPublicKey) throws IllegalArgumentException,  SignatureException, IOException;
 	/**
 	 * Method to verify a certificate with a given signer certificate
 	 * 
@@ -216,7 +227,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @return a BCECPublicKey
 	 * @throws InvalidKeySpecException if supplied key was invalid.
 	 */
-	public BCECPublicKey toBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException;
+	BCECPublicKey toBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException;
 	
 	/**
 	 * Help method used to convert a public key to a Ieee EccP256CurvePoint data structure.
@@ -264,7 +275,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws IllegalArgumentException 
 	 * @throws IOException 
 	 */
-	public byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException;
+	byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException;
 
 	/**
 	 * Returns the related EC domain parameters for given algorithm.
@@ -272,7 +283,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param alg algorithm to fetch domain parameters for.
 	 * @return related EC domain parameters for given algorithm.
 	 */
-	public ECParameterSpec getECParameterSpec(AlgorithmIndicator alg) throws IllegalArgumentException;
+	ECParameterSpec getECParameterSpec(AlgorithmIndicator alg) throws IllegalArgumentException;
 	
 	/**
 	 * Method to construct the private key related to a generate certificate, given the related r value.
@@ -288,7 +299,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws IllegalArgumentException if argument was illegal
 	 * @throws SignatureException if internal problems occurred constructing the certificate private key.
 	 */
-	public PrivateKey reconstructImplicitPrivateKey(Certificate cert, BigInteger r, AlgorithmIndicator alg, PrivateKey Ku, PublicKey signerPublicKey, Certificate signerCertificate) throws IOException, IllegalArgumentException, SignatureException;
+	PrivateKey reconstructImplicitPrivateKey(Certificate cert, BigInteger r, AlgorithmIndicator alg, PrivateKey Ku, PublicKey signerPublicKey, Certificate signerCertificate) throws IOException, IllegalArgumentException, SignatureException;
 	
 
 }

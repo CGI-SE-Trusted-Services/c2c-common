@@ -13,7 +13,7 @@
 package org.certificateservices.custom.c2x.etsits103097.v131.generator
 
 import org.bouncycastle.util.encoders.Hex
-import org.certificateservices.custom.c2x.etsits103097.v131.cert.EtsiTs103097Certificate
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.BaseCertGeneratorSpec
 

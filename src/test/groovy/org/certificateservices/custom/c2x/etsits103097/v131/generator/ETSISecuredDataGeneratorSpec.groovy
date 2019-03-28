@@ -14,14 +14,17 @@ package org.certificateservices.custom.c2x.etsits103097.v131.generator
 
 import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID
-import org.certificateservices.custom.c2x.etsits103097.v131.cert.EtsiTs103097Certificate
-import org.certificateservices.custom.c2x.etsits103097.v131.secureddata.EtsiTs103097DataEncrypted
-import org.certificateservices.custom.c2x.etsits103097.v131.secureddata.EtsiTs103097DataSigned
-import org.certificateservices.custom.c2x.etsits103097.v131.secureddata.EtsiTs103097DataSignedExternalPayload
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097Data
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataEncrypted
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSigned
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSignedExternalPayload
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SequenceOfCertificate
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedData
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.BaseCertGeneratorSpec
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever
@@ -72,6 +75,92 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         signingKey = caKeys.private
     }
 
+    def at_cert = "8003008047C55599D9E141F7108300000000001CA92C92841F400101000124808083F5DC171F5770116AD85F212744848F06DA439FD979D0407737E99469DF6998448080EFD7A0191ECA9BA48161142833883D350FE76B734C8D8B7F1608B476D6F74849C8ADCBCB48CAD901831C69EC70B4B5B7DF6604848F926D20C48A471756D50F11"
+    def msgData = "00810040008054205000010030010000000000000000000000000035A4E9016B49D201BFFF0E110000000007D100000102000030390000808AF5B5B80E7629E800000000003112A600000000150B3E74C2882BA9824FFFC20202C04001240000006FF535EDD08101018003008047C55599D9E141F7108300000000001CA92C92841F400101000124808083F5DC171F5770116AD85F212744848F06DA439FD979D0407737E99469DF6998448080EFD7A0191ECA9BA48161142833883D350FE76B734C8D8B7F1608B476D6F74849C8ADCBCB48CAD901831C69EC70B4B5B7DF6604848F926D20C48A471756D50F11808036547B706FA5328A658C7D8CA6A8E99D9424E4502C5F6C6336CC8E5BF8E8469961A7719132ED1236B436F6DB3C6ECDE2AB475FC39414867B613694F6A1B2AF58"
+    def "Verify that it is possible to parse a certificate from external library"(){
+        when:
+        EtsiTs103097Certificate cert = new EtsiTs103097Certificate(Hex.decode(at_cert))
+        then:
+        cert.toString() == """EtsiTs103097Certificate [
+  version=3
+  type=explicit
+  issuer=[sha256AndDigest=[47c55599d9e141f7]]
+  toBeSigned=[
+    id=[none]
+    cracaId=[000000]
+    crlSeries=[0]
+    validityPeriod=[start=Time32 [timeStamp=Thu Mar 28 10:10:39 CET 2019 (480849042)], duration=Duration [8000 hours]]
+    region=NONE
+    assuranceLevel=NONE
+    appPermissions=[[psid=[36(24)], ssp=NULL]]
+    certIssuePermissions=NONE
+    certRequestPermissions=NONE
+    canRequestRollover=false
+    encryptionKey=NONE
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=f5dc171f5770116ad85f212744848f06da439fd979d0407737e99469df699844]]]
+  ]
+  signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=efd7a0191eca9ba48161142833883d350fe76b734c8d8b7f1608b476d6f74849], s=c8adcbcb48cad901831c69ec70b4b5b7df6604848f926d20c48a471756d50f11]]
+]"""
+    }
+
+    def "Verify it is possible to parse an verify an CAM message generated with an external library"(){
+        when:
+        EtsiTs103097Certificate cert = new EtsiTs103097Certificate(Hex.decode(at_cert))
+        EtsiTs103097Data data = new EtsiTs103097Data(Hex.decode(msgData))
+        SignedData signedData = data.getContent().value
+        then:
+        esdg.cryptoManager.verifySignature(signedData.getTbsData().getEncoded(),signedData.getSignature(),cert)
+
+        data.toString() == """EtsiTs103097Data [
+  protocolVersion=0,
+  content=[
+    signedData=[
+      hashAlgorithm=sha256,
+      tbsData=[
+        payload=[
+          data=[
+            protocolVersion=0,
+            content=[
+              unsecuredData=[data=205000010030010000000000000000000000000035a4e9016b49d201bfff0e110000000007d100000102000030390000808af5b5b80e7629e800000000003112a600000000150b3e74c2882ba9824fffc20202c0]
+            ]
+          ]
+        ],
+        headerInfo=[
+          psid=[36(24)],
+          generationTime=[timeStamp=Thu Mar 28 11:55:19 CET 2019 (480855322064)]
+        ]
+      ],
+      signer=[certificate=[
+      EtsiTs103097Certificate [
+        version=3
+        type=explicit
+        issuer=[sha256AndDigest=[47c55599d9e141f7]]
+        toBeSigned=[
+          id=[none]
+          cracaId=[000000]
+          crlSeries=[0]
+          validityPeriod=[start=Time32 [timeStamp=Thu Mar 28 10:10:39 CET 2019 (480849042)], duration=Duration [8000 hours]]
+          region=NONE
+          assuranceLevel=NONE
+          appPermissions=[[psid=[36(24)], ssp=NULL]]
+          certIssuePermissions=NONE
+          certRequestPermissions=NONE
+          canRequestRollover=false
+          encryptionKey=NONE
+          verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=f5dc171f5770116ad85f212744848f06da439fd979d0407737e99469df699844]]]
+        ]
+        signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=efd7a0191eca9ba48161142833883d350fe76b734c8d8b7f1608b476d6f74849], s=c8adcbcb48cad901831c69ec70b4b5b7df6604848f926d20c48a471756d50f11]]
+      ]]],
+      signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=36547b706fa5328a658c7d8ca6a8e99d9424e4502c5f6c6336cc8e5bf8e84699], s=61a7719132ed1236b436f6db3c6ecde2ab475fc39414867b613694f6a1b2af58]]
+    ]
+  ]
+]"""
+
+
+
+
+    }
+
     def "Verify that generated CA Message conforms to profile"(){
         when:
         EtsiTs103097DataSigned m = esdg.genCAMessage(new Time64(timeStamp),new SequenceOfHashedId3([new HashedId3("aabasdf".getBytes())]),requestedCertificate,"abc".getBytes(), SecuredDataGenerator.SignerIdentifierType.HASH_ONLY,signerCertChain[0],signingKey)
@@ -92,7 +181,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[36(24)],
-          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000000)],
+          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000)],
           inlineP2pcdRequest=[736466],
           requestedCertificate=[
             version=3
@@ -137,7 +226,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[36(24)],
-          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000000)],
+          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000)],
           inlineP2pcdRequest=[736466],
           requestedCertificate=[
             version=3
@@ -193,11 +282,11 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[37(25)],
-          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000000)],
+          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000)],
           generationLocation=[latitude=3, longitude=2, elevation=1]
         ]
       ],
-      signer=[certificate=[""")
+      signer=[certificate=""")
     }
 
     def "Verify that genEtsiTs103097DataSignedExternalPayload generates message with external hash"(){
@@ -216,7 +305,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[8(8)],
-          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000000)]
+          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000)]
         ]
       ],
       signer=[certificate=""")

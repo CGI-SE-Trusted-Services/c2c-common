@@ -42,6 +42,7 @@ import static org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.
 import static org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices.eciesNistP256
 
 /**
+ * Unit tests for DefaultCryptoManager
  *
  * @author Philip Vendil, p.vendil@cgi.com
  *
@@ -280,7 +281,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	}
 	
 
-	// TODO
+	// TODO verifySelfSigned, reference to test
 	
 //	def "Verify that eCEISEncryptSymmetricKey and eCEISDecryptSymmetricKey encrypts and decrypts symmetric key correcly."(){
 //		setup:

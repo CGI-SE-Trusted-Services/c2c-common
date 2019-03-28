@@ -123,7 +123,7 @@ class CountersignatureSpec extends BaseStructSpec {
         ],
         headerInfo=[
           psid=[64(40)],
-          generationTime=[timeStamp=Thu Jan 01 01:00:05 CET 2004 (5000000)]
+          generationTime=[timeStamp=Thu Jan 01 02:23:20 CET 2004 (5000000)]
         ]
       ],
       signer=[digest=0102030405060708],

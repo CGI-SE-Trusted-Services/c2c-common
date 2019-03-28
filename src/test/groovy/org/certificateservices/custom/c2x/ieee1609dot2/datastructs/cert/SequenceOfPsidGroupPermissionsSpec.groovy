@@ -45,7 +45,6 @@ class SequenceOfPsidGroupPermissionsSpec extends BaseStructSpec {
 		u1.getSequenceValues()[1] == perm2
 		when:
 		def u2 = new SequenceOfPsidGroupPermissions([perm1,perm2] as PsidGroupPermissions[])
-		println serializeToHex(u2)
 		then:
 		u2.getSequenceValues()[0] == perm1
 		u2.getSequenceValues()[1] == perm2
