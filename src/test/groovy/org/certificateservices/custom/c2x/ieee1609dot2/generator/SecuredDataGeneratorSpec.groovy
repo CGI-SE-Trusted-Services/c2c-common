@@ -549,6 +549,17 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		pk == enrollCertExtractedKey
 	}
 
+	def "Verify that getSignerIdentifier returns correct self as type for type SELF"(){
+		setup:
+		def alg = PublicVerificationKeyChoices.ecdsaNistP256
+		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
+		Certificate rootCA = genRootCA(rootCAKeys)
+		when:
+		SignerIdentifier si = sdg.getSignerIdentifier(SignerIdentifierType.SELF, [rootCA]  as Certificate[])
+		then:
+		si.getType() == SignerIdentifierChoices.self
+	}
+
 	def "Verify that getSignerIdentifier returns correct hash value for type HASH_ONLY"(){
 		setup:
 		def alg = PublicVerificationKeyChoices.ecdsaNistP256

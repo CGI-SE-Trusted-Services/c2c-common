@@ -16,29 +16,29 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
 
+import javax.crypto.SecretKey;
+
 /**
  * Value Object class representing result of a SecuredDataGenerator.decryptAndVerifySignedData operation.
  * Contains the inner opaque data and optional headerInfo if object was signed.
  *
  *  @author Philip Vendil, p.vendil@cgi.com
  */
-public class DecryptAndVerifyResult {
+public class DecryptAndVerifyResult extends DecryptResult {
 
     SignerIdentifier signerIdentifier;
     HeaderInfo headerInfo;
-    byte[] data;
 
     /**
      * Main constructor
      *
      * @param signerIdentifier the signerIdentifier if related object was signed, otherwise null.
      * @param headerInfo the header info object if related object was signed, otherwise null.
-     * @param data the inner opaque data.
      */
-    public DecryptAndVerifyResult(SignerIdentifier signerIdentifier, HeaderInfo headerInfo, byte[] data) {
+    public DecryptAndVerifyResult(SignerIdentifier signerIdentifier, HeaderInfo headerInfo, SecretKey secretKey, byte[] data) {
+        super(secretKey,data);
         this.signerIdentifier = signerIdentifier;
         this.headerInfo = headerInfo;
-        this.data = data;
     }
 
     /**
@@ -57,19 +57,13 @@ public class DecryptAndVerifyResult {
         return headerInfo;
     }
 
-    /**
-     *
-     * @return the inner opaque data.
-     */
-    public byte[] getData() {
-        return data;
-    }
 
     @Override
     public String toString() {
         return "DecryptAndVerifyResult [\n"+
                 "  signerIdentifier=" + (signerIdentifier != null ? signerIdentifier.toString().replaceAll("\n", "\n  ") : "NONE") + ",\n" +
                 "  headerInfo=" + (headerInfo != null ? headerInfo.toString().replaceAll("\n", "\n  ") : "NONE") +  ",\n"+
+                "  secretKey=" + (secretKey != null ? "EXISTS" : "NONE") +  ",\n"+
                 "  data=" + Hex.toHexString(getData()) + "\n" +
                 "]";
     }

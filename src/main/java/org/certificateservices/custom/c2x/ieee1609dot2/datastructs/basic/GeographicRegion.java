@@ -54,7 +54,8 @@ public class GeographicRegion extends COERChoice {
 		identifiedRegion(new SequenceOfIdentifiedRegion());
 
 		private byte[] emptyCOEREncodable;
-		private GeographicRegionChoices(COEREncodable emptyCOEREncodable){
+
+		GeographicRegionChoices(COEREncodable emptyCOEREncodable){
 			this.emptyCOEREncodable = COEREncodeHelper.serialize(emptyCOEREncodable);
 		}
 		

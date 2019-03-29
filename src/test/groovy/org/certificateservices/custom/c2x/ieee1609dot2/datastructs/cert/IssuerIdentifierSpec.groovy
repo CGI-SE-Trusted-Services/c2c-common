@@ -55,9 +55,9 @@ class 	IssuerIdentifierSpec extends BaseStructSpec {
 		id2.choice == choice
 		id2.type == choice
 		if(id2.type == IssuerIdentifierChoices.self){
-			id2.getHashAlgoritm() == value
+			assert id2.getHashAlgoritm() == value
 		}else{
-		  id2.getValue() == value
+		  assert id2.getValue() == value
 		}
 		choice.extension == extension
 

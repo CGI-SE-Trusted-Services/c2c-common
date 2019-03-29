@@ -18,6 +18,8 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.H
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier
 import spock.lang.Specification
 
+import javax.crypto.SecretKey
+
 /**
  * Unit tests for DecryptAndVerifyResult
  *
@@ -27,29 +29,33 @@ class DecryptAndVerifyResultSpec extends Specification {
 
     SignerIdentifier si = new SignerIdentifier()
     HeaderInfo hi = new HeaderInfo(new Psid(1),null,null,null,null,null,null,null,null)
+    SecretKey secretKey = Mock(SecretKey)
     byte[] data = Hex.decode("313233")
 
     def "Verify constructor and getters"(){
         when:
-        DecryptAndVerifyResult r = new DecryptAndVerifyResult(si,hi,data)
+        DecryptAndVerifyResult r = new DecryptAndVerifyResult(si,hi,secretKey,data)
         then:
         r.getSignerIdentifier() == si
         r.getHeaderInfo() == hi
+        r.getSecretKey() == secretKey
         r.getData() == data
     }
 
     def "Verify toString()"(){
         expect:
-        new DecryptAndVerifyResult(si,hi,data).toString() == """DecryptAndVerifyResult [
+        new DecryptAndVerifyResult(si,hi,secretKey,data).toString() == """DecryptAndVerifyResult [
   signerIdentifier=SignerIdentifier [self],
   headerInfo=HeaderInfo [
     psid=[1(1)]
   ],
+  secretKey=EXISTS,
   data=313233
 ]"""
-        new DecryptAndVerifyResult(null,null,data).toString() == """DecryptAndVerifyResult [
+        new DecryptAndVerifyResult(null,null,null,data).toString() == """DecryptAndVerifyResult [
   signerIdentifier=NONE,
   headerInfo=NONE,
+  secretKey=NONE,
   data=313233
 ]"""
     }

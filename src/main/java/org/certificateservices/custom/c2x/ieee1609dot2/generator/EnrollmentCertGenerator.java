@@ -46,7 +46,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Verifica
 
 
 /**
- * Certificate Generator class for Enrollment Cert, used by a Long Term CA, using end entity certificate with cerificateRequest permissions.
+ * Certificate Generator class for Enrollment Cert, used by a Long Term CA, using end entity certificate with certificateRequest permissions.
  * 
  * @author Philip Vendil, p.vendil@cgi.com
  *

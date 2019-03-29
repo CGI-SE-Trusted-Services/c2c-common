@@ -1,0 +1,75 @@
+/*************************************************************************************
+   This file contains the EtsiTs102941MessagesItss-OptionalPrivacy module providing the
+   same subset of messages as the EtsiTs102941MessagesItss module.
+   It should **NEVER** be used together with the EtsiTs102941MessagesCA and EtsiTs102941MessagesItss
+
+   This module allows the usage of unencrypted EC signature for AA requests.
+**************************************************************************************/
+EtsiTs102941MessagesItss-OptionalPrivacy
+  { itu-t(0) identified-organization(4) etsi(0) itsDomain(5) wg5(5) ts(102941) messagesItssOp(2) version1(1)}
+
+DEFINITIONS AUTOMATIC TAGS ::=
+BEGIN
+
+IMPORTS
+
+EtsiTs103097Data-Signed
+--EtsiTs103097Data-Encrypted,
+--EtsiTs103097Data-SignedAndEncrypted
+FROM EtsiTs103097Module
+{ itu-t(0) identified-organization(4) etsi(0) itsDomain(5) wg5(5) ts(103097) securedMessageV1(0) }
+
+EtsiTs103097Data-Encrypted-Unicast,
+EtsiTs103097Data-SignedAndEncrypted-Unicast,
+Version
+FROM EtsiTs102941BaseTypes
+{ itu-t(0) identified-organization(4) etsi(0) itsDomain(5) wg5(5) ts(102941) baseTypes(3) version1(1) }
+
+InnerEcRequestSignedForPop, InnerEcResponse
+FROM EtsiTs102941TypesEnrolment
+{ itu-t(0) identified-organization(4) etsi(0) itsDomain(5) wg5(5) ts(102941) enrolment(4) version1(1) }
+
+InnerAtRequest, InnerAtResponse
+FROM EtsiTs102941TypesAuthorization
+{ itu-t(0) identified-organization(4) etsi(0) itsDomain(5) wg5(5) ts(102941) authorization(5) version1(1) }
+
+ToBeSignedCrl, ToBeSignedTlmCtl, ToBeSignedRcaCtl
+FROM EtsiTs102941TrustLists
+{ itu-t(0) identified-organization(4) etsi(0) itsDomain(5) wg5(5) ts(102941) trustLists(6) version1(1) }
+
+;
+
+/************
+-- Messages
+************/
+
+EnrolmentRequestMessage ::= EtsiTs103097Data-SignedAndEncrypted-Unicast {EtsiTs102941Data (WITH COMPONENTS{..., content (WITH COMPONENTS{enrolmentRequest PRESENT})})}
+EnrolmentResponseMessage ::= EtsiTs103097Data-SignedAndEncrypted-Unicast {EtsiTs102941Data (WITH COMPONENTS{..., content (WITH COMPONENTS{enrolmentResponse PRESENT})})}
+AuthorizationRequestMessage ::= EtsiTs103097Data-Encrypted-Unicast {EtsiTs102941Data (WITH COMPONENTS{..., content (WITH COMPONENTS{authorizationRequest PRESENT})})}
+AuthorizationRequestMessageWithPop ::= EtsiTs103097Data-SignedAndEncrypted-Unicast {EtsiTs102941Data (WITH COMPONENTS{..., content (WITH COMPONENTS{authorizationRequest PRESENT})})}
+AuthorizationResponseMessage ::= EtsiTs103097Data-SignedAndEncrypted-Unicast {EtsiTs102941Data (WITH COMPONENTS{..., content (WITH COMPONENTS{authorizationResponse PRESENT})})}
+CertificateRevocationListMessage ::= EtsiTs103097Data-Signed{EtsiTs102941Data (WITH COMPONENTS{..., content (WITH COMPONENTS{certificateRevocationList PRESENT})})}
+TlmCertificateTrustListMessage ::= EtsiTs103097Data-Signed{EtsiTs102941Data (WITH COMPONENTS{..., content (WITH COMPONENTS{certificateTrustListTlm PRESENT})})}
+RcaCertificateTrustListMessage ::= EtsiTs103097Data-Signed{EtsiTs102941Data (WITH COMPONENTS{..., content (WITH COMPONENTS{certificateTrustListRca PRESENT})})}
+
+/************
+-- EtsiTs102941Data
+************/
+
+EtsiTs102941Data::= SEQUENCE {
+  version Version (v1),
+  content EtsiTs102941DataContent
+  }
+
+EtsiTs102941DataContent ::= CHOICE {
+  enrolmentRequest                        InnerEcRequestSignedForPop,
+  enrolmentResponse                       InnerEcResponse,
+  authorizationRequest                    InnerAtRequest,
+  authorizationResponse                   InnerAtResponse,
+  certificateRevocationList               ToBeSignedCrl,
+  certificateTrustListTlm                 ToBeSignedTlmCtl,
+  certificateTrustListRca                 ToBeSignedRcaCtl,
+  ...
+  }
+
+END

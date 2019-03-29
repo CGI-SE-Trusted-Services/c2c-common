@@ -47,7 +47,6 @@ EtsiTs103097Data::=Ieee1609Dot2Data (WITH COMPONENTS {...,
     encryptedData (WITH COMPONENTS {..., -- constraints on encrypted data headers
       recipients  (WITH COMPONENT (
         (WITH COMPONENTS {...,
-          pskRecipInfo ABSENT,
           symmRecipInfo ABSENT,
           rekRecipInfo ABSENT
         })

@@ -1,10 +1,17 @@
 # Java Implementation of ITS Intelligent Transport Systems (ITS) Security Security header and certificate formats
-# ETSI TS 103 097 V1.3.1 and IEEE 1609.2a 2017
+# ETSI TS 103 097 V1.3.1, ETSI TS 102 941 V1.2.1 and IEEE 1609.2a 2017
 
-This is a library used to generate data structures from the ETSI TS 103 097 1.3.1 (EU) and IEEE 1609.2 2016 (With 1609.2a 2017 Amendment) (US) specification.
+This is a library used to generate data structures from the ETSI TS 103 097 v1.3.1, ETSI TS 102 941 v1.2.1 (EU) and IEEE 1609.2 2016 (With 1609.2a 2017 Amendment) (US) specification.
 
 # License
 The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
+
+# What's new in 2.0.0-Beta2
+
+- Support for generating CA Messages according to Etsi TS 102 941 v 1.2.1
+- Fix for bad encoding of Time64 data structures (it used nano seconds instead of milliseconds).
+- Changed compile target to JDK 8.
+- Some refactoring.
 
 # What's new in 2.0.0-Beta1
 
@@ -51,8 +58,6 @@ It supports generation of the following data structures will all related substru
 - Authorization Ticket
 - Trust List Manager Certificate
 - Secure Messages (CAM and DENM) and others
-
-Encryption of generated Secure Messages is not implemented in the current version. 
 
 See Javadoc and examples below for more detailed information.
 
@@ -379,7 +384,315 @@ To create Secured Messages such as CAM or DENM use the SecuredMessageGenerator.
 ```
 
 
+# EU Standard ETSI TS 102 941 V1.2.1
 
+It supports generation of the following data structures will all related substructures:
+
+- Enrol Request/Response Message
+- Authorization Request/Response Message
+- Authorization Validation Request/Response Message
+- CRL and CTL Messages
+- CA Request Message (With Rekey)
+
+See Javadoc and examples below for more detailed information.
+
+## Example Code 
+
+Full example code can be seen in src/test/java/org/certificateservices/custom/c2x/demo. The
+example code assumes you have access to a generated PKI according to ETSI TS 103 097 standard.
+
+Before generating any CA Message create a CA Message generator with:
+
+```
+        // Create a ETSITS102941MessagesCaGenerator generator
+        messagesCaGenerator = new ETSITS102941MessagesCaGenerator(Ieee1609Dot2Data.DEFAULT_VERSION,
+                cryptoManager, // The initialized crypto manager to use.
+                HashAlgorithm.sha256, // digest algorithm to use.
+                Signature.SignatureChoices.ecdsaNistP256Signature,  // define which signature scheme to use.
+                false); // If EC points should be represented as uncompressed.
+
+```
+
+### EnrolRequestMessage
+
+To create an EnrolRequestMessage use the following code.
+
+```
+        // First create the InnerEcRequest object
+        InnerEcRequest initialInnerEcRequest = genDummyInnerEcRequest(enrolCredSignKeys.getPublic());
+        EtsiTs103097DataEncryptedUnicast initialEnrolRequestMessage = messagesCaGenerator.genInitialEnrolmentRequestMessage(
+                new Time64(new Date()), // generation Time
+                initialInnerEcRequest,
+                enrolCredSignKeys.getPublic(),enrolCredSignKeys.getPrivate(), // The key pair used in the enrolment credential used for self signed PoP
+                enrolmentCACert); // The EA certificate to encrypt message to.
+
+        // All messages can be encoded to byte[] using
+        byte[] encodedMessage = initialEnrolRequestMessage.getEncoded();
+
+        // To parse and encoded message create a new instance of related EtsiTs103097Data profile.
+        EtsiTs103097DataEncryptedUnicast decodedMessage = new EtsiTs103097DataEncryptedUnicast(encodedMessage);
+
+        // To Create an rekey EnrolRequestMessage use the following code.
+        
+        // Use a separate method when performing rekey that contains signature of previous message.
+        InnerEcRequest reKeyInnerEcRequest = genDummyInnerEcRequest(enrolCredReSignKeys.getPublic());
+        EtsiTs103097DataEncryptedUnicast rekeyEnrolRequestMessage = messagesCaGenerator.genRekeyEnrolmentRequestMessage(
+                new Time64(new Date()), // generation Time
+                reKeyInnerEcRequest, // Inner EC Request containing PublicKeys with new keys.
+                enrollmentCredCertChain, // The certificate chain of the current (old) enrolment credential.
+                enrolCredSignKeys.getPrivate(), // Private key if current (old) enrolment credential.
+                enrolCredReSignKeys.getPublic(),enrolCredReSignKeys.getPrivate(), // The key pair used in the enrolment credential used for self signed PoP
+                enrolmentCACert); // The EA certificate to encrypt message to.
+
+```
+
+To verify a EnrolRequestMessage use:
+
+```
+        // First build a certificate store and a trust store to verify signature.
+        // These can be null if only initial messages are used.
+        Map<HashedId8, Certificate> enrolCredCertStore = messagesCaGenerator.buildCertStore(enrollmentCredCertChain);
+        Map<HashedId8, Certificate> trustStore = messagesCaGenerator.buildCertStore(new EtsiTs103097Certificate[]{rootCACert});
+
+        // Then create a receiver store to decrypt the message
+        Map<HashedId8, Receiver> enrolCAReceipients = messagesCaGenerator.buildRecieverStore(new Receiver[] {new CertificateReciever(enrolCAEncKeys.getPrivate(),enrolmentCACert)});
+        // Then decrypt and verify with:
+        // Important: this method only verifies the signature, it does not validate header information.
+        RequestVerifyResult<InnerEcRequest> enrolmentRequestResult = messagesCaGenerator.decryptAndVerifyEnrolmentRequestMessage(rekeyEnrolRequestMessage,enrolCredCertStore,trustStore,enrolCAReceipients);
+        // The verify result for enrolment request returns a special value object containing both inner message and
+        // requestHash used in response.
+
+        // The result object of all verify message method contains the following information:
+        enrolmentRequestResult.getSignerIdentifier(); // The identifier of the signer
+        enrolmentRequestResult.getHeaderInfo(); // The header information of the signer of the message
+        enrolmentRequestResult.getValue(); // The inner message that was signed and or encrypted.
+        enrolmentRequestResult.getSecretKey(); // The symmetrical key used in Ecies request operations and is set when verifying all
+        // request messages. The secret key should usually be used to encrypt the response back to the requester.
+```
+
+### EnrolResponseMessage
+
+To generate and verify EnrolResponseMessage
+
+```
+        // First generate a InnerECResponse
+        InnerEcResponse innerEcResponse = new InnerEcResponse(enrolmentRequestResult.getRequestHash(), EnrollmentResponseCode.ok,enrolmentCredCert);
+        // Then generate the EnrolmentResponseMessage with:
+        EtsiTs103097DataEncryptedUnicast enrolResponseMessage = messagesCaGenerator.genEnrolmentResponseMessage(
+                new Time64(new Date()), // generation Time
+                innerEcResponse,
+                enrollmentCAChain, // Chain of EA used to sign message
+                enrolCASignKeys.getPrivate(),
+                SymmAlgorithm.aes128Ccm, // Encryption algorithm used
+                enrolmentRequestResult.getSecretKey()); // Use symmetric key from the verification result when verifying the request.
+
+        // To verify EnrolResponseMessage use:
+        // Build certstore
+        Map<HashedId8, Certificate> enrolCACertStore = messagesCaGenerator.buildCertStore(enrollmentCAChain);
+
+        // Build reciever store containing the symmetric key used in the request.
+        Map<HashedId8, Receiver> enrolCredSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(enrolmentRequestResult.getSecretKey())});
+        VerifyResult<InnerEcResponse> enrolmentResponseResult = messagesCaGenerator.decryptAndVerifyEnrolmentResponseMessage(
+                enrolResponseMessage,
+                enrolCACertStore, // Certificate chain if EA CA
+                trustStore,
+                enrolCredSharedKeyReceivers
+        );
+```
+
+### AuthorizationRequestMessage
+
+To generate and verify AuthorizationRequestMessage
+
+```
+        // To generate an AuthorizationRequestMessage it is possible to generate
+        // the message with and without POP and privacy set. This example generates
+        // message with POP and privacy.
+
+        // First generate a PublicKeys, hmacKey and SharedAtRequest structures
+        PublicKeys publicKeys = messagesCaGenerator.genPublicKeys(signAlg,authTicketSignKeys.getPublic(),SymmAlgorithm.aes128Ccm,encAlg, authTicketEncKeys.getPublic());
+        byte[] hmacKey = genHmacKey();
+        SharedAtRequest sharedAtRequest = genDummySharedAtRequest(publicKeys, hmacKey);
+
+        EtsiTs103097DataEncryptedUnicast authRequestMessage = messagesCaGenerator.genAuthorizationRequestMessage(
+                new Time64(new Date()), // generation Time
+                publicKeys,
+                hmacKey,
+                sharedAtRequest,
+                enrollmentCredCertChain, // Certificate chain of enrolment credential to sign outer message to AA
+                enrolCredSignKeys.getPrivate(), // Private key used to sign message.
+                authTicketSignKeys.getPublic(), //The public key of the auth ticket, used to create POP, null if no POP should be generated.
+                authTicketSignKeys.getPrivate(), // The private key of the auth ticket, used to create POP, null if no POP should be generated.
+                authorizationCACert, // The AA certificate to encrypt outer message to.
+                enrolmentCACert, // Encrypt inner ecSignature with given certificate, required if withPrivacy is true.
+                true // Encrypt the inner ecSignature message sent to EA
+        );
+
+         // To verify an AuthorizationRequest use the following code.
+       
+         // Build a recipient store for Authorization Authority
+        Map<HashedId8, Receiver> authorizationCAReceipients = messagesCaGenerator.buildRecieverStore(new Receiver[] {new CertificateReciever(authorizationCAEncKeys.getPrivate(),authorizationCACert)});
+
+        // To decrypt the message and verify the external POP signature (not the inner eCSignature signed for EA CA).
+        RequestVerifyResult<InnerAtRequest> authRequestResult = messagesCaGenerator.decryptAndVerifyAuthorizationRequestMessage(authRequestMessage,
+                 true, // Expect AuthorizationRequestPOP content
+                 authorizationCAReceipients); // Receivers able to decrypt the message
+        // The AuthorizationRequestData contains the innerAtRequest and calculated requestHash
+        InnerAtRequest innerAtRequest = authRequestResult.getValue();
+        // There exists another method to decrypt (if privacy is used) and verify inner ecSignature with:
+        VerifyResult<EcSignature> ecSignatureVerifyResult = messagesCaGenerator.decryptAndVerifyECSignature(innerAtRequest.getEcSignature(),
+                innerAtRequest.getSharedAtRequest(),
+                true,
+                enrolCredCertStore, // Certificate store to verify the signing enrollment credential
+                trustStore,
+                enrolCAReceipients); // the EA certificate used to decrypt the inner message.
+
+        // The verified and decrypted (if withPrivacy) eCSignature is retrived with
+        EcSignature ecSignature = ecSignatureVerifyResult.getValue();
+```
+
+### AuthorizationResponseMessage
+
+To generate and verify AuthorizationResponseMessage
+
+```
+        // First create innerAtResponse
+        InnerAtResponse innerAtResponse = new InnerAtResponse(authRequestResult.getRequestHash(),
+                AuthorizationResponseCode.ok,
+                authTicketCert);
+        EtsiTs103097DataEncryptedUnicast authResponseMessage = messagesCaGenerator.genAuthorizationResponseMessage(
+                new Time64(new Date()), // generation Time
+                innerAtResponse,
+                authorizationCAChain, // The AA certificate chain signing the message
+                authorizationCASignKeys.getPrivate(),
+                SymmAlgorithm.aes128Ccm, // Encryption algorithm used.
+                authRequestResult.getSecretKey()); // The symmetric key generated in the request.
+
+        
+        // To verify AuthorizationResponse use:
+        
+        // Build reciever store containing the symmetric key used in the request.
+        Map<HashedId8, Receiver> authTicketSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(authRequestResult.getSecretKey())});
+        Map<HashedId8, Certificate> authCACertStore = messagesCaGenerator.buildCertStore(authorizationCAChain);
+        VerifyResult<InnerAtResponse> authResponseResult = messagesCaGenerator.decryptAndVerifyAuthorizationResponseMessage(authResponseMessage,
+                authCACertStore, // certificate store containing certificates for auth cert.
+                trustStore,
+                authTicketSharedKeyReceivers);
+```
+
+### AuthorizationValidationRequestMessage
+
+To generate and verify AuthorizationValidationRequestMessage
+
+```
+        // The authorization validation request is sent between AA and EA and should
+        // contain the SharedATRequest and ecSignature structures.
+        AuthorizationValidationRequest authorizationValidationRequest = new AuthorizationValidationRequest(
+                innerAtRequest.getSharedAtRequest(),innerAtRequest.getEcSignature());
+
+        EtsiTs103097DataEncryptedUnicast authorizationValidationRequestMessage = messagesCaGenerator.genAuthorizationValidationRequest(
+                new Time64(new Date()), // generation Time
+                authorizationValidationRequest,
+                authorizationCAChain,// The AA certificate chain to generate the signature.
+                authorizationCASignKeys.getPrivate(), // The AA signing keys
+                enrolmentCACert); // The EA certificate to encrypt data to.
+
+         
+         // To verify an Authorization Validation Request
+         
+        RequestVerifyResult<AuthorizationValidationRequest> authorizationValidationRequestVerifyResult = messagesCaGenerator.decryptAndVerifyAuthorizationValidationRequestMessage(
+                 authorizationValidationRequestMessage,
+                 authCACertStore, // certificate store containing certificates for auth cert.
+                 trustStore,
+                 enrolCAReceipients);
+```
+
+### AuthorizationValidationResponseMessage
+
+To generate and verify AuthorizationValidationResponseMessage
+
+```
+         // First generate inner authorizationValidationResponse object
+        AuthorizationValidationResponse authorizationValidationResponse = new AuthorizationValidationResponse(
+                authorizationValidationRequestVerifyResult.getRequestHash(),
+                AuthorizationValidationResponseCode.ok,
+                genDummyConfirmedSubjectAttributes());
+        EtsiTs103097DataEncryptedUnicast authorizationValidationResponseMessage = messagesCaGenerator.genAuthorizationValidationResponseMessage(
+                new Time64(new Date()), // generation Time
+                authorizationValidationResponse,
+                enrollmentCAChain, // EA signing chain
+                enrolCASignKeys.getPrivate(), // EA signing private key
+                SymmAlgorithm.aes128Ccm, // Encryption algorithm used.
+                authorizationValidationRequestVerifyResult.getSecretKey() // The symmetric key generated in the request.
+                );
+
+        
+        // To verify an Authorization Validation Response
+        
+        Map<HashedId8, Receiver> authValidationSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(authorizationValidationRequestVerifyResult.getSecretKey())});
+        VerifyResult<AuthorizationValidationResponse> authorizationValidationResponseVerifyResult = messagesCaGenerator.decryptAndVerifyAuthorizationValidationResponseMessage(
+                authorizationValidationResponseMessage,
+                enrolCACertStore,
+                trustStore,
+                authValidationSharedKeyReceivers);
+```
+
+### Generate CTL and CRL messages
+
+To generate and verify CTL and CRL messages use:
+
+```
+        // The messages CertificateRevocationListMessage, TlmCertificateTrustListMessage and RcaCertificateTrustListMessage
+        // are all generated using very similar methods. Only CertificateRevocationListMessage is shown here.
+
+        // First generate to be signed data
+        ToBeSignedCrl toBeSignedCrl = genDummyCRLToBeSignedData();
+        EtsiTs103097DataSigned certificateRevocationListMessage = messagesCaGenerator.genCertificateRevocationListMessage(
+                new Time64(new Date()), // signing generation time
+                toBeSignedCrl,
+                new EtsiTs103097Certificate[]{rootCACert}, // certificate chain of signer
+                rootCAKeys.getPrivate()); // Private key of signer
+
+        // To verify CTL and CRL messages
+        Map<HashedId8, Certificate> crlTrustStore = new HashMap<>(); // Only root ca needed from truststore in this case.
+        VerifyResult<ToBeSignedCrl> crlVerifyResult = messagesCaGenerator.verifyCertificateRevocationListMessage(
+                certificateRevocationListMessage,
+                crlTrustStore,
+                trustStore
+        );
+```
+
+### CARequestMessage and Rekey
+
+To generate and verify inital and rekey a CARequestMessage use:
+
+```
+        // First generate inner CaCertificatRequest
+        CaCertificateRequest caCertificateRequest = genDummyCaCertificateRequest(authorizationCASignKeys.getPublic());
+        // The self sign the message to prove possession.
+        EtsiTs103097DataSigned caCertificateRequestMessage = messagesCaGenerator.genCaCertificateRequestMessage(
+                new Time64(new Date()), // signing generation time
+                caCertificateRequest,
+                authorizationCASignKeys.getPublic(), // The CAs signing keys
+                authorizationCASignKeys.getPrivate());
+
+       // To verify a CA Request Message
+
+        VerifyResult<CaCertificateRequest> caCertificateRequestVerifyResult = messagesCaGenerator.verifyCACertificateRequestMessage(caCertificateRequestMessage);
+
+        // To generate a Rekey CA Request Message
+        CaCertificateRequest caCertificateRekeyRequest = genDummyCaCertificateRequest(authorizationCAReSignKeys.getPublic());
+        EtsiTs103097DataSigned caCertificateRekeyRequestMessage =messagesCaGenerator.genCaCertificateRekeyingMessage(
+                new Time64(new Date()), // signing generation time,
+                caCertificateRekeyRequest,
+                authorizationCAChain,
+                authorizationCASignKeys.getPrivate(),
+                authorizationCAReSignKeys.getPublic(),
+                authorizationCAReSignKeys.getPrivate());
+
+        // To Verify a Rekey CA Request Message
+        VerifyResult<CaCertificateRequest> caCertificateRekeyRequestVerifyResult = messagesCaGenerator.verifyCACertificateRekeyingMessage(caCertificateRekeyRequestMessage,authCACertStore,trustStore);
+```
 
 # US Standard IEEE 1609.2
 

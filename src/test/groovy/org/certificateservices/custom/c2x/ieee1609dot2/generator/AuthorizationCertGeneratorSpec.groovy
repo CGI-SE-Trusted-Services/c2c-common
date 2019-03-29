@@ -12,6 +12,10 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097Data
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSigned
+
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -73,7 +77,7 @@ import spock.lang.Unroll;
 
 class AuthorizationCertGeneratorSpec extends BaseCertGeneratorSpec {
 
-	
+
 	@Unroll
 	def "Verify that Ieee1609Dot2 Authorization Cert is generated correctly of explicit certificate for alg: #alg"(){
 		setup:

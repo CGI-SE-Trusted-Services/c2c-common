@@ -14,7 +14,7 @@ package org.certificateservices.custom.c2x.etsits103097.v131.generator;
 
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
-import org.certificateservices.custom.c2x.etsits103097.v131.cert.EtsiTs103097Certificate;
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
-
-import static org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID.SecuredCertificateRequestService;
 
 /**
  * Certificate Generator class for generating authorization ticket certificates for ETSI TS 103 097 v 1.3.1 standard.

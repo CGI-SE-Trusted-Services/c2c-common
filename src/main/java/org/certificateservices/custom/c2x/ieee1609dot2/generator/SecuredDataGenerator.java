@@ -33,7 +33,9 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
+import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.basetypes.PublicKeys;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
@@ -96,12 +98,15 @@ public class SecuredDataGenerator {
 		/**
 		 * Include the entire certificate chain up to (but not including) the trust anchor.
 		 */
-		CERT_CHAIN;
+		CERT_CHAIN,
+		/**
+		 * Signer identifier should be set to self.
+		 */
+		SELF
 	}
 
 	Ieee1609Dot2CryptoManager cryptoManager = null;
-	boolean useUncompressed = false;
-	int version = Ieee1609Dot2Data.DEFAULT_VERSION;
+	int version;
 	HashAlgorithm hashAlgorithm;
 	ECQVHelper ecqvHelper;	
 	SignatureChoices signAlgorithm;
@@ -123,7 +128,46 @@ public class SecuredDataGenerator {
 		
 		ecqvHelper = new ECQVHelper(cryptoManager);
 	}
-	
+
+	/**
+	 * Method to generate a Signed Ieee1609Dot2Data.
+	 *
+	 * @param hi the header information data to include.
+	 * @param message the message data to sign.
+	 * @param signerIdentifierType type of signer identifier to include, one of SignerIdentifierType
+	 * @param signerCertificateChain the complete chain up to the trust anchor. Important the trust anchor MUST be an explicit certificate and the array
+	 * must be in the order of end entity certificate at position 0 and trust anchor last in array.
+	 * @param signerPrivateKey private key of signer.
+	 * @return a signed Ieee1609Dot2Data structure.
+	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws SignatureException if internal problems occurred generating the signature.
+	 * @throws IOException if IO exception occurred communicating with underlying systems.
+	 */
+	public Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+		assert signerIdentifierType != SignerIdentifierType.SELF;
+		try {
+			return genSignedData(hi, message, signerIdentifierType, signerCertificateChain, getSignerPublicKey(signerCertificateChain), signerPrivateKey);
+		} catch (InvalidKeySpecException e) {
+		  throw new SignatureException("Error signing message, invalid key spec: " + e.getMessage(),e);
+	    }
+	}
+
+	/**
+	 * Method to generate a Signed Ieee1609Dot2Data signerIdentifierType SELF
+	 *
+	 * @param hi the header information data to include.
+	 * @param message the message data to sign.
+	 * must be in the order of end entity certificate at position 0 and trust anchor last in array.
+	 * @param signerPrivateKey private key of signer.
+	 * @return a signed Ieee1609Dot2Data structure.
+	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws SignatureException if internal problems occurred generating the signature.
+	 * @throws IOException if IO exception occurred communicating with underlying systems.
+	 */
+	public Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, PublicKey signPublicKey, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+		return genSignedData(hi, message, SignerIdentifierType.SELF, null, signPublicKey, signerPrivateKey);
+	}
+
 	/**
 	 * Method to generate a Signed Ieee1609Dot2Data.
 	 * 
@@ -138,13 +182,13 @@ public class SecuredDataGenerator {
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 */
-	public Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+	protected Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PublicKey signPublicKey, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
 		
 		try{
 			Ieee1609Dot2Data unsecuredData = new Ieee1609Dot2Data(version,new Ieee1609Dot2Content(Ieee1609Dot2ContentChoices.unsecuredData, new Opaque(message)));
 			ToBeSignedData tbsData = new ToBeSignedData(new SignedDataPayload(unsecuredData, null), hi);
 
-			return genSignedDataStructure(tbsData, signerIdentifierType, signerCertificateChain, signerPrivateKey, true);
+			return genSignedDataStructure(tbsData, signerIdentifierType, signerCertificateChain, signPublicKey, signerPrivateKey, true);
 		}catch(NoSuchAlgorithmException e){
 			throw new SignatureException("Error signing message, no such algorithm: " + e.getMessage(),e);
 		} catch (InvalidKeySpecException e) {
@@ -173,7 +217,7 @@ public class SecuredDataGenerator {
 			HashedData hashedData = new HashedData(getHashedDataChoice(), cryptoManager.digest(message, hashAlgorithm));
 			ToBeSignedData tbsData = new ToBeSignedData(new SignedDataPayload(null, hashedData), hi);
 
-			return genSignedDataStructure(tbsData, signerIdentifierType, signerCertificateChain, signerPrivateKey, false);
+			return genSignedDataStructure(tbsData, signerIdentifierType, signerCertificateChain, getSignerPublicKey(signerCertificateChain), signerPrivateKey, false);
 		}catch(NoSuchAlgorithmException e){
 			throw new SignatureException("Error signing message, no such algorithm: " + e.getMessage(),e);
 		} catch (InvalidKeySpecException e) {
@@ -270,7 +314,30 @@ public class SecuredDataGenerator {
 			throw new IllegalArgumentException("Error verifying message, invalid key spec: " + e.getMessage(),e);
 		}
 	}
-	
+
+	/**
+	 * Method to verify a signed data against a specific public key. The method only verifies the signature, it doesn't validate it by permissions, validity or geographically.
+	 * @param signedData the signed data to verify.
+	 * @param signerPublicKey the public key of the signer.
+	 * @return true if data structure signature verifies.
+	 *
+	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws SignatureException if internal problems occurred verifying the signature.
+	 * @throws IOException if IO exception occurred communicating with underlying systems.
+	 */
+	public boolean verifySignedData(Ieee1609Dot2Data signedData, PublicKey signerPublicKey) throws IllegalArgumentException, SignatureException, IOException{
+		if(signedData.getContent().getType() != Ieee1609Dot2ContentChoices.signedData){
+			throw new IllegalArgumentException("Only signed Ieee1609Dot2Data can verified");
+		}
+
+		SignedData sd = (SignedData) signedData.getContent().getValue();
+		if(sd.getTbsData().getPayload().getData() == null){
+			throw new IllegalArgumentException("Error no enveloped data found in Signed Payload");
+		}
+
+		return cryptoManager.verifySelfSignedSignature(sd.getTbsData().getEncoded(), sd.getSignature(),  signerPublicKey);
+	}
+
     /**
      * Method to verify a signed data, method only verifies the signature, it doesn't validate it by permissions, validity or geographically.
      * @param signedData the signed data to verify.
@@ -369,7 +436,55 @@ public class SecuredDataGenerator {
 		Ieee1609Dot2Content content = new Ieee1609Dot2Content(encData);
 		return newEncryptedDataStructure(version, content);
 	}
-	
+
+	/**
+	 * Method to decrypt a message using a given set of receivers.
+	 * Receiver store can be created with buildRecieverStore method.
+	 *
+	 * Method returns the symmetrical private key that was used to decrypt the message.
+	 *
+	 * @param encryptedData the data to decrypt.
+	 * @param recieverStore the store of known receiver keys.
+	 *
+	 * @return the decrypted payload.
+	 *
+	 * @throws IllegalArgumentException if one of the argument was invalid.
+	 * @throws GeneralSecurityException if internal problems occurred decrypting the data.
+	 * @throws IOException if communication problems occurred when decrypting the data.
+	 */
+	public DecryptResult decryptDataWithSecretKey(Ieee1609Dot2Data encryptedData,Map<HashedId8, Receiver> recieverStore) throws IllegalArgumentException, GeneralSecurityException, IOException{
+		if(encryptedData.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.encryptedData){
+			throw new IllegalArgumentException("Error invalid Ieee1609Dot2Data content, " + encryptedData.getContent().getType() +" only type encryptedData can be decrypted.");
+		}
+
+		if(recieverStore == null){
+			throw new IllegalArgumentException("Error ReceiverStore cannot be empty.");
+		}
+		EncryptedData ed = (EncryptedData) encryptedData.getContent().getValue();
+		COEREncodable[] recipientInfos =(COEREncodable[]) ed.getRecipients().getSequenceValues();
+
+		SecretKey decryptionKey = null;
+
+		for(COEREncodable ri : recipientInfos){
+			HashedId8 reference = getReference((RecipientInfo) ri);
+			Receiver reciever = recieverStore.get(reference);
+			if(reciever != null){
+				decryptionKey = reciever.extractDecryptionKey(cryptoManager, (RecipientInfo) ri);
+				if(decryptionKey != null){
+					break;
+				}
+			}
+		}
+
+		if(decryptionKey == null){
+			throw new IllegalArgumentException("Error decrypting data, no matching Reciever info could be found to retrieve the decryption key.");
+		}
+
+		SymmetricCiphertext symmetricCiphertext = ed.getCipherText();
+
+		byte[] data = cryptoManager.symmetricDecryptIEEE1609_2_2017(symmetricCiphertext.getType(), getEncryptedData(symmetricCiphertext), decryptionKey.getEncoded(), getNounce(symmetricCiphertext));
+		return new DecryptResult(decryptionKey,data);
+	}
 	/**
 	 * Method to decrypt a message using a given set of receivers. Receiver store can be created with buildRecieverStore method.
 	 * 
@@ -383,36 +498,7 @@ public class SecuredDataGenerator {
 	 * @throws IOException if communication problems occurred when decrypting the data.
 	 */
 	public byte[] decryptData(Ieee1609Dot2Data encryptedData,Map<HashedId8, Receiver> recieverStore) throws IllegalArgumentException, GeneralSecurityException, IOException{
-		if(encryptedData.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.encryptedData){
-			throw new IllegalArgumentException("Error invalid Ieee1609Dot2Data content, " + encryptedData.getContent().getType() +" only type encryptedData can be decrypted.");
-		}
-		
-		if(recieverStore == null){
-			throw new IllegalArgumentException("Error RecieverStore cannot be empty.");
-		}
-		EncryptedData ed = (EncryptedData) encryptedData.getContent().getValue();
-		COEREncodable[] recipientInfos =(COEREncodable[]) ed.getRecipients().getSequenceValues();
-		
-		SecretKey decryptionKey = null;
-		
-		for(COEREncodable ri : recipientInfos){
-			HashedId8 reference = getReference((RecipientInfo) ri);
-			Receiver reciever = recieverStore.get(reference);
-			if(reciever != null){
-				decryptionKey = reciever.extractDecryptionKey(cryptoManager, (RecipientInfo) ri);
-				if(decryptionKey != null){
-					break;
-				}
-			}
-		}
-		
-		if(decryptionKey == null){
-			throw new IllegalArgumentException("Error decrypting data, no matching Reciever info could be found to retrieve the decryption key.");
-		}
-			
-		SymmetricCiphertext symmetricCiphertext = ed.getCipherText();
-		
-		return cryptoManager.symmetricDecryptIEEE1609_2_2017(symmetricCiphertext.getType(), getEncryptedData(symmetricCiphertext), decryptionKey.getEncoded(), getNounce(symmetricCiphertext));
+		return decryptDataWithSecretKey(encryptedData,recieverStore).getData();
 	}
 	
 	/**
@@ -438,6 +524,26 @@ public class SecuredDataGenerator {
 	}
 
 	/**
+	 * Method to self sign and then encrypt a Ieee1609Dot2Data structure.
+	 *
+	 * @param hi the header information data to include.
+	 * @param message the data to sign and encrypt
+	 * @param signerPublicKey the public key of the signer.
+	 * @param signerPrivateKey  private key of signer.
+	 * @param encAlg algorithm indicating which symmetric and depending on encryption method which asymmetric algorithm to use.
+	 * @param recipients  a list of recipients, all receiptients should be a Recipient implementation and be of the same type.
+	 * @return a signed and then encrypted Ieee1609Dot2Data structure.
+	 *
+	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws SignatureException if internal problems occurred generating the signature.
+	 * @throws IOException if IO exception occurred communicating with underlying systems.
+	 * @throws GeneralSecurityException if internal problems occurred encrypting the data.
+	 */
+	public Ieee1609Dot2Data selfSignAndEncryptData(HeaderInfo hi, byte[] message, PublicKey signerPublicKey, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
+		return encryptData(encAlg, genSignedData(hi, message, signerPublicKey, signerPrivateKey).getEncoded(), recipients);
+	}
+
+	/**
 	 * Method to decrypt and verify a signed data structure, the method returns the SignedData object containing
 	 * a unsecured payload. This method only verifies the signature and does not check other header info parameters.
 	 * 
@@ -457,9 +563,11 @@ public class SecuredDataGenerator {
 		SignerIdentifier signerIdentifier = null;
 
 		Ieee1609Dot2Data data = newEncryptedDataStructure(message);
-		
+		SecretKey secretKey = null;
 		if(data.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData){
-			data = new Ieee1609Dot2Data(decryptData(data, recieverStore));
+			DecryptResult decryptResult = decryptDataWithSecretKey(data, recieverStore);
+			data = new Ieee1609Dot2Data(decryptResult.getData());
+			secretKey = decryptResult.getSecretKey();
 		}else{
 			if(requireEncryption){
 				throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, must be encrypted.");
@@ -484,8 +592,58 @@ public class SecuredDataGenerator {
 			throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, signed payload content must be a unsecured data");
 		}
 		
-		return new DecryptAndVerifyResult(signerIdentifier,headerInfo,((Opaque) data.getContent().getValue()).getData());
-		
+		return new DecryptAndVerifyResult(signerIdentifier,headerInfo,secretKey,((Opaque) data.getContent().getValue()).getData());
+	}
+
+	/**
+	 * Method to decrypt and verify a self signed signed data structure, the method returns the SignedData object containing
+	 * a unsecured payload. This method only verifies the signature and does not check other header info parameters.
+	 *
+	 * @param message, the message to decrypt and verify.
+	 * @param signerPublicKey the signers public key used to verify the signature.
+	 * @param recieverStore the store of known receiver keys.
+	 * @param requiredSignature if it should be required that messages are signed.
+	 * @param requireEncryption if it should be required that message are encrypted.
+	 * @return the decrypted data payload in the innermost unsecured data.
+	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws GeneralSecurityException if internal problems occurred decrypting and verying the message.
+	 * @throws IOException if IO exception occurred communicating with underlying systems.
+	 */
+	public DecryptAndVerifyResult decryptAndVerifySelfSignedData(byte[] message, PublicKey signerPublicKey, Map<HashedId8, Receiver> recieverStore, boolean requiredSignature, boolean requireEncryption) throws IllegalArgumentException, GeneralSecurityException, IOException{
+		HeaderInfo headerInfo = null;
+		SignerIdentifier signerIdentifier = null;
+
+		Ieee1609Dot2Data data = newEncryptedDataStructure(message);
+		SecretKey secretKey = null;
+		if(data.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData){
+			DecryptResult decryptResult = decryptDataWithSecretKey(data, recieverStore);
+			data = new Ieee1609Dot2Data(decryptResult.getData());
+			secretKey = decryptResult.getSecretKey();
+		}else{
+			if(requireEncryption){
+				throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, must be encrypted.");
+			}
+		}
+
+		if(data.getContent().getType() == Ieee1609Dot2ContentChoices.signedData || data.getContent().getType() == Ieee1609Dot2ContentChoices.signedCertificateRequest){
+			if(!verifySignedData(data, signerPublicKey)){
+				throw new SignatureException("Error signature didn't verify");
+			}
+			SignedData signedData = (SignedData) data.getContent().getValue();
+			data = signedData.getTbsData().getPayload().getData();
+			headerInfo = signedData.getTbsData().getHeaderInfo();
+			signerIdentifier = signedData.getSigner();
+		}else{
+			if(requiredSignature){
+				throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, must be signed.");
+			}
+		}
+
+		if(data.getContent().getType() != Ieee1609Dot2ContentChoices.unsecuredData){
+			throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, signed payload content must be a unsecured data");
+		}
+
+		return new DecryptAndVerifyResult(signerIdentifier,headerInfo,secretKey,((Opaque) data.getContent().getValue()).getData());
 	}
 
 	protected Ieee1609Dot2Data newEncryptedDataStructure(byte[] encodedData) throws IOException {
@@ -628,7 +786,7 @@ public class SecuredDataGenerator {
 		firstCert = findFromStores(signerId, signedDataStore, certStore, trustStore);
 	
 		if(firstCert == null){
-			throw new IllegalArgumentException("Error no cerificate found in certstore for id : " + signerId);
+			throw new IllegalArgumentException("Error no certificate found in certstore for id : " + signerId);
 		}
 		foundCerts.add(firstCert);
 		Certificate nextCert = firstCert;
@@ -636,7 +794,7 @@ public class SecuredDataGenerator {
 			HashedId8 issuerId = (HashedId8) nextCert.getIssuer().getValue();
 			nextCert = findFromStores(issuerId, signedDataStore, certStore, trustStore);
 			if(nextCert == null){
-				throw new IllegalArgumentException("Error no cerificate found in certstore for id : " + signerId);
+				throw new IllegalArgumentException("Error no certificate found in certstore for id : " + signerId);
 			}
 			foundCerts.add(nextCert);
 		}
@@ -715,11 +873,18 @@ public class SecuredDataGenerator {
 		return new HashedId8(cryptoManager.digest(key.getEncoded(), hashAlgorithm));
 	}
 	
-	protected Ieee1609Dot2Data genSignedDataStructure(ToBeSignedData tbsData,  SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, boolean enveloped) throws IllegalArgumentException, InvalidKeySpecException, SignatureException, IOException, NoSuchAlgorithmException{
-		PublicKey signerPublicKey = getSignerPublicKey(signerCertificateChain);
-		SignerIdentifier si = getSignerIdentifier(signerIdentifierType, signerCertificateChain);
-		Certificate signingCert = signerCertificateChain[0];
-		Signature signature = cryptoManager.signMessage(tbsData.getEncoded(), signAlgorithm, signerPublicKey, signerPrivateKey, signingCert.getType(), signingCert);
+	protected Ieee1609Dot2Data genSignedDataStructure(ToBeSignedData tbsData,  SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PublicKey signerPublicKey, PrivateKey signerPrivateKey, boolean enveloped) throws IllegalArgumentException, InvalidKeySpecException, SignatureException, IOException, NoSuchAlgorithmException{
+		SignerIdentifier si;
+		Certificate signingCert = null;
+		CertificateType certificateType = CertificateType.explicit;
+		if(signerIdentifierType != SignerIdentifierType.SELF) {
+			si = getSignerIdentifier(signerIdentifierType, signerCertificateChain);
+			signingCert = signerCertificateChain[0];
+			certificateType = signingCert.getType();
+		}else{
+			si = new SignerIdentifier();
+		}
+		Signature signature = cryptoManager.signMessage(tbsData.getEncoded(), signAlgorithm, signerPublicKey, signerPrivateKey, certificateType, signingCert);
 
 		SignedData signedData = new SignedData(hashAlgorithm, tbsData, si, signature);
 
@@ -791,25 +956,32 @@ public class SecuredDataGenerator {
 			Certificate[] signerCertificateChain) throws IllegalArgumentException, NoSuchAlgorithmException, IOException {
 		Certificate signerCert = signerCertificateChain[0];
 		switch (signerIdentifierType) {
-		case HASH_ONLY:
-			return new SignerIdentifier(new HashedId8(cryptoManager.digest(signerCert.getEncoded(), hashAlgorithm)));
-		case SIGNER_CERTIFICATE:
-			return new SignerIdentifier(new SequenceOfCertificate(new Certificate[]{signerCert}));
-		case CERT_CHAIN:
-		default:
-			if(signerCertificateChain.length < 2){
-				throw new IllegalArgumentException("Error invalid certificate chain length when creating signer identifier of type COMPLETE_CHAIN, chain length must be larger than 1");
-			}
-			Certificate[] certChain = new Certificate[signerCertificateChain.length-1];
-			for(int i=0; i < certChain.length; i++){
-				certChain[i] = signerCertificateChain[i];
-			}
-			return new SignerIdentifier(new SequenceOfCertificate(certChain));
+			case SELF:
+				return new SignerIdentifier();
+			case HASH_ONLY:
+				return new SignerIdentifier(new HashedId8(cryptoManager.digest(signerCert.getEncoded(), hashAlgorithm)));
+			case SIGNER_CERTIFICATE:
+				return new SignerIdentifier(new SequenceOfCertificate(new Certificate[]{signerCert}));
+			case CERT_CHAIN:
+			default:
+				if(signerCertificateChain.length < 2){
+					throw new IllegalArgumentException("Error invalid certificate chain length when creating signer identifier of type COMPLETE_CHAIN, chain length must be larger than 1");
+				}
+				Certificate[] certChain = new Certificate[signerCertificateChain.length-1];
+				for(int i=0; i < certChain.length; i++){
+					certChain[i] = signerCertificateChain[i];
+				}
+				return new SignerIdentifier(new SequenceOfCertificate(certChain));
 		}
 	}
 
-	
-
+	/**
+	 *
+	 * @return the underlying cryptoManger used in teh SecureDataGenerator.
+	 */
+	public Ieee1609Dot2CryptoManager getCryptoManager(){
+		return cryptoManager;
+	}
 
 
 		

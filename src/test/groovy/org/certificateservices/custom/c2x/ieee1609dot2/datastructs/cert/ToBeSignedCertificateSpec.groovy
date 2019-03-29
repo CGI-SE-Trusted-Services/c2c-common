@@ -62,7 +62,6 @@ import spock.lang.Unroll;
  * @author Philip Vendil, p.vendil@cgi.com
  *
  */
-
 class ToBeSignedCertificateSpec extends BaseStructSpec {
 
 	byte[] sspData = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),30)
