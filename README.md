@@ -1,10 +1,14 @@
 # Java Implementation of ITS Intelligent Transport Systems (ITS) Security header and certificate formats
-# ETSI TS 103 097 V1.3.1, ETSI TS 102 941 V1.2.1 and IEEE 1609.2a 2017
+# ETSI TS 103 097 V1.3.1, ETSI TS 102 941 V1.3.1 and IEEE 1609.2a 2017
 
-This is a library used to generate data structures from the ETSI TS 103 097 v1.3.1, ETSI TS 102 941 v1.2.1 (EU) and IEEE 1609.2 2016 (With 1609.2a 2017 Amendment) (US) specification.
+This is a library used to generate data structures from the ETSI TS 103 097 v1.3.1, ETSI TS 102 941 v1.3.1 (EU) and IEEE 1609.2 2016 (With 1609.2a 2017 Amendment) (US) specification.
 
 # License
 The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
+
+# What's new in 2.0.0-Beta3
+
+- Updated support to Etsi TS 102 941 v 1.3.1
 
 # What's new in 2.0.0-Beta2
 
@@ -384,7 +388,7 @@ To create Secured Messages such as CAM or DENM use the SecuredMessageGenerator.
 ```
 
 
-# EU Standard ETSI TS 102 941 V1.2.1
+# EU Standard ETSI TS 102 941 V1.3.1
 
 It supports generation of the following data structures will all related substructures:
 

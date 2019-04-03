@@ -151,16 +151,16 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		ed.getRecipients().size() == 1
 		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
 		ri.getType() == RecipientInfoChoices.pskRecipInfo
-		ri.getValue() == sdg.getSecretKeyID(k1)
+		ri.getValue() == sdg.getSecretKeyID(SymmAlgorithm.aes128Ccm,k1)
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
 		when: "Verify that text is decrypted correclty for a known key"
-		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new PreSharedKeyReceiver(k1),new PreSharedKeyReceiver(k2)]))
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k1),new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
 		decryptedText == clearText
 		
 		when: "Verify that illegal argument is thrown if key is not known"
-		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(k2)]))
+		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,,k2)]))
 		then:
 		thrown IllegalArgumentException
 		
@@ -178,7 +178,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		byte[] clearText = "SomeText".getBytes("UTF-8")
 		when:
-		Ieee1609Dot2Data enc = sdg.encryptData(SymmAlgorithm.aes128Ccm, clearText, [new SymmetricKeyReceipient(k1),new SymmetricKeyReceipient(k2)] as Recipient[])
+		Ieee1609Dot2Data enc = sdg.encryptData(SymmAlgorithm.aes128Ccm, clearText, [new SymmetricKeyReceipient(SymmAlgorithm.aes128Ccm,k1),new SymmetricKeyReceipient(SymmAlgorithm.aes128Ccm,k2)] as Recipient[])
 		
 		then:
 		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
@@ -186,22 +186,22 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		ed.getRecipients().size() == 2
 		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
 		ri.getType() == RecipientInfoChoices.symmRecipInfo
-		((SymmRecipientInfo) ri.getValue()).getRecipientId() == sdg.getSecretKeyID(k1)
+		((SymmRecipientInfo) ri.getValue()).getRecipientId() == sdg.getSecretKeyID(SymmAlgorithm.aes128Ccm,k1)
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
 		when: "Verify that text is decrypted correclty for a known key"
-		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(k1),new SymmetricKeyReceiver(k3)]))
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k1),new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k3)]))
 		then:
 		decryptedText == clearText
 		
 		when: "Verify that text is decrypted correclty for alternate known key"
-		decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(k2)]))
+		decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
 		decryptedText == clearText
 		
 		
 		when: "Verify that illegal argument is thrown if key is not known"
-		sdg.decryptData(enc,  sdg.buildRecieverStore([new SymmetricKeyReceiver(k3)]))
+		sdg.decryptData(enc,  sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k3)]))
 		then:
 		thrown IllegalArgumentException
 
@@ -780,9 +780,9 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		Certificate rootCA1 = genRootCA(rootCAKeys1)
 		HashedId8 rootCA1Id = sdg.getCertID(rootCA1)
 		SecretKey sharedKey = cryptoManager.generateSecretKey(alg)
-		HashedId8 sharedKeyId = sdg.getSecretKeyID(sharedKey)
+		HashedId8 sharedKeyId = sdg.getSecretKeyID(SymmAlgorithm.aes128Ccm,sharedKey)
 		SecretKey symKey = cryptoManager.generateSecretKey(alg)
-		HashedId8 symKeyId = sdg.getSecretKeyID(symKey)
+		HashedId8 symKeyId = sdg.getSecretKeyID(SymmAlgorithm.aes128Ccm,symKey)
 		KeyPair rekKeys = cryptoManager.generateKeyPair(alg)
 		HashedId8 rekKeyId = new HashedId8(cryptoManager.digest(rekKeys.getPublic().getEncoded(), alg))
 		
@@ -792,7 +792,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		when:
 		Map res = sdg.buildRecieverStore([new CertificateReciever((PrivateKey) rootCAKeys1.privateKey, rootCA1), 
-			new PreSharedKeyReceiver(sharedKey), new SymmetricKeyReceiver(symKey),
+			new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,sharedKey), new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,symKey),
 			new RekReciever(rekKeys.getPrivate(), rekKeys.getPublic()),
 			new SignedDataReciever(signedDataEncKeys1.privateKey, signedData)])
 		

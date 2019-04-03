@@ -33,9 +33,7 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
-import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.basetypes.PublicKeys;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
@@ -389,7 +387,7 @@ public class SecuredDataGenerator {
 	 * @throws IOException if communication problems occurred when encrypting the data.
 	 */
 	public Ieee1609Dot2Data encryptDataWithPresharedKey(AlgorithmIndicator alg, byte[] data, SecretKey preSharedKey) throws IllegalArgumentException, GeneralSecurityException, IOException{
-		HashedId8 keyId = getSecretKeyID(preSharedKey);
+		HashedId8 keyId = getSecretKeyID(alg,preSharedKey);
 		
 		byte[] nounce = cryptoManager.genNounce(alg);
 		byte[] cipherText = cryptoManager.symmetricEncryptIEEE1609_2_2017(alg, data, preSharedKey.getEncoded(), nounce);
@@ -869,8 +867,9 @@ public class SecuredDataGenerator {
 	/**
 	 * Help method that generated a HashedId8 secret key id from a symmetric key.
 	 */
-	protected HashedId8 getSecretKeyID(SecretKey key) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
-		return new HashedId8(cryptoManager.digest(key.getEncoded(), hashAlgorithm));
+	protected HashedId8 getSecretKeyID(AlgorithmIndicator alg,SecretKey key) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
+		SymmetricEncryptionKey symmetricEncryptionKey = new SymmetricEncryptionKey(SymmetricEncryptionKey.SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(alg),key.getEncoded());
+		return new HashedId8(cryptoManager.digest(symmetricEncryptionKey.getEncoded(), hashAlgorithm));
 	}
 	
 	protected Ieee1609Dot2Data genSignedDataStructure(ToBeSignedData tbsData,  SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PublicKey signerPublicKey, PrivateKey signerPrivateKey, boolean enveloped) throws IllegalArgumentException, InvalidKeySpecException, SignatureException, IOException, NoSuchAlgorithmException{

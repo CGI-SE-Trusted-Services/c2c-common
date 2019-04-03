@@ -22,6 +22,7 @@ import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmetricEncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmRecipientInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmetricCiphertext;
@@ -37,14 +38,22 @@ import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGene
 public class SymmetricKeyReceiver implements Receiver {
 	
 	private SecretKey symmetricKey;
+	private AlgorithmIndicator symKeyAlg;
 	
-	public SymmetricKeyReceiver(SecretKey symmetricKey){
+	public SymmetricKeyReceiver(AlgorithmIndicator symKeyAlg,SecretKey symmetricKey){
 		this.symmetricKey = symmetricKey;
+		this.symKeyAlg = symKeyAlg;
 	}
 
 	@Override
 	public HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws IllegalArgumentException, GeneralSecurityException {
-		return new HashedId8(cryptoManager.digest(symmetricKey.getEncoded(), alg));
+		SymmetricEncryptionKey.SymmetricEncryptionKeyChoices choice = SymmetricEncryptionKey.SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(symKeyAlg);
+		SymmetricEncryptionKey symmetricEncryptionKey = new SymmetricEncryptionKey(choice, symmetricKey.getEncoded());
+		try {
+			return new HashedId8(cryptoManager.digest(symmetricEncryptionKey.getEncoded(), alg));
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Invalid encoded SymmetricKey when calculated the hashedId8 for receiver: " + e.getMessage(),e);
+		}
 	}
 
 	@Override

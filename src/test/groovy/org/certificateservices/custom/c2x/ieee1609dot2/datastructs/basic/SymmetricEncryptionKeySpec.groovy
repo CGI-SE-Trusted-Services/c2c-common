@@ -43,7 +43,7 @@ class SymmetricEncryptionKeySpec extends BaseStructSpec {
 		def p = new SymmetricEncryptionKey(choice,key)
 		
 		then:
-		serializeToHex(p) == encoding
+		Hex.toHexString(p.encoded) == encoding
 		
 		when:
 		SymmetricEncryptionKey p2 = deserializeFromHex(new SymmetricEncryptionKey(), encoding)
@@ -66,6 +66,10 @@ class SymmetricEncryptionKeySpec extends BaseStructSpec {
 		expect:
 		new SymmetricEncryptionKey(SymmetricEncryptionKeyChoices.aes128Ccm,key).toString() == "SymmetricEncryptionKey [aes128Ccm=00000000000000000000000000000100]"
 	}
-	
+
+	def "Verify that SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm returns expected choice"(){
+		expect:
+		SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(SymmAlgorithm.aes128Ccm) == SymmetricEncryptionKeyChoices.aes128Ccm
+	}
 
 }
