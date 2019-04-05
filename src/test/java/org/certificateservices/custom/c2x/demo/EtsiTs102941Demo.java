@@ -19,23 +19,23 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COERIA5String;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.authorization.AuthorizationResponseCode;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.authorization.InnerAtRequest;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.authorization.InnerAtResponse;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.authorization.SharedAtRequest;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.authorizationvalidation.AuthorizationValidationRequest;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.authorizationvalidation.AuthorizationValidationResponse;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.authorizationvalidation.AuthorizationValidationResponseCode;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.basetypes.*;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.camanagement.CaCertificateRequest;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.enrollment.EnrollmentResponseCode;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.enrollment.InnerEcRequest;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.enrollment.InnerEcResponse;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.trustlist.CrlEntry;
-import org.certificateservices.custom.c2x.etsits102941.v121.datastructs.trustlist.ToBeSignedCrl;
-import org.certificateservices.custom.c2x.etsits102941.v121.generator.ETSITS102941MessagesCaGenerator;
-import org.certificateservices.custom.c2x.etsits102941.v121.generator.RequestVerifyResult;
-import org.certificateservices.custom.c2x.etsits102941.v121.generator.VerifyResult;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.AuthorizationResponseCode;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.InnerAtRequest;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.InnerAtResponse;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.SharedAtRequest;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorizationvalidation.AuthorizationValidationRequest;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorizationvalidation.AuthorizationValidationResponse;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorizationvalidation.AuthorizationValidationResponseCode;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.*;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.camanagement.CaCertificateRequest;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.EnrollmentResponseCode;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcRequest;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcResponse;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CrlEntry;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.ToBeSignedCrl;
+import org.certificateservices.custom.c2x.etsits102941.v131.generator.ETSITS102941MessagesCaGenerator;
+import org.certificateservices.custom.c2x.etsits102941.v131.generator.RequestVerifyResult;
+import org.certificateservices.custom.c2x.etsits102941.v131.generator.VerifyResult;
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSigned;
@@ -69,7 +69,7 @@ import static org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSA
 import static org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey.PublicVerificationKeyChoices.ecdsaNistP256;
 
 /**
- * Class demonstrating how to create Etsi TS 102 941 1.2.1 CA Messages API.
+ * Class demonstrating how to create Etsi TS 102 941 1.3.1 CA Messages API.
  */
 public class EtsiTs102941Demo {
 
@@ -160,7 +160,7 @@ public class EtsiTs102941Demo {
         Map<HashedId8, Certificate> enrolCACertStore = messagesCaGenerator.buildCertStore(enrollmentCAChain);
 
         // Build reciever store containing the symmetric key used in the request.
-        Map<HashedId8, Receiver> enrolCredSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(enrolmentRequestResult.getSecretKey())});
+        Map<HashedId8, Receiver> enrolCredSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,enrolmentRequestResult.getSecretKey())});
         VerifyResult<InnerEcResponse> enrolmentResponseResult = messagesCaGenerator.decryptAndVerifyEnrolmentResponseMessage(
                 enrolResponseMessage,
                 enrolCACertStore, // Certificate chain if EA CA
@@ -236,7 +236,7 @@ public class EtsiTs102941Demo {
          To verify AuthorizationResponse use:
          */
         // Build reciever store containing the symmetric key used in the request.
-        Map<HashedId8, Receiver> authTicketSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(authRequestResult.getSecretKey())});
+        Map<HashedId8, Receiver> authTicketSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,authRequestResult.getSecretKey())});
         Map<HashedId8, Certificate> authCACertStore = messagesCaGenerator.buildCertStore(authorizationCAChain);
         VerifyResult<InnerAtResponse> authResponseResult = messagesCaGenerator.decryptAndVerifyAuthorizationResponseMessage(authResponseMessage,
                 authCACertStore, // certificate store containing certificates for auth cert.
@@ -288,7 +288,7 @@ public class EtsiTs102941Demo {
         /*
          To verify an Authorization Validation Response
          */
-        Map<HashedId8, Receiver> authValidationSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(authorizationValidationRequestVerifyResult.getSecretKey())});
+        Map<HashedId8, Receiver> authValidationSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,authorizationValidationRequestVerifyResult.getSecretKey())});
         VerifyResult<AuthorizationValidationResponse> authorizationValidationResponseVerifyResult = messagesCaGenerator.decryptAndVerifyAuthorizationValidationResponseMessage(
                 authorizationValidationResponseMessage,
                 enrolCACertStore,
@@ -453,7 +453,7 @@ public class EtsiTs102941Demo {
                 regionSwe,subjectAssurance,
                 appPermissions, null);
 
-        return new InnerEcRequest(new COERIA5String("SomeEnrolCredCanonicalName"), CertificateFormat.TS103097C131, publicKeys,certificateSubjectAttributes);
+        return new InnerEcRequest("SomeEnrolCredCanonicalName".getBytes("UTF-8"), CertificateFormat.TS103097C131, publicKeys,certificateSubjectAttributes);
     }
 
     private SharedAtRequest genDummySharedAtRequest(PublicKeys publicKeys, byte[] hmacKey) throws Exception {

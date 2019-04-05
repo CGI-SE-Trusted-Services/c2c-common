@@ -65,7 +65,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param minChainDepth the minimal chain length of this PKI hierarchy, Required
 	 * @param chainDepthRange the chain depth range, see 6.4.30 PsidGroupPermissions for details, Required
 	 * @param cTLServiceSpecificPermissions the SSP data used for CTL Service Specific Permissions as defined as 2 octets
-	 *                                      in 102 941 v1.2.1.
+	 *                                      in 102 941 v1.3.1.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required
 	 * @param signPublicKey public key used for verification of this certificate, Required
 	 * @param signPrivateKey private key used to sign this certificate, Required
@@ -158,7 +158,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param validityPeriod, the validity period of this certificate, Required
 	 * @param region, the geographic region of the certificate, Optional
 	 * @param cTLServiceSpecificPermissions the SSP data used for CTL Service Specific Permissions as defined as 2 octets
-	 *                                      in 102 941 v1.2.1.
+	 *                                      in 102 941 v1.3.1.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required
 	 * @param signPublicKey public key used for verification of this certificate, Required
 	 * @param signPrivateKey private key used to sign this certificate, Required

@@ -12,6 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.bouncycastle.util.encoders.Hex;
@@ -19,6 +21,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
+import org.certificateservices.custom.c2x.common.crypto.Algorithm;
+import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 
 /**
  * This data structure encapsulates a ciphertext generated with an approved symmetric algorithm.
@@ -52,6 +56,19 @@ public class SymmetricEncryptionKey extends COERChoice {
 		public boolean isExtension() {
 			return false;
 		}
+
+		/**
+		 * Help method retrieving symmetric key from
+		 * @param alg algorithm indicator to lookup SymmetricEncryptionKeyChoices from.
+		 * @return related SymmetricEncryptionKeyChoices
+		 * @throws IllegalArgumentException if invalid algorithm was found.
+		 */
+		public static SymmetricEncryptionKeyChoices getChoiceFromAlgorithm(AlgorithmIndicator alg) throws IllegalArgumentException{
+			if(alg.getAlgorithm().getSymmetric() == Algorithm.Symmetric.aes128Ccm){
+				return aes128Ccm;
+			}
+			throw new IllegalArgumentException("Invalid algorithm specified for SymmetricEncryptionKey: " + alg.getAlgorithm().getSymmetric());
+		}
 	}
 	
 	/**
@@ -73,6 +90,20 @@ public class SymmetricEncryptionKey extends COERChoice {
 	 */
 	public SymmetricEncryptionKeyChoices getType(){
 		return (SymmetricEncryptionKeyChoices) choice;
+	}
+
+
+	/**
+	 * Encodes the SymmetricEncryptionKey as a byte array.
+	 *
+	 * @return return encoded version of the ToBeSignedData as a byte[]
+	 * @throws IOException if encoding problems of the data occurred.
+	 */
+	public byte[] getEncoded() throws IOException{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(baos);
+		encode(dos);
+		return baos.toByteArray();
 	}
 
 	@Override
