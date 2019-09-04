@@ -155,7 +155,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         EtsiTs103097DataEncryptedUnicast message = messagesCaGenerator.genInitialEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest,enrolCredSignKeys.public,enrolCredSignKeys.private, enrolmentCACert)
 
         EtsiTs103097DataEncryptedUnicast reEncoded = new EtsiTs103097DataEncryptedUnicast(message.encoded)
-
+        println "EC Init Enroll:" + message.encoded.length
         and: // Build trust stores to validate
         def receipients = messagesCaGenerator.buildRecieverStore([ new CertificateReciever(eACAEncKeys.private,enrolmentCACert)])
 
@@ -171,7 +171,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         when: // Test rekey message
         InnerEcRequest innerEcRequest2 = genInnerEcRequest("somItsId", enrolCredReSignKeys.public)
         EtsiTs103097DataEncryptedUnicast message2 = messagesCaGenerator.genRekeyEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest2,enrollmentCredCertChain,enrolCredSignKeys.private,enrolCredReSignKeys.public,enrolCredReSignKeys.private, enrolmentCACert)
-
+        println "EC Rekey Enroll:" + message2.encoded.length
         def certStore = messagesCaGenerator.buildCertStore([enrolmentCredCert,enrolmentCACert,rootCACert])
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
 
@@ -192,6 +192,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         InnerEcResponse innerEcResponse = genInnerEcResponse(requestMessage.encoded,enrolmentCredCert)
         when:
         EtsiTs103097DataEncryptedUnicast responseMessage = messagesCaGenerator.genEnrolmentResponseMessage(new Time64(new Date()), innerEcResponse,[enrolmentCACert,rootCACert] as EtsiTs103097Certificate[], eACASignKeys.private,SymmAlgorithm.aes128Ccm,preSharedKey)
+        println "EC Response: " + responseMessage.encoded.length
         and:
         def certStore = messagesCaGenerator.buildCertStore([enrolmentCACert,rootCACert])
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
@@ -265,7 +266,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
 
         when: // Generate message without privacy
         EtsiTs103097DataEncryptedUnicast message = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, authTicketSignKeys.public,authTicketSignKeys.private,authorizationCACert,enrolmentCACert,true)
-
+        println "AT Request with POP: " + message.encoded.length
         EtsiTs103097DataEncryptedUnicast reEncoded = new EtsiTs103097DataEncryptedUnicast(message.encoded)
 
         and: // Build trust stores to validate
@@ -327,6 +328,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         def receiptStore = messagesCaGenerator.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,preSharedKey)])
 
+        println "AT Response size: " + responseMessage.encoded.length
         VerifyResult<InnerAtResponse> result = messagesCaGenerator.decryptAndVerifyAuthorizationResponseMessage(responseMessage,certStore,trustStore,receiptStore)
         then:
         result.value.toString() == innerAtResponse.toString()
@@ -344,7 +346,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         def certStore = messagesCaGenerator.buildCertStore(authorizationCAChain)
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         def enrolCAReceipients = messagesCaGenerator.buildRecieverStore([ new CertificateReciever(eACAEncKeys.private,enrolmentCACert)])
-
+        println "AuthorizationValidationRequest: " + responseMessage.encoded.length
         RequestVerifyResult<AuthorizationValidationRequest> result = messagesCaGenerator.decryptAndVerifyAuthorizationValidationRequestMessage(responseMessage,certStore,trustStore,enrolCAReceipients)
         then:
         result.value.toString() == authorizationValidationRequest.toString()
@@ -364,7 +366,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         def certStore = messagesCaGenerator.buildCertStore(enrollmentCAChain)
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         def receiptStore = messagesCaGenerator.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,preSharedKey)])
-
+        println "AuthorizationValidationResponse: " + responseMessage.encoded.length
         VerifyResult<AuthorizationValidationResponse> result = messagesCaGenerator.decryptAndVerifyAuthorizationValidationResponseMessage(responseMessage,certStore,trustStore,receiptStore)
         then:
         result.value.toString() == authorizationValidationResponse.toString()

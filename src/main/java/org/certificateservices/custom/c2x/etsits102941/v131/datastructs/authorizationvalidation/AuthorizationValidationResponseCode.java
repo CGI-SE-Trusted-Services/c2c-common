@@ -34,5 +34,5 @@ public enum AuthorizationValidationResponseCode implements COEREnumerationType  
     invalidencryptionkey, // signature is good, but the responseEncryptionKey is bad
     deniedpermissions, // requested permissions not granted
     deniedtoomanycerts, // parallel limit
-    deniedrequest, // any other reason?
+        deniedrequest, // any other reason?
 }

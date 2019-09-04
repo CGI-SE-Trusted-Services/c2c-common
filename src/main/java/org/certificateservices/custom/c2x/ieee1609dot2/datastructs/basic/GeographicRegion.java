@@ -110,7 +110,7 @@ public class GeographicRegion extends COERChoice {
 		IdentifiedRegion[] idRegions = new IdentifiedRegion[identifiedCountries.size()];
 		for(int i=0; i<identifiedCountries.size(); i++){
 			Integer c = identifiedCountries.get(i);
-			idRegions[0] = new IdentifiedRegion(IdentifiedRegionChoices.countryOnly, new CountryOnly(c));
+			idRegions[i] = new IdentifiedRegion(IdentifiedRegionChoices.countryOnly, new CountryOnly(c));
 		}
 		return new GeographicRegion(GeographicRegionChoices.identifiedRegion, new SequenceOfIdentifiedRegion(idRegions));
 	}

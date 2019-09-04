@@ -825,7 +825,7 @@ public class SecuredDataGenerator {
 		
 		retval = trustStore.get(certId);
 		if(retval != null && retval.getType() == CertificateType.implicit){
-			throw new IllegalArgumentException("Error trust ancor cannot be an implicit certificate");
+			throw new IllegalArgumentException("Error trust anchor cannot be an implicit certificate");
 		}
 		return retval;
 		

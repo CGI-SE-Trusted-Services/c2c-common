@@ -94,6 +94,8 @@ public class EtsiTs103097Demo {
 	    		rootCAEncryptionKeys.getPublic()); // encPublicKey
 		// There also exists a more general root ca generation method giving more flexibility in parameters.
 
+		System.out.println("Root CA : " + rootCACertificate.toString());
+		System.out.println("Encoded: " +Hex.toHexString(rootCACertificate.getEncoded()));
 	    		                                                    
 	    // Generate a reference to the Enrollment CA Keys	    
 	    KeyPair enrollmentCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
@@ -116,6 +118,9 @@ public class EtsiTs103097Demo {
 	    		enrollmentCAEncryptionKeys.getPublic() // encryption public key
 	    		);
 
+		System.out.println("-----\n");
+		System.out.println("EA CA : " + enrollmentCACertificate.toString());
+		System.out.println("Encoded: " + Hex.toHexString(enrollmentCACertificate.getEncoded()));
 	    // Generate a reference to the Authorization CA Keys	    
 	    KeyPair authorityCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
 	    KeyPair authorityCAEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
@@ -138,6 +143,9 @@ public class EtsiTs103097Demo {
 	    		authorityCAEncryptionKeys.getPublic() // encryption public key
 	    		);
 
+		System.out.println("-----\n");
+		System.out.println("AA CA : " + authorityCACertificate.toString());
+		System.out.println("Encoded: " +Hex.toHexString(authorityCACertificate.getEncoded()));
 		// It is possible to generate Enrollment and Authorization CAs with more flexible extensions using the
 		// genSubCA() method.
 
@@ -158,8 +166,8 @@ public class EtsiTs103097Demo {
 	    		enrollCertValidityPeriod, 
 	    		region,
 	    		Hex.decode("01C0"), //SSP data set in SecuredCertificateRequestService appPermission, two byte, for example: 0x01C0
-	    		3, // assuranceLevel
-				7, // confidenceLevel
+	    		1, // assuranceLevel
+				3, // confidenceLevel
 	    		SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
 	    		enrollmentCredentialSigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
 	    		enrollmentCACertificate, // signerCertificate
@@ -169,7 +177,9 @@ public class EtsiTs103097Demo {
 	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
 	    		enrollmentCredentialEncryptionKeys.getPublic() // encryption public key
 	    		);
-
+		System.out.println("-----\n");
+		System.out.println("EnrollmentCredential : " + enrollmentCredential.toString());
+		System.out.println("Encoded: " +Hex.toHexString(enrollmentCredential.getEncoded()));
 	    // There also exists a more general method with flexible app permissions.
 	    
 	    //----------------------------------- Authorization Certificate Example ---------------------------------
@@ -202,7 +212,9 @@ public class EtsiTs103097Demo {
 	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
 				authorizationTicketEncryptionKeys.getPublic() // encryption public key
 	    		);
-
+		System.out.println("-----\n");
+		System.out.println("Authorization Ticket : " + authorizationCert.toString());
+		System.out.println("Encoded: " +Hex.toHexString(authorizationCert.getEncoded()));
 		//----------------------------------- Trust List Manager Example ---------------------------------
 		// Trust List Manager Certificate is generated using ETSIAuthorityCertGenerator
 
@@ -243,7 +255,7 @@ public class EtsiTs103097Demo {
 		hashedId3s.add(new HashedId3(cryptoManager.digest(enrollmentCACertificate.getEncoded(),HashAlgorithm.sha256)));
 		SequenceOfHashedId3 inlineP2pcdRequest = new SequenceOfHashedId3(hashedId3s);
 
-		byte[] cAMessageData = Hex.decode("SomeCAMessage");
+		byte[] cAMessageData = Hex.decode("01020304");
 		EtsiTs103097DataSigned cAMessage = securedMessageGenerator.genCAMessage(new Time64(new Date()), // generationTime
 				inlineP2pcdRequest, //  InlineP2pcdRequest (Required)
 				rootCACertificate, // requestedCertificate
@@ -254,7 +266,7 @@ public class EtsiTs103097Demo {
 
 
 		// To generate a Signed DEN Message
-		byte[] dENMessageData = Hex.decode("SomeDENMessage");
+		byte[] dENMessageData = Hex.decode("010203040506");
 		EtsiTs103097DataSigned dENMessage = securedMessageGenerator.genDENMessage(
 				new Time64(new Date()), // generationTime
 				new ThreeDLocation(1,2,3), // generationLocation
@@ -270,7 +282,7 @@ public class EtsiTs103097Demo {
 	      // First generate a Header with
 	    HeaderInfo hi = securedMessageGenerator.genHeaderInfo(
 	    		123L, // psid Required,
-	    		null, // generationTime Optional
+	    		new Date(), // generationTime Optional
 	    		null, // expiryTime Optional
 	    		null, // generationLocation Optional
 	    		null, // p2pcdLearningRequest Optional
