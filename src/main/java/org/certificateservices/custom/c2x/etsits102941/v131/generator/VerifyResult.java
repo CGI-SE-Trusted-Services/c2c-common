@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.generator;
 
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
 
@@ -21,6 +22,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.S
  */
 public class VerifyResult<T> {
 
+    Signature.SignatureChoices signAlg;
     SignerIdentifier signerIdentifier;
     HeaderInfo headerInfo;
     T value;
@@ -28,17 +30,26 @@ public class VerifyResult<T> {
     /**
      * Main constructor
      *
+     * @param signAlg the algorithm used in the signature.
      * @param signerIdentifier the signerIdentifier if related object was signed, otherwise null.
      * @param headerInfo the header info object if related object was signed, otherwise null.
      * @param value the inner message data.
      */
-    public VerifyResult(SignerIdentifier signerIdentifier, HeaderInfo headerInfo, T value) {
+    public VerifyResult(Signature.SignatureChoices signAlg, SignerIdentifier signerIdentifier, HeaderInfo headerInfo, T value) {
+        this.signAlg = signAlg;
         this.signerIdentifier = signerIdentifier;
         this.headerInfo = headerInfo;
         this.value = value;
     }
 
 
+    /**
+     *
+     * @return the algorithm used in signature. Used to check agains whitelist.
+     */
+    public Signature.SignatureChoices getSignAlg(){
+        return signAlg;
+    }
     /**
      *
      * @return the signerIdentifier if related object was signed, otherwise null.
@@ -66,6 +77,7 @@ public class VerifyResult<T> {
     @Override
     public String toString() {
         return "VerifyResult [\n"+
+                "  signAlg=" + (signAlg != null ? signAlg: "NONE") + ",\n" +
                 "  signerIdentifier=" + (signerIdentifier != null ? signerIdentifier.toString().replaceAll("\n", "\n  ") : "NONE") + ",\n" +
                 "  headerInfo=" + (headerInfo != null ? headerInfo.toString().replaceAll("\n", "\n  ") : "NONE") +  ",\n"+
                 "  value=" + getValue().toString().replaceAll("\n","\n  ") + "\n" +

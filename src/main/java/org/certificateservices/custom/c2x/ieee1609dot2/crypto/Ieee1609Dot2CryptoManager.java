@@ -49,7 +49,6 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * 
 	 * @param message the message data to sign.
 	 * @param alg the public key algorithm scheme to use.
-	 * @param publicKey the public key of the certificate.
 	 * @param privateKey the private key used to sign the message.
 	 * @param certType the type of certificate (implicit or explicit)
 	 * @param signingCert the signer or null if self signed.
@@ -59,7 +58,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	Signature signMessage(byte[] message, AlgorithmIndicator alg, PublicKey publicKey, PrivateKey privateKey, CertificateType certType, Certificate signingCert) throws IllegalArgumentException, SignatureException, IOException;
+	Signature signMessage(byte[] message, AlgorithmIndicator alg, PrivateKey privateKey, CertificateType certType, Certificate signingCert) throws IllegalArgumentException, SignatureException, IOException;
 	
 	/**
 	 * Method used to sign the a digest of message according to the IEEE specification with EccPointType x_coordinate_only containing the R value.

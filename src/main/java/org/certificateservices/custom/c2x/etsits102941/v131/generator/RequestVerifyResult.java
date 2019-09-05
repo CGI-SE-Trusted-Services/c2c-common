@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.generator;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
 
@@ -30,13 +31,14 @@ public class RequestVerifyResult<T> extends VerifyResult<T> {
     /**
      * Main constructor
      *
+     * @param signAlg the algorithm used in the signature.
      * @param signerIdentifier the signerIdentifier if related object was signed, otherwise null.
      * @param headerInfo the header info object if related object was signed, otherwise null.
      * @param value the inner message data.
      */
-    public RequestVerifyResult(SignerIdentifier signerIdentifier, HeaderInfo headerInfo, T value,
+    public RequestVerifyResult(Signature.SignatureChoices signAlg, SignerIdentifier signerIdentifier, HeaderInfo headerInfo, T value,
                                byte[] requestHash, SecretKey secretKey) {
-        super(signerIdentifier,headerInfo,value);
+        super(signAlg, signerIdentifier,headerInfo,value);
         this.requestHash = requestHash;
         this.secretKey = secretKey;
     }

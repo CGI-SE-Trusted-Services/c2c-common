@@ -883,7 +883,7 @@ public class SecuredDataGenerator {
 		}else{
 			si = new SignerIdentifier();
 		}
-		Signature signature = cryptoManager.signMessage(tbsData.getEncoded(), signAlgorithm, signerPublicKey, signerPrivateKey, certificateType, signingCert);
+		Signature signature = cryptoManager.signMessage(tbsData.getEncoded(), signAlgorithm,  signerPrivateKey, certificateType, signingCert);
 
 		SignedData signedData = new SignedData(hashAlgorithm, tbsData, si, signature);
 

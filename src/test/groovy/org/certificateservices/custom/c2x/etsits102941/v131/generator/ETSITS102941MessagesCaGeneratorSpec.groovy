@@ -14,6 +14,11 @@ package org.certificateservices.custom.c2x.etsits102941.v131.generator
 
 import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.asn1.coer.COERIA5String
+import org.certificateservices.custom.c2x.etsits102941.v131.DecryptionFailedException
+import org.certificateservices.custom.c2x.etsits102941.v131.ETSITS102941MessagesCaException
+import org.certificateservices.custom.c2x.etsits102941.v131.InternalErrorException
+import org.certificateservices.custom.c2x.etsits102941.v131.MessageParsingException
+import org.certificateservices.custom.c2x.etsits102941.v131.SignatureVerificationException
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.AuthorizationResponseCode
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.InnerAtRequest
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.InnerAtResponse
@@ -42,10 +47,13 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.*
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.BaseCertGeneratorSpec
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.DecryptResult
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.PreSharedKeyReceiver
+import spock.lang.Unroll
 
 import javax.crypto.SecretKey
+import java.security.GeneralSecurityException
 import java.security.KeyPair
 import java.security.PublicKey
 import java.security.SignatureException
@@ -161,6 +169,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
 
         then:
         VerifyResult<InnerEcRequest> result = messagesCaGenerator.decryptAndVerifyEnrolmentRequestMessage(reEncoded,null,null,receipients)
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.value.toString() == innerEcRequest.toString()
         result.requestHash.length == 16
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.self
@@ -177,6 +186,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
 
         VerifyResult<InnerEcRequest> result2 = messagesCaGenerator.decryptAndVerifyEnrolmentRequestMessage(message2,certStore,trustStore,receipients)
         then:
+        result2.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result2.value.toString() == innerEcRequest2.toString()
         result2.requestHash.length == 16
         result2.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.digest
@@ -201,6 +211,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         VerifyResult<InnerEcResponse> result = messagesCaGenerator.decryptAndVerifyEnrolmentResponseMessage(responseMessage,certStore,trustStore,receiptStore)
         then:
         result.value.toString() == innerEcResponse.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.digest
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -224,6 +235,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         VerifyResult<InnerAtRequest> result = messagesCaGenerator.decryptAndVerifyAuthorizationRequestMessage(reEncoded,false,receipients)
         result.value.sharedAtRequest.toString() == sharedAtRequest.toString()
         result.requestHash.length == 16
+        result.signAlg == null
         result.signerIdentifier == null
         result.headerInfo == null
         result.secretKey != null
@@ -247,14 +259,14 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         SharedAtRequest modifiedSharedAtRequest = new SharedAtRequest(modifiedData)
         messagesCaGenerator.decryptAndVerifyECSignature(innerAtRequest.ecSignature,modifiedSharedAtRequest,false,enrollCertStore,rootCATrustStore,null)
         then:
-        def e = thrown SignatureException
+        def e = thrown SignatureVerificationException
         e.message == "Invalid external payload signature in ec signature of innerAtRequest."
 
         when: // Verify that innerATRequest unencrypted content is not accepted if not expected
         def enrolCAReceipients = messagesCaGenerator.buildRecieverStore([ new CertificateReciever(eACAEncKeys.private,enrolmentCACert)])
         messagesCaGenerator.decryptAndVerifyECSignature(innerAtRequest.ecSignature,innerAtRequest.sharedAtRequest,true,enrollCertStore,rootCATrustStore,enrolCAReceipients)
         then:
-        e = thrown IllegalArgumentException
+        e = thrown MessageParsingException
         e.message == "Invalid InnerATRequest received, ECSignature should be encrypted."
     }
 
@@ -275,6 +287,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         then:
         VerifyResult<InnerAtRequest> result = messagesCaGenerator.decryptAndVerifyAuthorizationRequestMessage(reEncoded,true,receipients)
         result.value.sharedAtRequest.toString() == sharedAtRequest.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.requestHash.length == 16
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.self
         result.headerInfo != null
@@ -307,15 +320,16 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         SharedAtRequest modifiedSharedAtRequest = new SharedAtRequest(modifiedData)
         messagesCaGenerator.decryptAndVerifyECSignature(innerAtRequest.ecSignature,modifiedSharedAtRequest,true,enrollCertStore,rootCATrustStore,enrolCAReceipients)
         then:
-        def e = thrown SignatureException
+        def e = thrown SignatureVerificationException
         e.message == "Invalid external payload signature in ec signature of innerAtRequest."
 
         when: // Verify that PoP is verified
         EtsiTs103097DataEncryptedUnicast message2 = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, authTicketSignKeys.public,enrolCredSignKeys.private,authorizationCACert,enrolmentCACert,true)
         messagesCaGenerator.decryptAndVerifyAuthorizationRequestMessage(message2,true,receipients)
         then:
-        e = thrown SignatureException
+        e = thrown SignatureVerificationException
         e.message == "Invalid signature of AuthorizationRequestMessagePoP."
+        e.secretKey != null
     }
 
     def "Verify that genAuthorizationResponseMessage generates correct response message and decryptAndVerifyAuthorizationResponseMessage decrypts the message."(){
@@ -332,6 +346,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         VerifyResult<InnerAtResponse> result = messagesCaGenerator.decryptAndVerifyAuthorizationResponseMessage(responseMessage,certStore,trustStore,receiptStore)
         then:
         result.value.toString() == innerAtResponse.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.digest
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -350,6 +365,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         RequestVerifyResult<AuthorizationValidationRequest> result = messagesCaGenerator.decryptAndVerifyAuthorizationValidationRequestMessage(responseMessage,certStore,trustStore,enrolCAReceipients)
         then:
         result.value.toString() == authorizationValidationRequest.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.digest
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -370,6 +386,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         VerifyResult<AuthorizationValidationResponse> result = messagesCaGenerator.decryptAndVerifyAuthorizationValidationResponseMessage(responseMessage,certStore,trustStore,receiptStore)
         then:
         result.value.toString() == authorizationValidationResponse.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.digest
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -387,6 +404,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         VerifyResult<ToBeSignedCrl> result = messagesCaGenerator.verifyCertificateRevocationListMessage(reEncoded, certStore, trustStore)
         result.value.toString() == toBeSignedCrl.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.certificate
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -404,6 +422,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         VerifyResult<ToBeSignedCrl> result = messagesCaGenerator.verifyTlmCertificateTrustListMessage(reEncoded, certStore, trustStore)
         result.value.toString() == toBeSignedTlmCtl.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.certificate
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -421,6 +440,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         VerifyResult<ToBeSignedCrl> result = messagesCaGenerator.verifyRcaCertificateTrustListMessage(reEncoded, certStore, trustStore)
         result.value.toString() == toBeSignedRcaCtl.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.certificate
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -436,6 +456,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         then:
         VerifyResult<CaCertificateRequest> result = messagesCaGenerator.verifyCACertificateRequestMessage(reEncoded)
         result.value.toString() == caCertificateRequest.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.self
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -453,6 +474,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         then:
         VerifyResult<CaCertificateRequest> result = messagesCaGenerator.verifyCACertificateRekeyingMessage(message,certStore,trustStore)
         result.value.toString() == caCertificateRequest.toString()
+        result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.digest
         result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
         result.headerInfo.generationTime != null
@@ -534,6 +556,39 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         then:
         requestHash.length == 16
         referenceString.startsWith(Hex.toHexString(requestHash))
+    }
+
+    @Unroll
+    def "Verify that convertToParseMessageCAException converts #exception to expected exception #convertedException"(){
+        setup:
+        SecretKey secretKey = Mock(SecretKey)
+        DecryptResult dr = new DecryptResult(secretKey, null)
+        def exceptionInstance = exception.newInstance(["SomeMessage",null] as Object[] )
+        when:
+        ETSITS102941MessagesCaException e
+        try {
+            messagesCaGenerator.convertToParseMessageCAException(exceptionInstance,dr)
+        }catch(Exception e1){
+            e = e1
+        }
+        then:
+        e.class == convertedException
+        e.message == "SomeMessage"
+        e.secretKey == secretKey
+        if(expectCause) {assert e.cause.class == exception}
+
+        where:
+        exception                      | convertedException                 | expectCause
+        IOException                    | MessageParsingException            | true
+        IllegalArgumentException       | MessageParsingException            | true
+        MessageParsingException        | MessageParsingException            | false
+        SignatureException             | SignatureVerificationException     | true
+        SignatureVerificationException | SignatureVerificationException     | false
+        GeneralSecurityException       | DecryptionFailedException          | true
+        DecryptionFailedException      | DecryptionFailedException          | false
+        Exception                      | InternalErrorException             | true
+        InternalErrorException         | InternalErrorException             | false
+
     }
 
     private InnerEcRequest genInnerEcRequest(String itsId, PublicKey signPublicKey = enrolCredSignKeys.public){
