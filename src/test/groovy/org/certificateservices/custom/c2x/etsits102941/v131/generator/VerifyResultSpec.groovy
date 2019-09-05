@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.generator
 
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier
 import spock.lang.Specification
@@ -26,8 +27,9 @@ class VerifyResultSpec extends Specification {
 
     def "Verify constructor and getter"(){
         when:
-        VerifyResult<String> vr1 = new VerifyResult(new SignerIdentifier(), new HeaderInfo(), "test")
+        VerifyResult<String> vr1 = new VerifyResult(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), new HeaderInfo(), "test")
         then:
+        vr1.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         vr1.signerIdentifier != null
         vr1.headerInfo != null
         vr1.value == "test"
@@ -37,7 +39,8 @@ class VerifyResultSpec extends Specification {
         setup:
         HeaderInfo hi = new HeaderInfo(new Psid(1),null,null,null,null,null,null,null,null)
         expect:
-        new VerifyResult(new SignerIdentifier(), hi,  "test").toString() == """VerifyResult [
+        new VerifyResult(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,  "test").toString() == """VerifyResult [
+  signAlg=ecdsaNistP256Signature,
   signerIdentifier=SignerIdentifier [self],
   headerInfo=HeaderInfo [
     psid=[1(1)]

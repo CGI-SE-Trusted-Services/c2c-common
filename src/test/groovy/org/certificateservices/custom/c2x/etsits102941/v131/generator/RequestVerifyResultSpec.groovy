@@ -19,6 +19,7 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authoriz
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.EcSignature
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.PublicKeys
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier
 import spock.lang.Specification
@@ -38,8 +39,9 @@ class RequestVerifyResultSpec extends Specification {
 
     def "Verify constructor and getters"(){
         when:
-        def ard = new RequestVerifyResult<InnerAtRequest>(new SignerIdentifier(), new HeaderInfo(),innerAtRequest,requestHash, Mock(SecretKey))
+        def ard = new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), new HeaderInfo(),innerAtRequest,requestHash, Mock(SecretKey))
         then:
+        ard.getSignAlg() == Signature.SignatureChoices.ecdsaNistP256Signature
         ard.getSignerIdentifier() != null
         ard.getHeaderInfo() != null
         ard.getValue() == innerAtRequest
@@ -52,7 +54,7 @@ class RequestVerifyResultSpec extends Specification {
         setup:
         HeaderInfo hi = new HeaderInfo(new Psid(1),null,null,null,null,null,null,null,null)
         expect:
-        new RequestVerifyResult<InnerAtRequest>(new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey)).toString() == """RequestVerifyResult [
+        new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey)).toString() == """RequestVerifyResult [
   signerIdentifier=SignerIdentifier [self],
   headerInfo=HeaderInfo [
     psid=[1(1)]

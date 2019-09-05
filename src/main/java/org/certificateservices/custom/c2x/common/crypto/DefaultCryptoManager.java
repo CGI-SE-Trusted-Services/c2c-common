@@ -222,11 +222,11 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	}
 	
 	/**
-	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#signMessage(byte[], AlgorithmIndicator, PublicKey, PrivateKey, CertificateType, Certificate)
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#signMessage(byte[], AlgorithmIndicator, PrivateKey, CertificateType, Certificate)
 	 */
 	@Override
 	public org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signMessage(
-			byte[] message, AlgorithmIndicator alg, PublicKey pubKey, PrivateKey privateKey,
+			byte[] message, AlgorithmIndicator alg, PrivateKey privateKey,
 			CertificateType certType,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert)
 			throws IllegalArgumentException, SignatureException, IOException {
