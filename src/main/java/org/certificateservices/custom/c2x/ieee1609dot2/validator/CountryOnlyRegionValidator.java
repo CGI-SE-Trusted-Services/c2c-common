@@ -12,7 +12,6 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.validator;
 
-import org.certificateservices.custom.c2x.common.validator.BaseCertificateValidator;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CountryOnly;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
@@ -22,6 +21,8 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certific
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.certificateservices.custom.c2x.ieee1609dot2.validator.BaseCertificateValidator.isSelfSigned;
 
 /**
  * Implementation of a RegionValidatior that only supports identified region containing country only as type.

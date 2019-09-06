@@ -32,8 +32,6 @@ import java.util.*;
 public abstract class BasePermissionValidator implements PermissionValidator {
 
 
-    // TODO PSID with emtpy data = all ?!?! Verify and test
-
     DefaultSSPLookup defaultSSPLookup;
 
 
@@ -67,7 +65,7 @@ public abstract class BasePermissionValidator implements PermissionValidator {
                         ssp = defaultSSPLookup.getDefaultSSP(psidSsp.getPsid());
                     }
                     if(ssp == null){
-                        throw new InvalidCertificateException("No SSP data found for certificate (Neither in certificate in default) with PSID " + pSId);
+                        throw new InvalidCertificateException("No SSP data found for certificate (Neither in certificate in default) with PSID " + pSId + ".");
                     }
                     List<PsidSspRange> matchingPssidSspRanges = filterPsidSspRangeByPSID(pSId, filterByEndEntityTypeAndChainLength(endEntityType, chainLength+1, issuerCertIssuePermissions.getSequenceValues()));
                     if(matchingPssidSspRanges.size() == 0 &&
@@ -107,14 +105,14 @@ public abstract class BasePermissionValidator implements PermissionValidator {
                 SequenceOfPsidSspRange sequenceOfPsidSspRange = (SequenceOfPsidSspRange) psidGroupPermissions.getSubjectPermissions().getValue();
                 for(Object next : sequenceOfPsidSspRange.getSequenceValues()) {
                     if(next instanceof PsidSspRange){
-                        PsidSspRange psidSspRange = (PsidSspRange) next;
+                        PsidSspRange psidSspRange = getPsidSspRangeWithDefault((PsidSspRange) next);
                         long pSId = psidSspRange.getPsid().getValueAsLong();
                         SspRange sspRange = psidSspRange.getSSPRange();
                         if(sspRange == null){
                             sspRange = defaultSSPLookup.getDefaultSSPRange(psidSspRange.getPsid());
                         }
                         if(sspRange == null){
-                            throw new InvalidCertificateException("No SSPRange data found for certificate (Neither in certificate in default) with PSID " + pSId);
+                            throw new InvalidCertificateException("No SSPRange data found for certificate (Neither in certificate in default) with PSID " + pSId + ".");
                         }
                         List<PsidSspRange> matchingPssidSspRanges = filterPsidSspRangeByPSID(pSId, filterByEndEntityTypeAndChainLength(endEntityType, chainLength+1, issuerCertIssuePermissions.getSequenceValues()));
                         if(matchingPssidSspRanges.size() == 0 &&
@@ -215,7 +213,7 @@ public abstract class BasePermissionValidator implements PermissionValidator {
                     if(next instanceof PsidSspRange){
                         PsidSspRange psidSspRange = (PsidSspRange) next;
                         if(psidSspRange.getPsid().getValueAsLong() == psid){
-                            retval.add(psidSspRange);
+                            retval.add(getPsidSspRangeWithDefault(psidSspRange));
                         }
                     }else{
                         throw new InvalidCertificateException("Invalid SequenceOfPsidSspRange in certificate, only PsidSspRange should be in sequence.");
@@ -280,9 +278,6 @@ public abstract class BasePermissionValidator implements PermissionValidator {
                 if(chainLength < permissions.getMinChainDepth()){
                     continue;
                 }
-                System.out.println("Min chain Length: " + permissions.getMinChainDepth());
-                System.out.println("Chain Depth Range: " + permissions.getChainDepthRange());
-                System.out.println("Chain Length: " + chainLength);
                 // (b) less than or equal to minChainLength + chainLengthRange certificates.
                 if( chainLength >  (permissions.getMinChainDepth() + permissions.getChainDepthRange())){
                     continue;
@@ -456,10 +451,6 @@ public abstract class BasePermissionValidator implements PermissionValidator {
 
                 boolean allBytesValid = true;
                 for(int i=0;i< bitmaskP.length;i++) {
-                    System.out.println("sspValueA[" + i + "]: " + String.format("%8s", Integer.toBinaryString(sspValueA[i] & 0xFF)).replace(' ', '0'));
-                    System.out.println("bitmaskP[" + i + "]: " + String.format("%8s", Integer.toBinaryString(bitmaskP[i] & 0xFF)).replace(' ', '0'));
-                    System.out.println("result[" + i + "]: " + String.format("%8s", Integer.toBinaryString((sspValueA[i] & bitmaskP[i]) & 0xFF)).replace(' ', '0'));
-                    System.out.println("sspValueP[" + i + "]: " + String.format("%8s", Integer.toBinaryString((sspValueP[i] & bitmaskP[i])& 0xFF)).replace(' ', '0'));
                     if((sspValueA[i] & bitmaskP[i]) != (sspValueP[i] & bitmaskP[i])){
                         allBytesValid = false;
                     }
@@ -475,6 +466,16 @@ public abstract class BasePermissionValidator implements PermissionValidator {
         }
     }
 
+    private PsidSspRange getPsidSspRangeWithDefault(PsidSspRange psidSspRange) throws InvalidCertificateException{
+        SspRange sspRange = psidSspRange.getSSPRange();
+        if(sspRange == null){
+            sspRange = defaultSSPLookup.getDefaultSSPRange(psidSspRange.getPsid());
+        }
+        if(sspRange == null){
+            throw new InvalidCertificateException("No SSPRange data found for certificate (Neither in certificate in default) with PSID " + psidSspRange.getPsid().getValueAsLong() + ".");
+        }
+        return new PsidSspRange(psidSspRange.getPsid(),sspRange);
+    }
 
 
 }

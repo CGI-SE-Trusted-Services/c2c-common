@@ -14,7 +14,6 @@ package org.certificateservices.custom.c2x.etsits103097.v131.validator;
 
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.common.Certificate;
-import org.certificateservices.custom.c2x.common.validator.BaseCertificateValidator;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BitmapSsp;
@@ -23,6 +22,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PsidSsp
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ServiceSpecificPermissions;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.PsidGroupPermissions;
+import org.certificateservices.custom.c2x.ieee1609dot2.validator.BaseCertificateValidator;
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.BasePermissionValidator;
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.DefaultSSPLookup;
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.EmptyDefaultSSPLookup;
@@ -61,12 +61,13 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      *
      * @param targetEndEntityType the target end entity type to validate.
      * @param certificateChain the certificate chain with end entity certificate first.
+     * @param entireChain if entireChain should be validated or only first certificate in chain.
      * @throws IllegalArgumentException if one of the specified parameters was invalid.
      * @throws InvalidCertificateException if certificate chain contained invalid permissions.
      */
     @Override
-    public void checkPermissions(EndEntityType targetEndEntityType, Certificate[] certificateChain) throws IllegalArgumentException, InvalidCertificateException {
-        checkPermissions(targetEndEntityType,0,certificateChain);
+    public void checkPermissions(EndEntityType targetEndEntityType, Certificate[] certificateChain, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException {
+        checkPermissions(targetEndEntityType,0,certificateChain, entireChain);
     }
 
     /**
@@ -78,16 +79,21 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      *                         entity certificate should chainLengthIndex be 0, if certificate chain starts with issuer of end entity certificate it should
      *                         be 1 and so on incremented up to root certificate in chain.
      * @param certificateChain the certificate chain with end entity certificate first.
+     * @param entireChain if entireChain should be validated or only first certificate in chain.
      * @throws IllegalArgumentException if one of the specified parameters was invalid.
      * @throws InvalidCertificateException if certificate chain contained invalid permissions.
      */
     @Override
-    public void checkPermissions(EndEntityType targetEndEntityType, int chainLengthIndex, Certificate[] certificateChain) throws IllegalArgumentException, InvalidCertificateException {
+    public void checkPermissions(EndEntityType targetEndEntityType, int chainLengthIndex, Certificate[] certificateChain, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException {
         org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] ieee160CertChain = BaseCertificateValidator.toIEEE1609Certificates(certificateChain);
 
-        if(ieee160CertChain.length > 1){
-            for(int i=0;i<(ieee160CertChain.length-1);i++){
-                checkPermissions(targetEndEntityType,i + chainLengthIndex,ieee160CertChain[i], ieee160CertChain[i+1]);
+        if (ieee160CertChain.length > 1) {
+            if(entireChain) {
+                for (int i = 0; i < (ieee160CertChain.length - 1); i++) {
+                    checkPermissions(targetEndEntityType, i + chainLengthIndex, ieee160CertChain[i], ieee160CertChain[i + 1]);
+                }
+            }else{
+                checkPermissions(targetEndEntityType, chainLengthIndex, ieee160CertChain[0], ieee160CertChain[1]);
             }
         }
     }

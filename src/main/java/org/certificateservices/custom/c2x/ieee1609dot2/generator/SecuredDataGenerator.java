@@ -12,23 +12,6 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.SignatureException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.crypto.SecretKey;
-
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
@@ -37,35 +20,26 @@ import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateType;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier.IssuerIdentifierChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SequenceOfCertificate;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.AesCcmCiphertext;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedData;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PKRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.PreSharedKeyRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo.RecipientInfoChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SequenceOfRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmRecipientInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmetricCiphertext;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HashedData.HashedDataChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content.Ieee1609Dot2ContentChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.MissingCrlIdentifier;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedData;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedDataPayload;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier.SignerIdentifierChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.ToBeSignedData;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.Recipient;
+
+import javax.crypto.SecretKey;
+import java.io.IOException;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.util.*;
 
 
 
@@ -108,6 +82,7 @@ public class SecuredDataGenerator {
 	HashAlgorithm hashAlgorithm;
 	ECQVHelper ecqvHelper;	
 	SignatureChoices signAlgorithm;
+	CertChainBuilder certChainBuilder;
 
 	/**
 	 * Main constructor.
@@ -125,6 +100,7 @@ public class SecuredDataGenerator {
 		this.signAlgorithm = signAlgorithm;
 		
 		ecqvHelper = new ECQVHelper(cryptoManager);
+		certChainBuilder = new CertChainBuilder(cryptoManager);
 	}
 
 	/**
@@ -303,7 +279,7 @@ public class SecuredDataGenerator {
 			}
 			HashedId8 signerId = getSignerId(sd.getSigner());
 			Map<HashedId8, Certificate> signedDataStore = getSignedDataStore(sd.getSigner());
-			Certificate[] signerCertChain = buildChain(signerId, signedDataStore, certStore, trustStore);
+			Certificate[] signerCertChain = certChainBuilder.buildChain(signerId, signedDataStore, certStore, trustStore);
 			PublicKey signerPublicKey = getSignerPublicKey(signerCertChain);
 			return cryptoManager.verifySignature(sd.getTbsData().getEncoded(), sd.getSignature(), signerCertChain[0], signerPublicKey);
 		}catch(NoSuchAlgorithmException e){
@@ -365,7 +341,7 @@ public class SecuredDataGenerator {
 			}
 			HashedId8 signerId = getSignerId(sd.getSigner());
 			Map<HashedId8, Certificate> signedDataStore = getSignedDataStore(sd.getSigner());
-			Certificate[] signerCertChain = buildChain(signerId, signedDataStore, certStore, trustStore);
+			Certificate[] signerCertChain = certChainBuilder.buildChain(signerId, signedDataStore, certStore, trustStore);
 			PublicKey signerPublicKey = getSignerPublicKey(signerCertChain);
 			return cryptoManager.verifySignature(sd.getTbsData().getEncoded(), sd.getSignature(), signerCertChain[0], signerPublicKey);
 		}catch(NoSuchAlgorithmException e){
@@ -773,65 +749,6 @@ public class SecuredDataGenerator {
 
 
 	/**
-	 * Help method to build a certificate chain from a signerId and two collections of known certificates and trust store.
-	 * 
-	 * @throws IllegalArgumentException if chain couldn't be built.
-	 */
-	protected Certificate[] buildChain(HashedId8 signerId, Map<HashedId8, Certificate> signedDataStore, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
-		List<Certificate> foundCerts = new ArrayList<Certificate>();
-		// find first cert
-		Certificate firstCert=null;
-		firstCert = findFromStores(signerId, signedDataStore, certStore, trustStore);
-	
-		if(firstCert == null){
-			throw new IllegalArgumentException("Error no certificate found in certstore for id : " + signerId);
-		}
-		foundCerts.add(firstCert);
-		Certificate nextCert = firstCert;
-		while(nextCert.getIssuer().getType() != IssuerIdentifierChoices.self){
-			HashedId8 issuerId = (HashedId8) nextCert.getIssuer().getValue();
-			nextCert = findFromStores(issuerId, signedDataStore, certStore, trustStore);
-			if(nextCert == null){
-				throw new IllegalArgumentException("Error no certificate found in certstore for id : " + signerId);
-			}
-			foundCerts.add(nextCert);
-		}
-		
-		HashedId8 trustAncor = getCertID(foundCerts.get(foundCerts.size() -1));
-		if(trustStore.get(trustAncor) == null){
-			throw new IllegalArgumentException("Error last certificate in chain wasn't a trust anchor: " + trustAncor);
-		}
-		
-		return foundCerts.toArray(new Certificate[foundCerts.size()]);
-	}
-	
-
-	/**
-	 * Help method that tries to first find the certificate from cert store and then in trust store if not found.
-	 * It also checks that trust store certificate is an explicit certificate.
-	 * @return the found certificate or null if no certificate found in any of the stores.
-	 * @throws if found an implicit certificate in trust store.
-	 */
-	protected Certificate findFromStores(HashedId8 certId, Map<HashedId8, Certificate> signedDataStore, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws IllegalArgumentException{
-		Certificate retval = signedDataStore.get(certId);
-		if(retval != null){
-			return retval;
-		}
-		
-		retval = certStore.get(certId);
-		if(retval != null){
-			return retval;
-		}
-		
-		retval = trustStore.get(certId);
-		if(retval != null && retval.getType() == CertificateType.implicit){
-			throw new IllegalArgumentException("Error trust anchor cannot be an implicit certificate");
-		}
-		return retval;
-		
-	}
-
-	/**
 	 * Help method to get a HashedId8 cert id from a SignerIdentifier.
 	 */
 	protected HashedId8 getSignerId(SignerIdentifier signer) throws IllegalArgumentException, NoSuchAlgorithmException, IOException {
@@ -842,7 +759,7 @@ public class SecuredDataGenerator {
 			throw new IllegalArgumentException("SignedData cannot be self signed");
 		}
 		SequenceOfCertificate sc = (SequenceOfCertificate) signer.getValue();
-		return getCertID((Certificate) sc.getSequenceValues()[0]);
+		return certChainBuilder.getCertID((Certificate) sc.getSequenceValues()[0]);
 	}
 	
 	
@@ -857,12 +774,6 @@ public class SecuredDataGenerator {
 		return buildCertStore(Arrays.copyOf(certs,certs.length, Certificate[].class));
 	}
 	
-	/**
-	 * Help method that generated a HashedId8 cert id from a certificate.
-	 */
-	protected HashedId8 getCertID(Certificate cert) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
-		return new HashedId8(cryptoManager.digest(cert.getEncoded(), hashAlgorithm));
-	}
 
 	/**
 	 * Help method that generated a HashedId8 secret key id from a symmetric key.

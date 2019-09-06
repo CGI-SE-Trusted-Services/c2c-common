@@ -12,7 +12,6 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.validator;
 
-import org.certificateservices.custom.c2x.common.validator.BaseCertificateValidator;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
 import org.certificateservices.custom.c2x.common.validator.TimeValidator;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration;
@@ -33,12 +32,19 @@ public class Ieee1609Dot2TimeValidator implements TimeValidator {
      *
      * @param currentTime      the expected time to verify the certificate against.
      * @param certificateChain the certificate to verify region in, end entity certificate first and root cert last.
+     * @param entireChain if entireChain should be validated or only first certificate in chain.
      * @throws InvalidCertificateException if the given certificate chain was invalid for the specified time.
      * @throws IllegalArgumentException    if other argument was invalid when validation the certificate.
      */
     @Override
-    public void validateTime(Date currentTime, org.certificateservices.custom.c2x.common.Certificate[] certificateChain) throws IllegalArgumentException, InvalidCertificateException {
-        Certificate[] chain = BaseCertificateValidator.toIEEE1609Certificates(certificateChain);
+    public void validateTime(Date currentTime, org.certificateservices.custom.c2x.common.Certificate[] certificateChain,
+                             boolean entireChain) throws IllegalArgumentException, InvalidCertificateException {
+        Certificate[] chain;
+        if(entireChain){
+            chain = BaseCertificateValidator.toIEEE1609Certificates(certificateChain);
+        }else{
+            chain = new Certificate[] {(org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate) certificateChain[0]};
+        }
 
         for(Certificate certificate : chain){
             ValidityPeriod validityPeriod = certificate.getToBeSigned().getValidityPeriod();

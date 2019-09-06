@@ -18,6 +18,7 @@ import org.certificateservices.custom.c2x.common.crypto.CryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException
+import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID
 import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSIAuthorityCertGenerator
 import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSIAuthorizationTicketGenerator
 import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSIEnrollmentCredentialGenerator
@@ -56,6 +57,8 @@ import java.security.KeyPair
 class BasePermissionValidatorSpec extends Specification {
 
     ETSI103097PermissionValidator permissionValidator = new ETSI103097PermissionValidator()
+    ETSI103097PermissionValidator permissionValidatorWithLookup = new ETSI103097PermissionValidator(new TestDefaultSSPLookup())
+
 
     static Ieee1609Dot2CryptoManager cryptoManager
 
@@ -68,7 +71,7 @@ class BasePermissionValidatorSpec extends Specification {
         cryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"))
     }
 
-    def "Verify that certificate that has subject permissions all accpets all permissions"(){
+    def "Verify that certificate that has subject permissions all accepts all permissions"(){
         setup:
         def chainWithAllPermissions = genCertChain([
                 [type: "subca",
@@ -88,7 +91,7 @@ class BasePermissionValidatorSpec extends Specification {
         ])
         when:
         //printChain(chainWithAllPermissions)
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithAllPermissions)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithAllPermissions, true)
         then:
         true
     }
@@ -121,7 +124,7 @@ class BasePermissionValidatorSpec extends Specification {
         ])
         when:
         //printChain(chainWithAllPermissions)
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithAllPermissions)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithAllPermissions, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidGroupPermissions for PSID 623, No matching PsidGroupPermissions found in issuer certificate."
@@ -147,7 +150,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithInvalidBitmaskLength)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithInvalidBitmaskLength, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid sequenceOfPsidSsp found in certificate permissions, duplicate PSID 623 found."
@@ -173,7 +176,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithInvalidBitmaskLength)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithInvalidBitmaskLength, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidSspRange for PSID 623, bitmap in certificate have different length."
@@ -198,7 +201,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidSspRange for PSID 623, issuer SSPRange is of type opaque, not expected bitmapSspRange."
@@ -223,7 +226,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidGroupPermissions for PSID 623, No matching PsidGroupPermissions found in issuer certificate."
@@ -248,7 +251,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
         then:
         true
     }
@@ -281,7 +284,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithInvalidBitmaskLength)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chainWithInvalidBitmaskLength, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidGroupPermissions for PSID 623, bitmaps in certificate have different length."
@@ -314,7 +317,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidGroupPermissions for PSID 623, issuer SSPRange is of type opaque, not expected bitmapSspRange."
@@ -347,7 +350,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidGroupPermissions for PSID 623, No matching PsidGroupPermissions found in issuer certificate."
@@ -380,7 +383,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidGroupPermissions for PSID 623, No matching PsidGroupPermissions found in issuer certificate."
@@ -413,7 +416,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
         then:
         true
     }
@@ -445,7 +448,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "No issuer permission with SspRange of type all found for PSID 623."
@@ -476,7 +479,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
         then:
         true
     }
@@ -509,7 +512,7 @@ class BasePermissionValidatorSpec extends Specification {
                 ]
         ])
         then:
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         when: // Verify when appPermission does not match list in issuer
         chain = genCertChain([
                 [type: "subca",
@@ -536,7 +539,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid PsidSsp Permissions for PSID 623, no matching octet stream found in issuer."
@@ -566,7 +569,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         then:
         e = thrown InvalidCertificateException
         e.message == "Invalid PsidSspRange for PSID: 623 could not find matching permissions in issuer certificate."
@@ -597,7 +600,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         then:
         e = thrown InvalidCertificateException
         e.message == "Invalid PsidSspRange for PSID: 623 could not find matching permissions in issuer certificate."
@@ -630,7 +633,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
         then:
         true
     }
@@ -662,7 +665,7 @@ class BasePermissionValidatorSpec extends Specification {
                  ]
                 ]
         ])
-        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain)
+        permissionValidator.checkPermissions(new EndEntityType(false,true), 1, chain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "No issuer permission with SspRange of type all found for PSID 623."
@@ -831,6 +834,117 @@ class BasePermissionValidatorSpec extends Specification {
 
     }
 
+    def "Verify that appPermission with empty SSP for given PSID is lookup in the configured DefaultSSPLookup, and verify that InvalidCertificateException is thrown if no SSP could be found."(){
+        setup:
+        def chain =  genCertChain([
+                [type: "ec",
+                 name: "Test EC",
+                 appPermissions: [[psid: 623]]
+                ],
+                [type: "subca",
+                 name: "Test EA",
+                 appPermissions: [[psid: 623, bitmapSsp: "010E"]],
+                 certIssuePermissions: [[subjectPermissions: [
+                         [psid: 36, sspValue: "01FFFF", sspBitmask: "FF0000"],
+                         [psid: 37, sspValue: "01FFFFFF", sspBitmask: "FF000000"],
+                         [psid: 137, sspValue: "01F8", sspBitmask: "FF07"],
+                         [psid: 138, sspValue: "01E0", sspBitmask: "FF1F"],
+                         [psid: 139, sspValue: "01940000FFF8", sspBitmask: "FF0000000007"],
+                         [psid: 140, sspValue: "01FFFFFE", sspBitmask: "FF000001"],
+                         [psid: 141, sspValue: "00", sspBitmask: "FF"],
+                         [psid: 623, sspValue: "01C0", sspBitmask: "FF3F"],
+                 ],
+                                         minChainDepth: 1,
+                                         chainDepthRange: 0,
+                                         endEntityType: [app: false, enroll: true]]
+                 ]
+                ],
+                [type: "rootca",
+                 name: "Test Rootca",
+                 appPermissions: [[psid: 624, bitmapSsp: "0138"],[psid: 622, bitmapSsp: "01"]],
+                 certIssuePermissions: [[subjectPermissions: [
+                         [psid: 36, sspValue: "01FFFF", sspBitmask: "FF0000"],
+                         [psid: 37, sspValue: "01FFFFFF", sspBitmask: "FF000000"],
+                         [psid: 137, sspValue: "01F8", sspBitmask: "FF07"],
+                         [psid: 138, sspValue: "01E0", sspBitmask: "FF1F"],
+                         [psid: 139, sspValue: "01940000FFF8", sspBitmask: "FF0000000007"],
+                         [psid: 140, sspValue: "01FFFFFE", sspBitmask: "FF000001"],
+                         [psid: 141, sspValue: "00", sspBitmask: "FF"],
+                         [psid: 623, sspValue: "01FE", sspBitmask: "FF01"],
+                 ],
+                                         minChainDepth: 2,
+                                         chainDepthRange: 0,
+                                         endEntityType: [app: true, enroll: true]]
+                 ]
+                ]
+        ])
+        when:
+        permissionValidatorWithLookup.checkPermissions(new EndEntityType(false,true), chain, true)
+        then:
+        true
+        when: // Default permissionValidator have a defaultSSPLookup that always returns null
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
+        then:
+        def e = thrown InvalidCertificateException
+        e.message == "No SSP data found for certificate (Neither in certificate in default) with PSID 623."
+
+    }
+
+    def "Verify that certIssuePermission with empty SSPRange for given PSID is lookup in the configured DefaultSSPLookup, and verify that InvalidCertificateException is thrown if no SSPRange could be found."(){
+        setup:
+        def chain =  genCertChain([
+                [type: "ec",
+                 name: "Test EC",
+                 appPermissions: [[psid: 623, bitmapSsp: "01C0"]]
+                ],
+                [type: "subca",
+                 name: "Test EA",
+                 appPermissions: [[psid: 623, bitmapSsp: "010E"]],
+                 certIssuePermissions: [[subjectPermissions: [
+                         [psid: 36, sspValue: "01FFFF", sspBitmask: "FF0000"],
+                         [psid: 37, sspValue: "01FFFFFF", sspBitmask: "FF000000"],
+                         [psid: 137, sspValue: "01F8", sspBitmask: "FF07"],
+                         [psid: 138, sspValue: "01E0", sspBitmask: "FF1F"],
+                         [psid: 139, sspValue: "01940000FFF8", sspBitmask: "FF0000000007"],
+                         [psid: 140, sspValue: "01FFFFFE", sspBitmask: "FF000001"],
+                         [psid: 141, sspValue: "00", sspBitmask: "FF"],
+                         [psid: 623],
+                 ],
+                                         minChainDepth: 1,
+                                         chainDepthRange: 0,
+                                         endEntityType: [app: false, enroll: true]]
+                 ]
+                ],
+                [type: "rootca",
+                 name: "Test Rootca",
+                 appPermissions: [[psid: 624, bitmapSsp: "0138"],[psid: 622, bitmapSsp: "01"]],
+                 certIssuePermissions: [[subjectPermissions: [
+                         [psid: 36, sspValue: "01FFFF", sspBitmask: "FF0000"],
+                         [psid: 37, sspValue: "01FFFFFF", sspBitmask: "FF000000"],
+                         [psid: 137, sspValue: "01F8", sspBitmask: "FF07"],
+                         [psid: 138, sspValue: "01E0", sspBitmask: "FF1F"],
+                         [psid: 139, sspValue: "01940000FFF8", sspBitmask: "FF0000000007"],
+                         [psid: 140, sspValue: "01FFFFFE", sspBitmask: "FF000001"],
+                         [psid: 141, sspValue: "00", sspBitmask: "FF"],
+                         [psid: 623, sspValue: "01FE", sspBitmask: "FF01"],
+                 ],
+                                         minChainDepth: 2,
+                                         chainDepthRange: 0,
+                                         endEntityType: [app: true, enroll: true]]
+                 ]
+                ]
+        ])
+        when:
+        permissionValidatorWithLookup.checkPermissions(new EndEntityType(false,true), chain, true)
+        then:
+        true
+        when: // Default permissionValidator have a defaultSSPLookup that always returns null
+        permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
+        then:
+        def e = thrown InvalidCertificateException
+        e.message == "No SSPRange data found for certificate (Neither in certificate in default) with PSID 623."
+
+    }
 
     static Certificate[] genValidChain(){
         return genCertChain([
@@ -1036,6 +1150,41 @@ class BasePermissionValidatorSpec extends Specification {
         chain.each{
             println "---------------------------------------------"
             println it
+        }
+    }
+
+    static class TestDefaultSSPLookup implements DefaultSSPLookup{
+
+        /**
+         * Method to return default ServiceSpecificPermissions for a specific Psid. If no default value exist
+         * should null be returned.
+         *
+         * @param psid the PSID to lookup default ssp range for.
+         * @return the default ServiceSpecificPermissions defined for given Psid or null.
+         */
+        @Override
+        ServiceSpecificPermissions getDefaultSSP(Psid psid) {
+            if(psid == AvailableITSAID.SecuredCertificateRequestService ){
+                return new ServiceSpecificPermissions(ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.bitmapSsp,
+                new BitmapSsp(Hex.decode("01C0")))
+            }
+            return null
+        }
+
+        /**
+         * Method to return default SspRange for a specific Psid. If no default value exist
+         * should null be returned.
+         *
+         * @param psid the PSID to lookup default ssp range for.
+         * @return the default SspRange defined for given psid or null.
+         */
+        @Override
+        SspRange getDefaultSSPRange(Psid psid) {
+            if(psid == AvailableITSAID.SecuredCertificateRequestService ){
+                return new SspRange(SspRange.SspRangeChoices.bitmapSspRange,
+                        new BitmapSspRange(Hex.decode("01C0"),Hex.decode("FF3F")))
+            }
+            return null
         }
     }
 }

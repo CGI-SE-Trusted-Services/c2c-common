@@ -12,10 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.validator;
 
-import org.certificateservices.custom.c2x.common.Certificate;
 import org.certificateservices.custom.c2x.common.validator.RegionValidator;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier;
 
 /**
  * Abstract base class of region validators containing in common help methods.
@@ -25,16 +23,11 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerId
 public abstract class BaseRegionValidator implements RegionValidator {
 
 
-
     /**
-     * Method to check if issuer of certificate is self signed.
-     * @param certificate the certificate to check
-     * @return true if self signed.
+     * Help method to get the GeographicRegion from a certificate
+     * @param certificate the certificate to fetch region from
+     * @return the region field in the certificate.
      */
-    protected boolean isSelfSigned(org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate){
-        return certificate.getIssuer().getType() == IssuerIdentifier.IssuerIdentifierChoices.self;
-    }
-
     protected GeographicRegion getRegion(org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate){
         return certificate.getToBeSigned().getRegion();
     }

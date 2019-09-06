@@ -27,11 +27,12 @@ public interface PermissionValidator {
      * all permissions set in the certificate for the given end entity type.
      *
      * @param targetEndEntityType the target end entity type to validate.
-     * @param certificateChain the certificate chain with end entity certificate first.
+     * @param certificateChain the certificate chain with end entity certificate first. Must be at least length of 2
+     * @param entireChain if entireChain should be validated or only first certificate in chain.
      * @throws IllegalArgumentException if one of the specified parameters was invalid.
      * @throws InvalidCertificateException if certificate chain contained invalid permissions.
      */
-    void checkPermissions(EndEntityType targetEndEntityType, Certificate[] certificateChain) throws IllegalArgumentException, InvalidCertificateException;
+    void checkPermissions(EndEntityType targetEndEntityType, Certificate[] certificateChain, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException;
 
     /**
      * Special use-case method to validate permissions in a certificate chain that starts with a ca certificate. It will check
@@ -41,9 +42,10 @@ public interface PermissionValidator {
      * @param chainLengthIndex index parameter send to retrieve the correct group permissions from certificate. If validating chain that starts with end
      *                         entity certificate should chainLengthIndex be 0, if certificate chain starts with issuer of end entity certificate it should
      *                         be 1 and so on incremented up to root certificate in chain.
-     * @param certificateChain the certificate chain with end entity certificate first.
+     * @param certificateChain the certificate chain with end entity certificate first. Must be at least length of 2
+     * @param entireChain if entireChain should be validated or only first certificate in chain.
      * @throws IllegalArgumentException if one of the specified parameters was invalid.
      * @throws InvalidCertificateException if certificate chain contained invalid permissions.
      */
-    void checkPermissions(EndEntityType targetEndEntityType, int chainLengthIndex, Certificate[] certificateChain) throws IllegalArgumentException, InvalidCertificateException;
+    void checkPermissions(EndEntityType targetEndEntityType, int chainLengthIndex, Certificate[] certificateChain, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException;
 }

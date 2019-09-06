@@ -51,7 +51,7 @@ class Ieee1609Dot2TimeValidatorSpec extends Specification {
                                       [type: "subca", name: "some subca", startTime: "2019-07-01 14:01:02", duration: 1, durationUnit: "years"],
                                       [type: "rootca", name: "some rootca", startTime: "2019-06-01 14:01:02", duration: 2, durationUnit: "years"]])
         when:
-        validator.validateTime(toDate("2019-08-01 15:01:02"), certChain)
+        validator.validateTime(toDate("2019-08-01 15:01:02"), certChain, true)
         then:
         true
     }
@@ -62,7 +62,7 @@ class Ieee1609Dot2TimeValidatorSpec extends Specification {
                                       [type: "subca", name: "some subca", startTime: "2019-07-01 14:01:02", duration: 1, durationUnit: "years"],
                                       [type: "rootca", name: "some rootca", startTime: "2019-06-01 14:01:02", duration: 2, durationUnit: "years"]])
         when:
-        validator.validateTime(toDate("2019-08-02 14:01:03"), certChain)
+        validator.validateTime(toDate("2019-08-02 14:01:03"), certChain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Expired certificate exists in chain."
@@ -74,7 +74,7 @@ class Ieee1609Dot2TimeValidatorSpec extends Specification {
                                       [type: "subca", name: "some subca", startTime: "2019-07-01 14:01:02", duration: 1, durationUnit: "years"],
                                       [type: "rootca", name: "some rootca", startTime: "2019-06-01 14:01:02", duration: 2, durationUnit: "years"]])
         when:
-        validator.validateTime(toDate("2019-08-01 14:01:01"), certChain)
+        validator.validateTime(toDate("2019-08-01 14:01:01"), certChain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid certificate in chain, not yet valid."
@@ -86,7 +86,7 @@ class Ieee1609Dot2TimeValidatorSpec extends Specification {
                                       [type: "subca", name: "some subca", startTime: "2019-09-01 14:01:02", duration: 1, durationUnit: "years"],
                                       [type: "rootca", name: "some rootca", startTime: "2019-06-01 14:01:02", duration: 2, durationUnit: "years"]])
         when:
-        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain)
+        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid certificate in chain, not yet valid."
@@ -98,7 +98,7 @@ class Ieee1609Dot2TimeValidatorSpec extends Specification {
                                       [type: "subca", name: "some subca", startTime: "2019-07-01 14:01:02", duration: 1, durationUnit: "hours"],
                                       [type: "rootca", name: "some rootca", startTime: "2019-06-01 14:01:02", duration: 2, durationUnit: "years"]])
         when:
-        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain)
+        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Expired certificate exists in chain."
@@ -111,7 +111,7 @@ class Ieee1609Dot2TimeValidatorSpec extends Specification {
                                       [type: "subca", name: "some subca", startTime: "2019-07-01 14:01:02", duration: 1, durationUnit: "years"],
                                       [type: "rootca", name: "some rootca", startTime: "2019-09-01 14:01:02", duration: 2, durationUnit: "years"]])
         when:
-        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain)
+        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Invalid certificate in chain, not yet valid."
@@ -123,10 +123,27 @@ class Ieee1609Dot2TimeValidatorSpec extends Specification {
                                       [type: "subca", name: "some subca", startTime: "2019-07-01 14:01:02", duration: 1, durationUnit: "years"],
                                       [type: "rootca", name: "some rootca", startTime: "2019-06-01 14:01:02", duration: 2, durationUnit: "hours"]])
         when:
-        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain)
+        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain, true)
         then:
         def e = thrown InvalidCertificateException
         e.message == "Expired certificate exists in chain."
+    }
+
+    def "Verify that only first certificate is checked if entireChain is false"(){
+        setup:
+        def certChain = genCertChain([[type: "endentity", name: "some endEntity", startTime: "2019-08-01 14:01:02", duration: 24, durationUnit: "hours"],
+                                      [type: "subca", name: "some subca", startTime: "2019-07-01 14:01:02", duration: 1, durationUnit: "years"],
+                                      [type: "rootca", name: "some rootca", startTime: "2019-06-01 14:01:02", duration: 2, durationUnit: "hours"]])
+        when:
+        validator.validateTime(toDate("2019-08-01 15:01:01"), certChain, false)
+        then:
+        true
+        when: // Verify that first is checked
+        when:
+        validator.validateTime(toDate("2019-08-01 13:01:01"), certChain, false)
+        then:
+        def e = thrown InvalidCertificateException
+        e.message == "Invalid certificate in chain, not yet valid."
     }
 
     @Unroll

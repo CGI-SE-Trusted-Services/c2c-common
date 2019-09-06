@@ -28,6 +28,7 @@ public interface RegionValidator {
      *
      * @param checkRegion the expected region to validate the certificate for.
      * @param certificateChain the certificate to verify region in, end entity certificate first and root cert last.
+     *
      * @throws InvalidCertificateException if region in given certificate was invalid.
      * @throws IllegalArgumentException if other argument was invalid not related to the region in the certificate.
      */
