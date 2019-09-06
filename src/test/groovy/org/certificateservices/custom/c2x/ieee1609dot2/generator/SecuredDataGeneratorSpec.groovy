@@ -160,7 +160,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		decryptedText == clearText
 		
 		when: "Verify that illegal argument is thrown if key is not known"
-		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,,k2)]))
+		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
 		thrown IllegalArgumentException
 		
@@ -237,7 +237,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		ed.getRecipients().size() == 1
 		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
 		ri.getType() == RecipientInfoChoices.certRecipInfo
-		((PKRecipientInfo) ri.getValue()).getRecipientId() == sdg.getCertID(enrollCert1)
+		((PKRecipientInfo) ri.getValue()).getRecipientId() == sdg.certChainBuilder.getCertID(enrollCert1)
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
 		when: "Verify that text is decrypted correctly for a known key"
@@ -612,108 +612,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		certs[0] == enrollCert
 		certs[1] == enrollCA
 	}
-	
-	def "Verify that buildCertStore() generates certificate store maps correctly and buildChain generates correct certificate chain"(){
-		setup:
-		def alg = PublicVerificationKeyChoices.ecdsaNistP256
-		KeyPair rootCAKeys1 = cryptoManager.generateKeyPair(alg)
-		Certificate rootCA1 = genRootCA(rootCAKeys1)
-		HashedId8 rootCA1Id = sdg.getCertID(rootCA1)
-		KeyPair rootCAKeys2 = cryptoManager.generateKeyPair(alg)
-		Certificate rootCA2 = genRootCA(rootCAKeys2)
-		HashedId8 rootCA2Id = sdg.getCertID(rootCA2)
-		KeyPair enrollCAKeys1 = cryptoManager.generateKeyPair(alg)
-		Certificate enrollCA1 = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys1, rootCAKeys1, rootCA1)
-		HashedId8 enrollCA1Id = sdg.getCertID(enrollCA1)
-		KeyPair enrollCAKeys2 = cryptoManager.generateKeyPair(alg)
-		Certificate enrollCA2 = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys2, rootCAKeys2, rootCA2)
-		HashedId8 enrollCA2Id = sdg.getCertID(enrollCA2)
-		KeyPair enrollCertKeys1 = cryptoManager.generateKeyPair(alg)
-		Certificate enrollCert1 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys1, enrollCAKeys1.publicKey, enrollCAKeys1.privateKey, enrollCA1)
-		HashedId8 enrollCert1Id = sdg.getCertID(enrollCert1)
-		KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(alg)
-		Certificate enrollCert2 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys2, enrollCAKeys2.publicKey, enrollCAKeys2.privateKey, enrollCA2)
-		HashedId8 enrollCert2Id = sdg.getCertID(enrollCert2)
 
-		when: "Verify that buildCertStore generates correct stores"
-		Map<HashedId8, Certificate> trustStore = sdg.buildCertStore([rootCA1, rootCA2] as Certificate[])
-		Map<HashedId8, Certificate> certStore1 = sdg.buildCertStore([enrollCA1, enrollCA2, enrollCert1] as Certificate[])
-		Map<HashedId8, Certificate> certStore2 = sdg.buildCertStore([enrollCA1, enrollCA2, rootCA2] as Certificate[])
-		Map<HashedId8, Certificate> signedDataStore1 = sdg.buildCertStore([enrollCA2, enrollCert2] as Certificate[])
-		Map<HashedId8, Certificate> signedDataStore2 = sdg.buildCertStore([enrollCert2] as Certificate[])
-		then: 
-		trustStore.size() == 2
-		trustStore.get(rootCA1Id) == rootCA1
-		trustStore.get(rootCA2Id) == rootCA2
-		
-		certStore1.size() == 3
-		certStore1.get(enrollCA1Id) == enrollCA1
-		certStore1.get(enrollCA2Id) == enrollCA2
-		certStore1.get(enrollCert1Id) == enrollCert1
-		
-
-		when: "Verify that buildChain constructs a correct chain for a root ca only chain"
-		Certificate[] c = sdg.buildChain(rootCA2Id, signedDataStore1, certStore1, trustStore)
-		then:
-		c.length == 1
-		c[0] == rootCA2
-		
-		when: "Verify that buildChain constructs a chain from all three stores"
-		c = sdg.buildChain(enrollCert2Id, signedDataStore1, certStore1, trustStore)
-		then:
-		c.length == 3
-		c[0] == enrollCert2
-		c[1] == enrollCA2
-		c[2] == rootCA2
-		
-		when: "Verify that illegal argument is found if signing certificate cannot be found"
-		sdg.buildChain(enrollCert2Id, [:], [:], [:])
-		then:
-		thrown IllegalArgumentException
-		
-		when: "Verify that illegal argument is found if root certificate cannot be found as trust anchor"
-		sdg.buildChain(enrollCert2Id, signedDataStore1, certStore2, [:])
-		then:
-		thrown IllegalArgumentException
-		
-		when: "Verify that illegal argument is found if intermediate certificate cannot be found"
-		sdg.buildChain(enrollCert2Id, signedDataStore2, [:], trustStore)
-		then:
-		thrown IllegalArgumentException
-	}
-
-	def "Verify that findFromStores finds certificate from stores"(){
-		setup:
-		KeyPair rootCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
-		Certificate rootCA = genRootCA(rootCAKeys)
-		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
-		Certificate enrollCA = genEnrollCA(CertificateType.implicit, PublicVerificationKeyChoices.ecdsaNistP256, enrollCAKeys, rootCAKeys, rootCA)
-		HashedId8 certId = sdg.getCertID(enrollCA)
-		HashedId8 rootCertId = sdg.getCertID(rootCA)
-		expect:
-		sdg.findFromStores(certId, [(certId):enrollCA], [:], [:]) == enrollCA
-		sdg.findFromStores(certId, [:],[(certId):enrollCA], [:]) == enrollCA
-		sdg.findFromStores(rootCertId, [:],[:],[(rootCertId):rootCA]) == rootCA
-		sdg.findFromStores(certId, [:],[:],[:]) == null
-		
-		when: "Verify that implicit trust ancor generates IllegalArgumentException"
-		sdg.findFromStores(certId, [:],[:],[(certId):enrollCA])
-		
-		then:
-		thrown IllegalArgumentException
-		
-	}
-	
-	def "Verify getCertID generates a correct HashedId8"(){
-		setup:
-		KeyPair rootCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
-		Certificate rootCA = genRootCA(rootCAKeys)
-
-		when:
-		HashedId8 certId = sdg.getCertID(rootCA)
-		then:
-		certId == new HashedId8(cryptoManager.digest(rootCA.getEncoded(), HashAlgorithm.sha256))
-	}
 
 	def "Verify that getSignerId throws IllegalArgumentException if SignerIdentifier is self"(){
 		when:
@@ -726,7 +625,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		setup:
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate rootCA = genRootCA(rootCAKeys)
-		def certId = sdg.getCertID(rootCA)
+		def certId = sdg.certChainBuilder.getCertID(rootCA)
 		expect:
 		sdg.getSignerId(new SignerIdentifier(certId)) == certId
 	}
@@ -737,7 +636,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		Certificate rootCA = genRootCA(rootCAKeys)
 		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate enrollCA = genEnrollCA(CertificateType.implicit, PublicVerificationKeyChoices.ecdsaNistP256, enrollCAKeys, rootCAKeys, rootCA)
-		def certId = sdg.getCertID(enrollCA)
+		def certId = sdg.certChainBuilder.getCertID(enrollCA)
 		expect:
 		sdg.getSignerId(new SignerIdentifier(new SequenceOfCertificate([enrollCA, rootCA]))) == certId
 
@@ -753,7 +652,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate rootCA = genRootCA(rootCAKeys)
 		expect:
-		sdg.getSignedDataStore(new SignerIdentifier(sdg.getCertID(rootCA))).size() == 0
+		sdg.getSignedDataStore(new SignerIdentifier(sdg.certChainBuilder.getCertID(rootCA))).size() == 0
 	}
 
 	def "Verify that getSignedDataStore returns a populate map of all certificate if SignerIdentifier is certificate"(){
@@ -767,8 +666,8 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 
 		then:
 		result.size() == 2
-		result.get(sdg.getCertID(rootCA)) == rootCA
-		result.get(sdg.getCertID(enrollCA)) == enrollCA
+		result.get(sdg.certChainBuilder.getCertID(rootCA)) == rootCA
+		result.get(sdg.certChainBuilder.getCertID(enrollCA)) == enrollCA
 	}
 	
 
@@ -778,7 +677,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		def alg = BasePublicEncryptionKeyChoices.ecdsaNistP256
 		KeyPair rootCAKeys1 = cryptoManager.generateKeyPair(alg)
 		Certificate rootCA1 = genRootCA(rootCAKeys1)
-		HashedId8 rootCA1Id = sdg.getCertID(rootCA1)
+		HashedId8 rootCA1Id = sdg.certChainBuilder.getCertID(rootCA1)
 		SecretKey sharedKey = cryptoManager.generateSecretKey(alg)
 		HashedId8 sharedKeyId = sdg.getSecretKeyID(SymmAlgorithm.aes128Ccm,sharedKey)
 		SecretKey symKey = cryptoManager.generateSecretKey(alg)
