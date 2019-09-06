@@ -160,7 +160,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		decryptedText == clearText
 		
 		when: "Verify that illegal argument is thrown if key is not known"
-		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,,k2)]))
+		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
 		thrown IllegalArgumentException
 		
