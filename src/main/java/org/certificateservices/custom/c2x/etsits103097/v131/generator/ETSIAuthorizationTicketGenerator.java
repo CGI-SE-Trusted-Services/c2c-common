@@ -86,6 +86,51 @@ public class ETSIAuthorizationTicketGenerator extends BaseCertGenerator {
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
 			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+
+
+		PublicEncryptionKey encryptionKey = null;
+		if(symmAlgorithm != null && encPublicKeyAlgorithm != null && encPublicKey != null){
+			encryptionKey = new PublicEncryptionKey(symmAlgorithm, new BasePublicEncryptionKey(encPublicKeyAlgorithm, convertToPoint(encPublicKeyAlgorithm, encPublicKey)));
+		}
+		PublicVerificationKey verifyKeyIndicator = new PublicVerificationKey(getPublicVerificationAlgorithm(signingPublicKeyAlgorithm), convertToPoint(signingPublicKeyAlgorithm, signPublicKey));
+
+
+		return genAuthorizationTicket(validityPeriod, region, subjectAssurance, appPermissions,
+				signingPublicKeyAlgorithm, verifyKeyIndicator, signerCertificate, signCertificatePublicKey, signCertificatePrivateKey,
+				encryptionKey);
+
+	}
+
+	/**
+	 * Method to generate an authorization ticket end entity certificate.
+	 *
+	 * @param validityPeriod, the validity period of this certificate, Required
+	 * @param region, the geographic region of the certificate, Required
+	 * @param subjectAssurance the subjectAssurance, Optional.
+	 * @param appPermissions an array of app permissions set in certificate.
+	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required if type is explicit
+	 * @param signPublicKey public key used for verification of this certificate, Required
+	 * @param signerCertificate the signing certificate (Root CA), Required
+	 * @param signCertificatePublicKey the signing certificates public key, Required
+	 * @param signCertificatePrivateKey the signing certificates private key, Required
+	 * @param encryptionKey The PublicEncryptionKey to include in the certificate.
+	 * @return a new self signed certificate with root CA profile.
+	 *
+	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws SignatureException if internal signature problems occurred.
+	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
+	 */
+	public EtsiTs103097Certificate genAuthorizationTicket(
+			ValidityPeriod validityPeriod,
+			GeographicRegion region,
+			SubjectAssurance subjectAssurance,
+			PsidSsp[] appPermissions,
+			AlgorithmIndicator signingPublicKeyAlgorithm,
+			PublicVerificationKey signPublicKey,
+			Certificate signerCertificate,
+			PublicKey signCertificatePublicKey,
+			PrivateKey signCertificatePrivateKey,
+			PublicEncryptionKey encryptionKey) throws IllegalArgumentException,  SignatureException, IOException{
 		// See 6.4.8 ToBeSignedCertificate - certIssuePermissions for details
 		CertificateId id = new CertificateId();
 
@@ -94,15 +139,11 @@ public class ETSIAuthorizationTicketGenerator extends BaseCertGenerator {
 			appPermissionsSequence = new SequenceOfPsidSsp(appPermissions);
 		}
 
-		PublicEncryptionKey encryptionKey = null;
-		if(symmAlgorithm != null && encPublicKeyAlgorithm != null && encPublicKey != null){
-			encryptionKey = new PublicEncryptionKey(symmAlgorithm, new BasePublicEncryptionKey(encPublicKeyAlgorithm, convertToPoint(encPublicKeyAlgorithm, encPublicKey)));
-		}
-		PublicVerificationKey verifyKeyIndicator = new PublicVerificationKey(getPublicVerificationAlgorithm(signingPublicKeyAlgorithm), convertToPoint(signingPublicKeyAlgorithm, signPublicKey));
-		VerificationKeyIndicator vki = new VerificationKeyIndicator(verifyKeyIndicator);
+		VerificationKeyIndicator vki = new VerificationKeyIndicator(signPublicKey);
 
 		ToBeSignedCertificate tbs = new ToBeSignedCertificate(id, new HashedId3(Hex.decode("000000")), new CrlSeries(0), validityPeriod, region, subjectAssurance, appPermissionsSequence, null, null, false, encryptionKey, vki);
-		return (EtsiTs103097Certificate) genCert(tbs, CertificateType.explicit, signingPublicKeyAlgorithm, signPublicKey, signCertificatePrivateKey, signCertificatePublicKey,signerCertificate);
+		// In future when supporting implicit certificate cannot public key be null in following call.
+		return (EtsiTs103097Certificate) genCert(tbs, CertificateType.explicit, signingPublicKeyAlgorithm,  null, signCertificatePrivateKey, signCertificatePublicKey,signerCertificate);
 
 	}
 

@@ -65,7 +65,7 @@ public abstract class BaseCertGenerator {
 	 * Generate and attaches a signature to the given certificate.
 	 */
 	protected Certificate signAndGenCertificate(int version, IssuerIdentifier issuerId, ToBeSignedCertificate tbs,  PublicVerificationKeyChoices alg, PublicKey publicKey, PrivateKey privateKey, CertificateType certType, Certificate signCert) throws IOException, IllegalArgumentException, SignatureException{
-		Signature signature = cryptoManager.signMessage(tbs.getEncoded(), alg, publicKey, privateKey, certType,signCert);
+		Signature signature = cryptoManager.signMessage(tbs.getEncoded(), alg, privateKey, certType,signCert);
 		
 		return new Certificate(version, issuerId, tbs, signature);		
 	}
@@ -105,7 +105,7 @@ public abstract class BaseCertGenerator {
 			}
 			Signature signature;
 			if(certType == CertificateType.explicit){
-			  signature = cryptoManager.signMessage(toBeSignedData, alg, publicKey, signingPrivateKey, certType, signingCert);
+			  signature = cryptoManager.signMessage(toBeSignedData, alg, signingPrivateKey, certType, signingCert);
 			  return newCertificate(issuerIdentifier, tbs, signature);
 			}else{
 				ImplicitCertificateData cert = new ImplicitCertificateData(issuerIdentifier, tbs);
