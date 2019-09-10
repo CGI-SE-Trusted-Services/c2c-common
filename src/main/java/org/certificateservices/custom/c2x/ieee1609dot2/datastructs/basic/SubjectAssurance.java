@@ -59,7 +59,7 @@ public class SubjectAssurance extends COEROctetStream {
 	public SubjectAssurance(int assuranceLevel, int confidenceLevel) throws IllegalArgumentException{
 		super(OCTETSTRING_SIZE, OCTETSTRING_SIZE);
 		if(assuranceLevel< 0 || assuranceLevel > 7){
-			throw new IllegalArgumentException("Illegal subject assurrance level, should be between 0 and 5");
+			throw new IllegalArgumentException("Illegal subject assurrance level, should be between 0 and 7");
 		}
 		if(confidenceLevel< 0 || confidenceLevel > 3){
 			throw new IllegalArgumentException("Illegal subject confidence level, should be between 0 and 3");

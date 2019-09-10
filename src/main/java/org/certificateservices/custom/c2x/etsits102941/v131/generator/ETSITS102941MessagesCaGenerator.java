@@ -538,7 +538,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if problems occurred signing the data.
      * @throws IOException if problems occurred deserializing the data.
      */
-    public EtsiTs103097DataEncryptedUnicast genAuthorizationRequestMessage(Time64 generationTime, PublicKeys publicKeys, byte[] hmacKey, SharedAtRequest sharedAtRequest,
+        public EtsiTs103097DataEncryptedUnicast genAuthorizationRequestMessage(Time64 generationTime, PublicKeys publicKeys, byte[] hmacKey, SharedAtRequest sharedAtRequest,
                                                                     EtsiTs103097Certificate[] enrolmentCredentialChain, PrivateKey enrolmentCredentialPrivateKey,
                                                                     PublicKey authorizationTicketPublicKey, PrivateKey authorizationTicketPrivateKey,
                                                                     Certificate authorizationAuthorityRecipient,Certificate enrolmentAuthorityRecipient, boolean withPrivacy) throws IllegalArgumentException, IOException, GeneralSecurityException {
