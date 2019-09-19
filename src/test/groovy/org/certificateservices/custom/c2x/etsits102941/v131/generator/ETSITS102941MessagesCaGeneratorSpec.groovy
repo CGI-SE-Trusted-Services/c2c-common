@@ -549,10 +549,11 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
 
     def "Verify that genRequestHash() generates a valid request hash"(){
         setup:
-        byte[] data = rootCACert.encoded // In real world should a signed message data be used, but any data is ok for this test.
+        def message = messagesCaGenerator.genAuthorizationValidationRequest(new Time64(new Date()), genAuthorizationValidationRequest(),authorizationCAChain, aACASignKeys.private,enrolmentCACert)
+        byte[] data = message.encoded
         String referenceString = Hex.toHexString(cryptoManager.digest(data,HashAlgorithm.sha256))
         when:
-        byte[] requestHash = messagesCaGenerator.genRequestHash(data)
+        byte[] requestHash = messagesCaGenerator.genRequestHash(message, null)
         then:
         requestHash.length == 16
         referenceString.startsWith(Hex.toHexString(requestHash))
@@ -564,10 +565,11 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         SecretKey secretKey = Mock(SecretKey)
         DecryptResult dr = new DecryptResult(secretKey, null)
         def exceptionInstance = exception.newInstance(["SomeMessage",null] as Object[] )
+        def requestHash = [1,2,3] as byte[]
         when:
         ETSITS102941MessagesCaException e
         try {
-            messagesCaGenerator.convertToParseMessageCAException(exceptionInstance,dr)
+            messagesCaGenerator.convertToParseMessageCAException(exceptionInstance,dr, requestHash)
         }catch(Exception e1){
             e = e1
         }
@@ -575,6 +577,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         e.class == convertedException
         e.message == "SomeMessage"
         e.secretKey == secretKey
+        e.requestHash == requestHash
         if(expectCause) {assert e.cause.class == exception}
 
         where:

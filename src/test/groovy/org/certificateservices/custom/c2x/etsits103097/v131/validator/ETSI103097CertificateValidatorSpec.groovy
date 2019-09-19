@@ -19,6 +19,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.validator.CountryOnlyRegi
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.Ieee1609Dot2TimeValidator
 import spock.lang.Specification
 
+import static org.certificateservices.custom.c2x.etsits103097.v131.validator.SecuredCertificateRequestServicePermissions.SIGN_AUTH_REQ
 import static org.certificateservices.custom.c2x.etsits103097.v131.validator.SecuredCertificateRequestServicePermissions.SIGN_AUTH_VALIDATION_RESP
 import static org.certificateservices.custom.c2x.etsits103097.v131.validator.SecuredCertificateRequestServicePermissions.VERSION_1
 
@@ -63,6 +64,7 @@ class ETSI103097CertificateValidatorSpec extends Specification {
         ETSI103097CertificateValidator validator = new ETSI103097CertificateValidator(cryptoManager, timeValidator, regionValidator, permissionValidator)
         Certificate[] chain = [] as Certificate[]
         when:
+
         validator.checkCertServicePermissionInAppPermissions(VERSION_1, SIGN_AUTH_VALIDATION_RESP, chain)
         then:
         1 * permissionValidator.checkCertServicePermissionInAppPermissions(VERSION_1, SIGN_AUTH_VALIDATION_RESP, chain)
