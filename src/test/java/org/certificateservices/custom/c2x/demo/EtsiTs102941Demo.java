@@ -46,6 +46,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2Crypto
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.EncryptResult;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.PreSharedKeyReceiver;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
@@ -93,12 +94,12 @@ public class EtsiTs102941Demo {
 
         // First create the InnerEcRequest object
         InnerEcRequest initialInnerEcRequest = genDummyInnerEcRequest(enrolCredSignKeys.getPublic());
-        EtsiTs103097DataEncryptedUnicast initialEnrolRequestMessage = messagesCaGenerator.genInitialEnrolmentRequestMessage(
+        EncryptResult initialEnrolRequestMessageResult = messagesCaGenerator.genInitialEnrolmentRequestMessage(
                 new Time64(new Date()), // generation Time
                 initialInnerEcRequest,
                 enrolCredSignKeys.getPublic(),enrolCredSignKeys.getPrivate(), // The key pair used in the enrolment credential used for self signed PoP
                 enrolmentCACert); // The EA certificate to encrypt message to.
-
+        EtsiTs103097DataEncryptedUnicast initialEnrolRequestMessage = (EtsiTs103097DataEncryptedUnicast) initialEnrolRequestMessageResult.getEncryptedData();
         // All messages can be encoded to byte[] using
         byte[] encodedMessage = initialEnrolRequestMessage.getEncoded();
 
@@ -110,14 +111,14 @@ public class EtsiTs102941Demo {
          */
         // Use a separate method when performing rekey that contains signature of previous message.
         InnerEcRequest reKeyInnerEcRequest = genDummyInnerEcRequest(enrolCredReSignKeys.getPublic());
-        EtsiTs103097DataEncryptedUnicast rekeyEnrolRequestMessage = messagesCaGenerator.genRekeyEnrolmentRequestMessage(
+        EncryptResult rekeyEnrolRequestMessageResult = messagesCaGenerator.genRekeyEnrolmentRequestMessage(
                 new Time64(new Date()), // generation Time
                 reKeyInnerEcRequest, // Inner EC Request containing PublicKeys with new keys.
                 enrollmentCredCertChain, // The certificate chain of the current (old) enrolment credential.
                 enrolCredSignKeys.getPrivate(), // Private key if current (old) enrolment credential.
                 enrolCredReSignKeys.getPublic(),enrolCredReSignKeys.getPrivate(), // The key pair used in the enrolment credential used for self signed PoP
                 enrolmentCACert); // The EA certificate to encrypt message to.
-
+        EtsiTs103097DataEncryptedUnicast rekeyEnrolRequestMessage = (EtsiTs103097DataEncryptedUnicast) rekeyEnrolRequestMessageResult.getEncryptedData();
         /*
          To verify both initial and rekey EnrolRequestMessage.
          */
@@ -160,7 +161,7 @@ public class EtsiTs102941Demo {
         Map<HashedId8, Certificate> enrolCACertStore = messagesCaGenerator.buildCertStore(enrollmentCAChain);
 
         // Build reciever store containing the symmetric key used in the request.
-        Map<HashedId8, Receiver> enrolCredSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,enrolmentRequestResult.getSecretKey())});
+        Map<HashedId8, Receiver> enrolCredSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,rekeyEnrolRequestMessageResult.getSecretKey())});
         VerifyResult<InnerEcResponse> enrolmentResponseResult = messagesCaGenerator.decryptAndVerifyEnrolmentResponseMessage(
                 enrolResponseMessage,
                 enrolCACertStore, // Certificate chain if EA CA
@@ -180,7 +181,7 @@ public class EtsiTs102941Demo {
         byte[] hmacKey = genHmacKey();
         SharedAtRequest sharedAtRequest = genDummySharedAtRequest(publicKeys, hmacKey);
 
-        EtsiTs103097DataEncryptedUnicast authRequestMessage = messagesCaGenerator.genAuthorizationRequestMessage(
+        EncryptResult authRequestMessageResult = messagesCaGenerator.genAuthorizationRequestMessage(
                 new Time64(new Date()), // generation Time
                 publicKeys,
                 hmacKey,
@@ -193,7 +194,7 @@ public class EtsiTs102941Demo {
                 enrolmentCACert, // Encrypt inner ecSignature with given certificate, required if withPrivacy is true.
                 true // Encrypt the inner ecSignature message sent to EA
         );
-
+        EtsiTs103097DataEncryptedUnicast authRequestMessage = (EtsiTs103097DataEncryptedUnicast) authRequestMessageResult.getEncryptedData();
          /*
          To verify an AuthorizationRequest use the following code.
          */
@@ -252,13 +253,14 @@ public class EtsiTs102941Demo {
         AuthorizationValidationRequest authorizationValidationRequest = new AuthorizationValidationRequest(
                 innerAtRequest.getSharedAtRequest(),innerAtRequest.getEcSignature());
 
-        EtsiTs103097DataEncryptedUnicast authorizationValidationRequestMessage = messagesCaGenerator.genAuthorizationValidationRequest(
+        EncryptResult authorizationValidationRequestMessageResult = messagesCaGenerator.genAuthorizationValidationRequest(
                 new Time64(new Date()), // generation Time
                 authorizationValidationRequest,
                 authorizationCAChain,// The AA certificate chain to generate the signature.
                 authorizationCASignKeys.getPrivate(), // The AA signing keys
                 enrolmentCACert); // The EA certificate to encrypt data to.
 
+        EtsiTs103097DataEncryptedUnicast authorizationValidationRequestMessage = (EtsiTs103097DataEncryptedUnicast) authorizationValidationRequestMessageResult.getEncryptedData();
          /*
          To verify an Authorization Validation Request
          */

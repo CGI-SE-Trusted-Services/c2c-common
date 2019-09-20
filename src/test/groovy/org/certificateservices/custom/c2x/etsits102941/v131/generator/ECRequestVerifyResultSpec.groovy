@@ -1,15 +1,3 @@
-/************************************************************************
- *                                                                       *
- *  Certificate Service -  Car2Car Core                                  *
- *                                                                       *
- *  This software is free software; you can redistribute it and/or       *
- *  modify it under the terms of the GNU Affero General Public License   *
- *  License as published by the Free Software Foundation; either         *
- *  version 3   of the License, or any later version.                    *
- *                                                                       *
- *  See terms of license at gnu.org.                                     *
- *                                                                       *
- *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.generator
 
 import org.bouncycastle.util.encoders.Hex
@@ -27,11 +15,11 @@ import spock.lang.Specification
 import javax.crypto.SecretKey
 
 /**
- * Unit tests for RequestVerifyResult
+ * Unit tests for ECRequestVerifyResult
  *
- * @author Philip Vendil, p.vendil@cgi.com
+ * @author Philip Vendil p.vendil@cgi.com
  */
-class RequestVerifyResultSpec extends Specification {
+class ECRequestVerifyResultSpec extends Specification {
 
     InnerAtRequest innerAtRequest = genInnerAtRequest()
     byte[] requestHash = Hex.decode("01020304050607080910111213141516")
@@ -39,8 +27,9 @@ class RequestVerifyResultSpec extends Specification {
 
     def "Verify constructor and getters"(){
         when:
-        def ard = new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), new HeaderInfo(),innerAtRequest,requestHash, Mock(SecretKey))
+        def ard = new ECRequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature, Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), new HeaderInfo(),innerAtRequest,requestHash, Mock(SecretKey))
         then:
+        ard.getInnerSignAlg() == Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature
         ard.getSignAlg() == Signature.SignatureChoices.ecdsaNistP256Signature
         ard.getSignerIdentifier() != null
         ard.getHeaderInfo() != null
@@ -54,7 +43,8 @@ class RequestVerifyResultSpec extends Specification {
         setup:
         HeaderInfo hi = new HeaderInfo(new Psid(1),null,null,null,null,null,null,null,null)
         expect:
-        new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey)).toString() == """RequestVerifyResult [
+        new ECRequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature, Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey)).toString() == """ECRequestVerifyResult [
+  innerSignAlg=ecdsaBrainpoolP256r1Signature,
   signAlg=ecdsaNistP256Signature,
   signerIdentifier=SignerIdentifier [self],
   headerInfo=HeaderInfo [

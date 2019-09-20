@@ -31,6 +31,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signatu
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.DecryptAndVerifyResult;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.EncryptResult;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
@@ -307,11 +308,11 @@ public class EtsiTs103097Demo {
 	    // The message can be encrypted with the method
 	      // First construct a list of recipient which have the public key specified either as a symmetric key, certificate or in header of signed data
 	      // In this example we will use certificate as reciever, see package org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient for more details.
-		EtsiTs103097DataEncrypted encryptedData = securedMessageGenerator.genEtsiTs103097DataEncrypted(BasePublicEncryptionKeyChoices.ecdsaNistP256,
+		EncryptResult encryptedDataResult = securedMessageGenerator.genEtsiTs103097DataEncrypted(BasePublicEncryptionKeyChoices.ecdsaNistP256,
 	    		  signedData.getEncoded(), new Recipient[] {new CertificateRecipient(enrollmentCredential)});
-
+		EtsiTs103097DataEncrypted encryptedData = (EtsiTs103097DataEncrypted) encryptedDataResult.getEncryptedData();
 	    // It is also possible to sign and encrypt in one go.
-		EtsiTs103097DataEncrypted encryptedAndSignedMessage = securedMessageGenerator.genEtsiTs103097DataSignedAndEncrypted(hi,
+		EncryptResult encryptedAndSignedMessageResult = securedMessageGenerator.genEtsiTs103097DataSignedAndEncrypted(hi,
 	    		"TestData2".getBytes(),
 	    		SecuredDataGenerator.SignerIdentifierType.HASH_ONLY,
 	    		new EtsiTs103097Certificate[] {authorizationCert,authorityCACertificate, rootCACertificate},
@@ -319,6 +320,7 @@ public class EtsiTs103097Demo {
 	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,
 	    		new Recipient[] {new CertificateRecipient(enrollmentCredential)});
 
+		EtsiTs103097DataEncrypted encryptedAndSignedMessage = (EtsiTs103097DataEncrypted) encryptedAndSignedMessageResult.getEncryptedData();
 	    // To decrypt and verify a signed message it is possible to use the following
 	      // First build a truststore of trust anchors (root CA certificate or equivalent)
 	    Map<HashedId8, Certificate> trustStore = securedMessageGenerator.buildCertStore(new EtsiTs103097Certificate[] {rootCACertificate});
