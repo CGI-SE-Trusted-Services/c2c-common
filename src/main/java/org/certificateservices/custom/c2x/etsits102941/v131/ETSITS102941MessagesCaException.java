@@ -27,6 +27,7 @@ import javax.crypto.SecretKey;
 public abstract class ETSITS102941MessagesCaException extends Exception{
 
     SecretKey secretKey;
+    byte[] requestHash;
 
     /**
      * Constructs a new exception with the specified detail message.  The
@@ -44,6 +45,24 @@ public abstract class ETSITS102941MessagesCaException extends Exception{
     }
 
     /**
+     * Constructs a new exception with the specified detail message.  The
+     * cause is not initialized, and may subsequently be initialized by
+     * a call to {@link #initCause}.
+     *
+     * @param message the detail message. The detail message is saved for
+     *                later retrieval by the {@link #getMessage()} method.
+     * @param secretKey the symmetrical key used to encrypt the response back to the requester. null if
+     * no symmetric key could be extracted.
+     * @param requestHash the hashed value of the request data to identify which request a response is for. Null
+     *                    if not applicable.
+     */
+    public ETSITS102941MessagesCaException(String message, SecretKey secretKey, byte[] requestHash) {
+        super(message);
+        this.secretKey = secretKey;
+        this.requestHash = requestHash;
+    }
+
+    /**
      * Constructs a new exception with the specified detail message and
      * cause.  <p>Note that the detail message associated with
      * {@code cause} is <i>not</i> automatically incorporated in
@@ -57,11 +76,13 @@ public abstract class ETSITS102941MessagesCaException extends Exception{
      *                unknown.)
      * @param secretKey the symmetrical key used to encrypt the response back to the requester. null if
      * no symmetric key could be extracted.
-     * @since 1.4
+     * @param requestHash the hashed value of the request data to identify which request a response is for. Null
+     *                    if not applicable.
      */
-    public ETSITS102941MessagesCaException(String message, Throwable cause, SecretKey secretKey) {
+    public ETSITS102941MessagesCaException(String message, Throwable cause, SecretKey secretKey, byte[] requestHash) {
         super(message, cause);
         this.secretKey = secretKey;
+        this.requestHash = requestHash;
     }
 
     /**
@@ -80,5 +101,23 @@ public abstract class ETSITS102941MessagesCaException extends Exception{
      */
     public void setSecretKey(SecretKey secretKey) {
         this.secretKey = secretKey;
+    }
+
+    /**
+     *
+     * @return the hashed value of the request data to identify which request a response is for. Null
+     *         if not applicable.
+     */
+    public byte[] getRequestHash() {
+        return requestHash;
+    }
+
+    /**
+     *
+     * @param requestHash the hashed value of the request data to identify which request a response is for. Null
+     * if not applicable.
+     */
+    public void setRequestHash(byte[] requestHash) {
+        this.requestHash = requestHash;
     }
 }

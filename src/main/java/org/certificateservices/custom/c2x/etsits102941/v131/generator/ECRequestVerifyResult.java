@@ -23,53 +23,39 @@ import javax.crypto.SecretKey;
  * Result of a verification request messages of a signed EtsiTs102941Data message containing signed identifier and
  * header info, secret key used in response if applicable,  along with a deserialized inner message.
  */
-public class RequestVerifyResult<T> extends VerifyResult<T> {
+public class ECRequestVerifyResult<T> extends RequestVerifyResult<T> {
 
-    byte[] requestHash;
-    SecretKey secretKey;
+    Signature.SignatureChoices innerSignAlg;
+
 
     /**
      * Main constructor
      *
+     * @param innerSignAlg the signature algorithm used for the inner signature POP structure.
      * @param signAlg the algorithm used in the signature.
      * @param signerIdentifier the signerIdentifier if related object was signed, otherwise null.
      * @param headerInfo the header info object if related object was signed, otherwise null.
      * @param value the inner message data.
      */
-    public RequestVerifyResult(Signature.SignatureChoices signAlg, SignerIdentifier signerIdentifier, HeaderInfo headerInfo, T value,
-                               byte[] requestHash, SecretKey secretKey) {
-        super(signAlg, signerIdentifier,headerInfo,value);
-        this.requestHash = requestHash;
-        this.secretKey = secretKey;
+    public ECRequestVerifyResult(Signature.SignatureChoices innerSignAlg,Signature.SignatureChoices signAlg, SignerIdentifier signerIdentifier, HeaderInfo headerInfo, T value,
+                                 byte[] requestHash, SecretKey secretKey) {
+        super(signAlg, signerIdentifier,headerInfo,value, requestHash, secretKey);
+        this.innerSignAlg = innerSignAlg;
     }
 
     /**
      *
-     * @return the header info object if related object was signed, otherwise null.
+     * @return the signature algorithm used for the inner signature POP structure.
      */
-    public byte[] getRequestHash() {
-        return requestHash;
+    public Signature.SignatureChoices getInnerSignAlg() {
+        return innerSignAlg;
     }
 
-    /**
-     *
-     * @return the secretKey to use to encrypt response with back to requester.
-     */
-    public SecretKey getSecretKey() {
-        return secretKey;
-    }
-
-    /**
-     *
-     * @return the inner message.
-     */
-    public T getValue() {
-        return value;
-    }
 
     @Override
     public String toString() {
-        return "RequestVerifyResult [\n"+
+        return "ECRequestVerifyResult [\n"+
+                "  innerSignAlg=" + innerSignAlg + ",\n"+
                 "  signAlg=" + signAlg + ",\n"+
                 "  signerIdentifier=" + (signerIdentifier != null ? signerIdentifier.toString().replaceAll("\n", "\n  ") : "NONE") + ",\n" +
                 "  headerInfo=" + (headerInfo != null ? headerInfo.toString().replaceAll("\n", "\n  ") : "NONE") +  ",\n"+

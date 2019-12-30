@@ -391,8 +391,7 @@ public class SecuredDataGenerator {
 	 * @throws GeneralSecurityException if internal problems occurred encrypting the data.
 	 * @throws IOException if communication problems occurred when encrypting the data.
 	 */
-	public Ieee1609Dot2Data encryptData(AlgorithmIndicator alg,byte[] data,Recipient[] recipients) throws IllegalArgumentException, GeneralSecurityException, IOException{
-		
+	public EncryptResult encryptData(AlgorithmIndicator alg,byte[] data,Recipient[] recipients) throws IllegalArgumentException, GeneralSecurityException, IOException{
 		SecretKey encryptionKey = cryptoManager.generateSecretKey(alg);
 		byte[] nounce = cryptoManager.genNounce(alg);
 		byte[] cipherText = cryptoManager.symmetricEncryptIEEE1609_2_2017(alg, data, encryptionKey.getEncoded(), nounce);
@@ -408,7 +407,7 @@ public class SecuredDataGenerator {
 		EncryptedData encData = new EncryptedData(recSeq, symmetricCiphertext);
 		
 		Ieee1609Dot2Content content = new Ieee1609Dot2Content(encData);
-		return newEncryptedDataStructure(version, content);
+		return new EncryptResult(encryptionKey, newEncryptedDataStructure(version, content));
 	}
 
 	/**
@@ -493,7 +492,7 @@ public class SecuredDataGenerator {
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 * @throws GeneralSecurityException if internal problems occurred encrypting the data.
 	 */
-	public Ieee1609Dot2Data signAndEncryptData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
+	public EncryptResult signAndEncryptData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
 		return encryptData(encAlg, genSignedData(hi, message, signerIdentifierType, signerCertificateChain, signerPrivateKey).getEncoded(), recipients);
 	}
 
@@ -513,7 +512,7 @@ public class SecuredDataGenerator {
 	 * @throws IOException if IO exception occurred communicating with underlying systems.
 	 * @throws GeneralSecurityException if internal problems occurred encrypting the data.
 	 */
-	public Ieee1609Dot2Data selfSignAndEncryptData(HeaderInfo hi, byte[] message, PublicKey signerPublicKey, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
+	public EncryptResult selfSignAndEncryptData(HeaderInfo hi, byte[] message, PublicKey signerPublicKey, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
 		return encryptData(encAlg, genSignedData(hi, message, signerPublicKey, signerPrivateKey).getEncoded(), recipients);
 	}
 

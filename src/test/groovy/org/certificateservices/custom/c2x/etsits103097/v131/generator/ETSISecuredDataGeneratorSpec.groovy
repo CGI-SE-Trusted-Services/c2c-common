@@ -314,7 +314,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 
     def "Verify that genEtsiTs103097DataEncrypted generates a valid encrypted data"(){
         when:
-        EtsiTs103097DataEncrypted ed = esdg.genEtsiTs103097DataEncrypted(BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256, "testtext".getBytes("UTF-8"), [new CertificateRecipient(signerCertChain[0])] as Recipient[])
+        EtsiTs103097DataEncrypted ed = esdg.genEtsiTs103097DataEncrypted(BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256, "testtext".getBytes("UTF-8"), [new CertificateRecipient(signerCertChain[0])] as Recipient[]).encryptedData
         then:
         ed.toString().startsWith("""EtsiTs103097Data [
   protocolVersion=3,
@@ -330,7 +330,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
     def "Verify that genEtsiTs103097DataSignedAndEncrypted generates a valid encrypted and signed data"(){
         when:
         HeaderInfo hi = new HeaderInfo(new Psid(8), new Time64(timeStamp),null,null,null,null,null,null,null)
-        EtsiTs103097DataEncrypted ed = esdg.genEtsiTs103097DataSignedAndEncrypted(hi, "testtext".getBytes("UTF-8"), SecuredDataGenerator.SignerIdentifierType.HASH_ONLY, signerCertChain, signingKey, BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256,  [new CertificateRecipient(signerCertChain[0])] as Recipient[])
+        EtsiTs103097DataEncrypted ed = esdg.genEtsiTs103097DataSignedAndEncrypted(hi, "testtext".getBytes("UTF-8"), SecuredDataGenerator.SignerIdentifierType.HASH_ONLY, signerCertChain, signingKey, BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256,  [new CertificateRecipient(signerCertChain[0])] as Recipient[]).encryptedData
         then:
         ed.toString().startsWith("""EtsiTs103097Data [
   protocolVersion=3,

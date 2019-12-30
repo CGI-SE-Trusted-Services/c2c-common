@@ -286,8 +286,9 @@ public class Ieee1609Dot2Demo {
 	    // The message can be encrypted with the method
 	      // First construct a list of recipient which have the public key specified either as a symmetric key, certificate or in header of signed data
 	      // In this example we will use certificate as reciever, see package org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient for more details.
-	    Ieee1609Dot2Data encryptedData = securedMessageGenerator.encryptData(BasePublicEncryptionKeyChoices.ecdsaNistP256, 
+	    EncryptResult encryptResult = securedMessageGenerator.encryptData(BasePublicEncryptionKeyChoices.ecdsaNistP256,
 	    		  signedData.getEncoded(), new Recipient[] {new CertificateRecipient(enrollmentCredential)});
+		Ieee1609Dot2Data encryptedData = encryptResult.getEncryptedData();
 	      // It is also possible to encrypt using a pre shared key using the encryptDataWithPresharedKey() method.
 	    
 	    // It is also possible to sign and encrypt in one go.
@@ -297,7 +298,7 @@ public class Ieee1609Dot2Demo {
 	    		new Certificate[] {authorizationCert,authorityCACertificate, rootCACertificate}, 
 	    		authorizationCertSigningPrivateKey, // Important to use the reconstructed private key for implicit certificates
 	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, 
-	    		new Recipient[] {new CertificateRecipient(enrollmentCredential)}).getEncoded();
+	    		new Recipient[] {new CertificateRecipient(enrollmentCredential)}).getEncryptedData().getEncoded();
 	    
 	    // To decrypt and verify a signed message it is possible to use the following
 	      // First build a truststore of trust anchors (root CA certificate or equivalent)

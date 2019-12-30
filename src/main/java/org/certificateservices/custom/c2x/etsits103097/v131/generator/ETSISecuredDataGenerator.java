@@ -23,6 +23,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certific
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.EncryptResult;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.Recipient;
 
@@ -160,8 +161,8 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @throws GeneralSecurityException if internal problems occurred encrypting the data.
      * @throws IOException if communication problems occurred when encrypting the data.
      */
-    public EtsiTs103097DataEncrypted genEtsiTs103097DataEncrypted(AlgorithmIndicator alg,byte[] data,Recipient[] recipients) throws IllegalArgumentException, GeneralSecurityException, IOException{
-        return (EtsiTs103097DataEncrypted) super.encryptData(alg,data,recipients);
+    public EncryptResult genEtsiTs103097DataEncrypted(AlgorithmIndicator alg, byte[] data, Recipient[] recipients) throws IllegalArgumentException, GeneralSecurityException, IOException{
+        return super.encryptData(alg,data,recipients);
     }
 
     /**
@@ -182,8 +183,8 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @throws IOException if IO exception occurred communicating with underlying systems.
      * @throws GeneralSecurityException if internal problems occurred encrypting the data.
      */
-    public EtsiTs103097DataEncrypted genEtsiTs103097DataSignedAndEncrypted(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
-        return (EtsiTs103097DataEncrypted) super.signAndEncryptData(headerInfo,message,signerIdentifierType,signerCertificateChain,signerPrivateKey,encAlg,recipients);
+    public EncryptResult genEtsiTs103097DataSignedAndEncrypted(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
+        return super.signAndEncryptData(headerInfo,message,signerIdentifierType,signerCertificateChain,signerPrivateKey,encAlg,recipients);
     }
 
     @Override

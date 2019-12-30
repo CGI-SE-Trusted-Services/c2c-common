@@ -21,6 +21,8 @@ import javax.crypto.SecretKey
  */
 class InternalErrorExceptionSpec extends Specification {
 
+    byte[] requestHash = [1,2,3] as byte[]
+
     def "Verify that constructor populates fields correctly"(){
         setup:
         def key = Mock(SecretKey)
@@ -32,10 +34,11 @@ class InternalErrorExceptionSpec extends Specification {
         e1.getSecretKey() == key
 
         when:
-        def e2 = new InternalErrorException("SomeMessage", cause ,key)
+        def e2 = new InternalErrorException("SomeMessage", cause ,key, requestHash)
         then:
         e2.message  == "SomeMessage"
         e2.cause == cause
         e2.getSecretKey() == key
+        e2.getRequestHash() == requestHash
     }
 }

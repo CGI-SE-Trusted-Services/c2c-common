@@ -21,6 +21,8 @@ import javax.crypto.SecretKey
  */
 class DecryptionFailedExceptionSpec extends Specification {
 
+    byte[] requestHash = [1,2,3] as byte[]
+
     def "Verify that constructor populates fields correctly"(){
         setup:
         def key = Mock(SecretKey)
@@ -33,10 +35,11 @@ class DecryptionFailedExceptionSpec extends Specification {
         e1.getSecretKey() == null
 
         when:
-        def e2 = new DecryptionFailedException("SomeMessage", cause ,key)
+        def e2 = new DecryptionFailedException("SomeMessage", cause ,key, requestHash)
         then:
         e2.message  == "SomeMessage"
         e2.cause == cause
         e2.getSecretKey() == key
+        e2.getRequestHash() == requestHash
     }
 }

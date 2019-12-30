@@ -48,6 +48,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.I
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.BaseCertGeneratorSpec
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.DecryptResult
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.EncryptResult
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.PreSharedKeyReceiver
 import spock.lang.Unroll
@@ -160,8 +161,9 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         setup:
         InnerEcRequest innerEcRequest = genInnerEcRequest("somItsId")
         when:
-        EtsiTs103097DataEncryptedUnicast message = messagesCaGenerator.genInitialEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest,enrolCredSignKeys.public,enrolCredSignKeys.private, enrolmentCACert)
+        EncryptResult messageResult = messagesCaGenerator.genInitialEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest,enrolCredSignKeys.public,enrolCredSignKeys.private, enrolmentCACert)
 
+        EtsiTs103097DataEncryptedUnicast message = messageResult.encryptedData
         EtsiTs103097DataEncryptedUnicast reEncoded = new EtsiTs103097DataEncryptedUnicast(message.encoded)
         //println "EC Init Enroll:" + message.encoded.length
         and: // Build trust stores to validate
@@ -179,13 +181,15 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
 
         when: // Test rekey message
         InnerEcRequest innerEcRequest2 = genInnerEcRequest("somItsId", enrolCredReSignKeys.public)
-        EtsiTs103097DataEncryptedUnicast message2 = messagesCaGenerator.genRekeyEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest2,enrollmentCredCertChain,enrolCredSignKeys.private,enrolCredReSignKeys.public,enrolCredReSignKeys.private, enrolmentCACert)
+        EncryptResult message2Result = messagesCaGenerator.genRekeyEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest2,enrollmentCredCertChain,enrolCredSignKeys.private,enrolCredReSignKeys.public,enrolCredReSignKeys.private, enrolmentCACert)
+        EtsiTs103097DataEncryptedUnicast message2 = message2Result.encryptedData
         //println "EC Rekey Enroll:" + message2.encoded.length
         def certStore = messagesCaGenerator.buildCertStore([enrolmentCredCert,enrolmentCACert,rootCACert])
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
 
-        VerifyResult<InnerEcRequest> result2 = messagesCaGenerator.decryptAndVerifyEnrolmentRequestMessage(message2,certStore,trustStore,receipients)
+        ECRequestVerifyResult<InnerEcRequest> result2 = messagesCaGenerator.decryptAndVerifyEnrolmentRequestMessage(message2,certStore,trustStore,receipients)
         then:
+        result2.innerSignAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result2.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result2.value.toString() == innerEcRequest2.toString()
         result2.requestHash.length == 16
@@ -198,15 +202,16 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
     def "Verify that genEnrolmentResponseMessage generates correct response message and decryptAndVerifyEnrolmentResponseMessage decrypts the message."(){
         setup:
         InnerEcRequest innerEcRequest = genInnerEcRequest("somItsId")
-        EtsiTs103097DataEncryptedUnicast requestMessage = messagesCaGenerator.genInitialEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest,enrolCredSignKeys.public,enrolCredSignKeys.private, enrolmentCACert)
+        EncryptResult requestMessageResult = messagesCaGenerator.genInitialEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest,enrolCredSignKeys.public,enrolCredSignKeys.private, enrolmentCACert)
+        EtsiTs103097DataEncryptedUnicast requestMessage = requestMessageResult.encryptedData
         InnerEcResponse innerEcResponse = genInnerEcResponse(requestMessage.encoded,enrolmentCredCert)
         when:
-        EtsiTs103097DataEncryptedUnicast responseMessage = messagesCaGenerator.genEnrolmentResponseMessage(new Time64(new Date()), innerEcResponse,[enrolmentCACert,rootCACert] as EtsiTs103097Certificate[], eACASignKeys.private,SymmAlgorithm.aes128Ccm,preSharedKey)
+        EtsiTs103097DataEncryptedUnicast responseMessage = messagesCaGenerator.genEnrolmentResponseMessage(new Time64(new Date()), innerEcResponse,[enrolmentCACert,rootCACert] as EtsiTs103097Certificate[], eACASignKeys.private,SymmAlgorithm.aes128Ccm,requestMessageResult.secretKey)
         //println "EC Response: " + responseMessage.encoded.length
         and:
         def certStore = messagesCaGenerator.buildCertStore([enrolmentCACert,rootCACert])
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
-        def receiptStore = messagesCaGenerator.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,preSharedKey)])
+        def receiptStore = messagesCaGenerator.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,requestMessageResult.secretKey)])
 
         VerifyResult<InnerEcResponse> result = messagesCaGenerator.decryptAndVerifyEnrolmentResponseMessage(responseMessage,certStore,trustStore,receiptStore)
         then:
@@ -224,8 +229,8 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         SharedAtRequest sharedAtRequest = genSharedAtRequest()
 
         when: // Generate message without privacy
-        EtsiTs103097DataEncryptedUnicast message = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, null,null,authorizationCACert,null,false)
-
+        EncryptResult messageResult = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, null,null,authorizationCACert,null,false)
+        EtsiTs103097DataEncryptedUnicast message = messageResult.encryptedData
         EtsiTs103097DataEncryptedUnicast reEncoded = new EtsiTs103097DataEncryptedUnicast(message.encoded)
 
         and: // Build trust stores to validate
@@ -277,7 +282,8 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         SharedAtRequest sharedAtRequest = genSharedAtRequest()
 
         when: // Generate message without privacy
-        EtsiTs103097DataEncryptedUnicast message = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, authTicketSignKeys.public,authTicketSignKeys.private,authorizationCACert,enrolmentCACert,true)
+        EncryptResult messageResult = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, authTicketSignKeys.public,authTicketSignKeys.private,authorizationCACert,enrolmentCACert,true)
+        EtsiTs103097DataEncryptedUnicast message = messageResult.encryptedData
         //println "AT Request with POP: " + message.encoded.length
         EtsiTs103097DataEncryptedUnicast reEncoded = new EtsiTs103097DataEncryptedUnicast(message.encoded)
 
@@ -324,7 +330,8 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         e.message == "Invalid external payload signature in ec signature of innerAtRequest."
 
         when: // Verify that PoP is verified
-        EtsiTs103097DataEncryptedUnicast message2 = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, authTicketSignKeys.public,enrolCredSignKeys.private,authorizationCACert,enrolmentCACert,true)
+        EncryptResult messageResult2 = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, authTicketSignKeys.public,enrolCredSignKeys.private,authorizationCACert,enrolmentCACert,true)
+        EtsiTs103097DataEncryptedUnicast message2 = messageResult2.encryptedData
         messagesCaGenerator.decryptAndVerifyAuthorizationRequestMessage(message2,true,receipients)
         then:
         e = thrown SignatureVerificationException
@@ -356,7 +363,8 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         setup:
         AuthorizationValidationRequest authorizationValidationRequest = genAuthorizationValidationRequest()
         when:
-        EtsiTs103097DataEncryptedUnicast responseMessage = messagesCaGenerator.genAuthorizationValidationRequest(new Time64(new Date()), authorizationValidationRequest,authorizationCAChain, aACASignKeys.private,enrolmentCACert)
+        EncryptResult responseMessageResult = messagesCaGenerator.genAuthorizationValidationRequest(new Time64(new Date()), authorizationValidationRequest,authorizationCAChain, aACASignKeys.private,enrolmentCACert)
+        EtsiTs103097DataEncryptedUnicast responseMessage = responseMessageResult.encryptedData
         and:
         def certStore = messagesCaGenerator.buildCertStore(authorizationCAChain)
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
@@ -438,7 +446,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         then:
         def certStore = [:]
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
-        VerifyResult<ToBeSignedCrl> result = messagesCaGenerator.verifyRcaCertificateTrustListMessage(reEncoded, certStore, trustStore)
+        VerifyResult<ToBeSignedRcaCtl> result = messagesCaGenerator.verifyRcaCertificateTrustListMessage(reEncoded, certStore, trustStore)
         result.value.toString() == toBeSignedRcaCtl.toString()
         result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.certificate
@@ -549,10 +557,11 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
 
     def "Verify that genRequestHash() generates a valid request hash"(){
         setup:
-        byte[] data = rootCACert.encoded // In real world should a signed message data be used, but any data is ok for this test.
+        def message = messagesCaGenerator.genAuthorizationValidationRequest(new Time64(new Date()), genAuthorizationValidationRequest(),authorizationCAChain, aACASignKeys.private,enrolmentCACert)
+        byte[] data = message.encryptedData.encoded
         String referenceString = Hex.toHexString(cryptoManager.digest(data,HashAlgorithm.sha256))
         when:
-        byte[] requestHash = messagesCaGenerator.genRequestHash(data)
+        byte[] requestHash = messagesCaGenerator.genRequestHash(message.encryptedData, null)
         then:
         requestHash.length == 16
         referenceString.startsWith(Hex.toHexString(requestHash))
@@ -564,10 +573,11 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         SecretKey secretKey = Mock(SecretKey)
         DecryptResult dr = new DecryptResult(secretKey, null)
         def exceptionInstance = exception.newInstance(["SomeMessage",null] as Object[] )
+        def requestHash = [1,2,3] as byte[]
         when:
         ETSITS102941MessagesCaException e
         try {
-            messagesCaGenerator.convertToParseMessageCAException(exceptionInstance,dr)
+            messagesCaGenerator.convertToParseMessageCAException(exceptionInstance,dr, requestHash)
         }catch(Exception e1){
             e = e1
         }
@@ -575,6 +585,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         e.class == convertedException
         e.message == "SomeMessage"
         e.secretKey == secretKey
+        e.requestHash == requestHash
         if(expectCause) {assert e.cause.class == exception}
 
         where:
@@ -634,9 +645,9 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         PublicKeys publicKeys = messagesCaGenerator.genPublicKeys(alg,authTicketSignKeys.public,SymmAlgorithm.aes128Ccm,BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256, authTicketEncKeys.public)
         byte[] hmacKey = Hex.decode("0102030405060708091011121314151617181920212223242526272829303132")
         SharedAtRequest sharedAtRequest = genSharedAtRequest()
-        EtsiTs103097DataEncryptedUnicast message = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, authTicketSignKeys.public,authTicketSignKeys.private,authorizationCACert,enrolmentCACert,true)
+        EncryptResult messageResult = messagesCaGenerator.genAuthorizationRequestMessage(new Time64(new Date()),publicKeys,hmacKey,sharedAtRequest,enrollmentCredCertChain,enrolCredSignKeys.private, authTicketSignKeys.public,authTicketSignKeys.private,authorizationCACert,enrolmentCACert,true)
 
-        EtsiTs103097DataEncryptedUnicast reEncoded = new EtsiTs103097DataEncryptedUnicast(message.encoded)
+        EtsiTs103097DataEncryptedUnicast reEncoded = new EtsiTs103097DataEncryptedUnicast(messageResult.encryptedData.encoded)
 
         def receipients = messagesCaGenerator.buildRecieverStore([ new CertificateReciever(aACAEncKeys.private,authorizationCACert)])
         VerifyResult<InnerAtRequest> result = messagesCaGenerator.decryptAndVerifyAuthorizationRequestMessage(reEncoded,true,receipients)

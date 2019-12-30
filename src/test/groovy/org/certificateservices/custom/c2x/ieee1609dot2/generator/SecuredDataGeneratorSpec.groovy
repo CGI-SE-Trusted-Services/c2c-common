@@ -178,8 +178,9 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		byte[] clearText = "SomeText".getBytes("UTF-8")
 		when:
-		Ieee1609Dot2Data enc = sdg.encryptData(SymmAlgorithm.aes128Ccm, clearText, [new SymmetricKeyReceipient(SymmAlgorithm.aes128Ccm,k1),new SymmetricKeyReceipient(SymmAlgorithm.aes128Ccm,k2)] as Recipient[])
-		
+		EncryptResult encResult = sdg.encryptData(SymmAlgorithm.aes128Ccm, clearText, [new SymmetricKeyReceipient(SymmAlgorithm.aes128Ccm,k1),new SymmetricKeyReceipient(SymmAlgorithm.aes128Ccm,k2)] as Recipient[])
+
+		Ieee1609Dot2Data enc = encResult.encryptedData
 		then:
 		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
 		EncryptedData ed = enc.getContent().getValue();
@@ -189,11 +190,11 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		((SymmRecipientInfo) ri.getValue()).getRecipientId() == sdg.getSecretKeyID(SymmAlgorithm.aes128Ccm,k1)
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
-		when: "Verify that text is decrypted correclty for a known key"
+		when: "Verify that text is decrypted correctly for a known key"
 		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k1),new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k3)]))
 		then:
 		decryptedText == clearText
-		
+
 		when: "Verify that text is decrypted correclty for alternate known key"
 		decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
@@ -229,8 +230,8 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		when:
 		byte[] clearText = "SomeText".getBytes("UTF-8")
-		Ieee1609Dot2Data enc = sdg.encryptData(alg, clearText, [new CertificateRecipient(enrollCert1)] as Recipient[])
-		
+		EncryptResult encResult = sdg.encryptData(alg, clearText, [new CertificateRecipient(enrollCert1)] as Recipient[])
+		Ieee1609Dot2Data enc = encResult.encryptedData
 		then:
 		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
 		EncryptedData ed = enc.getContent().getValue();
@@ -284,8 +285,8 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		byte[] sd1Hash = cryptoManager.digest(sd1.getEncoded(), HashAlgorithm.sha256);
 		when:
 		byte[] clearText = "SomeText".getBytes("UTF-8")
-		Ieee1609Dot2Data enc = sdg.encryptData(alg, clearText, [new SignedDataRecipient(sd1)] as Recipient[])
-		
+		EncryptResult encResult = sdg.encryptData(alg, clearText, [new SignedDataRecipient(sd1)] as Recipient[])
+		Ieee1609Dot2Data enc = encResult.encryptedData
 		then:
 		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
 		EncryptedData ed = enc.getContent().getValue();
@@ -336,8 +337,8 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		byte[] keyHash = cryptoManager.digest(encKeys1.getPublic().getEncoded(), HashAlgorithm.sha256);
 		when:
 		byte[] clearText = "SomeText".getBytes("UTF-8")
-		Ieee1609Dot2Data enc = sdg.encryptData(alg, clearText, [new RekReceipient(encKeys1.getPublic())] as Recipient[])
-		
+		EncryptResult encResult = sdg.encryptData(alg, clearText, [new RekReceipient(encKeys1.getPublic())] as Recipient[])
+		Ieee1609Dot2Data enc = encResult.encryptedData
 		then:
 		enc.getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
 		EncryptedData ed = enc.getContent().getValue()
@@ -447,8 +448,8 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		def certStore = sdg.buildCertStore([enrollCA,enrollCert1])
 		def trustStore = sdg.buildCertStore([rootCA])
 		when:
-		byte[] encData = sdg.signAndEncryptData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY, [enrollCert1, enrollCA, rootCA] as Certificate[], enrollCertKeys1.private, alg, [new CertificateRecipient(enrollCert2)] as Recipient[]).getEncoded()
-		
+		byte[] encData = sdg.signAndEncryptData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.HASH_ONLY, [enrollCert1, enrollCA, rootCA] as Certificate[], enrollCertKeys1.private, alg, [new CertificateRecipient(enrollCert2)] as Recipient[]).encryptedData.encoded
+
 		then:
 		new Ieee1609Dot2Data(encData).getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
 		when:
@@ -485,7 +486,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		thrown IllegalArgumentException
 		
 		when: "Verify that decrypt and verify returns decrypted data but doesn't verify data in not required, i.e encrypted data contains unsecuredData"
-		byte[] encDataOnly = sdg.encryptData(alg, ensecured,  [new CertificateRecipient(enrollCert2)] as Recipient[]).encoded
+		byte[] encDataOnly = sdg.encryptData(alg, ensecured,  [new CertificateRecipient(enrollCert2)] as Recipient[]).encryptedData.encoded
 		r = sdg.decryptAndVerifySignedData(encDataOnly, null, null, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), false, true)
 		then:
 		r.data == "TestData".getBytes("UTF-8")

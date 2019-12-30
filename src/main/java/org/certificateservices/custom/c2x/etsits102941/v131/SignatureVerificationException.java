@@ -47,9 +47,10 @@ public class SignatureVerificationException extends ETSITS102941MessagesCaExcept
      *                  unknown.)
      * @param secretKey the symmetrical key used to encrypt the response back to the requester. null if
      * no symmetric key could be extracted.
-     * @since 1.4
+     * @param requestHash the hashed value of the request data to identify which request a response is for. Null
+     *                    if not applicable.
      */
-    public SignatureVerificationException(String message, Throwable cause, SecretKey secretKey) {
-        super(message, cause, secretKey);
+    public SignatureVerificationException(String message, Throwable cause, SecretKey secretKey, byte[] requestHash) {
+        super(message, cause, secretKey, requestHash);
     }
 }
