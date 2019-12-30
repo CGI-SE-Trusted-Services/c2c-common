@@ -1598,6 +1598,9 @@ public class ETSITS102941MessagesCaGenerator {
         if(e instanceof IllegalArgumentException || e instanceof IOException){
             throw new MessageParsingException(e.getMessage(),e,secretKey, requestHash);
         }
+        if(e instanceof ArrayIndexOutOfBoundsException){
+            throw new MessageParsingException("Unparsable data",e,secretKey, requestHash);
+        }
         if(e instanceof SignatureException){
             throw new SignatureVerificationException(e.getMessage(),e,secretKey, requestHash);
         }

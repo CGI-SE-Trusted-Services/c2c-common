@@ -446,7 +446,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         then:
         def certStore = [:]
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
-        VerifyResult<ToBeSignedCrl> result = messagesCaGenerator.verifyRcaCertificateTrustListMessage(reEncoded, certStore, trustStore)
+        VerifyResult<ToBeSignedRcaCtl> result = messagesCaGenerator.verifyRcaCertificateTrustListMessage(reEncoded, certStore, trustStore)
         result.value.toString() == toBeSignedRcaCtl.toString()
         result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.certificate
