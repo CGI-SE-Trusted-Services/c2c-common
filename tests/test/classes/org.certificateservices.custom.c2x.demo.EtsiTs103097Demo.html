@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class org.certificateservices.custom.c2x.demo.EtsiTs103097Demo</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class org.certificateservices.custom.c2x.demo.EtsiTs103097Demo</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/org.certificateservices.custom.c2x.demo.html">org.certificateservices.custom.c2x.demo</a> &gt; EtsiTs103097Demo</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.044s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">demoGenerateCAHierarchyAndSecureMessages</td>
+<td class="success">0.044s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>Root CA : EtsiTs103097Certificate [
+  version=3
+  type=explicit
+  issuer=[self=sha256]
+  toBeSigned=[
+    id=[name=[testrootca.test.com]]
+    cracaId=[000000]
+    crlSeries=[0]
+    validityPeriod=[start=Time32 [timeStamp=Thu Jan 02 14:35:14 MSK 2020 (505049717)], duration=Duration [45 years]]
+    region=[SequenceOfIdentifiedRegion [[CountryOnly [752]]]]
+    assuranceLevel=NONE
+    appPermissions=[[psid=[622(26e)], ssp=[opaque=[01]]],[psid=[624(270)], ssp=[opaque=[0138]]]]
+    certIssuePermissions=[[subjectPermissions=[all], minChainDepth=3, chainDepthRange=-1, eeType=[app=true, enroll=true]]]
+    certRequestPermissions=NONE
+    canRequestRollover=false
+    encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy0=2467418f6e8245344cdf6faa0bc616f3bd5956f8d27e475bf2ff736f22371ba1]]]
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=ab66caf4ae0c8814c2bc613281f06b652af0d9e97cb79a9d09a12670ada5c7a8]]]
+  ]
+  signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=abcf7860ae2f61075c8d12fd82e6aa6d526c90c36f79a2d2e1863d70512984ec], s=db02b9782e1f4b18aeb8164f3926a033c29e48ab94e4eeabcabd07f52af07e8d]]
+]
+Encoded: 800300810059811374657374726f6f7463612e746573742e636f6d00000000001e1a727586002d8301018002f001028002026e80010180020270800201380101e081010301ffc00080822467418f6e8245344cdf6faa0bc616f3bd5956f8d27e475bf2ff736f22371ba1808083ab66caf4ae0c8814c2bc613281f06b652af0d9e97cb79a9d09a12670ada5c7a88080abcf7860ae2f61075c8d12fd82e6aa6d526c90c36f79a2d2e1863d70512984ecdb02b9782e1f4b18aeb8164f3926a033c29e48ab94e4eeabcabd07f52af07e8d
+-----
+
+EA CA : EtsiTs103097Certificate [
+  version=3
+  type=explicit
+  issuer=[sha256AndDigest=[417b016076df9b23]]
+  toBeSigned=[
+    id=[name=[testea.test.com]]
+    cracaId=[000000]
+    crlSeries=[0]
+    validityPeriod=[start=Time32 [timeStamp=Thu Jan 02 14:35:14 MSK 2020 (505049717)], duration=Duration [37 years]]
+    region=[SequenceOfIdentifiedRegion [[CountryOnly [752]]]]
+    assuranceLevel=[subjectAssurance=35 (assuranceLevel=1, confidenceLevel= 3 )]
+    appPermissions=[[psid=[623(26f)], ssp=[opaque=[010e]]]]
+    certIssuePermissions=[[subjectPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=false, enroll=true]]]
+    certRequestPermissions=NONE
+    canRequestRollover=false
+    encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy1=ddc4f948c21f478df095051894a71285d53e21d2d1c34d133274d9a9deab0cb9]]]
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=ca4df9d6a9221f563e7c1437c414ae33f327991f8f2e5ecf04ea51ce8e84cada]]]
+  ]
+  signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=18cd779be1a1b061b7a6ef1eed3c63d40211622cf6f4152b2beee875c2a35b36], s=295ba5295ea47cd140368fd5a9220cd89cbc25da43252d4c0087d10f1287399a]]
+]
+Encoded: 80030080417b016076df9b2379810f7465737465612e746573742e636f6d00000000001e1a72758600258301018002f02301018002026f8002010e0101e0810101010040008083ddc4f948c21f478df095051894a71285d53e21d2d1c34d133274d9a9deab0cb9808083ca4df9d6a9221f563e7c1437c414ae33f327991f8f2e5ecf04ea51ce8e84cada808018cd779be1a1b061b7a6ef1eed3c63d40211622cf6f4152b2beee875c2a35b36295ba5295ea47cd140368fd5a9220cd89cbc25da43252d4c0087d10f1287399a
+-----
+
+AA CA : EtsiTs103097Certificate [
+  version=3
+  type=explicit
+  issuer=[sha256AndDigest=[417b016076df9b23]]
+  toBeSigned=[
+    id=[name=[testaa.test.com]]
+    cracaId=[000000]
+    crlSeries=[0]
+    validityPeriod=[start=Time32 [timeStamp=Thu Jan 02 14:35:14 MSK 2020 (505049717)], duration=Duration [15 years]]
+    region=[SequenceOfIdentifiedRegion [[CountryOnly [752]]]]
+    assuranceLevel=[subjectAssurance=35 (assuranceLevel=1, confidenceLevel= 3 )]
+    appPermissions=[[psid=[623(26f)], ssp=[opaque=[0132]]]]
+    certIssuePermissions=[[subjectPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=false]]]
+    certRequestPermissions=NONE
+    canRequestRollover=false
+    encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy0=cdcace7e57c540de82e4c8449791c701c9b323db10dafd8af09a5daa2b2a6b1a]]]
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=5b0560a9b6d5251797902b3d35e80ba14f6765ed7b0d329ff34adbc3fdf572ed]]]
+  ]
+  signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=c6e89123ad5c77d4bc81069edd89ee38b196e9ed33300fb869a5d75f8b8e273d], s=b9ea7276bb84d978e8eb4c871a091c6f6a559de1af22942eea11a002cb3d4d94]]
+]
+Encoded: 80030080417b016076df9b2379810f7465737461612e746573742e636f6d00000000001e1a727586000f8301018002f02301018002026f800201320101e0810101010080008082cdcace7e57c540de82e4c8449791c701c9b323db10dafd8af09a5daa2b2a6b1a8080835b0560a9b6d5251797902b3d35e80ba14f6765ed7b0d329ff34adbc3fdf572ed8080c6e89123ad5c77d4bc81069edd89ee38b196e9ed33300fb869a5d75f8b8e273db9ea7276bb84d978e8eb4c871a091c6f6a559de1af22942eea11a002cb3d4d94
+-----
+
+EnrollmentCredential : EtsiTs103097Certificate [
+  version=3
+  type=explicit
+  issuer=[sha256AndDigest=[9afb36cee974e084]]
+  toBeSigned=[
+    id=[name=[0102030405060708]]
+    cracaId=[000000]
+    crlSeries=[0]
+    validityPeriod=[start=Time32 [timeStamp=Thu Jan 02 14:35:14 MSK 2020 (505049717)], duration=Duration [35 years]]
+    region=[SequenceOfIdentifiedRegion [[CountryOnly [752]]]]
+    assuranceLevel=[subjectAssurance=35 (assuranceLevel=1, confidenceLevel= 3 )]
+    appPermissions=[[psid=[623(26f)], ssp=[opaque=[01c0]]]]
+    certIssuePermissions=NONE
+    certRequestPermissions=NONE
+    canRequestRollover=false
+    encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy1=e04015437df9e04f460a99bdefc23eaa30ba01589821f103d87849d6198c1407]]]
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=3594faedb9880aa45c95551157531640159ff6c249cd98b6184e974b2dcfcaf9]]]
+  ]
+  signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=aa7549cbecc96a82ee6446ca1f59b77517d85c58df0c2ad55dcf01560b4e9b3a], s=6836b47aa3cbe275411941d21f8c3111356e0f17f6fbbb269075b8aa875193b9]]
+]
+Encoded: 800300809afb36cee974e0847181103031303230333034303530363037303800000000001e1a72758600238301018002f02301018002026f800201c0008083e04015437df9e04f460a99bdefc23eaa30ba01589821f103d87849d6198c14078080833594faedb9880aa45c95551157531640159ff6c249cd98b6184e974b2dcfcaf98080aa7549cbecc96a82ee6446ca1f59b77517d85c58df0c2ad55dcf01560b4e9b3a6836b47aa3cbe275411941d21f8c3111356e0f17f6fbbb269075b8aa875193b9
+-----
+
+Authorization Ticket : EtsiTs103097Certificate [
+  version=3
+  type=explicit
+  issuer=[sha256AndDigest=[eded3b6694cce243]]
+  toBeSigned=[
+    id=[none]
+    cracaId=[000000]
+    crlSeries=[0]
+    validityPeriod=[start=Time32 [timeStamp=Thu Jan 02 14:35:14 MSK 2020 (505049717)], duration=Duration [35 years]]
+    region=[SequenceOfIdentifiedRegion [[CountryOnly [752]]]]
+    assuranceLevel=[subjectAssurance=35 (assuranceLevel=1, confidenceLevel= 3 )]
+    appPermissions=[[psid=[6(6)], ssp=NULL]]
+    certIssuePermissions=NONE
+    certRequestPermissions=NONE
+    canRequestRollover=false
+    encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy0=02e8451928fc754502740a5818ae0fa37d6d1687430072fb9d31e5445aa4ec9e]]]
+    verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=03b9e097318f047893e9c2133b4723bdf0fcc35255e2764d6300f3c2f95e45be]]]
+  ]
+  signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=ab33af90ab15a0ab0716a2c4828ab2cffd85e45b95ea180041f2d5b3d7c1f876], s=f5af770508f0b7cacf6b9e3c8580b26e9bcc6a0b1828742d95a200c8237c22cb]]
+]
+Encoded: 80030080eded3b6694cce243718300000000001e1a72758600238301018002f023010100010600808202e8451928fc754502740a5818ae0fa37d6d1687430072fb9d31e5445aa4ec9e80808303b9e097318f047893e9c2133b4723bdf0fcc35255e2764d6300f3c2f95e45be8080ab33af90ab15a0ab0716a2c4828ab2cffd85e45b95ea180041f2d5b3d7c1f876f5af770508f0b7cacf6b9e3c8580b26e9bcc6a0b1828742d95a200c8237c22cb
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 4.10.2</a> at Jan 2, 2020 2:35:19 PM</p>
+</div>
+</div>
+</body>
+</html>

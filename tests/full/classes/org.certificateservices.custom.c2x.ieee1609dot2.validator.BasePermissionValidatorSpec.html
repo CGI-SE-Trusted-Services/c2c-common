@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class org.certificateservices.custom.c2x.ieee1609dot2.validator.BasePermissionValidatorSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class org.certificateservices.custom.c2x.ieee1609dot2.validator.BasePermissionValidatorSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/org.certificateservices.custom.c2x.ieee1609dot2.validator.html">org.certificateservices.custom.c2x.ieee1609dot2.validator</a> &gt; BasePermissionValidatorSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">20</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.097s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">Verify that PSIDSSP verifies opaque data correctly</td>
+<td class="success">0.009s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that any sspData with valid for PSIDSSPRange is of type all</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that appPermission with empty SSP for given PSID is lookup in the configured DefaultSSPLookup, and verify that InvalidCertificateException is thrown if no SSP could be found.</td>
+<td class="success">0.005s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that appPermissions with two of the same PSID throwsInvalidCertificateException </td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that bitmask length of bitmapSSPRange is checked against Bitmask in BitmapSSPRange</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that certIssuePermission with empty SSPRange for given PSID is lookup in the configured DefaultSSPLookup, and verify that InvalidCertificateException is thrown if no SSPRange could be found.</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that certificate that has subject permissions all accepts all permissions</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that certificate that has subject permissions all and specific permissions for given PSID, then is given PSID evaluated</td>
+<td class="success">0.004s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that checkPermissions allows any bitmapSSPRange if issuer certificate is of type all</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that checkPermissions allows any opaque if issuer certificate is of type all</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that checkPermissions allows doesn't allow bitmapSSPRange spp type all if issuer does not also have ssp type all</td>
+<td class="success">0.033s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that checkPermissions allows doesn't allow opaque spp type all if issuer does not also have ssp type all</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that checkPermissions if bitmapSSPRange have a bitmask that is not compliant with issuers bitmask</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that checkPermissions if bitmapSSPRange have a different sspValue than was allowed in issuer's bitmapSSPRange throws InvalidCertificateException.</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that checkPermissions if bitmapSSPRange is checked against an opaque bitmapSSPRange in issuer is InvalidCertificateException thrown.</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that filterByEndEntityTypeAndChainLength only returns PsidGroupPermissions with specified chain length</td>
+<td class="success">0s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that filterByEndEntityTypeAndChainLength only returns PsidGroupPermissions with specified end entity types</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that length of bitmapSSP is checked against Bitmask in BitmapSSPRange</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that length of bitmapSSP is checked against opaque in SSPRange</td>
+<td class="success">0.006s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Verify that sspData with no valid permissions id issuer certificate generates InvalidCertificateException</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 4.10.2</a> at Jan 2, 2020 2:35:19 PM</p>
+</div>
+</div>
+</body>
+</html>

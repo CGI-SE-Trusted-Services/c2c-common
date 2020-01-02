@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.6.1">
+<title>Java Implementation of ITS Intelligent Transport Systems (ITS) Security header and certificate formats</title>
+<style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize */
+/* ========================================================================== HTML5 display definitions ========================================================================== */
+/** Correct `block` display not defined in IE 8/9. */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
+
+/** Correct `inline-block` display not defined in IE 8/9. */
+audio, canvas, video { display: inline-block; }
+
+/** Prevent modern browsers from displaying `audio` without controls. Remove excess height in iOS 5 devices. */
+audio:not([controls]) { display: none; height: 0; }
+
+/** Address `[hidden]` styling not present in IE 8/9. Hide the `template` element in IE, Safari, and Firefox < 22. */
+[hidden], template { display: none; }
+
+script { display: none !important; }
+
+/* ========================================================================== Base ========================================================================== */
+/** 1. Set default font family to sans-serif. 2. Prevent iOS text size adjust after orientation change, without disabling user zoom. */
+html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -webkit-text-size-adjust: 100%; /* 2 */ }
+
+/** Remove default margin. */
+body { margin: 0; }
+
+/* ========================================================================== Links ========================================================================== */
+/** Remove the gray background color from active links in IE 10. */
+a { background: transparent; }
+
+/** Address `outline` inconsistency between Chrome and other browsers. */
+a:focus { outline: thin dotted; }
+
+/** Improve readability when focused and also mouse hovered in all browsers. */
+a:active, a:hover { outline: 0; }
+
+/* ========================================================================== Typography ========================================================================== */
+/** Address variable `h1` font-size and margin within `section` and `article` contexts in Firefox 4+, Safari 5, and Chrome. */
+h1 { font-size: 2em; margin: 0.67em 0; }
+
+/** Address styling not present in IE 8/9, Safari 5, and Chrome. */
+abbr[title] { border-bottom: 1px dotted; }
+
+/** Address style set to `bolder` in Firefox 4+, Safari 5, and Chrome. */
+b, strong { font-weight: bold; }
+
+/** Address styling not present in Safari 5 and Chrome. */
+dfn { font-style: italic; }
+
+/** Address differences between Firefox and other browsers. */
+hr { -moz-box-sizing: content-box; box-sizing: content-box; height: 0; }
+
+/** Address styling not present in IE 8/9. */
+mark { background: #ff0; color: #000; }
+
+/** Correct font family set oddly in Safari 5 and Chrome. */
+code, kbd, pre, samp { font-family: monospace, serif; font-size: 1em; }
+
+/** Improve readability of pre-formatted text in all browsers. */
+pre { white-space: pre-wrap; }
+
+/** Set consistent quote types. */
+q { quotes: "\201C" "\201D" "\2018" "\2019"; }
+
+/** Address inconsistent and variable font size in all browsers. */
+small { font-size: 80%; }
+
+/** Prevent `sub` and `sup` affecting `line-height` in all browsers. */
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+
+sup { top: -0.5em; }
+
+sub { bottom: -0.25em; }
+
+/* ========================================================================== Embedded content ========================================================================== */
+/** Remove border when inside `a` element in IE 8/9. */
+img { border: 0; }
+
+/** Correct overflow displayed oddly in IE 9. */
+svg:not(:root) { overflow: hidden; }
+
+/* ========================================================================== Figures ========================================================================== */
+/** Address margin not present in IE 8/9 and Safari 5. */
+figure { margin: 0; }
+
+/* ========================================================================== Forms ========================================================================== */
+/** Define consistent border, margin, and padding. */
+fieldset { border: 1px solid #c0c0c0; margin: 0 2px; padding: 0.35em 0.625em 0.75em; }
+
+/** 1. Correct `color` not being inherited in IE 8/9. 2. Remove padding so people aren't caught out if they zero out fieldsets. */
+legend { border: 0; /* 1 */ padding: 0; /* 2 */ }
+
+/** 1. Correct font family not being inherited in all browsers. 2. Correct font size not being inherited in all browsers. 3. Address margins set differently in Firefox 4+, Safari 5, and Chrome. */
+button, input, select, textarea { font-family: inherit; /* 1 */ font-size: 100%; /* 2 */ margin: 0; /* 3 */ }
+
+/** Address Firefox 4+ setting `line-height` on `input` using `!important` in the UA stylesheet. */
+button, input { line-height: normal; }
+
+/** Address inconsistent `text-transform` inheritance for `button` and `select`. All other form control elements do not inherit `text-transform` values. Correct `button` style inheritance in Chrome, Safari 5+, and IE 8+. Correct `select` style inheritance in Firefox 4+ and Opera. */
+button, select { text-transform: none; }
+
+/** 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. 2. Correct inability to style clickable `input` types in iOS. 3. Improve usability and consistency of cursor style between image-type `input` and others. */
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; /* 2 */ cursor: pointer; /* 3 */ }
+
+/** Re-set default cursor for disabled elements. */
+button[disabled], html input[disabled] { cursor: default; }
+
+/** 1. Address box sizing set to `content-box` in IE 8/9. 2. Remove excess padding in IE 8/9. */
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; /* 1 */ padding: 0; /* 2 */ }
+
+/** 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome. 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome (include `-moz` to future-proof). */
+input[type="search"] { -webkit-appearance: textfield; /* 1 */ -moz-box-sizing: content-box; -webkit-box-sizing: content-box; /* 2 */ box-sizing: content-box; }
+
+/** Remove inner padding and search cancel button in Safari 5 and Chrome on OS X. */
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+/** Remove inner padding and border in Firefox 4+. */
+button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
+
+/** 1. Remove default vertical scrollbar in IE 8/9. 2. Improve readability and alignment in all browsers. */
+textarea { overflow: auto; /* 1 */ vertical-align: top; /* 2 */ }
+
+/* ========================================================================== Tables ========================================================================== */
+/** Remove most spacing between table cells. */
+table { border-collapse: collapse; border-spacing: 0; }
+
+meta.foundation-mq-small { font-family: "only screen and (min-width: 768px)"; width: 768px; }
+
+meta.foundation-mq-medium { font-family: "only screen and (min-width:1280px)"; width: 1280px; }
+
+meta.foundation-mq-large { font-family: "only screen and (min-width:1440px)"; width: 1440px; }
+
+*, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html, body { font-size: 100%; }
+
+body { background: white; color: #222222; padding: 0; margin: 0; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: normal; font-style: normal; line-height: 1; position: relative; cursor: auto; }
+
+a:hover { cursor: pointer; }
+
+img, object, embed { max-width: 100%; height: auto; }
+
+object, embed { height: 100%; }
+
+img { -ms-interpolation-mode: bicubic; }
+
+#map_canvas img, #map_canvas embed, #map_canvas object, .map_canvas img, .map_canvas embed, .map_canvas object { max-width: none !important; }
+
+.left { float: left !important; }
+
+.right { float: right !important; }
+
+.text-left { text-align: left !important; }
+
+.text-right { text-align: right !important; }
+
+.text-center { text-align: center !important; }
+
+.text-justify { text-align: justify !important; }
+
+.hide { display: none; }
+
+.antialiased { -webkit-font-smoothing: antialiased; }
+
+img { display: inline-block; vertical-align: middle; }
+
+textarea { height: auto; min-height: 50px; }
+
+select { width: 100%; }
+
+object, svg { display: inline-block; vertical-align: middle; }
+
+.center { margin-left: auto; margin-right: auto; }
+
+.spread { width: 100%; }
+
+p.lead, .paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { font-size: 1.21875em; line-height: 1.6; }
+
+.subheader, .admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { line-height: 1.4; color: #003b6b; font-weight: 300; margin-top: 0.2em; margin-bottom: 0.5em; }
+
+/* Typography resets */
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6, pre, form, p, blockquote, th, td { margin: 0; padding: 0; direction: ltr; }
+
+/* Default Link Styles */
+a { color: #00579e; text-decoration: none; line-height: inherit; }
+a:hover, a:focus { color: #333333; }
+a img { border: none; }
+
+/* Default paragraph styles */
+p { font-family: Arial, sans-serif; font-weight: normal; font-size: 1em; line-height: 1.6; margin-bottom: 0.75em; text-rendering: optimizeLegibility; }
+p aside { font-size: 0.875em; line-height: 1.35; font-style: italic; }
+
+/* Default header styles */
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { font-family: Arial, sans-serif; font-weight: normal; font-style: normal; color: #7b2d00; text-rendering: optimizeLegibility; margin-top: 0.5em; margin-bottom: 0.5em; line-height: 1.2125em; }
+h1 small, h2 small, h3 small, #toctitle small, .sidebarblock > .content > .title small, h4 small, h5 small, h6 small { font-size: 60%; color: #ff6b15; line-height: 0; }
+
+h1 { font-size: 2.125em; }
+
+h2 { font-size: 1.6875em; }
+
+h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.375em; }
+
+h4 { font-size: 1.125em; }
+
+h5 { font-size: 1.125em; }
+
+h6 { font-size: 1em; }
+
+hr { border: solid #dddddd; border-width: 1px 0 0; clear: both; margin: 1.25em 0 1.1875em; height: 0; }
+
+/* Helpful Typography Defaults */
+em, i { font-style: italic; line-height: inherit; }
+
+strong, b { font-weight: bold; line-height: inherit; }
+
+small { font-size: 60%; line-height: inherit; }
+
+code { font-family: Consolas, "Liberation Mono", Courier, monospace; font-weight: bold; color: #003426; }
+
+/* Lists */
+ul, ol, dl { font-size: 1em; line-height: 1.6; margin-bottom: 0.75em; list-style-position: outside; font-family: Arial, sans-serif; }
+
+ul, ol { margin-left: 1.5em; }
+ul.no-bullet, ol.no-bullet { margin-left: 1.5em; }
+
+/* Unordered Lists */
+ul li ul, ul li ol { margin-left: 1.25em; margin-bottom: 0; font-size: 1em; /* Override nested font-size change */ }
+ul.square li ul, ul.circle li ul, ul.disc li ul { list-style: inherit; }
+ul.square { list-style-type: square; }
+ul.circle { list-style-type: circle; }
+ul.disc { list-style-type: disc; }
+ul.no-bullet { list-style: none; }
+
+/* Ordered Lists */
+ol li ul, ol li ol { margin-left: 1.25em; margin-bottom: 0; }
+
+/* Definition Lists */
+dl dt { margin-bottom: 0.3em; font-weight: bold; }
+dl dd { margin-bottom: 0.75em; }
+
+/* Abbreviations */
+abbr, acronym { text-transform: uppercase; font-size: 90%; color: black; border-bottom: 1px dotted #dddddd; cursor: help; }
+
+abbr { text-transform: none; }
+
+/* Blockquotes */
+blockquote { margin: 0 0 0.75em; padding: 0.5625em 1.25em 0 1.1875em; border-left: 1px solid #dddddd; }
+blockquote cite { display: block; font-size: 0.8125em; color: #e15200; }
+blockquote cite:before { content: "\2014 \0020"; }
+blockquote cite a, blockquote cite a:visited { color: #e15200; }
+
+blockquote, blockquote p { line-height: 1.6; color: #333333; }
+
+/* Microformats */
+.vcard { display: inline-block; margin: 0 0 1.25em 0; border: 1px solid #dddddd; padding: 0.625em 0.75em; }
+.vcard li { margin: 0; display: block; }
+.vcard .fn { font-weight: bold; font-size: 0.9375em; }
+
+.vevent .summary { font-weight: bold; }
+.vevent abbr { cursor: auto; text-decoration: none; font-weight: bold; border: none; padding: 0 0.0625em; }
+
+@media only screen and (min-width: 768px) { h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { line-height: 1.4; }
+  h1 { font-size: 2.75em; }
+  h2 { font-size: 2.3125em; }
+  h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.6875em; }
+  h4 { font-size: 1.4375em; } }
+/* Tables */
+table { background: white; margin-bottom: 1.25em; border: solid 1px #d8d8ce; }
+table thead, table tfoot { background: -webkit-linear-gradient(top, #add386, #90b66a); font-weight: bold; }
+table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { padding: 0.5em 0.625em 0.625em; font-size: inherit; color: white; text-align: left; }
+table tr th, table tr td { padding: 0.5625em 0.625em; font-size: inherit; color: #6d6e71; }
+table tr.even, table tr.alt, table tr:nth-of-type(even) { background: #edf2f2; }
+table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { display: table-cell; line-height: 1.4; }
+
+body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; tab-size: 4; }
+
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { line-height: 1.4; }
+
+a:hover, a:focus { text-decoration: underline; }
+
+.clearfix:before, .clearfix:after, .float-group:before, .float-group:after { content: " "; display: table; }
+.clearfix:after, .float-group:after { clear: both; }
+
+*:not(pre) > code { font-size: inherit; font-style: normal !important; letter-spacing: 0; padding: 3px 2px 1px 2px; background-color: #eeeeee; border: 1px solid #dddddd; -webkit-border-radius: 0; border-radius: 0; line-height: inherit; word-wrap: break-word; }
+*:not(pre) > code.nobreak { word-wrap: normal; }
+*:not(pre) > code.nowrap { white-space: nowrap; }
+
+pre, pre > code { line-height: 1.6; color: black; font-family: Consolas, "Liberation Mono", Courier, monospace; font-weight: normal; }
+
+em em { font-style: normal; }
+
+strong strong { font-weight: normal; }
+
+.keyseq { color: #333333; }
+
+kbd { font-family: Consolas, "Liberation Mono", Courier, monospace; display: inline-block; color: black; font-size: 0.65em; line-height: 1.45; background-color: #f7f7f7; border: 1px solid #ccc; -webkit-border-radius: 3px; border-radius: 3px; -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 0.1em white inset; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 0.1em white inset; margin: 0 0.15em; padding: 0.2em 0.5em; vertical-align: middle; position: relative; top: -0.1em; white-space: nowrap; }
+
+.keyseq kbd:first-child { margin-left: 0; }
+
+.keyseq kbd:last-child { margin-right: 0; }
+
+.menuseq, .menuref { color: #000; }
+
+.menuseq b:not(.caret), .menuref { font-weight: inherit; }
+
+.menuseq { word-spacing: -0.02em; }
+.menuseq b.caret { font-size: 1.25em; line-height: 0.8; }
+.menuseq i.caret { font-weight: bold; text-align: center; width: 0.45em; }
+
+b.button:before, b.button:after { position: relative; top: -1px; font-weight: normal; }
+
+b.button:before { content: "["; padding: 0 3px 0 2px; }
+
+b.button:after { content: "]"; padding: 0 2px 0 3px; }
+
+#header, #content, #footnotes, #footer { width: 100%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0; max-width: 62.5em; *zoom: 1; position: relative; padding-left: 1.5em; padding-right: 1.5em; }
+#header:before, #header:after, #content:before, #content:after, #footnotes:before, #footnotes:after, #footer:before, #footer:after { content: " "; display: table; }
+#header:after, #content:after, #footnotes:after, #footer:after { clear: both; }
+
+#content { margin-top: 1.25em; }
+
+#content:before { content: none; }
+
+#header > h1:first-child { color: #7b2d00; margin-top: 2.25rem; margin-bottom: 0; }
+#header > h1:first-child + #toc { margin-top: 8px; border-top: 1px solid #dddddd; }
+#header > h1:only-child, body.toc2 #header > h1:nth-last-child(2) { border-bottom: 1px solid #dddddd; padding-bottom: 8px; }
+#header .details { border-bottom: 1px solid #dddddd; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.25em; padding-left: 0.25em; color: #e15200; display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; }
+#header .details span:first-child { margin-left: -0.125em; }
+#header .details span.email a { color: #333333; }
+#header .details br { display: none; }
+#header .details br + span:before { content: "\00a0\2013\00a0"; }
+#header .details br + span.author:before { content: "\00a0\22c5\00a0"; color: #333333; }
+#header .details br + span#revremark:before { content: "\00a0|\00a0"; }
+#header #revnumber { text-transform: capitalize; }
+#header #revnumber:after { content: "\00a0"; }
+
+#content > h1:first-child:not([class]) { color: #7b2d00; border-bottom: 1px solid #dddddd; padding-bottom: 8px; margin-top: 0; padding-top: 1rem; margin-bottom: 1.25rem; }
+
+#toc { border-bottom: 0 solid #dddddd; padding-bottom: 0.5em; }
+#toc > ul { margin-left: 0.125em; }
+#toc ul.sectlevel0 > li > a { font-style: italic; }
+#toc ul.sectlevel0 ul.sectlevel1 { margin: 0.5em 0; }
+#toc ul { font-family: Arial, sans-serif; list-style-type: none; }
+#toc li { line-height: 1.3334; margin-top: 0.3334em; }
+#toc a { text-decoration: none; }
+#toc a:active { text-decoration: underline; }
+
+#toctitle { color: #003b6b; font-size: 1.2em; }
+
+@media only screen and (min-width: 768px) { #toctitle { font-size: 1.375em; }
+  body.toc2 { padding-left: 15em; padding-right: 0; }
+  #toc.toc2 { margin-top: 0 !important; background-color: white; position: fixed; width: 15em; left: 0; top: 0; border-right: 1px solid #dddddd; border-top-width: 0 !important; border-bottom-width: 0 !important; z-index: 1000; padding: 1.25em 1em; height: 100%; overflow: auto; }
+  #toc.toc2 #toctitle { margin-top: 0; margin-bottom: 0.8rem; font-size: 1.2em; }
+  #toc.toc2 > ul { font-size: 0.9em; margin-bottom: 0; }
+  #toc.toc2 ul ul { margin-left: 0; padding-left: 1em; }
+  #toc.toc2 ul.sectlevel0 ul.sectlevel1 { padding-left: 0; margin-top: 0.5em; margin-bottom: 0.5em; }
+  body.toc2.toc-right { padding-left: 0; padding-right: 15em; }
+  body.toc2.toc-right #toc.toc2 { border-right-width: 0; border-left: 1px solid #dddddd; left: auto; right: 0; } }
+@media only screen and (min-width: 1280px) { body.toc2 { padding-left: 20em; padding-right: 0; }
+  #toc.toc2 { width: 20em; }
+  #toc.toc2 #toctitle { font-size: 1.375em; }
+  #toc.toc2 > ul { font-size: 0.95em; }
+  #toc.toc2 ul ul { padding-left: 1.25em; }
+  body.toc2.toc-right { padding-left: 0; padding-right: 20em; } }
+#content #toc { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: white; -webkit-border-radius: 0; border-radius: 0; }
+#content #toc > :first-child { margin-top: 0; }
+#content #toc > :last-child { margin-bottom: 0; }
+
+#footer { max-width: 100%; background-color: none; padding: 1.25em; }
+
+#footer-text { color: black; line-height: 1.44; }
+
+#content { margin-bottom: 0.625em; }
+
+.sect1 { padding-bottom: 0.625em; }
+
+@media only screen and (min-width: 768px) { #content { margin-bottom: 1.25em; }
+  .sect1 { padding-bottom: 1.25em; } }
+.sect1:last-child { padding-bottom: 0; }
+
+.sect1 + .sect1 { border-top: 0 solid #dddddd; }
+
+#content h1 > a.anchor, h2 > a.anchor, h3 > a.anchor, #toctitle > a.anchor, .sidebarblock > .content > .title > a.anchor, h4 > a.anchor, h5 > a.anchor, h6 > a.anchor { position: absolute; z-index: 1001; width: 1.5ex; margin-left: -1.5ex; display: block; text-decoration: none !important; visibility: hidden; text-align: center; font-weight: normal; }
+#content h1 > a.anchor:before, h2 > a.anchor:before, h3 > a.anchor:before, #toctitle > a.anchor:before, .sidebarblock > .content > .title > a.anchor:before, h4 > a.anchor:before, h5 > a.anchor:before, h6 > a.anchor:before { content: "\00A7"; font-size: 0.85em; display: block; padding-top: 0.1em; }
+#content h1:hover > a.anchor, #content h1 > a.anchor:hover, h2:hover > a.anchor, h2 > a.anchor:hover, h3:hover > a.anchor, #toctitle:hover > a.anchor, .sidebarblock > .content > .title:hover > a.anchor, h3 > a.anchor:hover, #toctitle > a.anchor:hover, .sidebarblock > .content > .title > a.anchor:hover, h4:hover > a.anchor, h4 > a.anchor:hover, h5:hover > a.anchor, h5 > a.anchor:hover, h6:hover > a.anchor, h6 > a.anchor:hover { visibility: visible; }
+#content h1 > a.link, h2 > a.link, h3 > a.link, #toctitle > a.link, .sidebarblock > .content > .title > a.link, h4 > a.link, h5 > a.link, h6 > a.link { color: #7b2d00; text-decoration: none; }
+#content h1 > a.link:hover, h2 > a.link:hover, h3 > a.link:hover, #toctitle > a.link:hover, .sidebarblock > .content > .title > a.link:hover, h4 > a.link:hover, h5 > a.link:hover, h6 > a.link:hover { color: #622400; }
+
+.audioblock, .imageblock, .literalblock, .listingblock, .stemblock, .videoblock { margin-bottom: 1.25em; }
+
+.admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { text-rendering: optimizeLegibility; text-align: left; }
+
+table.tableblock > caption.title { white-space: nowrap; overflow: visible; max-width: 0; }
+
+.paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { color: #7b2d00; }
+
+table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p { font-size: inherit; }
+
+.admonitionblock > table { border-collapse: separate; border: 0; background: none; width: 100%; }
+.admonitionblock > table td.icon { text-align: center; width: 80px; }
+.admonitionblock > table td.icon img { max-width: none; }
+.admonitionblock > table td.icon .title { font-weight: bold; font-family: Arial, sans-serif; text-transform: uppercase; }
+.admonitionblock > table td.content { padding-left: 1.125em; padding-right: 1.25em; border-left: 1px solid #dddddd; color: #e15200; }
+.admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
+
+.exampleblock > .content { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: white; -webkit-border-radius: 0; border-radius: 0; }
+.exampleblock > .content > :first-child { margin-top: 0; }
+.exampleblock > .content > :last-child { margin-bottom: 0; }
+
+.sidebarblock { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: white; -webkit-border-radius: 0; border-radius: 0; }
+.sidebarblock > :first-child { margin-top: 0; }
+.sidebarblock > :last-child { margin-bottom: 0; }
+.sidebarblock > .content > .title { color: #003b6b; margin-top: 0; }
+
+.exampleblock > .content > :last-child > :last-child, .exampleblock > .content .olist > ol > li:last-child > :last-child, .exampleblock > .content .ulist > ul > li:last-child > :last-child, .exampleblock > .content .qlist > ol > li:last-child > :last-child, .sidebarblock > .content > :last-child > :last-child, .sidebarblock > .content .olist > ol > li:last-child > :last-child, .sidebarblock > .content .ulist > ul > li:last-child > :last-child, .sidebarblock > .content .qlist > ol > li:last-child > :last-child { margin-bottom: 0; }
+
+.literalblock pre, .listingblock pre:not(.highlight), .listingblock pre[class="highlight"], .listingblock pre[class^="highlight "], .listingblock pre.CodeRay, .listingblock pre.prettyprint { background: #eeeeee; }
+.sidebarblock .literalblock pre, .sidebarblock .listingblock pre:not(.highlight), .sidebarblock .listingblock pre[class="highlight"], .sidebarblock .listingblock pre[class^="highlight "], .sidebarblock .listingblock pre.CodeRay, .sidebarblock .listingblock pre.prettyprint { background: #f2f1f1; }
+
+.literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { border: 1px dashed #666666; -webkit-border-radius: 0; border-radius: 0; word-wrap: break-word; padding: 1.25em 1.5625em 1.125em 1.5625em; font-size: 0.8125em; }
+.literalblock pre.nowrap, .literalblock pre[class].nowrap, .listingblock pre.nowrap, .listingblock pre[class].nowrap { overflow-x: auto; white-space: pre; word-wrap: normal; }
+@media only screen and (min-width: 768px) { .literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { font-size: 0.90625em; } }
+@media only screen and (min-width: 1280px) { .literalblock pre, .literalblock pre[class], .listingblock pre, .listingblock pre[class] { font-size: 1em; } }
+
+.literalblock.output pre { color: #eeeeee; background-color: black; }
+
+.listingblock pre.highlightjs { padding: 0; }
+.listingblock pre.highlightjs > code { padding: 1.25em 1.5625em 1.125em 1.5625em; -webkit-border-radius: 0; border-radius: 0; }
+
+.listingblock > .content { position: relative; }
+
+.listingblock code[data-lang]:before { display: none; content: attr(data-lang); position: absolute; font-size: 0.75em; top: 0.425rem; right: 0.5rem; line-height: 1; text-transform: uppercase; color: #999; }
+
+.listingblock:hover code[data-lang]:before { display: block; }
+
+.listingblock.terminal pre .command:before { content: attr(data-prompt); padding-right: 0.5em; color: #999; }
+
+.listingblock.terminal pre .command:not([data-prompt]):before { content: "$"; }
+
+table.pyhltable { border-collapse: separate; border: 0; margin-bottom: 0; background: none; }
+
+table.pyhltable td { vertical-align: top; padding-top: 0; padding-bottom: 0; line-height: 1.6; }
+
+table.pyhltable td.code { padding-left: .75em; padding-right: 0; }
+
+pre.pygments .lineno, table.pyhltable td:not(.code) { color: #999; padding-left: 0; padding-right: .5em; border-right: 1px solid #dddddd; }
+
+pre.pygments .lineno { display: inline-block; margin-right: .25em; }
+
+table.pyhltable .linenodiv { background: none !important; padding-right: 0 !important; }
+
+.quoteblock { margin: 0 1em 0.75em 1.5em; display: table; }
+.quoteblock > .title { margin-left: -1.5em; margin-bottom: 0.75em; }
+.quoteblock blockquote, .quoteblock blockquote p { color: #333333; font-size: 1.15rem; line-height: 1.75; word-spacing: 0.1em; letter-spacing: 0; font-style: italic; text-align: justify; }
+.quoteblock blockquote { margin: 0; padding: 0; border: 0; }
+.quoteblock blockquote:before { content: "\201c"; float: left; font-size: 2.75em; font-weight: bold; line-height: 0.6em; margin-left: -0.6em; color: #003b6b; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+.quoteblock blockquote > .paragraph:last-child p { margin-bottom: 0; }
+.quoteblock .attribution { margin-top: 0.5em; margin-right: 0.5ex; text-align: right; }
+.quoteblock .quoteblock { margin-left: 0; margin-right: 0; padding: 0.5em 0; border-left: 3px solid #e15200; }
+.quoteblock .quoteblock blockquote { padding: 0 0 0 0.75em; }
+.quoteblock .quoteblock blockquote:before { display: none; }
+
+.verseblock { margin: 0 1em 0.75em 1em; }
+.verseblock pre { font-family: "Open Sans", "DejaVu Sans", sans; font-size: 1.15rem; color: #333333; font-weight: 300; text-rendering: optimizeLegibility; }
+.verseblock pre strong { font-weight: 400; }
+.verseblock .attribution { margin-top: 1.25rem; margin-left: 0.5ex; }
+
+.quoteblock .attribution, .verseblock .attribution { font-size: 0.8125em; line-height: 1.45; font-style: italic; }
+.quoteblock .attribution br, .verseblock .attribution br { display: none; }
+.quoteblock .attribution cite, .verseblock .attribution cite { display: block; letter-spacing: -0.025em; color: #e15200; }
+
+.quoteblock.abstract { margin: 0 0 0.75em 0; display: block; }
+.quoteblock.abstract blockquote, .quoteblock.abstract blockquote p { text-align: left; word-spacing: 0; }
+.quoteblock.abstract blockquote:before, .quoteblock.abstract blockquote p:first-of-type:before { display: none; }
+
+table.tableblock { max-width: 100%; border-collapse: separate; }
+table.tableblock td > .paragraph:last-child p > p:last-child, table.tableblock th > p:last-child, table.tableblock td > p:last-child { margin-bottom: 0; }
+
+table.tableblock, th.tableblock, td.tableblock { border: 0 solid #d8d8ce; }
+
+table.grid-all > thead > tr > .tableblock, table.grid-all > tbody > tr > .tableblock { border-width: 0 1px 1px 0; }
+
+table.grid-all > tfoot > tr > .tableblock { border-width: 1px 1px 0 0; }
+
+table.grid-cols > * > tr > .tableblock { border-width: 0 1px 0 0; }
+
+table.grid-rows > thead > tr > .tableblock, table.grid-rows > tbody > tr > .tableblock { border-width: 0 0 1px 0; }
+
+table.grid-rows > tfoot > tr > .tableblock { border-width: 1px 0 0 0; }
+
+table.grid-all > * > tr > .tableblock:last-child, table.grid-cols > * > tr > .tableblock:last-child { border-right-width: 0; }
+
+table.grid-all > tbody > tr:last-child > .tableblock, table.grid-all > thead:last-child > tr > .tableblock, table.grid-rows > tbody > tr:last-child > .tableblock, table.grid-rows > thead:last-child > tr > .tableblock { border-bottom-width: 0; }
+
+table.frame-all { border-width: 1px; }
+
+table.frame-sides { border-width: 0 1px; }
+
+table.frame-topbot { border-width: 1px 0; }
+
+th.halign-left, td.halign-left { text-align: left; }
+
+th.halign-right, td.halign-right { text-align: right; }
+
+th.halign-center, td.halign-center { text-align: center; }
+
+th.valign-top, td.valign-top { vertical-align: top; }
+
+th.valign-bottom, td.valign-bottom { vertical-align: bottom; }
+
+th.valign-middle, td.valign-middle { vertical-align: middle; }
+
+table thead th, table tfoot th { font-weight: bold; }
+
+tbody tr th { display: table-cell; line-height: 1.4; background: -webkit-linear-gradient(top, #add386, #90b66a); }
+
+tbody tr th, tbody tr th p, tfoot tr th, tfoot tr th p { color: white; font-weight: bold; }
+
+p.tableblock > code:only-child { background: none; padding: 0; }
+
+p.tableblock { font-size: 1em; }
+
+td > div.verse { white-space: pre; }
+
+ol { margin-left: 1.75em; }
+
+ul li ol { margin-left: 1.5em; }
+
+dl dd { margin-left: 1.125em; }
+
+dl dd:last-child, dl dd:last-child > :last-child { margin-bottom: 0; }
+
+ol > li p, ul > li p, ul dd, ol dd, .olist .olist, .ulist .ulist, .ulist .olist, .olist .ulist { margin-bottom: 0.375em; }
+
+ul.checklist, ul.none, ol.none, ul.no-bullet, ol.no-bullet, ol.unnumbered, ul.unstyled, ol.unstyled { list-style-type: none; }
+
+ul.no-bullet, ol.no-bullet, ol.unnumbered { margin-left: 0.625em; }
+
+ul.unstyled, ol.unstyled { margin-left: 0; }
+
+ul.checklist { margin-left: 0.625em; }
+
+ul.checklist li > p:first-child > .fa-square-o:first-child, ul.checklist li > p:first-child > .fa-check-square-o:first-child { width: 1.25em; font-size: 0.8em; position: relative; bottom: 0.125em; }
+
+ul.checklist li > p:first-child > input[type="checkbox"]:first-child { margin-right: 0.25em; }
+
+ul.inline { display: -ms-flexbox; display: -webkit-box; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; list-style: none; margin: 0 0 0.375em -0.75em; }
+
+ul.inline > li { margin-left: 0.75em; }
+
+.unstyled dl dt { font-weight: normal; font-style: normal; }
+
+ol.arabic { list-style-type: decimal; }
+
+ol.decimal { list-style-type: decimal-leading-zero; }
+
+ol.loweralpha { list-style-type: lower-alpha; }
+
+ol.upperalpha { list-style-type: upper-alpha; }
+
+ol.lowerroman { list-style-type: lower-roman; }
+
+ol.upperroman { list-style-type: upper-roman; }
+
+ol.lowergreek { list-style-type: lower-greek; }
+
+.hdlist > table, .colist > table { border: 0; background: none; }
+.hdlist > table > tbody > tr, .colist > table > tbody > tr { background: none; }
+
+td.hdlist1, td.hdlist2 { vertical-align: top; padding: 0 0.625em; }
+
+td.hdlist1 { font-weight: bold; padding-bottom: 0.75em; }
+
+.literalblock + .colist, .listingblock + .colist { margin-top: -0.5em; }
+
+.colist td:not([class]):first-child { padding: 0.4em 0.75em 0 0.75em; line-height: 1; vertical-align: top; }
+.colist td:not([class]):first-child img { max-width: none; }
+.colist td:not([class]):last-child { padding: 0.25em 0; }
+
+.thumb, .th { line-height: 0; display: inline-block; border: solid 4px white; -webkit-box-shadow: 0 0 0 1px #dddddd; box-shadow: 0 0 0 1px #dddddd; }
+
+.imageblock.left, .imageblock[style*="float: left"] { margin: 0.25em 0.625em 1.25em 0; }
+.imageblock.right, .imageblock[style*="float: right"] { margin: 0.25em 0 1.25em 0.625em; }
+.imageblock > .title { margin-bottom: 0; }
+.imageblock.thumb, .imageblock.th { border-width: 6px; }
+.imageblock.thumb > .title, .imageblock.th > .title { padding: 0 0.125em; }
+
+.image.left, .image.right { margin-top: 0.25em; margin-bottom: 0.25em; display: inline-block; line-height: 0; }
+.image.left { margin-right: 0.625em; }
+.image.right { margin-left: 0.625em; }
+
+a.image { text-decoration: none; display: inline-block; }
+a.image object { pointer-events: none; }
+
+sup.footnote, sup.footnoteref { font-size: 0.875em; position: static; vertical-align: super; }
+sup.footnote a, sup.footnoteref a { text-decoration: none; }
+sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
+
+#footnotes { padding-top: 0.75em; padding-bottom: 0.75em; margin-bottom: 0.625em; }
+#footnotes hr { width: 20%; min-width: 6.25em; margin: -0.25em 0 0.75em 0; border-width: 1px 0 0 0; }
+#footnotes .footnote { padding: 0 0.375em 0 0.225em; line-height: 1.3334; font-size: 0.875em; margin-left: 1.2em; margin-bottom: 0.2em; }
+#footnotes .footnote a:first-of-type { font-weight: bold; text-decoration: none; margin-left: -1.05em; }
+#footnotes .footnote:last-of-type { margin-bottom: 0; }
+#content #footnotes { margin-top: -0.625em; margin-bottom: 0; padding: 0.75em 0; }
+
+.gist .file-data > table { border: 0; background: #fff; width: 100%; margin-bottom: 0; }
+.gist .file-data > table td.line-data { width: 99%; }
+
+div.unbreakable { page-break-inside: avoid; }
+
+.big { font-size: larger; }
+
+.small { font-size: smaller; }
+
+.underline { text-decoration: underline; }
+
+.overline { text-decoration: overline; }
+
+.line-through { text-decoration: line-through; }
+
+.aqua { color: #00bfbf; }
+
+.aqua-background { background-color: #00fafa; }
+
+.black { color: black; }
+
+.black-background { background-color: black; }
+
+.blue { color: #0000bf; }
+
+.blue-background { background-color: #0000fa; }
+
+.fuchsia { color: #bf00bf; }
+
+.fuchsia-background { background-color: #fa00fa; }
+
+.gray { color: #606060; }
+
+.gray-background { background-color: #7d7d7d; }
+
+.green { color: #006000; }
+
+.green-background { background-color: #007d00; }
+
+.lime { color: #00bf00; }
+
+.lime-background { background-color: #00fa00; }
+
+.maroon { color: #600000; }
+
+.maroon-background { background-color: #7d0000; }
+
+.navy { color: #000060; }
+
+.navy-background { background-color: #00007d; }
+
+.olive { color: #606000; }
+
+.olive-background { background-color: #7d7d00; }
+
+.purple { color: #600060; }
+
+.purple-background { background-color: #7d007d; }
+
+.red { color: #bf0000; }
+
+.red-background { background-color: #fa0000; }
+
+.silver { color: #909090; }
+
+.silver-background { background-color: #bcbcbc; }
+
+.teal { color: #006060; }
+
+.teal-background { background-color: #007d7d; }
+
+.white { color: #bfbfbf; }
+
+.white-background { background-color: #fafafa; }
+
+.yellow { color: #bfbf00; }
+
+.yellow-background { background-color: #fafa00; }
+
+span.icon > .fa { cursor: default; }
+a span.icon > .fa { cursor: inherit; }
+
+.admonitionblock td.icon [class^="fa icon-"] { font-size: 2.5em; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); cursor: default; }
+.admonitionblock td.icon .icon-note:before { content: "\f05a"; color: #004176; }
+.admonitionblock td.icon .icon-tip:before { content: "\f0eb"; text-shadow: 1px 1px 2px rgba(155, 155, 0, 0.8); color: #111; }
+.admonitionblock td.icon .icon-warning:before { content: "\f071"; color: #bf6900; }
+.admonitionblock td.icon .icon-caution:before { content: "\f06d"; color: #bf3400; }
+.admonitionblock td.icon .icon-important:before { content: "\f06a"; color: #bf0000; }
+
+.conum[data-value] { display: inline-block; color: #fff !important; background-color: black; -webkit-border-radius: 100px; border-radius: 100px; text-align: center; font-size: 0.75em; width: 1.67em; height: 1.67em; line-height: 1.67em; font-family: "Open Sans", "DejaVu Sans", sans-serif; font-style: normal; font-weight: bold; }
+.conum[data-value] * { color: #fff !important; }
+.conum[data-value] + b { display: none; }
+.conum[data-value]:after { content: attr(data-value); }
+pre .conum[data-value] { position: relative; top: -0.125em; }
+
+b.conum * { color: inherit !important; }
+
+.conum:not([data-value]):empty { display: none; }
+
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { border-bottom: 1px solid #dddddd; }
+
+.sect1 { padding-bottom: 0; }
+
+#toctitle { color: #00406F; font-weight: normal; margin-top: 1.5em; }
+
+.sidebarblock { border-color: #aaa; }
+
+code { -webkit-border-radius: 4px; border-radius: 4px; }
+
+p.tableblock.header { color: #6d6e71; }
+
+.literalblock pre, .listingblock pre { background: #eeeeee; }
+
+</style>
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<h1>Java Implementation of ITS Intelligent Transport Systems (ITS) Security header and certificate formats</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_license">License</a></li>
+<li><a href="#_changelog">Changelog</a>
+<ul class="sectlevel2">
+<li><a href="#_2_0_0_beta3">2.0.0-Beta3</a></li>
+<li><a href="#_2_0_0_beta2">2.0.0-Beta2</a></li>
+<li><a href="#_2_0_0_beta1">2.0.0-Beta1</a></li>
+<li><a href="#_0_9_8">0.9.8</a></li>
+<li><a href="#_0_9_7">0.9.7</a></li>
+<li><a href="#_0_9_6">0.9.6</a></li>
+<li><a href="#_0_9_5">0.9.5</a></li>
+<li><a href="#_0_9_0">0.9.0</a></li>
+</ul>
+</li>
+<li><a href="#_eu_standard_etsi_ts_103_097_v1_3_1">EU Standard ETSI TS 103 097 V1.3.1</a>
+<ul class="sectlevel2">
+<li><a href="#_example_code">Example Code</a></li>
+</ul>
+</li>
+<li><a href="#_eu_standard_etsi_ts_102_941_v1_3_1">EU Standard ETSI TS 102 941 V1.3.1</a>
+<ul class="sectlevel2">
+<li><a href="#_example_code_2">Example Code</a></li>
+</ul>
+</li>
+<li><a href="#_us_standard_ieee_1609_2">US Standard IEEE 1609.2</a>
+<ul class="sectlevel2">
+<li><a href="#_example_code_3">Example Code</a></li>
+</ul>
+</li>
+<li><a href="#_reports">Reports</a>
+<ul class="sectlevel2">
+<li><a href="#_java_documentation">Java Documentation</a></li>
+<li><a href="#_test_reports">Test Reports</a></li>
+<li><a href="#_dependencies">Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is a library used to generate data structures from the ETSI TS 103 097 v1.3.1, ETSI TS 102 941 v1.3.1 (EU) and IEEE 1609.2 2016 (With 1609.2a 2017 Amendment) (US) specification.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_license">License</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The software is released under AGPL, <a href="LICENSE.txt" class="bare">LICENSE.txt</a> for more details.
+In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_changelog">Changelog</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_2_0_0_beta3">2.0.0-Beta3</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Updated support to Etsi TS 102 941 v 1.3.1</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_0_0_beta2">2.0.0-Beta2</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Support for generating CA Messages according to Etsi TS 102 941 v 1.2.1</p>
+</li>
+<li>
+<p>Fix for bad encoding of Time64 data structures (it used nano seconds instead of milliseconds).</p>
+</li>
+<li>
+<p>Changed compile target to JDK 8.</p>
+</li>
+<li>
+<p>Some refactoring.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_0_0_beta1">2.0.0-Beta1</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Updated IEEE 1609.2 support to 2016 with 1609.2a 2017 amendment.</p>
+</li>
+<li>
+<p>Added support to generate new ITS ETSI TS 103 097 V1.3.1 structures based on 1609.2a 2017</p>
+</li>
+<li>
+<p>Added test vector test of cryptographic algorithms from IEEE 1609.2a 2017</p>
+</li>
+<li>
+<p>Removed old ITS ETSI TS 103 097 V1.2.1 code and generators</p>
+</li>
+<li>
+<p>Fixed problem with COERBoolean</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_0_9_8">0.9.8</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Added support for ETSI TS 103 097 V1.2.1 (Version 2 certificate and SecureMessages), V2 Certificates and SecureMessages have been interoperability tested
+with ETSI test tool from ts_10309603v010201p0 package. (Tests was done to verify generated messages and generation and parsing of certificates).</p>
+</li>
+<li>
+<p>Added utility methods to retrieve java.security variant of verification public key from certificates (common API for both US and EU standard)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_0_9_7">0.9.7</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Added support for IEEE 1609.2 certificate (US standard)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_0_9_6">0.9.6</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Improved automatic build of project.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_0_9_5">0.9.5</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Interoperability testing of all aspects except encryption.</p>
+</li>
+<li>
+<p>Bug-fixes on signature generation where trailer field signature type wasn&#8217;t included in the digest calculation.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_0_9_0">0.9.0</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Ecies Encryption scheme support in DefaultCryptoManager</p>
+</li>
+<li>
+<p>Restructured the behaviour of CryptoManager verifySecuredMessage to throw InvalidITSSignatureException instead of returning a boolean</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_eu_standard_etsi_ts_103_097_v1_3_1">EU Standard ETSI TS 103 097 V1.3.1</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It supports generation of the following data structures will all related substructures:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Root CA Certificate</p>
+</li>
+<li>
+<p>Enrollment CA Certificate</p>
+</li>
+<li>
+<p>Authorization CA Certificate</p>
+</li>
+<li>
+<p>Enrollment Credential Certificate</p>
+</li>
+<li>
+<p>Authorization Ticket</p>
+</li>
+<li>
+<p>Trust List Manager Certificate</p>
+</li>
+<li>
+<p>Secure Messages (CAM and DENM) and others</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See Javadoc and examples below for more detailed information.</p>
+</div>
+<div class="sect2">
+<h3 id="_example_code">Example Code</h3>
+<div class="paragraph">
+<p>Full example code can be seen in src/test/java/org/certificateservices/custom/c2x/demo it contains demo of both ETSI (EU) and IEEE (US) standards.</p>
+</div>
+<div class="paragraph">
+<p>Before doing anything else you need to initialize a CryptoManager used for all cryptographic operations.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    	//Create a crypto manager in charge of communicating with underlying cryptographic components
+	    CryptoManager cryptoManager = new DefaultCryptoManager();
+	    // Initialize the crypto manager to use soft keys using the bouncy castle cryptographic provider.
+	    cryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"));</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_root_ca">Root CA</h4>
+<div class="paragraph">
+<p>Example code on how to generate Root a CA, use the AuthorityCertGenerator:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Create an authority certificate generator and initialize it with the crypto manager.
+	    ETSIAuthorityCertGenerator authorityCertGenerator = new ETSIAuthorityCertGenerator(cryptoManager);
+
+	    // Generate a reference to the Root CA Keys
+	    KeyPair rootCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+	    KeyPair rootCAEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    ValidityPeriod rootCAValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 45);
+	    List&lt;Integer&gt; countries = new ArrayList&lt;Integer&gt;();
+	    countries.add(SWEDEN);
+		GeographicRegion region = GeographicRegion.generateRegionForCountrys(countries);
+
+	    // Generate the root CA Certificate, without any encryption keys or geographic region.
+	    EtsiTs103097Certificate rootCACertificate = authorityCertGenerator.genRootCA("testrootca.test.com", // caName
+	    		rootCAValidityPeriod, //ValidityPeriod
+	    		region, //GeographicRegion
+                3, // minChainDepth
+                -1, // chainDepthRange
+				Hex.decode("0138"), // cTLServiceSpecificPermissions, 2 octets
+	    		SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+	    		rootCASigningKeys.getPublic(), // signPublicKey
+	    		rootCASigningKeys.getPrivate(), // signPrivateKey
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,  // encPublicKeyAlgorithm
+	    		rootCAEncryptionKeys.getPublic()); // encPublicKey
+		// There also exists a more general root ca generation method giving more flexibility in parameters.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enrollment_ca">Enrollment CA</h4>
+<div class="paragraph">
+<p>To generate an Enrollment CA:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Generate a reference to the Enrollment CA Keys
+	    KeyPair enrollmentCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+	    KeyPair enrollmentCAEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    ValidityPeriod enrollmentCAValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 37);
+
+	    // Generate a reference to the Enrollment CA Signing Keys
+		EtsiTs103097Certificate enrollmentCACertificate =authorityCertGenerator.genEnrollmentCA("testea.test.com", // CA Name
+				enrollmentCAValidityPeriod,
+				region,  //GeographicRegion
+				new SubjectAssurance(1,3), // subject assurance (optional)
+                SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+                enrollmentCASigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
+				rootCACertificate, // signerCertificate
+				rootCASigningKeys.getPublic(), // signCertificatePublicKey, must be specified separately to support implicit certificates.
+				rootCASigningKeys.getPrivate(),
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,  // encPublicKeyAlgorithm
+	    		enrollmentCAEncryptionKeys.getPublic() // encryption public key
+	    		);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authority_ca">Authority CA</h4>
+<div class="paragraph">
+<p>To generate an Authority CA:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Generate a reference to the Authorization CA Keys
+	    KeyPair authorityCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+	    KeyPair authorityCAEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    ValidityPeriod authorityCAValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 15);
+
+	    // Generate a reference to the Authorization CA Signing Keys
+		EtsiTs103097Certificate authorityCACertificate = authorityCertGenerator.genAuthorizationCA(
+				"testaa.test.com", // CA Name
+	    		authorityCAValidityPeriod,
+				region,  //GeographicRegion
+				new SubjectAssurance(1,3), // subject assurance (optional)
+                SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+                authorityCASigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
+				rootCACertificate, // signerCertificate
+				rootCASigningKeys.getPublic(), // signCertificatePublicKey,
+				rootCASigningKeys.getPrivate(),
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,  // encPublicKeyAlgorithm
+	    		authorityCAEncryptionKeys.getPublic() // encryption public key
+	    		);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enrollment_credential">Enrollment Credential</h4>
+<div class="paragraph">
+<p>To create an Enrollment Credential use the EnrollmentCredentialCertGenerator.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // First we create a Enrollment Credential Cert Generator using the newly created Enrollment CA.
+		ETSIEnrollmentCredentialGenerator enrollmentCredentialCertGenerator = new ETSIEnrollmentCredentialGenerator(cryptoManager);
+	    // Next we generate keys for an enrollment credential.
+	    KeyPair enrollmentCredentialSigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+	    // Next we generate keys for an enrollment credential.
+	    KeyPair enrollmentCredentialEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    ValidityPeriod enrollCertValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 35);
+
+	    // Then use the following command to generate a enrollment credential
+		EtsiTs103097Certificate enrollmentCredential = enrollmentCredentialCertGenerator.genEnrollCredential(
+				"0102030405060708", // unique identifier name
+	    		enrollCertValidityPeriod,
+	    		region,
+	    		Hex.decode("01C0"), //SSP data set in SecuredCertificateRequestService appPermission, two byte, for example: 0x01C0
+	    		3, // assuranceLevel
+				7, // confidenceLevel
+	    		SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+	    		enrollmentCredentialSigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
+	    		enrollmentCACertificate, // signerCertificate
+	    		enrollmentCASigningKeys.getPublic(), // signCertificatePublicKey,
+	    		enrollmentCASigningKeys.getPrivate(),
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
+	    		enrollmentCredentialEncryptionKeys.getPublic() // encryption public key
+	    		);
+
+	    // There also exists a more general method with flexible app permissions.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorization_ticket">Authorization Ticket</h4>
+<div class="paragraph">
+<p>To create an Authorization Ticket l use the AuthorizationTicketCertGenerator.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Authorization tickets are created by the ETSIAuthorizationTicketGenerator
+		ETSIAuthorizationTicketGenerator authorizationCertGenerator = new ETSIAuthorizationTicketGenerator(cryptoManager);
+
+	    // Next we generate keys for an authorization certificate.
+	    KeyPair authorizationTokenSigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    // Next we generate keys for an authorization certificate.
+	    KeyPair authorizationTicketEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    ValidityPeriod authorizationCertValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 35);
+
+		PsidSsp[] appPermissions = new PsidSsp[1];
+		appPermissions[0] = new PsidSsp(new Psid(6), null); // Insert proper app permissions here.
+
+	    // Generate a certificate as an explicit certificate.
+		EtsiTs103097Certificate authorizationCert = authorizationCertGenerator.genAuthorizationTicket(
+	    		authorizationCertValidityPeriod, // Validity Period
+	    		region, // region,
+				new SubjectAssurance(1,3), // Subject Assurance, optional
+	    		appPermissions,
+	    		SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+				authorizationTokenSigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
+	    		authorityCACertificate, // signerCertificate
+	    		authorityCASigningKeys.getPublic(), // signCertificatePublicKey,
+	    		authorityCASigningKeys.getPrivate(),
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
+				authorizationTicketEncryptionKeys.getPublic() // encryption public key
+	    		);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_trust_list_manager_certificate">Trust List Manager Certificate</h4>
+<div class="paragraph">
+<p>To create a trust list manager certificate.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">		// Generate a reference to the Root CA Keys
+		KeyPair tlmSigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+		KeyPair tlmEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+		ValidityPeriod tlmValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 45);
+		// Generate the root CA Certificate, without any encryption keys or geographic region.
+		EtsiTs103097Certificate trustListManagerCertificate = authorityCertGenerator.genTrustListManagerCert(
+				"testtlm.test.com", // name
+				rootCAValidityPeriod, //ValidityPeriod
+				region, //GeographicRegion, optional
+				Hex.decode("01C8"), // cTLServiceSpecificPermissions, 2 octets
+				SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+				rootCASigningKeys.getPublic(), // signPublicKey
+				rootCASigningKeys.getPrivate() // signPrivateKey
+				 );
+		// There also exists a more general root ca generation method giving more flexibility in parameters.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_secured_messages">Secured Messages</h4>
+<div class="paragraph">
+<p>To create Secured Messages such as CAM or DENM use the SecuredMessageGenerator.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    	    // EtsiTs103097Data are created by the Secure Message Generator
+        		ETSISecuredDataGenerator securedMessageGenerator = new ETSISecuredDataGenerator(ETSISecuredDataGenerator.DEFAULT_VERSION, cryptoManager, HashAlgorithm.sha256, SignatureChoices.ecdsaNistP256Signature);
+
+        		// To generate a Signed CA Message it is possible to use
+        		List&lt;HashedId3&gt; hashedId3s = new ArrayList&lt;HashedId3&gt;();
+        		hashedId3s.add(new HashedId3(cryptoManager.digest(rootCACertificate.getEncoded(),HashAlgorithm.sha256)));
+        		hashedId3s.add(new HashedId3(cryptoManager.digest(enrollmentCACertificate.getEncoded(),HashAlgorithm.sha256)));
+        		SequenceOfHashedId3 inlineP2pcdRequest = new SequenceOfHashedId3(hashedId3s);
+
+        		byte[] cAMessageData = Hex.decode("SomeCAMessage");
+        		EtsiTs103097DataSigned cAMessage = securedMessageGenerator.genCAMessage(new Time64(new Date()), // generationTime
+        				inlineP2pcdRequest, //  InlineP2pcdRequest (Required)
+        				rootCACertificate, // requestedCertificate
+        				cAMessageData, // inner opaque CA message data
+        				SecuredDataGenerator.SignerIdentifierType.SIGNER_CERTIFICATE, // signerIdentifierType
+        				authorizationCert, // signerCertificate
+        				authorizationTokenSigningKeys.getPrivate()); // signerPrivateKey
+
+
+        		// To generate a Signed DEN Message
+        		byte[] dENMessageData = Hex.decode("SomeDENMessage");
+        		EtsiTs103097DataSigned dENMessage = securedMessageGenerator.genDENMessage(
+        				new Time64(new Date()), // generationTime
+        				new ThreeDLocation(1,2,3), // generationLocation
+        				dENMessageData, // inner opaque DEN message data
+        				authorizationCert, // signerCertificate
+        				authorizationTokenSigningKeys.getPrivate()); // signerPrivateKey
+
+        		// The securedMessageGenerator also have methods to generate more general EtsiTs103097Data profiles such as
+        		// EtsiTs103097DataSigned, EtsiTs103097DataSignedExternalPayload, EtsiTs103097DataEncrypted and
+        		// EtsiTs103097DataSignedAndEncrypted.
+
+        	    // It is then possible to create a signed message with the following code
+        	      // First generate a Header with
+        	    HeaderInfo hi = securedMessageGenerator.genHeaderInfo(
+        	    		123L, // psid Required,
+        	    		null, // generationTime Optional
+        	    		null, // expiryTime Optional
+        	    		null, // generationLocation Optional
+        	    		null, // p2pcdLearningRequest Optional
+        	    		null, // cracaid Optional
+        	    		null, // crlSeries Optional
+        	    		null, // encType Type of encryption when encrypting a message with a encryption key references in a signed message instead of a certificate. Optional
+        	    		null, // encryptionKey Optional
+        				null, // inlineP2pcdRequest Optional
+        		null // requestedCertificate Optional
+        	    		);
+
+        	    // This method can be used to sign the data
+        		EtsiTs103097DataSigned signedData = securedMessageGenerator.genEtsiTs103097DataSigned(hi,
+        	    		"TestData".getBytes(), // The actual payload message to sign.
+        	    		SecuredDataGenerator.SignerIdentifierType.HASH_ONLY, // One of  HASH_ONLY, SIGNER_CERTIFICATE, CERT_CHAIN indicating reference data of the signer to include in the message
+        	    		new EtsiTs103097Certificate[] {authorizationCert,authorityCACertificate, rootCACertificate}, // The chain is required even though it isn't included in
+        	    		  // the message if eventual implicit certificates need to have it's public key reconstructed.
+        	    		authorizationTokenSigningKeys.getPrivate()); // Signing Key
+        		// It is also possible to generate a EtsiTs103097DataSignedExternalPayload with the genEtsiTs103097DataSignedExternalPayload()
+        		// method.
+
+        	    // The message can be encrypted with the method
+        	      // First construct a list of recipient which have the public key specified either as a symmetric key, certificate or in header of signed data
+        	      // In this example we will use certificate as reciever, see package org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient for more details.
+        		EtsiTs103097DataEncrypted encryptedData = securedMessageGenerator.genEtsiTs103097DataEncrypted(BasePublicEncryptionKeyChoices.ecdsaNistP256,
+        	    		  signedData.getEncoded(), new Recipient[] {new CertificateRecipient(enrollmentCredential)});
+
+        	    // It is also possible to sign and encrypt in one go.
+        		EtsiTs103097DataEncrypted encryptedAndSignedMessage = securedMessageGenerator.genEtsiTs103097DataSignedAndEncrypted(hi,
+        	    		"TestData2".getBytes(),
+        	    		SecuredDataGenerator.SignerIdentifierType.HASH_ONLY,
+        	    		new EtsiTs103097Certificate[] {authorizationCert,authorityCACertificate, rootCACertificate},
+        				authorizationTokenSigningKeys.getPrivate(), // Important to use the reconstructed private key for implicit certificates
+        	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,
+        	    		new Recipient[] {new CertificateRecipient(enrollmentCredential)});
+
+        	    // To decrypt and verify a signed message it is possible to use the following
+        	      // First build a truststore of trust anchors (root CA certificate or equivalent)
+        	    Map&lt;HashedId8, Certificate&gt; trustStore = securedMessageGenerator.buildCertStore(new EtsiTs103097Certificate[] {rootCACertificate});
+        	      // Second build a store of known certificate that might be referenced in the message.
+        	    Map&lt;HashedId8, Certificate&gt; certStore = securedMessageGenerator.buildCertStore(new EtsiTs103097Certificate[] {authorizationCert, authorityCACertificate});
+        	      // To decrypt build a reciever store of known decryption keys and related receiver info, this can be certificate, signed message containing encryption key
+        	      // in header, symmetric key or pre shared key.
+        	    Map&lt;HashedId8, Receiver&gt; recieverStore = securedMessageGenerator.buildRecieverStore(new Receiver[] { new CertificateReciever(enrollmentCredentialEncryptionKeys.getPrivate(), enrollmentCredential)});
+        		  // Finally perform the decryption and verification of siganture with.
+        		DecryptAndVerifyResult decryptAndVerifyResult = securedMessageGenerator.decryptAndVerifySignedData(encryptedAndSignedMessage.getEncoded(),
+        	    		certStore,
+        	    		trustStore,
+        	    		recieverStore,
+        	    		true, //requiredSignature true if message must be signed otherwise a IllegalArgument is throwm
+        	    		true //requireEncryption true if message must be encrypted otherwise a IllegalArgument is throwm
+        	    		);
+        		   // The decryptAndVerifyResult contains the inner opaque data, the related header info and signer identifier
+        		   // if related message was signed.
+
+        	      // It is also possible to use the methods decryptData or verifySignedData (or verifyReferencedSignedData) for alternative methods to verify and decrypt messages.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_to_encode_and_decode_certificates_and_secured_messages">To Encode and Decode Certificates and Secured Messages</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // To encode a certificate to a byte array use the following method
+	    byte[] certificateData = authorizationCert.getEncoded();
+
+	    // To decode certificate data use the following constructor
+	    EtsiTs103097Certificate decodedCertificate = new EtsiTs103097Certificate(certificateData);
+
+	    // To decode message data use the following constructor.
+	    EtsiTs103097Data decodedMessage = new EtsiTs103097Data(messageData);
+	    // If the message profile is known there also exists EtsiTs103097DataSigned, EtsiTs103097DataSignedExternalPayload,
+	    // EtsiTs103097DataEncrypted classes that performs validation according to each profile.</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_eu_standard_etsi_ts_102_941_v1_3_1">EU Standard ETSI TS 102 941 V1.3.1</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It supports generation of the following data structures will all related substructures:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Enrol Request/Response Message</p>
+</li>
+<li>
+<p>Authorization Request/Response Message</p>
+</li>
+<li>
+<p>Authorization Validation Request/Response Message</p>
+</li>
+<li>
+<p>CRL and CTL Messages</p>
+</li>
+<li>
+<p>CA Request Message (With Rekey)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See Javadoc and examples below for more detailed information.</p>
+</div>
+<div class="sect2">
+<h3 id="_example_code_2">Example Code</h3>
+<div class="paragraph">
+<p>Full example code can be seen in src/test/java/org/certificateservices/custom/c2x/demo. The
+example code assumes you have access to a generated PKI according to ETSI TS 103 097 standard.</p>
+</div>
+<div class="paragraph">
+<p>Before generating any CA Message create a CA Message generator with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // Create a ETSITS102941MessagesCaGenerator generator
+        messagesCaGenerator = new ETSITS102941MessagesCaGenerator(Ieee1609Dot2Data.DEFAULT_VERSION,
+                cryptoManager, // The initialized crypto manager to use.
+                HashAlgorithm.sha256, // digest algorithm to use.
+                Signature.SignatureChoices.ecdsaNistP256Signature,  // define which signature scheme to use.
+                false); // If EC points should be represented as uncompressed.</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enrolrequestmessage">EnrolRequestMessage</h4>
+<div class="paragraph">
+<p>To create an EnrolRequestMessage use the following code.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // First create the InnerEcRequest object
+        InnerEcRequest initialInnerEcRequest = genDummyInnerEcRequest(enrolCredSignKeys.getPublic());
+        EtsiTs103097DataEncryptedUnicast initialEnrolRequestMessage = messagesCaGenerator.genInitialEnrolmentRequestMessage(
+                new Time64(new Date()), // generation Time
+                initialInnerEcRequest,
+                enrolCredSignKeys.getPublic(),enrolCredSignKeys.getPrivate(), // The key pair used in the enrolment credential used for self signed PoP
+                enrolmentCACert); // The EA certificate to encrypt message to.
+
+        // All messages can be encoded to byte[] using
+        byte[] encodedMessage = initialEnrolRequestMessage.getEncoded();
+
+        // To parse and encoded message create a new instance of related EtsiTs103097Data profile.
+        EtsiTs103097DataEncryptedUnicast decodedMessage = new EtsiTs103097DataEncryptedUnicast(encodedMessage);
+
+        // To Create an rekey EnrolRequestMessage use the following code.
+
+        // Use a separate method when performing rekey that contains signature of previous message.
+        InnerEcRequest reKeyInnerEcRequest = genDummyInnerEcRequest(enrolCredReSignKeys.getPublic());
+        EtsiTs103097DataEncryptedUnicast rekeyEnrolRequestMessage = messagesCaGenerator.genRekeyEnrolmentRequestMessage(
+                new Time64(new Date()), // generation Time
+                reKeyInnerEcRequest, // Inner EC Request containing PublicKeys with new keys.
+                enrollmentCredCertChain, // The certificate chain of the current (old) enrolment credential.
+                enrolCredSignKeys.getPrivate(), // Private key if current (old) enrolment credential.
+                enrolCredReSignKeys.getPublic(),enrolCredReSignKeys.getPrivate(), // The key pair used in the enrolment credential used for self signed PoP
+                enrolmentCACert); // The EA certificate to encrypt message to.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To verify a EnrolRequestMessage use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // First build a certificate store and a trust store to verify signature.
+        // These can be null if only initial messages are used.
+        Map&lt;HashedId8, Certificate&gt; enrolCredCertStore = messagesCaGenerator.buildCertStore(enrollmentCredCertChain);
+        Map&lt;HashedId8, Certificate&gt; trustStore = messagesCaGenerator.buildCertStore(new EtsiTs103097Certificate[]{rootCACert});
+
+        // Then create a receiver store to decrypt the message
+        Map&lt;HashedId8, Receiver&gt; enrolCAReceipients = messagesCaGenerator.buildRecieverStore(new Receiver[] {new CertificateReciever(enrolCAEncKeys.getPrivate(),enrolmentCACert)});
+        // Then decrypt and verify with:
+        // Important: this method only verifies the signature, it does not validate header information.
+        RequestVerifyResult&lt;InnerEcRequest&gt; enrolmentRequestResult = messagesCaGenerator.decryptAndVerifyEnrolmentRequestMessage(rekeyEnrolRequestMessage,enrolCredCertStore,trustStore,enrolCAReceipients);
+        // The verify result for enrolment request returns a special value object containing both inner message and
+        // requestHash used in response.
+
+        // The result object of all verify message method contains the following information:
+        enrolmentRequestResult.getSignerIdentifier(); // The identifier of the signer
+        enrolmentRequestResult.getHeaderInfo(); // The header information of the signer of the message
+        enrolmentRequestResult.getValue(); // The inner message that was signed and or encrypted.
+        enrolmentRequestResult.getSecretKey(); // The symmetrical key used in Ecies request operations and is set when verifying all
+        // request messages. The secret key should usually be used to encrypt the response back to the requester.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enrolresponsemessage">EnrolResponseMessage</h4>
+<div class="paragraph">
+<p>To generate and verify EnrolResponseMessage</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // First generate a InnerECResponse
+        InnerEcResponse innerEcResponse = new InnerEcResponse(enrolmentRequestResult.getRequestHash(), EnrollmentResponseCode.ok,enrolmentCredCert);
+        // Then generate the EnrolmentResponseMessage with:
+        EtsiTs103097DataEncryptedUnicast enrolResponseMessage = messagesCaGenerator.genEnrolmentResponseMessage(
+                new Time64(new Date()), // generation Time
+                innerEcResponse,
+                enrollmentCAChain, // Chain of EA used to sign message
+                enrolCASignKeys.getPrivate(),
+                SymmAlgorithm.aes128Ccm, // Encryption algorithm used
+                enrolmentRequestResult.getSecretKey()); // Use symmetric key from the verification result when verifying the request.
+
+        // To verify EnrolResponseMessage use:
+        // Build certstore
+        Map&lt;HashedId8, Certificate&gt; enrolCACertStore = messagesCaGenerator.buildCertStore(enrollmentCAChain);
+
+        // Build reciever store containing the symmetric key used in the request.
+        Map&lt;HashedId8, Receiver&gt; enrolCredSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(enrolmentRequestResult.getSecretKey())});
+        VerifyResult&lt;InnerEcResponse&gt; enrolmentResponseResult = messagesCaGenerator.decryptAndVerifyEnrolmentResponseMessage(
+                enrolResponseMessage,
+                enrolCACertStore, // Certificate chain if EA CA
+                trustStore,
+                enrolCredSharedKeyReceivers
+        );</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorizationrequestmessage">AuthorizationRequestMessage</h4>
+<div class="paragraph">
+<p>To generate and verify AuthorizationRequestMessage</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // To generate an AuthorizationRequestMessage it is possible to generate
+        // the message with and without POP and privacy set. This example generates
+        // message with POP and privacy.
+
+        // First generate a PublicKeys, hmacKey and SharedAtRequest structures
+        PublicKeys publicKeys = messagesCaGenerator.genPublicKeys(signAlg,authTicketSignKeys.getPublic(),SymmAlgorithm.aes128Ccm,encAlg, authTicketEncKeys.getPublic());
+        byte[] hmacKey = genHmacKey();
+        SharedAtRequest sharedAtRequest = genDummySharedAtRequest(publicKeys, hmacKey);
+
+        EtsiTs103097DataEncryptedUnicast authRequestMessage = messagesCaGenerator.genAuthorizationRequestMessage(
+                new Time64(new Date()), // generation Time
+                publicKeys,
+                hmacKey,
+                sharedAtRequest,
+                enrollmentCredCertChain, // Certificate chain of enrolment credential to sign outer message to AA
+                enrolCredSignKeys.getPrivate(), // Private key used to sign message.
+                authTicketSignKeys.getPublic(), //The public key of the auth ticket, used to create POP, null if no POP should be generated.
+                authTicketSignKeys.getPrivate(), // The private key of the auth ticket, used to create POP, null if no POP should be generated.
+                authorizationCACert, // The AA certificate to encrypt outer message to.
+                enrolmentCACert, // Encrypt inner ecSignature with given certificate, required if withPrivacy is true.
+                true // Encrypt the inner ecSignature message sent to EA
+        );
+
+         // To verify an AuthorizationRequest use the following code.
+
+         // Build a recipient store for Authorization Authority
+        Map&lt;HashedId8, Receiver&gt; authorizationCAReceipients = messagesCaGenerator.buildRecieverStore(new Receiver[] {new CertificateReciever(authorizationCAEncKeys.getPrivate(),authorizationCACert)});
+
+        // To decrypt the message and verify the external POP signature (not the inner eCSignature signed for EA CA).
+        RequestVerifyResult&lt;InnerAtRequest&gt; authRequestResult = messagesCaGenerator.decryptAndVerifyAuthorizationRequestMessage(authRequestMessage,
+                 true, // Expect AuthorizationRequestPOP content
+                 authorizationCAReceipients); // Receivers able to decrypt the message
+        // The AuthorizationRequestData contains the innerAtRequest and calculated requestHash
+        InnerAtRequest innerAtRequest = authRequestResult.getValue();
+        // There exists another method to decrypt (if privacy is used) and verify inner ecSignature with:
+        VerifyResult&lt;EcSignature&gt; ecSignatureVerifyResult = messagesCaGenerator.decryptAndVerifyECSignature(innerAtRequest.getEcSignature(),
+                innerAtRequest.getSharedAtRequest(),
+                true,
+                enrolCredCertStore, // Certificate store to verify the signing enrollment credential
+                trustStore,
+                enrolCAReceipients); // the EA certificate used to decrypt the inner message.
+
+        // The verified and decrypted (if withPrivacy) eCSignature is retrived with
+        EcSignature ecSignature = ecSignatureVerifyResult.getValue();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorizationresponsemessage">AuthorizationResponseMessage</h4>
+<div class="paragraph">
+<p>To generate and verify AuthorizationResponseMessage</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // First create innerAtResponse
+        InnerAtResponse innerAtResponse = new InnerAtResponse(authRequestResult.getRequestHash(),
+                AuthorizationResponseCode.ok,
+                authTicketCert);
+        EtsiTs103097DataEncryptedUnicast authResponseMessage = messagesCaGenerator.genAuthorizationResponseMessage(
+                new Time64(new Date()), // generation Time
+                innerAtResponse,
+                authorizationCAChain, // The AA certificate chain signing the message
+                authorizationCASignKeys.getPrivate(),
+                SymmAlgorithm.aes128Ccm, // Encryption algorithm used.
+                authRequestResult.getSecretKey()); // The symmetric key generated in the request.
+
+
+        // To verify AuthorizationResponse use:
+
+        // Build reciever store containing the symmetric key used in the request.
+        Map&lt;HashedId8, Receiver&gt; authTicketSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(authRequestResult.getSecretKey())});
+        Map&lt;HashedId8, Certificate&gt; authCACertStore = messagesCaGenerator.buildCertStore(authorizationCAChain);
+        VerifyResult&lt;InnerAtResponse&gt; authResponseResult = messagesCaGenerator.decryptAndVerifyAuthorizationResponseMessage(authResponseMessage,
+                authCACertStore, // certificate store containing certificates for auth cert.
+                trustStore,
+                authTicketSharedKeyReceivers);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorizationvalidationrequestmessage">AuthorizationValidationRequestMessage</h4>
+<div class="paragraph">
+<p>To generate and verify AuthorizationValidationRequestMessage</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // The authorization validation request is sent between AA and EA and should
+        // contain the SharedATRequest and ecSignature structures.
+        AuthorizationValidationRequest authorizationValidationRequest = new AuthorizationValidationRequest(
+                innerAtRequest.getSharedAtRequest(),innerAtRequest.getEcSignature());
+
+        EtsiTs103097DataEncryptedUnicast authorizationValidationRequestMessage = messagesCaGenerator.genAuthorizationValidationRequest(
+                new Time64(new Date()), // generation Time
+                authorizationValidationRequest,
+                authorizationCAChain,// The AA certificate chain to generate the signature.
+                authorizationCASignKeys.getPrivate(), // The AA signing keys
+                enrolmentCACert); // The EA certificate to encrypt data to.
+
+
+         // To verify an Authorization Validation Request
+
+        RequestVerifyResult&lt;AuthorizationValidationRequest&gt; authorizationValidationRequestVerifyResult = messagesCaGenerator.decryptAndVerifyAuthorizationValidationRequestMessage(
+                 authorizationValidationRequestMessage,
+                 authCACertStore, // certificate store containing certificates for auth cert.
+                 trustStore,
+                 enrolCAReceipients);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorizationvalidationresponsemessage">AuthorizationValidationResponseMessage</h4>
+<div class="paragraph">
+<p>To generate and verify AuthorizationValidationResponseMessage</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">         // First generate inner authorizationValidationResponse object
+        AuthorizationValidationResponse authorizationValidationResponse = new AuthorizationValidationResponse(
+                authorizationValidationRequestVerifyResult.getRequestHash(),
+                AuthorizationValidationResponseCode.ok,
+                genDummyConfirmedSubjectAttributes());
+        EtsiTs103097DataEncryptedUnicast authorizationValidationResponseMessage = messagesCaGenerator.genAuthorizationValidationResponseMessage(
+                new Time64(new Date()), // generation Time
+                authorizationValidationResponse,
+                enrollmentCAChain, // EA signing chain
+                enrolCASignKeys.getPrivate(), // EA signing private key
+                SymmAlgorithm.aes128Ccm, // Encryption algorithm used.
+                authorizationValidationRequestVerifyResult.getSecretKey() // The symmetric key generated in the request.
+                );
+
+
+        // To verify an Authorization Validation Response
+
+        Map&lt;HashedId8, Receiver&gt; authValidationSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(authorizationValidationRequestVerifyResult.getSecretKey())});
+        VerifyResult&lt;AuthorizationValidationResponse&gt; authorizationValidationResponseVerifyResult = messagesCaGenerator.decryptAndVerifyAuthorizationValidationResponseMessage(
+                authorizationValidationResponseMessage,
+                enrolCACertStore,
+                trustStore,
+                authValidationSharedKeyReceivers);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_generate_ctl_and_crl_messages">Generate CTL and CRL messages</h4>
+<div class="paragraph">
+<p>To generate and verify CTL and CRL messages use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // The messages CertificateRevocationListMessage, TlmCertificateTrustListMessage and RcaCertificateTrustListMessage
+        // are all generated using very similar methods. Only CertificateRevocationListMessage is shown here.
+
+        // First generate to be signed data
+        ToBeSignedCrl toBeSignedCrl = genDummyCRLToBeSignedData();
+        EtsiTs103097DataSigned certificateRevocationListMessage = messagesCaGenerator.genCertificateRevocationListMessage(
+                new Time64(new Date()), // signing generation time
+                toBeSignedCrl,
+                new EtsiTs103097Certificate[]{rootCACert}, // certificate chain of signer
+                rootCAKeys.getPrivate()); // Private key of signer
+
+        // To verify CTL and CRL messages
+        Map&lt;HashedId8, Certificate&gt; crlTrustStore = new HashMap&lt;&gt;(); // Only root ca needed from truststore in this case.
+        VerifyResult&lt;ToBeSignedCrl&gt; crlVerifyResult = messagesCaGenerator.verifyCertificateRevocationListMessage(
+                certificateRevocationListMessage,
+                crlTrustStore,
+                trustStore
+        );</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_carequestmessage_and_rekey">CARequestMessage and Rekey</h4>
+<div class="paragraph">
+<p>To generate and verify inital and rekey a CARequestMessage use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // First generate inner CaCertificatRequest
+        CaCertificateRequest caCertificateRequest = genDummyCaCertificateRequest(authorizationCASignKeys.getPublic());
+        // The self sign the message to prove possession.
+        EtsiTs103097DataSigned caCertificateRequestMessage = messagesCaGenerator.genCaCertificateRequestMessage(
+                new Time64(new Date()), // signing generation time
+                caCertificateRequest,
+                authorizationCASignKeys.getPublic(), // The CAs signing keys
+                authorizationCASignKeys.getPrivate());
+
+       // To verify a CA Request Message
+
+        VerifyResult&lt;CaCertificateRequest&gt; caCertificateRequestVerifyResult = messagesCaGenerator.verifyCACertificateRequestMessage(caCertificateRequestMessage);
+
+        // To generate a Rekey CA Request Message
+        CaCertificateRequest caCertificateRekeyRequest = genDummyCaCertificateRequest(authorizationCAReSignKeys.getPublic());
+        EtsiTs103097DataSigned caCertificateRekeyRequestMessage =messagesCaGenerator.genCaCertificateRekeyingMessage(
+                new Time64(new Date()), // signing generation time,
+                caCertificateRekeyRequest,
+                authorizationCAChain,
+                authorizationCASignKeys.getPrivate(),
+                authorizationCAReSignKeys.getPublic(),
+                authorizationCAReSignKeys.getPrivate());
+
+        // To Verify a Rekey CA Request Message
+        VerifyResult&lt;CaCertificateRequest&gt; caCertificateRekeyRequestVerifyResult = messagesCaGenerator.verifyCACertificateRekeyingMessage(caCertificateRekeyRequestMessage,authCACertStore,trustStore);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_us_standard_ieee_1609_2">US Standard IEEE 1609.2</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The implementation supports the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Encodes using ASN.1 COER</p>
+</li>
+<li>
+<p>Support for both ecdsaNistP256 and ecdsaBrainpoolP256r1 algorithm schemes</p>
+</li>
+<li>
+<p>Generation of RootCA, Enrollment CA (Long Term) and Authorization (Short Term) CA</p>
+</li>
+<li>
+<p>Generation of Enrollment Certificates and Authorization Certificate</p>
+</li>
+<li>
+<p>Support for both explicit and implicit certificate generation</p>
+</li>
+<li>
+<p>Support signing and encryption of SecuredData structures</p>
+</li>
+<li>
+<p>Generation of SecuredCRL structures.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><em>Important</em>: The encryption scheme hasn&#8217;t been properly tested for inter-operability yet and might contain wrong ECIES parameters.</p>
+</div>
+<div class="sect2">
+<h3 id="_example_code_3">Example Code</h3>
+<div class="paragraph">
+<p>Full example code can be seen in src/test/java/org/certificateservices/custom/c2x/demo it contains demo of both ITS (EU) and IEEE (US) standards.</p>
+</div>
+<div class="paragraph">
+<p>Before doing anything else you need to initialize a CryptoManager used for all cryptographic operations.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    Ieee1609Dot2CryptoManager cryptoManager = new DefaultCryptoManager();
+	    // Initialize the crypto manager to use soft keys using the bouncy castle cryptographic provider.
+	    cryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"));</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_root_ca_2">Root CA</h4>
+<div class="paragraph">
+<p>Example code on how to generate Root a CA, use the AuthorityCertGenerator:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Create an authority certificate generator and initialize it with the crypto manager.
+	    AuthorityCertGenerator authorityCertGenerator = new AuthorityCertGenerator(cryptoManager);
+
+	    // Generate a reference to the Root CA Keys
+	    KeyPair rootCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+	    KeyPair rootCAEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    CertificateId rootCAId = new CertificateId(new Hostname("Test RootCA"));
+	    ValidityPeriod rootCAValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 45);
+	    List&lt;Integer&gt; countries = new ArrayList&lt;Integer&gt;();
+	    countries.add(SWEDEN);
+		GeographicRegion region = GeographicRegion.generateRegionForCountrys(countries);
+
+	    // Generate the root CA Certificate, without any encryption keys or geographic region.
+	    Certificate rootCACertificate = authorityCertGenerator.genRootCA(rootCAId, // CertificateId
+	    		rootCAValidityPeriod, //ValidityPeriod
+	    		region, //GeographicRegion
+	    		4, // assuranceLevel
+                3, // confidenceLevel
+                3, // minChainDepth
+                -1, // chainDepthRange
+	    		SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+	    		rootCASigningKeys.getPublic(), // signPublicKey
+	    		rootCASigningKeys.getPrivate(), // signPrivateKey
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,  // encPublicKeyAlgorithm
+	    		rootCAEncryptionKeys.getPublic()); // encPublicKey</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enrollment_ca_long_term">Enrollment CA (Long Term)</h4>
+<div class="paragraph">
+<p>To generate an Enrollment CA:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Generate a reference to the Enrollment CA Keys
+	    KeyPair enrollmentCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+	    KeyPair enrollmentCAEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    CertificateId enrollmentCAId = new CertificateId(new Hostname("Test Enrollment CA"));
+	    ValidityPeriod enrollmentCAValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 37);
+
+		byte[] cracaid = Hex.decode("010203"); // Some cracaid
+		PsidSspRange[] subjectPerms = new PsidSspRange[1];
+		subjectPerms[0] = new PsidSspRange(new Psid(5), new SspRange(SspRangeChoices.all, null)); // Insert proper subject permissions here.
+	    // Generate a reference to the Enrollment CA Signing Keys
+	    Certificate enrollmentCACertificate =authorityCertGenerator.genLongTermEnrollmentCA(
+	    		CertificateType.explicit, // Implicit or Explicit certificate
+	    		enrollmentCAId,// CertificateId
+				enrollmentCAValidityPeriod,
+				region,  //GeographicRegion
+				subjectPerms,
+				cracaid,
+				99, // CrlSeries
+	    		4, // assuranceLevel
+                3, // confidenceLevel
+                2, // minChainDepth
+                0, // chainDepthRange
+                SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+                enrollmentCASigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
+				rootCACertificate, // signerCertificate
+				rootCASigningKeys.getPublic(), // signCertificatePublicKey, must be specified separately to support implicit certificates.
+				rootCASigningKeys.getPrivate(),
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,  // encPublicKeyAlgorithm
+	    		enrollmentCAEncryptionKeys.getPublic() // encryption public key
+	    		);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorization_ca_short_term">Authorization CA (Short Term)</h4>
+<div class="paragraph">
+<p>To generate an Authorization CA:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        // Generate a reference to the Authorization CA Keys
+	    KeyPair authorityCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+	    KeyPair authorityCAEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    CertificateId authorityCAId = new CertificateId(new Hostname("Test Enrollment CA"));
+	    ValidityPeriod authorityCAValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 15);
+
+		cracaid = Hex.decode("040506"); // Some cracaid
+		subjectPerms = new PsidSspRange[1];
+		subjectPerms[0] = new PsidSspRange(new Psid(6), new SspRange(SspRangeChoices.all, null)); // Insert proper subject permissions here.
+
+	    // Generate a reference to the Authorization CA Signing Keys
+	    Certificate authorityCACertificate = authorityCertGenerator.genAuthorizationCA(
+	    		CertificateType.explicit, // Implicit or Explicit certificate
+	    		authorityCAId,// CertificateId
+	    		authorityCAValidityPeriod,
+				region,  //GeographicRegion
+				subjectPerms,
+				cracaid,
+				99, // Some CrlSeries
+	    		4, // assuranceLevel
+                3, // confidenceLevel
+                2, // minChainDepth
+                0, // chainDepthRange
+                SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+                authorityCASigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
+				rootCACertificate, // signerCertificate
+				rootCASigningKeys.getPublic(), // signCertificatePublicKey,
+				rootCASigningKeys.getPrivate(),
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,  // encPublicKeyAlgorithm
+	    		authorityCAEncryptionKeys.getPublic() // encryption public key
+	    		);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_enrollment_certificate">Enrollment Certificate</h4>
+<div class="paragraph">
+<p>To create an Enrollment Certificate (explicit in this example) use the EnrollmentCertGenerator.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Now we have the CA hierarchy, the next step is to generate an enrollment credential
+	    // First we create a Enrollment Credential Cert Generator using the newly created Enrollment CA.
+	    EnrollmentCertGenerator enrollmentCredentialCertGenerator = new EnrollmentCertGenerator(cryptoManager);
+	    // Next we generate keys for an enrollment credential.
+	    KeyPair enrollmentCredentialSigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+	    // Next we generate keys for an enrollment credential.
+	    KeyPair enrollmentCredentialEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    CertificateId enrollCertId = new CertificateId(Hex.decode("0102030405060708"));
+	    ValidityPeriod enrollCertValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 35);
+
+		PsidSspRange[] certRequestPermissions = new PsidSspRange[1];
+		certRequestPermissions[0] = new PsidSspRange(new Psid(5), new SspRange(SspRangeChoices.all, null)); // Insert proper subject permissions here.
+
+	    // Then use the following command to generate a enrollment credential
+	    Certificate enrollmentCredential = enrollmentCredentialCertGenerator.genEnrollCert(
+	    		CertificateType.explicit, // Implicit or Explicit certificate
+	    		enrollCertId, // Certificate Id,
+	    		enrollCertValidityPeriod,
+	    		region,
+	    		certRequestPermissions,
+	    		cracaid, // insert proper cracaid here.
+	    		99, // Some CrlSeries
+	    		4,
+	    		3,
+	    		SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+	    		enrollmentCredentialSigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
+	    		enrollmentCACertificate, // signerCertificate
+	    		enrollmentCASigningKeys.getPublic(), // signCertificatePublicKey,
+	    		enrollmentCASigningKeys.getPrivate(),
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
+	    		enrollmentCredentialEncryptionKeys.getPublic() // encryption public key
+	    		);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorization_certificate_with_implicit_certificate">Authorization Certificate (With implicit certificate)</h4>
+<div class="paragraph">
+<p>To create an Authorization Certificate (implicit in this example) use the AuthorizationCertGenerator.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Authorization certificates are created by the AuthorizationCertGenerator
+	    AuthorizationCertGenerator authorizationCertGenerator = new AuthorizationCertGenerator(cryptoManager);
+
+	    // Next we generate keys for an authorization certificate.
+	    KeyPair authorizationCertRequestSigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    // Next we generate keys for an authorization certificate.
+	    KeyPair authorizationCertEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
+
+	    CertificateId authorizationCertId = new CertificateId(Hex.decode("9999999999"));
+	    ValidityPeriod authorizationCertValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 35);
+
+
+		PsidSsp[] appPermissions = new PsidSsp[1];
+		appPermissions[0] = new PsidSsp(new Psid(6), null); // Insert proper app permissions here.
+
+	    // Generate a certificate as an implicit certificate.
+	    Certificate authorizationCert = authorizationCertGenerator.genAuthorizationCert(
+	    		CertificateType.implicit, // Implicit or Explicit certificate
+	    		authorizationCertId, // Certificate Id,
+	    		authorizationCertValidityPeriod,
+	    		region,
+	    		appPermissions,
+	    		cracaid, // insert proper cracaid here.
+	    		99, // Some CrlSeries
+	    		4,
+	    		3,
+	    		SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+	    		authorizationCertRequestSigningKeys.getPublic(), // signPublicKey, i.e public key in certificate
+	    		authorityCACertificate, // signerCertificate
+	    		authorityCASigningKeys.getPublic(), // signCertificatePublicKey,
+	    		authorityCASigningKeys.getPrivate(),
+	    		SymmAlgorithm.aes128Ccm, // symmAlgorithm
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
+	    		authorizationCertEncryptionKeys.getPublic() // encryption public key
+	    		);
+
+	    // Implicit certificate needs to have it's private key reconstructed. R is given inside the ImplicitCertificateData (which is the actual type of implicit certificates)
+	    PrivateKey authorizationCertSigningPrivateKey = cryptoManager.reconstructImplicitPrivateKey(authorizationCert,
+	    		((ImplicitCertificateData) authorizationCert).getR(),
+	    		SignatureChoices.ecdsaNistP256Signature,
+	    		authorizationCertRequestSigningKeys.getPrivate(), authorityCASigningKeys.getPublic(),
+	    		authorityCACertificate);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_certificate_encoding_and_decoding_example">Certificate Encoding and Decoding Example</h4>
+<div class="paragraph">
+<p>To encode and decode a certificate use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // To encode a certificate to a byte array use the following method
+	    byte[] certificateData = authorizationCert.getEncoded();
+
+	    // To decode certificate data use the following constructor
+	    Certificate decodedCertificate = new Certificate(certificateData);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_secured_data_example">Secured Data Example</h4>
+<div class="paragraph">
+<p>To generate signed and/or encrypted Secured Data use the SecuredMessageGenerator:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // Secure Messages are created by the Secure Message Generator
+	    SecuredDataGenerator securedMessageGenerator = new SecuredDataGenerator(SecuredDataGenerator.DEFAULT_VERSION, cryptoManager, HashAlgorithm.sha256, SignatureChoices.ecdsaNistP256Signature);
+
+	    // It is then possible to create a signed message with the following code
+	      // First generate a Header with
+	    HeaderInfo hi = securedMessageGenerator.genHeaderInfo(
+	    		123L, // psid Required,
+	    		null, // generationTime Optional
+	    		null, // expiryTime Optional
+	    		null, // generationLocation Optional
+	    		null, // p2pcdLearningRequest Optional
+	    		null, // cracaid Optional
+	    		null, // crlSeries Optional
+	    		null, // encType Type of encryption when encrypting a message with a encryption key references in a signed message instead of a certificate. Optional
+	    		null, // encryptionKey Optional
+				null, // inlineP2pcdRequest Optional
+		null // requestedCertificate Optional
+	    		);
+
+	    // This method can be used to sign the data
+	    Ieee1609Dot2Data signedData = securedMessageGenerator.genSignedData(hi,
+	    		"TestData".getBytes(), // The actual payload message to sign.
+	    		SignerIdentifierType.HASH_ONLY, // One of  HASH_ONLY, SIGNER_CERTIFICATE, CERT_CHAIN indicating reference data of the signer to include in the message
+	    		new Certificate[] {authorizationCert,authorityCACertificate, rootCACertificate}, // The chain is required even though it isn't included in
+	    		  // the message if eventual implicit certificates need to have it's public key reconstructed.
+	    		authorizationCertSigningPrivateKey); // Signing Key
+
+	    // The message can be encrypted with the method
+	      // First construct a list of recipient which have the public key specified either as a symmetric key, certificate or in header of signed data
+	      // In this example we will use certificate as reciever, see package org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient for more details.
+	    Ieee1609Dot2Data encryptedData = securedMessageGenerator.encryptData(BasePublicEncryptionKeyChoices.ecdsaNistP256,
+	    		  signedData.getEncoded(), new Recipient[] {new CertificateRecipient(enrollmentCredential)});
+	      // It is also possible to encrypt using a pre shared key using the encryptDataWithPresharedKey() method.
+
+	    // It is also possible to sign and encrypt in one go.
+	    byte[] encryptedAndSignedMessage = securedMessageGenerator.signAndEncryptData(hi,
+	    		"TestData2".getBytes(),
+	    		SignerIdentifierType.HASH_ONLY,
+	    		new Certificate[] {authorizationCert,authorityCACertificate, rootCACertificate},
+	    		authorizationCertSigningPrivateKey, // Important to use the reconstructed private key for implicit certificates
+	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,
+	    		new Recipient[] {new CertificateRecipient(enrollmentCredential)}).getEncoded();
+
+	    // To decrypt and verify a signed message it is possible to use the following
+	      // First build a truststore of trust anchors (root CA certificate or equivalent)
+	    Map&lt;HashedId8, Certificate&gt; trustStore = securedMessageGenerator.buildCertStore(new Certificate[] {rootCACertificate});
+	      // Second build a store of known certificate that might be referenced in the message.
+	    Map&lt;HashedId8, Certificate&gt; certStore = securedMessageGenerator.buildCertStore(new Certificate[] {authorizationCert, authorityCACertificate});
+	      // To decrypt build a reciever store of known decryption keys and related receiver info, this can be certificate, signed message containing encryption key
+	      // in header, symmetric key or pre shared key.
+	    Map&lt;HashedId8, Receiver&gt; recieverStore = securedMessageGenerator.buildRecieverStore(new Receiver[] { new CertificateReciever(enrollmentCredentialEncryptionKeys.getPrivate(), enrollmentCredential)});
+		  // Finally perform the decryption with.
+		DecryptAndVerifyResult decryptAndVerifyResult = securedMessageGenerator.decryptAndVerifySignedData(encryptedAndSignedMessage,
+	    		certStore,
+	    		trustStore,
+	    		recieverStore,
+	    		true, //requiredSignature true if message must be signed otherwise a IllegalArgument is throwm
+	    		true //requireEncryption true if message must be encrypted otherwise a IllegalArgument is throwm
+	    		);
+		   // The decryptAndVerifyResult contains the inner opaque data, the related header info and signer identifier
+		   // if related message was signed.
+
+	      // It is also possible to use the methods decryptData or verifySignedData (or verifyReferencedSignedData) for alternative methods to verify and decrypt messages.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_secured_data_encoding_and_decoding_example">Secured Data Encoding and Decoding Example</h4>
+<div class="paragraph">
+<p>To encode and decode a secured data use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">	    // To encode a secured message to a byte array use the following method.
+	    byte[] messageData = signedData.getEncoded();
+
+	    // To decode message data use the following constructor.
+	    Ieee1609Dot2Data decodedMessage = new Ieee1609Dot2Data(messageData);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reports">Reports</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_java_documentation">Java Documentation</h3>
+<div class="paragraph">
+<p>Java Documentation can be found <a href="javadoc/index.html">here</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_reports">Test Reports</h3>
+<div class="paragraph">
+<p>Test reports can be found <a href="tests/full/index.html">here</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dependencies">Dependencies</h3>
+<div class="paragraph">
+<p>Dependency report can be found <a href="dependencies/index.html">here</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-01-02 14:35:19 MSK
+</div>
+</div>
+</body>
+</html>
