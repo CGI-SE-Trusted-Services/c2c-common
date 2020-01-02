@@ -535,7 +535,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param enrolmentAuthorityRecipient the EA certificate, required if withPrivacy is set to true.
      * @param withPrivacy true if EcSignature inside the innerAtRequest should be encrypted when
      *                    sent to Enrolment Authority.
-     * @return
+     * @return a newly generated enryption result containing authorization request message.
      * @throws IllegalArgumentException if message contained invalid data.
      * @throws GeneralSecurityException if problem occurred decrypting the data.
      * @throws SignatureException if problems occurred signing the data.
@@ -1509,7 +1509,6 @@ public class ETSITS102941MessagesCaGenerator {
      * @param etsiTs103097DataSigned the message to verify.
      * @param certStore a list of known certificates that can be used to build a certificate path (excluding trust anchors).
      * @param trustStore certificates in trust store, must be explicit certificate in order to qualify as trust anchors.
-     * @return true if data structure signature verifies.
      * @param messageName the message name
      * @throws SignatureException if signature didn't verify.
      * @throws IOException if problems occurred de-serializing the data structure.

@@ -67,8 +67,8 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * Method to generate a self signed root CA.
 	 * 
 	 * @param id the id if the certificate, see CertificateId for details, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param assuranceLevel the assurance level to use, 0-7, Required
 	 * @param confidenceLevel the confidence level to use, 0-3, Required
 	 * @param minChainDepth the minimal chain length of this PKI hierarchy, Required
@@ -116,8 +116,8 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 *
 	 * @param type indicates if this is a implicit or explicit certificate, Required
 	 * @param id the id if the certificate, see CertificateId for details, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Optional
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Optional
 	 * @param subjectPermissions a list of subject permissions, null of all.
 	 * @param cracaid cracaid value to set in certificate, Required.
 	 * @param crlSeries the crlSeries to set in certificate, Required.
@@ -167,8 +167,8 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * 
 	 * @param type indicates if this is a implicit or explicit certificate, Required
 	 * @param id the id if the certificate, see CertificateId for details, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Optional
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Optional
 	 * @param subjectPermissions a list of subject permissions, null of all.
 	 * @param cracaid cracaid value to set in certificate, Required.
 	 * @param crlSeries the crlSeries to set in certificate, Required.

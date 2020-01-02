@@ -86,7 +86,7 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @param message the encoded DENM message.
      * @param signerCertificate the certificate signing the message.
      * @param signerPrivateKey private key of signer.
-     * @return
+     * @return a newly generated DEN Message
      * @throws IllegalArgumentException if fault was discovered in supplied parameters.
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws IOException if IO exception occurred communicating with underlying systems.
@@ -105,7 +105,7 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @param signerCertificateChain the complete chain up to the trust anchor. Important the trust anchor MUST be an explicit certificate and the array
      * must be in the order of end entity certificate at position 0 and trust anchor last in array.
      * @param signerPrivateKey private key of signer.
-     *
+     * @return a generic EtsiTs103097DataSigned message.
      * @throws IllegalArgumentException if fault was discovered in supplied parameters.
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws IOException if IO exception occurred communicating with underlying systems.

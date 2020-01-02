@@ -274,7 +274,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
 	}
 	
 	/**
-	 * @param verificationKeyIndicator, required
+	 * @param verificationKeyIndicator required
 	 */
 	public void setVerifyKeyIndicator(VerificationKeyIndicator verificationKeyIndicator) {
 		set(VERIFYKEYINDICATOR, verificationKeyIndicator);

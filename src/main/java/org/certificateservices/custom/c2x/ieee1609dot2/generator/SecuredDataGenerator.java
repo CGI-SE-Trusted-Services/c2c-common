@@ -520,7 +520,7 @@ public class SecuredDataGenerator {
 	 * Method to decrypt and verify a signed data structure, the method returns the SignedData object containing
 	 * a unsecured payload. This method only verifies the signature and does not check other header info parameters.
 	 * 
-	 * @param message, the message to decrypt and verify.
+	 * @param message the message to decrypt and verify.
 	 * @param certStore a list of known certificates that can be used to build a certificate path (excluding trust anchors).
      * @param trustStore certificates in trust store, must be explicit certificate in order to qualify as trust anchors.
 	 * @param recieverStore the store of known receiver keys.
@@ -572,7 +572,7 @@ public class SecuredDataGenerator {
 	 * Method to decrypt and verify a self signed signed data structure, the method returns the SignedData object containing
 	 * a unsecured payload. This method only verifies the signature and does not check other header info parameters.
 	 *
-	 * @param message, the message to decrypt and verify.
+	 * @param message the message to decrypt and verify.
 	 * @param signerPublicKey the signers public key used to verify the signature.
 	 * @param recieverStore the store of known receiver keys.
 	 * @param requiredSignature if it should be required that messages are signed.

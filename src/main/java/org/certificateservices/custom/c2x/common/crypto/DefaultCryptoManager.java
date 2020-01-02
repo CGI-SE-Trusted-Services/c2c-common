@@ -436,7 +436,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 
 	
 	/**
-	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#encodeEccPoint(AlgorithmIndicator, EccP256CurvePointChoices, PublicKey)
+	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager
 	 */
 	@Override
 	public EccP256CurvePoint encodeEccPoint(AlgorithmIndicator alg,

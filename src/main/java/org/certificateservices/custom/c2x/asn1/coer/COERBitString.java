@@ -115,7 +115,7 @@ public class COERBitString implements COEREncodable{
 	/**
 	 * Method to set a given bit at the given position.
 	 * Important: This method assumes the bit is 0 before calling, cannot unset a flag.
-	 * @param int position the position of the bit to set.
+	 * @param position the position of the bit to set.
 	 * @param flag true if bit at position should be set.
 	 * @throws IllegalArgumentException if position is out of bounds.
 	 */

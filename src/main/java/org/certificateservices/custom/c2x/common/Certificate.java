@@ -51,7 +51,7 @@ public interface Certificate {
 	 * @param cryptoManager the related crypto manager, must be compatible with underlying implementation.
 	 * @param alg the algorithm scheme used, algorithm indicator that specify Signature scheme used, such as SignatureChoices, PublicVerificationKeyChoices or PublicKeyAlgorithm
 	 * @param signerCertificate the certificates signing certificate, only required for implicit certificate, otherwise null.
-	 * @param the java security public key if the signer certificate, only required for implicit certificates, otherwise it can be null.
+	 * @param signerPublicKey the java security public key if the signer certificate, only required for implicit certificates, otherwise it can be null.
 	 * @return a public verification key of the certificate.
 	 * @throws InvalidKeySpecException if the given signerPublicKey was invalid.
 	 * @throws SignatureException if problems occurred reconstructing the public key.

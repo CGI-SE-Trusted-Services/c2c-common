@@ -41,17 +41,32 @@ import static org.certificateservices.custom.c2x.etsits102941.v131.datastructs.m
  */
 class EtsiTs102941DataContentSpec extends BaseStructSpec {
 
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss")
-    @Shared InnerEcRequestSignedForPop enrolmentRequestValue = new InnerEcRequestSignedForPop(EtsiTs103097DataSignedSpec.newSignedData())
-    @Shared InnerEcResponse enrolmentResponseValue = new InnerEcResponse(Hex.decode("00112233445566778899001122334455"), EnrollmentResponseCode.ok, SingleEtsiTs103097CertificateSpec.genCert())
-    @Shared InnerAtRequest authorizationRequestValue = new InnerAtRequest(InnerAtRequestSpec.genPublicKeys(), Hex.decode("0011223344556677889900112233445566778899001122334455667788990011"), InnerAtRequestSpec.genSharedAtRequest(), InnerAtRequestSpec.genEcSignature())
-    @Shared InnerAtResponse authorizationResponseValue = new InnerAtResponse(Hex.decode("00112233445566778899001122334455"), AuthorizationResponseCode.ok, SingleEtsiTs103097CertificateSpec.genCert())
-    @Shared ToBeSignedCrl certificateRevocationListValue = genToBeSignedCrl()
-    @Shared ToBeSignedTlmCtl certificateTrustListTlmValue = genToBeSignedTlmCtl()
-    @Shared ToBeSignedRcaCtl certificateTrustListRcaValue = genToBeSignedRcaCtl()
-    @Shared AuthorizationValidationRequest authorizationValidationRequestValue = new AuthorizationValidationRequest(InnerAtRequestSpec.genSharedAtRequest(), InnerAtRequestSpec.genEcSignature())
-    @Shared AuthorizationValidationResponse authorizationValidationResponseValue = new AuthorizationValidationResponse(Hex.decode("00112233445566778899001122334455"), AuthorizationValidationResponseCode.ok, SharedAtRequestSpec.genCertificateSubjectAttributes())
-    @Shared CaCertificateRequest caCertificateRequestValue = new CaCertificateRequest(InnerAtRequestSpec.genPublicKeys(), SharedAtRequestSpec.genCertificateSubjectAttributes())
+
+    static SimpleDateFormat dateFormat
+    @Shared InnerEcRequestSignedForPop enrolmentRequestValue
+    @Shared InnerEcResponse enrolmentResponseValue
+    @Shared InnerAtRequest authorizationRequestValue
+    @Shared InnerAtResponse authorizationResponseValue
+    @Shared ToBeSignedCrl certificateRevocationListValue
+    @Shared ToBeSignedTlmCtl certificateTrustListTlmValue
+    @Shared ToBeSignedRcaCtl certificateTrustListRcaValue
+    @Shared AuthorizationValidationRequest authorizationValidationRequestValue
+    @Shared AuthorizationValidationResponse authorizationValidationResponseValue
+    @Shared CaCertificateRequest caCertificateRequestValue
+
+    def setupSpec(){
+        dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss", new Locale("sv"))
+        enrolmentRequestValue = new InnerEcRequestSignedForPop(EtsiTs103097DataSignedSpec.newSignedData())
+        enrolmentResponseValue = new InnerEcResponse(Hex.decode("00112233445566778899001122334455"), EnrollmentResponseCode.ok, SingleEtsiTs103097CertificateSpec.genCert())
+        authorizationRequestValue = new InnerAtRequest(InnerAtRequestSpec.genPublicKeys(), Hex.decode("0011223344556677889900112233445566778899001122334455667788990011"), InnerAtRequestSpec.genSharedAtRequest(), InnerAtRequestSpec.genEcSignature())
+        authorizationResponseValue = new InnerAtResponse(Hex.decode("00112233445566778899001122334455"), AuthorizationResponseCode.ok, SingleEtsiTs103097CertificateSpec.genCert())
+        certificateRevocationListValue = genToBeSignedCrl()
+        certificateTrustListTlmValue = genToBeSignedTlmCtl()
+        certificateTrustListRcaValue = genToBeSignedRcaCtl()
+        authorizationValidationRequestValue = new AuthorizationValidationRequest(InnerAtRequestSpec.genSharedAtRequest(), InnerAtRequestSpec.genEcSignature())
+        authorizationValidationResponseValue = new AuthorizationValidationResponse(Hex.decode("00112233445566778899001122334455"), AuthorizationValidationResponseCode.ok, SharedAtRequestSpec.genCertificateSubjectAttributes())
+        caCertificateRequestValue = new CaCertificateRequest(InnerAtRequestSpec.genPublicKeys(), SharedAtRequestSpec.genCertificateSubjectAttributes())
+    }
 
     @Unroll
     def "Verify that EtsiTs102941DataContent is correctly encoded for type #choice"(){

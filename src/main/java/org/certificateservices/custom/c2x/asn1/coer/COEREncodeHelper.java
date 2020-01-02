@@ -38,7 +38,6 @@ public class COEREncodeHelper {
 	 * Returns an encoded length determinant according to section 8.6 in the ISO/IEC 8825-7:2015 specification
 	 * @param length the length to encode
 	 * @param dos the output stream to write the length determinant to.
-	 * @return an encoded representation of the length.
 	 */
 	public static void writeLengthDeterminant(BigInteger length, DataOutputStream dos) throws IllegalArgumentException, IOException{
 		if(length.compareTo(BigInteger.ZERO) == -1 ){
@@ -51,7 +50,6 @@ public class COEREncodeHelper {
 	 * Returns an encoded length determinant according to section 8.6 in the ISO/IEC 8825-7:2015 specification
 	 * @param length the length to encode
 	 * @param dos the output stream to write the length determinant to.
-	 * @return an encoded representation of the length.
 	 */
 	public static void writeLengthDeterminant(long length, DataOutputStream dos) throws IllegalArgumentException, IOException{
 		writeLengthDeterminant(BigInteger.valueOf(length), dos);
@@ -62,7 +60,6 @@ public class COEREncodeHelper {
 	 * Returns an encoded enumeration value according to section 11 in the ISO/IEC 8825-7:2015 specification
 	 * @param value the value to encode
 	 * @param dos the output stream to write the length determinant to.
-	 * @return an encoded representation of the length.
 	 */
 	public static void writeEnumerationValue(BigInteger value, DataOutputStream dos) throws IllegalArgumentException, IOException{
 		encodeLengthDeterminantOrEnumeration(value,dos, true);
@@ -72,7 +69,6 @@ public class COEREncodeHelper {
 	 * Returns an encoded enumeration value according to section 11 in the ISO/IEC 8825-7:2015 specification
 	 * @param value the value to encode
 	 * @param dos the output stream to write the length determinant to.
-	 * @return an encoded representation of the length.
 	 */
 	public static void writeEnumerationValue(long value, DataOutputStream dos) throws IllegalArgumentException, IOException{
 		writeEnumerationValue(BigInteger.valueOf(value), dos);
@@ -82,7 +78,6 @@ public class COEREncodeHelper {
 	 * Returns an encoded enumeration value according to section 11 in the ISO/IEC 8825-7:2015 specification
 	 * @param value the enumeration to encode
 	 * @param dos the output stream to write the length determinant to.
-	 * @return an encoded representation of the length.
 	 */
 	public static void writeEnumerationValue(COEREnumerationType value, DataOutputStream dos) throws IllegalArgumentException, IOException{
 		if(value == null){

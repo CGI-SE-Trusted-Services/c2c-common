@@ -56,8 +56,8 @@ public class ETSIAuthorizationTicketGenerator extends BaseCertGenerator {
 	/**
 	 * Method to generate an authorization ticket end entity certificate.
 	 *
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions an array of app permissions set in certificate.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required if type is explicit
@@ -104,8 +104,8 @@ public class ETSIAuthorizationTicketGenerator extends BaseCertGenerator {
 	/**
 	 * Method to generate an authorization ticket end entity certificate.
 	 *
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions an array of app permissions set in certificate.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required if type is explicit

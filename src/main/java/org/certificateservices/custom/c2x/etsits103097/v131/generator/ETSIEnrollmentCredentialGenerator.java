@@ -58,8 +58,8 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 	 * Method to generate a enrollment type end entity certificate.
 	 *
 	 * @param name the name uniquely identifying the holder of the certificate.
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param certReqSSPData SSP data set in SecuredCertificateRequestService appPermission, two byte, for example: 0x01C0
 	 * @param assuranceLevel the assurance level to use, 0-7, Required
 	 * @param confidenceLevel the confidence level to use, 0-3, Required
@@ -104,8 +104,8 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 	 * Method to generate a enrollment type end entity certificate.
 	 *
 	 * @param name the name uniquely identifying the holder of the certificate.
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions an array of app permissions set in certificate.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required if type is explicit
@@ -151,8 +151,8 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 	 * Method to generate a enrollment type end entity certificate.
 	 *
 	 * @param name the name uniquely identifying the holder of the certificate.
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions an array of app permissions set in certificate.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required if type is explicit

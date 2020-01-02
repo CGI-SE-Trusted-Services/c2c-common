@@ -60,8 +60,8 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * Method to generate a simple self signed root CA.
 	 * 
 	 * @param caName the id if the certificate, a string representation, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Optional
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Optional
 	 * @param minChainDepth the minimal chain length of this PKI hierarchy, Required
 	 * @param chainDepthRange the chain depth range, see 6.4.30 PsidGroupPermissions for details, Required
 	 * @param cTLServiceSpecificPermissions the SSP data used for CTL Service Specific Permissions as defined as 2 octets
@@ -113,8 +113,8 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * A more general Root CA generator constructor for custom Root CA certificate profile.
 	 *
 	 * @param id the id if the certificate, see CertificateId for details, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions list of appPermissions, use null to not set any app permissions.
 	 * @param certIssuePermissions list of certIssuePermissions, use null to not set any cert issue permissions.
@@ -155,8 +155,8 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * Method to generate a simple self signed Trust List Manager certificate.
 	 *
 	 * @param name the id if the certificate, a string representation, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Optional
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Optional
 	 * @param cTLServiceSpecificPermissions the SSP data used for CTL Service Specific Permissions as defined as 2 octets
 	 *                                      in 102 941 v1.3.1.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required
@@ -190,8 +190,8 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * A more general Trust List Manager generator constructor for custom Root CA certificate profile.
 	 *
 	 * @param id the id if the certificate, see CertificateId for details, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions list of appPermissions, use null to not set any app permissions.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required
@@ -224,8 +224,8 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * Method to generate a simple enrollment CA with all cert permissions for enrollment CAs.
 	 *
 	 * @param caName the id if the certificate, a string representation, Required.
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Optional
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Optional
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required if type is explicit
 	 * @param signPublicKey public key used for verification of this certificate, Required
@@ -271,8 +271,8 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * Method to generate a simple autorization CA with all cert permissions for enrollment CAs.
 	 *
 	 * @param caName the id if the certificate, a string representation, Required.
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Optional
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Optional
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param signingPublicKeyAlgorithm algorithm used for signing and verification, Required if type is explicit
 	 * @param signPublicKey public key used for verification of this certificate, Required
@@ -318,8 +318,8 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * appPermissions and certIssuePermissions.
 	 *
 	 * @param id the id if the certificate, see CertificateId for details, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Optional
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Optional
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions list of appPermissions, use null to not set any app permissions.
 	 * @param certIssuePermissions list of certIssuePermissions, use null to not set any cert issue permissions.

@@ -77,7 +77,7 @@ public class ImplicitCertificateData extends Certificate {
 
 	/**
 	 * 
-	 * @param r,  the related r value used to reconstruct the private key.
+	 * @param r the related r value used to reconstruct the private key.
 	 */
 	public void setR(BigInteger r){
 		this.r = r;

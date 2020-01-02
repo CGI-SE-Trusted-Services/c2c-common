@@ -1,88 +1,93 @@
-# Java Implementation of ITS Intelligent Transport Systems (ITS) Security header and certificate formats
-# ETSI TS 103 097 V1.3.1, ETSI TS 102 941 V1.3.1 and IEEE 1609.2a 2017
+= Java Implementation of ITS Intelligent Transport Systems (ITS) Security header and certificate formats
 
-iThis is a library used to generate data structures from the ETSI TS 103 097 v1.3.1, ETSI TS 102 941 v1.3.1 (EU) and IEEE 1609.2 2016 (With 1609.2a 2017 Amendment) (US) specification.
+This is a library used to generate data structures from the ETSI TS 103 097 v1.3.1, ETSI TS 102 941 v1.3.1 (EU) and IEEE 1609.2 2016 (With 1609.2a 2017 Amendment) (US) specification.
 
-# License
-The software is released under AGPL, see LICENSE.txt for more details. In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
+== License
 
-# What's new in 2.0.0-Beta3
+The software is released under AGPL, link:LICENSE.txt[] for more details.
+In order to get the software under a different licensing agreement please contact p.vendil (at) cgi.com
 
-- Updated support to Etsi TS 102 941 v 1.3.1
+== Changelog
 
-# What's new in 2.0.0-Beta2
+=== 2.0.0-Beta3
 
-- Support for generating CA Messages according to Etsi TS 102 941 v 1.2.1
-- Fix for bad encoding of Time64 data structures (it used nano seconds instead of milliseconds).
-- Changed compile target to JDK 8.
-- Some refactoring.
+* Updated support to Etsi TS 102 941 v 1.3.1
 
-# What's new in 2.0.0-Beta1
+===  2.0.0-Beta2
 
-- Updated IEEE 1609.2 support to 2016 with 1609.2a 2017 amendment.
-- Added support to generate new ITS ETSI TS 103 097 V1.3.1 structures based on 1609.2a 2017 
-- Added test vector test of cryptographic algorithms from IEEE 1609.2a 2017
-- Removed old ITS ETSI TS 103 097 V1.2.1 code and generators
-- Fixed problem with COERBoolean
+* Support for generating CA Messages according to Etsi TS 102 941 v 1.2.1
+* Fix for bad encoding of Time64 data structures (it used nano seconds instead of milliseconds).
+* Changed compile target to JDK 8.
+* Some refactoring.
 
-# What's new in 0.9.8
+=== 2.0.0-Beta1
 
-- Added support for ETSI TS 103 097 V1.2.1 (Version 2 certificate and SecureMessages), V2 Certificates and SecureMessages have been interoperability tested 
-with ETSI test tool from ts_10309603v010201p0 package. (Tests was done to verify generated messages and generation and parsing of certificates). 
-- Added utility methods to retrieve java.security variant of verification public key from certificates (common API for both US and EU standard)
+* Updated IEEE 1609.2 support to 2016 with 1609.2a 2017 amendment.
+* Added support to generate new ITS ETSI TS 103 097 V1.3.1 structures based on 1609.2a 2017
+* Added test vector test of cryptographic algorithms from IEEE 1609.2a 2017
+* Removed old ITS ETSI TS 103 097 V1.2.1 code and generators
+* Fixed problem with COERBoolean
 
+=== 0.9.8
 
-# What's New in 0.9.7
+* Added support for ETSI TS 103 097 V1.2.1 (Version 2 certificate and SecureMessages), V2 Certificates and SecureMessages have been interoperability tested
+with ETSI test tool from ts_10309603v010201p0 package. (Tests was done to verify generated messages and generation and parsing of certificates).
+* Added utility methods to retrieve java.security variant of verification public key from certificates (common API for both US and EU standard)
 
-- Added support for IEEE 1609.2 certificate (US standard)
+=== 0.9.7
 
-# What's New in 0.9.6
+* Added support for IEEE 1609.2 certificate (US standard)
 
-- Improved automatic build of project.
+=== 0.9.6
 
-# What's New in 0.9.5
+* Improved automatic build of project.
 
-- Interoperability testing of all aspects except encryption.
-- Bug-fixes on signature generation where trailer field signature type wasn't included in the digest calculation.
+=== 0.9.5
 
-# What's New in 0.9.0
+* Interoperability testing of all aspects except encryption.
+* Bug-fixes on signature generation where trailer field signature type wasn't included in the digest calculation.
 
-- Ecies Encryption scheme support in DefaultCryptoManager
-- Restructured the behaviour of CryptoManager verifySecuredMessage to throw InvalidITSSignatureException instead of returning a boolean
+===  0.9.0
 
+* Ecies Encryption scheme support in DefaultCryptoManager
+* Restructured the behaviour of CryptoManager verifySecuredMessage to throw InvalidITSSignatureException instead of returning a boolean
 
-# EU Standard ETSI TS 103 097 V1.3.1
+== EU Standard ETSI TS 103 097 V1.3.1
 
 It supports generation of the following data structures will all related substructures:
 
-- Root CA Certificate
-- Enrollment CA Certificate
-- Authorization CA Certificate
-- Enrollment Credential Certificate
-- Authorization Ticket
-- Trust List Manager Certificate
-- Secure Messages (CAM and DENM) and others
+* Root CA Certificate
+* Enrollment CA Certificate
+* Authorization CA Certificate
+* Enrollment Credential Certificate
+* Authorization Ticket
+* Trust List Manager Certificate
+* Secure Messages (CAM and DENM) and others
 
 See Javadoc and examples below for more detailed information.
 
-## Example Code 
+=== Example Code
 
 Full example code can be seen in src/test/java/org/certificateservices/custom/c2x/demo it contains demo of both ETSI (EU) and IEEE (US) standards.
 
 Before doing anything else you need to initialize a CryptoManager used for all cryptographic operations.
 
-```
+[source, java]
+----
 
     	//Create a crypto manager in charge of communicating with underlying cryptographic components
 	    CryptoManager cryptoManager = new DefaultCryptoManager();	
 	    // Initialize the crypto manager to use soft keys using the bouncy castle cryptographic provider.
 	    cryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"));
-```
 
-### Root CA
+----
+
+==== Root CA
+
 Example code on how to generate Root a CA, use the AuthorityCertGenerator:
 
-```
+[source, java]
+----
 
 	    // Create an authority certificate generator and initialize it with the crypto manager. 
 	    ETSIAuthorityCertGenerator authorityCertGenerator = new ETSIAuthorityCertGenerator(cryptoManager);
@@ -111,12 +116,14 @@ Example code on how to generate Root a CA, use the AuthorityCertGenerator:
 	    		rootCAEncryptionKeys.getPublic()); // encPublicKey
 		// There also exists a more general root ca generation method giving more flexibility in parameters.
 
-```
+----
 
-### Enrollment CA
+==== Enrollment CA
+
 To generate an Enrollment CA:
 
-```
+[source, java]
+----
 
 	    // Generate a reference to the Enrollment CA Keys	    
 	    KeyPair enrollmentCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
@@ -139,12 +146,14 @@ To generate an Enrollment CA:
 	    		enrollmentCAEncryptionKeys.getPublic() // encryption public key
 	    		);
 
-```
+----
 
-## Authority CA
+==== Authority CA
+
 To generate an Authority CA:
 
-```
+[source, java]
+----
 
 	    // Generate a reference to the Authorization CA Keys	    
 	    KeyPair authorityCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
@@ -168,13 +177,14 @@ To generate an Authority CA:
 	    		authorityCAEncryptionKeys.getPublic() // encryption public key
 	    		);
 
-```
+----
 
-### Enrollment Credential
+==== Enrollment Credential
 
 To create an Enrollment Credential use the EnrollmentCredentialCertGenerator.
 
-```
+[source, java]
+----
 
 	    // First we create a Enrollment Credential Cert Generator using the newly created Enrollment CA.
 		ETSIEnrollmentCredentialGenerator enrollmentCredentialCertGenerator = new ETSIEnrollmentCredentialGenerator(cryptoManager);
@@ -205,12 +215,14 @@ To create an Enrollment Credential use the EnrollmentCredentialCertGenerator.
 
 	    // There also exists a more general method with flexible app permissions.
 	    		
-```
+----
 
-### Authorization Ticket 
+==== Authorization Ticket
+
 To create an Authorization Ticket l use the AuthorizationTicketCertGenerator.
 
-```
+[source, java]
+----
 
 	    // Authorization tickets are created by the ETSIAuthorizationTicketGenerator
 		ETSIAuthorizationTicketGenerator authorizationCertGenerator = new ETSIAuthorizationTicketGenerator(cryptoManager);
@@ -241,18 +253,18 @@ To create an Authorization Ticket l use the AuthorizationTicketCertGenerator.
 	    		BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
 				authorizationTicketEncryptionKeys.getPublic() // encryption public key
 	    		);
-```
+----
 
-### Trust List Manager Certificate
+==== Trust List Manager Certificate
 
 To create a trust list manager certificate.
 
-```
+[source, java]
+----
 
 		// Generate a reference to the Root CA Keys
 		KeyPair tlmSigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
 		KeyPair tlmEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
-
 
 		ValidityPeriod tlmValidityPeriod = new ValidityPeriod(new Date(), DurationChoices.years, 45);
 		// Generate the root CA Certificate, without any encryption keys or geographic region.
@@ -266,13 +278,14 @@ To create a trust list manager certificate.
 				rootCASigningKeys.getPrivate() // signPrivateKey
 				 );
 		// There also exists a more general root ca generation method giving more flexibility in parameters.
-```
+----
 
-### Secured Messages
+==== Secured Messages
 
 To create Secured Messages such as CAM or DENM use the SecuredMessageGenerator.
 
-```
+[source, java]
+----
 
 	    	    // EtsiTs103097Data are created by the Secure Message Generator
         		ETSISecuredDataGenerator securedMessageGenerator = new ETSISecuredDataGenerator(ETSISecuredDataGenerator.DEFAULT_VERSION, cryptoManager, HashAlgorithm.sha256, SignatureChoices.ecdsaNistP256Signature);
@@ -368,12 +381,12 @@ To create Secured Messages such as CAM or DENM use the SecuredMessageGenerator.
         
         	      // It is also possible to use the methods decryptData or verifySignedData (or verifyReferencedSignedData) for alternative methods to verify and decrypt messages.
 
-```
+----
 
+==== To Encode and Decode Certificates and Secured Messages
 
-### To Encode and Decode Certificates and Secured Messages
-
-```
+[source, java]
+----
 
 	    // To encode a certificate to a byte array use the following method
 	    byte[] certificateData = authorizationCert.getEncoded();
@@ -385,29 +398,29 @@ To create Secured Messages such as CAM or DENM use the SecuredMessageGenerator.
 	    EtsiTs103097Data decodedMessage = new EtsiTs103097Data(messageData);
 	    // If the message profile is known there also exists EtsiTs103097DataSigned, EtsiTs103097DataSignedExternalPayload,
 	    // EtsiTs103097DataEncrypted classes that performs validation according to each profile.
-```
+----
 
-
-# EU Standard ETSI TS 102 941 V1.3.1
+== EU Standard ETSI TS 102 941 V1.3.1
 
 It supports generation of the following data structures will all related substructures:
 
-- Enrol Request/Response Message
-- Authorization Request/Response Message
-- Authorization Validation Request/Response Message
-- CRL and CTL Messages
-- CA Request Message (With Rekey)
+* Enrol Request/Response Message
+* Authorization Request/Response Message
+* Authorization Validation Request/Response Message
+* CRL and CTL Messages
+* CA Request Message (With Rekey)
 
 See Javadoc and examples below for more detailed information.
 
-## Example Code 
+=== Example Code
 
 Full example code can be seen in src/test/java/org/certificateservices/custom/c2x/demo. The
 example code assumes you have access to a generated PKI according to ETSI TS 103 097 standard.
 
 Before generating any CA Message create a CA Message generator with:
 
-```
+[source, java]
+----
         // Create a ETSITS102941MessagesCaGenerator generator
         messagesCaGenerator = new ETSITS102941MessagesCaGenerator(Ieee1609Dot2Data.DEFAULT_VERSION,
                 cryptoManager, // The initialized crypto manager to use.
@@ -415,13 +428,14 @@ Before generating any CA Message create a CA Message generator with:
                 Signature.SignatureChoices.ecdsaNistP256Signature,  // define which signature scheme to use.
                 false); // If EC points should be represented as uncompressed.
 
-```
+----
 
-### EnrolRequestMessage
+==== EnrolRequestMessage
 
 To create an EnrolRequestMessage use the following code.
 
-```
+[source, java]
+----
         // First create the InnerEcRequest object
         InnerEcRequest initialInnerEcRequest = genDummyInnerEcRequest(enrolCredSignKeys.getPublic());
         EtsiTs103097DataEncryptedUnicast initialEnrolRequestMessage = messagesCaGenerator.genInitialEnrolmentRequestMessage(
@@ -448,11 +462,12 @@ To create an EnrolRequestMessage use the following code.
                 enrolCredReSignKeys.getPublic(),enrolCredReSignKeys.getPrivate(), // The key pair used in the enrolment credential used for self signed PoP
                 enrolmentCACert); // The EA certificate to encrypt message to.
 
-```
+----
 
 To verify a EnrolRequestMessage use:
 
-```
+[source, java]
+----
         // First build a certificate store and a trust store to verify signature.
         // These can be null if only initial messages are used.
         Map<HashedId8, Certificate> enrolCredCertStore = messagesCaGenerator.buildCertStore(enrollmentCredCertChain);
@@ -472,13 +487,14 @@ To verify a EnrolRequestMessage use:
         enrolmentRequestResult.getValue(); // The inner message that was signed and or encrypted.
         enrolmentRequestResult.getSecretKey(); // The symmetrical key used in Ecies request operations and is set when verifying all
         // request messages. The secret key should usually be used to encrypt the response back to the requester.
-```
+----
 
-### EnrolResponseMessage
+==== EnrolResponseMessage
 
 To generate and verify EnrolResponseMessage
 
-```
+[source, java]
+----
         // First generate a InnerECResponse
         InnerEcResponse innerEcResponse = new InnerEcResponse(enrolmentRequestResult.getRequestHash(), EnrollmentResponseCode.ok,enrolmentCredCert);
         // Then generate the EnrolmentResponseMessage with:
@@ -502,13 +518,14 @@ To generate and verify EnrolResponseMessage
                 trustStore,
                 enrolCredSharedKeyReceivers
         );
-```
+----
 
-### AuthorizationRequestMessage
+==== AuthorizationRequestMessage
 
 To generate and verify AuthorizationRequestMessage
 
-```
+[source, java]
+----
         // To generate an AuthorizationRequestMessage it is possible to generate
         // the message with and without POP and privacy set. This example generates
         // message with POP and privacy.
@@ -553,13 +570,14 @@ To generate and verify AuthorizationRequestMessage
 
         // The verified and decrypted (if withPrivacy) eCSignature is retrived with
         EcSignature ecSignature = ecSignatureVerifyResult.getValue();
-```
+----
 
-### AuthorizationResponseMessage
+==== AuthorizationResponseMessage
 
 To generate and verify AuthorizationResponseMessage
 
-```
+[source, java]
+----
         // First create innerAtResponse
         InnerAtResponse innerAtResponse = new InnerAtResponse(authRequestResult.getRequestHash(),
                 AuthorizationResponseCode.ok,
@@ -582,13 +600,14 @@ To generate and verify AuthorizationResponseMessage
                 authCACertStore, // certificate store containing certificates for auth cert.
                 trustStore,
                 authTicketSharedKeyReceivers);
-```
+----
 
-### AuthorizationValidationRequestMessage
+==== AuthorizationValidationRequestMessage
 
 To generate and verify AuthorizationValidationRequestMessage
 
-```
+[source, java]
+----
         // The authorization validation request is sent between AA and EA and should
         // contain the SharedATRequest and ecSignature structures.
         AuthorizationValidationRequest authorizationValidationRequest = new AuthorizationValidationRequest(
@@ -609,13 +628,14 @@ To generate and verify AuthorizationValidationRequestMessage
                  authCACertStore, // certificate store containing certificates for auth cert.
                  trustStore,
                  enrolCAReceipients);
-```
+----
 
-### AuthorizationValidationResponseMessage
+==== AuthorizationValidationResponseMessage
 
 To generate and verify AuthorizationValidationResponseMessage
 
-```
+[source, java]
+----
          // First generate inner authorizationValidationResponse object
         AuthorizationValidationResponse authorizationValidationResponse = new AuthorizationValidationResponse(
                 authorizationValidationRequestVerifyResult.getRequestHash(),
@@ -639,13 +659,14 @@ To generate and verify AuthorizationValidationResponseMessage
                 enrolCACertStore,
                 trustStore,
                 authValidationSharedKeyReceivers);
-```
+----
 
-### Generate CTL and CRL messages
+==== Generate CTL and CRL messages
 
 To generate and verify CTL and CRL messages use:
 
-```
+[source, java]
+----
         // The messages CertificateRevocationListMessage, TlmCertificateTrustListMessage and RcaCertificateTrustListMessage
         // are all generated using very similar methods. Only CertificateRevocationListMessage is shown here.
 
@@ -664,13 +685,14 @@ To generate and verify CTL and CRL messages use:
                 crlTrustStore,
                 trustStore
         );
-```
+----
 
-### CARequestMessage and Rekey
+==== CARequestMessage and Rekey
 
 To generate and verify inital and rekey a CARequestMessage use:
 
-```
+[source, java]
+----
         // First generate inner CaCertificatRequest
         CaCertificateRequest caCertificateRequest = genDummyCaCertificateRequest(authorizationCASignKeys.getPublic());
         // The self sign the message to prove possession.
@@ -696,41 +718,43 @@ To generate and verify inital and rekey a CARequestMessage use:
 
         // To Verify a Rekey CA Request Message
         VerifyResult<CaCertificateRequest> caCertificateRekeyRequestVerifyResult = messagesCaGenerator.verifyCACertificateRekeyingMessage(caCertificateRekeyRequestMessage,authCACertStore,trustStore);
-```
+----
 
-# US Standard IEEE 1609.2
+== US Standard IEEE 1609.2
 
 The implementation supports the following:
 
-- Encodes using ASN.1 COER
-- Support for both ecdsaNistP256 and ecdsaBrainpoolP256r1 algorithm schemes 
-- Generation of RootCA, Enrollment CA (Long Term) and Authorization (Short Term) CA
-- Generation of Enrollment Certificates and Authorization Certificate
-- Support for both explicit and implicit certificate generation
-- Support signing and encryption of SecuredData structures
-- Generation of SecuredCRL structures.
+* Encodes using ASN.1 COER
+* Support for both ecdsaNistP256 and ecdsaBrainpoolP256r1 algorithm schemes
+* Generation of RootCA, Enrollment CA (Long Term) and Authorization (Short Term) CA
+* Generation of Enrollment Certificates and Authorization Certificate
+* Support for both explicit and implicit certificate generation
+* Support signing and encryption of SecuredData structures
+* Generation of SecuredCRL structures.
 
 _Important_: The encryption scheme hasn't been properly tested for inter-operability yet and might contain wrong ECIES parameters.
 
-## Example Code 
+=== Example Code
 
 Full example code can be seen in src/test/java/org/certificateservices/custom/c2x/demo it contains demo of both ITS (EU) and IEEE (US) standards.
 
 Before doing anything else you need to initialize a CryptoManager used for all cryptographic operations.
 
-```
+[source, java]
+----
 
 	    Ieee1609Dot2CryptoManager cryptoManager = new DefaultCryptoManager();	
 	    // Initialize the crypto manager to use soft keys using the bouncy castle cryptographic provider.
 	    cryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"));
 	    
-```
+----
 
-### Root CA
+==== Root CA
 
 Example code on how to generate Root a CA, use the AuthorityCertGenerator:
 
-```
+[source, java]
+----
 
 	    // Create an authority certificate generator and initialize it with the crypto manager. 
 	    AuthorityCertGenerator authorityCertGenerator = new AuthorityCertGenerator(cryptoManager);
@@ -760,13 +784,14 @@ Example code on how to generate Root a CA, use the AuthorityCertGenerator:
 	    		BasePublicEncryptionKeyChoices.ecdsaNistP256,  // encPublicKeyAlgorithm
 	    		rootCAEncryptionKeys.getPublic()); // encPublicKey
 	    		
-```
+----
 
-### Enrollment CA (Long Term)
+==== Enrollment CA (Long Term)
 
 To generate an Enrollment CA:
 
-```
+[source, java]
+----
 
 	    // Generate a reference to the Enrollment CA Keys	    
 	    KeyPair enrollmentCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
@@ -801,14 +826,15 @@ To generate an Enrollment CA:
 	    		enrollmentCAEncryptionKeys.getPublic() // encryption public key
 	    		);
 	    		
-```
+----
 
-### Authorization CA (Short Term)
+==== Authorization CA (Short Term)
 
 To generate an Authorization CA:
 
-```
-        
+[source, java]
+----
+
         // Generate a reference to the Authorization CA Keys
 	    KeyPair authorityCASigningKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
 	    KeyPair authorityCAEncryptionKeys = cryptoManager.generateKeyPair(SignatureChoices.ecdsaNistP256Signature);
@@ -843,14 +869,14 @@ To generate an Authorization CA:
 	    		authorityCAEncryptionKeys.getPublic() // encryption public key
 	    		);
 	    		
-```
+----
 
-
-### Enrollment Certificate
+==== Enrollment Certificate
 
 To create an Enrollment Certificate (explicit in this example) use the EnrollmentCertGenerator.
 
-```
+[source, java]
+----
 
 	    // Now we have the CA hierarchy, the next step is to generate an enrollment credential
 	    // First we create a Enrollment Credential Cert Generator using the newly created Enrollment CA.
@@ -887,13 +913,14 @@ To create an Enrollment Certificate (explicit in this example) use the Enrollmen
 	    		enrollmentCredentialEncryptionKeys.getPublic() // encryption public key
 	    		);
 	    		
-```
+----
 
-### Authorization Certificate (With implicit certificate)
+==== Authorization Certificate (With implicit certificate)
 
 To create an Authorization Certificate (implicit in this example) use the AuthorizationCertGenerator.
 
-```
+[source, java]
+----
 
 	    // Authorization certificates are created by the AuthorizationCertGenerator
 	    AuthorizationCertGenerator authorizationCertGenerator = new AuthorizationCertGenerator(cryptoManager);
@@ -939,13 +966,14 @@ To create an Authorization Certificate (implicit in this example) use the Author
 	    		authorizationCertRequestSigningKeys.getPrivate(), authorityCASigningKeys.getPublic(),
 	    		authorityCACertificate);
 	    		
-```
+----
 
-### Certificate Encoding and Decoding Example 
+==== Certificate Encoding and Decoding Example
 
 To encode and decode a certificate use:
-		
-```
+
+[source, java]
+----
 
 	    // To encode a certificate to a byte array use the following method
 	    byte[] certificateData = authorizationCert.getEncoded();
@@ -953,13 +981,14 @@ To encode and decode a certificate use:
 	    // To decode certificate data use the following constructor
 	    Certificate decodedCertificate = new Certificate(certificateData);
 
-```
+----
 
-### Secured Data Example
+==== Secured Data Example
 
 To generate signed and/or encrypted Secured Data use the SecuredMessageGenerator:
 
-```
+[source, java]
+----
 
 	    // Secure Messages are created by the Secure Message Generator
 	    SecuredDataGenerator securedMessageGenerator = new SecuredDataGenerator(SecuredDataGenerator.DEFAULT_VERSION, cryptoManager, HashAlgorithm.sha256, SignatureChoices.ecdsaNistP256Signature);
@@ -1025,14 +1054,14 @@ To generate signed and/or encrypted Secured Data use the SecuredMessageGenerator
 
 	      // It is also possible to use the methods decryptData or verifySignedData (or verifyReferencedSignedData) for alternative methods to verify and decrypt messages.
 
-```
+----
 
-### Secured Data Encoding and Decoding Example 
-
+==== Secured Data Encoding and Decoding Example
 
 To encode and decode a secured data use:
-		
-```
+
+[source, java]
+----
 
 	    // To encode a secured message to a byte array use the following method.
 	    byte[] messageData = signedData.getEncoded();
@@ -1040,4 +1069,8 @@ To encode and decode a secured data use:
 	    // To decode message data use the following constructor.
 	    Ieee1609Dot2Data decodedMessage = new Ieee1609Dot2Data(messageData);
 
-```
+----
+
+== Reports
+
+include::ReportSection.adoc[]

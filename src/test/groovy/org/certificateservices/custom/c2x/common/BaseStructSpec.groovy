@@ -19,7 +19,7 @@ import org.bouncycastle.jce.spec.ECParameterSpec
 import org.bouncycastle.jce.spec.ECPrivateKeySpec
 import org.bouncycastle.math.ec.ECPoint
 import org.bouncycastle.util.encoders.Hex
-
+import spock.lang.Shared
 import spock.lang.Specification
 
 import java.security.KeyFactory
@@ -34,6 +34,19 @@ import java.security.spec.ECPublicKeySpec
  *
  */
 abstract class BaseStructSpec extends Specification {
+
+	@Shared TimeZone localTimeZone
+
+	def setupSpec(){
+		localTimeZone = TimeZone.getDefault()
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Stockholm"))
+
+	}
+
+	def cleanupSpec(){
+		TimeZone.setDefault(localTimeZone)
+
+	}
 	
 	String serializeToHex(Encodable o){
 		ByteArrayOutputStream baos = new ByteArrayOutputStream()

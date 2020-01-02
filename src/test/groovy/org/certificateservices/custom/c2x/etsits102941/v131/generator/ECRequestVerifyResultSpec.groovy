@@ -1,6 +1,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.generator
 
 import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.BaseStructSpec
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.InnerAtRequest
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.InnerAtRequestSpec
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.SharedAtRequest
@@ -19,7 +20,7 @@ import javax.crypto.SecretKey
  *
  * @author Philip Vendil p.vendil@cgi.com
  */
-class ECRequestVerifyResultSpec extends Specification {
+class ECRequestVerifyResultSpec extends BaseStructSpec {
 
     InnerAtRequest innerAtRequest = genInnerAtRequest()
     byte[] requestHash = Hex.decode("01020304050607080910111213141516")

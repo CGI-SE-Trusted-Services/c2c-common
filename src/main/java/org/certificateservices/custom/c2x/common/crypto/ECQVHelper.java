@@ -60,7 +60,7 @@ public class ECQVHelper {
 	 * @param signerCert the signing certificate (CA).
 	 * @param signerPublicKey the signing certificate public key.
 	 * @param signerPrivateKey the signing certificate private key.
-	 * @return
+	 * @return a newly generated implicit certificate data.
 	 * @throws IOException if communication problems occurred with underlying systems.
 	 * @throws IllegalArgumentException if argument was illegal
 	 * @throws SignatureException if internal problems occurred generating the reconstruction value.

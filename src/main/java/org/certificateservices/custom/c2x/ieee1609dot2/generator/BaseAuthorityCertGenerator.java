@@ -58,8 +58,8 @@ public abstract class BaseAuthorityCertGenerator extends BaseCertGenerator {
 	 * A more general Root CA generator constructor for custom Root CA certificate profile.
 	 *
 	 * @param id the id if the certificate, see CertificateId for details, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Required
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Required
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions list of appPermissions, use null to not set any app permissions.
 	 * @param certIssuePermissions list of certIssuePermissions, use null to not set any cert issue permissions.
@@ -118,8 +118,8 @@ public abstract class BaseAuthorityCertGenerator extends BaseCertGenerator {
 	 *
 	 * @param type indicates if this is a implicit or explicit certificate, Required
 	 * @param id the id if the certificate, see CertificateId for details, Required
-	 * @param validityPeriod, the validity period of this certificate, Required
-	 * @param region, the geographic region of the certificate, Optional
+	 * @param validityPeriod the validity period of this certificate, Required
+	 * @param region the geographic region of the certificate, Optional
 	 * @param subjectAssurance the subjectAssurance, Optional.
 	 * @param appPermissions list of appPermissions, use null to not set any app permissions.
 	 * @param certIssuePermissions list of certIssuePermissions, use null to not set any cert issue permissions.
