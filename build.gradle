@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies{
-    
+
     compile "org.bouncycastle:bcprov-debug-jdk15on:1.53"
     compile "net.time4j:time4j-core:2.0"
     // mandatory dependencies for using Spock
