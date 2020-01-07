@@ -340,7 +340,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 		String curveName = alg.algorithm.signature.getCurveName() == "P-256" ? "secp256r1" : alg.algorithm.signature.getCurveName()
         parameters.init(new ECGenParameterSpec(curveName))
         java.security.spec.ECParameterSpec ecParameters = parameters.getParameterSpec(java.security.spec.ECParameterSpec.class);
-        return KeyFactory.getInstance("EC", "SunEC").generatePublic(new ECPublicKeySpec(new java.security.spec.ECPoint(x, y), ecParameters))
+        return KeyFactory.getInstance("EC", "BC").generatePublic(new ECPublicKeySpec(new java.security.spec.ECPoint(x, y), ecParameters))
 	}
 
 }
