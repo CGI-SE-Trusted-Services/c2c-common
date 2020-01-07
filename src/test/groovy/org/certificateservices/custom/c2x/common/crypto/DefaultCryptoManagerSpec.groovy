@@ -336,7 +336,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	}
 
 	private ECPublicKey constructKey(AlgorithmIndicator alg, BigInteger x, BigInteger y){
-		AlgorithmParameters parameters = AlgorithmParameters.getInstance("EC", "SunEC");
+		AlgorithmParameters parameters = AlgorithmParameters.getInstance("EC", "BC");
 		String curveName = alg.algorithm.signature.getCurveName() == "P-256" ? "secp256r1" : alg.algorithm.signature.getCurveName()
         parameters.init(new ECGenParameterSpec(curveName))
         java.security.spec.ECParameterSpec ecParameters = parameters.getParameterSpec(java.security.spec.ECParameterSpec.class);
