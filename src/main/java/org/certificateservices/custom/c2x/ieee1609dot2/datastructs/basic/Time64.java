@@ -52,7 +52,7 @@ public class Time64 extends Uint64 {
 		super();
 		Moment moment = TemporalType.JAVA_UTIL_DATE.translate(timeStamp);
 		BigDecimal bd = moment.transform(TimeScale.TAI);
-		this.value = bd.subtract(new BigDecimal(SECONDSBETWEENTAIZEROAND2004)).multiply(new BigDecimal(1000)).toBigInteger();
+		this.value = bd.subtract(new BigDecimal(SECONDSBETWEENTAIZEROAND2004)).multiply(new BigDecimal(1000000)).toBigInteger();
 		
 	}
 	
@@ -71,9 +71,9 @@ public class Time64 extends Uint64 {
 	 * @return the timestamp value
 	 */
 	public Date asDate(){
-		long elapsedTime = this.value.longValue() / 1000L;
-		int milliseconds = (int) elapsedTime % 1000;
-		Moment m = Moment.of(elapsedTime + (SECONDSBETWEENTAIZEROAND2004), milliseconds, TimeScale.TAI);
+		long elapsedTime = this.value.longValue() / 1000000L;
+		int microseconds = (int) (this.value.longValue() % 1000000L);
+		Moment m = Moment.of(elapsedTime + (SECONDSBETWEENTAIZEROAND2004), microseconds * 1000, TimeScale.TAI);
 		return TemporalType.JAVA_UTIL_DATE.from(m);
 	}
 	

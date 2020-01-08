@@ -48,24 +48,24 @@ class Time64Spec extends BaseStructSpec {
 		def t = new Time64(time)
 		
 		then:
-		t.asElapsedTime().equals(new BigInteger(192157472000))
+		t.asElapsedTime().equals(new BigInteger(192157472000000))
 		
 		when:
 		Time64 t2 = deserializeFromHex(new Time64(), serializeToHex(t))
 		then:
-		t2.asDate() == time
+		t2.asDate().time == time.time
 		
 
 		when:
-		def t3 = new Time64(new BigInteger(192157472000)) // test long constructor
+		def t3 = new Time64(new BigInteger(192157472000000)) // test long constructor
 		then:
-		t3.asElapsedTime().equals(new BigInteger(192157472000))
+		t3.asElapsedTime().equals(new BigInteger(192157472000000))
 		
 	}
 	
 	def "Verify toString"(){
 		expect:
-		new Time64(cal.getTime()).toString() == "Time64 [timeStamp=Tue Feb 02 02:04:30 CET 2010 (192157472000)]"
+		new Time64(cal.getTime()).toString() == "Time64 [timeStamp=Tue Feb 02 02:04:30 CET 2010 (192157472000000)]"
 	}
 
 
