@@ -9,6 +9,13 @@ In order to get the software under a different licensing agreement please contac
 
 == Changelog
 
+==== 2.0.0-Beta4
+
+* Migrated build system to gradle
+* Fixed bug #8 where negative COER Integers was wrongly encoded
+* Fixed byg #9 where Time64 was encoded in milliseconds instead of specified microseconds
+* Improved decryptAndVerify result to add signer info and symmetric key for ETSA TS 102941 Messages.
+
 === 2.0.0-Beta3
 
 * Updated support to Etsi TS 102 941 v 1.3.1
