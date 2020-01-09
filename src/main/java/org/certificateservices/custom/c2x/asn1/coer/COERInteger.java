@@ -17,6 +17,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * COER encoding of an Integer
@@ -214,6 +215,9 @@ public class COERInteger implements COEREncodable{
 		
 		if(isSignedAndBetween(NEGATIVE_TWO_PWR_63, TWO_PWR_63_MINUS_1)){
 			byte[] buffer = new byte[getSignedBufferSize()];
+			if(value.signum() ==  -1) {
+				Arrays.fill(buffer, (byte) -1);
+			}
 			System.arraycopy(val, signOctet, buffer, buffer.length - (val.length -signOctet), val.length -signOctet);
 			out.write(buffer);
 		}else{
