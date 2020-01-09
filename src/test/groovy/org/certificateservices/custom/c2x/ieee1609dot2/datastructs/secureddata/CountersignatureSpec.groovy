@@ -38,8 +38,8 @@ class CountersignatureSpec extends BaseStructSpec {
 	SymmetricEncryptionKey symmkey = new SymmetricEncryptionKey(SymmetricEncryptionKeyChoices.aes128Ccm,k)
 	
 	Psid psid = new Psid(64)
-	Time64 generationTime = new Time64(BigInteger.valueOf(5000000L))
-	Time64 expiryTime = new Time64(BigInteger.valueOf(6000000L))
+	Time64 generationTime = new Time64(BigInteger.valueOf(50000000000L))
+	Time64 expiryTime = new Time64(BigInteger.valueOf(60000000000L))
 	ThreeDLocation generationLocation = new ThreeDLocation(new Latitude(50),new Longitude(100),new Elevation(55))
 	HashedId3 p2pcdLearningRequest = new HashedId3(Hex.decode("010203040506070809101112"))
 	MissingCrlIdentifier missingCrlIdentifier =  new MissingCrlIdentifier(cracaid,crlSeries)
@@ -123,7 +123,7 @@ class CountersignatureSpec extends BaseStructSpec {
         ],
         headerInfo=[
           psid=[64(40)],
-          generationTime=[timeStamp=Thu Jan 01 02:23:20 CET 2004 (5000000)]
+          generationTime=[timeStamp=Thu Jan 01 14:53:20 CET 2004 (50000000000)]
         ]
       ],
       signer=[digest=0102030405060708],

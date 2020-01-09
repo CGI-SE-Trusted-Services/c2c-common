@@ -30,6 +30,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGene
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.CertificateRecipient
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.Recipient
+import spock.lang.Ignore
 
 import java.security.PrivateKey
 import java.text.SimpleDateFormat
@@ -103,6 +104,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 ]"""
     }
 
+
     def "Verify it is possible to parse an verify an CAM message generated with an external library"(){
         when:
         EtsiTs103097Certificate cert = new EtsiTs103097Certificate(Hex.decode(at_cert))
@@ -127,7 +129,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[36(24)],
-          generationTime=[timeStamp=Thu Mar 28 11:55:19 CET 2019 (480855322064)]
+          generationTime=[timeStamp=Tue Jan 06 14:34:15 CET 2004 (480855322064)]
         ]
       ],
       signer=[certificate=[
@@ -181,7 +183,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[36(24)],
-          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000)],
+          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000000)],
           inlineP2pcdRequest=[736466],
           requestedCertificate=[
             version=3
@@ -226,7 +228,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[36(24)],
-          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000)],
+          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000000)],
           inlineP2pcdRequest=[736466],
           requestedCertificate=[
             version=3
@@ -282,7 +284,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[37(25)],
-          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000)],
+          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000000)],
           generationLocation=[latitude=3, longitude=2, elevation=1]
         ]
       ],
@@ -305,7 +307,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         ],
         headerInfo=[
           psid=[8(8)],
-          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000)]
+          generationTime=[timeStamp=Sun Dec 02 12:12:21 CET 2018 (470833944000000)]
         ]
       ],
       signer=[certificate=""")

@@ -143,7 +143,7 @@ class EtsiTs103097DataSpec extends BaseStructSpec {
         return new Ieee1609Dot2Content(signedCertificateRequest,o)
     }
 
-    static Ieee1609Dot2Content genSignedData(Time64 generationTime=new Time64(10000L), HashedId3 p2pcdLearningRequest= null, MissingCrlIdentifier missingCrlIdentifier=null,SignerIdentifier signer=null){
+    static Ieee1609Dot2Content genSignedData(Time64 generationTime=new Time64(10000000L), HashedId3 p2pcdLearningRequest= null, MissingCrlIdentifier missingCrlIdentifier=null,SignerIdentifier signer=null){
         SignedDataPayload sdp = new SignedDataPayload(null, new HashedData(HashedData.HashedDataChoices.sha256HashedData, Hex.decode("0102030405060708091011121314151617181920212223242526272829303132")))
         HeaderInfo hi = new HeaderInfo(new Psid(100), generationTime, null, null, p2pcdLearningRequest, missingCrlIdentifier, null, null,null)
         ToBeSignedData tbsData = new ToBeSignedData(sdp,hi)
