@@ -242,6 +242,9 @@ public class COERInteger implements COEREncodable{
 			bufferSize = getUnsignedBufferSize();
 		}else{
 			bufferSize = COEREncodeHelper.readLengthDeterminantAsInt(in);
+			if(bufferSize > 256 || bufferSize < 1){
+				throw new IOException("Invalid COERInteger length determinant: " + bufferSize);
+			}
 		}
 		byte[] buffer = new byte[bufferSize];
 		in.read(buffer);
@@ -254,6 +257,9 @@ public class COERInteger implements COEREncodable{
 			bufferSize = getSignedBufferSize();
 		}else{
 			bufferSize = COEREncodeHelper.readLengthDeterminantAsInt(in);
+			if(bufferSize > 256 || bufferSize < 1){
+				throw new IOException("Invalid COERInteger length determinant: " + bufferSize);
+			}
 		}
 		byte[] buffer = new byte[bufferSize];
 		in.read(buffer);
