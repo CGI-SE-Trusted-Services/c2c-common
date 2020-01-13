@@ -136,8 +136,8 @@ public class CertificateSubjectAttributes extends COERSequence {
 	public String toString() {
 		return 
 		"CertificateSubjectAttributes [\n" +
-	    "  id=" + getId().toString().replaceAll("CertificateId ", "") + "\n" +
-	    "  validityPeriod=" + getValidityPeriod().toString().replaceAll("ValidityPeriod ", "") + "\n" +
+	    "  id=" + ( getId() != null  ? getId().toString().replaceAll("CertificateId ", "") : "NONE") + "\n" +
+	    "  validityPeriod=" + ( getValidityPeriod() != null  ? getValidityPeriod().toString().replaceAll("ValidityPeriod ", "") : "NONE") + "\n" +
 	    "  region=" + ( getRegion() != null ? getRegion().toString().replaceAll("GeographicRegion ", "") : "NONE") + "\n" +
 	    "  assuranceLevel=" + ( getAssuranceLevel() != null ? getAssuranceLevel().toString().replaceAll("SubjectAssurance ", "") : "NONE") + "\n" +
 	    "  appPermissions=" + ( getAppPermissions() != null ? getAppPermissions().toString().replaceAll("SequenceOfPsidSsp ", "") : "NONE") + "\n" +

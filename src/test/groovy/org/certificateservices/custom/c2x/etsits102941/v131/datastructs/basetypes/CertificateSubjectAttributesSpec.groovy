@@ -159,6 +159,16 @@ class CertificateSubjectAttributesSpec extends BaseStructSpec {
                 appPermissions,null).toString() == withAppPermsOnly
         new CertificateSubjectAttributes(id,validityPeriod,null,null,
                 null,certIssuePermissions).toString() == withCertIssuePermissionsOnly
+
+        new CertificateSubjectAttributes(null,null,null,null,
+                appPermissions,null).toString() == """CertificateSubjectAttributes [
+  id=NONE
+  validityPeriod=NONE
+  region=NONE
+  assuranceLevel=NONE
+  appPermissions=[[psid=[101(65)], ssp=[opaque=[0000000000000000000000000000000000000000000000000000000000f5]]],[psid=[202(ca)], ssp=[opaque=[0000000000000000000000000000000000000000000000000000000000f5]]]]
+  certIssuePermissions=NONE
+]"""
     }
 
 }
