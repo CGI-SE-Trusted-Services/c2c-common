@@ -9,7 +9,7 @@ In order to get the software under a different licensing agreement please contac
 
 == Changelog
 
-==== 2.0.0-Beta4
+=== 2.0.0-Beta4
 
 * Migrated build system to gradle
 * Fixed bug #8 where negative COER Integers was wrongly encoded
