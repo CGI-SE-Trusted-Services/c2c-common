@@ -31,8 +31,11 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.camanage
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.EnrollmentResponseCode
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcRequest
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcResponse
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941Data
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941DataContent
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941DataContentSpec
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CRL
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CTL
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.ToBeSignedCrl
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.ToBeSignedRcaCtl
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.ToBeSignedTlmCtl
@@ -404,9 +407,10 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         setup:
         ToBeSignedCrl toBeSignedCrl = EtsiTs102941DataContentSpec.genToBeSignedCrl()
         when:
-        EtsiTs103097DataSigned message = messagesCaGenerator.genCertificateRevocationListMessage(new Time64(new Date()),toBeSignedCrl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
+        EtsiTs102941CRL message = messagesCaGenerator.genCertificateRevocationListMessage(new Time64(new Date()),toBeSignedCrl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
 
-        EtsiTs103097DataSigned reEncoded = new EtsiTs103097DataSigned(message.encoded)
+        EtsiTs102941CRL reEncoded = new EtsiTs102941CRL(message.encoded)
+
         then:
         def certStore = [:]
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
@@ -422,9 +426,9 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         setup:
         ToBeSignedTlmCtl toBeSignedTlmCtl = EtsiTs102941DataContentSpec.genToBeSignedTlmCtl()
         when:
-        EtsiTs103097DataSigned message = messagesCaGenerator.genTlmCertificateTrustListMessage(new Time64(new Date()),toBeSignedTlmCtl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
+        EtsiTs102941CTL message = messagesCaGenerator.genTlmCertificateTrustListMessage(new Time64(new Date()),toBeSignedTlmCtl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
 
-        EtsiTs103097DataSigned reEncoded = new EtsiTs103097DataSigned(message.encoded)
+        EtsiTs102941CTL reEncoded = new EtsiTs102941CTL(message.encoded)
         then:
         def certStore = [:]
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
@@ -440,9 +444,9 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         setup:
         ToBeSignedRcaCtl toBeSignedRcaCtl = EtsiTs102941DataContentSpec.genToBeSignedRcaCtl()
         when:
-        EtsiTs103097DataSigned message = messagesCaGenerator.genRcaCertificateTrustListMessage(new Time64(new Date()),toBeSignedRcaCtl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
+        EtsiTs102941CTL message = messagesCaGenerator.genRcaCertificateTrustListMessage(new Time64(new Date()),toBeSignedRcaCtl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
 
-        EtsiTs103097DataSigned reEncoded = new EtsiTs103097DataSigned(message.encoded)
+        EtsiTs102941CTL reEncoded = new EtsiTs102941CTL(message.encoded)
         then:
         def certStore = [:]
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])

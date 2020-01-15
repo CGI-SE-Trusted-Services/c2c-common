@@ -55,7 +55,6 @@ class EtsiTs102941DataContentSpec extends BaseStructSpec {
     @Shared CaCertificateRequest caCertificateRequestValue
 
     def setupSpec(){
-        dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss", new Locale("sv"))
         enrolmentRequestValue = new InnerEcRequestSignedForPop(EtsiTs103097DataSignedSpec.newSignedData())
         enrolmentResponseValue = new InnerEcResponse(Hex.decode("00112233445566778899001122334455"), EnrollmentResponseCode.ok, SingleEtsiTs103097CertificateSpec.genCert())
         authorizationRequestValue = new InnerAtRequest(InnerAtRequestSpec.genPublicKeys(), Hex.decode("0011223344556677889900112233445566778899001122334455667788990011"), InnerAtRequestSpec.genSharedAtRequest(), InnerAtRequestSpec.genEcSignature())
@@ -372,14 +371,21 @@ class EtsiTs102941DataContentSpec extends BaseStructSpec {
   ]
 ]"""
 
+    static getDateFormat(){
+        if(dateFormat == null){
+            dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss", new Locale("sv"))
+        }
+        return dateFormat
+    }
+
     static ToBeSignedCrl genToBeSignedCrl(){
-        return new ToBeSignedCrl(Version.V1,new Time32(dateFormat.parse("20190317 14:14:14")),
-                new Time32(dateFormat.parse("20190318 14:14:14")),
+        return new ToBeSignedCrl(Version.V1,new Time32(getDateFormat().parse("20190317 14:14:14")),
+                new Time32(getDateFormat().parse("20190318 14:14:14")),
                 [new CrlEntry(Hex.decode("001122334455667788")), new CrlEntry(Hex.decode("001122334455667799"))] as CrlEntry[])
     }
 
     static ToBeSignedTlmCtl genToBeSignedTlmCtl(){
-        Time32 nextUpdate = new Time32(dateFormat.parse("20190318 14:14:14"))
+        Time32 nextUpdate = new Time32(getDateFormat().parse("20190318 14:14:14"))
         RootCaEntry rootCaEntry = new RootCaEntry(SingleEtsiTs103097CertificateSpec.genCert(), null)
         CtlCommand addCommand = new CtlCommand(new CtlEntry(rootCaEntry))
         CtlCommand[] ctlCommands = [addCommand] as CtlCommand[]
@@ -387,7 +393,7 @@ class EtsiTs102941DataContentSpec extends BaseStructSpec {
     }
 
     static ToBeSignedRcaCtl genToBeSignedRcaCtl(){
-        Time32 nextUpdate = new Time32(dateFormat.parse("20190318 14:14:14"))
+        Time32 nextUpdate = new Time32(getDateFormat().parse("20190318 14:14:14"))
         EaEntry eaEntry = new EaEntry(SingleEtsiTs103097CertificateSpec.genCert(), new Url("http://test.com"), null)
         CtlCommand addCommand = new CtlCommand(new CtlEntry(eaEntry))
         CtlCommand[] ctlCommands = [addCommand] as CtlCommand[]

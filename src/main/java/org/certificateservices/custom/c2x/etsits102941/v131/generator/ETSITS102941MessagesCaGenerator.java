@@ -30,9 +30,7 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollme
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcResponse;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941Data;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941DataContent;
-import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.ToBeSignedCrl;
-import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.ToBeSignedRcaCtl;
-import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.ToBeSignedTlmCtl;
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.*;
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097Data;
@@ -1055,8 +1053,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
      */
-    public EtsiTs103097DataSigned genCertificateRevocationListMessage(Time64 generationTime, ToBeSignedCrl toBeSignedCrl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        return genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedCrl), signerCertificateChain,signerPrivateKey);
+    public EtsiTs102941CRL genCertificateRevocationListMessage(Time64 generationTime, ToBeSignedCrl toBeSignedCrl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
+        return new EtsiTs102941CRL(genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedCrl), signerCertificateChain,signerPrivateKey));
     }
 
     /**
@@ -1088,8 +1086,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
      */
-    public EtsiTs103097DataSigned genTlmCertificateTrustListMessage(Time64 generationTime, ToBeSignedTlmCtl toBeSignedTlmCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        return genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedTlmCtl), signerCertificateChain,signerPrivateKey);
+    public EtsiTs102941CTL genTlmCertificateTrustListMessage(Time64 generationTime, ToBeSignedTlmCtl toBeSignedTlmCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
+        return new EtsiTs102941CTL(genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedTlmCtl), signerCertificateChain,signerPrivateKey));
     }
 
     /**
@@ -1126,8 +1124,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
      */
-    public EtsiTs103097DataSigned genRcaCertificateTrustListMessage(Time64 generationTime, ToBeSignedRcaCtl toBeSignedRcaCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        return genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedRcaCtl), signerCertificateChain,signerPrivateKey);
+    public EtsiTs102941CTL genRcaCertificateTrustListMessage(Time64 generationTime, ToBeSignedRcaCtl toBeSignedRcaCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
+        return new EtsiTs102941CTL(genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedRcaCtl), signerCertificateChain,signerPrivateKey));
     }
 
     /**
