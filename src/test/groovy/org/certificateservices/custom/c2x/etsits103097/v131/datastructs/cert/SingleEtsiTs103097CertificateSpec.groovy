@@ -69,8 +69,8 @@ class SingleEtsiTs103097CertificateSpec extends BaseStructSpec {
     }
 
 
-    static EtsiTs103097Certificate genCert(){
-        CertificateId id = new CertificateId(new Hostname("SomeCertId"))
+    static EtsiTs103097Certificate genCert(String hostname="SomeCertId"){
+        CertificateId id = new CertificateId(new Hostname(hostname))
         ToBeSignedCertificate toBeSigned = EtsiTs103097CertificateSpec.genToBeSignedCertificate(id)
         IssuerIdentifier issuerId = new IssuerIdentifier(HashAlgorithm.sha256)
         Signature signature = new Signature(Signature.SignatureChoices.ecdsaNistP256Signature, new EcdsaP256Signature(new EccP256CurvePoint(new BigInteger(123)), COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),32)))

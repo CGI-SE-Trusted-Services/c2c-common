@@ -427,7 +427,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         ToBeSignedTlmCtl toBeSignedTlmCtl = EtsiTs102941DataContentSpec.genToBeSignedTlmCtl()
         when:
         EtsiTs102941CTL message = messagesCaGenerator.genTlmCertificateTrustListMessage(new Time64(new Date()),toBeSignedTlmCtl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
-
+        println new String(Hex.encode(message.encoded))
         EtsiTs102941CTL reEncoded = new EtsiTs102941CTL(message.encoded)
         then:
         def certStore = [:]
@@ -445,6 +445,8 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         ToBeSignedRcaCtl toBeSignedRcaCtl = EtsiTs102941DataContentSpec.genToBeSignedRcaCtl()
         when:
         EtsiTs102941CTL message = messagesCaGenerator.genRcaCertificateTrustListMessage(new Time64(new Date()),toBeSignedRcaCtl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
+
+        println new String(Hex.encode(message.encoded))
 
         EtsiTs102941CTL reEncoded = new EtsiTs102941CTL(message.encoded)
         then:
