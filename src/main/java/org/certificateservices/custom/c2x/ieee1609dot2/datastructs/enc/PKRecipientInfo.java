@@ -17,7 +17,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedI
 
 /**
  * <ul>
- *<li>recipientId contains the hash of the “container” for the encryption public key as specified in
+ *<li>recipientId contains the hash of the "container" for the encryption public key as specified in
  * the definition of RecipientInfo. Specifically, depending on the choice indicated by the containing
  * RecipientInfo structure:
  * <br>

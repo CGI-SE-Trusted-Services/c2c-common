@@ -23,13 +23,13 @@ public enum AuthorizationValidationResponseCode implements COEREnumerationType  
     ok,
     cantparse, // valid for any structure
     badcontenttype, // not encrypted, not signed, not permissionsverificationrequest
-    imnottherecipient, // the “recipients” of the outermost encrypted data doesn’t include me
+    imnottherecipient, // the "recipients" of the outermost encrypted data doesn't include me
     unknownencryptionalgorithm, // either kexalg or contentencryptionalgorithm
     decryptionfailed, // works for ECIES-HMAC and AES-CCM
     invalidaa, // the AA certificate presented is invalid/revoked/whatever
-    invalidaasignature, // the AA certificate presented can’t validate the request signature
-    wrongea, // the encrypted signature doesn’t designate me as the EA
-    unknownits, // can’t retrieve the EC/ITS in my DB
+    invalidaasignature, // the AA certificate presented can't validate the request signature
+    wrongea, // the encrypted signature doesn't designate me as the EA
+    unknownits, // can't retrieve the EC/ITS in my DB
     invalidsignature, // signature verification of the request by the EC fails
     invalidencryptionkey, // signature is good, but the responseEncryptionKey is bad
     deniedpermissions, // requested permissions not granted

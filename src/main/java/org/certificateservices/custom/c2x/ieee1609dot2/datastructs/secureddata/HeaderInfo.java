@@ -39,7 +39,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certific
  * inline peer-to-peer certificate distribution mechanism is given in Clause 8. This field shall only be
  * present if p2pcdLearningRequest is not present. The HashedId3 is calculated with the wholecertificate
  * hash algorithm, determined as described in 6.4.3.</li>
- * <li>requestedCertificate, if present, is used by the SDS to provide certificates per the “inline”
+ * <li>requestedCertificate, if present, is used by the SDS to provide certificates per the "inline"
  * version of the peer-to-peer certificate distribution mechanism given in Clause 8.</li>
  * </ul>
  * <p>

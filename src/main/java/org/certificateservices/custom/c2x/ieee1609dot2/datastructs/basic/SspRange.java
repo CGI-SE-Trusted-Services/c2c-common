@@ -55,8 +55,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERNull;
  *     For consistency rules for other types of SspRange, see the following subclauses.
  * </p>
  * <p>
- *     NOTE—The choice “all” may also be indicated by omitting the SspRange in the enclosing PsidSspRange structure.
- * Omitting the SspRange is preferred to explicitly indicating “all”.
+ *     NOTE—The choice "all" may also be indicated by omitting the SspRange in the enclosing PsidSspRange structure.
+ * Omitting the SspRange is preferred to explicitly indicating "all".
  * </p>
  *
  * 

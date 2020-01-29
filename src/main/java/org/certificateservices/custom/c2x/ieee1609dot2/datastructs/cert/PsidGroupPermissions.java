@@ -25,7 +25,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
  * <li>subjectPermissions indicates PSIDs and SSP ranges covered by this field.</li>
  * <li>minChainLength and chainLengthRange indicate how long the certificate chain from this
  * certificate to the end-entity certificate is permitted to be. As specified in 5.1.2.1, the length of the
- * certificate chain is the number of certificates “below” this certificate in the chain, down to and
+ * certificate chain is the number of certificates "below" this certificate in the chain, down to and
  * including the end-entity certificate. The length is permitted to be (a) greater than or equal to
  * minChainLength certificates and (b) less than or equal to minChainLength +
  * chainLengthRange certificates. A value of 0 for minChainLength is not permitted when
