@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.interfaces.ECPublicKey;
@@ -29,10 +30,7 @@ import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.VerificationKeyIndicator.VerificationKeyIndicatorChoices;
 
 /**
@@ -278,6 +276,19 @@ public class Certificate extends COERSequence implements org.certificateservices
 			return org.certificateservices.custom.c2x.common.Certificate.Type.IMPLICIT;
 		}
 		return org.certificateservices.custom.c2x.common.Certificate.Type.EXPLICIT;
+	}
+
+	/**
+	 * Method to generate a HashedId8 Id for the Certifiate using SHA-256 digest.
+	 * @param cryptoManager the related crypto manager, must be compatible with underlying implementation.
+	 * @return a newly generated HashedId8
+	 * @throws IOException if problem occurred encoding this certificate to byte array.
+	 * @throws NoSuchAlgorithmException if SHA-256 algorithm wasn't found in given CryptoManager.
+	 * @throws IllegalArgumentException if supplied argument was invalid for the type of certificate.
+	 */
+	@Override
+	public HashedId8 asHashedId8(CryptoManager cryptoManager) throws  IllegalArgumentException, IOException, NoSuchAlgorithmException {
+		return new HashedId8(cryptoManager.digest(getEncoded(),HashAlgorithm.sha256));
 	}
 	
 }

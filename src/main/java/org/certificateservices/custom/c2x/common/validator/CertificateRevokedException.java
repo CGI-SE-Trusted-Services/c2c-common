@@ -13,27 +13,26 @@
 package org.certificateservices.custom.c2x.common.validator;
 
 /**
- * Exception thrown by the validator if some certificate permission or validity condition
- * fails.
+ * Exception thrown by the CRL validator if some certificate is included in a revocation list.
  *
  * @author Philip Vendil, p.vendil@cgi.com
  */
-public class InvalidCertificateException extends Exception{
+public class CertificateRevokedException extends Exception{
 
     /**
-     * Exception thrown by the validator if some certificate permission or validity condition
-     * fails.
+     * Exception thrown by the CRL validator if some certificate is included
+     * in a revocation list.
      *
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
      */
-    public InvalidCertificateException(String message) {
+    public CertificateRevokedException(String message) {
         super(message);
     }
 
     /**
-     * Exception thrown by the validator if some certificate permission or validity condition
-     * fails.
+     * Exception thrown by the CRL validator if some certificate is included
+     * in a revocation list.
      *
      * @param message the detail message (which is saved for later retrieval
      *                by the {@link #getMessage()} method).
@@ -42,7 +41,7 @@ public class InvalidCertificateException extends Exception{
      *                permitted, and indicates that the cause is nonexistent or
      *                unknown.)
      */
-    public InvalidCertificateException(String message, Throwable cause) {
+    public CertificateRevokedException(String message, Throwable cause) {
         super(message, cause);
     }
 }

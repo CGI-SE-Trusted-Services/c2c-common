@@ -1,11 +1,36 @@
+/************************************************************************
+ *                                                                       *
+ *  Certificate Service -  Car2Car Core                                  *
+ *                                                                       *
+ *  This software is free software; you can redistribute it and/or       *
+ *  modify it under the terms of the GNU Affero General Public License   *
+ *  License as published by the Free Software Foundation; either         *
+ *  version 3   of the License, or any later version.                    *
+ *                                                                       *
+ *  See terms of license at gnu.org.                                     *
+ *                                                                       *
+ *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.util
 
-import org.bouncycastle.util.encoders.Hex
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.certificateservices.custom.c2x.common.BaseStructSpec
-import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry
-import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CTL
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Hostname
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version
+import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.*
+import org.certificateservices.custom.c2x.etsits102941.v131.generator.ETSITS102941MessagesCaGenerator
+import org.certificateservices.custom.c2x.etsits102941.v131.generator.ETSITS102941SecureDataGenerator
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate
+import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSISecuredDataGenerator
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateId
+import org.certificateservices.custom.c2x.ieee1609dot2.validator.BasePermissionValidatorSpec
+import spock.lang.Shared
+
+import java.security.PrivateKey
+import java.security.Security
+
+import static org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry.CtlEntryChoices.*
+import static org.certificateservices.custom.c2x.etsits102941.v131.util.TestPKI1.simpleDateFormat
 
 /**
  * Unit tests for Etsi102941CTLHelper
@@ -14,30 +39,37 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certific
  */
 class Etsi102941CTLHelperSpec extends BaseStructSpec {
 
+    @Shared Etsi102941CTLHelper helper
+    CertificateId id1 = new CertificateId(new Hostname("Test RootCA1 EA1"))
+    CertificateId id2 = new CertificateId(new Hostname("Test RootCA1 EA2"))
 
-    Etsi102941CTLHelper helper = new Etsi102941CTLHelper()
-    EtsiTs102941CTL raCtl
-    EtsiTs102941CTL tlmCtl
-    CertificateId id1 = new CertificateId(new Hostname("SomeCertId"))
-    CertificateId id2 = new CertificateId(new Hostname("someOtherId"))
+    @Shared TestPKI1 testPKI1
+    static ETSITS102941MessagesCaGenerator etsits102941MessagesCaGenerator
 
-    def setup(){
-        raCtl = new EtsiTs102941CTL(rcaCTLData)
-        tlmCtl = new EtsiTs102941CTL(tlmCTLData)
+    @Shared CryptoManager cryptoManager
+    static{
+        Security.addProvider(new BouncyCastleProvider())
+        ETSITS102941SecureDataGenerator etsiSecuredDataGenerator =  new ETSITS102941SecureDataGenerator(ETSISecuredDataGenerator.DEFAULT_VERSION, BasePermissionValidatorSpec.cryptoManager, HashAlgorithm.sha256, Signature.SignatureChoices.ecdsaNistP256Signature);
+        etsits102941MessagesCaGenerator = new ETSITS102941MessagesCaGenerator(etsiSecuredDataGenerator)
     }
 
-    def "Verify that a list of two matching certificate is found for type ea"(){
+    def setupSpec(){
+        cryptoManager = BasePermissionValidatorSpec.cryptoManager
+        testPKI1 = new TestPKI1()
+        helper = new Etsi102941CTLHelper(cryptoManager)
+    }
+
+    def "Verify that a  matching certificate is found for type ea"(){
         when:
-        def l = helper.findCACtlEntries(raCtl, CtlEntry.CtlEntryChoices.ea, id1)
+        def l = helper.findCACtlEntries(testPKI1.fullRootCA1Ctl, ea, id1)
         then:
-        l.size() == 2
+        l.size() == 1
         l[0].getEaEntry() != null
-        l[1].getEaEntry() != null
     }
 
     def "Verify that a list of one matching certificate is found for type ea with other id"(){
         when:
-        def l = helper.findCACtlEntries(raCtl, CtlEntry.CtlEntryChoices.ea, id2)
+        def l = helper.findCACtlEntries(testPKI1.fullRootCA1Ctl, CtlEntry.CtlEntryChoices.ea, id2)
         then:
         l.size() == 1
         l[0].getEaEntry() != null
@@ -45,7 +77,7 @@ class Etsi102941CTLHelperSpec extends BaseStructSpec {
 
     def "Verify that a list of one matching certificate is found for type aa"(){
         when:
-        def l = helper.findCACtlEntries(raCtl, CtlEntry.CtlEntryChoices.aa, id1)
+        def l = helper.findCACtlEntries(testPKI1.fullRootCA1Ctl, CtlEntry.CtlEntryChoices.aa, new CertificateId(new Hostname("Test RootCA1 AA1")))
         then:
         l.size() == 1
         l[0].getAaEntry() != null
@@ -53,21 +85,55 @@ class Etsi102941CTLHelperSpec extends BaseStructSpec {
 
     def "Verify that an empty list is returned if no ids is matching"(){
         when:
-        def l = helper.findCACtlEntries(raCtl, CtlEntry.CtlEntryChoices.aa, new CertificateId(new Hostname("noexists")))
+        def l = helper.findCACtlEntries(testPKI1.fullRootCA1Ctl, CtlEntry.CtlEntryChoices.aa, new CertificateId(new Hostname("noexists")))
         then:
         l.size() == 0
     }
 
     def "Verify that an empty list is returned if no type is matching"(){
         when:
-        def l = helper.findCACtlEntries(raCtl, CtlEntry.CtlEntryChoices.tlm, id1)
+        def l = helper.findCACtlEntries(testPKI1.fullRootCA1Ctl, CtlEntry.CtlEntryChoices.tlm, id1)
         then:
         l.size() == 0
     }
 
-    def "Verify that an tlm entries can be found."(){
+    def "Verify that findCACtlEntries with a delta CRL also adds new certificates to the list."(){
         when:
-        def l = helper.findCACtlEntries(tlmCtl, CtlEntry.CtlEntryChoices.tlm, id1)
+        def l = helper.findCACtlEntries(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, CtlEntry.CtlEntryChoices.aa, new CertificateId(new Hostname("Test RootCA1 AA2")))
+        then:
+        l.size() == 1
+        l[0].getAaEntry() != null
+    }
+
+
+    def "Verify that findCACtlEntries with a delta CRL does not return removed certificates."(){
+        expect:
+        helper.findCACtlEntries(testPKI1.fullRootCA1Ctl, null, CtlEntry.CtlEntryChoices.ea, new CertificateId(new Hostname("Test RootCA1 EA2"))).size() == 1
+        helper.findCACtlEntries(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, CtlEntry.CtlEntryChoices.ea, new CertificateId(new Hostname("Test RootCA1 EA2"))).size() == 0
+
+    }
+
+    def "Verify that an tlm entries can be found."(){
+        setup:
+        def tlmCtl = genCTL([ type: "tlmctl",
+                              nextUpdate: "2020-02-07 10:10:10",
+                              sequence: 1,
+                              commands:[[
+                                                command: "add",
+                                                type: "tlm",
+                                                selfsignedcert: testPKI1.tlm,
+                                                accesspoint: "http://somecpoc"
+
+                                        ],[
+                                                command: "add",
+                                                type: "rca",
+                                                selfsignedcert: testPKI1.rootca2
+                                        ]],
+                              signerChain: [testPKI1.tlm],
+                              signerKey: testPKI1.tlmSigningKeys
+        ])
+        when:
+        def l = helper.findCACtlEntries(tlmCtl, tlm, new CertificateId(new Hostname("Some TLM")))
         then:
         l.size() == 1
         l[0].getTlmEntry() != null
@@ -75,12 +141,109 @@ class Etsi102941CTLHelperSpec extends BaseStructSpec {
 
     def "Verify that an rca entries can be found."(){
         when:
-        def l = helper.findCACtlEntries(tlmCtl, CtlEntry.CtlEntryChoices.rca, id1)
+        def l = helper.findCACtlEntries(testPKI1.fullTlmCtl, rca, new CertificateId(new Hostname("Test RootCA1")))
         then:
         l.size() == 1
         l[0].getRcaEntry() != null
     }
 
-    byte[] rcaCTLData = Hex.decode("0381004003808205680101860001011c9c36a9000c0105808100800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d808100800300810079810b736f6d654f74686572496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d808100800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d818034343535363637378082800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d4002026f0001cc6ca5703c288101018003008100198108736f6d654e616d6500000000001c105b1886002301028002026e80010180020270800201380101e081010301ffc00080820109647b5fa4d82e1e6ad0683fcfc76c5f7e7607cba107ad6893a9e940104cf88080820109647b5fa4d82e1e6ad0683fcfc76c5f7e7607cba107ad6893a9e940104cf880802d4a153da20639dd36a85c9ac65bc3c78267ca09034813a35b71b6a613d6407d8d44869f7fcdfa5745df151145f3966ceac05e40428b5072aab92cdd23aedb7980807f591ec97ec300945480f07b395d45e9dc62bf8dd88043bb46ea35ce6296d9c8df63651f39ee6f2d057059c68eed9f3a28cdb1561e226eabe82683e54605cf78")
-    byte[] tlmCTLData = Hex.decode("0381004003808202a60101850001011c9c36a9ff0c0102808000800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f5808400800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d4002026f0001cc6cd45675e88101018003008100198108736f6d654e616d6500000000001c105b1886002301028002026e80010180020270800201380101e081010301ffc0008082fdc6095b5844f3dd8e5a270967b0f1762b07058052b5e396a2dc5004cadc242b808082fdc6095b5844f3dd8e5a270967b0f1762b07058052b5e396a2dc5004cadc242b808039de418816a33bad5855c64891c7095f461e563f3ec69ac044dcc8e8ddc5146918852ab04b30acc46c3eebf1c79e683e4fb7759fc410ccc3c0e601f63ec635698080fd22e5364c538c37dd6a48ff23f03f0547abfc2c90b443907122f7c7a1b6059c53bdf2a41ec079402773e0af3645cc4eba677e70fb75a27f745bcb5915fa7b0b")
+    def "Verify that findCACtlEntries return certificates entries for all types."(){
+        when:
+        def r1 = helper.getCACtlEntries(testPKI1.fullRootCA1Ctl, null,  [ea,aa] as CtlEntry.CtlEntryChoices[])
+        then:
+        r1.size() == 3
+        when:
+        println testPKI1.deltaRootCA1Ctl
+        def r2 = helper.getCACtlEntries(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl,  [ea,aa] as CtlEntry.CtlEntryChoices[])
+        then:
+        r2.size() == 3
+        r2[1].getEaEntry() == null
+    }
+
+    def "Verify that getDCCtlEntries return ctl entries for dc types."(){
+        when:
+        def r1 = helper.getDCCtlEntries(testPKI1.fullRootCA1Ctl,null)
+        then:
+        r1.size() == 1
+        r1[0].getDcEntry().url.url == "http://somedc"
+        when:
+        def r2 = helper.getDCCtlEntries(testPKI1.fullRootCA1Ctl,testPKI1.deltaRootCA1Ctl)
+        then:
+        r2.size() == 1
+        r2[0].getDcEntry().url.url == "http://somedc2"
+        when:
+        def r3 = helper.getDCCtlEntries(testPKI1.fullRootCA2Ctl,null)
+        then:
+        r3.size() == 0
+
+    }
+
+    def "Verify that getDCCtlEntries return ctl entries for dc types filtered by a specific certId."(){
+        expect:
+        helper.getDCCtlEntries(testPKI1.fullRootCA1Ctl,null, testPKI1.rootca1.asHashedId8(cryptoManager)).size() == 1
+        helper.getDCCtlEntries(testPKI1.fullRootCA1Ctl,testPKI1.deltaRootCA1Ctl, testPKI1.rootca2.asHashedId8(cryptoManager)).size()  == 1
+        helper.getDCCtlEntries(testPKI1.fullRootCA1Ctl,testPKI1.deltaRootCA1Ctl, testPKI1.rootca3.asHashedId8(cryptoManager)).size()  == 0
+    }
+
+
+
+
+    static EtsiTs102941CTL genCTL(Map m){
+        Time32 nextUpdate = new Time32(simpleDateFormat.parse(m.nextUpdate))
+        boolean isFullCTL = m.delta != null ? !m.delta : true
+        int sequence = m.sequence != null ? m.sequence : 1
+        CtlCommand[] ctlCommands = parseCTLCommands(m.commands)
+
+        if(m.type == "rcactl") {
+            ToBeSignedRcaCtl toBeSignedRcaCtl = new ToBeSignedRcaCtl(Version.V1, nextUpdate, isFullCTL, sequence, ctlCommands)
+            return etsits102941MessagesCaGenerator.genRcaCertificateTrustListMessage(new Time64(new Date()), toBeSignedRcaCtl,
+                    (EtsiTs103097Certificate[]) m.signerChain, (PrivateKey) m.signerKey.private)
+        }else {
+            ToBeSignedTlmCtl toBeSignedTlmCtl = new ToBeSignedTlmCtl(Version.V1, nextUpdate, isFullCTL, sequence, ctlCommands)
+            return etsits102941MessagesCaGenerator.genTlmCertificateTrustListMessage(new Time64(new Date()), toBeSignedTlmCtl,
+                    (EtsiTs103097Certificate[]) m.signerChain, (PrivateKey)  m.signerKey.private)
+        }
+    }
+
+    static CtlCommand[] parseCTLCommands(List commands){
+        List retval = []
+        for(Map m : commands){
+            if(m.command == "add"){
+                CtlEntry ctlEntry
+                switch(m.type){
+                    case "tlm":
+                        ctlEntry = new CtlEntry(new TlmEntry(m.selfsignedcert, m.linkcert,new Url(m.accesspoint)))
+                        break
+                    case "rca":
+                        ctlEntry = new CtlEntry(new RootCaEntry(m.selfsignedcert, m.linkcert))
+                        break
+                    case "ea":
+                        ctlEntry = new CtlEntry(new EaEntry(m.eacert, new Url(m.aaaccesspoint), new Url(m.itsaccesspoint)))
+                        break
+                    case "aa":
+                        ctlEntry = new CtlEntry(new AaEntry(m.aacert, new Url(m.accesspoint)))
+                        break
+                    case "dc":
+                        SequenceOfHashedId8 certIds = new SequenceOfHashedId8(m.certIds)
+                        ctlEntry = new CtlEntry(new DcEntry(new Url(m.url), certIds))
+                        break
+                }
+                retval << new CtlCommand(ctlEntry)
+            }
+            if(m.command == "del"){
+                CtlDelete ctlDelete
+                if(m.type == "dc"){
+                    ctlDelete = new CtlDelete(new DcDelete(m.url))
+                }else{
+                    ctlDelete = new CtlDelete(m.certId)
+                }
+                retval << new CtlCommand(ctlDelete)
+            }
+        }
+
+        return retval as CtlCommand[]
+    }
+
+
+
 }

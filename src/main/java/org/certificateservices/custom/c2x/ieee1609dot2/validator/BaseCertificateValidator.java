@@ -172,7 +172,9 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
      */
     @Override
-    public void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion, EndEntityType targetEndEntityType, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
+    public void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion,
+                                  EndEntityType targetEndEntityType, boolean entireChain)
+            throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
         verifyAndValidate(certificateChain,checkDate,checkRegion,targetEndEntityType,0,entireChain);
     }
 
@@ -213,7 +215,9 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
      */
     @Override
-    public void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion, EndEntityType targetEndEntityType, int chainLengthIndex, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
+    public void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion,
+                                  EndEntityType targetEndEntityType, int chainLengthIndex, boolean entireChain)
+            throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
 
         timeValidator.validateTime(checkDate,certificateChain, entireChain);
         regionValidator.validateRegion(checkRegion,certificateChain);

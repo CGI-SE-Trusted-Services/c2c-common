@@ -765,7 +765,7 @@ public class SecuredDataGenerator {
 	/**
 	 * Builds a cert store if signer identifier contains included certificates, otherwise an empty map.
 	 */
-	private Map<HashedId8, Certificate> getSignedDataStore(SignerIdentifier signer) throws IllegalArgumentException, NoSuchAlgorithmException, IOException {
+	public Map<HashedId8, Certificate> getSignedDataStore(SignerIdentifier signer) throws IllegalArgumentException, NoSuchAlgorithmException, IOException {
 		if(signer.getType() != SignerIdentifierChoices.certificate){
 			return new HashMap<HashedId8, Certificate>();
 		}

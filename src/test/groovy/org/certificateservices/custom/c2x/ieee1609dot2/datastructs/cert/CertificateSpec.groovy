@@ -12,6 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert
 
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
+
 import java.security.KeyPair
 import java.security.PublicKey;
 
@@ -248,6 +250,15 @@ class CertificateSpec extends  BaseCertGeneratorSpec {
 		Certificate c = new Certificate(Hex.decode(referenceCert))
 		then:
 		serializeToHex(c) == referenceCert
+	}
+
+	def "Verify that asHashedId8 generates SHA-256 digest HashedId8 of certificate"(){
+		setup:
+		Certificate c = new Certificate(Hex.decode(referenceCert))
+		when:
+		HashedId8 id = c.asHashedId8(cryptoManager)
+		then:
+		new HashedId8(cryptoManager.digest(c.encoded,HashAlgorithm.sha256)) == id
 	}
 
 	String coerExternalReferenceCert = normalizeHex """80 03 00 80 00 00 00 00 00 00 00 00 04 83 00 00

@@ -31,6 +31,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Country
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CountryOnly
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Hostname
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IdentifiedRegion
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Latitude
@@ -59,6 +60,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certific
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.PsidGroupPermissions
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -86,7 +88,9 @@ class BaseCertificateValidatorSpec extends Specification {
     }
 
     def setup(){
-        certificateValidator = new ETSI103097CertificateValidator(cryptoManager)
+        SecuredDataGenerator securedDataGenerator = new SecuredDataGenerator(SecuredDataGenerator.DEFAULT_VERSION,
+                cryptoManager, HashAlgorithm.sha256, Signature.SignatureChoices.ecdsaNistP256Signature)
+        certificateValidator = new ETSI103097CertificateValidator(cryptoManager,securedDataGenerator)
     }
 
     def "Verify that a valid certificate chain doesn't throw any InvalidCertificateException"(){

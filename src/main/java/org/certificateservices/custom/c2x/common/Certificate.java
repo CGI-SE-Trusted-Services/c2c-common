@@ -13,12 +13,14 @@
 package org.certificateservices.custom.c2x.common;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 
 /**
  * Common interface for all standards certificate implementation.
@@ -65,4 +67,15 @@ public interface Certificate {
 	 * @throws IOException if encoding problems of the certificate occurred.
 	 */
 	byte[] getEncoded() throws IOException;
+
+	/**
+	 * Method to generate a HashedId8 Id for the Certifiate using SHA-256 digest.
+	 * @param cryptoManager the related crypto manager, must be compatible with underlying implementation.
+	 * @return a newly generated HashedId8
+	 * @throws IOException if problem occurred encoding this certificate to byte array.
+	 * @throws NoSuchAlgorithmException if SHA-256 algorithm wasn't found in given CryptoManager.
+	 * @throws IllegalArgumentException if supplied argument was invalid for the type of certificate.
+	 */
+	HashedId8 asHashedId8(CryptoManager cryptoManager)
+			throws IOException, NoSuchAlgorithmException, IllegalArgumentException;
 }

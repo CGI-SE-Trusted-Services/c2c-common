@@ -18,6 +18,7 @@ import org.certificateservices.custom.c2x.common.crypto.CryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException
+import org.certificateservices.custom.c2x.etsits102941.v131.util.TestPKI1
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID
 import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSIAuthorityCertGenerator
 import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSIAuthorizationTicketGenerator
@@ -38,6 +39,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Service
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SspRange
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ValidityPeriod
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.CertificateId
@@ -47,6 +49,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectP
 import spock.lang.Specification
 
 import java.security.KeyPair
+import java.security.PublicKey
 
 /**
  * Unit tests for BasePermissionValidator using ETSI103097PermissionValidator implementation to
@@ -62,7 +65,7 @@ class BasePermissionValidatorSpec extends Specification {
 
     static Ieee1609Dot2CryptoManager cryptoManager
 
-    def setupSpec(){
+    static{
         initCryptoManager()
     }
 
@@ -992,26 +995,50 @@ class BasePermissionValidatorSpec extends Specification {
     }
 
 
-    static Certificate[] genCertChain(List specification){
+    static Certificate[] genCertChain(List specification, KeyPair keys = null){
         Certificate[] certChain = new Certificate[specification.size()]
-        ETSIAuthorityCertGenerator authorityCertGenerator = new ETSIAuthorityCertGenerator(cryptoManager)
-        ETSIEnrollmentCredentialGenerator enrollmentCredentialCertGenerator = new ETSIEnrollmentCredentialGenerator(cryptoManager)
-        ETSIAuthorizationTicketGenerator authorizationTicketGenerator = new ETSIAuthorizationTicketGenerator(cryptoManager)
-        KeyPair keys = cryptoManager.generateKeyPair(Signature.SignatureChoices.ecdsaNistP256Signature)
-
+        if(keys == null) {
+            keys = cryptoManager.generateKeyPair(Signature.SignatureChoices.ecdsaNistP256Signature)
+        }
 
         for(int i=specification.size()-1;i>=0;i--){
             Map m = specification[i]
-            def validityPeriod = new ValidityPeriod(new Date(), Duration.DurationChoices.years, 45);
+            certChain[i] = genCert(m,keys,i < specification.size() -1 ? certChain[i+1] : null)
+        }
+
+        return certChain
+    }
+
+    static Certificate genCert(Map m, KeyPair keys = null, Certificate signingCertificate){
+
+        ETSIAuthorityCertGenerator authorityCertGenerator = new ETSIAuthorityCertGenerator(cryptoManager)
+        ETSIEnrollmentCredentialGenerator enrollmentCredentialCertGenerator = new ETSIEnrollmentCredentialGenerator(cryptoManager)
+        ETSIAuthorizationTicketGenerator authorizationTicketGenerator = new ETSIAuthorizationTicketGenerator(cryptoManager)
+        if(keys == null) {
+            keys = cryptoManager.generateKeyPair(Signature.SignatureChoices.ecdsaNistP256Signature)
+        }
+
+
+            def validityPeriod = genValidityPeriod(m)
 
             CertificateId name = new CertificateId(new Hostname((String) m.name))
             PsidSsp[] appPermissions = genAppPermissions(m.appPermissions)
             PsidGroupPermissions[] certIssuePermissions = genCertIssuePermissions(m.certIssuePermissions)
 
-
             switch (m.type){
+                case "tlm":
+                    return authorityCertGenerator.genTrustListManagerCert(name, // caName
+                            validityPeriod, //ValidityPeriod
+                            null, //GeographicRegion
+                            null, //Subject Assurance
+                            appPermissions,
+                            Signature.SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
+                            keys.getPublic(), // signPublicKey
+                            keys.getPrivate(), // signPrivateKey
+                    )
+                    break
                 case "rootca":
-                    certChain[i] = authorityCertGenerator.genRootCA(name, // caName
+                    return authorityCertGenerator.genRootCA(name, // caName
                             validityPeriod, //ValidityPeriod
                             null, //GeographicRegion
                             null, //Subject Assurance
@@ -1025,60 +1052,56 @@ class BasePermissionValidatorSpec extends Specification {
                             keys.getPublic())
                     break
                 case "subca":
-                    certChain[i] = authorityCertGenerator.genSubCA(name, // CA Name
+                    return authorityCertGenerator.genSubCA(name, // CA Name
                             validityPeriod,
                             null,  //GeographicRegion
                             null, // subject assurance (optional)
                             appPermissions,
                             certIssuePermissions,
                             Signature.SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
-                            keys.getPublic(), // signPublicKey, i.e public key in certificate
-                            certChain[i+1], // signerCertificate
+                            (PublicKey) (m.pubKey ? m.pubKey : keys.getPublic()), // signPublicKey, i.e public key in certificate
+                            signingCertificate, // signerCertificate
                             keys.getPublic(), // signCertificatePublicKey, must be specified separately to support implicit certificates.
                             keys.getPrivate(),
                             SymmAlgorithm.aes128Ccm, // symmAlgorithm
                             BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256,  // encPublicKeyAlgorithm
                             keys.getPublic() // encryption public key
                     )
-                    break
                 case "ec":
-                    certChain[i] = enrollmentCredentialCertGenerator.genEnrollCredential(
+                    return enrollmentCredentialCertGenerator.genEnrollCredential(
                             (String) m.name, // unique identifier name
                             validityPeriod,
                             null,
                             null,
                             appPermissions,
                             Signature.SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
-                            keys.getPublic(), // signPublicKey, i.e public key in certificate
-                            certChain[i+1], // signerCertificate
+                            (PublicKey) (m.pubKey ? m.pubKey : keys.getPublic()),// signPublicKey, i.e public key in certificate
+                            signingCertificate, // signerCertificate
                             keys.getPublic(), // signCertificatePublicKey,
                             keys.getPrivate(),
                             SymmAlgorithm.aes128Ccm, // symmAlgorithm
                             BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
                             keys.getPublic() // encryption public key
                     )
-                    break
                 case "at":
-                    certChain[i] = authorizationTicketGenerator.genAuthorizationTicket(
+                   return authorizationTicketGenerator.genAuthorizationTicket(
                             validityPeriod,
                             null,
                             null,
                             appPermissions,
                             Signature.SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
-                            keys.getPublic(), // signPublicKey, i.e public key in certificate
-                            certChain[i+1], // signerCertificate
+                            (PublicKey) (m.pubKey ? m.pubKey : keys.getPublic()), // signPublicKey, i.e public key in certificate
+                            signingCertificate, // signerCertificate
                             keys.getPublic(), // signCertificatePublicKey,
                             keys.getPrivate(),
                             SymmAlgorithm.aes128Ccm, // symmAlgorithm
                             BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256, // encPublicKeyAlgorithm
                             keys.getPublic() // encryption public key
                     )
-                    break
+
             }
         }
 
-        return certChain
-    }
 
 
     static PsidSsp[] genAppPermissions(List appPermissions){
@@ -1151,6 +1174,13 @@ class BasePermissionValidatorSpec extends Specification {
             println "---------------------------------------------"
             println it
         }
+    }
+
+    private static ValidityPeriod genValidityPeriod(Map m){
+        Date startDate = m.startTime ? TestPKI1.simpleDateFormat.parse((String) m.startTime) : new Date()
+        Duration duration = m.durationUnit ? new Duration(Duration.DurationChoices.valueOf((String) m.durationUnit),
+                (int) m.duration) : new Duration(Duration.DurationChoices.years,45)
+        return new ValidityPeriod(new Time32(startDate), duration)
     }
 
     static class TestDefaultSSPLookup implements DefaultSSPLookup{
