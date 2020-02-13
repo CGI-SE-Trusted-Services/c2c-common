@@ -47,7 +47,7 @@ import static org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secure
 class EtsiTs102941CTLSpec extends BaseStructSpec {
 
 
-    byte[] cTLData = Hex.decode("0381004003808201620101860001011c9c36a9ff0c0101808100800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d4002026f0001cc5ba60b95d08101018003008100198108736f6d654e616d6500000000001c105b1886002301028002026e80010180020270800201380101e081010301ffc0008083618415e78cbaf0c23c7697eb84d9eb7c6f431c9acd04cbcdb0d90e91a2e08cbb808083618415e78cbaf0c23c7697eb84d9eb7c6f431c9acd04cbcdb0d90e91a2e08cbb80808c38d0052c2e18d421085be198a58f0b5dfb6c0dfe15ccd4367fa8eae9f60f5fe0accd096e1c7eefe3acc4b2e775fa8afc9f3409ba0dba83666f827a307d21fb808084b2c97ccd93e8352217487226d92f1fa980553fcf69cfe8944c8178cf97cbd393d9fb905819612b0ef12f943145c43222e871b4bab5e1b5007afbcf592ee31a")
+    byte[] cTLData = Hex.decode("03810040038082056701860001011c9c36a9000c0105808100800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d808100800300810079810b736f6d654f74686572496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d808100800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d818034343535363637378082800300810079810a536f6d6543657274496431323301b016a58f24840005830101800009620102800165801e0000000000000000000000000000000000000000000000000000000000f58001ca801e0000000000000000000000000000000000000000000000000000000000f501022081c0e0810102010340008084000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000df808084000000000000000000000000000000000000000000000000000000000000014300000000000000000000000000000000000000000000000000000000000001a78080000000000000000000000000000000000000000000000000000000000000007b00000000000000000000000000000000000000000000000000000000000000f50f687474703a2f2f746573742e636f6d4002026f0001cea785009d888101018003008100198108736f6d654e616d6500000000001c105b1886002301028002026e80010180020270800201380101e081010301ffc000808297a2b61968b92deb4917cf32af2f08a8b573a60dcbc75213657c12c345a16efa80808297a2b61968b92deb4917cf32af2f08a8b573a60dcbc75213657c12c345a16efa8080cb9315c41d37983db0fc3e795139cf9dceb389d08459cfad6f6f756c1d62f0ec3c7c0e38a1b0a6346610eb0a0828b2a883e0603d45d16376cfefba33b6240bd18080018b700a512349cb6217e22604cac4d7cb1160a1768aae401948ac5a90bfd60f45dd496725de08d39fb9277e2a556ecca8d4e480753c3bfc90dafdd0a5ae3568")
 
     def "Verify that constructor accepts valid signed data same as EtsiTs103097DataSigned"(){
         setup:
@@ -87,7 +87,7 @@ class EtsiTs102941CTLSpec extends BaseStructSpec {
                 content=[certificateTrustListRca=[
                     version=1
                     nextUpdate=Time32 [timeStamp=Mon Mar 18 14:14:14 CET 2019 (479999657)]
-                    isFullCtl=true
+                    isFullCtl=false
                     ctlSequence=12
                     ctlCommands=
                       [add=[ea=[
@@ -115,6 +115,81 @@ class EtsiTs102941CTLSpec extends BaseStructSpec {
                           itsAccessPoint=NONE
                         ]
                       ]]
+                      [add=[ea=[
+                          eaCertificate=[
+                            version=3
+                            type=explicit
+                            issuer=[self=sha256]
+                            toBeSigned=[
+                              id=[name=[someOtherId]]
+                              cracaId=[313233]
+                              crlSeries=[432]
+                              validityPeriod=[start=Time32 [timeStamp=Fri Jan 15 14:20:33 CET 2016 (379948836)], duration=Duration [5 hours]]
+                              region=[SequenceOfIdentifiedRegion [[CountryOnly [9]]]]
+                              assuranceLevel=[subjectAssurance=98 (assuranceLevel=3, confidenceLevel= 2 )]
+                              appPermissions=[[psid=[101(65)], ssp=[opaque=[0000000000000000000000000000000000000000000000000000000000f5]]],[psid=[202(ca)], ssp=[opaque=[0000000000000000000000000000000000000000000000000000000000f5]]]]
+                              certIssuePermissions=[[subjectPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=true]],[subjectPermissions=[all], minChainDepth=2, chainDepthRange=3, eeType=[app=false, enroll=true]]]
+                              certRequestPermissions=NONE
+                              canRequestRollover=false
+                              encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[uncompressed=[x=000000000000000000000000000000000000000000000000000000000000007b, y=00000000000000000000000000000000000000000000000000000000000000df]]]]
+                              verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000143, y=00000000000000000000000000000000000000000000000000000000000001a7]]]]
+                            ]
+                            signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]
+                          ]
+                          aaAccessPoint=http://test.com
+                          itsAccessPoint=NONE
+                        ]
+                      ]]
+                      [add=[ea=[
+                          eaCertificate=[
+                            version=3
+                            type=explicit
+                            issuer=[self=sha256]
+                            toBeSigned=[
+                              id=[name=[SomeCertId]]
+                              cracaId=[313233]
+                              crlSeries=[432]
+                              validityPeriod=[start=Time32 [timeStamp=Fri Jan 15 14:20:33 CET 2016 (379948836)], duration=Duration [5 hours]]
+                              region=[SequenceOfIdentifiedRegion [[CountryOnly [9]]]]
+                              assuranceLevel=[subjectAssurance=98 (assuranceLevel=3, confidenceLevel= 2 )]
+                              appPermissions=[[psid=[101(65)], ssp=[opaque=[0000000000000000000000000000000000000000000000000000000000f5]]],[psid=[202(ca)], ssp=[opaque=[0000000000000000000000000000000000000000000000000000000000f5]]]]
+                              certIssuePermissions=[[subjectPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=true]],[subjectPermissions=[all], minChainDepth=2, chainDepthRange=3, eeType=[app=false, enroll=true]]]
+                              certRequestPermissions=NONE
+                              canRequestRollover=false
+                              encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[uncompressed=[x=000000000000000000000000000000000000000000000000000000000000007b, y=00000000000000000000000000000000000000000000000000000000000000df]]]]
+                              verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000143, y=00000000000000000000000000000000000000000000000000000000000001a7]]]]
+                            ]
+                            signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]
+                          ]
+                          aaAccessPoint=http://test.com
+                          itsAccessPoint=NONE
+                        ]
+                      ]]
+                      [delete=[cert=[3434353536363737]]]
+                      [add=[aa=[
+                          aaCertificate=[
+                            version=3
+                            type=explicit
+                            issuer=[self=sha256]
+                            toBeSigned=[
+                              id=[name=[SomeCertId]]
+                              cracaId=[313233]
+                              crlSeries=[432]
+                              validityPeriod=[start=Time32 [timeStamp=Fri Jan 15 14:20:33 CET 2016 (379948836)], duration=Duration [5 hours]]
+                              region=[SequenceOfIdentifiedRegion [[CountryOnly [9]]]]
+                              assuranceLevel=[subjectAssurance=98 (assuranceLevel=3, confidenceLevel= 2 )]
+                              appPermissions=[[psid=[101(65)], ssp=[opaque=[0000000000000000000000000000000000000000000000000000000000f5]]],[psid=[202(ca)], ssp=[opaque=[0000000000000000000000000000000000000000000000000000000000f5]]]]
+                              certIssuePermissions=[[subjectPermissions=[all], minChainDepth=1, chainDepthRange=0, eeType=[app=true, enroll=true]],[subjectPermissions=[all], minChainDepth=2, chainDepthRange=3, eeType=[app=false, enroll=true]]]
+                              certRequestPermissions=NONE
+                              canRequestRollover=false
+                              encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[uncompressed=[x=000000000000000000000000000000000000000000000000000000000000007b, y=00000000000000000000000000000000000000000000000000000000000000df]]]]
+                              verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[uncompressed=[x=0000000000000000000000000000000000000000000000000000000000000143, y=00000000000000000000000000000000000000000000000000000000000001a7]]]]
+                            ]
+                            signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=000000000000000000000000000000000000000000000000000000000000007b], s=00000000000000000000000000000000000000000000000000000000000000f5]]
+                          ]
+                          accessPoint=http://test.com
+                        ]
+                      ]]
                   ]
                 ]
               ]
@@ -123,7 +198,7 @@ class EtsiTs102941CTLSpec extends BaseStructSpec {
         ],
         headerInfo=[
           psid=[623(26f)],
-          generationTime=[timeStamp=Wed Jan 15 11:29:33 CET 2020 (506168976578000)]
+          generationTime=[timeStamp=Thu Feb 13 16:50:59 CET 2020 (508693862981000)]
         ]
       ],
       signer=[certificate=[
@@ -142,12 +217,12 @@ class EtsiTs102941CTLSpec extends BaseStructSpec {
           certIssuePermissions=[[subjectPermissions=[all], minChainDepth=3, chainDepthRange=-1, eeType=[app=true, enroll=true]]]
           certRequestPermissions=NONE
           canRequestRollover=false
-          encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy1=618415e78cbaf0c23c7697eb84d9eb7c6f431c9acd04cbcdb0d90e91a2e08cbb]]]
-          verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=618415e78cbaf0c23c7697eb84d9eb7c6f431c9acd04cbcdb0d90e91a2e08cbb]]]
+          encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy0=97a2b61968b92deb4917cf32af2f08a8b573a60dcbc75213657c12c345a16efa]]]
+          verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy0=97a2b61968b92deb4917cf32af2f08a8b573a60dcbc75213657c12c345a16efa]]]
         ]
-        signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=8c38d0052c2e18d421085be198a58f0b5dfb6c0dfe15ccd4367fa8eae9f60f5f], s=e0accd096e1c7eefe3acc4b2e775fa8afc9f3409ba0dba83666f827a307d21fb]]
+        signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=cb9315c41d37983db0fc3e795139cf9dceb389d08459cfad6f6f756c1d62f0ec], s=3c7c0e38a1b0a6346610eb0a0828b2a883e0603d45d16376cfefba33b6240bd1]]
       ]]],
-      signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=84b2c97ccd93e8352217487226d92f1fa980553fcf69cfe8944c8178cf97cbd3], s=93d9fb905819612b0ef12f943145c43222e871b4bab5e1b5007afbcf592ee31a]]
+      signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=018b700a512349cb6217e22604cac4d7cb1160a1768aae401948ac5a90bfd60f], s=45dd496725de08d39fb9277e2a556ecca8d4e480753c3bfc90dafdd0a5ae3568]]
     ]
   ]
 ]
