@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca;
 
+import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version;
 
@@ -41,11 +42,11 @@ public class EtsiTs102941Data extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public EtsiTs102941Data(Version version, EtsiTs102941DataContent content) throws IllegalArgumentException{
+	public EtsiTs102941Data(EtsiTs102941DataContent content) throws IllegalArgumentException{
 		super(false,2);
 		init();
 
-		set(VERSION, version);
+		set(VERSION, new COERInteger(1,0,1));
 		set(CONTENT, content);
 	}
 
@@ -63,7 +64,7 @@ public class EtsiTs102941Data extends COERSequence {
 	}
 
 	private void init(){
-		addField(VERSION, false, new Version(), null);
+		addField(VERSION, false, new COERInteger(0,1), null);
 		addField(CONTENT, false, new EtsiTs102941DataContent(), null);
 		
 	}
@@ -71,8 +72,8 @@ public class EtsiTs102941Data extends COERSequence {
 	/**
 	 * @return the version, required
 	 */
-	public Version getVersion() {
-		return (Version) get(VERSION);
+	public COERInteger getVersion() {
+		return (COERInteger) get(VERSION);
 	}
 
 	/**
