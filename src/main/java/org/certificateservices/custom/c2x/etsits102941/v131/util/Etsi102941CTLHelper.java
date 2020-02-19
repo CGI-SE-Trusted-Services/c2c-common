@@ -260,7 +260,7 @@ public class Etsi102941CTLHelper {
         if(toBeSignedCtl.getContent().getType() == certificateTrustListTlm){
             return toBeSignedCtl.getContent().getToBeSignedTlmCtl();
         }
-        return null;
+        throw new IOException("Invalid data structure, verify that data is of type certificateTrustListRca or certificateTrustListTlm.");
     }
 
     /**

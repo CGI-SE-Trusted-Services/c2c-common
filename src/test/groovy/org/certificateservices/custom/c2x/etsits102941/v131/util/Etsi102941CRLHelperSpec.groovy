@@ -52,11 +52,14 @@ class Etsi102941CRLHelperSpec extends Specification {
         helper.getToBeSignedCrl(testPKI1.rootCA1Crl) instanceof ToBeSignedCrl
     }
 
-    def "Verify that getToBeSignedCrl returns null if inner structure does not contain any ToBeSignedCrl."(){
+    def "Verify that getToBeSignedCrl throws IOException if inner structure does not contain any ToBeSignedCrl."(){
         setup:
         EtsiTs102941CRL crl = new EtsiTs102941CRL(testPKI1.fullTlmCtl)
-        expect:
-        helper.getToBeSignedCrl(crl) == null
+        when:
+        helper.getToBeSignedCrl(crl)
+        then:
+        def e = thrown IOException
+        e.message == "Invalid data structure, verify that data is of type certificateRevocationList."
     }
 
     def "Verify that checkRevoked throws CertificateRevokedException for certificates included in the list"(){
