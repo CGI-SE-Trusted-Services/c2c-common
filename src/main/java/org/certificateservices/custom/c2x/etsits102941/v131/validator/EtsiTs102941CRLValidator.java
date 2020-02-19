@@ -95,7 +95,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      */
     @Override
     public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, Map<HashedId8, Certificate> trustStore, boolean entireChain) throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
-        verifyAndValidate(crl,toHashedId8(certificate),checkDate,null,trustStore,entireChain);
+        verifyAndValidate(crl,certificate != null ? toHashedId8(certificate) : null,checkDate,null,trustStore,entireChain);
     }
 
     /**
@@ -182,7 +182,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
                                   boolean entireChain)
             throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException {
-        verifyAndValidate(crl,toHashedId8(certificate), checkDate,certStore,trustStore,entireChain);
+        verifyAndValidate(crl,certificate != null ? toHashedId8(certificate) : null, checkDate,certStore,trustStore,entireChain);
     }
 
     /**

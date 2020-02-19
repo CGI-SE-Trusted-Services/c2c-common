@@ -157,54 +157,18 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
             throw new InvalidCTLException("CTL Issuer not trusted: " + e.getMessage(),e);
         }
 
-        SignerIdentifier fullCTLSignerIdentifier;
-        try {
-            fullCTLSignerIdentifier = findSignerIdentifier(fullCTL);
-            Map<HashedId8, Certificate> inCRLCertStore = securedDataGenerator.getSignedDataStore(fullCTLSignerIdentifier);
-            Certificate[] certChain = certChainBuilder.buildChain(getSignerId(fullCTLSignerIdentifier), inCRLCertStore,certStore,trustStore);
-
-            certificateValidator.verifyAndValidate(certChain, checkDate, null, new EndEntityType(true,true), entireChain);
-            certificateValidator.checkCTLServicePermissionInAppPermissions(CTLServicePermissions.VERSION_1, CTLServicePermissions.getPermissions(ctlTypes), certChain);
-        } catch (IOException e) {
-            throw new InvalidCTLException("Error building certificate chain when verifying full CTL.");
-        }catch (InvalidCertificateException e){
-            throw new InvalidCTLException("Error validating certificate chain of full CTL: " + e.getMessage(),e);
-        }
-
-        CtlFormat fullCtlFormat;
-        try{
-            fullCtlFormat = etsi102941CTLHelper.getCtlFormat(fullCTL);
-            validateTime(fullCtlFormat,checkDate, "full");
-        }catch (IOException e){
-            throw new InvalidCTLException("Error parsing full CTL: " + e.getMessage(),e);
-        }
-
+        VerifyCTLResult fullResult = verifyAndValidate(fullCTL, checkDate, certStore, trustStore,
+                entireChain,ctlTypes,true,true);
 
         if(deltaCTL != null){
-            try {
-                if(!securedDataGenerator.verifySignedData(deltaCTL,certStore, trustStore)){
-                    throw new InvalidCTLException("Couldn't verify the delta CTL.");
-                }
-            } catch (SignatureException e) {
-                throw new InvalidCTLException("Couldn't verify delta CTL signature: " + e.getMessage(),e);
-            } catch (IOException e) {
-                throw new InvalidCTLException("Couldn't decode delta CTL data: " + e.getMessage(),e);
-            }
+            VerifyCTLResult deltaResult = verifyAndValidate(deltaCTL, checkDate, certStore, trustStore,
+                    entireChain,ctlTypes,false,false);
 
-            CtlFormat deltaCtlFormat;
-            try{
-                deltaCtlFormat = etsi102941CTLHelper.getCtlFormat(deltaCTL);
-                validateTime(deltaCtlFormat,checkDate, "delta");
-            }catch (IOException e){
-                throw new InvalidCTLException("Error parsing full CTL: " + e.getMessage(),e);
-            }
-
-            if(deltaCtlFormat.getCtlSequence() != fullCtlFormat.getCtlSequence()){
+            if(deltaResult.ctlFormat.getCtlSequence() != fullResult.ctlFormat.getCtlSequence()){
                 throw new InvalidCTLException("Error deltaCTL sequence doesn't match sequence in full CTL.");
             }
 
-            SignerIdentifier deltaCTLSignerIdentifier = findSignerIdentifier(deltaCTL);
-            if(!deltaCTLSignerIdentifier.equals(fullCTLSignerIdentifier)){
+            if(!deltaResult.cTLSignerIdentifier.equals(fullResult.cTLSignerIdentifier)){
                 throw new InvalidCTLException("Full CTL and delta CTL signerIdentifiers doesn't match.");
             }
         }
@@ -214,6 +178,95 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
         } catch (IOException e) {
             throw new InvalidCTLException("Error building certificate store from CTL: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Method that verifies and validates a single CTL
+     * <p>
+     * The method will build a chain for the CTL from the set of trust anchors.
+     * </p>
+     * <p>
+     * <p>
+     * The following checks is done in the CTL.
+     * <ul>
+     * <li>Signature verifies</li>
+     * <li>CTL validity</li>
+     * <li>Issuing Certificate has permissions to issue CTLs</li>
+     *
+     * </ul>
+     * <p>
+     * <b>Permissions is only checked that it is consistent upwards in the chain. It does not check a specific permission</b>
+     * </p>
+     *
+     * @param cTL     the cTL to verify.
+     * @param checkDate   the date to check validity of CRL and its certificate chain against.
+     * @param certStore   a certstore that contains all intermediate CA certificates that is needed to build the chain.
+     * @param trustStore  a certstore of root ca certificates that are trusted.
+     * @param entireChain if entireChain should be validated or only CRL.
+     * @param ctlTypes  the set of types to verify and return of CTL to verify and build store for. If DC Points
+     *                  are going to be used it should be included in the array but they are not included in the
+     *                  generated cert store.
+     * @param expectFull if a full CTL is expected
+     * @param verifyChain if the signing certificate and it's chain should be verified.
+     * @throws IllegalArgumentException    if one of the parameters where invalid.
+     * @throws InvalidCTLException         if CTL was not verifiable or not within time constraints.
+     * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
+     * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
+     */
+    public VerifyCTLResult verifyAndValidate(EtsiTs102941CTL cTL,
+                                             Date checkDate, Map<HashedId8, Certificate> certStore,
+                                             Map<HashedId8, Certificate> trustStore, boolean entireChain,
+                                             CtlEntry.CtlEntryChoices[] ctlTypes,
+                                             boolean expectFull, boolean verifyChain)
+            throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
+
+        if(certStore == null){
+            certStore = emptyStore;
+        }
+
+        String type = expectFull ? "full" : "delta";
+        try {
+            if(!securedDataGenerator.verifySignedData(cTL,certStore, trustStore)){
+                throw new InvalidCTLException("Couldn't verify the " + type + " CTL.");
+            }
+        } catch (SignatureException e) {
+            throw new InvalidCTLException("Couldn't verify " + type + " CTL signature: " + e.getMessage(),e);
+        } catch (IOException e) {
+            throw new InvalidCTLException("Couldn't decode "+ type + " CTL data: " + e.getMessage(),e);
+        }catch(IllegalArgumentException e){
+            throw new InvalidCTLException("CTL Issuer not trusted: " + e.getMessage(),e);
+        }
+
+        SignerIdentifier cTLSignerIdentifier;
+        try {
+            cTLSignerIdentifier = findSignerIdentifier(cTL);
+            if(verifyChain) {
+                Map<HashedId8, Certificate> inCRLCertStore = securedDataGenerator.getSignedDataStore(cTLSignerIdentifier);
+                Certificate[] certChain = certChainBuilder.buildChain(getSignerId(cTLSignerIdentifier), inCRLCertStore, certStore, trustStore);
+
+                certificateValidator.verifyAndValidate(certChain, checkDate, null, new EndEntityType(true, true), entireChain);
+                certificateValidator.checkCTLServicePermissionInAppPermissions(CTLServicePermissions.VERSION_1, CTLServicePermissions.getPermissions(ctlTypes), certChain);
+            }
+        } catch (IOException e) {
+            throw new InvalidCTLException("Error building certificate chain when verifying " + type + " CTL.");
+        }catch (InvalidCertificateException e){
+            throw new InvalidCTLException("Error validating certificate chain of " + type + " CTL: " + e.getMessage(),e);
+        }
+
+        CtlFormat ctlFormat;
+        try{
+            ctlFormat = etsi102941CTLHelper.getCtlFormat(cTL);
+            validateTime(ctlFormat,checkDate, type);
+
+            if((ctlFormat.isFullCtl() && !expectFull) || (!ctlFormat.isFullCtl() && expectFull)){
+                String invType = expectFull ?  "delta" : "full";
+                throw new InvalidCTLException("Invalid CTL type, expected " + type + " but CTL was of type: " + invType);
+            }
+        }catch (IOException e){
+            throw new InvalidCTLException("Error parsing " + type + " CTL: " + e.getMessage(),e);
+        }
+
+        return new VerifyCTLResult(ctlFormat, cTLSignerIdentifier);
     }
 
     /**
@@ -229,6 +282,19 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
         Date endDate = ctlFormat.getNextUpdate().asDate();
         if(currentTime.after(endDate)){
             throw new InvalidCTLException(type + " CTL is expired.");
+        }
+    }
+
+    /**
+     * Result of verifying a single CTL verification.
+     */
+    private static class VerifyCTLResult{
+        CtlFormat ctlFormat;
+        SignerIdentifier cTLSignerIdentifier;
+
+        private VerifyCTLResult(CtlFormat ctlFormat, SignerIdentifier cTLSignerIdentifier){
+            this.ctlFormat = ctlFormat;
+            this.cTLSignerIdentifier = cTLSignerIdentifier;
         }
     }
 }

@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.validator
 
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager
+import org.certificateservices.custom.c2x.common.validator.InvalidCRLException
 import org.certificateservices.custom.c2x.common.validator.InvalidCTLException
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry
 import org.certificateservices.custom.c2x.etsits102941.v131.util.TestPKI1
@@ -93,6 +94,19 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
         result.size() == 3
         result[testPKI1.rca1_aa2.asHashedId8(cryptoManager)] == testPKI1.rca1_aa2
         result[testPKI1.rca1_ea2.asHashedId8(cryptoManager)] == null
+    }
+
+    def "Verify that type of CRL is checked against what is expected"(){
+        when:
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.deltaRootCA1Ctl, validDate, null,  trustStore, true, eaAndAATypes, true, true)
+        then:
+        def e = thrown(InvalidCTLException)
+        e.message == "Invalid CTL type, expected full but CTL was of type: delta"
+        when:
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, validDate, null,  trustStore, true, eaAndAATypes, false, true)
+        then:
+        e = thrown(InvalidCTLException)
+        e.message == "Invalid CTL type, expected delta but CTL was of type: full"
     }
 
     def "Verify that InvalidCTLException is thrown for full CTL with invalid signature"(){

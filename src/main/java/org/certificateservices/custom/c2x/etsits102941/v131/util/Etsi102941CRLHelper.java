@@ -64,7 +64,7 @@ public class Etsi102941CRLHelper {
         if(toBeSignedCtl.getContent().getType() == certificateRevocationList){
             return toBeSignedCtl.getContent().getToBeSignedCrl();
         }
-        return null;
+        throw new IOException("Invalid data structure, verify that data is of type certificateRevocationList.");
     }
 
 }
