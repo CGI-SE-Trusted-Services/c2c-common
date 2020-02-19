@@ -86,14 +86,14 @@ public class COERTag implements COEREncodable{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		if (tagNumber < 63) 
 		{
-			baos.write(tagClass | (int) tagNumber);
+			baos.write(tagClass | (byte) tagNumber);
 		}
 		else
 		{
 			baos.write(tagClass | 0x3F);
 			if (tagNumber < 128)
 			{
-				baos.write((int) tagNumber);
+				baos.write((byte) tagNumber);
 			}
 			else
 			{

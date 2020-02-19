@@ -13,7 +13,7 @@ import static org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secure
 class EtsiTs102941CRLSpec extends BaseStructSpec {
 
 
-    byte[] cRLData = Hex.decode("038100400380200101840001011c9ae5291c9c36a90102112233445566778811223344556677994002026f0001cc5bbd628ba88101018003008100198108736f6d654e616d6500000000001c105b1886002301028002026e80010180020270800201380101e081010301ffc0008082064f5e90648f8d76c52196e83c6fbbbac4a10bb65acba0d708abcd497639839c808082064f5e90648f8d76c52196e83c6fbbbac4a10bb65acba0d708abcd497639839c8080e6fed39f56b7ce3f21543811d43cf8be8636554f65e44102e4f18279707f3bf13874ec58b04c0e877230e682dc9006fca8e795e36914a594fc2d401ffac4267c808041f352cb9f14178418962cdcf7d5c21e0fb91970d933e44061ae573a294bde73284c7fa5506ff4ecf9ffe7030ef74904d40782add428a6dfdb507407a723a24b")
+    byte[] cRLData = Hex.decode("0381004003801f01840001011c9ae5291c9c36a90102112233445566778811223344556677994002026f0001cea794e140688101018003008100198108736f6d654e616d6500000000001c105b1886002301028002026e80010180020270800201380101e081010301ffc00080834432b902105adda438533a3dbc9c164df3641dee19c0b666ca01fad357d588ad8080834432b902105adda438533a3dbc9c164df3641dee19c0b666ca01fad357d588ad8080de5c0c3ea36dd7303eb0a855231d7b30985815cf8df89f22b145ce380d77a948169e3783e59901b9d54edf136b15616feeac3f84c181c8368fd43b2c9df2fb02808015c890adea41aec058663f244856c8b4e74f192bb1dc1b29f859f1b1f417abdf326299cdaf7ad81f19ef3b847959cb621a1cc48a93620a49f59e52762d5ab1f7")
 
     def "Verify that constructor accepts valid signed data same as EtsiTs103097DataSigned"(){
         setup:
@@ -65,7 +65,7 @@ class EtsiTs102941CRLSpec extends BaseStructSpec {
         ],
         headerInfo=[
           psid=[623(26f)],
-          generationTime=[timeStamp=Wed Jan 15 11:36:05 CET 2020 (506169368153000)]
+          generationTime=[timeStamp=Thu Feb 13 16:55:26 CET 2020 (508694129361000)]
         ]
       ],
       signer=[certificate=[
@@ -84,12 +84,12 @@ class EtsiTs102941CRLSpec extends BaseStructSpec {
           certIssuePermissions=[[subjectPermissions=[all], minChainDepth=3, chainDepthRange=-1, eeType=[app=true, enroll=true]]]
           certRequestPermissions=NONE
           canRequestRollover=false
-          encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy0=064f5e90648f8d76c52196e83c6fbbbac4a10bb65acba0d708abcd497639839c]]]
-          verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy0=064f5e90648f8d76c52196e83c6fbbbac4a10bb65acba0d708abcd497639839c]]]
+          encryptionKey=[supportedSymmAlg=aes128Ccm, publicKey=[ecdsaNistP256=[compressedy1=4432b902105adda438533a3dbc9c164df3641dee19c0b666ca01fad357d588ad]]]
+          verifyKeyIndicator=[verificationKey=[ecdsaNistP256=[compressedy1=4432b902105adda438533a3dbc9c164df3641dee19c0b666ca01fad357d588ad]]]
         ]
-        signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=e6fed39f56b7ce3f21543811d43cf8be8636554f65e44102e4f18279707f3bf1], s=3874ec58b04c0e877230e682dc9006fca8e795e36914a594fc2d401ffac4267c]]
+        signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=de5c0c3ea36dd7303eb0a855231d7b30985815cf8df89f22b145ce380d77a948], s=169e3783e59901b9d54edf136b15616feeac3f84c181c8368fd43b2c9df2fb02]]
       ]]],
-      signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=41f352cb9f14178418962cdcf7d5c21e0fb91970d933e44061ae573a294bde73], s=284c7fa5506ff4ecf9ffe7030ef74904d40782add428a6dfdb507407a723a24b]]
+      signature=[ecdsaNistP256Signature=EcdsaP256[r=[xonly=15c890adea41aec058663f244856c8b4e74f192bb1dc1b29f859f1b1f417abdf], s=326299cdaf7ad81f19ef3b847959cb621a1cc48a93620a49f59e52762d5ab1f7]]
     ]
   ]
 ]

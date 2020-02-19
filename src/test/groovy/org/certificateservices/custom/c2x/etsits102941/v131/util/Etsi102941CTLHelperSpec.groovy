@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.util
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version
@@ -243,7 +244,5 @@ class Etsi102941CTLHelperSpec extends BaseStructSpec {
 
         return retval as CtlCommand[]
     }
-
-
 
 }

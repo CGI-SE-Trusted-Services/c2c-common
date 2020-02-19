@@ -408,7 +408,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         ToBeSignedCrl toBeSignedCrl = EtsiTs102941DataContentSpec.genToBeSignedCrl()
         when:
         EtsiTs102941CRL message = messagesCaGenerator.genCertificateRevocationListMessage(new Time64(new Date()),toBeSignedCrl,[rootCACert] as EtsiTs103097Certificate[],rootCAKeys.private)
-
+        println new String(Hex.encode(message.encoded))
         EtsiTs102941CRL reEncoded = new EtsiTs102941CRL(message.encoded)
 
         then:
