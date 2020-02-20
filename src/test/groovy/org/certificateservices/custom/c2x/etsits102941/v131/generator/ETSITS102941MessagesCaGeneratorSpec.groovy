@@ -418,7 +418,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         result.value.toString() == toBeSignedCrl.toString()
         result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.certificate
-        result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
+        result.headerInfo.psid == AvailableITSAID.CRLService
         result.headerInfo.generationTime != null
     }
 
@@ -436,7 +436,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         result.value.toString() == toBeSignedTlmCtl.toString()
         result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.certificate
-        result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
+        result.headerInfo.psid == AvailableITSAID.CTLService
         result.headerInfo.generationTime != null
     }
 
@@ -456,7 +456,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         result.value.toString() == toBeSignedRcaCtl.toString()
         result.signAlg == Signature.SignatureChoices.ecdsaNistP256Signature
         result.signerIdentifier.type == SignerIdentifier.SignerIdentifierChoices.certificate
-        result.headerInfo.psid == AvailableITSAID.SecuredCertificateRequestService
+        result.headerInfo.psid == AvailableITSAID.CTLService
         result.headerInfo.generationTime != null
     }
 
