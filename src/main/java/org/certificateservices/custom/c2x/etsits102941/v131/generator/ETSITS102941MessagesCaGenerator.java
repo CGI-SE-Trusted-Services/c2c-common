@@ -1054,7 +1054,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if problems occurred generating the exception.
      */
     public EtsiTs102941CRL genCertificateRevocationListMessage(Time64 generationTime, ToBeSignedCrl toBeSignedCrl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        return new EtsiTs102941CRL(genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedCrl), signerCertificateChain,signerPrivateKey));
+        return new EtsiTs102941CRL(genSignedCTLMessage(AvailableITSAID.CRLService,generationTime,new EtsiTs102941DataContent(toBeSignedCrl), signerCertificateChain,signerPrivateKey));
     }
 
     /**
@@ -1087,7 +1087,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if problems occurred generating the exception.
      */
     public EtsiTs102941CTL genTlmCertificateTrustListMessage(Time64 generationTime, ToBeSignedTlmCtl toBeSignedTlmCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        return new EtsiTs102941CTL(genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedTlmCtl), signerCertificateChain,signerPrivateKey));
+        return new EtsiTs102941CTL(genSignedCTLMessage(AvailableITSAID.CTLService,generationTime,new EtsiTs102941DataContent(toBeSignedTlmCtl), signerCertificateChain,signerPrivateKey));
     }
 
     /**
@@ -1125,7 +1125,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if problems occurred generating the exception.
      */
     public EtsiTs102941CTL genRcaCertificateTrustListMessage(Time64 generationTime, ToBeSignedRcaCtl toBeSignedRcaCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        return new EtsiTs102941CTL(genSignedCTLMessage(generationTime,new EtsiTs102941DataContent(toBeSignedRcaCtl), signerCertificateChain,signerPrivateKey));
+        return new EtsiTs102941CTL(genSignedCTLMessage(AvailableITSAID.CTLService,generationTime,new EtsiTs102941DataContent(toBeSignedRcaCtl), signerCertificateChain,signerPrivateKey));
     }
 
     /**
@@ -1330,7 +1330,17 @@ public class ETSITS102941MessagesCaGenerator {
      * @return an newly created HeaderInfo
      */
     protected HeaderInfo genHeaderInfo(Time64 generationTime){
-        return new HeaderInfo(AvailableITSAID.SecuredCertificateRequestService,generationTime,null,null,null,null,null,null,null);
+        return genHeaderInfo(AvailableITSAID.SecuredCertificateRequestService, generationTime);
+    }
+
+    /**
+     * Generates a default header with ITS Id SecuredCertificateRequestService and generationTime set.
+     * @param psid the psid set in header.
+     * @param generationTime the generation time to set in header.
+     * @return an newly created HeaderInfo
+     */
+    protected HeaderInfo genHeaderInfo(Psid psid, Time64 generationTime){
+        return new HeaderInfo(psid,generationTime,null,null,null,null,null,null,null);
     }
 
     /**
@@ -1408,6 +1418,7 @@ public class ETSITS102941MessagesCaGenerator {
 
     /**
      * Common help method to generate a signed only message.
+     * @param psid the psid set in header.
      * @param generationTime the time of the generation
      * @param etsiTs102941DataContent the to be signed message data.
      * @param signerCertificateChain the certificate chain if signer certificate.
@@ -1416,9 +1427,9 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
      */
-    public EtsiTs103097DataSigned genSignedCTLMessage(Time64 generationTime, EtsiTs102941DataContent etsiTs102941DataContent, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
+    public EtsiTs103097DataSigned genSignedCTLMessage(Psid psid, Time64 generationTime, EtsiTs102941DataContent etsiTs102941DataContent, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
         EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(etsiTs102941DataContent);
-        HeaderInfo headerInfo = genHeaderInfo(generationTime);
+        HeaderInfo headerInfo = genHeaderInfo(psid, generationTime);
         return securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, etsiTs102941Data.getEncoded(), SecuredDataGenerator.SignerIdentifierType.SIGNER_CERTIFICATE,signerCertificateChain,signerPrivateKey);
     }
 
