@@ -438,7 +438,6 @@ public class SecuredDataGenerator {
 
 		SecretKey decryptionKey = null;
 
-
 		for(COEREncodable ri : recipientInfos){
 			HashedId8 reference = getReference((RecipientInfo) ri);
 			Receiver reciever = recieverStore.get(reference);
