@@ -104,9 +104,13 @@ public class GeographicRegion extends COERChoice {
 	/**
 	 * Help method to simply the generation of a GeographicRegion for a sequence of identified regions of a list of country only values
 	 * @param identifiedCountries list of country only values used in the region.
-	 * @return a generated geographic region.
+	 * @return a generated geographic region. not null if list is null
 	 */
 	public static GeographicRegion generateRegionForCountrys(List<Integer> identifiedCountries){
+		if(identifiedCountries == null){
+			return null;
+		}
+
 		IdentifiedRegion[] idRegions = new IdentifiedRegion[identifiedCountries.size()];
 		for(int i=0; i<identifiedCountries.size(); i++){
 			Integer c = identifiedCountries.get(i);
