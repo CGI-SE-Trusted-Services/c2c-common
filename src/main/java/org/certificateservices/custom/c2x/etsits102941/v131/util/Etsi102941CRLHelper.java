@@ -36,11 +36,9 @@ import static org.certificateservices.custom.c2x.etsits102941.v131.datastructs.t
 public class Etsi102941CRLHelper {
 
     /**
-     * Method that fetches the CtlEntries that have a CA with matching certificateId and type.
-     * @param toBeSignedCrl the CTL Content to fetch all matching entries from.
-     * @param certificateId the type of CtlEntry to fetch
+     * Method that checks if a given certificateId is included in the CRLs toBeSigned Data.
+     * @param toBeSignedCrl the CRL Content to check if given certificateId is included
      * @param certificateId the certificateId to check if it is included.
-     * @return a list of all matching entries, empty list if none found.
      * @throws CertificateRevokedException if given certificate id was found in list.
      */
     public void checkRevoked(ToBeSignedCrl toBeSignedCrl , HashedId8 certificateId) throws CertificateRevokedException {
