@@ -22,6 +22,7 @@ import org.certificateservices.custom.c2x.etsits102941.v131.util.Etsi102941CRLHe
 import org.certificateservices.custom.c2x.etsits103097.v131.validator.CRLServicePermissions;
 import org.certificateservices.custom.c2x.etsits103097.v131.validator.ETSI103097CertificateValidator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType;
@@ -87,6 +88,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      * @param checkDate   the date to check validity of CRL and its certificate chain against.
      * @param trustStore  a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only CRL.
+     * @param region the region to be checked
      * @throws IllegalArgumentException    if one of the parameters where invalid.
      * @throws InvalidCRLException if CRL was not verifiable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
@@ -94,8 +96,10 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      * @throws CertificateRevokedException if related certificate was revoked.
      */
     @Override
-    public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, Map<HashedId8, Certificate> trustStore, boolean entireChain) throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
-        verifyAndValidate(crl,certificate != null ? toHashedId8(certificate) : null,checkDate,null,trustStore,entireChain);
+    public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, Map<HashedId8, Certificate> trustStore, boolean entireChain, GeographicRegion region)
+            throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
+
+        verifyAndValidate(crl,certificate != null ? toHashedId8(certificate) : null,checkDate,null,trustStore,entireChain, region);
     }
 
     /**
@@ -125,6 +129,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      * @param checkDate     the date to check validity of CRL and its certificate chain against.
      * @param trustStore    a certstore of root ca certificates that are trusted.
      * @param entireChain   if entireChain should be validated or only CRL.
+     * @param region the region to be checked
      * @throws IllegalArgumentException    if one of the parameters where invalid.
      * @throws InvalidCRLException if CRL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
@@ -133,10 +138,10 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      */
     @Override
     public void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate,
-                                  Map<HashedId8, Certificate> trustStore, boolean entireChain)
+                                  Map<HashedId8, Certificate> trustStore, boolean entireChain, GeographicRegion region)
             throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException {
-        verifyAndValidate(crl,certificateId,checkDate,null,trustStore,entireChain);
+        verifyAndValidate(crl,certificateId,checkDate,null,trustStore,entireChain, region);
     }
 
 
@@ -170,6 +175,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      * @param certStore   a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore  a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
+     * @param region the region to be checked
      * @throws IllegalArgumentException    if one of the parameters where invalid.
      * @throws InvalidCRLException if CRL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
@@ -179,10 +185,10 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
     @Override
     public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate,
                                   Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore,
-                                  boolean entireChain)
+                                  boolean entireChain, GeographicRegion region)
             throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException {
-        verifyAndValidate(crl,certificate != null ? toHashedId8(certificate) : null, checkDate,certStore,trustStore,entireChain);
+        verifyAndValidate(crl,certificate != null ? toHashedId8(certificate) : null, checkDate,certStore,trustStore,entireChain, region);
     }
 
     /**
@@ -214,6 +220,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      * @param certStore     a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore    a certstore of root ca certificates that are trusted.
      * @param entireChain   if entireChain should be validated or only first certificate in chain.
+     * @param region the region to be checked
      * @throws IllegalArgumentException    if one of the parameters where invalid.
      * @throws InvalidCRLException if CRL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
@@ -223,7 +230,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
     @Override
     public void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate,
                                   Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore,
-                                  boolean entireChain) throws IllegalArgumentException, InvalidCRLException,
+                                  boolean entireChain, GeographicRegion region) throws IllegalArgumentException, InvalidCRLException,
             InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
 
         if(certStore == null){
@@ -246,7 +253,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
             Map<HashedId8, Certificate> inCRLCertStore = securedDataGenerator.getSignedDataStore(signerIdentifier);
             Certificate[] certChain = certChainBuilder.buildChain(getSignerId(signerIdentifier), inCRLCertStore,certStore,trustStore);
 
-            certificateValidator.verifyAndValidate(certChain, checkDate, null, new EndEntityType(true,true), entireChain);
+            certificateValidator.verifyAndValidate(certChain, checkDate, region, new EndEntityType(true,true), entireChain);
             certificateValidator.checkCRLServicePermissionInAppPermissions(CRLServicePermissions.VERSION_1,certChain);
         } catch (IOException e) {
             throw new InvalidCRLException("Error building certificate chain when verifying CRL.");

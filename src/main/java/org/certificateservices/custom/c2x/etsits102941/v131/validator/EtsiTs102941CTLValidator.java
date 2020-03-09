@@ -23,6 +23,7 @@ import org.certificateservices.custom.c2x.etsits102941.v131.util.Etsi102941CTLHe
 import org.certificateservices.custom.c2x.etsits103097.v131.validator.CTLServicePermissions;
 import org.certificateservices.custom.c2x.etsits103097.v131.validator.ETSI103097CertificateValidator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType;
@@ -158,11 +159,11 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
         }
 
         VerifyCTLResult fullResult = verifyAndValidate(fullCTL, checkDate, certStore, trustStore,
-                entireChain,ctlTypes,true,true);
+                entireChain,ctlTypes,true,true, null);
 
         if(deltaCTL != null){
             VerifyCTLResult deltaResult = verifyAndValidate(deltaCTL, checkDate, certStore, trustStore,
-                    entireChain,ctlTypes,false,false);
+                    entireChain,ctlTypes,false,false, null);
 
             if(deltaResult.ctlFormat.getCtlSequence() != fullResult.ctlFormat.getCtlSequence()){
                 throw new InvalidCTLException("Error deltaCTL sequence doesn't match sequence in full CTL.");
@@ -208,6 +209,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      *                  generated cert store.
      * @param expectFull if a full CTL is expected
      * @param verifyChain if the signing certificate and it's chain should be verified.
+     * @param region the region to be checked
      * @throws IllegalArgumentException    if one of the parameters where invalid.
      * @throws InvalidCTLException         if CTL was not verifiable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
@@ -217,7 +219,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
                                              Date checkDate, Map<HashedId8, Certificate> certStore,
                                              Map<HashedId8, Certificate> trustStore, boolean entireChain,
                                              CtlEntry.CtlEntryChoices[] ctlTypes,
-                                             boolean expectFull, boolean verifyChain)
+                                             boolean expectFull, boolean verifyChain, GeographicRegion region)
             throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
 
         if(certStore == null){
@@ -244,7 +246,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
                 Map<HashedId8, Certificate> inCRLCertStore = securedDataGenerator.getSignedDataStore(cTLSignerIdentifier);
                 Certificate[] certChain = certChainBuilder.buildChain(getSignerId(cTLSignerIdentifier), inCRLCertStore, certStore, trustStore);
 
-                certificateValidator.verifyAndValidate(certChain, checkDate, null, new EndEntityType(true, true), entireChain);
+                certificateValidator.verifyAndValidate(certChain, checkDate, region, new EndEntityType(true, true), entireChain);
                 certificateValidator.checkCTLServicePermissionInAppPermissions(CTLServicePermissions.VERSION_1, CTLServicePermissions.getPermissions(ctlTypes), certChain);
             }
         } catch (IOException e) {

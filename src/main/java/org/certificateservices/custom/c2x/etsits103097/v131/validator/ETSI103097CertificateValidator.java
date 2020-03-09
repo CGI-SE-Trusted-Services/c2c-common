@@ -386,7 +386,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
                 deltaRootCACTL,checkDate, trustStore, entireChain, ctlTypes);
         org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] certChain = buildCertChain(certificate, certStore, trustStore);
         if(rootCACRL != null && certChain.length > 1) {
-            etsiTs102941CRLValidator.verifyAndValidate(rootCACRL, certChain[certChain.length-2], checkDate, trustStore, entireChain);
+            etsiTs102941CRLValidator.verifyAndValidate(rootCACRL, certChain[certChain.length-2], checkDate, trustStore, entireChain, checkRegion);
         }
         verifyAndValidate(certChain,checkDate,checkRegion,targetEndEntityType,chainLengthIndex,entireChain);
     }
