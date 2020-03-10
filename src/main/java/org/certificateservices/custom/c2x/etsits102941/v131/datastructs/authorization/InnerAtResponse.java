@@ -18,6 +18,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 
+import java.io.IOException;
+
 /**
  * Class representing InnerAtResponse defined in ETSI TS 102 941 Authorization Types
  *
@@ -46,19 +48,19 @@ public class InnerAtResponse extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public InnerAtResponse(byte[] requestHash, AuthorizationResponseCode responseCode, EtsiTs103097Certificate certificate){
+	public InnerAtResponse(byte[] requestHash, AuthorizationResponseCode responseCode, EtsiTs103097Certificate certificate) throws IOException {
 		super(true,3);
 		init();
 		if(responseCode == null){
-			throw new IllegalArgumentException("Illegal argument: responseCode cannot be null for InnerAtResponse");
+			throw new IOException("Illegal argument: responseCode cannot be null for InnerAtResponse");
 		}
 		if(responseCode == AuthorizationResponseCode.ok){
 			if(certificate == null){
-				throw new IllegalArgumentException("Illegal argument: certificate cannot be null if response code is ok.");
+				throw new IOException("Illegal argument: certificate cannot be null if response code is ok.");
 			}
 		}else{
 			if(certificate != null){
-				throw new IllegalArgumentException("Illegal argument: certificate must be null if response code is not ok.");
+				throw new IOException("Illegal argument: certificate must be null if response code is not ok.");
 			}
 		}
 		set(REQUESTHASH, new COEROctetStream(requestHash, OCTETSTRING_SIZE, OCTETSTRING_SIZE));

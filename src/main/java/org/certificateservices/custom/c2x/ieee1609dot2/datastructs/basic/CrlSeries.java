@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 
+import java.io.IOException;
+
 /**
  * This integer identifies a series of CRLs issued under the authority of a particular CRACA.
  * 
@@ -33,7 +35,7 @@ public class CrlSeries extends Uint16 {
 	/**
 	 * Constructor used when encoding
 	 */
-	public CrlSeries(int crlSeries) {
+	public CrlSeries(int crlSeries) throws IOException {
 		super(crlSeries);		
 	}
 	

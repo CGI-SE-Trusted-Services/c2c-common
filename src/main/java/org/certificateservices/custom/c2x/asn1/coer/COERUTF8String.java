@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -36,7 +37,7 @@ public class COERUTF8String extends COEROctetStream{
 	/**
 	 * Constructor used when encoding a string to UTF8 encoded format when the lower and upper bound of the string is known.
 	 */
-	public COERUTF8String(String utf8String, Integer lowerBound, Integer upperBound) throws UnsupportedEncodingException {
+	public COERUTF8String(String utf8String, Integer lowerBound, Integer upperBound) throws IOException {
 		super(utf8String.getBytes("UTF-8"), lowerBound, upperBound);
 	}
 

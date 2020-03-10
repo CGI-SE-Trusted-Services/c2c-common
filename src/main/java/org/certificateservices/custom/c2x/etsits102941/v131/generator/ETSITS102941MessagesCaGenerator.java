@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.generator;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.etsits102941.v131.*;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.InnerAtRequest;
@@ -23,7 +24,6 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authoriz
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.EcSignature;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.EtsiTs103097DataEncryptedUnicast;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.PublicKeys;
-import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.camanagement.CaCertificateRequest;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcRequest;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcRequestSignedForPop;
@@ -214,11 +214,11 @@ public class ETSITS102941MessagesCaGenerator {
      * @param signerPrivateKey the enrolment cert private signing key.
      * @param recipient the recipient EA CA certificate
      * @return encrypted and self signed message containing innerEcRequest.
-     * @throws IllegalArgumentException if message contain invalid data
+     * @throws BadArgumentException if message contain invalid data
      * @throws IOException if problems occurred serializing the message data
      * @throws GeneralSecurityException if problems occurred encrypting the message.
      */
-    public EncryptResult genInitialEnrolmentRequestMessage(Time64 generationTime, InnerEcRequest innerEcRequest, PublicKey signerPublicKey, PrivateKey signerPrivateKey, Certificate recipient) throws IllegalArgumentException, IOException, GeneralSecurityException {
+    public EncryptResult genInitialEnrolmentRequestMessage(Time64 generationTime, InnerEcRequest innerEcRequest, PublicKey signerPublicKey, PrivateKey signerPrivateKey, Certificate recipient) throws BadArgumentException, IOException, GeneralSecurityException {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         EtsiTs103097DataSigned innerSigned = securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, innerEcRequest.getEncoded(),signerPublicKey,signerPrivateKey);
         InnerEcRequestSignedForPop innerEcRequestSignedForPop = new InnerEcRequestSignedForPop(innerSigned.getProtocolVersion(),innerSigned.getContent());
@@ -243,11 +243,11 @@ public class ETSITS102941MessagesCaGenerator {
      * @param signerPrivateKey the enrolment cert private signing key.
      * @param recipient the recipient EA CA certificate
      * @return encrypted and self signed message containing innerEcRequest.
-     * @throws IllegalArgumentException if message contain invalid data
+     * @throws BadArgumentException if message contain invalid data
      * @throws IOException if problems occurred serializing the message data
      * @throws GeneralSecurityException if problems occurred encrypting the message.
      */
-    public EncryptResult genRekeyEnrolmentRequestMessage(Time64 generationTime, InnerEcRequest innerEcRequest, EtsiTs103097Certificate[] oldCertificateChain, PrivateKey oldSignerPrivateKey, PublicKey signerPublicKey, PrivateKey signerPrivateKey, Certificate recipient) throws IOException, GeneralSecurityException {
+    public EncryptResult genRekeyEnrolmentRequestMessage(Time64 generationTime, InnerEcRequest innerEcRequest, EtsiTs103097Certificate[] oldCertificateChain, PrivateKey oldSignerPrivateKey, PublicKey signerPublicKey, PrivateKey signerPrivateKey, Certificate recipient) throws IOException, GeneralSecurityException, BadArgumentException {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         EtsiTs103097DataSigned innerSigned = securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, innerEcRequest.getEncoded(),signerPublicKey,signerPrivateKey);
         InnerEcRequestSignedForPop innerEcRequestSignedForPop = new InnerEcRequestSignedForPop(innerSigned.getProtocolVersion(),innerSigned.getContent());
@@ -270,10 +270,11 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
     public ECRequestVerifyResult<InnerEcRequest> decryptAndVerifyEnrolmentRequestMessage(EtsiTs103097DataEncryptedUnicast enrolmentRequestMessage,Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, Map<HashedId8, Receiver> receiverStore)
-            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException {
+            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException, BadArgumentException {
 
         DecryptResult decryptedData;
         try{
@@ -294,7 +295,7 @@ public class ETSITS102941MessagesCaGenerator {
 
             Ieee1609Dot2Data unsecuredData = innerSignedData.getTbsData().getPayload().getData();
             if (unsecuredData.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.unsecuredData) {
-                throw new IllegalArgumentException("Invalid encoding in EnrolmentRequestMessage, inner signed data should contain payload of unsecuredData.");
+                throw new BadArgumentException("Invalid encoding in EnrolmentRequestMessage, inner signed data should contain payload of unsecuredData.");
             }
             Opaque opaque = (Opaque) unsecuredData.getContent().getValue();
             InnerEcRequest innerEcRequest = new InnerEcRequest(opaque.getData());
@@ -370,13 +371,13 @@ public class ETSITS102941MessagesCaGenerator {
      * @param preSharedKey the pre shared key used for encryption of messages between the parties. The secret key
      *                     should be the AES key used in the ECIES algorithm for the EnrolmentRequest.
      * @return encrypted and signed message containing innerEcResponse.
-     * @throws IllegalArgumentException if message contain invalid data
+     * @throws BadArgumentException if message contain invalid data
      * @throws IOException if problems occurred serializing the message data
      * @throws GeneralSecurityException if problems occurred encrypting the message.
      */
     public EtsiTs103097DataEncryptedUnicast genEnrolmentResponseMessage(Time64 generationTime, InnerEcResponse innerEcResponse,
                                                                  EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey,
-                                                                 AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws IllegalArgumentException, IOException, GeneralSecurityException {
+                                                                 AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws BadArgumentException, IOException, GeneralSecurityException {
         return genResponseMessage(generationTime, new EtsiTs102941DataContent(innerEcResponse),signerCertificateChain,signerPrivateKey,encryptionAlg,preSharedKey);
     }
 
@@ -391,13 +392,13 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<InnerEcResponse> decryptAndVerifyEnrolmentResponseMessage(EtsiTs103097DataEncryptedUnicast enrolmentResponseMessage,
                                                                            Map<HashedId8, Certificate> certStore,
                                                                            Map<HashedId8, Certificate> trustStore,
                                                                            Map<HashedId8, Receiver> receiverStore)
-            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException {
+            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
 
         byte[] decryptedData;
         try{
@@ -534,7 +535,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param withPrivacy true if EcSignature inside the innerAtRequest should be encrypted when
      *                    sent to Enrolment Authority.
      * @return a newly generated enryption result containing authorization request message.
-     * @throws IllegalArgumentException if message contained invalid data.
+     * @throws BadArgumentException if message contained invalid data.
      * @throws GeneralSecurityException if problem occurred decrypting the data.
      * @throws SignatureException if problems occurred signing the data.
      * @throws IOException if problems occurred deserializing the data.
@@ -542,7 +543,7 @@ public class ETSITS102941MessagesCaGenerator {
         public EncryptResult genAuthorizationRequestMessage(Time64 generationTime, PublicKeys publicKeys, byte[] hmacKey, SharedAtRequest sharedAtRequest,
                                                                     EtsiTs103097Certificate[] enrolmentCredentialChain, PrivateKey enrolmentCredentialPrivateKey,
                                                                     PublicKey authorizationTicketPublicKey, PrivateKey authorizationTicketPrivateKey,
-                                                                    Certificate authorizationAuthorityRecipient,Certificate enrolmentAuthorityRecipient, boolean withPrivacy) throws IllegalArgumentException, IOException, GeneralSecurityException {
+                                                                    Certificate authorizationAuthorityRecipient,Certificate enrolmentAuthorityRecipient, boolean withPrivacy) throws BadArgumentException, IOException, GeneralSecurityException {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         EcSignature ecSignature;
         EtsiTs103097DataSignedExternalPayload ecSignaturePayload = (EtsiTs103097DataSignedExternalPayload) securedDataGenerator.genReferencedSignedData(headerInfo, sharedAtRequest.getEncoded(), SecuredDataGenerator.SignerIdentifierType.HASH_ONLY, enrolmentCredentialChain,enrolmentCredentialPrivateKey);
@@ -579,12 +580,13 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
     public RequestVerifyResult<InnerAtRequest> decryptAndVerifyAuthorizationRequestMessage(EtsiTs103097DataEncryptedUnicast authorizationRequestMessage,
                                                                            boolean expectPoP,
                                                                            Map<HashedId8, Receiver> receiverStore)
-            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException{
+            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException, BadArgumentException {
 
         DecryptResult decryptedData;
         try {
@@ -606,7 +608,7 @@ public class ETSITS102941MessagesCaGenerator {
             } else {
                 EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(decryptedData.getData());
                 if (etsiTs102941Data.getContent().getType() != EtsiTs102941DataContent.EtsiTs102941DataContentChoices.authorizationRequest) {
-                    throw new IllegalArgumentException("Invalid encoding in AuthorizationRequestMessage, signed EtsiTs102941Data should be of type " + EtsiTs102941DataContent.EtsiTs102941DataContentChoices.authorizationRequest + ".");
+                    throw new BadArgumentException("Invalid encoding in AuthorizationRequestMessage, signed EtsiTs102941Data should be of type " + EtsiTs102941DataContent.EtsiTs102941DataContentChoices.authorizationRequest + ".");
                 }
                 return new RequestVerifyResult<>(null, null, null, etsiTs102941Data.getContent().getInnerAtRequest(), requestHash, decryptedData.getSecretKey());
 
@@ -629,13 +631,13 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<EcSignature> decryptAndVerifyECSignature(EcSignature ecSignature, SharedAtRequest sharedAtRequest, boolean expectPrivacy,
                                                           Map<HashedId8, Certificate> enrolmentCACertStore,
                                                           Map<HashedId8, Certificate> enrolmentCATrustStore,
                                                           Map<HashedId8, Receiver> enrolmentCAReceiverStore)
-            throws  MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException{
+            throws  MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
 
         try {
             if (expectPrivacy && ecSignature.getType() == EcSignature.EcSignatureChoices.ecSignature) {
@@ -719,13 +721,13 @@ public class ETSITS102941MessagesCaGenerator {
      * @param preSharedKey the pre shared key used for encryption of messages between the parties. The secret key
      *                     should be the AES key used in the ECIES algorithm for the AuthorizationRequest.
      * @return encrypted and signed message containing innerEcResponse.
-     * @throws IllegalArgumentException if message contain invalid data
+     * @throws BadArgumentException if message contain invalid data
      * @throws IOException if problems occurred serializing the message data
      * @throws GeneralSecurityException if problems occurred encrypting the message.
      */
     public EtsiTs103097DataEncryptedUnicast genAuthorizationResponseMessage(Time64 generationTime, InnerAtResponse innerAtResponse,
                                                                  EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey,
-                                                                 AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws IllegalArgumentException, IOException, GeneralSecurityException {
+                                                                 AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws BadArgumentException, IOException, GeneralSecurityException {
         return genResponseMessage(generationTime, new EtsiTs102941DataContent(innerAtResponse),signerCertificateChain,signerPrivateKey,encryptionAlg,preSharedKey);
     }
 
@@ -740,13 +742,13 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<InnerAtResponse> decryptAndVerifyAuthorizationResponseMessage(EtsiTs103097DataEncryptedUnicast authorizationResponseMessage,
                                                                            Map<HashedId8, Certificate> certStore,
                                                                            Map<HashedId8, Certificate> trustStore,
                                                                            Map<HashedId8, Receiver> receiverStore)
-            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException {
+            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
         byte[] decryptedData;
         try{
             decryptedData = securedDataGenerator.decryptData(authorizationResponseMessage,receiverStore);
@@ -841,14 +843,14 @@ public class ETSITS102941MessagesCaGenerator {
      * @param authorizationCAPrivateKey the AA private key signing the message
      * @param enrolmentAuthorityRecipient the EA reciver certificate.
      * @return encrypted and signed message containing AuthorizationValidationRequest.
-     * @throws IllegalArgumentException if message contain invalid data
+     * @throws BadArgumentException if message contain invalid data
      * @throws IOException if problems occurred serializing the message data
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws GeneralSecurityException if problems occurred encrypting the message.
      */
     public EncryptResult genAuthorizationValidationRequest(Time64 generationTime, AuthorizationValidationRequest authorizationValidationRequest,
                                                                               EtsiTs103097Certificate[] authorizationCACredentialChain, PrivateKey authorizationCAPrivateKey,
-                                                                              Certificate enrolmentAuthorityRecipient) throws IllegalArgumentException, IOException, GeneralSecurityException {
+                                                                              Certificate enrolmentAuthorityRecipient) throws BadArgumentException, IOException, GeneralSecurityException {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(new EtsiTs102941DataContent(authorizationValidationRequest));
         AlgorithmIndicator encAlg = getRecipientAlgorithm(enrolmentAuthorityRecipient);
@@ -869,13 +871,14 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
     public RequestVerifyResult<AuthorizationValidationRequest> decryptAndVerifyAuthorizationValidationRequestMessage(EtsiTs103097DataEncryptedUnicast authorizationValidationRequestMessage,
                                                                                       Map<HashedId8, Certificate> certStore,
                                                                                       Map<HashedId8, Certificate> trustStore,
                                                                                       Map<HashedId8, Receiver> receiverStore)
-            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException {
+            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException, BadArgumentException {
         DecryptResult decryptedData;
         try{
             decryptedData = securedDataGenerator.decryptDataWithSecretKey(authorizationValidationRequestMessage,receiverStore);
@@ -967,14 +970,14 @@ public class ETSITS102941MessagesCaGenerator {
      * @param preSharedKey the pre shared key used for encryption of messages between the parties. The secret key
      *                     should be the AES key used in the ECIES algorithm for the AuthorizationRequest.
      * @return encrypted and signed message containing AuthorizationValidationResponse.
-     * @throws IllegalArgumentException if message contain invalid data
+     * @throws BadArgumentException if message contain invalid data
      * @throws IOException if problems occurred serializing the message data
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws GeneralSecurityException if problems occurred encrypting the message.
      */
     public EtsiTs103097DataEncryptedUnicast genAuthorizationValidationResponseMessage(Time64 generationTime, AuthorizationValidationResponse authorizationValidationResponse,
                                                                             EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey,
-                                                                            AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws IllegalArgumentException, IOException, GeneralSecurityException {
+                                                                            AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws BadArgumentException, IOException, GeneralSecurityException {
         return genResponseMessage(generationTime, new EtsiTs102941DataContent(authorizationValidationResponse),signerCertificateChain,signerPrivateKey,encryptionAlg,preSharedKey);
     }
 
@@ -989,13 +992,13 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<AuthorizationValidationResponse> decryptAndVerifyAuthorizationValidationResponseMessage(EtsiTs103097DataEncryptedUnicast authorizationValidationResponseMessage,
                                                                                       Map<HashedId8, Certificate> certStore,
                                                                                       Map<HashedId8, Certificate> trustStore,
                                                                                       Map<HashedId8, Receiver> receiverStore)
-            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException {
+            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
         byte[] decryptedData;
         try{
             decryptedData = securedDataGenerator.decryptData(authorizationValidationResponseMessage,receiverStore);
@@ -1028,14 +1031,14 @@ public class ETSITS102941MessagesCaGenerator {
      * @param preSharedKey the pre shared key used for encryption of messages between the parties. The secret key
      *                     should be the AES key used in the ECIES algorithm for the AuthorizationRequest.
      * @return encrypted and signed message containing innerEcResponse.
-     * @throws IllegalArgumentException if message contain invalid data
+     * @throws BadArgumentException if message contain invalid data
      * @throws IOException if problems occurred serializing the message data
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws GeneralSecurityException if problems occurred encrypting the message.
      */
     protected EtsiTs103097DataEncryptedUnicast genResponseMessage(Time64 generationTime, EtsiTs102941DataContent etsiTs102941DataContent,
                                                                   EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey,
-                                                                  AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws IllegalArgumentException, IOException, GeneralSecurityException {
+                                                                  AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws BadArgumentException, IOException, GeneralSecurityException {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(etsiTs102941DataContent);
         EtsiTs103097Data data = (EtsiTs103097Data) securedDataGenerator.genSignedData(headerInfo,etsiTs102941Data.getEncoded(), SecuredDataGenerator.SignerIdentifierType.HASH_ONLY,signerCertificateChain,signerPrivateKey);
@@ -1053,7 +1056,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
      */
-    public EtsiTs102941CRL genCertificateRevocationListMessage(Time64 generationTime, ToBeSignedCrl toBeSignedCrl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
+    public EtsiTs102941CRL genCertificateRevocationListMessage(Time64 generationTime, ToBeSignedCrl toBeSignedCrl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException, BadArgumentException {
         return new EtsiTs102941CRL(genSignedCTLMessage(AvailableITSAID.CRLService,generationTime,new EtsiTs102941DataContent(toBeSignedCrl), signerCertificateChain,signerPrivateKey));
     }
 
@@ -1066,11 +1069,12 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message. Only applicable for encrypted messages.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
     public VerifyResult<ToBeSignedCrl> verifyCertificateRevocationListMessage(EtsiTs103097DataSigned certificateRevocationListMessage,
                                                                               Map<HashedId8, Certificate> certStore,
-                                                                              Map<HashedId8, Certificate> trustStore) throws IOException, SignatureException {
+                                                                              Map<HashedId8, Certificate> trustStore) throws IOException, SignatureException, BadArgumentException {
         VerifyResult<EtsiTs102941DataContent> verifyResult = verifyCTLMessage(certificateRevocationListMessage,certStore,trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices.certificateRevocationList,"CertificateRevocationListMessage");
         return new VerifyResult<>(verifyResult.signAlg, verifyResult.signerIdentifier,verifyResult.headerInfo,verifyResult.value.getToBeSignedCrl());
     }
@@ -1085,9 +1089,14 @@ public class ETSITS102941MessagesCaGenerator {
      * @return a signed EtsiTs103097DataSigned data structure.
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
-    public EtsiTs102941CTL genTlmCertificateTrustListMessage(Time64 generationTime, ToBeSignedTlmCtl toBeSignedTlmCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        return new EtsiTs102941CTL(genSignedCTLMessage(AvailableITSAID.CTLService,generationTime,new EtsiTs102941DataContent(toBeSignedTlmCtl), signerCertificateChain,signerPrivateKey));
+    public EtsiTs102941CTL genTlmCertificateTrustListMessage(Time64 generationTime, ToBeSignedTlmCtl toBeSignedTlmCtl,
+                                                             EtsiTs103097Certificate[] signerCertificateChain,
+                                                             PrivateKey signerPrivateKey) throws IOException,
+            SignatureException, BadArgumentException {
+        return new EtsiTs102941CTL(genSignedCTLMessage(AvailableITSAID.CTLService,generationTime,
+                new EtsiTs102941DataContent(toBeSignedTlmCtl), signerCertificateChain,signerPrivateKey));
     }
 
     /**
@@ -1099,12 +1108,12 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message. Only applicable for encrypted messages.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<ToBeSignedTlmCtl> verifyTlmCertificateTrustListMessage(EtsiTs103097DataSigned tlmCertificateTrustListMessage,
                                                                                Map<HashedId8, Certificate> certStore,
                                                                                Map<HashedId8, Certificate> trustStore)
-            throws MessageParsingException, InternalErrorException, SignatureVerificationException, DecryptionFailedException {
+            throws MessageParsingException, MessageProcessingException, SignatureVerificationException, DecryptionFailedException {
         try{
             VerifyResult<EtsiTs102941DataContent> verifyResult = verifyCTLMessage(tlmCertificateTrustListMessage,certStore,trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices.certificateTrustListTlm,"TlmCertificateTrustListMessage");
             return new VerifyResult<>(verifyResult.signAlg,verifyResult.signerIdentifier,verifyResult.headerInfo,verifyResult.value.getToBeSignedTlmCtl());
@@ -1123,8 +1132,9 @@ public class ETSITS102941MessagesCaGenerator {
      * @return a signed EtsiTs103097DataSigned data structure.
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
-    public EtsiTs102941CTL genRcaCertificateTrustListMessage(Time64 generationTime, ToBeSignedRcaCtl toBeSignedRcaCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
+    public EtsiTs102941CTL genRcaCertificateTrustListMessage(Time64 generationTime, ToBeSignedRcaCtl toBeSignedRcaCtl, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException, BadArgumentException {
         return new EtsiTs102941CTL(genSignedCTLMessage(AvailableITSAID.CTLService,generationTime,new EtsiTs102941DataContent(toBeSignedRcaCtl), signerCertificateChain,signerPrivateKey));
     }
 
@@ -1137,12 +1147,12 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message. Only applicable for encrypted messages.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<ToBeSignedRcaCtl> verifyRcaCertificateTrustListMessage(EtsiTs103097DataSigned rcaCertificateTrustListMessage,
                                                                                Map<HashedId8, Certificate> certStore,
                                                                                Map<HashedId8, Certificate> trustStore)
-            throws MessageParsingException, InternalErrorException, SignatureVerificationException, DecryptionFailedException {
+            throws MessageParsingException, MessageProcessingException, SignatureVerificationException, DecryptionFailedException {
         try{
             VerifyResult<EtsiTs102941DataContent> verifyResult = verifyCTLMessage(rcaCertificateTrustListMessage,certStore,trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices.certificateTrustListRca,"RcaCertificateTrustListMessage");
             return new VerifyResult<>(verifyResult.signAlg,verifyResult.signerIdentifier,verifyResult.headerInfo,verifyResult.value.getToBeSignedRcaCtl());
@@ -1206,7 +1216,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
      */
-    public EtsiTs103097DataSigned genCaCertificateRequestMessage(Time64 generationTime, CaCertificateRequest caCertificateRequest, PublicKey signerPublicKey, PrivateKey signerPrivateKey) throws IOException, SignatureException {
+    public EtsiTs103097DataSigned genCaCertificateRequestMessage(Time64 generationTime, CaCertificateRequest caCertificateRequest, PublicKey signerPublicKey, PrivateKey signerPrivateKey) throws IOException, SignatureException, BadArgumentException {
         EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(new EtsiTs102941DataContent(caCertificateRequest));
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         return securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, etsiTs102941Data.getEncoded(),signerPublicKey,signerPrivateKey);
@@ -1255,7 +1265,7 @@ public class ETSITS102941MessagesCaGenerator {
      */
     public EtsiTs103097DataSigned genCaCertificateRekeyingMessage(Time64 generationTime, CaCertificateRequest caCertificateRequest,
                                                           EtsiTs103097Certificate[] oldCertificateChain, PrivateKey oldSignerPrivateKey,
-                                                          PublicKey newSignerPublicKey, PrivateKey newSignerPrivateKey) throws IOException, SignatureException {
+                                                          PublicKey newSignerPublicKey, PrivateKey newSignerPrivateKey) throws IOException, SignatureException, BadArgumentException {
         EtsiTs103097DataSigned innerSignature = genCaCertificateRequestMessage(generationTime,caCertificateRequest, newSignerPublicKey,  newSignerPrivateKey);
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         return securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, innerSignature.getEncoded(), SecuredDataGenerator.SignerIdentifierType.HASH_ONLY,oldCertificateChain,oldSignerPrivateKey);
@@ -1272,10 +1282,10 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message. Only applicable for encrypted messages.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<CaCertificateRequest> verifyCACertificateRequestMessage(EtsiTs103097DataSigned caCertificateRequestMessage)
-            throws  MessageParsingException, InternalErrorException, SignatureVerificationException, DecryptionFailedException {
+            throws  MessageParsingException, MessageProcessingException, SignatureVerificationException, DecryptionFailedException {
         try{
             SignedData signedData = getSignedData(caCertificateRequestMessage,"CACertificateRequestMessage");
             EtsiTs102941Data requestData = parseEtsiTs102941Data(signedData,"CACertificateRequestMessage", EtsiTs102941DataContent.EtsiTs102941DataContentChoices.caCertificateRequest);
@@ -1301,18 +1311,18 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message. Only applicable for encrypted messages.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<CaCertificateRequest> verifyCACertificateRekeyingMessage(EtsiTs103097DataSigned caCertificateRekeyingMessage,
                                                                                  Map<HashedId8, Certificate> certStore, Map<HashedId8,
-            Certificate> trustStore) throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException {
+            Certificate> trustStore) throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
         try {
             verifySignedMessage(caCertificateRekeyingMessage, certStore, trustStore, "CACertificateRekeyingMessage");
             SignedData signedData = getSignedData(caCertificateRekeyingMessage, "CACertificateRekeyingMessage");
 
             Ieee1609Dot2Data unsecuredData = signedData.getTbsData().getPayload().getData();
             if (unsecuredData.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.unsecuredData) {
-                throw new IllegalArgumentException("Invalid encoding in CACertificateRekeyingMessage, signed data should contain payload of unsecuredData.");
+                throw new BadArgumentException("Invalid encoding in CACertificateRekeyingMessage, signed data should contain payload of unsecuredData.");
             }
             Opaque opaque = (Opaque) unsecuredData.getContent().getValue();
             EtsiTs103097DataSigned innerSignedMessage = new EtsiTs103097DataSigned(opaque.getData());
@@ -1329,7 +1339,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param generationTime the generation time to set in header.
      * @return an newly created HeaderInfo
      */
-    protected HeaderInfo genHeaderInfo(Time64 generationTime){
+    protected HeaderInfo genHeaderInfo(Time64 generationTime) throws IOException{
         return genHeaderInfo(AvailableITSAID.SecuredCertificateRequestService, generationTime);
     }
 
@@ -1339,7 +1349,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param generationTime the generation time to set in header.
      * @return an newly created HeaderInfo
      */
-    protected HeaderInfo genHeaderInfo(Psid psid, Time64 generationTime){
+    protected HeaderInfo genHeaderInfo(Psid psid, Time64 generationTime) throws IOException {
         return new HeaderInfo(psid,generationTime,null,null,null,null,null,null,null);
     }
 
@@ -1347,11 +1357,11 @@ public class ETSITS102941MessagesCaGenerator {
      * Method to retrieve a header info from a
      * @param etsiTs103097Data the EtsiTs103097Data to parse header info from.
      * @return the related header info.
-     * @throws IllegalArgumentException if given EtsiTs103097Data is not a signedData
+     * @throws BadArgumentException if given EtsiTs103097Data is not a signedData
      */
-    public HeaderInfo getHeaderInfo(EtsiTs103097Data etsiTs103097Data) throws IllegalArgumentException{
+    public HeaderInfo getHeaderInfo(EtsiTs103097Data etsiTs103097Data) throws BadArgumentException{
         if(etsiTs103097Data.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.signedData){
-            throw new IllegalArgumentException("Illegal argument to getHeaderInfo, EtsiTs103097Data must be of type signedData.");
+            throw new BadArgumentException("Illegal argument to getHeaderInfo, EtsiTs103097Data must be of type signedData.");
         }
         SignedData signedData = (SignedData) etsiTs103097Data.getContent().getValue();
         return signedData.getTbsData().getHeaderInfo();
@@ -1367,7 +1377,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param encPk the encryption public key used. null if no encryption key should be set.
      * @return a newly generated PublicKeys data structure.
      */
-    public PublicKeys genPublicKeys(AlgorithmIndicator alg, PublicKey signPk, SymmAlgorithm symmAlgorithm, BasePublicEncryptionKey.BasePublicEncryptionKeyChoices encAlg, PublicKey encPk ){
+    public PublicKeys genPublicKeys(AlgorithmIndicator alg, PublicKey signPk, SymmAlgorithm symmAlgorithm, BasePublicEncryptionKey.BasePublicEncryptionKeyChoices encAlg, PublicKey encPk ) throws IOException{
         PublicVerificationKey publicVerificationKey = genPublicVerificationKey(alg,signPk);
         if(encPk == null) {
             return new PublicKeys(publicVerificationKey, null);
@@ -1383,7 +1393,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param certificates the array of certificate to build store of.
      * @return a map of HashedId8 to certificate.
      */
-    public Map<HashedId8, Certificate> buildCertStore(EtsiTs103097Certificate[] certificates) throws IOException, NoSuchAlgorithmException {
+    public Map<HashedId8, Certificate> buildCertStore(EtsiTs103097Certificate[] certificates) throws IOException, NoSuchAlgorithmException, BadArgumentException {
         return securedDataGenerator.buildCertStore(certificates);
     }
 
@@ -1392,7 +1402,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param certificates the collection of certificate to build store of.
      * @return a map of HashedId8 to certificate.
      */
-    public Map<HashedId8, Certificate> buildCertStore(List<Certificate> certificates) throws IOException, NoSuchAlgorithmException {
+    public Map<HashedId8, Certificate> buildCertStore(List<Certificate> certificates) throws IOException, NoSuchAlgorithmException, BadArgumentException {
         return securedDataGenerator.buildCertStore(certificates);
     }
 
@@ -1402,7 +1412,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param receivers collection of receivers to build map of.
      * @return a map of hashedId8 -> receiver
      */
-    public Map<HashedId8, Receiver> buildRecieverStore(Collection<Receiver> receivers) throws IllegalArgumentException, IOException, GeneralSecurityException{
+    public Map<HashedId8, Receiver> buildRecieverStore(Collection<Receiver> receivers) throws BadArgumentException, IOException, GeneralSecurityException{
         return securedDataGenerator.buildRecieverStore(receivers);
     }
 
@@ -1412,7 +1422,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param receivers array of receivers to build map of.
      * @return a map of hashedId8 -> receiver
      */
-    public Map<HashedId8, Receiver> buildRecieverStore(Receiver[] receivers) throws IllegalArgumentException, IOException, GeneralSecurityException{
+    public Map<HashedId8, Receiver> buildRecieverStore(Receiver[] receivers) throws BadArgumentException, IOException, GeneralSecurityException{
         return securedDataGenerator.buildRecieverStore(receivers);
     }
 
@@ -1427,7 +1437,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws IOException If problems occurred encoding the message.
      * @throws SignatureException if problems occurred generating the exception.
      */
-    public EtsiTs103097DataSigned genSignedCTLMessage(Psid psid, Time64 generationTime, EtsiTs102941DataContent etsiTs102941DataContent, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
+    public EtsiTs103097DataSigned genSignedCTLMessage(Psid psid, Time64 generationTime, EtsiTs102941DataContent etsiTs102941DataContent, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException, BadArgumentException {
         EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(etsiTs102941DataContent);
         HeaderInfo headerInfo = genHeaderInfo(psid, generationTime);
         return securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, etsiTs102941Data.getEncoded(), SecuredDataGenerator.SignerIdentifierType.SIGNER_CERTIFICATE,signerCertificateChain,signerPrivateKey);
@@ -1441,10 +1451,14 @@ public class ETSITS102941MessagesCaGenerator {
      * @param expectedType the expected EtsiTs102941DataContent type.
      * @param messageName the message name
      * @return a verification result of signer info, header info and EtsiTs102941DataContent.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      * @throws SignatureException if signature didn't verify.
      * @throws IOException if problems occurred de-serializing the data structure.
      */
-    public VerifyResult<EtsiTs102941DataContent> verifyCTLMessage(EtsiTs103097DataSigned ctlMessage, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices expectedType,String messageName) throws IOException, SignatureException {
+    public VerifyResult<EtsiTs102941DataContent> verifyCTLMessage(EtsiTs103097DataSigned ctlMessage,
+                                                                  Map<HashedId8, Certificate> certStore, Map<HashedId8,
+            Certificate> trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices expectedType,String messageName)
+            throws IOException, SignatureException, BadArgumentException {
         SignedData signedData = getSignedData(ctlMessage,messageName);
         verifySignedMessage(ctlMessage,certStore,trustStore,messageName);
         EtsiTs102941Data data = parseEtsiTs102941Data(signedData,messageName,expectedType);
@@ -1454,18 +1468,18 @@ public class ETSITS102941MessagesCaGenerator {
     /**
      * Help method to generate a PublicVerificationKey data structure
      */
-    protected PublicVerificationKey genPublicVerificationKey(AlgorithmIndicator alg, PublicKey pk) {
+    protected PublicVerificationKey genPublicVerificationKey(AlgorithmIndicator alg, PublicKey pk)  throws IOException{
         return new PublicVerificationKey(BaseCertGenerator.getPublicVerificationAlgorithm(alg),convertToPoint(alg,pk));
     }
 
     /**
      * Help method to convert a public verification key to public key.
      */
-    protected PublicKey genPublicKey(PublicVerificationKey publicVerificationKey, String messageName) throws IllegalArgumentException{
+    protected PublicKey genPublicKey(PublicVerificationKey publicVerificationKey, String messageName) throws BadArgumentException{
         try {
             return (PublicKey) securedDataGenerator.getCryptoManager().decodeEccPoint(publicVerificationKey.getType(), (EccCurvePoint) publicVerificationKey.getValue());
         } catch (InvalidKeySpecException e) {
-            throw new IllegalArgumentException("Invalid encoding in " + messageName + ", Public verification key was contained invalid ecc point: " + e.getMessage(),e);
+            throw new BadArgumentException("Invalid encoding in " + messageName + ", Public verification key was contained invalid ecc point: " + e.getMessage(),e);
         }
     }
 
@@ -1475,13 +1489,13 @@ public class ETSITS102941MessagesCaGenerator {
      * @param messageName the name of the message used in error message.
      * @return the SignedData structure.
      */
-    protected SignedData getSignedData(EtsiTs103097Data etsiTs103097DataSigned, String messageName){
+    protected SignedData getSignedData(EtsiTs103097Data etsiTs103097DataSigned, String messageName) throws IOException{
         if(etsiTs103097DataSigned.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.signedData){
-            throw new IllegalArgumentException("Invalid encoding in " + messageName + ", message type must be signed data");
+            throw new IOException("Invalid encoding in " + messageName + ", message type must be signed data");
         }
         SignedData signedData = (SignedData) etsiTs103097DataSigned.getContent().getValue();
         if(signedData.getTbsData().getPayload().getData() == null){
-            throw new IllegalArgumentException("Invalid encoding in " + messageName + " SignedData, data field cannot be null");
+            throw new IOException("Invalid encoding in " + messageName + " SignedData, data field cannot be null");
         }
         return signedData;
     }
@@ -1489,12 +1503,12 @@ public class ETSITS102941MessagesCaGenerator {
     protected EtsiTs102941Data parseEtsiTs102941Data(SignedData signedData, String messageName, EtsiTs102941DataContent.EtsiTs102941DataContentChoices expectedType) throws IOException {
         Ieee1609Dot2Data unsecuredData = signedData.getTbsData().getPayload().getData();
         if(unsecuredData.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.unsecuredData){
-            throw new IllegalArgumentException("Invalid encoding in "+ messageName +", signed data should contain payload of unsecuredData.");
+            throw new IOException("Invalid encoding in "+ messageName +", signed data should contain payload of unsecuredData.");
         }
         Opaque opaque = (Opaque) unsecuredData.getContent().getValue();
         EtsiTs102941Data requestData = new EtsiTs102941Data(opaque.getData());
         if(requestData.getContent().getType() != expectedType){
-            throw new IllegalArgumentException("Invalid encoding in "+ messageName +", signed EtsiTs102941Data should be of type " + expectedType + ".");
+            throw new IOException("Invalid encoding in "+ messageName +", signed EtsiTs102941Data should be of type " + expectedType + ".");
         }
         return requestData;
     }
@@ -1507,7 +1521,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if signature didn't verify.
      * @throws IOException if problems occurred de-serializing the data structure.
      */
-    protected void verifySelfSignedMessage(EtsiTs103097DataSigned etsiTs103097DataSigned, PublicKey signPublicKey, String messageName) throws SignatureException, IOException {
+    protected void verifySelfSignedMessage(EtsiTs103097DataSigned etsiTs103097DataSigned, PublicKey signPublicKey, String messageName) throws SignatureException, IOException, BadArgumentException {
         if(!securedDataGenerator.verifySignedData(etsiTs103097DataSigned, signPublicKey)){
             throw new SignatureException("Invalid signature of "+ messageName +".");
         }
@@ -1522,7 +1536,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if signature didn't verify.
      * @throws IOException if problems occurred de-serializing the data structure.
      */
-    protected void verifySignedMessage(EtsiTs103097DataSigned etsiTs103097DataSigned, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, String messageName) throws SignatureException, IOException {
+    protected void verifySignedMessage(EtsiTs103097DataSigned etsiTs103097DataSigned, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, String messageName) throws SignatureException, IOException, BadArgumentException {
         if(!securedDataGenerator.verifySignedData(etsiTs103097DataSigned,certStore,trustStore)){
             throw new SignatureException("Invalid signature of "+ messageName +".");
         }
@@ -1531,7 +1545,7 @@ public class ETSITS102941MessagesCaGenerator {
     /**
      * Help method to convert a public key to EccP256CurvePoint using given compression.
      */
-    protected COERChoice convertToPoint(AlgorithmIndicator alg, PublicKey pk) throws IllegalArgumentException{
+    protected COERChoice convertToPoint(AlgorithmIndicator alg, PublicKey pk) throws IOException{
         return BaseCertGenerator.convertToPoint(alg, pk, securedDataGenerator.getCryptoManager(), useUncompressed);
     }
 
@@ -1539,11 +1553,11 @@ public class ETSITS102941MessagesCaGenerator {
      * Help method retrieving the recipient algorithm from the related recipient certificate.
      * @param recipient the recipient certificate
      * @return the related encryption algorithm
-     * @throws IllegalArgumentException if recipient certificate didn't contain any encryptionKey.
+     * @throws BadArgumentException if recipient certificate didn't contain any encryptionKey.
      */
-    protected BasePublicEncryptionKey.BasePublicEncryptionKeyChoices getRecipientAlgorithm(Certificate recipient) throws IllegalArgumentException{
+    protected BasePublicEncryptionKey.BasePublicEncryptionKeyChoices getRecipientAlgorithm(Certificate recipient) throws BadArgumentException{
         if(recipient.getToBeSigned().getEncryptionKey() == null ){
-            throw new IllegalArgumentException("Invalid encryption recipient certificate, certificate contained no encryption key.");
+            throw new BadArgumentException("Invalid encryption recipient certificate, certificate contained no encryption key.");
         }
         return recipient.getToBeSigned().getEncryptionKey().getPublicKey().getType();
     }
@@ -1554,14 +1568,14 @@ public class ETSITS102941MessagesCaGenerator {
      * @param decryptResult the result of the decryption of the request message, can be null if failed.
      * @return the generated request hash.
      */
-    protected byte[] genRequestHash(EtsiTs103097DataEncryptedUnicast requestMessage, DecryptResult decryptResult) throws InternalErrorException {
+    protected byte[] genRequestHash(EtsiTs103097DataEncryptedUnicast requestMessage, DecryptResult decryptResult) throws MessageProcessingException, BadArgumentException {
         try {
             byte[] digest = securedDataGenerator.getCryptoManager().digest(requestMessage.getEncoded(), HashAlgorithm.sha256);
             return Arrays.copyOf(digest, 16);
         }catch (IOException e){
             return null;
         }catch (NoSuchAlgorithmException e){
-            throw new InternalErrorException("Internal error generating digest, no algorithm found: " + e.getMessage(), decryptResult != null ? decryptResult.getSecretKey() : null);
+            throw new MessageProcessingException("Internal error generating digest, no algorithm found: " + e.getMessage(), decryptResult != null ? decryptResult.getSecretKey() : null);
         }
     }
 
@@ -1576,9 +1590,9 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageParsingException if problems occurred parsing the message.
      * @throws SignatureVerificationException if problems occurred verifying the signature of the message.
      * @throws DecryptionFailedException if problems occurred decrypting the message.
-     * @throws InternalErrorException if internal problems occurred when processing the message.
+     * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
-    protected VerifyResult<?> convertToParseMessageCAException(Exception e, DecryptResult decryptedData, byte[] requestHash) throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, InternalErrorException {
+    protected VerifyResult<?> convertToParseMessageCAException(Exception e, DecryptResult decryptedData, byte[] requestHash) throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
         SecretKey secretKey = null;
         if(decryptedData != null){
             secretKey = decryptedData.getSecretKey();
@@ -1598,12 +1612,12 @@ public class ETSITS102941MessagesCaGenerator {
             setRequestHash((DecryptionFailedException) e, requestHash);
             throw (DecryptionFailedException) e;
         }
-        if( e instanceof InternalErrorException){
-            setSecretKey((InternalErrorException) e,secretKey);
-            setRequestHash((InternalErrorException) e, requestHash);
-            throw (InternalErrorException) e;
+        if( e instanceof MessageProcessingException){
+            setSecretKey((MessageProcessingException) e,secretKey);
+            setRequestHash((MessageProcessingException) e, requestHash);
+            throw (MessageProcessingException) e;
         }
-        if(e instanceof IllegalArgumentException || e instanceof IOException){
+        if(e instanceof BadArgumentException || e instanceof IOException){
             throw new MessageParsingException(e.getMessage(),e,secretKey, requestHash);
         }
         if(e instanceof ArrayIndexOutOfBoundsException){
@@ -1615,7 +1629,7 @@ public class ETSITS102941MessagesCaGenerator {
         if(e instanceof GeneralSecurityException){
             throw new DecryptionFailedException(e.getMessage(),e,secretKey, requestHash);
         }
-        throw new InternalErrorException(e.getMessage(),e,secretKey, requestHash);
+        throw new MessageProcessingException(e.getMessage(),e,secretKey, requestHash);
 
     }
 

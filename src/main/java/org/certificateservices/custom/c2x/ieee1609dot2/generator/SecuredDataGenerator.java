@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.generator;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
@@ -113,11 +114,11 @@ public class SecuredDataGenerator {
 	 * must be in the order of end entity certificate at position 0 and trust anchor last in array.
 	 * @param signerPrivateKey private key of signer.
 	 * @return a signed Ieee1609Dot2Data structure.
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems.
 	 */
-	public Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+	public Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
 		assert signerIdentifierType != SignerIdentifierType.SELF;
 		try {
 			return genSignedData(hi, message, signerIdentifierType, signerCertificateChain, getSignerPublicKey(signerCertificateChain), signerPrivateKey);
@@ -134,11 +135,11 @@ public class SecuredDataGenerator {
 	 * must be in the order of end entity certificate at position 0 and trust anchor last in array.
 	 * @param signerPrivateKey private key of signer.
 	 * @return a signed Ieee1609Dot2Data structure.
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems.
 	 */
-	public Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, PublicKey signPublicKey, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+	public Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, PublicKey signPublicKey, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
 		return genSignedData(hi, message, SignerIdentifierType.SELF, null, signPublicKey, signerPrivateKey);
 	}
 
@@ -152,11 +153,11 @@ public class SecuredDataGenerator {
 	 * must be in the order of end entity certificate at position 0 and trust anchor last in array.
 	 * @param signerPrivateKey private key of signer.
 	 * @return a signed Ieee1609Dot2Data structure.
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 */
-	protected Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PublicKey signPublicKey, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+	protected Ieee1609Dot2Data genSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PublicKey signPublicKey, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
 		
 		try{
 			Ieee1609Dot2Data unsecuredData = new Ieee1609Dot2Data(version,new Ieee1609Dot2Content(Ieee1609Dot2ContentChoices.unsecuredData, new Opaque(message)));
@@ -181,11 +182,11 @@ public class SecuredDataGenerator {
 	 * must be in the order of end entity certificate at position 0 and trust anchor last in array.
 	 * @param signerPrivateKey private key of signer.
 	 * @return a signed Ieee1609Dot2Data structure.
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 */
-	public Ieee1609Dot2Data genReferencedSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+	public Ieee1609Dot2Data genReferencedSignedData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
 		
 		try{
 			HashedData hashedData = new HashedData(getHashedDataChoice(), cryptoManager.digest(message, hashAlgorithm));
@@ -195,7 +196,7 @@ public class SecuredDataGenerator {
 		}catch(NoSuchAlgorithmException e){
 			throw new SignatureException("Error signing message, no such algorithm: " + e.getMessage(),e);
 		} catch (InvalidKeySpecException e) {
-			throw new IllegalArgumentException("Error signing message, invalid key spec: " + e.getMessage(),e);
+			throw new BadArgumentException("Error signing message, invalid key spec: " + e.getMessage(),e);
 		}
 	}
 	
@@ -204,7 +205,7 @@ public class SecuredDataGenerator {
 	 * @param certificates the collection of certificate to build store of.
 	 * @return a map of HashedId8 to certificate.
 	 */
-	public Map<HashedId8, Certificate> buildCertStore(Collection<Certificate> certificates) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
+	public Map<HashedId8, Certificate> buildCertStore(Collection<Certificate> certificates) throws BadArgumentException, NoSuchAlgorithmException, IOException{
 		Map<HashedId8, Certificate> retval = new HashMap<HashedId8, Certificate>();
 		for(Certificate cert : certificates){
 			// Implicit certificate only supports ECDSA 256 since the reconstruction value is of type ECP256CurvePoint.
@@ -220,7 +221,7 @@ public class SecuredDataGenerator {
 	 * @param certificates the array of certificate to build store of.
 	 * @return a map of HashedId8 to certificate.
 	 */
-    public Map<HashedId8, Certificate> buildCertStore(Certificate[] certificates) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
+    public Map<HashedId8, Certificate> buildCertStore(Certificate[] certificates) throws BadArgumentException, NoSuchAlgorithmException, IOException{
 	  	return buildCertStore(Arrays.asList(certificates));
 	}
    
@@ -230,7 +231,7 @@ public class SecuredDataGenerator {
      * @param receivers collection of receivers to build map of.
      * @return a map of hashedId8 -> receiver
      */
-    public Map<HashedId8, Receiver> buildRecieverStore(Collection<Receiver> receivers) throws IllegalArgumentException, IOException, GeneralSecurityException{
+    public Map<HashedId8, Receiver> buildRecieverStore(Collection<Receiver> receivers) throws BadArgumentException, IOException, GeneralSecurityException{
 		Map<HashedId8, Receiver> retval = new HashMap<HashedId8, Receiver>();
 		for(Receiver r : receivers){
 		    retval.put(r.getReference(r.getHashAlgorithm(),cryptoManager), r);
@@ -247,7 +248,7 @@ public class SecuredDataGenerator {
      * @param receivers array of receivers to build map of.
      * @return a map of hashedId8 -> Receivers
      */
-    public Map<HashedId8, Receiver> buildRecieverStore(Receiver[] receivers) throws IllegalArgumentException, GeneralSecurityException, IOException{
+    public Map<HashedId8, Receiver> buildRecieverStore(Receiver[] receivers) throws BadArgumentException, GeneralSecurityException, IOException{
     	return buildRecieverStore(Arrays.asList(receivers));
 	} 
 	
@@ -262,20 +263,20 @@ public class SecuredDataGenerator {
      * @param trustStore certificates in trust store, must be explicit certificate in order to qualify as trust anchors.
      * @return true if data structure signature verifies.
      * 
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
      */
-	public boolean verifySignedData(Ieee1609Dot2Data signedData, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws IllegalArgumentException, SignatureException, IOException{
+	public boolean verifySignedData(Ieee1609Dot2Data signedData, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, SignatureException, IOException{
 
 		if(signedData.getContent().getType() != Ieee1609Dot2ContentChoices.signedData){
-			throw new IllegalArgumentException("Only signed Ieee1609Dot2Data can verified");
+			throw new BadArgumentException("Only signed Ieee1609Dot2Data can verified");
 		}
 		
 		try{
 			SignedData sd = (SignedData) signedData.getContent().getValue();
 			if(sd.getTbsData().getPayload().getData() == null){
-				throw new IllegalArgumentException("Error no enveloped data found in Signed Payload");
+				throw new BadArgumentException("Error no enveloped data found in Signed Payload");
 			}
 			HashedId8 signerId = getSignerId(sd.getSigner());
 			Map<HashedId8, Certificate> signedDataStore = getSignedDataStore(sd.getSigner());
@@ -285,7 +286,7 @@ public class SecuredDataGenerator {
 		}catch(NoSuchAlgorithmException e){
 			throw new SignatureException("Error verifying message, no such algorithm found when verifing signed data: " + e.getMessage(),e);
 		} catch (InvalidKeySpecException e) {
-			throw new IllegalArgumentException("Error verifying message, invalid key spec: " + e.getMessage(),e);
+			throw new BadArgumentException("Error verifying message, invalid key spec: " + e.getMessage(),e);
 		}
 	}
 
@@ -295,18 +296,18 @@ public class SecuredDataGenerator {
 	 * @param signerPublicKey the public key of the signer.
 	 * @return true if data structure signature verifies.
 	 *
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems.
 	 */
-	public boolean verifySignedData(Ieee1609Dot2Data signedData, PublicKey signerPublicKey) throws IllegalArgumentException, SignatureException, IOException{
+	public boolean verifySignedData(Ieee1609Dot2Data signedData, PublicKey signerPublicKey) throws BadArgumentException, SignatureException, IOException{
 		if(signedData.getContent().getType() != Ieee1609Dot2ContentChoices.signedData){
-			throw new IllegalArgumentException("Only signed Ieee1609Dot2Data can verified");
+			throw new BadArgumentException("Only signed Ieee1609Dot2Data can verified");
 		}
 
 		SignedData sd = (SignedData) signedData.getContent().getValue();
 		if(sd.getTbsData().getPayload().getData() == null){
-			throw new IllegalArgumentException("Error no enveloped data found in Signed Payload");
+			throw new BadArgumentException("Error no enveloped data found in Signed Payload");
 		}
 
 		return cryptoManager.verifySelfSignedSignature(sd.getTbsData().getEncoded(), sd.getSignature(),  signerPublicKey);
@@ -320,20 +321,20 @@ public class SecuredDataGenerator {
      * @param trustStore certificates in trust store, must be explicit certificate in order to qualify as trust anchors.
      * @return true if data structure signature verifies.
      * 
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
      */
-	public boolean verifyReferencedSignedData(Ieee1609Dot2Data signedData, byte[] referencedData, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws IllegalArgumentException, SignatureException, IOException{
+	public boolean verifyReferencedSignedData(Ieee1609Dot2Data signedData, byte[] referencedData, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, SignatureException, IOException{
 
 		if(signedData.getContent().getType() != Ieee1609Dot2ContentChoices.signedData){
-			throw new IllegalArgumentException("Only signed Ieee1609Dot2Data can verified");
+			throw new BadArgumentException("Only signed Ieee1609Dot2Data can verified");
 		}
 		
 		try{
 			SignedData sd = (SignedData) signedData.getContent().getValue();
 			if(sd.getTbsData().getPayload().getExtDataHash() == null){
-				throw new IllegalArgumentException("Error no external hash reference found in Signed Payload");
+				throw new BadArgumentException("Error no external hash reference found in Signed Payload");
 			}
 			HashedData hashedData = sd.getTbsData().getPayload().getExtDataHash();
 			if(!Arrays.equals(((COEROctetStream) hashedData.getValue()).getData(), cryptoManager.digest(referencedData, hashAlgorithm))){
@@ -347,7 +348,7 @@ public class SecuredDataGenerator {
 		}catch(NoSuchAlgorithmException e){
 			throw new SignatureException("Error verifying message, no such algorithm found when verifing signed data: " + e.getMessage(),e);
 		} catch (InvalidKeySpecException e) {
-			throw new IllegalArgumentException("Error verifying message, invalid key spec: " + e.getMessage(),e);
+			throw new BadArgumentException("Error verifying message, invalid key spec: " + e.getMessage(),e);
 		}
 	}
 	
@@ -358,11 +359,11 @@ public class SecuredDataGenerator {
 	 * @param data  data to encrypt
 	 * @param preSharedKey the preshared key.
 	 * @return an encrypted Ieee1609Dot2Data structure.
-	 * @throws IllegalArgumentException if one of the argument was invalid.
+	 * @throws BadArgumentException if one of the argument was invalid.
 	 * @throws GeneralSecurityException if internal problems occurred encrypting the data.
 	 * @throws IOException if communication problems occurred when encrypting the data.
 	 */
-	public Ieee1609Dot2Data encryptDataWithPresharedKey(AlgorithmIndicator alg, byte[] data, SecretKey preSharedKey) throws IllegalArgumentException, GeneralSecurityException, IOException{
+	public Ieee1609Dot2Data encryptDataWithPresharedKey(AlgorithmIndicator alg, byte[] data, SecretKey preSharedKey) throws BadArgumentException, GeneralSecurityException, IOException{
 		HashedId8 keyId = getSecretKeyID(alg,preSharedKey);
 		
 		byte[] nounce = cryptoManager.genNounce(alg);
@@ -387,11 +388,11 @@ public class SecuredDataGenerator {
 	 * @param recipients a list of recipients, all recipients should be a Recipient implementation and be of the same type.
 	 * 
 	 * @return an encrypted Ieee1609Dot2Data structure.
-	 * @throws IllegalArgumentException if one of the argument was invalid.
+	 * @throws BadArgumentException if one of the argument was invalid.
 	 * @throws GeneralSecurityException if internal problems occurred encrypting the data.
 	 * @throws IOException if communication problems occurred when encrypting the data.
 	 */
-	public EncryptResult encryptData(AlgorithmIndicator alg,byte[] data,Recipient[] recipients) throws IllegalArgumentException, GeneralSecurityException, IOException{
+	public EncryptResult encryptData(AlgorithmIndicator alg,byte[] data,Recipient[] recipients) throws BadArgumentException, GeneralSecurityException, IOException{
 		SecretKey encryptionKey = cryptoManager.generateSecretKey(alg);
 		byte[] nounce = cryptoManager.genNounce(alg);
 		byte[] cipherText = cryptoManager.symmetricEncryptIEEE1609_2_2017(alg, data, encryptionKey.getEncoded(), nounce);
@@ -421,17 +422,17 @@ public class SecuredDataGenerator {
 	 *
 	 * @return the decrypted payload.
 	 *
-	 * @throws IllegalArgumentException if one of the argument was invalid.
+	 * @throws BadArgumentException if one of the argument was invalid.
 	 * @throws GeneralSecurityException if internal problems occurred decrypting the data.
 	 * @throws IOException if communication problems occurred when decrypting the data.
 	 */
-	public DecryptResult decryptDataWithSecretKey(Ieee1609Dot2Data encryptedData,Map<HashedId8, Receiver> recieverStore) throws IllegalArgumentException, GeneralSecurityException, IOException{
+	public DecryptResult decryptDataWithSecretKey(Ieee1609Dot2Data encryptedData,Map<HashedId8, Receiver> recieverStore) throws BadArgumentException, GeneralSecurityException, IOException{
 		if(encryptedData.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.encryptedData){
-			throw new IllegalArgumentException("Error invalid Ieee1609Dot2Data content, " + encryptedData.getContent().getType() +" only type encryptedData can be decrypted.");
+			throw new BadArgumentException("Error invalid Ieee1609Dot2Data content, " + encryptedData.getContent().getType() +" only type encryptedData can be decrypted.");
 		}
 
 		if(recieverStore == null){
-			throw new IllegalArgumentException("Error ReceiverStore cannot be empty.");
+			throw new BadArgumentException("Error ReceiverStore cannot be empty.");
 		}
 		EncryptedData ed = (EncryptedData) encryptedData.getContent().getValue();
 		COEREncodable[] recipientInfos =(COEREncodable[]) ed.getRecipients().getSequenceValues();
@@ -450,7 +451,7 @@ public class SecuredDataGenerator {
 		}
 
 		if(decryptionKey == null){
-			throw new IllegalArgumentException("Error decrypting data, no matching Reciever info could be found to retrieve the decryption key.");
+			throw new BadArgumentException("Error decrypting data, no matching Reciever info could be found to retrieve the decryption key.");
 		}
 
 		SymmetricCiphertext symmetricCiphertext = ed.getCipherText();
@@ -466,11 +467,11 @@ public class SecuredDataGenerator {
 	 * 
 	 * @return the decrypted payload.
 	 * 
-	 * @throws IllegalArgumentException if one of the argument was invalid.
+	 * @throws BadArgumentException if one of the argument was invalid.
 	 * @throws GeneralSecurityException if internal problems occurred decrypting the data.
 	 * @throws IOException if communication problems occurred when decrypting the data.
 	 */
-	public byte[] decryptData(Ieee1609Dot2Data encryptedData,Map<HashedId8, Receiver> recieverStore) throws IllegalArgumentException, GeneralSecurityException, IOException{
+	public byte[] decryptData(Ieee1609Dot2Data encryptedData,Map<HashedId8, Receiver> recieverStore) throws BadArgumentException, GeneralSecurityException, IOException{
 		return decryptDataWithSecretKey(encryptedData,recieverStore).getData();
 	}
 	
@@ -487,12 +488,12 @@ public class SecuredDataGenerator {
 	 * @param recipients  a list of recipients, all receiptients should be a Recipient implementation and be of the same type.
 	 * @return a signed and then encrypted Ieee1609Dot2Data structure.
 	 * 
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 * @throws GeneralSecurityException if internal problems occurred encrypting the data.
 	 */
-	public EncryptResult signAndEncryptData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
+	public EncryptResult signAndEncryptData(HeaderInfo hi, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws BadArgumentException, SignatureException, GeneralSecurityException, IOException{
 		return encryptData(encAlg, genSignedData(hi, message, signerIdentifierType, signerCertificateChain, signerPrivateKey).getEncoded(), recipients);
 	}
 
@@ -507,12 +508,12 @@ public class SecuredDataGenerator {
 	 * @param recipients  a list of recipients, all receiptients should be a Recipient implementation and be of the same type.
 	 * @return a signed and then encrypted Ieee1609Dot2Data structure.
 	 *
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems.
 	 * @throws GeneralSecurityException if internal problems occurred encrypting the data.
 	 */
-	public EncryptResult selfSignAndEncryptData(HeaderInfo hi, byte[] message, PublicKey signerPublicKey, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
+	public EncryptResult selfSignAndEncryptData(HeaderInfo hi, byte[] message, PublicKey signerPublicKey, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws BadArgumentException, SignatureException, GeneralSecurityException, IOException{
 		return encryptData(encAlg, genSignedData(hi, message, signerPublicKey, signerPrivateKey).getEncoded(), recipients);
 	}
 
@@ -527,11 +528,11 @@ public class SecuredDataGenerator {
 	 * @param requiredSignature if it should be required that messages are signed.
 	 * @param requireEncryption if it should be required that message are encrypted.
 	 * @return the decrypted data payload in the innermost unsecured data.
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws GeneralSecurityException if internal problems occurred decrypting and verying the message.
 	 * @throws IOException if IO exception occurred communicating with underlying systems.
 	 */
-	public DecryptAndVerifyResult decryptAndVerifySignedData(byte[] message, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, Map<HashedId8, Receiver> recieverStore, boolean requiredSignature, boolean requireEncryption) throws IllegalArgumentException, GeneralSecurityException, IOException{
+	public DecryptAndVerifyResult decryptAndVerifySignedData(byte[] message, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, Map<HashedId8, Receiver> recieverStore, boolean requiredSignature, boolean requireEncryption) throws BadArgumentException, GeneralSecurityException, IOException{
 		HeaderInfo headerInfo = null;
 		SignerIdentifier signerIdentifier = null;
 
@@ -543,7 +544,7 @@ public class SecuredDataGenerator {
 			secretKey = decryptResult.getSecretKey();
 		}else{
 			if(requireEncryption){
-				throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, must be encrypted.");
+				throw new BadArgumentException("Invalid Ieee1609Dot2Data, must be encrypted.");
 			}
 		}
 		
@@ -557,12 +558,12 @@ public class SecuredDataGenerator {
 			signerIdentifier = signedData.getSigner();
 		}else{
 			if(requiredSignature){
-				throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, must be signed.");
+				throw new BadArgumentException("Invalid Ieee1609Dot2Data, must be signed.");
 			}
 		}
 		
 		if(data.getContent().getType() != Ieee1609Dot2ContentChoices.unsecuredData){
-			throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, signed payload content must be a unsecured data");
+			throw new BadArgumentException("Invalid Ieee1609Dot2Data, signed payload content must be a unsecured data");
 		}
 		
 		return new DecryptAndVerifyResult(signerIdentifier,headerInfo,secretKey,((Opaque) data.getContent().getValue()).getData());
@@ -578,11 +579,11 @@ public class SecuredDataGenerator {
 	 * @param requiredSignature if it should be required that messages are signed.
 	 * @param requireEncryption if it should be required that message are encrypted.
 	 * @return the decrypted data payload in the innermost unsecured data.
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws GeneralSecurityException if internal problems occurred decrypting and verying the message.
 	 * @throws IOException if IO exception occurred communicating with underlying systems.
 	 */
-	public DecryptAndVerifyResult decryptAndVerifySelfSignedData(byte[] message, PublicKey signerPublicKey, Map<HashedId8, Receiver> recieverStore, boolean requiredSignature, boolean requireEncryption) throws IllegalArgumentException, GeneralSecurityException, IOException{
+	public DecryptAndVerifyResult decryptAndVerifySelfSignedData(byte[] message, PublicKey signerPublicKey, Map<HashedId8, Receiver> recieverStore, boolean requiredSignature, boolean requireEncryption) throws BadArgumentException, GeneralSecurityException, IOException{
 		HeaderInfo headerInfo = null;
 		SignerIdentifier signerIdentifier = null;
 
@@ -594,7 +595,7 @@ public class SecuredDataGenerator {
 			secretKey = decryptResult.getSecretKey();
 		}else{
 			if(requireEncryption){
-				throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, must be encrypted.");
+				throw new BadArgumentException("Invalid Ieee1609Dot2Data, must be encrypted.");
 			}
 		}
 
@@ -608,12 +609,12 @@ public class SecuredDataGenerator {
 			signerIdentifier = signedData.getSigner();
 		}else{
 			if(requiredSignature){
-				throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, must be signed.");
+				throw new BadArgumentException("Invalid Ieee1609Dot2Data, must be signed.");
 			}
 		}
 
 		if(data.getContent().getType() != Ieee1609Dot2ContentChoices.unsecuredData){
-			throw new IllegalArgumentException("Invalid Ieee1609Dot2Data, signed payload content must be a unsecured data");
+			throw new BadArgumentException("Invalid Ieee1609Dot2Data, signed payload content must be a unsecured data");
 		}
 
 		return new DecryptAndVerifyResult(signerIdentifier,headerInfo,secretKey,((Opaque) data.getContent().getValue()).getData());
@@ -646,19 +647,20 @@ public class SecuredDataGenerator {
 	 * @param requestedCertificate if present, is used by the SDS to provide certificates per the "inline"
 	 * version of the peer-to-peer certificate distribution mechanism.
 	 * @return a generated header info structure.
-	 * @throws IllegalArgumentException if supplied arguments where invalid.
+	 * @throws BadArgumentException if supplied arguments where invalid.
 	 * @throws InvalidKeySpecException if public key conversion failed.
+	 * @throws IOException if encoding problems occurred.
 	 */
 	public HeaderInfo genHeaderInfo(long psid, Date generationTime, Date expiryTime, ThreeDLocation generationLocation,
 									byte[] p2pcdLearningRequest, byte[] cracaid, Integer crlSeries, BasePublicEncryptionKeyChoices encType, PublicKey encryptionKey,
-									SequenceOfHashedId3 inlineP2pcdRequest, Certificate requestedCertificate) throws IllegalArgumentException, InvalidKeySpecException{
+									SequenceOfHashedId3 inlineP2pcdRequest, Certificate requestedCertificate) throws BadArgumentException, InvalidKeySpecException, IOException{
 		
 		MissingCrlIdentifier mci = null;
 		if(cracaid != null || crlSeries != null){
 			if(cracaid != null && crlSeries  != null){
 				mci = new MissingCrlIdentifier(new HashedId3(cracaid), new CrlSeries(crlSeries));
 			}else{
-				throw new IllegalArgumentException("Invalid argument building HeaderInfo, either must both cracaid and crlSeries be null or both set.");
+				throw new BadArgumentException("Invalid argument building HeaderInfo, either must both cracaid and crlSeries be null or both set.");
 			}
 		}
 		EncryptionKey encKey = null;
@@ -667,7 +669,7 @@ public class SecuredDataGenerator {
 				EccP256CurvePoint point = cryptoManager.encodeEccPoint(encType, EccP256CurvePointChoices.compressedy0, encryptionKey);
 				encKey = new EncryptionKey(new PublicEncryptionKey(SymmAlgorithm.aes128Ccm, new BasePublicEncryptionKey(encType, point)));
 			}else{
-				throw new IllegalArgumentException("Invalid argument building HeaderInfo, either must both encType and encryptionKey be null or both set.");
+				throw new BadArgumentException("Invalid argument building HeaderInfo, either must both encType and encryptionKey be null or both set.");
 			}
 		}
 		
@@ -680,7 +682,7 @@ public class SecuredDataGenerator {
 				encKey, inlineP2pcdRequest, requestedCertificate);
 	}
 
-	protected HashedId8 getReference(RecipientInfo ri) {
+	protected HashedId8 getReference(RecipientInfo ri) throws BadArgumentException{
 		switch (ri.getType()) {
 		case pskRecipInfo:
 			return (PreSharedKeyRecipientInfo) ri.getValue();
@@ -694,7 +696,7 @@ public class SecuredDataGenerator {
 			return pri.getRecipientId();
 		default:
 		}
-		throw new IllegalArgumentException("Unknown RecipientInfo type: " + ri.getType());
+		throw new BadArgumentException("Unknown RecipientInfo type: " + ri.getType());
 	}
 
 	/**
@@ -702,7 +704,7 @@ public class SecuredDataGenerator {
 	 * If it exists it decrypts the enveloped symmetric key and returns encrypted decryption key. 
 	 */
 	protected SecretKey getSymmetricKey(RecipientInfo[] recipientInfos,
-			Map<HashedId8, SecretKey> knownSymmetricKeys) throws IllegalArgumentException, GeneralSecurityException {
+			Map<HashedId8, SecretKey> knownSymmetricKeys) throws BadArgumentException, GeneralSecurityException {
 		if(knownSymmetricKeys == null){
 			return null;
 		}
@@ -750,12 +752,12 @@ public class SecuredDataGenerator {
 	/**
 	 * Help method to get a HashedId8 cert id from a SignerIdentifier.
 	 */
-	protected HashedId8 getSignerId(SignerIdentifier signer) throws IllegalArgumentException, NoSuchAlgorithmException, IOException {
+	protected HashedId8 getSignerId(SignerIdentifier signer) throws BadArgumentException, NoSuchAlgorithmException, IOException {
 		if(signer.getType() == SignerIdentifierChoices.digest){
 			return (HashedId8) signer.getValue();
 		}
 		if(signer.getType() == SignerIdentifierChoices.self){
-			throw new IllegalArgumentException("SignedData cannot be self signed");
+			throw new BadArgumentException("SignedData cannot be self signed");
 		}
 		SequenceOfCertificate sc = (SequenceOfCertificate) signer.getValue();
 		return certChainBuilder.getCertID((Certificate) sc.getSequenceValues()[0]);
@@ -765,7 +767,7 @@ public class SecuredDataGenerator {
 	/**
 	 * Builds a cert store if signer identifier contains included certificates, otherwise an empty map.
 	 */
-	public Map<HashedId8, Certificate> getSignedDataStore(SignerIdentifier signer) throws IllegalArgumentException, NoSuchAlgorithmException, IOException {
+	public Map<HashedId8, Certificate> getSignedDataStore(SignerIdentifier signer) throws BadArgumentException, NoSuchAlgorithmException, IOException {
 		if(signer.getType() != SignerIdentifierChoices.certificate){
 			return new HashMap<HashedId8, Certificate>();
 		}
@@ -777,12 +779,12 @@ public class SecuredDataGenerator {
 	/**
 	 * Help method that generated a HashedId8 secret key id from a symmetric key.
 	 */
-	protected HashedId8 getSecretKeyID(AlgorithmIndicator alg,SecretKey key) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
+	protected HashedId8 getSecretKeyID(AlgorithmIndicator alg,SecretKey key) throws BadArgumentException, NoSuchAlgorithmException, IOException{
 		SymmetricEncryptionKey symmetricEncryptionKey = new SymmetricEncryptionKey(SymmetricEncryptionKey.SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(alg),key.getEncoded());
 		return new HashedId8(cryptoManager.digest(symmetricEncryptionKey.getEncoded(), hashAlgorithm));
 	}
 	
-	protected Ieee1609Dot2Data genSignedDataStructure(ToBeSignedData tbsData,  SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PublicKey signerPublicKey, PrivateKey signerPrivateKey, boolean enveloped) throws IllegalArgumentException, InvalidKeySpecException, SignatureException, IOException, NoSuchAlgorithmException{
+	protected Ieee1609Dot2Data genSignedDataStructure(ToBeSignedData tbsData,  SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PublicKey signerPublicKey, PrivateKey signerPrivateKey, boolean enveloped) throws BadArgumentException, InvalidKeySpecException, SignatureException, IOException, NoSuchAlgorithmException{
 		SignerIdentifier si;
 		Certificate signingCert = null;
 		CertificateType certificateType = CertificateType.explicit;
@@ -810,7 +812,7 @@ public class SecuredDataGenerator {
 	 * @param content the data content.
 	 * @param enveloped if signature data is included or external reference is used.
 	 */
-	protected Ieee1609Dot2Data newSignedDataStructure(int version, Ieee1609Dot2Content content, boolean enveloped){
+	protected Ieee1609Dot2Data newSignedDataStructure(int version, Ieee1609Dot2Content content, boolean enveloped) throws IOException {
 		return new Ieee1609Dot2Data(version,content);
 	}
 
@@ -827,7 +829,7 @@ public class SecuredDataGenerator {
 	/**
 	 * Help method extracting the signers public key from the signer certificate chain.
 	 */
-	protected PublicKey getSignerPublicKey(Certificate[] signerCertificateChain) throws IllegalArgumentException, InvalidKeySpecException, SignatureException, IOException{
+	protected PublicKey getSignerPublicKey(Certificate[] signerCertificateChain) throws BadArgumentException, InvalidKeySpecException, SignatureException, IOException{
 		Integer firstExplicitIndex = null;
 		for(int i=0;i<signerCertificateChain.length; i++){
 			if(signerCertificateChain[i].getType() == CertificateType.explicit){
@@ -836,7 +838,7 @@ public class SecuredDataGenerator {
 			}
 		}
 		if(firstExplicitIndex == null){
-			throw new IllegalArgumentException("Error no explicit certificate found in signer certificate chain");
+			throw new BadArgumentException("Error no explicit certificate found in signer certificate chain");
 		}
 		
 		int i = firstExplicitIndex;
@@ -862,7 +864,7 @@ public class SecuredDataGenerator {
 	 */
 	protected SignerIdentifier getSignerIdentifier(
 			SignerIdentifierType signerIdentifierType,
-			Certificate[] signerCertificateChain) throws IllegalArgumentException, NoSuchAlgorithmException, IOException {
+			Certificate[] signerCertificateChain) throws BadArgumentException, NoSuchAlgorithmException, IOException {
 		Certificate signerCert = signerCertificateChain[0];
 		switch (signerIdentifierType) {
 			case SELF:
@@ -874,7 +876,7 @@ public class SecuredDataGenerator {
 			case CERT_CHAIN:
 			default:
 				if(signerCertificateChain.length < 2){
-					throw new IllegalArgumentException("Error invalid certificate chain length when creating signer identifier of type COMPLETE_CHAIN, chain length must be larger than 1");
+					throw new BadArgumentException("Error invalid certificate chain length when creating signer identifier of type COMPLETE_CHAIN, chain length must be larger than 1");
 				}
 				Certificate[] certChain = new Certificate[signerCertificateChain.length-1];
 				for(int i=0; i < certChain.length; i++){

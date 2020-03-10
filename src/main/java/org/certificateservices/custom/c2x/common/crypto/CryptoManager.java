@@ -12,6 +12,8 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.common.crypto;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
+
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -35,14 +37,14 @@ public interface CryptoManager {
 	 * Method that needs to be called before any calls to the crypto manager is performed, it
 	 * should initialize all underlying components with the supplied paramteters. 
 	 *  
-	 * @throws IllegalArgumentException if supplied parameters contained invalid data.
+	 * @throws BadArgumentException if supplied parameters contained invalid data.
 	 * @throws NoSuchAlgorithmException if required underlying cryptographic algorithms doesn't exist in JVM.
 	 * @throws NoSuchProviderException if required cryptographic providers couldn't be found in JVM.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 * @throws BadCredentialsException if supplied credentials wasn't successful when authentication towards underlying hardware.
 	 * @throws SignatureException  If internal problems occurred initializing the cryptomanager.
 	 */
-	void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException, SignatureException;
+	void setupAndConnect(CryptoManagerParams params) throws BadArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException, SignatureException;
 
 	/**
 	 * Method to generate a new key pair for the given public key algorithm scheme.
@@ -51,11 +53,11 @@ public interface CryptoManager {
 	 * 
 	 * @return a new key pair.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 * @throws InvalidKeyException if other non-IO related problems occurred generating the key. 
 	 */
-	KeyPair generateKeyPair(AlgorithmIndicator alg) throws IllegalArgumentException, IOException,InvalidKeyException;
+	KeyPair generateKeyPair(AlgorithmIndicator alg) throws BadArgumentException, IOException,InvalidKeyException;
 	
 	/**
 	 * Method to generate a new symmetric secret key for the given algorithm scheme.
@@ -64,11 +66,11 @@ public interface CryptoManager {
 	 * 
 	 * @return a new secret key pair.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 * @throws InvalidKeyException if other non-IO related problems occurred generating the key. 
 	 */
-	SecretKey generateSecretKey(AlgorithmIndicator alg) throws IllegalArgumentException, IOException,InvalidKeyException;
+	SecretKey generateSecretKey(AlgorithmIndicator alg) throws BadArgumentException, IOException,InvalidKeyException;
 	
 	/**
 	 * Method to generate a digest of a message using the given hash algorithm scheme.
@@ -77,10 +79,10 @@ public interface CryptoManager {
 	 * @param alg the related hash algorithm scheme to use.
 	 * @return a digest of the message.
 	 * 
-	 * @throws IllegalArgumentException if an unsupported public key algorithm scheme was given.
+	 * @throws BadArgumentException if an unsupported public key algorithm scheme was given.
 	 * @throws NoSuchAlgorithmException if related cryptographic algorithm wasn't available in JVM.
 	 */
-	byte[] digest(byte[] message, AlgorithmIndicator alg) throws IllegalArgumentException, NoSuchAlgorithmException;
+	byte[] digest(byte[] message, AlgorithmIndicator alg) throws BadArgumentException, NoSuchAlgorithmException;
 	
 	/**
 	 * Method signaling to underlying components to release resources.

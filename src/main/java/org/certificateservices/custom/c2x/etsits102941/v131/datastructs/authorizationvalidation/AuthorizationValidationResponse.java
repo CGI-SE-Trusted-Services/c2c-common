@@ -18,6 +18,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.CertificateSubjectAttributes;
 
+import java.io.IOException;
+
 /**
  * Class representing AuthorizationValidationResponse defined in ETSI TS 102 941 Authorization Validation Types
  *
@@ -45,14 +47,15 @@ public class AuthorizationValidationResponse extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public AuthorizationValidationResponse(byte[] requestHash, AuthorizationValidationResponseCode responseCode, CertificateSubjectAttributes confirmedSubjectAttributes){
+	public AuthorizationValidationResponse(byte[] requestHash, AuthorizationValidationResponseCode responseCode,
+										   CertificateSubjectAttributes confirmedSubjectAttributes) throws IOException{
 		super(true,3);
 		init();
 		if(responseCode == null){
-			throw new IllegalArgumentException("Illegal argument: responseCode cannot be null for AuthorizationValidationResponse");
+			throw new IOException("Illegal argument: responseCode cannot be null for AuthorizationValidationResponse");
 		}
 		if(confirmedSubjectAttributes != null && confirmedSubjectAttributes.getCertIssuePermissions() != null){
-			throw new IllegalArgumentException("Invalid confirmedSubjectAttributes in AuthorizationValidationResponse, certIssuePermissions cannot be set.");
+			throw new IOException("Invalid confirmedSubjectAttributes in AuthorizationValidationResponse, certIssuePermissions cannot be set.");
 		}
 
 		set(REQUESTHASH, new COEROctetStream(requestHash, OCTETSTRING_SIZE, OCTETSTRING_SIZE));

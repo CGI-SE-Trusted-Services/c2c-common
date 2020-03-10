@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERBitString;
 
+import java.io.IOException;
+
 /**
  * This type indicates which type of permissions may appear in end-entity certificates the chain of whose permissions passes 
  * through the PsidGroupPermissions field containing this value. If app is indicated, the end- entity certificate may contain an
@@ -34,29 +36,37 @@ public class EndEntityType extends COERBitString {
 	/**
 	 * Constructor used when decoding
 	 */
-	public EndEntityType(){
+	public EndEntityType() throws IOException{
 		super(BITSTRING_SIZE);
 	}
 	
 	/**
 	 * Constructor used when encoding
 	 */
-	public EndEntityType(boolean app, boolean enroll) throws IllegalArgumentException{
+	public EndEntityType(boolean app, boolean enroll) throws IOException{
 		super(0,BITSTRING_SIZE,true);
 		if(!app && !enroll){
-			throw new IllegalArgumentException("Invalid EndEntityType, either app or enroll flag must be set.");
+			throw new IOException("Invalid EndEntityType, either app or enroll flag must be set.");
 		}
 		setFlag(APP, app);
 		setFlag(ENROLL, enroll);
 	}
 	
 	
-	public boolean isApp(){
-		return getFlag(APP);
+	public boolean isApp() {
+		try {
+			return getFlag(APP);
+		}catch(IOException e){
+			throw new RuntimeException("Error parsing EndEntityType, flag APP: " + e.getMessage(),e);
+		}
 	}
-	
-	public boolean isEnroll(){
-		return getFlag(ENROLL);
+
+	public boolean isEnroll() {
+		try {
+			return getFlag(ENROLL);
+		} catch (IOException e) {
+			throw new RuntimeException("Error parsing EndEntityType, flag ENROLL: " + e.getMessage(), e);
+		}
 	}
 
 	

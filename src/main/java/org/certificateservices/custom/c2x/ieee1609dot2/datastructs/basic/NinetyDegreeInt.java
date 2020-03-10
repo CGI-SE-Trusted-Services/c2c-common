@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 
+import java.io.IOException;
+
 /**
  * The latitude field contains an INTEGER encoding an estimate of the latitude with precision 1/10th 
  * microdegree relative to the World Geodetic System (WGS)-84 datum as defined in NIMA Technical Report TR8350.2.
@@ -43,7 +45,7 @@ public class NinetyDegreeInt extends COERInteger {
 	 * Constructor used when encoding
 	 * @param value between -900000000 and 900000000 (Unkown 900000001)
 	 */
-	public NinetyDegreeInt(long value){
+	public NinetyDegreeInt(long value)  {
 		super(value, MIN, UNKNOWN);
 	}
 

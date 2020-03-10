@@ -5,6 +5,7 @@ import org.bouncycastle.crypto.DataLengthException;
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.Mac;
 import org.bouncycastle.crypto.macs.HMac;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 
 public class Mac1 implements Mac{
 	
@@ -12,16 +13,16 @@ public class Mac1 implements Mac{
 	HMac hMac;
 	int tBytes;
 	
-	public Mac1(Digest digest, int tBits){
+	public Mac1(Digest digest, int tBits) throws BadArgumentException {
 		if(tBits % 8 != 0){
-			throw new IllegalArgumentException("Illegal tBits argument, must be a multiple of 8.");
+			throw new BadArgumentException("Illegal tBits argument, must be a multiple of 8.");
 		}
 		tBytes = tBits/8;
 		hMac = new HMac(digest);
 	}
 
 	@Override
-	public void init(CipherParameters params) throws IllegalArgumentException {
+	public void init(CipherParameters params)  {
 		hMac.init(params);
 		
 	}

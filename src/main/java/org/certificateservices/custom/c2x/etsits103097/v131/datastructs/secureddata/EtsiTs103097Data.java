@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata;
 
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SequenceOfCertificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedData;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
@@ -53,18 +54,18 @@ public class EtsiTs103097Data extends Ieee1609Dot2Data {
 
     /**
      * Constructor used when encoding using default protocol version.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097Data(Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097Data(Ieee1609Dot2Content content) throws IOException{
         super(content);
         validate();
     }
 
     /**
      * Constructor used when encoding
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097Data(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097Data(int protocolVersion, Ieee1609Dot2Content content) throws IOException {
         super(protocolVersion,content);
         validate();
 
@@ -74,38 +75,38 @@ public class EtsiTs103097Data extends Ieee1609Dot2Data {
      * Constructor decoding a Ieee1609Dot2Data from an encoded byte array.
      * @param encodedData byte array encoding of the Ieee1609Dot2Data.
      * @throws IOException   if communication problems occurred during serialization.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097Data(byte[] encodedData) throws IOException, IllegalArgumentException{
+    public EtsiTs103097Data(byte[] encodedData) throws IOException{
         super(encodedData);
         validate();
     }
 
-    protected void validate() throws IllegalArgumentException{
+    protected void validate() throws IOException{
         if(getContent().getType() == Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.signedData){
             SignedData signedData = (SignedData) getContent().getValue();
             if(signedData.getTbsData() == null){
-                throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data must have tbsData set.");
+                throw new IOException("Invalid EtsiTs103097Data, signed data must have tbsData set.");
             }
             if(signedData.getTbsData().getHeaderInfo() == null){
-                throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data tbsData must have headerInfo set.");
+                throw new IOException("Invalid EtsiTs103097Data, signed data tbsData must have headerInfo set.");
             }
             if(signedData.getTbsData().getHeaderInfo().getGenerationTime() == null){
-                throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data tbsData headerInfo must have generationTime set.");
+                throw new IOException("Invalid EtsiTs103097Data, signed data tbsData headerInfo must have generationTime set.");
             }
             if(signedData.getTbsData().getHeaderInfo().getGenerationTime() == null){
-                throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data tbsData headerInfo must have generationTime set.");
+                throw new IOException("Invalid EtsiTs103097Data, signed data tbsData headerInfo must have generationTime set.");
             }
             if(signedData.getTbsData().getHeaderInfo().getP2pcdLearningRequest() != null){
-                throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data tbsData headerInfo cannot have p2pcdLearningRequest set.");
+                throw new IOException("Invalid EtsiTs103097Data, signed data tbsData headerInfo cannot have p2pcdLearningRequest set.");
             }
             if(signedData.getTbsData().getHeaderInfo().getMissingCrlIdentifier() != null){
-                throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data tbsData headerInfo cannot have missingCrlIdentifier set.");
+                throw new IOException("Invalid EtsiTs103097Data, signed data tbsData headerInfo cannot have missingCrlIdentifier set.");
             }
             if(signedData.getSigner().getType() == SignerIdentifier.SignerIdentifierChoices.certificate) {
                 SequenceOfCertificate certificates = (SequenceOfCertificate) signedData.getSigner().getValue();
                 if (certificates.size() != 1) {
-                    throw new IllegalArgumentException("Invalid EtsiTs103097Data, signed data signer certificate sequence must be of size 1.");
+                    throw new IOException("Invalid EtsiTs103097Data, signed data signer certificate sequence must be of size 1.");
                 }
             }
         }
@@ -117,13 +118,13 @@ public class EtsiTs103097Data extends Ieee1609Dot2Data {
                     RecipientInfo recipientInfo = (RecipientInfo) next;
                     if(recipientInfo.getType() == RecipientInfo.RecipientInfoChoices.symmRecipInfo ||
                             recipientInfo.getType() == RecipientInfo.RecipientInfoChoices.rekRecipInfo){
-                        throw new IllegalArgumentException("Invalid EtsiTs103097Data, encrypted data recipient cannot be of type: " + recipientInfo.getType());
+                        throw new IOException("Invalid EtsiTs103097Data, encrypted data recipient cannot be of type: " + recipientInfo.getType());
                     }
                 }
             }
         }
         if(getContent().getType() == Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.signedCertificateRequest){
-            throw new IllegalArgumentException("Invalid EtsiTs103097Data cannot have content of type signedCertificateRequest");
+            throw new IOException("Invalid EtsiTs103097Data cannot have content of type signedCertificateRequest");
         }
     }
 

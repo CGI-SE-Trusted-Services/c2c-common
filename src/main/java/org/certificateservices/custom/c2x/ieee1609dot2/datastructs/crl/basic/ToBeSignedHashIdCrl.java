@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint32;
 
+import java.io.IOException;
+
 /**
  * This data structure represents information about a revoked certificate:
  * 
@@ -43,7 +45,7 @@ public class ToBeSignedHashIdCrl extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public ToBeSignedHashIdCrl(int crlSerial, SequenceOfHashBasedRevocationInfo entries){
+	public ToBeSignedHashIdCrl(int crlSerial, SequenceOfHashBasedRevocationInfo entries) throws IOException {
 		super(true,2);
 		init();
 		set(CRLSERIAL, new Uint32(crlSerial));

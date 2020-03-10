@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedData;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmetricCiphertext;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content;
@@ -35,18 +36,18 @@ public class EtsiTs103097DataEncrypted extends EtsiTs103097Data {
 
     /**
      * Constructor used when encoding using default protocol version.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataEncrypted(Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataEncrypted(Ieee1609Dot2Content content) throws IOException{
         super(content);
         validateEncrypted();
     }
 
     /**
      * Constructor used when encoding
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataEncrypted(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataEncrypted(int protocolVersion, Ieee1609Dot2Content content) throws IOException {
         super(protocolVersion,content);
         validateEncrypted();
 
@@ -55,21 +56,20 @@ public class EtsiTs103097DataEncrypted extends EtsiTs103097Data {
     /**
      * Constructor decoding a Ieee1609Dot2Data from an encoded byte array.
      * @param encodedData byte array encoding of the Ieee1609Dot2Data.
-     * @throws IOException   if communication problems occurred during serialization.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException   if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataEncrypted(byte[] encodedData) throws IOException, IllegalArgumentException{
+    public EtsiTs103097DataEncrypted(byte[] encodedData) throws IOException{
         super(encodedData);
         validateEncrypted();
     }
 
-    protected void validateEncrypted() throws IllegalArgumentException{
+    protected void validateEncrypted() throws IOException{
         if(getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.encryptedData) {
-            throw new IllegalArgumentException("EtsiTs103097Data with profile Encrypted must have content of type: encryptedData");
+            throw new IOException("EtsiTs103097Data with profile Encrypted must have content of type: encryptedData");
         }
         EncryptedData encryptedData = (EncryptedData) getContent().getValue();
         if(encryptedData.getCipherText().getType() != SymmetricCiphertext.SymmetricCiphertextChoices.aes128ccm){
-            throw new IllegalArgumentException("EtsiTs103097Data with profile Encrypted must have cipherText of type: aes128ccm");
+            throw new IOException("EtsiTs103097Data with profile Encrypted must have cipherText of type: aes128ccm");
         }
     }
 

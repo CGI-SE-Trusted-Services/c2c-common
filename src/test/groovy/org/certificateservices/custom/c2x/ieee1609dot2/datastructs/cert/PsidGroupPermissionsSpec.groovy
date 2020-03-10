@@ -57,11 +57,11 @@ class PsidGroupPermissionsSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that BadArgumentException is thrown when encoding if not all fields are set"(){
 		when:
 		new PsidGroupPermissions(null,null,null,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 

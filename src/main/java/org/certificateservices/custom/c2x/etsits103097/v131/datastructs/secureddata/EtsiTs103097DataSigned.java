@@ -12,7 +12,11 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata;
 
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.*;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedData;
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedDataPayload;
 
 import java.io.IOException;
 
@@ -33,18 +37,18 @@ public class EtsiTs103097DataSigned extends EtsiTs103097Data {
 
     /**
      * Constructor used when encoding using default protocol version.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataSigned(Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataSigned(Ieee1609Dot2Content content) throws IOException{
         super(content);
         validateSigned();
     }
 
     /**
      * Constructor used when encoding
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataSigned(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataSigned(int protocolVersion, Ieee1609Dot2Content content) throws IOException {
         super(protocolVersion,content);
         validateSigned();
 
@@ -54,29 +58,29 @@ public class EtsiTs103097DataSigned extends EtsiTs103097Data {
      * Constructor decoding a Ieee1609Dot2Data from an encoded byte array.
      * @param encodedData byte array encoding of the Ieee1609Dot2Data.
      * @throws IOException   if communication problems occurred during serialization.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataSigned(byte[] encodedData) throws IOException, IllegalArgumentException{
+    public EtsiTs103097DataSigned(byte[] encodedData) throws IOException{
         super(encodedData);
         validateSigned();
     }
 
-    protected void validateSigned() throws IllegalArgumentException{
+    protected void validateSigned() throws IOException{
         if(getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.signedData) {
-            throw new IllegalArgumentException("EtsiTs103097Data with profile Signed must have content of type: signedData");
+            throw new IOException("EtsiTs103097Data with profile Signed must have content of type: signedData");
         }
         SignedData signedData = (SignedData) getContent().getValue();
         if(signedData.getTbsData() == null){
-            throw new IllegalArgumentException("Invalid EtsiTs103097Data with profile Signed, signed data must have tbsData set.");
+            throw new IOException("Invalid EtsiTs103097Data with profile Signed, signed data must have tbsData set.");
         }
 
         SignedDataPayload payload = signedData.getTbsData().getPayload();
         if(payload.getData() == null) {
-            throw new IllegalArgumentException("Invalid EtsiTs103097Data with profile Signed must have payload with data field set.");
+            throw new IOException("Invalid EtsiTs103097Data with profile Signed must have payload with data field set.");
         }
         Ieee1609Dot2Data ieee1609Dot2Data = payload.getData();
         if(ieee1609Dot2Data.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.unsecuredData) {
-            throw new IllegalArgumentException("Invalid EtsiTs103097Data with profile Signed must have payload data field of type unsecuredData.");
+            throw new IOException("Invalid EtsiTs103097Data with profile Signed must have payload data field of type unsecuredData.");
         }
     }
 

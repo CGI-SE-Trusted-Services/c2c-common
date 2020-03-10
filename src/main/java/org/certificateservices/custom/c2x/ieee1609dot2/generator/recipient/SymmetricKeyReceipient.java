@@ -17,6 +17,7 @@ import java.security.GeneralSecurityException;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
@@ -47,27 +48,26 @@ public class SymmetricKeyReceipient implements Recipient {
 	}
 	
 	@Override
-	public RecipientInfo toRecipientInfo(AlgorithmIndicator alg,Ieee1609Dot2CryptoManager cryptoManager, SecretKey encryptionKey) throws IllegalArgumentException, GeneralSecurityException {
+	public RecipientInfo toRecipientInfo(AlgorithmIndicator alg,Ieee1609Dot2CryptoManager cryptoManager, SecretKey encryptionKey) throws BadArgumentException, GeneralSecurityException {
 		
 		byte[] nounce = cryptoManager.genNounce(alg);
 		byte[] encData = cryptoManager.symmetricEncryptIEEE1609_2_2017(alg, encryptionKey.getEncoded(), symmetricKey.getEncoded(), nounce);
-		SymmetricCiphertext symmetricCiphertext;
-		switch (alg.getAlgorithm().getSymmetric()) {
-		case aes128Ccm:
-		default:
-			symmetricCiphertext = new SymmetricCiphertext(new AesCcmCiphertext(nounce, encData));
-		}
 		try {
+			SymmetricCiphertext symmetricCiphertext;
+			switch (alg.getAlgorithm().getSymmetric()) {
+				case aes128Ccm:
+				default:
+					symmetricCiphertext = new SymmetricCiphertext(new AesCcmCiphertext(nounce, encData));
+			}
+
 			SymmetricEncryptionKey.SymmetricEncryptionKeyChoices choice = SymmetricEncryptionKey.SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(symKeyAlg);
 			SymmetricEncryptionKey symmetricEncryptionKey = new SymmetricEncryptionKey(choice, symmetricKey.getEncoded());
 			HashedId8 recipientId = new HashedId8(cryptoManager.digest(symmetricEncryptionKey.getEncoded(), alg));
 			SymmRecipientInfo symmRecipientInfo = new SymmRecipientInfo(recipientId, symmetricCiphertext);
 			return new RecipientInfo(symmRecipientInfo);
 		} catch (IOException e) {
-			throw new IllegalArgumentException("Invalid encoded SymmRecipientInfo when calculated the hashedId8 for recipient: " + e.getMessage(),e);
+			throw new BadArgumentException("Invalid encoded SymmRecipientInfo when calculated the hashedId8 for recipient: " + e.getMessage(), e);
 		}
-
-
 	}
 
 }

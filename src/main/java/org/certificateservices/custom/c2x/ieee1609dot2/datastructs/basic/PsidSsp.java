@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This structure represents the permissions that the certificate holder has with respect to data for a single
  * application area, identified by a Psid. If the ServiceSpecificPermissions field is omitted, it indicates that the
@@ -61,7 +63,7 @@ public class PsidSsp extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public PsidSsp(Psid psid, ServiceSpecificPermissions ssp){
+	public PsidSsp(Psid psid, ServiceSpecificPermissions ssp) throws IOException {
 		super(false,2);
 		init();
 		set(PSID, psid);

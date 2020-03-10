@@ -54,19 +54,19 @@ class ThreeDLocationSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new ThreeDLocation(lat,null,e)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new ThreeDLocation(lat,lon,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new ThreeDLocation(null,lon,e)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify toString"(){

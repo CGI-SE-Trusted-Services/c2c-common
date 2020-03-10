@@ -45,23 +45,23 @@ class EtsiTs103097DataSignedSpec extends BaseStructSpec {
         when:
         new EtsiTs103097DataSigned(2, newSignedData(null))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data, signed data tbsData headerInfo must have generationTime set."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if data field is not set."(){
+    def "Verify that constructor throws BadArgumentException if data field is not set."(){
         when:
         new EtsiTs103097DataSigned(2, newSignedData(new Time64(10000000L), new HashedData(HashedData.HashedDataChoices.sha256HashedData, Hex.decode("0102030405060708091011121314151617181920212223242526272829303132"))))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data with profile Signed must have payload with data field set."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if data field is contains other than unencrypted"(){
+    def "Verify that constructor throws BadArgumentException if data field is contains other than unencrypted"(){
         when:
         new EtsiTs103097DataSigned(2, newSignedData(new Time64(10000000L), null, genEncryptedData()))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data with profile Signed must have payload data field of type unsecuredData."
     }
 

@@ -119,9 +119,13 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
 	/**
 	 * Constructor used when decoding
 	 */
-	public ToBeSignedCertificate(){
+	public ToBeSignedCertificate() {
 		super(true,12);
-		init();
+		try {
+			init();
+		}catch(IOException e){
+			throw new RuntimeException("Error constructing ToBeSignedCertificate: " + e.getMessage(),e);
+		}
 	}
 	
 	/**
@@ -131,12 +135,12 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
 			ValidityPeriod validityPeriod, GeographicRegion region, SubjectAssurance assuranceLevel,
 			SequenceOfPsidSsp appPermissions, SequenceOfPsidGroupPermissions certIssuePermissions,
 			SequenceOfPsidGroupPermissions certRequestPermissions, boolean canRequestRollover,
-			PublicEncryptionKey encryptionKey, VerificationKeyIndicator verifyKeyIndicator) throws IllegalArgumentException{
+			PublicEncryptionKey encryptionKey, VerificationKeyIndicator verifyKeyIndicator) throws IOException{
 		super(true,12);
 		init();
 		
 		if(appPermissions == null && certIssuePermissions == null && certRequestPermissions == null){
-			throw new IllegalArgumentException("Invalid ToBeSignedCertificate one of appPermissions, certIssuePermissions or certRequestPermissions must be present");
+			throw new IOException("Invalid ToBeSignedCertificate one of appPermissions, certIssuePermissions or certRequestPermissions must be present");
 		}
 		
 		set(ID, id);
@@ -173,7 +177,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
 	
 
 	
-	private void init(){
+	private void init() throws IOException{
 		addField(ID, false, new CertificateId(), null);
 		addField(CRACAID, false, new HashedId3(), null);
 		addField(CRLSERIES, false, new CrlSeries(), null);
@@ -276,7 +280,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Validit
 	/**
 	 * @param verificationKeyIndicator required
 	 */
-	public void setVerifyKeyIndicator(VerificationKeyIndicator verificationKeyIndicator) {
+	public void setVerifyKeyIndicator(VerificationKeyIndicator verificationKeyIndicator) throws IOException{
 		set(VERIFYKEYINDICATOR, verificationKeyIndicator);
 	}
 	

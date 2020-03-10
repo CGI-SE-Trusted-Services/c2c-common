@@ -13,9 +13,11 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist;
 
 import org.certificateservices.custom.c2x.asn1.coer.*;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -45,7 +47,8 @@ public class CtlFormat extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public CtlFormat(Version version, Time32 nextUpdate, boolean isFullCtl, int ctlSequence, CtlCommand[] ctlCommands){
+	public CtlFormat(Version version, Time32 nextUpdate, boolean isFullCtl, int ctlSequence,
+					 CtlCommand[] ctlCommands) throws IOException, BadArgumentException {
 		super(true,5);
 		init();
 
@@ -98,11 +101,11 @@ public class CtlFormat extends COERSequence {
 		return Arrays.copyOf(values,values.length,CtlCommand[].class);
 	}
 
-	protected void validateCtlFormat(boolean isFullCtl, CtlCommand[] ctlCommands) throws IllegalArgumentException{
+	protected void validateCtlFormat(boolean isFullCtl, CtlCommand[] ctlCommands) throws BadArgumentException {
 		if(isFullCtl){
 			for(CtlCommand cmd : ctlCommands){
 				if(cmd.getType() == CtlCommand.CtlCommandChoices.delete){
-					throw new IllegalArgumentException("Illegal CtlFormat, fullCtl cannot have delete ctl commands.");
+					throw new BadArgumentException("Illegal CtlFormat, fullCtl cannot have delete ctl commands.");
 				}
 			}
 		}

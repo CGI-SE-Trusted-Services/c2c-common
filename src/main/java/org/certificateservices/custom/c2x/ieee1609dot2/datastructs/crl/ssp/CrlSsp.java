@@ -16,6 +16,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
+import java.io.IOException;
+
 /**
  * Structure defining a CrlSsp
  *
@@ -52,11 +54,11 @@ public class CrlSsp extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public CrlSsp(int version, CracaType associatedCraca, PermissibleCrls crls){
+	public CrlSsp(int version, CracaType associatedCraca, PermissibleCrls crls) throws IOException{
 		super(true,3);
 		init();
 		if(associatedCraca == null){
-			throw new IllegalArgumentException("Error in CrlSpp associatedCraca cannot be null.");
+			throw new IOException("Error in CrlSpp associatedCraca cannot be null.");
 		}
 		
 		set(VERSION, new Uint8(version));
@@ -67,7 +69,7 @@ public class CrlSsp extends COERSequence {
 	/**
 	 * Constructor used when encoding using default version
 	 */
-	public CrlSsp(CracaType associatedCraca, PermissibleCrls crls){
+	public CrlSsp(CracaType associatedCraca, PermissibleCrls crls) throws IOException{
 		this(DEFAULT_VERSION, associatedCraca, crls);
 	}
 	

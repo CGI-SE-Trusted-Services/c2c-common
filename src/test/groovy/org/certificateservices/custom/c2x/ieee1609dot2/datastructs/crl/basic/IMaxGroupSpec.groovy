@@ -64,11 +64,11 @@ class IMaxGroupSpec extends BaseStructSpec {
 		img2.getContents() == soir
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new IMaxGroup(5,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

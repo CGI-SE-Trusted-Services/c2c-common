@@ -40,9 +40,9 @@ public class InnerEcRequestSignedForPop extends EtsiTs103097DataSigned {
 	 * Constructor used when encoding using default protocol version.
 	 *
 	 * @param content the Ieee1609Dot2Content of the SignedData not the actual InnerEcRequest.
-	 * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+	 * @throws IOException if encoded data was invalid according to ASN1 schema.
 	 */
-	public InnerEcRequestSignedForPop(Ieee1609Dot2Content content) throws IllegalArgumentException {
+	public InnerEcRequestSignedForPop(Ieee1609Dot2Content content) throws IOException {
 		super(content);
 	}
 
@@ -51,9 +51,9 @@ public class InnerEcRequestSignedForPop extends EtsiTs103097DataSigned {
 	 *
 	 * @param protocolVersion the version of the message
 	 * @param content the Ieee1609Dot2Content of the SignedData not the actual InnerEcRequest.
-	 * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+	 * @throws IOException if encoded data was invalid according to ASN1 schema.
 	 */
-	public InnerEcRequestSignedForPop(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException {
+	public InnerEcRequestSignedForPop(int protocolVersion, Ieee1609Dot2Content content) throws IOException {
 		super(protocolVersion, content);
 	}
 
@@ -62,9 +62,8 @@ public class InnerEcRequestSignedForPop extends EtsiTs103097DataSigned {
 	 *
 	 * @param encodedData byte array encoding of the Ieee1609Dot2Data.
 	 * @throws IOException              if communication problems occurred during serialization.
-	 * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
 	 */
-	public InnerEcRequestSignedForPop(byte[] encodedData) throws IOException, IllegalArgumentException {
+	public InnerEcRequestSignedForPop(byte[] encodedData) throws IOException {
 		super(encodedData);
 	}
 

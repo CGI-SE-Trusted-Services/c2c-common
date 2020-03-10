@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetyp
 
 import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 
+import java.io.IOException;
+
 /**
  * Class representing CertificateFormat integer constants.
  *
@@ -22,6 +24,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 public class CertificateFormat  extends COERInteger {
 
     public static final CertificateFormat TS103097C131 = new CertificateFormat(1);
+
 
     /**
      * Constructor when decoding an integer.
@@ -37,7 +40,7 @@ public class CertificateFormat  extends COERInteger {
      *
      * @param value    the integer value.
      */
-    public CertificateFormat(long value) {
+    public CertificateFormat(long value) throws IllegalArgumentException {
         super(value, 1, 255);
     }
 }

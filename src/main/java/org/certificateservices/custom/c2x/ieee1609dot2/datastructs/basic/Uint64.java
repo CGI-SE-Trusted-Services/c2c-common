@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.math.BigInteger;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
@@ -36,7 +37,7 @@ public class Uint64 extends COERInteger {
 	/**
 	 * Constructor used when encoding
 	 */
-	public Uint64(BigInteger value){
+	public Uint64(BigInteger value)  {
 		super(value, BigInteger.ZERO,new BigInteger("18446744073709551615"));
 	}
 	

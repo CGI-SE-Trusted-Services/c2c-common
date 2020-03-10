@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
@@ -54,15 +55,15 @@ public class SubjectAssurance extends COEROctetStream {
      * 
 	 * @param assuranceLevel denotes bit fields specifying an assurance level, between 0 and 7.
 	 * @param confidenceLevel denotes bit fields specifying an confidence. level, between 0 and 3.
-	 * @throws IllegalArgumentException if supplied arguments where invalid.
+	 * @throws IOException if supplied arguments where invalid.
 	 */
-	public SubjectAssurance(int assuranceLevel, int confidenceLevel) throws IllegalArgumentException{
+	public SubjectAssurance(int assuranceLevel, int confidenceLevel) throws IOException{
 		super(OCTETSTRING_SIZE, OCTETSTRING_SIZE);
 		if(assuranceLevel< 0 || assuranceLevel > 7){
-			throw new IllegalArgumentException("Illegal subject assurrance level, should be between 0 and 7");
+			throw new IOException("Illegal subject assurance level, should be between 0 and 7");
 		}
 		if(confidenceLevel< 0 || confidenceLevel > 3){
-			throw new IllegalArgumentException("Illegal subject confidence level, should be between 0 and 3");
+			throw new IOException("Illegal subject confidence level, should be between 0 and 3");
 		}
 		int shiftedAssuranceLevel = assuranceLevel << 5;
 		subjectAssurance = (shiftedAssuranceLevel | confidenceLevel);

@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.generator;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
@@ -71,7 +72,7 @@ public abstract class BaseAuthorityCertGenerator extends BaseCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new self signed certificate with root CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -87,7 +88,7 @@ public abstract class BaseAuthorityCertGenerator extends BaseCertGenerator {
 			PrivateKey signPrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		// See 6.4.8 ToBeSignedCertificate - certIssuePermissions for details
 		SequenceOfPsidSsp appPermissionsSequence = null;
@@ -133,7 +134,7 @@ public abstract class BaseAuthorityCertGenerator extends BaseCertGenerator {
 	 * @param encPublicKeyAlgorithm algorithm used for encryption, null if no encryption key should be included.
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a newly created sub ca certificate.
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -154,7 +155,7 @@ public abstract class BaseAuthorityCertGenerator extends BaseCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		SequenceOfPsidSsp appPermissionsSequence = null;
 		if(appPermissions != null){
@@ -203,7 +204,7 @@ public abstract class BaseAuthorityCertGenerator extends BaseCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		// See 6.4.8 ToBeSignedCertificate - certIssuePermissions for details
 		SubjectPermissions sp;

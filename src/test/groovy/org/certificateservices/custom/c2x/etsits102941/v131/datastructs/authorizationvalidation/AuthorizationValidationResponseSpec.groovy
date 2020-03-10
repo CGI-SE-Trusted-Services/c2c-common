@@ -55,7 +55,7 @@ class AuthorizationValidationResponseSpec extends BaseStructSpec {
     }
 
 
-    def "Verify that IllegalArgumentException is thrown if confirmed permissions have certIssuePermission Set"(){
+    def "Verify that BadArgumentException is thrown if confirmed permissions have certIssuePermission Set"(){
         setup:
         PsidGroupPermissions perm1 = new PsidGroupPermissions(new SubjectPermissions(SubjectPermissions.SubjectPermissionsChoices.all, null),null,null,new EndEntityType(true, true))
         PsidGroupPermissions perm2 = new PsidGroupPermissions(new SubjectPermissions(SubjectPermissions.SubjectPermissionsChoices.all, null),2,3,new EndEntityType(false, true))
@@ -63,7 +63,7 @@ class AuthorizationValidationResponseSpec extends BaseStructSpec {
         when:
         new AuthorizationValidationResponse(requestHash, AuthorizationValidationResponseCode.ok,  SharedAtRequestSpec.genCertificateSubjectAttributes(new SequenceOfPsidGroupPermissions([perm1, perm2])))
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid confirmedSubjectAttributes in AuthorizationValidationResponse, certIssuePermissions cannot be set."
     }
 

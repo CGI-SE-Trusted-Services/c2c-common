@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This data structure contains an estimate of 3-D location. The details of the structure are given in the 
  * definitions of the individual fields below.
@@ -43,7 +45,7 @@ public class ThreeDLocation extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public ThreeDLocation(Latitude latitude, Longitude longitude, Elevation elevation){
+	public ThreeDLocation(Latitude latitude, Longitude longitude, Elevation elevation) throws IOException{
 		super(false,3);
 		init();
 		set(LATITUDE, latitude);
@@ -54,7 +56,7 @@ public class ThreeDLocation extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public ThreeDLocation(long latitude, long longitude, int elevationDecimeters){
+	public ThreeDLocation(long latitude, long longitude, int elevationDecimeters) throws IOException {
 		super(false,3);
 		init();
 		set(LATITUDE, new Latitude(latitude));

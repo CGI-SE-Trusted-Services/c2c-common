@@ -17,6 +17,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COEREncodeHelper;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This data structure representing the x and y coordinates of a ECC Point
  * 
@@ -49,7 +51,7 @@ public class UncompressedEccPoint extends COERSequence {
 	 * @param x 32 byte coordinate
 	 * @param y 32 byte coordinate
 	 */
-	public UncompressedEccPoint(int octetSize, byte[] x, byte[] y){
+	public UncompressedEccPoint(int octetSize, byte[] x, byte[] y) throws IOException {
 		super(false,2);
 		init();
 		this.octetSize = octetSize;

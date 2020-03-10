@@ -58,14 +58,14 @@ public class EcSignature extends COERChoice {
 	/**
 	 * Constructor used when encoding of type encryptedEcSignature
 	 */
-	public EcSignature(EtsiTs103097DataEncrypted encryptedEcSignature) throws IllegalArgumentException{
+	public EcSignature(EtsiTs103097DataEncrypted encryptedEcSignature) {
 		super(EcSignatureChoices.encryptedEcSignature, encryptedEcSignature);
 	}
 
 	/**
 	 * Constructor used when encoding of type ecSignature
 	 */
-	public EcSignature(EtsiTs103097DataSignedExternalPayload ecSignature) throws IllegalArgumentException{
+	public EcSignature(EtsiTs103097DataSignedExternalPayload ecSignature) {
 		super(EcSignatureChoices.ecSignature, ecSignature);
 	}
 

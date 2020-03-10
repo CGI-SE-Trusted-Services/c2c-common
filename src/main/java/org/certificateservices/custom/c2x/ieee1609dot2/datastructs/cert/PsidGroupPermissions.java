@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert;
 
+import java.io.IOException;
 import java.math.BigInteger;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
@@ -65,9 +66,13 @@ public class PsidGroupPermissions extends COERSequence {
 	/**
 	 * Constructor used when decoding
 	 */
-	public PsidGroupPermissions(){
+	public PsidGroupPermissions() {
 		super(false,4);
-		init();
+		try {
+			init();
+		} catch (IOException e) {
+			throw new RuntimeException("Error constructing empty PsidGroupPermissions: " + e.getMessage(), e);
+		}
 	}
 	
 	/**
@@ -78,7 +83,7 @@ public class PsidGroupPermissions extends COERSequence {
 	 * @param eeType eeType takes one or more of the values app and enrol and indicates the type of certificates or requests that this 
 	 * instance of PsidGroupPermissions in the certificate is entitled to authorize
 	 */
-	public PsidGroupPermissions(SubjectPermissions subjectPermissions, Integer minChainDepth, Integer chainDepthRange, EndEntityType eeType){
+	public PsidGroupPermissions(SubjectPermissions subjectPermissions, Integer minChainDepth, Integer chainDepthRange, EndEntityType eeType) throws IOException {
 		super(false,2);
 		init();
 		set(SUBJECT_PERMISSIONS, subjectPermissions);
@@ -119,7 +124,7 @@ public class PsidGroupPermissions extends COERSequence {
 		return (EndEntityType) get(EE_TYPE);
 	}
 	
-	private void init(){
+	private void init() throws IOException{
 		addField(SUBJECT_PERMISSIONS, false, new SubjectPermissions(), null);
 		addField(MIN_CHAIN_DEPTH, true, new COERInteger(), new COERInteger(1));
 		addField(CHAIN_DEPTH_RANGE, true, new COERInteger(), new COERInteger(0));

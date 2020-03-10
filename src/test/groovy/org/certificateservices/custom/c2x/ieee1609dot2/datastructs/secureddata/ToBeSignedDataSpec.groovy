@@ -70,15 +70,15 @@ class ToBeSignedDataSpec extends BaseStructSpec {
 		tbs1 == tbs2
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all required fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all required fields are set"(){
 		when:
 		new ToBeSignedData(null,hi)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new ToBeSignedData(sdp,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		
 	} 
 	

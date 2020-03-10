@@ -22,6 +22,7 @@ import javax.crypto.SecretKey;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.spec.ECParameterSpec;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccCurvePoint;
@@ -54,11 +55,11 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param signingCert the signer or null if self signed.
 	 * @return a IEEE 1609.2 Signature data structure containing the generated signature.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	Signature signMessage(byte[] message, AlgorithmIndicator alg, PrivateKey privateKey, CertificateType certType, Certificate signingCert) throws IllegalArgumentException, SignatureException, IOException;
+	Signature signMessage(byte[] message, AlgorithmIndicator alg, PrivateKey privateKey, CertificateType certType, Certificate signingCert) throws BadArgumentException, SignatureException, IOException;
 	
 	/**
 	 * Method used to sign the a digest of message according to the IEEE specification with EccPointType x_coordinate_only containing the R value.
@@ -68,11 +69,11 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param privateKey the private key used to sign the message.
 	 * @return a IEEE 1609.2 Signature data structure containing the generated signature.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	Signature signMessageDigest(byte[] digest, AlgorithmIndicator alg, PrivateKey privateKey) throws IllegalArgumentException, SignatureException, IOException;
+	Signature signMessageDigest(byte[] digest, AlgorithmIndicator alg, PrivateKey privateKey) throws BadArgumentException, SignatureException, IOException;
 		
 	
 	/**
@@ -83,11 +84,11 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param publicKey the signing public key.
 	 * @return true if signature verifies.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	boolean verifySignatureDigest(byte[] digest, Signature signature, PublicKey publicKey) throws IllegalArgumentException,  SignatureException, IOException;
+	boolean verifySignatureDigest(byte[] digest, Signature signature, PublicKey publicKey) throws BadArgumentException,  SignatureException, IOException;
 	
 
 	/**
@@ -98,11 +99,11 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param signCert signing certificate, required, for self signed certificate use separate method.
 	 * @return true if signature verifies.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	boolean verifySignature(byte[] message, Signature signature, Certificate signCert) throws IllegalArgumentException,  SignatureException, IOException;
+	boolean verifySignature(byte[] message, Signature signature, Certificate signCert) throws BadArgumentException,  SignatureException, IOException;
 
 	/**
 	 * Method used to verify a IEEE Signature data structure given the message and the signers implicit certificate, 
@@ -113,11 +114,11 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param signedPublicKey the signing public key.
 	 * @return true if signature verifies.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	boolean verifySignature(byte[] message, Signature signature, Certificate signCert, PublicKey signedPublicKey) throws IllegalArgumentException,  SignatureException, IOException;
+	boolean verifySignature(byte[] message, Signature signature, Certificate signCert, PublicKey signedPublicKey) throws BadArgumentException,  SignatureException, IOException;
 
 	/**
 	 * Method to verify a self signed message without any generated certificate. Used when signing POP and
@@ -126,11 +127,11 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param signature the signature to verify.
 	 * @param signedPublicKey the signing public key.
 	 * @return true if signature verifies.
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	boolean verifySelfSignedSignature(byte[] message, Signature signature, PublicKey signedPublicKey) throws IllegalArgumentException,  SignatureException, IOException;
+	boolean verifySelfSignedSignature(byte[] message, Signature signature, PublicKey signedPublicKey) throws BadArgumentException,  SignatureException, IOException;
 	/**
 	 * Method to verify a certificate with a given signer certificate
 	 * 
@@ -138,31 +139,31 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param signerCertificate the signer certificate 
 	 * 
 	 * @return true if certificate verifies.
-	 * @throws IllegalArgumentException if supplied arguments was invalid.
+	 * @throws BadArgumentException if supplied arguments was invalid.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if communication problems occurred with underlying components.
 	 */
-	boolean verifyCertificate(Certificate certificate, Certificate signerCertificate) throws IllegalArgumentException,  SignatureException, IOException;
+	boolean verifyCertificate(Certificate certificate, Certificate signerCertificate) throws BadArgumentException,  SignatureException, IOException;
 
 	/**
 	 * Method to generate a nounce for the given algorithm.
 	 * 
 	 * @param alg algorithm indicator that must support symmetric scheme.
 	 * @return a freshly generated nounce
-	 * @throws IllegalArgumentException if algorithm didn't support symmetric algorithm.
+	 * @throws BadArgumentException if algorithm didn't support symmetric algorithm.
 	 * @throws GeneralSecurityException if internal problems occurred generating the random nounce.  
 	 */
-	 byte[] genNounce(AlgorithmIndicator alg) throws IllegalArgumentException, GeneralSecurityException; 
+	 byte[] genNounce(AlgorithmIndicator alg) throws BadArgumentException, GeneralSecurityException;
 
 	/**
 	 * Method to reconstruct a symmetric from byte encoding.
 	 * @param alg type of symmetric algorithm
 	 * @param keyData the raw key data.
 	 * @return a reconstructed symmetric key.
-	 * @throws IllegalArgumentException if algorithm didn't support symmetric algorithm or key data was invalid.
+	 * @throws BadArgumentException if algorithm didn't support symmetric algorithm or key data was invalid.
 	 * @throws GeneralSecurityException if internal problems occurred reconstructing the secret key.  
 	 */
-	 SecretKey constructSecretKey(AlgorithmIndicator alg, byte[] keyData) throws IllegalArgumentException, GeneralSecurityException;
+	 SecretKey constructSecretKey(AlgorithmIndicator alg, byte[] keyData) throws BadArgumentException, GeneralSecurityException;
 	
 	/**
 	 * Help method to perform a symmetric encrypt of data.
@@ -173,10 +174,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param nounce related nounce.
 	 * @return the encrypt clear text data.
 	 * 
-	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
+	 * @throws BadArgumentException if arguments where invalid or algorithm not supported.
 	 * @throws GeneralSecurityException if internal problems occurred encrypting
 	 */
-	byte[] symmetricEncryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws IllegalArgumentException, GeneralSecurityException;
+	byte[] symmetricEncryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws BadArgumentException, GeneralSecurityException;
 	
 	/**
 	 * Help method to perform a symmetric decrypt of data.
@@ -187,10 +188,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param nounce related nounce.
 	 * @return the decrypted clear text data.
 	 * 
-	 * @throws IllegalArgumentException if arguments where invalid or algorithm not supported.
+	 * @throws BadArgumentException if arguments where invalid or algorithm not supported.
 	 * @throws GeneralSecurityException if internal problems occurred encrypting
 	 */
-	byte[] symmetricDecryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws IllegalArgumentException,  GeneralSecurityException;
+	byte[] symmetricDecryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws BadArgumentException,  GeneralSecurityException;
 
 
 	/**
@@ -201,10 +202,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param symmetricKey the symmetric key to encrypt (Should be AES 128)
 	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
 	 * @return a EncryptedDataEncryptionKey with v,c,t set.
-	 * @throws IllegalArgumentException if supplied parameters where invalid.
+	 * @throws BadArgumentException if supplied parameters where invalid.
 	 * @throws GeneralSecurityException if problems occurred performing the encryption.
 	 */
-	EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1) throws IllegalArgumentException, GeneralSecurityException;
+	EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1) throws BadArgumentException, GeneralSecurityException;
 
 	/**
 	 * Method to decrypt symmetric key using the 1609.2 2017 defined ECIES encryption scheme.
@@ -213,10 +214,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
 	 * @return the decrypted AES symmetric key.
 	 * @throws InvalidKeyException if supplied private key was invalid
-	 * @throws IllegalArgumentException if invalid arguments where specified.
+	 * @throws BadArgumentException if invalid arguments where specified.
 	 * @throws InvalidKeySpecException if invalid key specification was given.
 	 */
-	 SecretKey ieeeEceisDecryptSymmetricKey2017(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, byte[] p1) throws InvalidKeyException, IllegalArgumentException, InvalidKeySpecException;
+	 SecretKey ieeeEceisDecryptSymmetricKey2017(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, byte[] p1) throws InvalidKeyException, BadArgumentException, InvalidKeySpecException;
 	 
 	/**
 	 * Method to convert a EC public key to a BCECPublicKey
@@ -226,7 +227,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @return a BCECPublicKey
 	 * @throws InvalidKeySpecException if supplied key was invalid.
 	 */
-	BCECPublicKey toBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException;
+	BCECPublicKey toBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException, BadArgumentException;
 	
 	/**
 	 * Help method used to convert a public key to a Ieee EccP256CurvePoint data structure.
@@ -235,10 +236,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param type the type of ECCPoint to create.
 	 * @param publicKey the related public key to convert.
 	 * @return a converted EccPoint data structure encoded according the the given ECC point type.
-	 * @throws IllegalArgumentException if public key was invalid or unsupported
+	 * @throws BadArgumentException if public key was invalid or unsupported
 	 * @throws InvalidKeySpecException if the given public key contained invalid parameters related to the specified public key algorithm.
 	 */
-	EccP256CurvePoint encodeEccPoint(AlgorithmIndicator alg, EccP256CurvePointChoices type, PublicKey publicKey) throws IllegalArgumentException, InvalidKeySpecException;
+	EccP256CurvePoint encodeEccPoint(AlgorithmIndicator alg, EccP256CurvePointChoices type, PublicKey publicKey) throws BadArgumentException, InvalidKeySpecException;
 	
 	/**
 	 * Help method to decode a EccP256CurvePoint or EccP384CurvePoint to a EccPublic key or ECFieldElement depending on the type of EccPoint.
@@ -250,7 +251,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * 
 	 * @throws InvalidKeySpecException if problems occurred decoding the key.
 	 */
-	Object decodeEccPoint(AlgorithmIndicator alg, EccCurvePoint eccPoint) throws InvalidKeySpecException;
+	Object decodeEccPoint(AlgorithmIndicator alg, EccCurvePoint eccPoint) throws InvalidKeySpecException, BadArgumentException;
 
 	/**
 	 * Help method used to convert a public key to a Ieee EccP384CurvePoint data structure.
@@ -259,10 +260,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param type the type of ECCPoint to create.
 	 * @param publicKey the related public key to convert.
 	 * @return a converted EccPoint data structure encoded according the the given ECC point type.
-	 * @throws IllegalArgumentException if public key was invalid or unsupported
+	 * @throws BadArgumentException if public key was invalid or unsupported
 	 * @throws InvalidKeySpecException if the given public key contained invalid parameters related to the specified public key algorithm.
 	 */
-	EccP384CurvePoint encodeEccPoint(AlgorithmIndicator alg, EccP384CurvePoint.EccP384CurvePointChoices type, PublicKey publicKey) throws IllegalArgumentException, InvalidKeySpecException;
+	EccP384CurvePoint encodeEccPoint(AlgorithmIndicator alg, EccP384CurvePoint.EccP384CurvePointChoices type, PublicKey publicKey) throws BadArgumentException, InvalidKeySpecException;
 
 
 	/**
@@ -271,10 +272,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param messageData the message data to digest
 	 * @param signerCertificate the certificate used for signing, null if selfsigned data.
 	 * @throws NoSuchAlgorithmException 
-	 * @throws IllegalArgumentException 
+	 * @throws BadArgumentException
 	 * @throws IOException 
 	 */
-	byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException;
+	byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate) throws BadArgumentException, NoSuchAlgorithmException, IOException;
 
 	/**
 	 * Returns the related EC domain parameters for given algorithm.
@@ -282,7 +283,7 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param alg algorithm to fetch domain parameters for.
 	 * @return related EC domain parameters for given algorithm.
 	 */
-	ECParameterSpec getECParameterSpec(AlgorithmIndicator alg) throws IllegalArgumentException;
+	ECParameterSpec getECParameterSpec(AlgorithmIndicator alg) throws BadArgumentException;
 	
 	/**
 	 * Method to construct the private key related to a generate certificate, given the related r value.
@@ -295,10 +296,10 @@ public interface Ieee1609Dot2CryptoManager extends CryptoManager {
 	 * @param signerCertificate the CA certificate
 	 * @return a generated private key.
 	 * @throws IOException if communication problems occurred with underlying systems.
-	 * @throws IllegalArgumentException if argument was illegal
+	 * @throws BadArgumentException if argument was illegal
 	 * @throws SignatureException if internal problems occurred constructing the certificate private key.
 	 */
-	PrivateKey reconstructImplicitPrivateKey(Certificate cert, BigInteger r, AlgorithmIndicator alg, PrivateKey Ku, PublicKey signerPublicKey, Certificate signerCertificate) throws IOException, IllegalArgumentException, SignatureException;
+	PrivateKey reconstructImplicitPrivateKey(Certificate cert, BigInteger r, AlgorithmIndicator alg, PrivateKey Ku, PublicKey signerPublicKey, Certificate signerCertificate) throws IOException, BadArgumentException, SignatureException;
 	
 
 }

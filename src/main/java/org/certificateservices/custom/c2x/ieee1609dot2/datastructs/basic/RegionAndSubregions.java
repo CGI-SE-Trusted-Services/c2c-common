@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * In this type:
  *
@@ -48,7 +50,7 @@ public class RegionAndSubregions extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public RegionAndSubregions(int region, SequenceOfUint16 subregions){
+	public RegionAndSubregions(int region, SequenceOfUint16 subregions) throws IOException {
 		super(false,2);
 		init();
 		set(REGION, new Uint8(region));

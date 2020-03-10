@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.validator;
 
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
 import org.certificateservices.custom.c2x.common.validator.PermissionValidator;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
@@ -22,6 +23,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.PsidGrou
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SequenceOfPsidGroupPermissions;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SubjectPermissions;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -47,10 +49,10 @@ public abstract class BasePermissionValidator implements PermissionValidator {
      * @param chainLength the current index in the chain evaulation, starts at 0 and is incremented.
      * @param certificate the certificate to check permissions for towards it issuer
      * @param issuer the issuer certificate.
-     * @throws IllegalArgumentException if one of the parameter contained invalid data.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      * @throws InvalidCertificateException if certificate contained invalid permissions.
      */
-    protected void checkAppPermissions(EndEntityType endEntityType, int chainLength, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate issuer) throws IllegalArgumentException, InvalidCertificateException{
+    protected void checkAppPermissions(EndEntityType endEntityType, int chainLength, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate issuer) throws BadArgumentException, InvalidCertificateException{
         SequenceOfPsidGroupPermissions issuerCertIssuePermissions = issuer.getToBeSigned().getCertIssuePermissions();
 
         SequenceOfPsidSsp appPermissions = certificate.getToBeSigned().getAppPermissions();
@@ -92,10 +94,10 @@ public abstract class BasePermissionValidator implements PermissionValidator {
      * @param chainLength the current index in the chain evaulation, starts at 0 and is incremented.
      * @param certificate the certificate to check permissions for towards it issuer
      * @param issuer the issuer certificate.
-     * @throws IllegalArgumentException if one of the parameter contained invalid data.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      * @throws InvalidCertificateException if certificate contained invalid permissions.
      */
-    protected void checkCertIssuePermissions(EndEntityType endEntityType, int chainLength, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate issuer) throws IllegalArgumentException, InvalidCertificateException{
+    protected void checkCertIssuePermissions(EndEntityType endEntityType, int chainLength, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate issuer) throws BadArgumentException, InvalidCertificateException{
         SequenceOfPsidGroupPermissions issuerCertIssuePermissions = issuer.getToBeSigned().getCertIssuePermissions();
 
         SequenceOfPsidGroupPermissions certIssuePermissions = certificate.getToBeSigned().getCertIssuePermissions();
@@ -474,7 +476,11 @@ public abstract class BasePermissionValidator implements PermissionValidator {
         if(sspRange == null){
             throw new InvalidCertificateException("No SSPRange data found for certificate (Neither in certificate in default) with PSID " + psidSspRange.getPsid().getValueAsLong() + ".");
         }
-        return new PsidSspRange(psidSspRange.getPsid(),sspRange);
+        try {
+            return new PsidSspRange(psidSspRange.getPsid(), sspRange);
+        }catch(IOException e){
+            throw new InvalidCertificateException(e.getMessage(),e);
+        }
     }
 
 

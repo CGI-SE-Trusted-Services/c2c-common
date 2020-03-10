@@ -17,6 +17,8 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GroupLi
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IValue;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LinkageValue;
 
+import java.io.IOException;
+
 /**
  * This structure contains information that is matched against information obtained from a linkage ID-based
  * CRL to determine whether the containing certificate has been revoked. See 5.1.3.4 and 7.3 for details of
@@ -45,7 +47,7 @@ public class LinkageData extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public LinkageData(IValue iCert, LinkageValue linkageValue, GroupLinkageValue groupLinkageValue){
+	public LinkageData(IValue iCert, LinkageValue linkageValue, GroupLinkageValue groupLinkageValue) throws IOException {
 		super(false,3);
 		init();
 		set(ICERT, iCert);

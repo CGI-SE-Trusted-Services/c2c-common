@@ -82,14 +82,14 @@ public class IssuerIdentifier extends COERChoice {
 	/**
 	 * Constructor used when encoding of type linkageData
 	 */
-	public IssuerIdentifier(IssuerIdentifierChoices type, HashedId8 digest) throws IllegalArgumentException{
+	public IssuerIdentifier(IssuerIdentifierChoices type, HashedId8 digest){
 		super(type, digest);
 	}
 	
 	/**
 	 * Constructor used when encoding of type self
 	 */
-	public IssuerIdentifier(HashAlgorithm hashAlgorithm) throws IllegalArgumentException{
+	public IssuerIdentifier(HashAlgorithm hashAlgorithm) {
 		super(IssuerIdentifierChoices.self, new COEREnumeration(hashAlgorithm));
 	}
 	

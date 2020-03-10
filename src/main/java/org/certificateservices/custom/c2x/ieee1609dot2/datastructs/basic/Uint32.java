@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 
+import java.io.IOException;
+
 /**
  * Base type defining integer between 0 and 4294967295 (0xff ff ff ff)
  * 
@@ -34,7 +36,7 @@ public class Uint32 extends COERInteger {
 	/**
 	 * Constructor used when encoding
 	 */
-	public Uint32(long value){
+	public Uint32(long value)  {
 		super(value,0,4294967295L);
 	}
 	

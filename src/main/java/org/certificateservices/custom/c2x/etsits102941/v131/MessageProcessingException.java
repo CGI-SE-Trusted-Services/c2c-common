@@ -22,7 +22,7 @@ import javax.crypto.SecretKey;
  *
  * @author Philip Vendil, p.vendil@cgi.com
  */
-public class InternalErrorException extends ETSITS102941MessagesCaException {
+public class MessageProcessingException extends ETSITS102941MessagesCaException {
 
     /**
      * Exception thrown internal problems occurred when processing TSITS102941 Messages ca request.
@@ -32,7 +32,7 @@ public class InternalErrorException extends ETSITS102941MessagesCaException {
      * @param secretKey the symmetrical key used to encrypt the response back to the requester. null if
      * no symmetric key could be extracted.
      */
-    public InternalErrorException(String message, SecretKey secretKey) {
+    public MessageProcessingException(String message, SecretKey secretKey) {
         super(message, secretKey);
     }
 
@@ -50,7 +50,7 @@ public class InternalErrorException extends ETSITS102941MessagesCaException {
      * @param requestHash the hashed value of the request data to identify which request a response is for. Null
      *                    if not applicable.
      */
-    public InternalErrorException(String message, Throwable cause, SecretKey secretKey, byte[] requestHash) {
+    public MessageProcessingException(String message, Throwable cause, SecretKey secretKey, byte[] requestHash) {
         super(message, cause, secretKey, requestHash);
     }
 }

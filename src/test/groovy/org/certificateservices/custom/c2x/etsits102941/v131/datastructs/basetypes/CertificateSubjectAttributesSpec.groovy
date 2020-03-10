@@ -103,13 +103,13 @@ class CertificateSubjectAttributesSpec extends BaseStructSpec {
     }
 
 
-    def "Verify that IllegalArgumentException is thrown if none of required permissions doesn't exists"(){
+    def "Verify that BadArgumentException is thrown if none of required permissions doesn't exists"(){
 
         when:
         new CertificateSubjectAttributes(id,validityPeriod,region,assuranceLevel,
                 null,null)
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid CertificateSubjectAttributes one of appPermissions, certIssuePermissions must be present"
         when: // Verify that no exception is thrown if one of the is set.
         new CertificateSubjectAttributes(id,validityPeriod,region,assuranceLevel,

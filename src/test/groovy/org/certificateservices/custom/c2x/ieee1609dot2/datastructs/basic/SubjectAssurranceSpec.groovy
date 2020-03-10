@@ -50,21 +50,21 @@ class SubjectAssurranceSpec extends BaseStructSpec {
 	
 	
 	@Unroll
-	def "Verify that subjectAssurance throws IllegalArgumentException on invalid assuranceLevel: #assuranceLevel"(){
+	def "Verify that subjectAssurance throws IOException on invalid assuranceLevel: #assuranceLevel"(){
 		when:
 		new SubjectAssurance(assuranceLevel,0)
 		then:
-		thrown(IllegalArgumentException)
+		thrown(IOException)
 		where:
 		assuranceLevel  << [-1,8,10]
 	}
 	
 	@Unroll
-	def "Verify that subjectAssurance throws IllegalArgumentException on invalid confidenceLevel: #confidenceLevel"(){
+	def "Verify that subjectAssurance throws IOException on invalid confidenceLevel: #confidenceLevel"(){
 		when:
 		new SubjectAssurance(0,confidenceLevel)
 		then:
-		thrown(IllegalArgumentException)
+		thrown(IOException)
 		where:
 		confidenceLevel  << [-1,4,10]
 	}

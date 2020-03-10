@@ -17,6 +17,7 @@ import java.security.GeneralSecurityException;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
@@ -35,7 +36,7 @@ public interface Recipient {
 	 * Method to return a generated ReceiptientInfo for the given encryption key.
 	 *  
 	 */
-	RecipientInfo toRecipientInfo(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager,SecretKey encryptionKey) throws IllegalArgumentException, GeneralSecurityException, IOException;
+	RecipientInfo toRecipientInfo(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager,SecretKey encryptionKey) throws BadArgumentException, GeneralSecurityException, IOException;
 	
 	
 }

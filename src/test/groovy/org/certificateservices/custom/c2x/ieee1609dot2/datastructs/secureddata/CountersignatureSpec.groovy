@@ -69,19 +69,19 @@ class CountersignatureSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that constructor throws Exception if content doesn't fullfill requirements"(){
+	def "Verify that constructor throws Exception if content doesn't fulfill requirements"(){
 		when:
 		new Countersignature(genUnsecured().getContent())
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new Countersignature(4,genUnsecured().getContent())
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new Countersignature(genUnsecured())
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new Countersignature(genUnsecured().encoded)
 		then:

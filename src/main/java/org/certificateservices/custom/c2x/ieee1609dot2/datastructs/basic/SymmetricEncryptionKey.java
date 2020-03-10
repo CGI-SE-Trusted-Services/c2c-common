@@ -61,20 +61,20 @@ public class SymmetricEncryptionKey extends COERChoice {
 		 * Help method retrieving symmetric key from
 		 * @param alg algorithm indicator to lookup SymmetricEncryptionKeyChoices from.
 		 * @return related SymmetricEncryptionKeyChoices
-		 * @throws IllegalArgumentException if invalid algorithm was found.
+		 * @throws IOException if invalid algorithm was found.
 		 */
-		public static SymmetricEncryptionKeyChoices getChoiceFromAlgorithm(AlgorithmIndicator alg) throws IllegalArgumentException{
+		public static SymmetricEncryptionKeyChoices getChoiceFromAlgorithm(AlgorithmIndicator alg) throws IOException{
 			if(alg.getAlgorithm().getSymmetric() == Algorithm.Symmetric.aes128Ccm){
 				return aes128Ccm;
 			}
-			throw new IllegalArgumentException("Invalid algorithm specified for SymmetricEncryptionKey: " + alg.getAlgorithm().getSymmetric());
+			throw new IOException("Invalid algorithm specified for SymmetricEncryptionKey: " + alg.getAlgorithm().getSymmetric());
 		}
 	}
 	
 	/**
 	 * Constructor used when encoding.
 	 */
-	public SymmetricEncryptionKey(SymmetricEncryptionKeyChoices choice, byte[] value) {
+	public SymmetricEncryptionKey(SymmetricEncryptionKeyChoices choice, byte[] value) throws IOException{
 		super(choice, new COEROctetStream(value, OCTETSTRING_SIZE,OCTETSTRING_SIZE));
 	}
 	

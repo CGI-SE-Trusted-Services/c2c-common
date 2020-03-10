@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LinkageSeed;
 
+import java.io.IOException;
+
 /**
  * In this structure:
  * <ul>
@@ -43,7 +45,7 @@ public class IndividualRevocation extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public IndividualRevocation(LinkageSeed  linkageSeed1, LinkageSeed  linkageSeed2){
+	public IndividualRevocation(LinkageSeed  linkageSeed1, LinkageSeed  linkageSeed2) throws IOException {
 		super(true,2);
 		init();
 		set(LINKAGESEED1, linkageSeed1);

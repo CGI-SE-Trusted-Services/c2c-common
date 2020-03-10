@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustli
 
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 
+import java.io.IOException;
+
 /**
  * Class representing CrlEntry defined in ETSI TS 102 941 Trust List Types
  *
@@ -31,9 +33,9 @@ public class CrlEntry extends HashedId8 {
     /**
      * Constructor used to create a hashedid8 value for a full hash byte array.
      * @param fullHashValue the fill hash value.
-     * @throws IllegalArgumentException if full hash value was shorted that hash length
+     * @throws IOException if full hash value was shorted that hash length
      */
-    public CrlEntry(byte[] fullHashValue) throws IllegalArgumentException {
+    public CrlEntry(byte[] fullHashValue) throws IOException {
         super(fullHashValue);
     }
 

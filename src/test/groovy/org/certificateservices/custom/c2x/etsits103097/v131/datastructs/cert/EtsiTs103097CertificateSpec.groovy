@@ -76,7 +76,7 @@ class EtsiTs103097CertificateSpec extends BaseCertGeneratorSpec {
         c2.getSignature() == signature
     }
 
-    def "Verify that IllegalArgumentException is thrown if certificate id is linkageData"(){
+    def "Verify that BadArgumentException is thrown if certificate id is linkageData"(){
         setup:
         IValue c = new IValue(5);
         LinkageValue lv = new LinkageValue("012345678".bytes)
@@ -87,22 +87,22 @@ class EtsiTs103097CertificateSpec extends BaseCertGeneratorSpec {
         when:
         new EtsiTs103097Certificate(issuerId,toBeSigned,signature)
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid id type in toBeSigned field of EtsiTs103097Certificate: linkageData"
     }
 
-    def "Verify that IllegalArgumentException is thrown if certificate id is binaryId"(){
+    def "Verify that BadArgumentException is thrown if certificate id is binaryId"(){
         setup:
         CertificateId id = new CertificateId("1234".getBytes())
         ToBeSignedCertificate toBeSigned = genToBeSignedCertificate(id)
         when:
         new EtsiTs103097Certificate(issuerId,toBeSigned,signature)
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid id type in toBeSigned field of EtsiTs103097Certificate: binaryId"
     }
 
-    def "Verify that IllegalArgumentException is thrown if certificate has certRequestPermissions set"(){
+    def "Verify that BadArgumentException is thrown if certificate has certRequestPermissions set"(){
         setup:
         PsidGroupPermissions perm3 = new PsidGroupPermissions(new SubjectPermissions(SubjectPermissions.SubjectPermissionsChoices.all, null),5,6,new EndEntityType(true, true))
         PsidGroupPermissions perm4 = new PsidGroupPermissions(new SubjectPermissions(SubjectPermissions.SubjectPermissionsChoices.all, null),7,8,new EndEntityType(false, true))
@@ -112,17 +112,17 @@ class EtsiTs103097CertificateSpec extends BaseCertGeneratorSpec {
         when:
         new EtsiTs103097Certificate(issuerId,toBeSigned,signature)
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid toBeSigned field of EtsiTs103097Certificate, field certRequestPermissions cannot be set."
     }
 
-    def "Verify that IllegalArgumentException is thrown if certificate has canRequestRollover set"(){
+    def "Verify that BadArgumentException is thrown if certificate has canRequestRollover set"(){
         setup:
         ToBeSignedCertificate toBeSigned = genToBeSignedCertificate(id,true)
         when:
         new EtsiTs103097Certificate(issuerId,toBeSigned,signature)
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid toBeSigned field of EtsiTs103097Certificate, field canRequestRollover cannot be set."
     }
 

@@ -59,23 +59,23 @@ class GroupLinkageValueSpec extends BaseStructSpec {
 		thrown IOException
 	} 
 	
-	def "Verify that IllegalArgument is thrown when jvalue or value has wrong size"(){
+	def "Verify that IOException is thrown when jvalue or value has wrong size"(){
 		when:
 		serializeToHex(new GroupLinkageValue(jValue,Hex.decode("0102030405060708")))
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		serializeToHex(new GroupLinkageValue(jValue,Hex.decode("0102030405060708090a")))
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		serializeToHex(new GroupLinkageValue(Hex.decode("010203"),value))
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		serializeToHex(new GroupLinkageValue(Hex.decode("0102030405"),value))
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 

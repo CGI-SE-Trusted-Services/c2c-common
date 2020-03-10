@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey
@@ -89,17 +90,17 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         when: "Verify that illegal argument is found if signing certificate cannot be found"
         certChainBuilder.buildChain(enrollCert2Id, [:], [:], [:])
         then:
-        thrown IllegalArgumentException
+        thrown BadArgumentException
 
         when: "Verify that illegal argument is found if root certificate cannot be found as trust anchor"
         certChainBuilder.buildChain(enrollCert2Id, signedDataStore1, certStore2, [:])
         then:
-        thrown IllegalArgumentException
+        thrown BadArgumentException
 
         when: "Verify that illegal argument is found if intermediate certificate cannot be found"
         certChainBuilder.buildChain(enrollCert2Id, signedDataStore2, [:], trustStore)
         then:
-        thrown IllegalArgumentException
+        thrown BadArgumentException
     }
 
     def "Verify that findFromStores finds certificate from stores"(){
@@ -116,11 +117,11 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         certChainBuilder.findFromStores(rootCertId, [:],[:],[(rootCertId):rootCA]) == rootCA
         certChainBuilder.findFromStores(certId, [:],[:],[:]) == null
 
-        when: "Verify that implicit trust ancor generates IllegalArgumentException"
+        when: "Verify that implicit trust ancor generates BadArgumentException"
         certChainBuilder.findFromStores(certId, [:],[:],[(certId):enrollCA])
 
         then:
-        thrown IllegalArgumentException
+        thrown BadArgumentException
 
     }
 

@@ -66,7 +66,7 @@ public class EccP256CurvePoint extends EccCurvePoint {
 	/**
 	 * Constructor used when encoding of type xonly as BigInteger
 	 */
-	public EccP256CurvePoint(BigInteger x) {
+	public EccP256CurvePoint(BigInteger x) throws IOException  {
 		super(EccP256CurvePointChoices.xonly, new COEROctetStream(COEREncodeHelper.padZerosToByteArray(fromBigInteger(x),OCTETSTRING_SIZE),OCTETSTRING_SIZE,OCTETSTRING_SIZE));
 	}
 	
@@ -74,7 +74,7 @@ public class EccP256CurvePoint extends EccCurvePoint {
 	/**
 	 * Constructor used when encoding of type compressedy0 or compressedy1, or encoded uncompressed
 	 */
-	public EccP256CurvePoint(byte[] encoded) {
+	public EccP256CurvePoint(byte[] encoded) throws IOException {
 		super(EccP256CurvePointChoices.class);
 		EccP256CurvePointChoices type = getChoice(encoded);
 		choice = type;
@@ -96,14 +96,14 @@ public class EccP256CurvePoint extends EccCurvePoint {
 	/**
 	 * Constructor used when encoding of type uncompressed
 	 */
-	public EccP256CurvePoint(byte[] uncompressed_x, byte[] uncompressed_y) {
+	public EccP256CurvePoint(byte[] uncompressed_x, byte[] uncompressed_y) throws IOException {
 		super(EccP256CurvePointChoices.uncompressed, new UncompressedEccPoint(OCTETSTRING_SIZE,uncompressed_x, uncompressed_y));
 	}
 	
 	/**
 	 * Constructor used when encoding of type uncompressed
 	 */
-	public EccP256CurvePoint(BigInteger uncompressed_x, BigInteger uncompressed_y) {
+	public EccP256CurvePoint(BigInteger uncompressed_x, BigInteger uncompressed_y) throws IOException {
 		super(EccP256CurvePointChoices.uncompressed, new UncompressedEccPoint(OCTETSTRING_SIZE,fromBigInteger(uncompressed_x), fromBigInteger(uncompressed_y)));
 	}	
 
@@ -140,9 +140,9 @@ public class EccP256CurvePoint extends EccCurvePoint {
 		return data;
 	}
 	
-	private static byte[] removeFirstByte(byte[] compressedEncoding) {
+	private static byte[] removeFirstByte(byte[] compressedEncoding) throws IOException {
 		if(compressedEncoding == null || compressedEncoding.length < 1){
-			throw new IllegalArgumentException("Invalid compressed encoding of EccP256CurvePoint");
+			throw new IOException("Invalid compressed encoding of EccP256CurvePoint");
 		}
 		byte[] retval = new byte[compressedEncoding.length -1];
 		System.arraycopy(compressedEncoding, 1, retval, 0,retval.length);
@@ -150,7 +150,7 @@ public class EccP256CurvePoint extends EccCurvePoint {
 	}
 
 
-	private static EccP256CurvePointChoices getChoice(byte[] compressedEncoding) {
+	private static EccP256CurvePointChoices getChoice(byte[] compressedEncoding) throws IOException {
 		if(compressedEncoding[0] == 0x02){
 			return EccP256CurvePointChoices.compressedy0;
 		}
@@ -160,6 +160,6 @@ public class EccP256CurvePoint extends EccCurvePoint {
 		if(compressedEncoding[0] == 0x04){
 			return EccP256CurvePointChoices.uncompressed;
 		}
-		throw new IllegalArgumentException("Invalid Ecc Point compressed encoding");
+		throw new IOException("Invalid Ecc Point compressed encoding");
 	}
 }

@@ -65,12 +65,12 @@ class BasePublicEncryptionKeySpec extends BaseStructSpec {
 	
 	}
 
-	def "Verify that BasePublicEncryptionKey throws IllegalArgumentException for EC384Curve."(){
+	def "Verify that BasePublicEncryptionKey throws IOException for EC384Curve."(){
 		when:
 		new BasePublicEncryptionKey(BasePublicEncryptionKeyChoices.ecdsaNistP256, new EccP384CurvePoint())
 
 		then:
-		def e = thrown IllegalArgumentException
+		def e = thrown IOException
 		e.message == "Invalid BasePublicEncryptionKey value, must be a EccP256CurvePoint."
 	}
 	

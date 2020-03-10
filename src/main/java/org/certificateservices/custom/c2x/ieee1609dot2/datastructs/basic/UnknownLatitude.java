@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 
+import java.io.IOException;
+
 /**
  * Unknown latitude with encoded value of 900000001
  * 
@@ -26,7 +28,7 @@ public class UnknownLatitude extends NinetyDegreeInt {
 	/**
 	 * Constructor used for encoding and decoding.
 	 */
-	public UnknownLatitude(){
+	public UnknownLatitude() throws IOException {
 		super(UNKNOWN);
 	}
 	

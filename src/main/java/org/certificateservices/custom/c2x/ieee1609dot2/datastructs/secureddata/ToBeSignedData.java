@@ -62,7 +62,7 @@ public class ToBeSignedData extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public ToBeSignedData(SignedDataPayload payload, HeaderInfo headerInfo){
+	public ToBeSignedData(SignedDataPayload payload, HeaderInfo headerInfo) throws IOException{
 		super(false,2);
 		init();
 		set(PAYLOAD, payload);

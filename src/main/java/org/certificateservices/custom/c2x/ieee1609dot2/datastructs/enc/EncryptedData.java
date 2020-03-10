@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This data structure encodes data that has been encrypted to one or more recipients using the recipients’ public or symmetric keys as specified in 5.3.4.
  * <p>
@@ -52,7 +54,7 @@ public class EncryptedData extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public EncryptedData(SequenceOfRecipientInfo recipients, SymmetricCiphertext ciphertext){
+	public EncryptedData(SequenceOfRecipientInfo recipients, SymmetricCiphertext ciphertext) throws IOException {
 		super(false,2);
 		init();
 

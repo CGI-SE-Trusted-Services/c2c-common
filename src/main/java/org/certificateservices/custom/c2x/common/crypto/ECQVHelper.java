@@ -18,6 +18,7 @@ import org.bouncycastle.jce.spec.ECPrivateKeySpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
 import org.bouncycastle.math.ec.ECPoint;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccCurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
@@ -62,13 +63,13 @@ public class ECQVHelper {
 	 * @param signerPrivateKey the signing certificate private key.
 	 * @return a newly generated implicit certificate data.
 	 * @throws IOException if communication problems occurred with underlying systems.
-	 * @throws IllegalArgumentException if argument was illegal
+	 * @throws BadArgumentException if argument was illegal
 	 * @throws SignatureException if internal problems occurred generating the reconstruction value.
 	 */
 	public ImplicitCertificateData genImplicitCertificate(ImplicitCertificateData implicitCertData, AlgorithmIndicator alg, ECPublicKey publicKey, 
 			Certificate signerCert,
 			BCECPublicKey signerPublicKey,
-			BCECPrivateKey signerPrivateKey) throws  IOException, IllegalArgumentException, SignatureException{
+			BCECPrivateKey signerPrivateKey) throws  IOException, BadArgumentException, SignatureException{
 
 		try{
 		ToBeSignedCertificate tbs = implicitCertData.getToBeSigned();
@@ -120,8 +121,8 @@ public class ECQVHelper {
 		
 		return implicitCertData;
 		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
+			if(e instanceof BadArgumentException){
+				throw (BadArgumentException) e;
 			}
 			if(e instanceof IOException){
 				throw (IOException) e;
@@ -141,10 +142,10 @@ public class ECQVHelper {
 	 * @return a generate EC Public Key.
 	 * 
 	 * @throws IOException if communication problems occurred with underlying systems.
-	 * @throws IllegalArgumentException if argument was illegal
+	 * @throws BadArgumentException if argument was illegal
 	 * @throws SignatureException if internal problems occurred extracting the public key.
 	 */
-	public BCECPublicKey extractPublicKey(Certificate cert, BCECPublicKey caPublicKey, AlgorithmIndicator alg, Certificate signerCertificate) throws IllegalArgumentException, IOException, SignatureException{
+	public BCECPublicKey extractPublicKey(Certificate cert, BCECPublicKey caPublicKey, AlgorithmIndicator alg, Certificate signerCertificate) throws BadArgumentException, IOException, SignatureException{
 		try{
 		ToBeSignedCertificate tbs = cert.getToBeSigned();
 		ECParameterSpec domainParameters = cryptoManager.getECParameterSpec(alg);
@@ -168,8 +169,8 @@ public class ECQVHelper {
 		
 		return retval;
 		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
+			if(e instanceof BadArgumentException){
+				throw (BadArgumentException) e;
 			}
 			if(e instanceof IOException){
 				throw (IOException) e;
@@ -189,10 +190,10 @@ public class ECQVHelper {
 	 * @param signerCertificate the CA certificate
 	 * @return a generated private key.
 	 * @throws IOException if communication problems occurred with underlying systems.
-	 * @throws IllegalArgumentException if argument was illegal
+	 * @throws BadArgumentException if argument was illegal
 	 * @throws SignatureException if internal problems occurred constructing the certificate private key.
 	 */
-	public ECPrivateKey certReceiption(Certificate cert, BigInteger r, AlgorithmIndicator alg, ECPrivateKey Ku, ECPublicKey signerPublicKey, Certificate signerCertificate) throws IOException, IllegalArgumentException, SignatureException{
+	public ECPrivateKey certReceiption(Certificate cert, BigInteger r, AlgorithmIndicator alg, ECPrivateKey Ku, ECPublicKey signerPublicKey, Certificate signerCertificate) throws IOException, BadArgumentException, SignatureException{
 		try{
 			ToBeSignedCertificate tbs = cert.getToBeSigned();
 			BCECPublicKey caPublicKey = cryptoManager.toBCECPublicKey(alg, signerPublicKey);
@@ -216,8 +217,8 @@ public class ECQVHelper {
 			return privateKey;
 
 		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
+			if(e instanceof BadArgumentException){
+				throw (BadArgumentException) e;
 			}
 			if(e instanceof IOException){
 				throw (IOException) e;
@@ -230,7 +231,7 @@ public class ECQVHelper {
 	/**
 	 * Help method to compute the hash integer value according to ECQV SEC 4 Specification.
 	 */
-	private BigInteger computeHash(byte[] certData, AlgorithmIndicator alg, Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException {
+	private BigInteger computeHash(byte[] certData, AlgorithmIndicator alg, Certificate signerCertificate) throws BadArgumentException, NoSuchAlgorithmException, IOException {
 		ECParameterSpec domainParameters = cryptoManager.getECParameterSpec(alg);
 		
 		

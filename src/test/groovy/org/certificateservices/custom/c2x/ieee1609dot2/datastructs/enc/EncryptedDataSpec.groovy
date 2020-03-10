@@ -62,15 +62,15 @@ class EncryptedDataSpec extends BaseStructSpec {
 		ed2.getCipherText() == sct
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new EncryptedData(null, sct)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new EncryptedData(sri,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

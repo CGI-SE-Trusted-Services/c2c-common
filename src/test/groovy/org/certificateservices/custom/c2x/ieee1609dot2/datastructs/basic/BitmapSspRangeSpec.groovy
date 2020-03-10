@@ -42,27 +42,27 @@ class BitmapSspRangeSpec extends BaseStructSpec {
         when:
         serializeToHex(new BitmapSspRange(sspValue, null))
         then:
-        thrown IllegalArgumentException
+        thrown IOException
         when:
         serializeToHex(new BitmapSspRange(null, sspBitMask))
         then:
-        thrown IllegalArgumentException
+        thrown IOException
         when:
         serializeToHex(new BitmapSspRange(new byte[0], sspBitMask))
         then:
-        thrown IllegalArgumentException
+        thrown IOException
         when:
         serializeToHex(new BitmapSspRange(sspValue,new byte[0]))
         then:
-        thrown IllegalArgumentException
+        thrown IOException
         when:
         serializeToHex(new BitmapSspRange(new byte[33], sspBitMask))
         then:
-        thrown IllegalArgumentException
+        thrown IOException
         when:
         serializeToHex(new BitmapSspRange(sspValue,new byte[33]))
         then:
-        thrown IllegalArgumentException
+        thrown IOException
     }
 
     def "Verify toString"(){

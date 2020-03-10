@@ -16,6 +16,8 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This data structure is used to transfer a 16-byte symmetric key encrypted using ECIES as specified in IEEE Std 1363a-2004. 
  * The type contains the following fields:
@@ -51,14 +53,14 @@ public class EciesP256EncryptedKey extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public EciesP256EncryptedKey(EccP256CurvePoint v, byte[] c, byte[] t){
+	public EciesP256EncryptedKey(EccP256CurvePoint v, byte[] c, byte[] t) throws IOException {
 		super(false,3);
 		init();
 		if(c == null){
-			throw new IllegalArgumentException("Invalid argument, c cannot be null for EciesP256EncryptedKey");
+			throw new IOException("Invalid argument, c cannot be null for EciesP256EncryptedKey");
 		}
 		if(t == null){
-			throw new IllegalArgumentException("Invalid argument, t cannot be null for EciesP256EncryptedKey");
+			throw new IOException("Invalid argument, t cannot be null for EciesP256EncryptedKey");
 		}
 		set(V,v);
 		set(C, new COEROctetStream(c, OCTETSTRING_SIZE, OCTETSTRING_SIZE));

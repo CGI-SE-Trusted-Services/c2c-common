@@ -120,7 +120,7 @@ public class CrlContents extends COERSequence {
 	 * Constructor used when encoding and default version
 	 */
 	public CrlContents(CrlSeries crlSeries, HashedId8 crlCraca,Time32 issueDate, Time32  nextCrl,
-			CrlPriorityInfo priorityInfo, CrlContentsType typeSpecific){
+			CrlPriorityInfo priorityInfo, CrlContentsType typeSpecific) throws IOException{
 		this(DEFAULT_VERSION, crlSeries, crlCraca, issueDate, nextCrl, priorityInfo, typeSpecific);
 	}
 	
@@ -128,7 +128,7 @@ public class CrlContents extends COERSequence {
 	 * Constructor used when encoding
 	 */
 	public CrlContents(int version, CrlSeries crlSeries, HashedId8 crlCraca,Time32 issueDate, Time32  nextCrl,
-			CrlPriorityInfo priorityInfo, CrlContentsType typeSpecific){
+			CrlPriorityInfo priorityInfo, CrlContentsType typeSpecific) throws IOException{
 		super(false,7);
 		init();
 		set(VERSION, new Uint8(version));

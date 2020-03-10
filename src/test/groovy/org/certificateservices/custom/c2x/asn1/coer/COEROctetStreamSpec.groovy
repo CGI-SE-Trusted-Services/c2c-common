@@ -13,7 +13,8 @@
 package org.certificateservices.custom.c2x.asn1.coer
 
 
-import org.bouncycastle.util.encoders.Hex;
+import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 
 import spock.lang.Specification
@@ -58,15 +59,15 @@ class COEROctetStreamSpec extends BaseStructSpec {
 		new COEROctetStream([0x0a,0x0b] as byte[],1,5).getData().length == 2
 	}
 	
-	def "Verify that constuctor throws IllegalArgumentException if data is out of bounds"(){
+	def "Verify that constructor throws IOException if data is out of bounds"(){
 		when:
 		new COEROctetStream([0x0a,0x0b] as byte[], 3,5)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new COEROctetStream([0x0a,0x0b] as byte[], 1,1)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify equals and hashcode"(){

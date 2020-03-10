@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.math.BigInteger;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
@@ -37,7 +38,7 @@ public class Psid extends COERInteger {
 	 * Constructor used when encoding
 	 * @param psidValue the integer value of the psid
 	 */
-	public Psid(long psidValue) {
+	public Psid(long psidValue) throws IllegalArgumentException {
 		super(BigInteger.valueOf(psidValue),BigInteger.ZERO,null);
 	}
 	
@@ -45,8 +46,9 @@ public class Psid extends COERInteger {
 	 * Constructor used when encoding
 	 * @param psidValueHex psid value in hex format
 	 * @throws NumberFormatException if invalid HEX string was given.
+	 * @throws IOException if encoding problems occurred.
 	 */
-	public Psid(String psidValueHex) throws NumberFormatException{
+	public Psid(String psidValueHex) throws IllegalArgumentException, NumberFormatException{
 		super(new BigInteger(psidValueHex, 16),BigInteger.ZERO,null);
 	}
 	

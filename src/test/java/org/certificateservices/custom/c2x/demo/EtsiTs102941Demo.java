@@ -393,7 +393,7 @@ public class EtsiTs102941Demo {
     static ValidityPeriod authTicketValidityPeriod;
 
     static GeographicRegion regionSwe= GeographicRegion.generateRegionForCountrys(Arrays.asList(SWEDEN));
-    static SubjectAssurance subjectAssurance = new SubjectAssurance(1,3);
+    static SubjectAssurance subjectAssurance;
 
     SecureRandom secureRandom = new SecureRandom();
     @BeforeClass
@@ -401,6 +401,7 @@ public class EtsiTs102941Demo {
         signAlg = ecdsaNistP256;
         encAlg = BasePublicEncryptionKey.BasePublicEncryptionKeyChoices.ecdsaNistP256;
         Date timeStamp = dateFormat.parse("20181202 12:12:21");
+        subjectAssurance = new SubjectAssurance(1,3);
 
         cryptoManager = new DefaultCryptoManager();
         cryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"));

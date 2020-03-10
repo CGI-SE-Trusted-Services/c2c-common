@@ -59,7 +59,7 @@ public class SymmetricCiphertext extends COERChoice {
 	/**
 	 * Constructor used when encoding of type aes128ccm
 	 */
-	public SymmetricCiphertext(AesCcmCiphertext cipherText) throws IllegalArgumentException{
+	public SymmetricCiphertext(AesCcmCiphertext cipherText) {
 		super(SymmetricCiphertextChoices.aes128ccm, cipherText);
 	}
 	

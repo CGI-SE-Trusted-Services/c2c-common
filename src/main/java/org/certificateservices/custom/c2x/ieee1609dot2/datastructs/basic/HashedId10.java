@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.bouncycastle.util.encoders.Hex;
 
+import java.io.IOException;
+
 /**
  * This data structure contains the truncated hash of another data structure. The HashedId10 for a given data
  * structure is calculated by calculating the hash of the encoded data structure and taking the low-
@@ -44,9 +46,9 @@ public class HashedId10 extends HashedId {
 	/**
 	 * Constructor used to create a hashedid10 value for a full hash byte array.
 	 * @param fullHashValue the fill hash value.
-	 * @throws IllegalArgumentException if full hash value was shorted that hash length
+	 * @throws IOException if full hash value was shorted that hash length
 	 */
-	public HashedId10(byte[] fullHashValue) throws IllegalArgumentException {
+	public HashedId10(byte[] fullHashValue) throws IOException {
 		super(fullHashValue);
 	}
 

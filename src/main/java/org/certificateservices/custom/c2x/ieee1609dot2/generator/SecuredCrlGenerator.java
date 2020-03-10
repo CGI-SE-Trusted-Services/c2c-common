@@ -17,6 +17,7 @@ import java.security.PrivateKey;
 import java.security.SignatureException;
 import java.util.Map;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
@@ -64,11 +65,11 @@ public class SecuredCrlGenerator extends SecuredDataGenerator{
 	 * @param signerPrivateKey private key of signer.
 	 * @return a signed secured CRL structure.
 	 * 
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred generating the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 */
-	public SecuredCrl genSecuredCrl(CrlContents contents, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+	public SecuredCrl genSecuredCrl(CrlContents contents, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
 		HeaderInfo hi = new HeaderInfo(new CrlPsid(), null, null, null, null, null, null, null,null);
 		return new SecuredCrl(genSignedData(hi, contents.getEncoded(), signerIdentifierType, signerCertificateChain, signerPrivateKey));
 	}
@@ -81,11 +82,11 @@ public class SecuredCrlGenerator extends SecuredDataGenerator{
      * @param trustStore certificates in trust store, must be explicit certificate in order to qualify as trust anchors.
      * @return true if crl signature verifies.
      * 
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 */
-	public boolean verifySecuredCrl(SecuredCrl crl, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws IllegalArgumentException, SignatureException, IOException{
+	public boolean verifySecuredCrl(SecuredCrl crl, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, SignatureException, IOException{
 		return verifySignedData(crl, certStore, trustStore);
 	}
 		

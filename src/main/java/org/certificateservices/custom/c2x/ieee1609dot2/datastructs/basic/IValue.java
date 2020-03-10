@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 
+import java.io.IOException;
+
 /**
  * 16 bit Integer
  * 
@@ -33,7 +35,7 @@ public class IValue extends Uint16 {
 	/**
 	 * Constructor used when encoding
 	 */
-	public IValue(int ivalue) {
+	public IValue(int ivalue) throws IOException {
 		super(ivalue);		
 	}
 	

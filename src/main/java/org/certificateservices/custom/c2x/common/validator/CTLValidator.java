@@ -1,5 +1,6 @@
 package org.certificateservices.custom.c2x.common.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CTL;
@@ -44,7 +45,7 @@ public interface CTLValidator {
      * @param ctlTypes  the set of types to verify and return of CTL to verify and build store for. If DC Points
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCTLException if CTL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
@@ -53,7 +54,7 @@ public interface CTLValidator {
     Map<HashedId8,Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate,
                            Map<HashedId8, Certificate> trustStore, boolean entireChain,
                                                  CtlEntry.CtlEntryChoices[] ctlTypes)
-            throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,
+            throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException;
 
 
@@ -85,7 +86,7 @@ public interface CTLValidator {
      * @param ctlTypes  the set of types to verify and return of CTL to verify and build store for. If DC Points
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCTLException if CTL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
@@ -96,7 +97,7 @@ public interface CTLValidator {
                                                  Map<HashedId8, Certificate> trustStore,
                                                  boolean entireChain,
                                                  CtlEntry.CtlEntryChoices[] ctlTypes)
-            throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,
+            throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException;
 
 }

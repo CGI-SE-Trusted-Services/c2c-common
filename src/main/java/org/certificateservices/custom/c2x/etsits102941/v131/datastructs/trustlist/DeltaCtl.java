@@ -12,8 +12,11 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32;
+
+import java.io.IOException;
 
 /**
  * Class representing DeltaCtl defined in ETSI TS 102 941 Trust List Types
@@ -35,7 +38,7 @@ public class DeltaCtl extends CtlFormat {
 	/**
 	 * Constructor used when encoding
 	 */
-	public DeltaCtl(Version version, Time32 nextUpdate, int ctlSequence, CtlCommand[] ctlCommands){
+	public DeltaCtl(Version version, Time32 nextUpdate, int ctlSequence, CtlCommand[] ctlCommands) throws IOException, BadArgumentException {
 		super(version,nextUpdate,false,ctlSequence,ctlCommands);
 	}
 

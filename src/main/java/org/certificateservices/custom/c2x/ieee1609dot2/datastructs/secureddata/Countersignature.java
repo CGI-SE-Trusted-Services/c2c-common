@@ -40,29 +40,29 @@ public class Countersignature extends Ieee1609Dot2Data {
 	/**
 	 * Constructor used when encoding using default protocol version
 	 */
-	public Countersignature(Ieee1609Dot2Content content) throws IllegalArgumentException{
+	public Countersignature(Ieee1609Dot2Content content) throws IOException{
 		this(DEFAULT_VERSION, content);
 	}
 	
 	/**
 	 * Constructor converting a Ieee1609Dot2Data to a Countersignature and verifies the requirements
 	 */
-	public Countersignature(Ieee1609Dot2Data data) throws IllegalArgumentException{
+	public Countersignature(Ieee1609Dot2Data data) throws IOException{
 		this(data.getProtocolVersion(), data.getContent());
 		
 		if(!fullfillsRequirements(this)){
-			throw new IllegalArgumentException("Error Ieee1609Dot2Data content doesn't fullfill requirments of a Countersignature");
+			throw new IOException("Error Ieee1609Dot2Data content doesn't fullfill requirments of a Countersignature");
 		}
 	}
 	
 	/**
 	 * Constructor used when encoding
 	 */
-	public Countersignature(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException{
+	public Countersignature(int protocolVersion, Ieee1609Dot2Content content) throws IOException{
 		super(protocolVersion,content);
 
 		if(!fullfillsRequirements(this)){
-			throw new IllegalArgumentException("Error Ieee1609Dot2Data content doesn't fullfill requirments of a Countersignature");
+			throw new IOException("Error Ieee1609Dot2Data content doesn't fullfill requirments of a Countersignature");
 		}
 	}
 	

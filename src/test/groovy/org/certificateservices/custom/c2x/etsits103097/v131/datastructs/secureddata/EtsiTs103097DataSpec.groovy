@@ -49,11 +49,11 @@ class EtsiTs103097DataSpec extends BaseStructSpec {
         d.getContent().getType() == unsecuredData
     }
 
-    def "Verify that constructor throws IllegalArgumentException if content type is signedCertificateRequest"(){
+    def "Verify that constructor throws IOException if content type is signedCertificateRequest"(){
         when:
         new EtsiTs103097Data(genSignedCertificateRequest())
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid EtsiTs103097Data cannot have content of type signedCertificateRequest"
     }
 
@@ -65,35 +65,35 @@ class EtsiTs103097DataSpec extends BaseStructSpec {
         d.getContent().getType() == signedData
     }
 
-    def "Verify that constructor throws IllegalArgumentException if content type is signed but headerInfo  have no generationTime"(){
+    def "Verify that constructor throws IOException if content type is signed but headerInfo  have no generationTime"(){
         when:
         new EtsiTs103097Data(genSignedData(null))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data, signed data tbsData headerInfo must have generationTime set."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if content type is signed but headerInfo has p2pcdLearningRequest set."(){
+    def "Verify that constructor throws IOException if content type is signed but headerInfo has p2pcdLearningRequest set."(){
         when:
         new EtsiTs103097Data(genSignedData(new Time64(10000L), new HashedId3(Hex.decode("abc123"))))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data, signed data tbsData headerInfo cannot have p2pcdLearningRequest set."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if content type is signed but headerInfo has missingCrlIdentifier set."(){
+    def "Verify that constructor throws IOException if content type is signed but headerInfo has missingCrlIdentifier set."(){
         when:
         new EtsiTs103097Data(genSignedData(new Time64(10000L), null, genMissingCrlIdentifier()))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data, signed data tbsData headerInfo cannot have missingCrlIdentifier set."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if more than 1 certificate exists for signerInfo"(){
+    def "Verify that constructor throws IOException if more than 1 certificate exists for signerInfo"(){
         when:
         new EtsiTs103097Data(genSignedData(new Time64(10000L), null, null, genCertSigner([genCert(),genCert()])))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data, signed data signer certificate sequence must be of size 1."
     }
 
@@ -105,7 +105,7 @@ class EtsiTs103097DataSpec extends BaseStructSpec {
         d.getContent().getType() == encryptedData
     }
 
-    def "Verify that constructor throws IllegalArgumentException if encrypted data contains recipientInfo with type symmRecipInfo"(){
+    def "Verify that constructor throws IOException if encrypted data contains recipientInfo with type symmRecipInfo"(){
         setup:
         byte[] nounce = Hex.decode("010203040506070809101112")
         byte[] ccmCiphertext = Hex.decode("11121314")
@@ -114,11 +114,11 @@ class EtsiTs103097DataSpec extends BaseStructSpec {
         when:
         new EtsiTs103097Data(genEncryptedData(new RecipientInfo(sRI)))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data, encrypted data recipient cannot be of type: symmRecipInfo"
     }
 
-    def "Verify that constructor throws IllegalArgumentException if encrypted data contains recipientInfo with type rekRecipInfo"(){
+    def "Verify that constructor throws IOException if encrypted data contains recipientInfo with type rekRecipInfo"(){
         setup:
         EccP256CurvePoint v = new EccP256CurvePoint(new BigInteger(123))
         byte[] c = COEREncodeHelper.padZerosToByteArray(new BigInteger(245).toByteArray(),16)
@@ -129,7 +129,7 @@ class EtsiTs103097DataSpec extends BaseStructSpec {
         when:
         new EtsiTs103097Data(genEncryptedData(new RecipientInfo(RecipientInfo.RecipientInfoChoices.rekRecipInfo, pkRecipientInfo)))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data, encrypted data recipient cannot be of type: rekRecipInfo"
     }
 

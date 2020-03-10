@@ -36,18 +36,18 @@ public class EtsiTs103097DataUnsecured extends EtsiTs103097Data {
 
     /**
      * Constructor used when encoding using default protocol version.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataUnsecured(Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataUnsecured(Ieee1609Dot2Content content) throws IOException{
         super(content);
         validateUnsecured();
     }
 
     /**
      * Constructor used when encoding
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataUnsecured(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataUnsecured(int protocolVersion, Ieee1609Dot2Content content) throws IOException{
         super(protocolVersion,content);
         validateUnsecured();
 
@@ -57,16 +57,15 @@ public class EtsiTs103097DataUnsecured extends EtsiTs103097Data {
      * Constructor decoding a Ieee1609Dot2Data from an encoded byte array.
      * @param encodedData byte array encoding of the Ieee1609Dot2Data.
      * @throws IOException   if communication problems occurred during serialization.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataUnsecured(byte[] encodedData) throws IOException, IllegalArgumentException{
+    public EtsiTs103097DataUnsecured(byte[] encodedData) throws IOException{
         super(encodedData);
         validateUnsecured();
     }
 
-    protected void validateUnsecured() throws IllegalArgumentException{
+    protected void validateUnsecured() throws IOException{
         if(getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.unsecuredData){
-            throw new IllegalArgumentException("EtsiTs103097Data with profile Unseured must be of type unsecured.");
+            throw new IOException("EtsiTs103097Data with profile Unseured must be of type unsecured.");
         }
     }
 

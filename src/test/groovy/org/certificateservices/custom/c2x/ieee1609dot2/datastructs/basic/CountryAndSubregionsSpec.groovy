@@ -53,15 +53,15 @@ class CountryAndSubregionsSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that all fields must be set or IllegalArgumentException is thrown when encoding"(){
+	def "Verify that all fields must be set or IOException is thrown when encoding"(){
 		when:
 		new CountryAndSubregions(new CountryOnly(5), null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new CountryAndSubregions(null, seq1)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify toString"(){

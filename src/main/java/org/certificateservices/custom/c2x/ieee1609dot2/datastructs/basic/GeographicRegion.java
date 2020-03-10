@@ -56,7 +56,11 @@ public class GeographicRegion extends COERChoice {
 		private byte[] emptyCOEREncodable;
 
 		GeographicRegionChoices(COEREncodable emptyCOEREncodable){
-			this.emptyCOEREncodable = COEREncodeHelper.serialize(emptyCOEREncodable);
+			try {
+				this.emptyCOEREncodable = COEREncodeHelper.serialize(emptyCOEREncodable);
+			}catch(IOException e){
+				throw new RuntimeException("Error encoding geographic region: " + e.getMessage(),e);
+			}
 		}
 		
 		@Override

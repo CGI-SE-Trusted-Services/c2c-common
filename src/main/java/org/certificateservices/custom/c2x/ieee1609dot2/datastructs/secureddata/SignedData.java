@@ -17,6 +17,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 
+import java.io.IOException;
+
 /**
  * In this structure: 
  * <li>hashId indicates the hash algorithm to be used to generate the hash of the message for signing and verification.
@@ -66,11 +68,11 @@ public class SignedData extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public SignedData(HashAlgorithm hashAlgorithm, ToBeSignedData tbsData, SignerIdentifier signer, Signature signature){
+	public SignedData(HashAlgorithm hashAlgorithm, ToBeSignedData tbsData, SignerIdentifier signer, Signature signature) throws IOException {
 		super(false,4);
 		init();
 		if(hashAlgorithm == null){
-			throw new IllegalArgumentException("Error argument hashAlgorithm cannot be null for SignedData.");
+			throw new IOException("Error argument hashAlgorithm cannot be null for SignedData.");
 		}
 		set(HASHID, new COEREnumeration(hashAlgorithm));
 		set(TBSDATA, tbsData);

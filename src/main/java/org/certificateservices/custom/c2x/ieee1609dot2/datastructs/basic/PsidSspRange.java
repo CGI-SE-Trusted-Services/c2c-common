@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This structure represents the certificate issuing or requesting permissions of the certificate holder 
  * with respect to one particular set of application permissions. In this structure
@@ -45,7 +47,7 @@ public class PsidSspRange extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public PsidSspRange(Psid psid, SspRange ssprange){
+	public PsidSspRange(Psid psid, SspRange ssprange) throws IOException {
 		super(false,2);
 		init();
 		set(PSID, psid);

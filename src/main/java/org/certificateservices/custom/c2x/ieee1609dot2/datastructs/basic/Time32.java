@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -56,7 +57,7 @@ public class Time32 extends Uint32 {
 	/**
 	 * Constructor used when encoding
 	 */
-	public Time32(long elapsedTime){
+	public Time32(long elapsedTime) throws IOException {
 		super(elapsedTime);
 	}
 

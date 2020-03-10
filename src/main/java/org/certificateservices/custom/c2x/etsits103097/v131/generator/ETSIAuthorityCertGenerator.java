@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits103097.v131.generator;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
@@ -73,7 +74,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new self signed certificate with root CA profile.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -89,7 +90,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PrivateKey signPrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 		CertificateId id = new CertificateId(new Hostname(caName));
 		// See 6.4.8 ToBeSignedCertificate - certIssuePermissions for details
 		SubjectPermissions sp = new SubjectPermissions(SubjectPermissionsChoices.all, null);
@@ -126,7 +127,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new self signed certificate with root CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -142,7 +143,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PrivateKey signPrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 
 		return (EtsiTs103097Certificate) super.genRootCA(id,validityPeriod,region,subjectAssurance,appPermissions,
@@ -164,7 +165,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param signPrivateKey private key used to sign this certificate, Required
 	 * @return a new self signed certificate with Trust List Manager profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -175,7 +176,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			byte[] cTLServiceSpecificPermissions,
 			AlgorithmIndicator signingPublicKeyAlgorithm,
 			PublicKey signPublicKey,
-			PrivateKey signPrivateKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PrivateKey signPrivateKey) throws BadArgumentException,  SignatureException, IOException{
 		CertificateId id = new CertificateId(new Hostname(name));
 		ServiceSpecificPermissions ctlSSP = new ServiceSpecificPermissions(ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.opaque,cTLServiceSpecificPermissions);
 		PsidSsp ctlPermissions = new PsidSsp(CTLService,ctlSSP);
@@ -199,7 +200,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param signPrivateKey private key used to sign this certificate, Required
 	 * @return a new self signed certificate with root CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -211,7 +212,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PsidSsp[] appPermissions,
 			AlgorithmIndicator signingPublicKeyAlgorithm,
 			PublicKey signPublicKey,
-			PrivateKey signPrivateKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PrivateKey signPrivateKey) throws BadArgumentException,  SignatureException, IOException{
 
 
 		return (EtsiTs103097Certificate) super.genRootCA(id,validityPeriod,region,subjectAssurance,appPermissions,
@@ -236,7 +237,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new signed certificate with enrollment CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -252,7 +253,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		CertificateId id = new CertificateId(new Hostname(caName));
 
@@ -283,7 +284,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new signed certificate with enrollment CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -299,7 +300,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		CertificateId id = new CertificateId(new Hostname(caName));
         // TODO More specific security management permissions.
@@ -331,7 +332,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param encPublicKeyAlgorithm algorithm used for encryption, null if no encryption key should be included.
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a newly created sub ca certificate.
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -349,7 +350,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		SequenceOfPsidSsp appPermissionsSequence = null;
 		if(appPermissions != null){
@@ -374,7 +375,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	}
 
 	@Override
-	protected Certificate newCertificate(IssuerIdentifier issuerIdentifier, ToBeSignedCertificate tbs,Signature signature){
+	protected Certificate newCertificate(IssuerIdentifier issuerIdentifier, ToBeSignedCertificate tbs,Signature signature) throws IOException{
 		return new EtsiTs103097Certificate(issuerIdentifier,tbs,signature);
 	}
 

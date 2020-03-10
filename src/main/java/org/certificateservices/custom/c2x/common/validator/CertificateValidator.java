@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.common.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
@@ -55,13 +56,13 @@ public interface CertificateValidator {
      * @param certStore a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
     void verifyAndValidate(Certificate certificate, Date checkDate, GeographicRegion checkRegion,
                            EndEntityType targetEndEntityType, Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain) throws IllegalArgumentException,
+                           Map<HashedId8, Certificate> trustStore, boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException;
 
     /**
@@ -96,7 +97,7 @@ public interface CertificateValidator {
      * @param certStore a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
@@ -104,7 +105,7 @@ public interface CertificateValidator {
                            EndEntityType targetEndEntityType, int chainLengthIndex,
                            Map<HashedId8, Certificate> certStore,
                            Map<HashedId8, Certificate> trustStore, boolean entireChain)
-            throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException;
+            throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException;
 
     /**
      * Method that verifies and validates all permissions on a known certificate chain data. The
@@ -135,12 +136,12 @@ public interface CertificateValidator {
      * @param checkRegion the region to check against, if null is region check skipped.
      * @param targetEndEntityType the type of end entity tree to check.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
     void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion,
-                           EndEntityType targetEndEntityType, boolean entireChain) throws IllegalArgumentException,
+                           EndEntityType targetEndEntityType, boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException;
 
 
@@ -176,11 +177,11 @@ public interface CertificateValidator {
      *                         entity certificate should chainLengthIndex be 0, if certificate chain starts with issuer of end entity certificate it should
      *                         be 1 and so on incremented up to root certificate in chain.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
     void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion,
-                           EndEntityType targetEndEntityType, int chainLengthIndex, boolean entireChain) throws IllegalArgumentException,
+                           EndEntityType targetEndEntityType, int chainLengthIndex, boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException;
 }

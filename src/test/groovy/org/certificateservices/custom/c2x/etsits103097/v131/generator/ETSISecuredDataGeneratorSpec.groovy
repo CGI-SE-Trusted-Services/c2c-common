@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits103097.v131.generator
 
 import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097Data
@@ -256,11 +257,11 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 
     }
 
-    def "Verify that genCAMessage throws IllegalArgumentException if SignerIdentifierType is cert_chain"(){
+    def "Verify that genCAMessage throws BadArgumentException if SignerIdentifierType is cert_chain"(){
         when:
         esdg.genCAMessage(new Time64(timeStamp),new SequenceOfHashedId3([new HashedId3("aabasdf".getBytes())]),requestedCertificate,"abc".getBytes(), SecuredDataGenerator.SignerIdentifierType.CERT_CHAIN,signerCertChain[0],signingKey)
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown BadArgumentException
         e.message == "Unsupported signerIdentifierType for CA Message: CERT_CHAIN"
     }
 

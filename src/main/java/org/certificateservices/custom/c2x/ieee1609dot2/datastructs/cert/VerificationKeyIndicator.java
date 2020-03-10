@@ -43,7 +43,7 @@ public class VerificationKeyIndicator extends COERChoice {
 		reconstructionValue;
 
 		@Override
-		public COEREncodable getEmptyCOEREncodable() throws IOException {
+		public COEREncodable getEmptyCOEREncodable()  {
 			if(this == verificationKey){
 				return new PublicVerificationKey();
 			}
@@ -62,14 +62,14 @@ public class VerificationKeyIndicator extends COERChoice {
 	/**
 	 * Constructor used when encoding of type verificationKey
 	 */
-	public VerificationKeyIndicator(PublicVerificationKey value) throws IllegalArgumentException{
+	public VerificationKeyIndicator(PublicVerificationKey value) {
 		super(VerificationKeyIndicatorChoices.verificationKey, value);
 	}
 	
 	/**
 	 * Constructor used when encoding of type reconstructionValue
 	 */
-	public VerificationKeyIndicator(EccCurvePoint value) throws IllegalArgumentException{
+	public VerificationKeyIndicator(EccCurvePoint value) {
 		super(VerificationKeyIndicatorChoices.reconstructionValue, value);
 	}
 

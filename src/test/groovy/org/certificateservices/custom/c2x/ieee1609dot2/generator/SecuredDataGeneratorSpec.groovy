@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
 import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices
@@ -162,12 +163,12 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		when: "Verify that illegal argument is thrown if key is not known"
 		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		
 		when: "Verify  that illegal argument is thrown if symmetric key store is null "
 		sdg.decryptData(enc, null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 	}
 	
 	def "Verify that symmetric key envelope encryption works correctly"(){
@@ -204,7 +205,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		when: "Verify that illegal argument is thrown if key is not known"
 		sdg.decryptData(enc,  sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k3)]))
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 
 			
 	}
@@ -251,10 +252,10 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		then:
 		thrown InvalidKeyException
 		
-		when: "Verify that unknown receiver throws IllegalArgumentException"
+		when: "Verify that unknown receiver throws BadArgumentException"
 		sdg.decryptData(enc, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]))
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		
 		where:
 		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
@@ -306,10 +307,10 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		then:
 		thrown InvalidKeyException
 		
-		when: "Verify that unknown receiver throws IllegalArgumentException"
+		when: "Verify that unknown receiver throws BadArgumentException"
 		sdg.decryptData(enc, sdg.buildRecieverStore([new SignedDataReciever(encKeys2.private, sd2)]))
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		
 		where:
 		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
@@ -358,10 +359,10 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		then:
 		thrown InvalidKeyException
 		
-		when: "Verify that unknown receiver throws IllegalArgumentException"
+		when: "Verify that unknown receiver throws BadArgumentException"
 		sdg.decryptData(enc, sdg.buildRecieverStore([new RekReciever(encKeys2.private, encKeys2.public)]))
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		
 		where:
 		alg << [BasePublicEncryptionKeyChoices.ecdsaNistP256, BasePublicEncryptionKeyChoices.ecdsaBrainpoolP256r1]
@@ -405,20 +406,20 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		when: "Verify that Illegal Argument Exception is thrown if not both missing crl arguments are set"
 		sdg.genHeaderInfo(124L, null, null, null, null, Hex.decode("131415"), null, null, null,null,null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		when:
 		sdg.genHeaderInfo(124L, null, null, null, null, null, 99, null, null,null,null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		
 		when: "Verify that Illegal Argument Exception is thrown if not both encryption key are set"
 		sdg.genHeaderInfo(124L, null, null, null, null, null, null, BasePublicEncryptionKeyChoices.ecdsaNistP256, null,null,null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		when:
 		sdg.genHeaderInfo(124L, null, null, null, null, null, null, null, kp.getPublic(),null,null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 	}
 	
 	
@@ -467,10 +468,10 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		then:
 		r.data == "TestData".getBytes("UTF-8")
 		
-		when: "Verify that decrypt and verify thrown IllegalArgumentException if data is not encrypted but required"
+		when: "Verify that decrypt and verify thrown BadArgumentException if data is not encrypted but required"
 		sdg.decryptAndVerifySignedData(signedData, certStore, trustStore, null, true, true)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		
 		when: "Verify that decrypt and verify returns unencrypted data if enryption and signature isn't required"
 		byte[] ensecured = new Ieee1609Dot2Data(new Ieee1609Dot2Content(Ieee1609Dot2ContentChoices.unsecuredData, new Opaque("TestData".getBytes("UTF-8")))).encoded
@@ -480,10 +481,10 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		r.signerIdentifier == null
 		r.data == "TestData".getBytes("UTF-8")
 		
-		when: "Verify that decrypt and verify thrown IllegalArgumentException for unencrypted data if signature is required"
+		when: "Verify that decrypt and verify thrown BadArgumentException for unencrypted data if signature is required"
 		sdg.decryptAndVerifySignedData(ensecured, certStore, trustStore, null, true, false)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		
 		when: "Verify that decrypt and verify returns decrypted data but doesn't verify data in not required, i.e encrypted data contains unsecuredData"
 		byte[] encDataOnly = sdg.encryptData(alg, ensecured,  [new CertificateRecipient(enrollCert2)] as Recipient[]).encryptedData.encoded
@@ -615,11 +616,11 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 	}
 
 
-	def "Verify that getSignerId throws IllegalArgumentException if SignerIdentifier is self"(){
+	def "Verify that getSignerId throws BadArgumentException if SignerIdentifier is self"(){
 		when:
 		sdg.getSignerId(new SignerIdentifier())
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 	}
 
 	def "Verify that getSignerId returns the included HashedId8 if type is digest"(){

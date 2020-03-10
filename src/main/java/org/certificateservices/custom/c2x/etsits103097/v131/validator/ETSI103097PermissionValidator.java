@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits103097.v131.validator;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.Certificate;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID;
@@ -27,6 +28,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.validator.BasePermissionV
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.DefaultSSPLookup;
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.EmptyDefaultSSPLookup;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -62,11 +64,11 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      * @param targetEndEntityType the target end entity type to validate.
      * @param certificateChain the certificate chain with end entity certificate first.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the specified parameters was invalid.
+     * @throws BadArgumentException if one of the specified parameters was invalid.
      * @throws InvalidCertificateException if certificate chain contained invalid permissions.
      */
     @Override
-    public void checkPermissions(EndEntityType targetEndEntityType, Certificate[] certificateChain, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException {
+    public void checkPermissions(EndEntityType targetEndEntityType, Certificate[] certificateChain, boolean entireChain) throws BadArgumentException, InvalidCertificateException {
         checkPermissions(targetEndEntityType,0,certificateChain, entireChain);
     }
 
@@ -80,11 +82,11 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      *                         be 1 and so on incremented up to root certificate in chain.
      * @param certificateChain the certificate chain with end entity certificate first.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the specified parameters was invalid.
+     * @throws BadArgumentException if one of the specified parameters was invalid.
      * @throws InvalidCertificateException if certificate chain contained invalid permissions.
      */
     @Override
-    public void checkPermissions(EndEntityType targetEndEntityType, int chainLengthIndex, Certificate[] certificateChain, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException {
+    public void checkPermissions(EndEntityType targetEndEntityType, int chainLengthIndex, Certificate[] certificateChain, boolean entireChain) throws BadArgumentException, InvalidCertificateException {
         org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] ieee160CertChain = BaseCertificateValidator.toIEEE1609Certificates(certificateChain);
 
         if (ieee160CertChain.length > 1) {
@@ -107,7 +109,9 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
      */
-    public void checkCertServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions, Certificate[] certificateChain) throws InvalidCertificateException{
+    public void checkCertServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions,
+                                                           Certificate[] certificateChain) throws InvalidCertificateException,
+            BadArgumentException {
         checkAppPermission(ssPVersion,ssPPermissions,certificateChain,AvailableITSAID.SecuredCertificateRequestService.getValueAsLong(), "SecuredCertificateRequestService (623)");
     }
 
@@ -118,9 +122,12 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      * @param ssPVersion the version byte of the SSP Data (Use CRLServicePermissions.VERSION_ constants)
      * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
-    public void checkCRLServicePermissionInAppPermissions(byte ssPVersion, Certificate[] certificateChain) throws InvalidCertificateException{
-        checkAppPermission(ssPVersion,null,certificateChain,AvailableITSAID.CRLService.getValueAsLong(), "CRLService (622)");
+    public void checkCRLServicePermissionInAppPermissions(byte ssPVersion, Certificate[] certificateChain)
+            throws InvalidCertificateException, BadArgumentException {
+        checkAppPermission(ssPVersion,null,certificateChain,AvailableITSAID.CRLService.getValueAsLong(),
+                "CRLService (622)");
     }
 
     /**
@@ -131,8 +138,10 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      * @param ssPPermissions the permission to look up in the SSP Data (Use CTLServicePermission constants)
      * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
-    public void checkCTLServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions,Certificate[] certificateChain) throws InvalidCertificateException{
+    public void checkCTLServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions,
+                                                          Certificate[] certificateChain) throws InvalidCertificateException, BadArgumentException {
         checkAppPermission(ssPVersion,ssPPermissions,certificateChain,AvailableITSAID.CTLService.getValueAsLong(), "CTLService (624)");
     }
 
@@ -148,9 +157,14 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      *                         entity certificate should chainLengthIndex be 0, if certificate chain starts with issuer of end entity certificate it should
      *                         be 1 and so on incremented up to root certificate in chain.
      * @param certificateChain the certificate chain to lookup cert issuer permissions if the first certificate.
+     * @throws IOException if one of the parameter contained invalid data.
      * @throws InvalidCertificateException if no given permissions was found in certificate.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
-    public void checkCertServicePermissionInIssuePermissions(byte ssPVersion, byte ssPPermissions, EndEntityType endEntityType, int chainLengthIndex, Certificate[] certificateChain) throws InvalidCertificateException{
+    public void checkCertServicePermissionInIssuePermissions(byte ssPVersion, byte ssPPermissions,
+                                                             EndEntityType endEntityType, int chainLengthIndex,
+                                                             Certificate[] certificateChain)
+            throws InvalidCertificateException, IOException, BadArgumentException {
         byte[] sspData = new byte[]{ssPVersion,ssPPermissions};
         if(certificateChain.length == 0){
             throw new InvalidCertificateException("Unable to check permissions for empty chain.");
@@ -176,10 +190,13 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      * @param chainLength the current index in the chain evaulation, starts at 0 and is incremented.
      * @param certificate the certificate to check permissions for towards it issuer
      * @param issuer the issuer certificate.
-     * @throws IllegalArgumentException if one of the parameter contained invalid data.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      * @throws InvalidCertificateException if certificate contained invalid permissions.
      */
-    protected void checkPermissions(EndEntityType endEntityType, int chainLength, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate issuer) throws IllegalArgumentException, InvalidCertificateException{
+    protected void checkPermissions(EndEntityType endEntityType, int chainLength,
+                                    org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate,
+                                    org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate issuer)
+            throws BadArgumentException, InvalidCertificateException{
         checkAppPermissions(endEntityType,chainLength,certificate,issuer);
         checkCertIssuePermissions(endEntityType,chainLength,certificate,issuer);
 
@@ -197,9 +214,10 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
      * @param itsAID it ITS AID Service id to check.
      * @param serviceName the name of the service used in error messages.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
      */
-    protected void checkAppPermission(byte ssPVersion, Byte ssPPermissions, Certificate[] certificateChain, long itsAID, String serviceName) throws InvalidCertificateException {
+    protected void checkAppPermission(byte ssPVersion, Byte ssPPermissions, Certificate[] certificateChain, long itsAID, String serviceName) throws InvalidCertificateException, BadArgumentException {
         byte[] sspData;
         if(ssPPermissions != null) {
             sspData = new byte[]{ssPVersion, ssPPermissions};

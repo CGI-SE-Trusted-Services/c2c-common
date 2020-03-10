@@ -69,21 +69,21 @@ public class Ieee1609Dot2Content extends COERChoice {
 	/**
 	 * Constructor used when encoding of type unsecuredData or signedCertificateRequest
 	 */
-	public Ieee1609Dot2Content(Ieee1609Dot2ContentChoices type, Opaque data) throws IllegalArgumentException{
+	public Ieee1609Dot2Content(Ieee1609Dot2ContentChoices type, Opaque data) {
 		super(type, data);
 	}
 	
 	/**
 	 * Constructor used when encoding of type signedData
 	 */
-	public Ieee1609Dot2Content(SignedData data) throws IllegalArgumentException{
+	public Ieee1609Dot2Content(SignedData data) {
 		super(Ieee1609Dot2ContentChoices.signedData, data);
 	}
 
 	/**
 	 * Constructor used when encoding of type encryptedData
 	 */
-	public Ieee1609Dot2Content(EncryptedData data) throws IllegalArgumentException{
+	public Ieee1609Dot2Content(EncryptedData data) {
 		super(Ieee1609Dot2ContentChoices.encryptedData, data);
 	}
 

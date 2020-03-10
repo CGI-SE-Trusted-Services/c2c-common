@@ -58,23 +58,23 @@ class GroupCrlEntrySpec extends BaseStructSpec {
 		gce2.getLinkageSeed2() == ls2
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that BadArgumentException is thrown when encoding if not all fields are set"(){
 		when:
 		new GroupCrlEntry(1, null,ls1,laid2,ls2)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new GroupCrlEntry(1,laid1,null,laid2,ls2)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new GroupCrlEntry(1,laid1,ls1,null,ls2)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new GroupCrlEntry(1,laid1,ls1,laid2,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This structure specifies a circle with its center at center, its radius given in meters, and located
  * tangential to the reference ellipsoid. The indicated region is all the points on the surface of the reference
@@ -42,7 +44,7 @@ public class CircularRegion extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public CircularRegion(TwoDLocation center, int radiusInMeter) throws IllegalArgumentException{
+	public CircularRegion(TwoDLocation center, int radiusInMeter) throws IOException {
 		super(false,2);
 		init();
 		set(CENTER, center);

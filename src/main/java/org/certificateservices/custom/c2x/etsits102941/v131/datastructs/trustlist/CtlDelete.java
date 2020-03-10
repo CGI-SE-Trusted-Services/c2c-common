@@ -56,14 +56,14 @@ public class CtlDelete extends COERChoice {
 	/**
 	 * Constructor used when encoding of type cert
 	 */
-	public CtlDelete(HashedId8 cert) throws IllegalArgumentException{
+	public CtlDelete(HashedId8 cert) {
 		super(CtlDeleteChoices.cert, cert);
 	}
 
 	/**
 	 * Constructor used when encoding of type dc
 	 */
-	public CtlDelete(DcDelete dc) throws IllegalArgumentException{
+	public CtlDelete(DcDelete dc) {
 		super(CtlDeleteChoices.dc, dc);
 	}
 

@@ -16,6 +16,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId10;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32;
 
+import java.io.IOException;
+
 /**
  * In this structure:
  * 
@@ -44,7 +46,7 @@ public class HashBasedRevocationInfo extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public HashBasedRevocationInfo(HashedId10 id, Time32 expiry){
+	public HashBasedRevocationInfo(HashedId10 id, Time32 expiry) throws IOException {
 		super(false,2);
 		init();
 		set(ID, id);

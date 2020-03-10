@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustli
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SequenceOfHashedId8;
 
+import java.io.IOException;
+
 /**
  * Class representing DcEntry defined in ETSI TS 102 941 Trust List Types
  *
@@ -39,7 +41,7 @@ public class DcEntry extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public DcEntry(Url url, SequenceOfHashedId8 cert){
+	public DcEntry(Url url, SequenceOfHashedId8 cert) throws IOException {
 		super(false,2);
 		init();
 

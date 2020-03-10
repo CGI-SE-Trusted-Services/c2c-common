@@ -19,6 +19,7 @@ import java.security.PublicKey;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
@@ -48,7 +49,7 @@ public class RekReciever extends BasePKReceiver {
 	@Override
 	public SecretKey extractDecryptionKey(
 			Ieee1609Dot2CryptoManager cryptoManager, RecipientInfo recipientInfo)
-			throws IllegalArgumentException, GeneralSecurityException{
+			throws BadArgumentException, GeneralSecurityException{
 		PKRecipientInfo pkRecInfo = (PKRecipientInfo) recipientInfo.getValue();
 		byte[] p1Hash = cryptoManager.digest(new byte[0], EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices.eciesNistP256); // Always use hash 256
 		return cryptoManager.ieeeEceisDecryptSymmetricKey2017(pkRecInfo.getEncKey(), privateKey, p1Hash);

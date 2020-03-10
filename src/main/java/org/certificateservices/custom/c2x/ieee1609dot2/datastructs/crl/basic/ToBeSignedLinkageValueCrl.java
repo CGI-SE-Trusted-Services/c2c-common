@@ -16,6 +16,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.IValue;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
+import java.io.IOException;
+
 /**
  * In this structure:
  * <ul>
@@ -49,14 +51,14 @@ public class ToBeSignedLinkageValueCrl extends COERSequence {
 	}
 	
 	/**
-	 * Constructor used when encoding, one of individual or groups must be present or IllegalArgumentException is thrown.
+	 * Constructor used when encoding, one of individual or groups must be present or BadArgumentException is thrown.
 	 */
-	public ToBeSignedLinkageValueCrl(int iRev, int indexWithinI, SequenceOfJMaxGroup individual,SequenceOfGroupCrlEntry groups) throws IllegalArgumentException{
+	public ToBeSignedLinkageValueCrl(int iRev, int indexWithinI, SequenceOfJMaxGroup individual,SequenceOfGroupCrlEntry groups) throws IOException{
 		super(true,4);
 		init();
 		
 		if(individual == null && groups == null){
-			throw new IllegalArgumentException("Error in ToBeSignedLinkageValueCrl both individual and groups cannot be null.");
+			throw new IOException("Error in ToBeSignedLinkageValueCrl both individual and groups cannot be null.");
 		}
 		set(IREV, new IValue(iRev));
 		set(INDEXWITHINI, new Uint8(indexWithinI));

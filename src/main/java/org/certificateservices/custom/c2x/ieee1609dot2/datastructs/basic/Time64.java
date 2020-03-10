@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
@@ -60,7 +61,7 @@ public class Time64 extends Uint64 {
 	 * Constructor used when encoding
 	 * @param elapsedTime he number of (TAI) microseconds since 00:00:00 UTC, 1 January, 2004.
 	 */
-	public Time64(BigInteger elapsedTime){
+	public Time64(BigInteger elapsedTime) throws IOException {
 		super(elapsedTime);
 	}
 

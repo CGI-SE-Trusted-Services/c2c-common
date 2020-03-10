@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.asn1.coer
 
 import org.bouncycastle.asn1.ASN1Boolean
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 
 import spock.lang.IgnoreRest;
@@ -163,11 +164,11 @@ class COERSequenceSpec extends BaseStructSpec {
 		seq1.set(1,  new COERInteger(6))
 	}
 	
-	def "Verify that set throws IllegalArgumentException if required field value is null"(){
+	def "Verify that set throws IOException if required field value is null"(){
 		when:
 		noOptional.set(0, null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	

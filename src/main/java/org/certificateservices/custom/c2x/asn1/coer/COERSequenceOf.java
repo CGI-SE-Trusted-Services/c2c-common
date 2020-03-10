@@ -41,9 +41,13 @@ public class COERSequenceOf implements COEREncodable {
 	 * Constructor used for decoding COER Sequence Of Values
 	 * @param emptyValue a template COEREncodable (containing constraints) that is cloned for each decoded COER encodable object.
 	 */
-	public COERSequenceOf(COEREncodable emptyValue){
+	public COERSequenceOf(COEREncodable emptyValue) {
 		this.emptyValue = emptyValue;
-        emptyValueEncoded = COEREncodeHelper.serialize(emptyValue);
+		try {
+			emptyValueEncoded = COEREncodeHelper.serialize(emptyValue);
+		}catch (IOException e){
+			throw new RuntimeException("Error creating object: " + e.getMessage(),e);
+		}
 		sequenceValues = null;
 	}
 
@@ -143,7 +147,7 @@ public class COERSequenceOf implements COEREncodable {
 				+ Arrays.toString(sequenceValues) + "]";
 	}
 
-	private COEREncodable cloneEmptyValue() {
+	private COEREncodable cloneEmptyValue() throws IOException {
 		return COEREncodeHelper.deserialize(emptyValueEncoded);
 	}
 

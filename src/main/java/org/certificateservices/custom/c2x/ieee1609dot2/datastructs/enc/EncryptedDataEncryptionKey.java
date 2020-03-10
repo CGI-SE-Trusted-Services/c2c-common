@@ -88,7 +88,7 @@ public class EncryptedDataEncryptionKey extends COERChoice {
 	/**
 	 * Constructor used when encoding of type aes128ccm
 	 */
-	public EncryptedDataEncryptionKey(EncryptedDataEncryptionKeyChoices type, EciesP256EncryptedKey key) throws IllegalArgumentException{
+	public EncryptedDataEncryptionKey(EncryptedDataEncryptionKeyChoices type, EciesP256EncryptedKey key) {
 		super(type, key);
 	}
 	

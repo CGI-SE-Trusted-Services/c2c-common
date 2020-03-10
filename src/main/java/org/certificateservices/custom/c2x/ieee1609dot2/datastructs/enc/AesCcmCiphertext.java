@@ -17,6 +17,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Opaque;
 
+import java.io.IOException;
+
 /**
  * This data structure encapsulates an encrypted ciphertext for the AES-CCM symmetric algorithm. 
  * It contains the following fields:
@@ -52,14 +54,14 @@ public class AesCcmCiphertext extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public AesCcmCiphertext(byte[] nounce, byte[] ccmCipherText){
+	public AesCcmCiphertext(byte[] nounce, byte[] ccmCipherText) throws IOException{
 		super(false,2);
 		init();
 		if(nounce == null){
-			throw new IllegalArgumentException("Error nounce value cannot be null in AesCcmCiphertext");
+			throw new IOException("Error nounce value cannot be null in AesCcmCiphertext");
 		}
 		if(ccmCipherText == null){
-			throw new IllegalArgumentException("Error ccmCipherText value cannot be null in AesCcmCiphertext");
+			throw new IOException("Error ccmCipherText value cannot be null in AesCcmCiphertext");
 		}
 		set(NOUNCE, new COEROctetStream(nounce,12,12));
 		set(CCMCIPHERTEXT, new Opaque(ccmCipherText));

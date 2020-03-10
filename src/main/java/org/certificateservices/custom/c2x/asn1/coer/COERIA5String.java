@@ -13,7 +13,9 @@
 package org.certificateservices.custom.c2x.asn1.coer;
 
 import org.bouncycastle.asn1.DERIA5String;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -37,20 +39,20 @@ public class COERIA5String extends COEROctetStream{
 	/**
 	 * Constructor used when encoding a string to IA5String encoded format when the lower and upper bound of the string is known.
 	 */
-	public COERIA5String(String ia5String, Integer lowerBound, Integer upperBound) throws UnsupportedEncodingException {
+	public COERIA5String(String ia5String, Integer lowerBound, Integer upperBound) throws IOException {
 		super(ia5String.getBytes(), lowerBound, upperBound);
 		if(!DERIA5String.isIA5String(ia5String)){
-			throw new IllegalArgumentException("Invalid IA5String characters in string: " + ia5String);
+			throw new IOException("Invalid IA5String characters in string: " + ia5String);
 		}
 	}
 
 	/**
 	 * Constructor used when encoding a string to ia5String format when no size bounds of the string is known.
 	 */
-	public COERIA5String(String ia5String) throws UnsupportedEncodingException {
+	public COERIA5String(String ia5String) throws IOException {
 		super(ia5String.getBytes("UTF-8"));
 		if(!DERIA5String.isIA5String(ia5String)){
-			throw new IllegalArgumentException("Invalid IA5String characters in string: " + ia5String);
+			throw new IOException("Invalid IA5String characters in string: " + ia5String);
 		}
 	}
 

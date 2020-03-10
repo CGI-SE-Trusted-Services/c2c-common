@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
+import java.io.IOException;
+
 /**
  * This data structure contains information that assists devices with limited storage 
  * space in determining which revocation information to retain and which to discard.
@@ -46,7 +48,7 @@ public class CrlPriorityInfo extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public CrlPriorityInfo(Uint8 priority){
+	public CrlPriorityInfo(Uint8 priority) throws IOException {
 		super(true,1);
 		init();
 		set(PRIORITY, priority);

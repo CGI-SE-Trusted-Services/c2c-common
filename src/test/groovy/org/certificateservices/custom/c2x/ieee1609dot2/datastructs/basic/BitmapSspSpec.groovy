@@ -27,11 +27,11 @@ class BitmapSspSpec extends Specification {
         new BitmapSsp(new byte[0]).getData() == new byte[0]
     }
 
-    def "Verify that IllegalArgumentException is thrown for data larger that max size"(){
+    def "Verify that IOException is thrown for data larger that max size"(){
         when:
         new BitmapSsp(new byte[32])
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Error given data to octet stream is larger than maximal value of 31"
     }
 

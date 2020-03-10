@@ -132,19 +132,19 @@ class SecuredCrlSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that constructor throws Exception if content doesn't fullfill requirements"(){
+	def "Verify that constructor throws Exception if content doesn't fulfill requirements"(){
 		when:
 		new SecuredCrl(genUnsecured().getContent())
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new SecuredCrl(4,genUnsecured().getContent())
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new SecuredCrl(genUnsecured())
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new SecuredCrl(genUnsecured().encoded)
 		then:

@@ -51,15 +51,15 @@ class AesCcmCiphertextSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new AesCcmCiphertext(null, ccmCiphertext)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new AesCcmCiphertext(nounce,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

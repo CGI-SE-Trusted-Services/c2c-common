@@ -17,6 +17,7 @@ import java.io.IOException;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 
 /**
  *  This data structure is used to transfer the data encryption key to an individual recipient of an
@@ -52,7 +53,7 @@ public class RecipientInfo extends COERChoice {
 		rekRecipInfo;
 
 		@Override
-		public COEREncodable getEmptyCOEREncodable() throws IOException {
+		public COEREncodable getEmptyCOEREncodable() {
 			switch (this) {
 			case pskRecipInfo:
 				return new PreSharedKeyRecipientInfo();
@@ -75,21 +76,21 @@ public class RecipientInfo extends COERChoice {
 	/**
 	 * Constructor used when encoding of type pskRecipInfo
 	 */
-	public RecipientInfo(PreSharedKeyRecipientInfo keyInfo) throws IllegalArgumentException{
+	public RecipientInfo(PreSharedKeyRecipientInfo keyInfo)  {
 		super(RecipientInfoChoices.pskRecipInfo, keyInfo);
 	}
 	
 	/**
 	 * Constructor used when encoding of type symmRecipInfo
 	 */
-	public RecipientInfo(SymmRecipientInfo keyInfo) throws IllegalArgumentException{
+	public RecipientInfo(SymmRecipientInfo keyInfo) {
 		super(RecipientInfoChoices.symmRecipInfo, keyInfo);
 	}
 	
 	/**
 	 * Constructor used when encoding of types certRecipInfo, signedDataRecipInfo, rekRecipInfo
 	 */
-	public RecipientInfo(RecipientInfoChoices type, PKRecipientInfo keyInfo) throws IllegalArgumentException{
+	public RecipientInfo(RecipientInfoChoices type, PKRecipientInfo keyInfo) {
 		super(type, keyInfo);
 	}
 	

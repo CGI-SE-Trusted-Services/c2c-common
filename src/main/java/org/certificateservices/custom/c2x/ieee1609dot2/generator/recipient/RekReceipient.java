@@ -18,6 +18,7 @@ import java.security.PublicKey;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
@@ -46,7 +47,7 @@ public class RekReceipient extends BasePKRecipient{
 	@Override
 	public RecipientInfo toRecipientInfo(AlgorithmIndicator alg,
 			Ieee1609Dot2CryptoManager cryptoManager, SecretKey encryptionKey)
-			throws IllegalArgumentException, GeneralSecurityException, IOException {
+			throws BadArgumentException, GeneralSecurityException, IOException {
 		
 		byte[] keyHash = cryptoManager.digest(publicKey.getEncoded(), HashAlgorithm.sha256);
 		byte[] p1Hash = cryptoManager.digest(new byte[0], HashAlgorithm.sha256);

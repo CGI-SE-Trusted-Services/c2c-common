@@ -16,6 +16,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CrlSeries;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId3;
 
+import java.io.IOException;
+
 /**
  * This structure may be used to request a CRL that the SSME knows to have been issued but has not yet received. It is provided for 
  * future use and its use is not defined in this version of this standard.
@@ -45,7 +47,7 @@ public class MissingCrlIdentifier extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public MissingCrlIdentifier(HashedId3 cracaid, CrlSeries crlSeries){
+	public MissingCrlIdentifier(HashedId3 cracaid, CrlSeries crlSeries) throws IOException {
 		super(true,2);
 		init();
 		set(CRACAID, cracaid);

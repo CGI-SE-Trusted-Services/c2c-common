@@ -19,6 +19,7 @@ import java.security.PrivateKey;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
@@ -41,14 +42,14 @@ public  abstract class BasePKReceiver implements Receiver {
 	}
 	
 	@Override
-	public HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws IllegalArgumentException, GeneralSecurityException, IOException{		
+	public HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws GeneralSecurityException, IOException{
 		return new HashedId8(getHashedReference(alg, cryptoManager));
 	}
 	
 	@Override
 	public SecretKey extractDecryptionKey(
 			Ieee1609Dot2CryptoManager cryptoManager, RecipientInfo recipientInfo)
-			throws IllegalArgumentException, GeneralSecurityException,
+			throws BadArgumentException, GeneralSecurityException,
 			IOException {
 		PKRecipientInfo pkRecInfo = (PKRecipientInfo) recipientInfo.getValue();
 		
@@ -59,9 +60,13 @@ public  abstract class BasePKReceiver implements Receiver {
 	/**
 	 * Help method to retrieve the hashed reference data used for HashedId8 and deviation.
 	 */
-	protected byte[] getHashedReference(AlgorithmIndicator alg, CryptoManager cryptoManager) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
+	protected byte[] getHashedReference(AlgorithmIndicator alg, CryptoManager cryptoManager) throws NoSuchAlgorithmException, IOException{
 		if(hashReference == null){
-			hashReference = cryptoManager.digest(getReferenceData(), alg);
+			try {
+				hashReference = cryptoManager.digest(getReferenceData(), alg);
+			} catch (BadArgumentException e) {
+				throw new NoSuchAlgorithmException(e.getMessage(),e);
+			}
 		}
 		
 		return hashReference;

@@ -50,12 +50,12 @@ public class CertificateSubjectAttributes extends COERSequence {
 	 */
 	public CertificateSubjectAttributes(CertificateId id,
                                         ValidityPeriod validityPeriod, GeographicRegion region, SubjectAssurance assuranceLevel,
-                                        SequenceOfPsidSsp appPermissions, SequenceOfPsidGroupPermissions certIssuePermissions) throws IllegalArgumentException{
+                                        SequenceOfPsidSsp appPermissions, SequenceOfPsidGroupPermissions certIssuePermissions) throws IOException{
 		super(true,6);
 		init();
 
 		if(appPermissions == null && certIssuePermissions == null){
-			throw new IllegalArgumentException("Invalid CertificateSubjectAttributes one of appPermissions, certIssuePermissions must be present");
+			throw new IOException("Invalid CertificateSubjectAttributes one of appPermissions, certIssuePermissions must be present");
 		}
 
 		set(ID, id);
@@ -79,7 +79,7 @@ public class CertificateSubjectAttributes extends COERSequence {
 		decode(dis);
 	}
 
-	private void init(){
+	private void init() {
 		addField(ID, true, new CertificateId(), null);
 		addField(VALIDITYPERIOD, true, new ValidityPeriod(), null);
 		addField(REGION, true, new GeographicRegion(), null);

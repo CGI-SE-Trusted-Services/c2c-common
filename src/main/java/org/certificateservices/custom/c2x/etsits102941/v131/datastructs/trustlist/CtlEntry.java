@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustli
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoiceEnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 
 import java.io.IOException;
 
@@ -64,35 +65,35 @@ public class CtlEntry extends COERChoice {
 	/**
 	 * Constructor used when encoding of type rca
 	 */
-	public CtlEntry(RootCaEntry rcaEntry) throws IllegalArgumentException{
+	public CtlEntry(RootCaEntry rcaEntry)  {
 		super(CtlEntryChoices.rca, rcaEntry);
 	}
 
 	/**
 	 * Constructor used when encoding of type ea
 	 */
-	public CtlEntry(EaEntry eaEntry) throws IllegalArgumentException{
+	public CtlEntry(EaEntry eaEntry){
 		super(CtlEntryChoices.ea, eaEntry);
 	}
 
 	/**
 	 * Constructor used when encoding of type aa
 	 */
-	public CtlEntry(AaEntry aaEntry) throws IllegalArgumentException{
+	public CtlEntry(AaEntry aaEntry) {
 		super(CtlEntryChoices.aa, aaEntry);
 	}
 
 	/**
 	 * Constructor used when encoding of type dc
 	 */
-	public CtlEntry(DcEntry dcEntry) throws IllegalArgumentException{
+	public CtlEntry(DcEntry dcEntry) {
 		super(CtlEntryChoices.dc, dcEntry);
 	}
 
 	/**
 	 * Constructor used when encoding of type tlm
 	 */
-	public CtlEntry(TlmEntry tlmEntry) throws IllegalArgumentException{
+	public CtlEntry(TlmEntry tlmEntry) {
 		super(CtlEntryChoices.tlm, tlmEntry);
 	}
 
