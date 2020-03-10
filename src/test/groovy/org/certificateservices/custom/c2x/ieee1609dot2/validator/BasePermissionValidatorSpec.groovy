@@ -29,6 +29,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePub
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BitmapSsp
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BitmapSspRange
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Hostname
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PsidSsp
@@ -1021,6 +1022,8 @@ class BasePermissionValidatorSpec extends Specification {
 
             def validityPeriod = genValidityPeriod(m)
 
+            GeographicRegion region = genRegion(m)
+
             CertificateId name = new CertificateId(new Hostname((String) m.name))
             PsidSsp[] appPermissions = genAppPermissions(m.appPermissions)
             PsidGroupPermissions[] certIssuePermissions = genCertIssuePermissions(m.certIssuePermissions)
@@ -1029,7 +1032,7 @@ class BasePermissionValidatorSpec extends Specification {
                 case "tlm":
                     return authorityCertGenerator.genTrustListManagerCert(name, // caName
                             validityPeriod, //ValidityPeriod
-                            null, //GeographicRegion
+                            region, //GeographicRegion
                             null, //Subject Assurance
                             appPermissions,
                             Signature.SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
@@ -1040,7 +1043,7 @@ class BasePermissionValidatorSpec extends Specification {
                 case "rootca":
                     return authorityCertGenerator.genRootCA(name, // caName
                             validityPeriod, //ValidityPeriod
-                            null, //GeographicRegion
+                            region, //GeographicRegion
                             null, //Subject Assurance
                             appPermissions,
                             certIssuePermissions,
@@ -1054,7 +1057,7 @@ class BasePermissionValidatorSpec extends Specification {
                 case "subca":
                     return authorityCertGenerator.genSubCA(name, // CA Name
                             validityPeriod,
-                            null,  //GeographicRegion
+                            region,  //GeographicRegion
                             null, // subject assurance (optional)
                             appPermissions,
                             certIssuePermissions,
@@ -1071,7 +1074,7 @@ class BasePermissionValidatorSpec extends Specification {
                     return enrollmentCredentialCertGenerator.genEnrollCredential(
                             (String) m.name, // unique identifier name
                             validityPeriod,
-                            null,
+                            region,
                             null,
                             appPermissions,
                             Signature.SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
@@ -1086,7 +1089,7 @@ class BasePermissionValidatorSpec extends Specification {
                 case "at":
                    return authorizationTicketGenerator.genAuthorizationTicket(
                             validityPeriod,
-                            null,
+                            region,
                             null,
                             appPermissions,
                             Signature.SignatureChoices.ecdsaNistP256Signature, //signingPublicKeyAlgorithm
@@ -1181,6 +1184,15 @@ class BasePermissionValidatorSpec extends Specification {
         Duration duration = m.durationUnit ? new Duration(Duration.DurationChoices.valueOf((String) m.durationUnit),
                 (int) m.duration) : new Duration(Duration.DurationChoices.years,45)
         return new ValidityPeriod(new Time32(startDate), duration)
+    }
+
+    private static GeographicRegion genRegion(Map m){
+        List<Integer> regions = (List<Integer>) m.region
+        if(regions == null){
+            return null
+        }else{
+            return GeographicRegion.generateRegionForCountrys(regions)
+        }
     }
 
     static class TestDefaultSSPLookup implements DefaultSSPLookup{

@@ -263,4 +263,15 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
         result[testPKI1.rca1_aa2.asHashedId8(cryptoManager)] == testPKI1.rca1_aa2
         result[testPKI1.rca1_ea2.asHashedId8(cryptoManager)] == null
     }
+
+
+    def "Verify that CTL contains not valid country code."(){
+        GeographicRegion region = GeographicRegion.generateRegionForCountrys([100])
+        Map<HashedId8, Certificate> trustStoreRegion = securedDataGenerator.buildCertStore([testPKI1.rootca4]) // 752=sweden in the store
+        when:
+        def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA4Ctl, testPKI1.deltaRootCA4Ctl, validDate, region, trustStoreRegion, true, eaAndAATypes)
+        then:
+        def e = thrown(InvalidCTLException)
+        e.message == "Error validating certificate chain of full CTL: Invalid set of countryOnly ids in certificate."
+    }
 }

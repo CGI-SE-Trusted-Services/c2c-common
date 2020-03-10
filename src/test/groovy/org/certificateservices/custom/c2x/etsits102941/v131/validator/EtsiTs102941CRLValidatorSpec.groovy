@@ -14,16 +14,26 @@ package org.certificateservices.custom.c2x.etsits102941.v131.validator
 
 import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
+import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams
 import org.certificateservices.custom.c2x.common.validator.CertificateRevokedException
 import org.certificateservices.custom.c2x.common.validator.InvalidCRLException
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CRL
 import org.certificateservices.custom.c2x.etsits102941.v131.generator.ETSITS102941MessagesCaGenerator
 import org.certificateservices.custom.c2x.etsits102941.v131.util.TestPKI1
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate
+import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSIAuthorityCertGenerator
 import org.certificateservices.custom.c2x.etsits103097.v131.validator.ETSI103097CertificateValidator
+import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmAlgorithm
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.ValidityPeriod
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.BasePermissionValidatorSpec
@@ -158,9 +168,21 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
 
     def "Verify that CRL is self signed and accept all country code."(){
         GeographicRegion region = GeographicRegion.generateRegionForCountrys([1, 2, 3, 4, 5, 6, 7, 8, 9])
+
         when:
         etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, validDate, region, trustStore, true)
         then:
         true
+    }
+
+
+    def "Verify that CRL contains not valid country code."(){
+        GeographicRegion region = GeographicRegion.generateRegionForCountrys([100])
+        Map<HashedId8, Certificate> trustStoreRegion = securedDataGenerator.buildCertStore([testPKI1.rootca4]) // 752=sweden in the store
+        when:
+        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA4Crl, testPKI1.rca1_ea2, validDate, region, trustStoreRegion, true)
+        then:
+        def e = thrown InvalidCRLException
+        e.message == "Error validating certificate chain of CRL: Invalid set of countryOnly ids in certificate."
     }
 }
