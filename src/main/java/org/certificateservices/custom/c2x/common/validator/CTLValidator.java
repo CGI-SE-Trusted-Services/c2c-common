@@ -56,9 +56,6 @@ public interface CTLValidator {
     Map<HashedId8,Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate,
                                                  GeographicRegion checkRegion, Map<HashedId8, Certificate> trustStore,
                                                  boolean entireChain, CtlEntry.CtlEntryChoices[] ctlTypes)
-            throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain,
-                                                 CtlEntry.CtlEntryChoices[] ctlTypes)
             throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException;
 

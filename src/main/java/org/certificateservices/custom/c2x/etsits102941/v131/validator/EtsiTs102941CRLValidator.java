@@ -97,10 +97,8 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      * @throws CertificateRevokedException if related certificate was revoked.
      */
     @Override
-    public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, Map<HashedId8, Certificate> trustStore, boolean entireChain) throws BadArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
-        verifyAndValidate(crl,certificate != null ? toHashedId8(certificate) : null,checkDate,null,trustStore,entireChain);
     public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, GeographicRegion checkRegion, Map<HashedId8, Certificate> trustStore, boolean entireChain)
-            throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
+            throws BadArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
 
         verifyAndValidate(crl, certificate != null ? toHashedId8(certificate) : null, checkDate, checkRegion, null, trustStore, entireChain);
     }

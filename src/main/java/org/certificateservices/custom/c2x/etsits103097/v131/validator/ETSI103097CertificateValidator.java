@@ -264,10 +264,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
         }
         Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> trustStore;
         try {
-            trustStore = etsiTs102941CTLValidator.verifyAndValidate(fullTLMCTL, deltaTLMCTL, checkDate, tlmTrustStore, entireChain, ROOTCA_ENTRIES);
             trustStore = etsiTs102941CTLValidator.verifyAndValidate(fullTLMCTL, deltaTLMCTL, checkDate, checkRegion, tlmTrustStore, entireChain, ROOTCA_ENTRIES);
-        }catch(IllegalArgumentException e){
-            throw new InvalidCTLException("Invalid ECTL: " + e.getMessage(), e);
         }catch(InvalidCTLException e){
             throw new InvalidCTLException("Invalid ECTL: " + e.getMessage(), e);
         }catch(InvalidCertificateException e){
