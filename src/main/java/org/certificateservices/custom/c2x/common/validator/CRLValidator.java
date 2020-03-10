@@ -43,17 +43,17 @@ public interface CRLValidator {
      * @param crl the CRL to verify, validate and check if specified certificate is revoked.
      * @param certificate the certificate to check if revoked. If null is revocation not checked.
      * @param checkDate the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only CRL.
-     * @param region the region to be checked
      * @throws IllegalArgumentException if one of the parameters where invalid.
      * @throws InvalidCRLException if CRL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws CertificateRevokedException if related certificate was revoked.
      */
-    void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain, GeographicRegion region)
+    void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, GeographicRegion checkRegion,
+                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
             throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException;
 
 
@@ -82,17 +82,17 @@ public interface CRLValidator {
      * @param crl the CRL to verify, validate and check if specified certificate is revoked.
      * @param certificateId the certificate id to check if revoked. If null is revocation not checked.
      * @param checkDate the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only CRL.
-     * @param region the region to be checked
      * @throws IllegalArgumentException if one of the parameters where invalid.
      * @throws InvalidCRLException if CRL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws CertificateRevokedException if related certificate was revoked.
      */
-    void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain, GeographicRegion region)
+    void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate, GeographicRegion checkRegion,
+                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
             throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException;
 
     /**
@@ -121,19 +121,19 @@ public interface CRLValidator {
      * @param crl the CRL to verify, validate and check if specified certificate is revoked.
      * @param certificateId the certificate id to check if revoked. If null is revocation not checked.
      * @param checkDate the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param certStore a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @param region the region to be checked
      * @throws IllegalArgumentException if one of the parameters where invalid.
      * @throws InvalidCRLException if CRL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      @throws CertificateRevokedException if related certificate was revoked.
      */
-    void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate,
+    void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate, GeographicRegion checkRegion,
                            Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain, GeographicRegion region)
+                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
             throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException,
             NoSuchAlgorithmException, CertificateRevokedException;
 
@@ -163,19 +163,19 @@ public interface CRLValidator {
      * @param crl the CRL to verify, validate and check if specified certificate is revoked.
      * @param certificate the certificate to check if revoked. If null is revocation not checked.
      * @param checkDate the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param certStore a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @param region the region to be checked
      * @throws IllegalArgumentException if one of the parameters where invalid.
      * @throws InvalidCRLException if CRL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      @throws CertificateRevokedException if related certificate was revoked.
      */
-    void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate,
+    void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, GeographicRegion checkRegion,
                            Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain, GeographicRegion region)
+                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
             throws IllegalArgumentException, InvalidCRLException, InvalidCertificateException,
             NoSuchAlgorithmException, CertificateRevokedException;
 }

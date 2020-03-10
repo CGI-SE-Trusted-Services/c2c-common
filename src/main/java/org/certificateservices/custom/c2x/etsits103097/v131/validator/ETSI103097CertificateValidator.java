@@ -259,7 +259,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
         }
         Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> trustStore;
         try {
-            trustStore = etsiTs102941CTLValidator.verifyAndValidate(fullTLMCTL, deltaTLMCTL, checkDate, tlmTrustStore, entireChain, ROOTCA_ENTRIES);
+            trustStore = etsiTs102941CTLValidator.verifyAndValidate(fullTLMCTL, deltaTLMCTL, checkDate, checkRegion, tlmTrustStore, entireChain, ROOTCA_ENTRIES);
         }catch(IllegalArgumentException e){
             throw new InvalidCTLException("Invalid ECTL: " + e.getMessage(), e);
         }catch(InvalidCTLException e){
@@ -383,10 +383,10 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
             throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException, InvalidCTLException, CertificateRevokedException, InvalidCRLException {
 
         Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> certStore = etsiTs102941CTLValidator.verifyAndValidate(fullRootCACTL,
-                deltaRootCACTL,checkDate, trustStore, entireChain, ctlTypes);
+                deltaRootCACTL,checkDate, checkRegion, trustStore, entireChain, ctlTypes);
         org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] certChain = buildCertChain(certificate, certStore, trustStore);
         if(rootCACRL != null && certChain.length > 1) {
-            etsiTs102941CRLValidator.verifyAndValidate(rootCACRL, certChain[certChain.length-2], checkDate, trustStore, entireChain, checkRegion);
+            etsiTs102941CRLValidator.verifyAndValidate(rootCACRL, certChain[certChain.length-2], checkDate, checkRegion, trustStore, entireChain);
         }
         verifyAndValidate(certChain,checkDate,checkRegion,targetEndEntityType,chainLengthIndex,entireChain);
     }

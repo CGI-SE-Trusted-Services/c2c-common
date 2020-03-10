@@ -1,5 +1,6 @@
 package org.certificateservices.custom.c2x.common.validator;
 
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CTL;
@@ -39,6 +40,7 @@ public interface CTLValidator {
      * @param fullCTL the full CTL to verify.
      * @param deltaCTL the delta CTL to verify, use null if no delta CTL is available.
      * @param checkDate the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only CRL.
      * @param ctlTypes  the set of types to verify and return of CTL to verify and build store for. If DC Points
@@ -51,8 +53,8 @@ public interface CTLValidator {
      * @throws CertificateRevokedException if related certificate was revoked.
      */
     Map<HashedId8,Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain,
-                                                 CtlEntry.CtlEntryChoices[] ctlTypes)
+                                                 GeographicRegion checkRegion, Map<HashedId8, Certificate> trustStore,
+                                                 boolean entireChain, CtlEntry.CtlEntryChoices[] ctlTypes)
             throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException;
 
@@ -79,6 +81,7 @@ public interface CTLValidator {
      * @param fullCTL the full CTL to verify.
      * @param deltaCTL the delta CTL to verify, use null if no delta CTL is available.
      * @param checkDate the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param certStore a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only CRL.
@@ -91,7 +94,7 @@ public interface CTLValidator {
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws CertificateRevokedException if related certificate was revoked.
      */
-    Map<HashedId8,Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate,
+    Map<HashedId8,Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate, GeographicRegion checkRegion,
                                                  Map<HashedId8, Certificate> certStore,
                                                  Map<HashedId8, Certificate> trustStore,
                                                  boolean entireChain,

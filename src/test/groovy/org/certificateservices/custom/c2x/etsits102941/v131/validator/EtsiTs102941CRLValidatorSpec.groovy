@@ -69,14 +69,14 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
 
     def "Verify that unrevoked certificate in valid CRL doesn't throw any exceptions"(){
         when:
-        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, validDate, trustStore, true)
+        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, validDate, null, trustStore, true)
         then:
         true
     }
 
     def "Verify that revoked certificate throws CertificateRevokedException"(){
         when:
-        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea1, validDate, trustStore, true)
+        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea1, validDate, null, trustStore, true)
         then:
         def e = thrown CertificateRevokedException
         String certId = new String(Hex.encode(testPKI1.rca1_ea1.asHashedId8(cryptoManager).data))
@@ -87,7 +87,7 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
         setup:
         def notYetValid = simpleDateFormat.parse("2020-02-07 10:11:30")
         when:
-        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, notYetValid, trustStore, true)
+        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, notYetValid, null, trustStore, true)
         then:
         def e = thrown InvalidCRLException
         e.message == "Invalid CRL, not yet valid."
@@ -97,7 +97,7 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
         setup:
         def expired = simpleDateFormat.parse("2020-03-09 10:11:30")
         when:
-        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, expired, trustStore, true)
+        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, expired, null, trustStore, true)
         then:
         def e = thrown InvalidCRLException
         e.message == "CRL is expired."
@@ -107,7 +107,7 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
         setup:
         def invalidTrustStore = securedDataGenerator.buildCertStore([testPKI1.rootca2])
         when:
-        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, validDate, invalidTrustStore, true)
+        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, validDate, null, invalidTrustStore, true)
         then:
         def e = thrown InvalidCRLException
         e.message =~ "RootCA not trusted"
@@ -125,7 +125,7 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
 
         )
         when:
-        etsiTs102941CRLValidator.verifyAndValidate(crl, testPKI1.rca1_ea2, checkDate, trustStore, true)
+        etsiTs102941CRLValidator.verifyAndValidate(crl, testPKI1.rca1_ea2, checkDate, null, trustStore, true)
         then:
         def e = thrown InvalidCRLException
         e.message == "Error validating certificate chain of CRL: Invalid certificate in chain, not yet valid."
@@ -133,7 +133,7 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
 
     def "Verify that CRL signing certificate is checked for signing permissions"(){
         when:
-        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA3Crl, testPKI1.rca3_ea1, validDate, trustStore, true)
+        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA3Crl, testPKI1.rca3_ea1, validDate, null, trustStore, true)
         then:
         def e = thrown InvalidCRLException
         e.message == "Error validating certificate chain of CRL: Couldn't find permission for CRLService (622): 01 in certificate."
@@ -148,11 +148,9 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
                                       signerKey  : testPKI1.rootCA2SigningKeys
         ])
         when:
-        etsiTs102941CRLValidator.verifyAndValidate(crl, testPKI1.rca3_ea1, validDate, trustStore, true)
+        etsiTs102941CRLValidator.verifyAndValidate(crl, testPKI1.rca3_ea1, validDate, null, trustStore, true)
         then:
         def e = thrown InvalidCRLException
         e.message == "Couldn't verify the CRL."
     }
-
-
 }

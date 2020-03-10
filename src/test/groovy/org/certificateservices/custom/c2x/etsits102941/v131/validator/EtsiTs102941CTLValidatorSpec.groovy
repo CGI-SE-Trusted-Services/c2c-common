@@ -73,14 +73,14 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
 
     def "Verify that valid CTLs with full CTL returns  generated certStore"(){
         when:
-        def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, validDate, trustStore, true, eaAndAATypes)
+        def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, validDate, null, trustStore, true, eaAndAATypes)
         then:
         result.size() == 3
         result[testPKI1.rca1_ea1.asHashedId8(cryptoManager)] == testPKI1.rca1_ea1
         result[testPKI1.rca1_aa1.asHashedId8(cryptoManager)] == testPKI1.rca1_aa1
         result[testPKI1.rca1_ea2.asHashedId8(cryptoManager)] == testPKI1.rca1_ea2
         when:
-        result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, validDate, trustStore, true, eaStoreTypes)
+        result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, validDate, null, trustStore, true, eaStoreTypes)
         then:
         result.size() == 2
         result[testPKI1.rca1_ea1.asHashedId8(cryptoManager)] == testPKI1.rca1_ea1
@@ -89,7 +89,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
 
     def "Verify that valid CTLs with full CTL and delta returns only valid certificates in generated certStore"(){
         when:
-        def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, validDate, trustStore, true, eaAndAATypes)
+        def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, validDate, null, trustStore, true, eaAndAATypes)
         then:
         result.size() == 3
         result[testPKI1.rca1_aa2.asHashedId8(cryptoManager)] == testPKI1.rca1_aa2
@@ -98,12 +98,12 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
 
     def "Verify that type of CRL is checked against what is expected"(){
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.deltaRootCA1Ctl, validDate, null,  trustStore, true, eaAndAATypes, true, true)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.deltaRootCA1Ctl, validDate, null, null,  trustStore, true, eaAndAATypes, true, true)
         then:
         def e = thrown(InvalidCTLException)
         e.message == "Invalid CTL type, expected full but CTL was of type: delta"
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, validDate, null,  trustStore, true, eaAndAATypes, false, true)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, validDate,null, null,  trustStore, true, eaAndAATypes, false, true)
         then:
         e = thrown(InvalidCTLException)
         e.message == "Invalid CTL type, expected delta but CTL was of type: full"
@@ -126,7 +126,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
                                   signerKey: testPKI1.rootCA2SigningKeys
         ])
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(fullCtl, null, validDate, trustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(fullCtl, null, validDate,null,  trustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message == "Couldn't verify the full CTL."
@@ -150,7 +150,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
                                signerKey: testPKI1.rootCA2SigningKeys
         ])
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, deltaCtl, validDate, trustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, deltaCtl, validDate, null, trustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message == "Couldn't verify the delta CTL."
@@ -161,7 +161,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
         setup:
         def invalidTrustStore = securedDataGenerator.buildCertStore([ testPKI1.rootca2, testPKI1.rootca3])
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, validDate, invalidTrustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, validDate, null, invalidTrustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message =~ "CTL Issuer not trusted:"
@@ -185,7 +185,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
                                 signerKey: testPKI1.rootCA1SigningKeys
         ])
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, deltaCtl, validDate, trustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, deltaCtl, validDate, null, trustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message == "Error deltaCTL sequence doesn't match sequence in full CTL."
@@ -209,7 +209,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
                                 signerKey: testPKI1.rootCA2SigningKeys
         ])
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, deltaCtl, validDate, trustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, deltaCtl, validDate, null, trustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message == "Full CTL and delta CTL signerIdentifiers doesn't match."
@@ -219,7 +219,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
         setup:
         def expiredDate = simpleDateFormat.parse("2020-02-10 10:11:10")
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, expiredDate, trustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, expiredDate, null, trustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message == "full CTL is expired."
@@ -228,7 +228,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
     def "Verify that InvalidCTLException is thrown if deltaCTL have expired"(){
         def expiredDate = simpleDateFormat.parse("2020-02-09 10:11:10")
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, expiredDate, trustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, expiredDate, null, trustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message == "delta CTL is expired."
@@ -238,7 +238,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
         setup:
         def checkDate = simpleDateFormat.parse("2010-03-01 10:11:10")
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, checkDate, trustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, checkDate, null, trustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message =~ "Error validating certificate chain of full CTL"
@@ -246,7 +246,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
 
     def "Verify that InvalidCTLException is thrown if signing certificate doesn't have permissions."(){
         when:
-        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA3Ctl, null, validDate, trustStore, true, eaAndAATypes)
+        etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA3Ctl, null, validDate, null, trustStore, true, eaAndAATypes)
         then:
         def e = thrown(InvalidCTLException)
         e.message == "Error validating certificate chain of full CTL: Couldn't find permission for CTLService (624): 0130 in certificate."

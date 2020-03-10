@@ -86,6 +86,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      * @param fullCTL     the full CTL to verify.
      * @param deltaCTL    the delta CTL to verify, use null if no delta CTL is available.
      * @param checkDate   the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param trustStore  a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only CRL.
      * @param ctlTypes  the set of types to verify and return of CTL to verify and build store for. If DC Points
@@ -98,10 +99,11 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      */
     @Override
     public Map<HashedId8, Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
-                                                         Date checkDate, Map<HashedId8, Certificate> trustStore,
+                                                         Date checkDate, GeographicRegion checkRegion,
+                                                         Map<HashedId8, Certificate> trustStore,
                                                          boolean entireChain, CtlEntry.CtlEntryChoices[] ctlTypes)
             throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
-        return verifyAndValidate(fullCTL, deltaCTL, checkDate, null, trustStore, entireChain, ctlTypes);
+        return verifyAndValidate(fullCTL, deltaCTL, checkDate, checkRegion,null, trustStore, entireChain, ctlTypes);
     }
 
     /**
@@ -126,12 +128,14 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      * @param fullCTL     the full CTL to verify.
      * @param deltaCTL    the delta CTL to verify, use null if no delta CTL is available.
      * @param checkDate   the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param certStore   a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore  a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only CRL.
      * @param ctlTypes  the set of types to verify and return of CTL to verify and build store for. If DC Points
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
+     * @param region the region to be checked
      * @throws IllegalArgumentException    if one of the parameters where invalid.
      * @throws InvalidCTLException         if CTL was not verifiable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
@@ -139,7 +143,8 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      */
     @Override
     public Map<HashedId8, Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
-                                                         Date checkDate, Map<HashedId8, Certificate> certStore,
+                                                         Date checkDate, GeographicRegion checkRegion,
+                                                         Map<HashedId8, Certificate> certStore,
                                                          Map<HashedId8, Certificate> trustStore, boolean entireChain,
                                                          CtlEntry.CtlEntryChoices[] ctlTypes)
             throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
@@ -158,12 +163,12 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
             throw new InvalidCTLException("CTL Issuer not trusted: " + e.getMessage(),e);
         }
 
-        VerifyCTLResult fullResult = verifyAndValidate(fullCTL, checkDate, certStore, trustStore,
-                entireChain,ctlTypes,true,true, null);
+        VerifyCTLResult fullResult = verifyAndValidate(fullCTL, checkDate, checkRegion, certStore, trustStore,
+                entireChain,ctlTypes,true,true);
 
         if(deltaCTL != null){
-            VerifyCTLResult deltaResult = verifyAndValidate(deltaCTL, checkDate, certStore, trustStore,
-                    entireChain,ctlTypes,false,false, null);
+            VerifyCTLResult deltaResult = verifyAndValidate(deltaCTL, checkDate, checkRegion, certStore, trustStore,
+                    entireChain,ctlTypes,false,false);
 
             if(deltaResult.ctlFormat.getCtlSequence() != fullResult.ctlFormat.getCtlSequence()){
                 throw new InvalidCTLException("Error deltaCTL sequence doesn't match sequence in full CTL.");
@@ -201,6 +206,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      *
      * @param cTL     the cTL to verify.
      * @param checkDate   the date to check validity of CRL and its certificate chain against.
+     * @param checkRegion the region to check against, if null is region check skipped.
      * @param certStore   a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore  a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only CRL.
@@ -209,17 +215,18 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      *                  generated cert store.
      * @param expectFull if a full CTL is expected
      * @param verifyChain if the signing certificate and it's chain should be verified.
-     * @param region the region to be checked
      * @throws IllegalArgumentException    if one of the parameters where invalid.
      * @throws InvalidCTLException         if CTL was not verifiable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
      */
     public VerifyCTLResult verifyAndValidate(EtsiTs102941CTL cTL,
-                                             Date checkDate, Map<HashedId8, Certificate> certStore,
-                                             Map<HashedId8, Certificate> trustStore, boolean entireChain,
+                                             Date checkDate, GeographicRegion checkRegion,
+                                             Map<HashedId8, Certificate> certStore,
+                                             Map<HashedId8, Certificate> trustStore,
+                                             boolean entireChain,
                                              CtlEntry.CtlEntryChoices[] ctlTypes,
-                                             boolean expectFull, boolean verifyChain, GeographicRegion region)
+                                             boolean expectFull, boolean verifyChain)
             throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
 
         if(certStore == null){
@@ -246,7 +253,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
                 Map<HashedId8, Certificate> inCRLCertStore = securedDataGenerator.getSignedDataStore(cTLSignerIdentifier);
                 Certificate[] certChain = certChainBuilder.buildChain(getSignerId(cTLSignerIdentifier), inCRLCertStore, certStore, trustStore);
 
-                certificateValidator.verifyAndValidate(certChain, checkDate, region, new EndEntityType(true, true), entireChain);
+                certificateValidator.verifyAndValidate(certChain, checkDate, checkRegion, new EndEntityType(true, true), entireChain);
                 certificateValidator.checkCTLServicePermissionInAppPermissions(CTLServicePermissions.VERSION_1, CTLServicePermissions.getPermissions(ctlTypes), certChain);
             }
         } catch (IOException e) {
