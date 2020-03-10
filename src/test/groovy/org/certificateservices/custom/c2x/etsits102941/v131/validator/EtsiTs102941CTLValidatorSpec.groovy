@@ -18,6 +18,7 @@ import org.certificateservices.custom.c2x.common.validator.InvalidCTLException
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry
 import org.certificateservices.custom.c2x.etsits102941.v131.util.TestPKI1
 import org.certificateservices.custom.c2x.etsits103097.v131.validator.ETSI103097CertificateValidator
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
@@ -252,4 +253,14 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
         e.message == "Error validating certificate chain of full CTL: Couldn't find permission for CTLService (624): 0130 in certificate."
     }
 
+
+    def "Verify that CTL is self signed and accept all country code."(){
+        GeographicRegion region = GeographicRegion.generateRegionForCountrys([1, 2, 3, 4,5 , 6, 7, 8, 9])
+        when:
+        def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, validDate, region, trustStore, true, eaAndAATypes)
+        then:
+        result.size() == 3
+        result[testPKI1.rca1_aa2.asHashedId8(cryptoManager)] == testPKI1.rca1_aa2
+        result[testPKI1.rca1_ea2.asHashedId8(cryptoManager)] == null
+    }
 }

@@ -20,6 +20,7 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlis
 import org.certificateservices.custom.c2x.etsits102941.v131.generator.ETSITS102941MessagesCaGenerator
 import org.certificateservices.custom.c2x.etsits102941.v131.util.TestPKI1
 import org.certificateservices.custom.c2x.etsits103097.v131.validator.ETSI103097CertificateValidator
+import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
@@ -152,5 +153,14 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
         then:
         def e = thrown InvalidCRLException
         e.message == "Couldn't verify the CRL."
+    }
+
+
+    def "Verify that CRL is self signed and accept all country code."(){
+        GeographicRegion region = GeographicRegion.generateRegionForCountrys([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        when:
+        etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA1Crl, testPKI1.rca1_ea2, validDate, region, trustStore, true)
+        then:
+        true
     }
 }
