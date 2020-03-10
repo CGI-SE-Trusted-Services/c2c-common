@@ -113,16 +113,16 @@ public class SspRange extends COERChoice {
 	 * @param choice type of SspRange
 	 * @param data SequenceOfOctetString used if type is opaque, BitmapSspRange if type is bitmapSspRange, otherwise use null.
 	 */
-	public SspRange(SspRangeChoices choice, COEREncodable data) {
+	public SspRange(SspRangeChoices choice, COEREncodable data) throws IOException{
 		super(choice, (data != null? data : new COERNull()));
 		if(choice == SspRangeChoices.all && data != null){
-			throw new IllegalArgumentException("Invalid SspRange, if choice is all must related data be null.");
+			throw new IOException("Invalid SspRange, if choice is all must related data be null.");
 		}
 		if(choice == SspRangeChoices.opaque && !(data instanceof SequenceOfOctetString)){
-			throw new IllegalArgumentException("Invalid SspRange, if choice is opaque must related data be of type SequenceOfOctetString.");
+			throw new IOException("Invalid SspRange, if choice is opaque must related data be of type SequenceOfOctetString.");
 		}
 		if(choice == SspRangeChoices.bitmapSspRange && !(data instanceof BitmapSspRange)){
-			throw new IllegalArgumentException("Invalid SspRange, if choice is bitmapSspRange must related data be of type BitmapSspRange.");
+			throw new IOException("Invalid SspRange, if choice is bitmapSspRange must related data be of type BitmapSspRange.");
 		}
 	}
 

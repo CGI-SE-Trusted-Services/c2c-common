@@ -55,15 +55,15 @@ class EtsiTs103097DataEncryptedUnicastSpec extends BaseStructSpec {
         when:
         new EtsiTs103097DataEncryptedUnicast(2, genEncryptedData(extraRecipient))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "EtsiTs103097Data with profile Encrypted-Unicast must exactly one recipient."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if data type is new encryptedData"(){
+    def "Verify that constructor throws BadArgumentException if data type is new encryptedData"(){
         when:
         new EtsiTs103097DataEncryptedUnicast(2, genSignedData())
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "EtsiTs103097Data with profile Encrypted must have content of type: encryptedData"
     }
 

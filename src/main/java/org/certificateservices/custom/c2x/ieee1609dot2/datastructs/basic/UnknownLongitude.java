@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 
+import java.io.IOException;
+
 /**
  * Unknown longitude with encoded value of 1800000001.
  * 
@@ -26,7 +28,7 @@ public class UnknownLongitude extends OneEightyDegreeInt {
 	/**
 	 * Constructor used for encoding and decoding.
 	 */
-	public UnknownLongitude(){
+	public UnknownLongitude()throws IOException {
 		super(UNKNOWN);
 	}
 	

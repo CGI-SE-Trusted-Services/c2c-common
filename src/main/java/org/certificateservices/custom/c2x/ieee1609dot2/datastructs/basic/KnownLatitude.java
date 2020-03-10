@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.math.BigInteger;
 
 
@@ -40,7 +41,7 @@ public class KnownLatitude extends NinetyDegreeInt {
 	 * Constructor used when encoding
 	 * @param value between -900000000 and 900000000 (Unknown 900000001)
 	 */
-	public KnownLatitude(long value) throws IllegalArgumentException {
+	public KnownLatitude(long value) {
 		super(value);
 		maxValue = BigInteger.valueOf(MAX);
 	}

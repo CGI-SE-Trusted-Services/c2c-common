@@ -55,14 +55,14 @@ public class CtlCommand extends COERChoice {
 	/**
 	 * Constructor used when encoding of type cert
 	 */
-	public CtlCommand(CtlEntry ctlEntry) throws IllegalArgumentException{
+	public CtlCommand(CtlEntry ctlEntry) {
 		super(CtlCommandChoices.add, ctlEntry);
 	}
 
 	/**
 	 * Constructor used when encoding of type dc
 	 */
-	public CtlCommand(CtlDelete ctlDelete) throws IllegalArgumentException{
+	public CtlCommand(CtlDelete ctlDelete) {
 		super(CtlCommandChoices.delete, ctlDelete);
 	}
 

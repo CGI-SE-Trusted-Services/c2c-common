@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.asn1.coer;
 
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -43,9 +45,9 @@ public class COERBitString implements COEREncodable{
 	/**
 	 * Constructor used when decoding a bit string of a fixed length.
 	 * @param length the length of the bit string.
-	 * @throws IllegalArgumentException if length was invalid.
+	 * @throws IOException if length was invalid.
 	 */
-	public COERBitString(Integer length) throws IllegalArgumentException{
+	public COERBitString(Integer length) throws IOException {
 		checkLength(null, length);
 		this.length = length;
 	}
@@ -65,9 +67,9 @@ public class COERBitString implements COEREncodable{
 	 * @param bitString the value of the string.
 	 * @param length the length of the string.
 	 * @param fixedSize if the size of the string is fixed or variable.
-	 * @throws IllegalArgumentException if length was invalid.
+	 * @throws IOException if length was invalid.
 	 */
-	public COERBitString(long bitString, Integer length, boolean fixedSize) throws IllegalArgumentException {
+	public COERBitString(long bitString, Integer length, boolean fixedSize) throws IOException {
 		checkLength(bitString, length);
 		this.bitString = bitString;
 		this.length = length;
@@ -102,11 +104,11 @@ public class COERBitString implements COEREncodable{
 	 * Method that returns the bit at the given position
 	 * @param position position in bit string 0 and up.
 	 * @return true if bit is set.
-	 * @throws IllegalArgumentException if position is out of bounds.
+	 * @throws IOException if position is out of bounds.
 	 */
-	public boolean getFlag(int position) throws IllegalArgumentException{
+	public boolean getFlag(int position) throws IOException{
 		if(position >= length){
-			throw new IllegalArgumentException("Error getting flag from bit string position is out of bounds: " + position);
+			throw new IOException("Error getting flag from bit string position is out of bounds: " + position);
 		}
 		long mask = 1 << (length - (position +1));
 		return (bitString & mask) > 0;
@@ -117,11 +119,11 @@ public class COERBitString implements COEREncodable{
 	 * Important: This method assumes the bit is 0 before calling, cannot unset a flag.
 	 * @param position the position of the bit to set.
 	 * @param flag true if bit at position should be set.
-	 * @throws IllegalArgumentException if position is out of bounds.
+	 * @throws IOException if position is out of bounds.
 	 */
-	public void setFlag(int position, boolean flag) throws IllegalArgumentException{
+	public void setFlag(int position, boolean flag) throws IOException{
 		if(position >= length){
-			throw new IllegalArgumentException("Error setting flag from bit string position is out of bounds: " + position);
+			throw new IOException("Error setting flag from bit string position is out of bounds: " + position);
 		}
 		if(flag){
 			long mask = 1 << (length - (position +1));
@@ -171,14 +173,11 @@ public class COERBitString implements COEREncodable{
 		}
 	}
 	
-	private void checkLength(Long bitString,Integer length) throws IllegalArgumentException{
-		
+	private void checkLength(Long bitString,Integer length) throws IOException{
 		if(length > 64){
-			throw new  IllegalArgumentException("Error currently BitString COER implementation only supports length of 64 bits.");
+			throw new  IOException("Error currently BitString COER implementation only supports length of 64 bits.");
 		}
-		
 	}
-
 	
 	private void serialize(DataOutputStream out, int byteToWrite, int unusedBits) throws IOException {
 		long bitStringData = bitString << unusedBits;

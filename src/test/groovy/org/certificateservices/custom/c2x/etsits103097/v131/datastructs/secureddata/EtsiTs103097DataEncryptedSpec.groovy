@@ -39,11 +39,11 @@ class EtsiTs103097DataEncryptedSpec extends BaseStructSpec {
         d2.getContent().getType() == encryptedData
     }
 
-    def "Verify that constructor throws IllegalArgumentException if data type is new encryptedData"(){
+    def "Verify that constructor throws IOException if data type is new encryptedData"(){
         when:
         new EtsiTs103097DataEncrypted(2, genSignedData())
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "EtsiTs103097Data with profile Encrypted must have content of type: encryptedData"
     }
 

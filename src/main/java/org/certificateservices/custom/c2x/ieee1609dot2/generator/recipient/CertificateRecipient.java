@@ -18,6 +18,7 @@ import java.security.PublicKey;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint;
@@ -42,9 +43,9 @@ public class CertificateRecipient extends BasePKRecipient{
 	
 	
 	
-	public CertificateRecipient(Certificate certificate) throws IllegalArgumentException{
+	public CertificateRecipient(Certificate certificate) throws BadArgumentException {
 		if(certificate.getToBeSigned().getEncryptionKey() == null){
-			throw new IllegalArgumentException("Error certificate cannot be used as encryption receipient, it has no public encryption key.");
+			throw new BadArgumentException("Error certificate cannot be used as encryption receipient, it has no public encryption key.");
 		}
 		
 		this.certificate = certificate;
@@ -53,7 +54,7 @@ public class CertificateRecipient extends BasePKRecipient{
 	@Override
 	public RecipientInfo toRecipientInfo(AlgorithmIndicator alg,
 			Ieee1609Dot2CryptoManager cryptoManager, SecretKey encryptionKey)
-			throws IllegalArgumentException, GeneralSecurityException, IOException {
+			throws BadArgumentException, GeneralSecurityException, IOException {
 		
 		PublicEncryptionKey pubEncKey = certificate.getToBeSigned().getEncryptionKey();
 		AlgorithmIndicator pubKeyAlg = pubEncKey.getPublicKey().getType();

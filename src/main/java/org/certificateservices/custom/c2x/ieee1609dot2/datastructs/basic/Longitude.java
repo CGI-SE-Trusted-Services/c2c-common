@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 
+import java.io.IOException;
+
 /**
  * The longitude field contains an INTEGER encoding an estimate of the longitude with precision 1/10th microdegree relative to the 
  * World Geodetic System (WGS)-84 datum as defined in NIMA Technical Report TR8350.2.
@@ -38,7 +40,7 @@ public class Longitude extends OneEightyDegreeInt {
 	 * Constructor used when encoding
 	 * @param value no more than 1 800 000 000 and no less than -1 799 999 999 or 1 800 000 001 for UNKNOWN
 	 */
-	public Longitude(long value) {
+	public Longitude(long value) throws IOException {
 		super(value);
 	}
 

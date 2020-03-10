@@ -67,7 +67,7 @@ public class SubjectPermissions extends COERChoice {
 	 * @param choice the type of SubjectPermissions
 	 * @param value set if type is explicit otherwise null.
 	 */
-	public SubjectPermissions(SubjectPermissionsChoices choice, SequenceOfPsidSspRange value) throws IllegalArgumentException{
+	public SubjectPermissions(SubjectPermissionsChoices choice, SequenceOfPsidSspRange value) {
 		super(choice, (value!= null ? value : new COERNull()));
 	}
 	

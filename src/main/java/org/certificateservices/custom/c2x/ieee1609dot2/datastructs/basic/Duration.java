@@ -57,7 +57,7 @@ public class Duration extends COERChoice {
 	/**
 	 * Constructor used when encoding.
 	 */
-	public Duration(DurationChoices choice, int value) {
+	public Duration(DurationChoices choice, int value) throws IOException {
 		super(choice, new Uint16(value));
 	}
 

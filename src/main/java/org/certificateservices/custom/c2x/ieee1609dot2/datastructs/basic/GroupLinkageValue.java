@@ -16,6 +16,8 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This is the group linkage value. See 5.1.3 and 7.3 for details of use.
  * 
@@ -43,14 +45,14 @@ public class GroupLinkageValue extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public GroupLinkageValue(byte[] jValue, byte[] value){
+	public GroupLinkageValue(byte[] jValue, byte[] value) throws IOException {
 		super(false,2);
 		init();
 		if(jValue != null && jValue.length != JVALUE_SIZE){
-			throw new IllegalArgumentException("Error JValue must be " + JVALUE_SIZE + " bytes.");
+			throw new IOException("Error JValue must be " + JVALUE_SIZE + " bytes.");
 		}
 		if(value != null && value.length != VALUE_SIZE){
-			throw new IllegalArgumentException("Error value must be " + VALUE_SIZE + " bytes.");
+			throw new IOException("Error value must be " + VALUE_SIZE + " bytes.");
 		}
 		set(JVALUE, new COEROctetStream(jValue, JVALUE_SIZE, JVALUE_SIZE));
 		set(VALUE, new COEROctetStream(value, VALUE_SIZE, VALUE_SIZE));

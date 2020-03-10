@@ -42,7 +42,7 @@ public class EtsiTs102941Data extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public EtsiTs102941Data(EtsiTs102941DataContent content) throws IllegalArgumentException{
+	public EtsiTs102941Data(EtsiTs102941DataContent content) throws IOException{
 		super(false,2);
 		init();
 

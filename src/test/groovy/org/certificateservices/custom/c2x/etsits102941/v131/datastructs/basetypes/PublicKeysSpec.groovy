@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes
 
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
 
@@ -52,11 +53,11 @@ class PublicKeysSpec extends BaseStructSpec {
 
     }
 
-    def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+    def "Verify that BadArgumentException is thrown when encoding if not all fields are set"(){
         when:
         new PublicKeys(null,encryptionKey)
         then:
-        thrown IllegalArgumentException
+        thrown IOException
     }
 
 

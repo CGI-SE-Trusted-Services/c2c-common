@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERUTF8String;
@@ -36,9 +37,9 @@ public class Hostname extends COERUTF8String {
 	/**
 	 * Constructor used when encoding
 	 * 
-	 * @throws UnsupportedEncodingException if UTF 8 encoding isn't supported.
+	 * @throws IOException if UTF 8 encoding isn't supported.
 	 */
-	public Hostname(String hostname) throws UnsupportedEncodingException{
+	public Hostname(String hostname) throws IOException {
 		super(hostname,0,255);
 	}
 

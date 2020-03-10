@@ -18,6 +18,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.EcSignature;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.PublicKeys;
 
+import java.io.IOException;
+
 /**
  * Class representing InnerAtRequest defined in ETSI TS 102 941 Authorization Types
  *
@@ -46,7 +48,8 @@ public class InnerAtRequest extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public InnerAtRequest(PublicKeys publicKeys, byte[] hmacKey, SharedAtRequest sharedAtRequest, EcSignature ecSignature){
+	public InnerAtRequest(PublicKeys publicKeys, byte[] hmacKey, SharedAtRequest sharedAtRequest, EcSignature ecSignature)
+	throws IOException {
 		super(true,4);
 		init();
 		set(PUBLICKEYS, publicKeys);

@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This data structure is used to define validity regions for use in certificates. The 
  * latitude and longitude fields contain the latitude and longitude as defined above.
@@ -43,7 +45,7 @@ public class TwoDLocation extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public TwoDLocation(Latitude latitude, Longitude longitude){
+	public TwoDLocation(Latitude latitude, Longitude longitude) throws IOException {
 		super(false,2);
 		init();
 		set(LATITUDE, latitude);
@@ -51,7 +53,7 @@ public class TwoDLocation extends COERSequence {
 		
 		if((latitude != null && latitude.getValueAsLong() == Latitude.UNKNOWN) || 
 		  (longitude != null && longitude.getValueAsLong() == Longitude.UNKNOWN )){
-			throw new IllegalArgumentException("Error constructing TwoDLocation, UNKNOWN latitude or longitude is not valid for TwoDLocation");
+			throw new IOException("Error constructing TwoDLocation, UNKNOWN latitude or longitude is not valid for TwoDLocation");
 		}
 	}
 

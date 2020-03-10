@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
+import java.io.IOException;
+
 /**
  * In this structure:
  * <ul>
@@ -44,7 +46,7 @@ public class JMaxGroup extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public JMaxGroup(int jMax, SequenceOfLAGroup  contents){
+	public JMaxGroup(int jMax, SequenceOfLAGroup  contents) throws IOException {
 		super(true,2);
 		init();
 		set(JMAX, new Uint8(jMax));

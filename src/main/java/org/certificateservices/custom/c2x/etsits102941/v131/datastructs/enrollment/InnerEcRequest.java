@@ -16,6 +16,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COERIA5String;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.CertificateFormat;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.CertificateSubjectAttributes;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.PublicKeys;
@@ -48,12 +49,14 @@ public class InnerEcRequest extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public InnerEcRequest(byte[] itsId, CertificateFormat certificateFormat, PublicKeys publicKeys, CertificateSubjectAttributes requestedSubjectAttributes){
+	public InnerEcRequest(byte[] itsId, CertificateFormat certificateFormat, PublicKeys publicKeys,
+						  CertificateSubjectAttributes requestedSubjectAttributes)
+			throws IOException{
 		super(true,4);
 		init();
 
 		if(requestedSubjectAttributes != null && requestedSubjectAttributes.getCertIssuePermissions() != null){
-			throw new IllegalArgumentException("Invalid requestedSubjectAttributes in InnerEcRequest, certIssuePermissions cannot be set.");
+			throw new IOException("Invalid requestedSubjectAttributes in InnerEcRequest, certIssuePermissions cannot be set.");
 		}
 
 		set(ITSID, new COEROctetStream(itsId));

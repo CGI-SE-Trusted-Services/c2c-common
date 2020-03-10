@@ -43,6 +43,7 @@ import org.bouncycastle.math.ec.custom.sec.SecP256R1Curve;
 import org.bouncycastle.util.BigIntegers;
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.EncodeHelper;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm.Hash;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm.Symmetric;
@@ -103,9 +104,9 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * Initialized Bouncycastle and it's specific key factories
 	 */
 	@Override
-	public void setupAndConnect(CryptoManagerParams params) throws IllegalArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException, SignatureException{
+	public void setupAndConnect(CryptoManagerParams params) throws BadArgumentException, NoSuchAlgorithmException, NoSuchProviderException, IOException, BadCredentialsException, SignatureException{
 		if(!(params instanceof DefaultCryptoManagerParams)){
-			throw new IllegalArgumentException("Invalid type of CryptoManagerParams given, expected DefaultCryptoManagerParams");
+			throw new BadArgumentException("Invalid type of CryptoManagerParams given, expected DefaultCryptoManagerParams");
 		}
 		provider = ((DefaultCryptoManagerParams) params).getProvider();
 		
@@ -138,9 +139,9 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#genNounce(AlgorithmIndicator)
 	 */
 	@Override
-	public byte[] genNounce(AlgorithmIndicator alg) throws IllegalArgumentException{
+	public byte[] genNounce(AlgorithmIndicator alg) throws BadArgumentException{
 		if( alg.getAlgorithm().getSymmetric() == null){
-			throw new IllegalArgumentException("Error algorithm scheme doesn't support symmetric encryption");
+			throw new BadArgumentException("Error algorithm scheme doesn't support symmetric encryption");
 		}
 		int nounceLen = alg.getAlgorithm().getSymmetric().getNounceLength();
 		byte[] nounce = new byte[nounceLen];
@@ -153,9 +154,9 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#constructSecretKey(AlgorithmIndicator, byte[])
 	 */
 	@Override
-	public SecretKey constructSecretKey(AlgorithmIndicator alg, byte[] keyData) throws IllegalArgumentException, GeneralSecurityException{
+	public SecretKey constructSecretKey(AlgorithmIndicator alg, byte[] keyData) throws BadArgumentException, GeneralSecurityException{
 		if(alg.getAlgorithm().getSymmetric() != Symmetric.aes128Ccm){
-			throw new IllegalArgumentException("Count construct secret key from unsupported algorithm: " + alg);
+			throw new BadArgumentException("Count construct secret key from unsupported algorithm: " + alg);
 		}
 		return new SecretKeySpec(keyData, "AES");
 	}
@@ -167,11 +168,11 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	@Override
 	public org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signMessageDigest(
 			byte[] digest, AlgorithmIndicator alg, PrivateKey privateKey)
-			throws IllegalArgumentException, SignatureException, IOException {
+			throws BadArgumentException, SignatureException, IOException {
 		
 		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
 		if(sigAlg == null){
-			throw new IllegalArgumentException("Error no signature algorithm specified");
+			throw new BadArgumentException("Error no signature algorithm specified");
 		}
 		ASN1InputStream asn1InputStream = null;
 		try{
@@ -202,8 +203,8 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
                     baos.toByteArray()));
 
 		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
+			if(e instanceof BadArgumentException){
+				throw (BadArgumentException) e;
 			}
 			if(e instanceof IOException){
 				throw (IOException) e;
@@ -229,18 +230,18 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			byte[] message, AlgorithmIndicator alg, PrivateKey privateKey,
 			CertificateType certType,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert)
-			throws IllegalArgumentException, SignatureException, IOException {
+			throws BadArgumentException, SignatureException, IOException {
 		
 		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
 		if(sigAlg == null){
-			throw new IllegalArgumentException("Error no signature algorithm specified");
+			throw new BadArgumentException("Error no signature algorithm specified");
 		}
 		
 		try{
 			  return signMessageDigest(genIEEECertificateDigest(alg, message, signCert), alg, privateKey);
 		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
+			if(e instanceof BadArgumentException){
+				throw (BadArgumentException) e;
 			}
 			if(e instanceof IOException){
 				throw (IOException) e;
@@ -260,13 +261,13 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	public boolean verifySignatureDigest(
 			byte[] digest,
 			Signature signature,
-			PublicKey publicKey) throws IllegalArgumentException,
+			PublicKey publicKey) throws BadArgumentException,
 			SignatureException, IOException {
 		 
 		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
 		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
 		if(sigAlg == null){
-			throw new IllegalArgumentException("Error no signature algorithm specified");
+			throw new BadArgumentException("Error no signature algorithm specified");
 		}
 		
 		try{
@@ -283,8 +284,8 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			sig.update(digest);
 			return sig.verify(dERSignature);
 		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
+			if(e instanceof BadArgumentException){
+				throw (BadArgumentException) e;
 			}
 			if(e instanceof IOException){
 				throw (IOException) e;
@@ -325,12 +326,12 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			byte[] message,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCert)
-			throws IllegalArgumentException, SignatureException, IOException {
+			throws BadArgumentException, SignatureException, IOException {
 		if(signerCert.getType() == CertificateType.explicit){
 			PublicVerificationKey pubVerKey = (PublicVerificationKey) signerCert.getToBeSigned().getVerifyKeyIndicator().getValue();
 			return verifySignature(message, signature, signerCert, pubVerKey);
 		}else{
-			throw new IllegalArgumentException("Implicit certificates not supported by this method");
+			throw new BadArgumentException("Implicit certificates not supported by this method");
 		}
 	}
 	
@@ -343,7 +344,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCert,
 			PublicKey signedPublicKey)
-			throws IllegalArgumentException, SignatureException, IOException {
+			throws BadArgumentException, SignatureException, IOException {
 		if(signerCert.getType() == CertificateType.explicit){
 			return verifyExplicitCertSignature(message, signature, signerCert, signedPublicKey);
 		}else{
@@ -359,7 +360,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			byte[] message,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
 			PublicKey signedPublicKey)
-			throws IllegalArgumentException, SignatureException, IOException {
+			throws BadArgumentException, SignatureException, IOException {
 			return verifyExplicitCertSignature(message, signature, null, signedPublicKey);
 	}
 	
@@ -370,7 +371,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	public boolean verifyCertificate(
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate)
-			throws IllegalArgumentException, SignatureException, IOException {
+			throws BadArgumentException, SignatureException, IOException {
 		if(certificate.equals(signerCertificate)){
 			return verifySignature(certificate.getToBeSigned().getEncoded(), certificate.getSignature(),null, (PublicVerificationKey) certificate.getToBeSigned().getVerifyKeyIndicator().getValue());
 		}else{
@@ -385,7 +386,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
             org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate,
 			PublicVerificationKey publicVerificationKey)
-			throws IllegalArgumentException, SignatureException, IOException {
+			throws BadArgumentException, SignatureException, IOException {
 		try {
 			PublicKey publicKey = (PublicKey) decodeEccPoint(publicVerificationKey.getType(), (EccCurvePoint) publicVerificationKey.getValue());
 			return verifyExplicitCertSignature(message, signature, signerCertificate, publicKey);
@@ -400,10 +401,10 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * 
 	 * @see org.certificateservices.custom.c2x.common.crypto.CryptoManager#generateKeyPair(AlgorithmIndicator)
 	 */
-	public KeyPair generateKeyPair(AlgorithmIndicator alg){
+	public KeyPair generateKeyPair(AlgorithmIndicator alg) throws BadArgumentException{
 		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
 		if(sigAlg == null){
-			throw new IllegalArgumentException("Error invalid algorithm when generating key pair: "+ alg);
+			throw new BadArgumentException("Error invalid algorithm when generating key pair: "+ alg);
 		}
 		if(sigAlg == Algorithm.Signature.ecdsaNistP256){
 			return ecNistP256Generator.generateKeyPair();
@@ -414,7 +415,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 		if(sigAlg == Algorithm.Signature.ecdsaBrainpoolP384r1){
 			return brainpoolp384r1Generator.generateKeyPair();
 		}
-		throw new IllegalArgumentException("Error unsupported algorithm when generating key pair: " + sigAlg);
+		throw new BadArgumentException("Error unsupported algorithm when generating key pair: " + sigAlg);
 	}
 	
 	/**
@@ -423,15 +424,15 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @see org.certificateservices.custom.c2x.common.crypto.CryptoManager#generateSecretKey(AlgorithmIndicator)
 	 */
 	@Override
-	public SecretKey generateSecretKey(AlgorithmIndicator alg){
+	public SecretKey generateSecretKey(AlgorithmIndicator alg) throws BadArgumentException{
 		Algorithm.Symmetric symAlg = alg.getAlgorithm().getSymmetric();
 		if(symAlg == null){
-			throw new IllegalArgumentException("Error invalid algorithm when generating secret key: "+ alg);
+			throw new BadArgumentException("Error invalid algorithm when generating secret key: "+ alg);
 		}
 		if(symAlg == Algorithm.Symmetric.aes128Ccm){
 			return aES128Generator.generateKey();
 		}
-		throw new IllegalArgumentException("Error unsupported algorithm when generating secret key: " + symAlg);
+		throw new BadArgumentException("Error unsupported algorithm when generating secret key: " + symAlg);
 	}
 
 	
@@ -441,23 +442,27 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	@Override
 	public EccP256CurvePoint encodeEccPoint(AlgorithmIndicator alg,
 			EccP256CurvePointChoices type, PublicKey publicKey)
-			throws IllegalArgumentException, InvalidKeySpecException {
+			throws BadArgumentException, InvalidKeySpecException {
 		if(! (publicKey instanceof java.security.interfaces.ECPublicKey)){
-			throw new IllegalArgumentException("Only ec public keys are supported, not " + publicKey.getClass().getSimpleName());
+			throw new BadArgumentException("Only ec public keys are supported, not " + publicKey.getClass().getSimpleName());
 		}
 		BCECPublicKey bcPub = toBCECPublicKey(alg, (java.security.interfaces.ECPublicKey) publicKey);
 
-		if(type == EccP256CurvePointChoices.uncompressed){
-			return new EccP256CurvePoint(bcPub.getW().getAffineX(), bcPub.getW().getAffineY());
-		}
-		if(type == EccP256CurvePointChoices.compressedy0 || type == EccP256CurvePointChoices.compressedy1){
-			return new EccP256CurvePoint(bcPub.getQ().getEncoded(true));            
-		}
-		if(type == EccP256CurvePointChoices.xonly){
-			return new EccP256CurvePoint(bcPub.getW().getAffineX());
+		try {
+			if (type == EccP256CurvePointChoices.uncompressed) {
+				return new EccP256CurvePoint(bcPub.getW().getAffineX(), bcPub.getW().getAffineY());
+			}
+			if (type == EccP256CurvePointChoices.compressedy0 || type == EccP256CurvePointChoices.compressedy1) {
+				return new EccP256CurvePoint(bcPub.getQ().getEncoded(true));
+			}
+			if (type == EccP256CurvePointChoices.xonly) {
+				return new EccP256CurvePoint(bcPub.getW().getAffineX());
+			}
+		}catch(IOException e){
+			throw new BadArgumentException("Invalid public key specified: " + e.getMessage(), e);
 		}
 
-		throw new IllegalArgumentException("Unsupported ecc point type: " + type);
+		throw new BadArgumentException("Unsupported ecc point type: " + type);
 	}
 
 	/**
@@ -465,7 +470,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 */
     @Override
     public Object decodeEccPoint(AlgorithmIndicator alg,
-                                 EccCurvePoint eccPoint) throws InvalidKeySpecException {
+                                 EccCurvePoint eccPoint) throws InvalidKeySpecException, BadArgumentException {
         if(eccPoint instanceof EccP384CurvePoint){
             return decodeEccP384Point(alg,(EccP384CurvePoint) eccPoint);
         }
@@ -473,7 +478,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
     }
 
 	public Object decodeEccP256Point(AlgorithmIndicator alg,
-			EccP256CurvePoint eccPoint) throws InvalidKeySpecException {
+			EccP256CurvePoint eccPoint) throws InvalidKeySpecException, BadArgumentException {
 		switch(eccPoint.getType()){
 		case fill:
 			throw new InvalidKeySpecException("Unsupported EccPoint type: fill");
@@ -506,27 +511,33 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
     @Override
     public EccP384CurvePoint encodeEccPoint(AlgorithmIndicator alg,
                                             EccP384CurvePoint.EccP384CurvePointChoices type, PublicKey publicKey)
-            throws IllegalArgumentException, InvalidKeySpecException {
+            throws BadArgumentException, InvalidKeySpecException {
         if(! (publicKey instanceof java.security.interfaces.ECPublicKey)){
-            throw new IllegalArgumentException("Only ec public keys are supported, not " + publicKey.getClass().getSimpleName());
+            throw new BadArgumentException("Only ec public keys are supported, not " + publicKey.getClass().getSimpleName());
         }
         BCECPublicKey bcPub = toBCECPublicKey(alg, (java.security.interfaces.ECPublicKey) publicKey);
 
-        if(type == EccP384CurvePoint.EccP384CurvePointChoices.uncompressed){
-            return new EccP384CurvePoint(bcPub.getW().getAffineX(), bcPub.getW().getAffineY());
-        }
-        if(type == EccP384CurvePoint.EccP384CurvePointChoices.compressedy0 || type == EccP384CurvePoint.EccP384CurvePointChoices.compressedy1){
-            return new EccP384CurvePoint(bcPub.getQ().getEncoded(true));
-        }
-        if(type == EccP384CurvePoint.EccP384CurvePointChoices.xonly){
-            return new EccP384CurvePoint(bcPub.getW().getAffineX());
-        }
+		try{
+			if(type == EccP384CurvePoint.EccP384CurvePointChoices.uncompressed){
+				return new EccP384CurvePoint(bcPub.getW().getAffineX(), bcPub.getW().getAffineY());
+			}
+			if(type == EccP384CurvePoint.EccP384CurvePointChoices.compressedy0 || type == EccP384CurvePoint.EccP384CurvePointChoices.compressedy1){
 
-        throw new IllegalArgumentException("Unsupported ecc point type: " + type);
+				return new EccP384CurvePoint(bcPub.getQ().getEncoded(true));
+			}
+			if(type == EccP384CurvePoint.EccP384CurvePointChoices.xonly){
+				return new EccP384CurvePoint(bcPub.getW().getAffineX());
+			}
+		}catch(IOException e){
+			throw new BadArgumentException("Invalid public key specified: " + e.getMessage(), e);
+		}
+
+
+		throw new BadArgumentException("Unsupported ecc point type: " + type);
     }
 
     public Object decodeEccP384Point(AlgorithmIndicator alg,
-                                 EccP384CurvePoint eccPoint) throws InvalidKeySpecException {
+                                 EccP384CurvePoint eccPoint) throws InvalidKeySpecException, BadArgumentException {
         switch(eccPoint.getType()){
             case fill:
                 throw new InvalidKeySpecException("Unsupported EccPoint type: fill");
@@ -556,7 +567,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	/**
 	 * @see org.certificateservices.custom.c2x.common.crypto.CryptoManager#digest(byte[], AlgorithmIndicator)
 	 */
-	public byte[] digest(byte[] message, AlgorithmIndicator alg) throws IllegalArgumentException, NoSuchAlgorithmException {
+	public byte[] digest(byte[] message, AlgorithmIndicator alg) throws BadArgumentException {
 		Hash hashAlg = alg.getAlgorithm().getHash();
 		if(hashAlg != null && hashAlg == Hash.sha256){
 			sha256Digest.reset();
@@ -568,7 +579,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			sha384Digest.update(message);
 			return sha384Digest.digest();
 		}
-		throw new IllegalArgumentException("Unsupported hash algorithm: " + alg);
+		throw new BadArgumentException("Unsupported hash algorithm: " + alg);
 	}
 		
 	
@@ -578,11 +589,11 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @param messageData the message data to digest
 	 * @param signerCertificate the certificate used for signing, null if selfsigned data.
 	 * @throws NoSuchAlgorithmException 
-	 * @throws IllegalArgumentException 
+	 * @throws BadArgumentException
 	 * @throws IOException 
 	 */
 	@Override
-	public byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate) throws IllegalArgumentException, NoSuchAlgorithmException, IOException{
+	public byte[] genIEEECertificateDigest(AlgorithmIndicator alg,byte[] messageData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate) throws BadArgumentException, IOException{
 		byte[] dataDigest = digest(messageData, alg);
 		byte[] signerDigest;
 
@@ -609,11 +620,11 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @param symmetricKey the symmetric key to encrypt (Should be AES 128)
 	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
 	 * @return a EncryptedDataEncryptionKey with v,c,t set.
-	 * @throws IllegalArgumentException if supplied parameters where invalid.
+	 * @throws BadArgumentException if supplied parameters where invalid.
 	 * @throws GeneralSecurityException if problems occurred performing the encryption.
 	 */
 	@Override
-	public EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1) throws IllegalArgumentException, GeneralSecurityException{
+	public EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1) throws BadArgumentException, GeneralSecurityException{
 		return ieeeEceisEncryptSymmetricKey2017(keyType,encryptionKey,symmetricKey,p1,null);
 	}
 
@@ -630,10 +641,10 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @param empericalPrivateKey use a specified empericalPrivate key, should only be used when testing predefiend test vector. And real use
 	 *                            of ECIES encryption should specify null. Then a new key is generated for each call.
 	 * @return a EncryptedDataEncryptionKey with v,c,t set.
-	 * @throws IllegalArgumentException if supplied parameters where invalid.
+	 * @throws BadArgumentException if supplied parameters where invalid.
 	 * @throws GeneralSecurityException if problems occurred performing the encryption.
 	 */
-	public EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1, byte[] empericalPrivateKey) throws IllegalArgumentException, GeneralSecurityException{
+	public EncryptedDataEncryptionKey ieeeEceisEncryptSymmetricKey2017(EncryptedDataEncryptionKeyChoices keyType, PublicKey encryptionKey, SecretKey symmetricKey, byte[] p1, byte[] empericalPrivateKey) throws BadArgumentException, GeneralSecurityException{
 		byte[] keyData = symmetricKey.getEncoded();
 		ECDomainParameters domainParameters = keyType.getAlgorithm().getSignature().getECDomainParameters();
 
@@ -687,9 +698,14 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 		mac1.doFinal(T,0);
 
 		byte[] V = empericalPublicKeyParams.getQ().getEncoded(true);
-		EccP256CurvePoint vPubPoint = new EccP256CurvePoint(V);
-		EciesP256EncryptedKey key = new EciesP256EncryptedKey(vPubPoint,C,T);
-		return new EncryptedDataEncryptionKey(keyType, key);
+		try {
+			EccP256CurvePoint vPubPoint = new EccP256CurvePoint(V);
+			EciesP256EncryptedKey key = new EciesP256EncryptedKey(vPubPoint, C, T);
+			return new EncryptedDataEncryptionKey(keyType, key);
+		}catch (IOException e){
+			throw new BadArgumentException("Invalid ECC Curve Point: " + e.getMessage(),e);
+		}
+
 	}
 
 	/**
@@ -719,11 +735,11 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @param p1 the deviation used as recipient information (SHA256 Hash of certificate or "" if no related certificate is available).
 	 * @return the decrypted AES symmetric key.
 	 * @throws InvalidKeyException if supplied private key was invalid
-	 * @throws IllegalArgumentException if invalid arguments where specified.
+	 * @throws BadArgumentException if invalid arguments where specified.
 	 * @throws InvalidKeySpecException if invalid key specification was given.
 	 */
 	@Override
-	public SecretKey ieeeEceisDecryptSymmetricKey2017(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, byte[] p1) throws InvalidKeyException, IllegalArgumentException, InvalidKeySpecException {
+	public SecretKey ieeeEceisDecryptSymmetricKey2017(EncryptedDataEncryptionKey encryptedDataEncryptionKey, PrivateKey decryptionKey, byte[] p1) throws InvalidKeyException, BadArgumentException, InvalidKeySpecException {
 		ECDomainParameters domainParameters = encryptedDataEncryptionKey.getType().getAlgorithm().getSignature().getECDomainParameters();
 
 		int k_len = encryptedDataEncryptionKey.getType().getAlgorithm().getSymmetric().getKeyLength();
@@ -779,7 +795,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#symmetricEncryptIEEE1609_2_2017(AlgorithmIndicator, byte[], byte[], byte[])
 	 */
 	@Override
-	public byte[] symmetricEncryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws IllegalArgumentException, GeneralSecurityException {
+	public byte[] symmetricEncryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws BadArgumentException, GeneralSecurityException {
 		if(alg.getAlgorithm().getSymmetric() == Symmetric.aes128Ccm) {
 			CCMBlockCipher ccmBlockCipher = new CCMBlockCipher(new AESEngine());
 
@@ -797,13 +813,13 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 
 			return outData;
 		}
-		throw new IllegalArgumentException("Unsupported symmetric encryption algorithm specified: " + alg.getAlgorithm().getSymmetric());
+		throw new BadArgumentException("Unsupported symmetric encryption algorithm specified: " + alg.getAlgorithm().getSymmetric());
 	}
 
 	/**
 	 * @see org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager#symmetricDecryptIEEE1609_2_2017(AlgorithmIndicator, byte[], byte[], byte[])
 	 */
-	public byte[] symmetricDecryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws IllegalArgumentException,  GeneralSecurityException {
+	public byte[] symmetricDecryptIEEE1609_2_2017(AlgorithmIndicator alg, byte[] data, byte[] symmetricKey, byte[] nounce) throws BadArgumentException,  GeneralSecurityException {
 		if(alg.getAlgorithm().getSymmetric() == Symmetric.aes128Ccm) {
 			CCMBlockCipher ccmBlockCipher = new CCMBlockCipher(new AESEngine());
 
@@ -820,7 +836,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
             }
 			return outData;
 		}
-		throw new IllegalArgumentException("Unsupported symmetric encryption algorithm specified: " + alg.getAlgorithm().getSymmetric());
+		throw new BadArgumentException("Unsupported symmetric encryption algorithm specified: " + alg.getAlgorithm().getSymmetric());
 	}
 
 	
@@ -835,10 +851,11 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @param alg specifying the related curve used.
 	 * @param ecPublicKey key to convert
 	 * @return a BCECPublicKey
+	 * @throws BadArgumentException if one of the parameter contained invalid data.
 	 * @throws InvalidKeySpecException if supplied key was invalid.
 	 */
 	@Override
-	public BCECPublicKey toBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException{
+	public BCECPublicKey toBCECPublicKey(AlgorithmIndicator alg, java.security.interfaces.ECPublicKey ecPublicKey) throws InvalidKeySpecException, BadArgumentException {
 		if(ecPublicKey instanceof BCECPublicKey){
 			return (BCECPublicKey) ecPublicKey;
 		}
@@ -856,7 +873,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 	 * @return related EC domain parameters for given algorithm.
 	 */
 	@Override
-	public ECParameterSpec getECParameterSpec(AlgorithmIndicator alg){
+	public ECParameterSpec getECParameterSpec(AlgorithmIndicator alg) throws BadArgumentException{
 		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaNistP256){
 			return ecNistP256Spec;
 		}
@@ -866,7 +883,7 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
         if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP384r1){
             return brainpoolp384r1Spec;
         }
-		throw new IllegalArgumentException("Unsupported EC Algorithm: " + alg);
+		throw new BadArgumentException("Unsupported EC Algorithm: " + alg);
 	}
 	
 	/**
@@ -880,11 +897,11 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			PrivateKey Ku,
 			PublicKey signerPublicKey,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signerCertificate)
-			throws IOException, IllegalArgumentException, SignatureException {
+			throws IOException, BadArgumentException, SignatureException {
 		return ecqvHelper.certReceiption(cert, r, alg, (ECPrivateKey) Ku, (ECPublicKey) signerPublicKey, signerCertificate);
 	}
 
-	protected ECCurve getECCurve(AlgorithmIndicator alg){
+	protected ECCurve getECCurve(AlgorithmIndicator alg) throws BadArgumentException{
 		if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaNistP256){
 			return ecNistP256Curve;
 		}
@@ -894,10 +911,10 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
         if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP384r1){
             return brainpoolP384r1;
         }
-		throw new IllegalArgumentException("Unsupported EC Algorithm: " + alg);
+		throw new BadArgumentException("Unsupported EC Algorithm: " + alg);
 	}
 
-	protected ECPublicKey getECPublicKeyFromECPoint(AlgorithmIndicator alg, ECPoint eCPoint) throws InvalidKeySpecException{
+	protected ECPublicKey getECPublicKeyFromECPoint(AlgorithmIndicator alg, ECPoint eCPoint) throws InvalidKeySpecException, BadArgumentException {
 		ECPublicKeySpec spec = new ECPublicKeySpec(eCPoint, getECParameterSpec(alg));
 		return (ECPublicKey) keyFact.generatePublic(spec);
 	}
@@ -931,19 +948,19 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			byte[] message,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert,
-			PublicKey publicKey) throws IllegalArgumentException,
+			PublicKey publicKey) throws BadArgumentException,
 			SignatureException, IOException {
 		 
 		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
 		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
 		if(sigAlg == null){
-			throw new IllegalArgumentException("Error no signature algorithm specified");
+			throw new BadArgumentException("Error no signature algorithm specified");
 		}
 		try{
 			return verifySignatureDigest(genIEEECertificateDigest(alg,message, signCert), signature, publicKey);
 		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
+			if(e instanceof BadArgumentException){
+				throw (BadArgumentException) e;
 			}
 			if(e instanceof IOException){
 				throw (IOException) e;
@@ -960,19 +977,19 @@ public class DefaultCryptoManager implements Ieee1609Dot2CryptoManager {
 			byte[] message,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature signature,
 			org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate signCert,
-			PublicKey signerPublicKey) throws IllegalArgumentException,
+			PublicKey signerPublicKey) throws BadArgumentException,
 			SignatureException, IOException {
 		 
 		AlgorithmIndicator alg = getSignatureAlgorithm(signature.getType());
 		Algorithm.Signature sigAlg = alg.getAlgorithm().getSignature();
 		if(sigAlg == null){
-			throw new IllegalArgumentException("Error no signature algorithm specified");
+			throw new BadArgumentException("Error no signature algorithm specified");
 		}
 		try{
 			return verifySignatureDigest(genIEEECertificateDigest(alg,message, signCert), signature, signerPublicKey);
 		}catch(Exception e){
-			if(e instanceof IllegalArgumentException){
-				throw (IllegalArgumentException) e;
+			if(e instanceof BadArgumentException){
+				throw (BadArgumentException) e;
 			}
 			if(e instanceof IOException){
 				throw (IOException) e;

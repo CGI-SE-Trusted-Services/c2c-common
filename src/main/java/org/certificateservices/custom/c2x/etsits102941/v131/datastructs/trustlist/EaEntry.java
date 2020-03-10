@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustli
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 
+import java.io.IOException;
+
 /**
  * Class representing EaEntry defined in ETSI TS 102 941 Trust List Types
  *
@@ -40,7 +42,7 @@ public class EaEntry extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public EaEntry(EtsiTs103097Certificate eaCertificate, Url aaAccessPoint, Url itsAccessPoint){
+	public EaEntry(EtsiTs103097Certificate eaCertificate, Url aaAccessPoint, Url itsAccessPoint) throws IOException {
 		super(false,3);
 		init();
 

@@ -12,12 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,13 +130,13 @@ public class COERSequence implements COEREncodable {
 	 * @param position position to set the value at.
 	 * @param value the value to set.
 	 */
-	public void set(int position, COEREncodable value){
+	public void set(int position, COEREncodable value) throws IOException{
 		Field f = sequenceValues.get(position);
 		if(f==null){
-			throw new IllegalArgumentException("Error no field exist for COER sequence with position " + position);
+			throw new IOException("Error no field exist for COER sequence with position " + position);
 		}
 		if(value == null && f.optional == false){
-			throw new IllegalArgumentException("Error field at position " + position + " cannot be null.");
+			throw new IOException("Error field at position " + position + " cannot be null.");
 		}
 		f.value = value;
 	}
@@ -151,13 +146,13 @@ public class COERSequence implements COEREncodable {
 	 * @param position position to set the value at.
 	 * @param value the value to set.
 	 */
-	public void setExtension(int position, COEREncodable value){
+	public void setExtension(int position, COEREncodable value) throws IOException{
 		Field f = extensionValues.get(position);
 		if(f==null){
-			throw new IllegalArgumentException("Error no extension exist for COER sequence with position " + position);
+			throw new IOException("Error no extension exist for COER sequence with position " + position);
 		}
 		if(value == null && f.optional == false){
-			throw new IllegalArgumentException("Error field at position " + position + " cannot be null.");
+			throw new IOException("Error field at position " + position + " cannot be null.");
 		}
 		f.value = value;
 	}

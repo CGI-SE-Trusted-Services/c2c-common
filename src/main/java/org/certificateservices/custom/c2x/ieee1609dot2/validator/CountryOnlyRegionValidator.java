@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.CountryOnly;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
@@ -39,14 +40,14 @@ public class CountryOnlyRegionValidator extends BaseRegionValidator {
      * @param checkRegion the expected region to validate the certificate for.
      * @param certificateChain the certificate to verify region in, end entity certificate first and root cert last.
      * @throws InvalidCertificateException if region in given certificate was invalid.
-     * @throws IllegalArgumentException    if other argument was invalid not related to the region in the certificate.
+     * @throws BadArgumentException    if other argument was invalid not related to the region in the certificate.
      */
     @Override
-    public void validateRegion(GeographicRegion checkRegion, org.certificateservices.custom.c2x.common.Certificate[] certificateChain) throws IllegalArgumentException, InvalidCertificateException {
+    public void validateRegion(GeographicRegion checkRegion, org.certificateservices.custom.c2x.common.Certificate[] certificateChain) throws BadArgumentException, InvalidCertificateException {
         try {
             isValidRegionType(checkRegion);
         }catch(InvalidCertificateException e){
-            throw new IllegalArgumentException("Invalid argument, acceptedRegion must be of type identifiedRegion containing only countryOnly.");
+            throw new BadArgumentException("Invalid argument, acceptedRegion must be of type identifiedRegion containing only countryOnly.");
         }
         Certificate[] chain = BaseCertificateValidator.toIEEE1609Certificates(certificateChain);
         if(chain.length == 1 ){

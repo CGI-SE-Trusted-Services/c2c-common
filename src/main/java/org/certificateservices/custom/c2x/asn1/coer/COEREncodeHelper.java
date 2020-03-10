@@ -12,6 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -39,9 +41,9 @@ public class COEREncodeHelper {
 	 * @param length the length to encode
 	 * @param dos the output stream to write the length determinant to.
 	 */
-	public static void writeLengthDeterminant(BigInteger length, DataOutputStream dos) throws IllegalArgumentException, IOException{
+	public static void writeLengthDeterminant(BigInteger length, DataOutputStream dos) throws IOException{
 		if(length.compareTo(BigInteger.ZERO) == -1 ){
-			throw new IllegalArgumentException("Error length determinant value cannot be negative");
+			throw new IOException("Error length determinant value cannot be negative");
 		}
 		encodeLengthDeterminantOrEnumeration(length,dos, true);
 	}
@@ -51,7 +53,7 @@ public class COEREncodeHelper {
 	 * @param length the length to encode
 	 * @param dos the output stream to write the length determinant to.
 	 */
-	public static void writeLengthDeterminant(long length, DataOutputStream dos) throws IllegalArgumentException, IOException{
+	public static void writeLengthDeterminant(long length, DataOutputStream dos) throws IOException{
 		writeLengthDeterminant(BigInteger.valueOf(length), dos);
 	}
 	
@@ -61,7 +63,7 @@ public class COEREncodeHelper {
 	 * @param value the value to encode
 	 * @param dos the output stream to write the length determinant to.
 	 */
-	public static void writeEnumerationValue(BigInteger value, DataOutputStream dos) throws IllegalArgumentException, IOException{
+	public static void writeEnumerationValue(BigInteger value, DataOutputStream dos) throws IOException{
 		encodeLengthDeterminantOrEnumeration(value,dos, true);
 	}
 
@@ -70,7 +72,7 @@ public class COEREncodeHelper {
 	 * @param value the value to encode
 	 * @param dos the output stream to write the length determinant to.
 	 */
-	public static void writeEnumerationValue(long value, DataOutputStream dos) throws IllegalArgumentException, IOException{
+	public static void writeEnumerationValue(long value, DataOutputStream dos) throws IOException{
 		writeEnumerationValue(BigInteger.valueOf(value), dos);
 	}
 	
@@ -79,7 +81,7 @@ public class COEREncodeHelper {
 	 * @param value the enumeration to encode
 	 * @param dos the output stream to write the length determinant to.
 	 */
-	public static void writeEnumerationValue(COEREnumerationType value, DataOutputStream dos) throws IllegalArgumentException, IOException{
+	public static void writeEnumerationValue(COEREnumerationType value, DataOutputStream dos) throws IOException{
 		if(value == null){
 			throw new IOException("Error COER Enumeration value cannot be null");
 		}
@@ -94,7 +96,7 @@ public class COEREncodeHelper {
 	 * @param dos the output stream to write the value to.
 	 * @param isLengthDeterminant true if it should be encoded as length determinant otherwise false for enumeration.
 	 */
-	private static void encodeLengthDeterminantOrEnumeration(BigInteger value, DataOutputStream dos, boolean isLengthDeterminant) throws IllegalArgumentException, IOException{
+	private static void encodeLengthDeterminantOrEnumeration(BigInteger value, DataOutputStream dos, boolean isLengthDeterminant) throws IOException{
 		if(value.compareTo(BigInteger.ZERO) != -1 && value.compareTo(BI_127) != 1){
 			dos.write(value.toByteArray());
 			return;
@@ -102,11 +104,11 @@ public class COEREncodeHelper {
 		byte[] valueAsOctets = value.toByteArray();
 		if(isLengthDeterminant){
 			if(valueAsOctets.length > 127){
-				throw new IllegalArgumentException("Error to long length determinant value, must be less than 2^1016-1");
+				throw new IOException("Error to long length determinant value, must be less than 2^1016-1");
 			}
 		}else{
 			if(valueAsOctets.length > 127){
-				throw new IllegalArgumentException("Error to enumeration value, must be between -2^1015 and 2^1015");
+				throw new IOException("Error to enumeration value, must be between -2^1015 and 2^1015");
 			}
 		}
 		
@@ -193,13 +195,13 @@ public class COEREncodeHelper {
 	/**
 	 * Help method to perform java serialization of coer objects used for deep cloning.
 	 */
-	public static byte[] serialize(COEREncodable object) throws IllegalArgumentException{
+	public static byte[] serialize(COEREncodable object) throws IOException{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			ObjectOutputStream dos = new ObjectOutputStream(baos);
 			dos.writeObject(object);
 		} catch (IOException e) {
-			throw new IllegalArgumentException("Error serializing COER object during deep clone: " + e.getMessage());
+			throw new IOException("Error serializing COER object during deep clone: " + e.getMessage(), e);
 		}
 		
 		return baos.toByteArray();
@@ -208,12 +210,12 @@ public class COEREncodeHelper {
 	/**
 	 * Help method to perform java deserialization of coer objects used for deep cloning.
 	 */
-	public static COEREncodable deserialize(byte[] serializedData) throws IllegalArgumentException{
+	public static COEREncodable deserialize(byte[] serializedData) throws IOException{
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(serializedData));
 			return (COEREncodable) ois.readObject();
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Error deserializing COER object during deep clone: " + e.getMessage());
+			throw new IOException("Error deserializing COER object during deep clone: " + e.getMessage());
 		}
 	}
 	

@@ -51,19 +51,19 @@ class InnerEcResponseSpec extends BaseStructSpec {
         r4.getCertificate() == null
     }
 
-    def "Verify that constructor throws IllegalArgumentException if response code is not ok but certificate is set"(){
+    def "Verify that constructor throws BadArgumentException if response code is not ok but certificate is set"(){
         when:
         new InnerEcResponse(requestHash, EnrollmentResponseCode.badcontenttype, certificate)
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Illegal argument: certificate must be null if response code is not ok."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if response code is  ok but certificate is not set"(){
+    def "Verify that constructor throws BadArgumentException if response code is  ok but certificate is not set"(){
         when:
         new InnerEcResponse(requestHash, EnrollmentResponseCode.ok, null)
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Illegal argument: certificate cannot be null if response code is ok."
     }
 

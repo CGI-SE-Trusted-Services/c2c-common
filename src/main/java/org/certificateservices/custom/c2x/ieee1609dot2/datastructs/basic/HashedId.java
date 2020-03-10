@@ -12,6 +12,7 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
@@ -39,14 +40,14 @@ public abstract class HashedId extends COEROctetStream{
 	/**
 	 * Constructor used to create a hashedid value for a full hash byte array.
 	 * @param fullHashValue the fill hash value.
-	 * @throws IllegalArgumentException if full hash value was shorted that hash length
+	 * @throws IOException if full hash value was shorted that hash length
 	 */
-	public HashedId(byte[] fullHashValue) throws IllegalArgumentException {
+	public HashedId(byte[] fullHashValue) throws IOException {
 		lowerBound=getHashLength();
 		upperBound=getHashLength();
 		
 		if(fullHashValue.length < getHashLength()){
-			throw new IllegalArgumentException("Error unsupported hash value, must be at least " + getHashLength() + " octets.");
+			throw new IOException("Error unsupported hash value, must be at least " + getHashLength() + " octets.");
 		}
 		
 		data = Arrays.copyOfRange(fullHashValue, fullHashValue.length - getHashLength() , fullHashValue.length);

@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits103097.v131.generator;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
@@ -72,7 +73,7 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new self signed certificate with root CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -90,7 +91,7 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException {
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException {
 
 		PsidSsp certReqAppPerms = new PsidSsp(SecuredCertificateRequestService, new ServiceSpecificPermissions(ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.opaque,certReqSSPData));
 		PsidSsp[] appPerms = new PsidSsp[]{certReqAppPerms};
@@ -117,7 +118,7 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new self signed certificate with root CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -134,7 +135,7 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		PublicEncryptionKey encryptionKey = null;
 		if(symmAlgorithm != null && encPublicKeyAlgorithm != null && encPublicKey != null){
@@ -163,7 +164,7 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 	 * @param encryptionKey The PublicEncryptionKey to include in the certificate.
 	 * @return a new self signed certificate with root CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -178,7 +179,7 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 			Certificate signerCertificate,
 			PublicKey signCertificatePublicKey,
 			PrivateKey signCertificatePrivateKey,
-			PublicEncryptionKey encryptionKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicEncryptionKey encryptionKey) throws BadArgumentException,  SignatureException, IOException{
 		// See 6.4.8 ToBeSignedCertificate - certIssuePermissions for details
 		CertificateId id = new CertificateId(new Hostname(name));
 
@@ -196,7 +197,7 @@ public class ETSIEnrollmentCredentialGenerator extends BaseCertGenerator {
 	}
 
 	@Override
-	protected Certificate newCertificate(IssuerIdentifier issuerIdentifier, ToBeSignedCertificate tbs,Signature signature){
+	protected Certificate newCertificate(IssuerIdentifier issuerIdentifier, ToBeSignedCertificate tbs,Signature signature) throws IOException{
 		return new EtsiTs103097Certificate(issuerIdentifier,tbs,signature);
 	}
 

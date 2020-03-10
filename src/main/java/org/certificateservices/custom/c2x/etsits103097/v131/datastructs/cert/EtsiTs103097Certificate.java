@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.IssuerIdentifier;
@@ -71,7 +72,7 @@ public class EtsiTs103097Certificate extends Certificate {
      * Constructor used when encoding explicit certificate
      */
     public EtsiTs103097Certificate(int version, IssuerIdentifier issuer,
-                       ToBeSignedCertificate toBeSigned, Signature signature) throws IllegalArgumentException{
+                       ToBeSignedCertificate toBeSigned, Signature signature) throws IOException{
         super(version,issuer, toBeSigned,signature);
         validate();
     }
@@ -80,7 +81,7 @@ public class EtsiTs103097Certificate extends Certificate {
      * Constructor used when encoding explicit certificate of default version
      */
     public EtsiTs103097Certificate(IssuerIdentifier issuer,
-                       ToBeSignedCertificate toBeSigned,Signature signature) throws IllegalArgumentException{
+                       ToBeSignedCertificate toBeSigned,Signature signature) throws IOException {
         this(CURRENT_VERSION, issuer, toBeSigned,signature);
     }
 
@@ -88,24 +89,24 @@ public class EtsiTs103097Certificate extends Certificate {
      * Constructor decoding a certificate from an encoded byte array.
      *
      * @param encodedCert byte array encoding of the certificate.
-     * @throws IllegalArgumentException if certificate didn't validate against ETSI requirements.
+     * @throws BadArgumentException if certificate didn't validate against ETSI requirements.
      * @throws IOException if communication problems occurred during serialization.
      */
-    public EtsiTs103097Certificate(byte[] encodedCert) throws IllegalArgumentException, IOException {
+    public EtsiTs103097Certificate(byte[] encodedCert) throws BadArgumentException, IOException {
         super(encodedCert);
         validate();
     }
 
-    protected void validate() throws IllegalArgumentException{
+    protected void validate() throws IOException{
         if(getToBeSigned().getId() != null && (getToBeSigned().getId().getType() == linkageData ||
                 getToBeSigned().getId().getType() == binaryId)){
-            throw new IllegalArgumentException("Invalid id type in toBeSigned field of EtsiTs103097Certificate: " + getToBeSigned().getId().getType());
+            throw new IOException("Invalid id type in toBeSigned field of EtsiTs103097Certificate: " + getToBeSigned().getId().getType());
         }
         if(getToBeSigned().getCertRequestPermissions() != null){
-            throw new IllegalArgumentException("Invalid toBeSigned field of EtsiTs103097Certificate, field certRequestPermissions cannot be set.");
+            throw new IOException("Invalid toBeSigned field of EtsiTs103097Certificate, field certRequestPermissions cannot be set.");
         }
         if(getToBeSigned().isCanRequestRollover()){
-            throw new IllegalArgumentException("Invalid toBeSigned field of EtsiTs103097Certificate, field canRequestRollover cannot be set.");
+            throw new IOException("Invalid toBeSigned field of EtsiTs103097Certificate, field canRequestRollover cannot be set.");
         }
     }
 

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
@@ -80,7 +81,7 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new self signed certificate with root CA profile.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -97,7 +98,7 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PrivateKey signPrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 		// See 6.4.8 ToBeSignedCertificate - certIssuePermissions for details
 		SubjectPermissions sp = new SubjectPermissions(SubjectPermissionsChoices.all, null);
 		
@@ -134,7 +135,7 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new signed certificate with enrollment CA profile.
 	 *
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -157,7 +158,7 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		return genSubCA(type, id, validityPeriod, region, subjectPermissions, true, cracaid, crlSeries, assuranceLevel, confidenceLevel, minChainDepth, chainDepthRange, signingPublicKeyAlgorithm, signPublicKey, signerCertificate, signCertificatePublicKey,signCertificatePrivateKey, symmAlgorithm, encPublicKeyAlgorithm, encPublicKey);
 	}
@@ -185,7 +186,7 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new signed certificate with authorization CA profile.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -208,7 +209,7 @@ public class AuthorityCertGenerator extends BaseAuthorityCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 
 		return genSubCA(type, id, validityPeriod, region, subjectPermissions, false, cracaid, crlSeries, assuranceLevel, confidenceLevel, minChainDepth, chainDepthRange, signingPublicKeyAlgorithm, signPublicKey, signerCertificate, signPublicKey, signCertificatePrivateKey, symmAlgorithm, encPublicKeyAlgorithm, encPublicKey);
 	}

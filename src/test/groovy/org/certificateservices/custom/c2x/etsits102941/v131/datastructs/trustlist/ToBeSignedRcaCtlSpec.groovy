@@ -51,19 +51,19 @@ class ToBeSignedRcaCtlSpec extends BaseStructSpec {
         f2.getCtlCommands() == ctlCommands
     }
 
-    def "Verify that constructor throws IllegalArgumentException if ToBeSignedRcaCtl contains CtlCommand with add rca"(){
+    def "Verify that constructor throws BadArgumentException if ToBeSignedRcaCtl contains CtlCommand with add rca"(){
         when:
         new ToBeSignedRcaCtl(ver, nextUpdate, true, 12, [new CtlCommand(new CtlEntry(rootCaEntry))] as CtlCommand[])
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid ToBeSignedRcaCtl, cannot contain ctl commands for add rca"
     }
 
-    def "Verify that constructor throws IllegalArgumentException if ToBeSignedRcaCtl contains CtlCommand with add tlm"(){
+    def "Verify that constructor throws BadArgumentException if ToBeSignedRcaCtl contains CtlCommand with add tlm"(){
         when:
         new ToBeSignedRcaCtl(ver, nextUpdate, true, 12, [new CtlCommand(new CtlEntry(tlmEntry))] as CtlCommand[])
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid ToBeSignedRcaCtl, cannot contain ctl commands for add tlm"
     }
 

@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSigned;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
@@ -51,7 +52,8 @@ public abstract class BaseEtsiTs102941ListValidator {
      * @throws InvalidCertificateException if encoding problems occurred.
      * @throws NoSuchAlgorithmException if no SHA-256 digest algorithm was found
      */
-    protected HashedId8 toHashedId8(org.certificateservices.custom.c2x.common.Certificate certificate) throws InvalidCertificateException, NoSuchAlgorithmException {
+    protected HashedId8 toHashedId8(org.certificateservices.custom.c2x.common.Certificate certificate)
+            throws InvalidCertificateException, NoSuchAlgorithmException {
         try {
             return certificate.asHashedId8(cryptoManager);
         } catch (IOException e) {
@@ -62,14 +64,14 @@ public abstract class BaseEtsiTs102941ListValidator {
     /**
      * Help method to get the SignerIdentifier element from the signData structure.
      */
-    protected SignerIdentifier findSignerIdentifier(EtsiTs103097DataSigned signedData) throws IllegalArgumentException {
+    protected SignerIdentifier findSignerIdentifier(EtsiTs103097DataSigned signedData) throws BadArgumentException {
         if(signedData.getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.signedData){
-            throw new IllegalArgumentException("Only signed Ieee1609Dot2Data can verified");
+            throw new BadArgumentException("Only signed Ieee1609Dot2Data can verified");
         }
 
         SignedData sd = (SignedData) signedData.getContent().getValue();
         if(sd.getTbsData().getPayload().getData() == null){
-            throw new IllegalArgumentException("Error no enveloped data found in Signed Payload");
+            throw new BadArgumentException("Error no enveloped data found in Signed Payload");
         }
         return sd.getSigner();
     }
@@ -77,13 +79,13 @@ public abstract class BaseEtsiTs102941ListValidator {
     /**
      * Help method to get a HashedId8 cert id from a SignerIdentifier.
      */
-    protected HashedId8 getSignerId(SignerIdentifier signer) throws IllegalArgumentException, NoSuchAlgorithmException,
+    protected HashedId8 getSignerId(SignerIdentifier signer) throws BadArgumentException, NoSuchAlgorithmException,
             IOException {
         if(signer.getType() == SignerIdentifier.SignerIdentifierChoices.digest){
             return (HashedId8) signer.getValue();
         }
         if(signer.getType() == SignerIdentifier.SignerIdentifierChoices.self){
-            throw new IllegalArgumentException("SignedData cannot be self signed");
+            throw new BadArgumentException("SignedData cannot be self signed");
         }
         SequenceOfCertificate sc = (SequenceOfCertificate) signer.getValue();
         return certChainBuilder.getCertID((Certificate) sc.getSequenceValues()[0]);

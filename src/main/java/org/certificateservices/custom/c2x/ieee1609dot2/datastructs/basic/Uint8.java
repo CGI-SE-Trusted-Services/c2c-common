@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 
+import java.io.IOException;
+
 /**
  * Base type defining integer between 0 and 255 (0xff)
  * 
@@ -34,7 +36,7 @@ public class Uint8 extends COERInteger {
 	/**
 	 * Constructor used when encoding
 	 */
-	public Uint8(int value){
+	public Uint8(int value)   {
 		super(value,0,255);
 	}
 

@@ -87,31 +87,31 @@ class CrlContentsSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new CrlContents(null,crlCraca,issueDate,nextCrl,priorityInfo,typeSpecific)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new CrlContents(crlSeries,null,issueDate,nextCrl,priorityInfo,typeSpecific)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new CrlContents(crlSeries,crlCraca,null,nextCrl,priorityInfo,typeSpecific)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new CrlContents(crlSeries,crlCraca,issueDate,null,priorityInfo,typeSpecific)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new CrlContents(crlSeries,crlCraca,issueDate,nextCrl,null,typeSpecific)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new CrlContents(crlSeries,crlCraca,issueDate,nextCrl,priorityInfo,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

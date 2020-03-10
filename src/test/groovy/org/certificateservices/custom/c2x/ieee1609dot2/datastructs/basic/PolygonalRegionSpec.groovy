@@ -69,19 +69,19 @@ class PolygonalRegionSpec extends BaseStructSpec {
 		u2.getSequenceValues().length == 4
 	}
 	
-	def "Verify that plygonalRegion of length less than 3 throws IllegalArgumentException"(){
+	def "Verify that plygonalRegion of length less than 3 throws IOException"(){
 		when:
 		new PolygonalRegion([l1,l2])
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new PolygonalRegion([l1])
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new PolygonalRegion([])
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify toString"(){

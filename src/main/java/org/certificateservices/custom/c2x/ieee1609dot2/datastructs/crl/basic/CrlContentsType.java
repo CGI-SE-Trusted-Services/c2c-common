@@ -75,14 +75,14 @@ public class CrlContentsType extends COERChoice {
 	/**
 	 * Constructor used when encoding of type fullHashCrl or fullHashCrl
 	 */
-	public CrlContentsType(CrlContentsTypeChoices type, ToBeSignedHashIdCrl value) throws IllegalArgumentException{
+	public CrlContentsType(CrlContentsTypeChoices type, ToBeSignedHashIdCrl value) {
 		super(type, value);
 	}
 	
 	/**
 	 * Constructor used when encoding of type fullLinkedCrl or deltaLinkedCrl
 	 */
-	public CrlContentsType(CrlContentsTypeChoices type, ToBeSignedLinkageValueCrl value) throws IllegalArgumentException{
+	public CrlContentsType(CrlContentsTypeChoices type, ToBeSignedLinkageValueCrl value) {
 		super(type, value);
 	}
 	

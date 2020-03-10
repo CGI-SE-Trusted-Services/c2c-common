@@ -47,11 +47,11 @@ class CircularRegionSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that all fields must be set or IllegalArgumentException is thrown when encoding"(){
+	def "Verify that all fields must be set or IOException is thrown when encoding"(){
 		when:
 		new CircularRegion(null, 1)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify toString"(){

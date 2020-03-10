@@ -16,6 +16,7 @@ import org.certificateservices.custom.c2x.asn1.coer.*;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -44,7 +45,7 @@ public class ToBeSignedCrl extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public ToBeSignedCrl(Version version, Time32 thisUpdate, Time32 nextUpdate, CrlEntry[] entries){
+	public ToBeSignedCrl(Version version, Time32 thisUpdate, Time32 nextUpdate, CrlEntry[] entries) throws IOException {
 		super(true,4);
 		init();
 

@@ -46,15 +46,15 @@ class ValidityPeriodSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that both start and duration have to be set or IllegalArgumentException is thrown when encoding"(){
+	def "Verify that both start and duration have to be set or IOException is thrown when encoding"(){
 		when:
 		new ValidityPeriod(null, duration)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new ValidityPeriod(start, null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify toString"(){

@@ -18,6 +18,7 @@ import java.security.GeneralSecurityException;
 import javax.crypto.SecretKey;
 
 import org.bouncycastle.crypto.InvalidCipherTextException;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
@@ -46,21 +47,21 @@ public class SymmetricKeyReceiver implements Receiver {
 	}
 
 	@Override
-	public HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws IllegalArgumentException, GeneralSecurityException {
-		SymmetricEncryptionKey.SymmetricEncryptionKeyChoices choice = SymmetricEncryptionKey.SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(symKeyAlg);
-		SymmetricEncryptionKey symmetricEncryptionKey = new SymmetricEncryptionKey(choice, symmetricKey.getEncoded());
+	public HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws BadArgumentException, GeneralSecurityException {
 		try {
+			SymmetricEncryptionKey.SymmetricEncryptionKeyChoices choice = SymmetricEncryptionKey.SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(symKeyAlg);
+			SymmetricEncryptionKey symmetricEncryptionKey = new SymmetricEncryptionKey(choice, symmetricKey.getEncoded());
+
 			return new HashedId8(cryptoManager.digest(symmetricEncryptionKey.getEncoded(), alg));
 		} catch (IOException e) {
-			throw new IllegalArgumentException("Invalid encoded SymmetricKey when calculated the hashedId8 for receiver: " + e.getMessage(),e);
+			throw new BadArgumentException("Invalid encoded SymmetricKey when calculated the hashedId8 for receiver: " + e.getMessage(), e);
 		}
 	}
 
 	@Override
 	public SecretKey extractDecryptionKey(
 			Ieee1609Dot2CryptoManager cryptoManager, RecipientInfo recipientInfo)
-			throws IllegalArgumentException, GeneralSecurityException,
-			IOException {
+			throws BadArgumentException, GeneralSecurityException {
 		SymmRecipientInfo sri = (SymmRecipientInfo) recipientInfo.getValue();
 		
 		SymmetricCiphertext symmetricCiphertext = sri.getEncKey();

@@ -81,19 +81,19 @@ class LAGroupSpec extends BaseStructSpec {
 		lag2.getContents() == contents
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new LAGroup(null,laid2,contents)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new LAGroup(laid1,null,contents)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new LAGroup(laid1,laid2,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

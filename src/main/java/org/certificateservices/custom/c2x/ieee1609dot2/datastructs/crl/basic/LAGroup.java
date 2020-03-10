@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LaId;
 
+import java.io.IOException;
+
 /**
  * In this structure:
  * <ul>
@@ -46,7 +48,7 @@ public class LAGroup extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public LAGroup(LaId la1Id, LaId la2Id, SequenceOfIMaxGroup  contents){
+	public LAGroup(LaId la1Id, LaId la2Id, SequenceOfIMaxGroup  contents) throws IOException {
 		super(false,3);
 		init();
 		set(LA1ID, la1Id);

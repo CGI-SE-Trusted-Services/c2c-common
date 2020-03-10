@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits103097.v131.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.Certificate;
 import org.certificateservices.custom.c2x.common.validator.*;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry;
@@ -84,8 +85,9 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
      * @param ssPPermissions the permission to look up in the SSP Data (Use SecuredCertificateRequestServicePermission constants)
      * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     * @throws BadArgumentException if bad parameter was specified.
      */
-    public void checkCertServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions, Certificate[] certificateChain) throws InvalidCertificateException{
+    public void checkCertServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions, Certificate[] certificateChain) throws InvalidCertificateException, BadArgumentException {
         ((ETSI103097PermissionValidator) permissionValidator).checkCertServicePermissionInAppPermissions(ssPVersion,ssPPermissions,certificateChain);
     }
 
@@ -96,8 +98,9 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
      * @param ssPVersion the version byte of the SSP Data (Use CRLServicePermissions.VERSION_ constants)
      * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     * @throws BadArgumentException if bad parameter was specified.
      */
-    public void checkCRLServicePermissionInAppPermissions(byte ssPVersion, Certificate[] certificateChain) throws InvalidCertificateException{
+    public void checkCRLServicePermissionInAppPermissions(byte ssPVersion, Certificate[] certificateChain) throws InvalidCertificateException, BadArgumentException {
         ((ETSI103097PermissionValidator) permissionValidator).checkCRLServicePermissionInAppPermissions(ssPVersion,certificateChain);
     }
 
@@ -109,8 +112,9 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
      * @param ssPPermissions the permission to look up in the SSP Data (Use CTLServicePermission constants)
      * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     * @throws BadArgumentException if bad parameter was specified.
      */
-    public void checkCTLServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions,Certificate[] certificateChain) throws InvalidCertificateException{
+    public void checkCTLServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions,Certificate[] certificateChain) throws InvalidCertificateException, BadArgumentException {
         ((ETSI103097PermissionValidator) permissionValidator).checkCTLServicePermissionInAppPermissions(ssPVersion,ssPPermissions,certificateChain);
     }
 
@@ -126,8 +130,9 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
      *                         be 1 and so on incremented up to root certificate in chain.
      * @param certificateChain the certificate chain to lookup cert issuer permissions if the first certificate.
      * @throws InvalidCertificateException if no given permissions was found in certificate.
+     * @throws BadArgumentException if bad parameter was specified.
      */
-    public void checkCertServicePermissionInIssuePermissions(byte ssPVersion, byte ssPPermissions, EndEntityType endEntityType, int chainLengthIndex, Certificate[] certificateChain) throws InvalidCertificateException{
+    public void checkCertServicePermissionInIssuePermissions(byte ssPVersion, byte ssPPermissions, EndEntityType endEntityType, int chainLengthIndex, Certificate[] certificateChain) throws InvalidCertificateException, IOException, BadArgumentException {
         ((ETSI103097PermissionValidator) permissionValidator).checkCertServicePermissionInIssuePermissions(ssPVersion,ssPPermissions,endEntityType,chainLengthIndex,certificateChain);
     }
 
@@ -173,7 +178,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws InvalidCRLException if CRL was not verifiable or not within time constraints.
@@ -185,7 +190,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
                                   EtsiTs102941CTL fullRootCACTL, EtsiTs102941CTL deltaRootCACTL, EtsiTs102941CRL rootCACRL,
                                   EtsiTs102941CTL fullTLMCTL, EtsiTs102941CTL deltaTLMCTL, Certificate[] tlmCertificates,
                                   CtlEntry.CtlEntryChoices[] ctlTypes,
-                                  boolean entireChain) throws IllegalArgumentException,
+                                  boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException, InvalidCTLException, CertificateRevokedException, InvalidCRLException {
         verifyAndValidate(certificate,checkDate,checkRegion,targetEndEntityType,0,fullRootCACTL, deltaRootCACTL, rootCACRL, fullTLMCTL, deltaTLMCTL,tlmCertificates, ctlTypes, entireChain);
     }
@@ -235,7 +240,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws InvalidCRLException if CRL was not verifiable or not within time constraints.
@@ -248,17 +253,18 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
                                   EtsiTs102941CTL fullTLMCTL, EtsiTs102941CTL deltaTLMCTL, Certificate[] tlmCertificates,
                                   CtlEntry.CtlEntryChoices[] ctlTypes,
                                   boolean entireChain)
-            throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException,
+            throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException,
             InvalidCTLException, CertificateRevokedException, InvalidCRLException {
         org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] etsiTlmCertificates = toIEEE1609Certificates(tlmCertificates);
         Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> tlmTrustStore;
         try {
             tlmTrustStore = securedDataGenerator.buildCertStore(etsiTlmCertificates);
         } catch (IOException e) {
-            throw new IllegalArgumentException("Unable to build TLM CTL certificate trust store: " + e.getMessage(),e);
+            throw new BadArgumentException("Unable to build TLM CTL certificate trust store: " + e.getMessage(),e);
         }
         Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> trustStore;
         try {
+            trustStore = etsiTs102941CTLValidator.verifyAndValidate(fullTLMCTL, deltaTLMCTL, checkDate, tlmTrustStore, entireChain, ROOTCA_ENTRIES);
             trustStore = etsiTs102941CTLValidator.verifyAndValidate(fullTLMCTL, deltaTLMCTL, checkDate, checkRegion, tlmTrustStore, entireChain, ROOTCA_ENTRIES);
         }catch(IllegalArgumentException e){
             throw new InvalidCTLException("Invalid ECTL: " + e.getMessage(), e);
@@ -310,7 +316,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws InvalidCRLException if CRL was not verifiable or not within time constraints.
@@ -321,7 +327,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
                                   EndEntityType targetEndEntityType,
                                   EtsiTs102941CTL fullRootCACTL, EtsiTs102941CTL deltaRootCACTL, EtsiTs102941CRL rootCACRL,
                                   Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> trustStore, CtlEntry.CtlEntryChoices[] ctlTypes,
-                                  boolean entireChain) throws IllegalArgumentException,
+                                  boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException, InvalidCTLException, CertificateRevokedException, InvalidCRLException {
         verifyAndValidate(certificate,checkDate,checkRegion,targetEndEntityType,0, fullRootCACTL, deltaRootCACTL, rootCACRL, trustStore, ctlTypes, entireChain);
     }
@@ -368,7 +374,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws InvalidCRLException if CRL was not verifiable or not within time constraints.
@@ -380,7 +386,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
                                   EtsiTs102941CTL fullRootCACTL, EtsiTs102941CTL deltaRootCACTL, EtsiTs102941CRL rootCACRL,
                                   Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> trustStore, CtlEntry.CtlEntryChoices[] ctlTypes,
                                   boolean entireChain)
-            throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException, InvalidCTLException, CertificateRevokedException, InvalidCRLException {
+            throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException, InvalidCTLException, CertificateRevokedException, InvalidCRLException {
 
         Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> certStore = etsiTs102941CTLValidator.verifyAndValidate(fullRootCACTL,
                 deltaRootCACTL,checkDate, checkRegion, trustStore, entireChain, ctlTypes);

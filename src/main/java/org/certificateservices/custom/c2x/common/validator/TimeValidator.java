@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.common.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.Certificate;
 import java.util.Date;
 
@@ -29,7 +30,7 @@ public interface TimeValidator {
      * @param certificateChain the certificate to verify region in, end entity certificate first and root cert last.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
      * @throws InvalidCertificateException if the given certificate chain was invalid for the specified time.
-     * @throws IllegalArgumentException if other argument was invalid when validation the certificate.
+     * @throws BadArgumentException if other argument was invalid when validation the certificate.
      */
-    void validateTime(Date currentTime, Certificate[] certificateChain, boolean entireChain) throws IllegalArgumentException, InvalidCertificateException;
+    void validateTime(Date currentTime, Certificate[] certificateChain, boolean entireChain) throws BadArgumentException, InvalidCertificateException;
 }

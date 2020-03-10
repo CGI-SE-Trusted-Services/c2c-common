@@ -39,7 +39,7 @@ public class EncryptionKey extends COERChoice {
 		symmetric;
 
 		@Override
-		public COEREncodable getEmptyCOEREncodable() throws IOException {
+		public COEREncodable getEmptyCOEREncodable() {
 			if(this == public_){
 				return new PublicEncryptionKey();
 			}
@@ -58,21 +58,21 @@ public class EncryptionKey extends COERChoice {
 	/**
 	 * Constructor used when encoding public key.
 	 */
-	public EncryptionKey(PublicEncryptionKey publicKey) throws IllegalArgumentException{
+	public EncryptionKey(PublicEncryptionKey publicKey) {
 		super(EncryptionKeyChoices.public_, publicKey);
 	}
 	
 	/**
 	 * Constructor used when encoding symmetric key.
 	 */
-	public EncryptionKey(SymmetricEncryptionKey symmetricKey) throws IllegalArgumentException{
+	public EncryptionKey(SymmetricEncryptionKey symmetricKey) {
 		super(EncryptionKeyChoices.symmetric, symmetricKey);
 	}
 	
 	/**
 	 * Constructor used when decoding
 	 */
-	public EncryptionKey() throws IllegalArgumentException{
+	public EncryptionKey() {
 		super(EncryptionKeyChoices.class);
 	}
 

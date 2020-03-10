@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustli
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
 
+import java.io.IOException;
+
 /**
  * Class representing RootCaEntry defined in ETSI TS 102 941 Trust List Types
  *
@@ -39,7 +41,8 @@ public class RootCaEntry extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public RootCaEntry(EtsiTs103097Certificate selfsignedRootCa, EtsiTs103097Certificate linkRootCaCertificate){
+	public RootCaEntry(EtsiTs103097Certificate selfsignedRootCa,
+					   EtsiTs103097Certificate linkRootCaCertificate) throws IOException {
 		super(false,2);
 		init();
 

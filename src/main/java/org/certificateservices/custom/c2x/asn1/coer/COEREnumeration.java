@@ -12,6 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -61,7 +63,8 @@ public class COEREnumeration implements COEREncodable{
 
 	@Override
 	public void encode(DataOutputStream out) throws IOException {
-		COEREncodeHelper.writeEnumerationValue(enumerationValue, out);
+
+			COEREncodeHelper.writeEnumerationValue(enumerationValue, out);
 	}
 
 	@SuppressWarnings("unchecked")

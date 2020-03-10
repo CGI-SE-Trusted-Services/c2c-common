@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This structure specifies a rectangle formed by connecting in sequence: (northWest.latitude,
  * northWest.longitude), (southEast.latitude, northWest.longitude),
@@ -44,16 +46,16 @@ public class RectangularRegion extends COERSequence {
 	
 	/**
 	 * Constructor used when encoding
-	 * @throws IllegalArgumentException if positions is equal
+	 * @throws IOException if positions is equal
 	 */
-	public RectangularRegion(TwoDLocation northWest, TwoDLocation southEast) throws IllegalArgumentException{
+	public RectangularRegion(TwoDLocation northWest, TwoDLocation southEast) throws IOException {
 		super(false,2);
 		init();
 		set(NORTHWEST, northWest);
 		set(SOUTHEAST, southEast);
 		
 		if(northWest != null && northWest.equals(southEast)){
-			throw new IllegalArgumentException("Error constructing RectangularRegion north west position cannot be the same as south east position.");
+			throw new IOException("Error constructing RectangularRegion north west position cannot be the same as south east position.");
 		}
 	}
 

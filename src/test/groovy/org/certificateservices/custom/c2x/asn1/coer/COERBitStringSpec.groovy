@@ -12,7 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer
 
-
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 
 import spock.lang.IgnoreRest;
@@ -98,11 +98,11 @@ class COERBitStringSpec extends BaseStructSpec {
 	}
 	
 
-	def "Verify that length larger that 64  in constructor throws a IllegalArgumentException"(){
+	def "Verify that length larger that 64  in constructor throws a IOException"(){
 		when:
 		new COERBitString(5L,65, false)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 
 	

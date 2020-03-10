@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustli
 
 import org.certificateservices.custom.c2x.asn1.coer.COERIA5String;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -34,7 +35,7 @@ public class Url extends COERIA5String {
      * Constructor used when encoding a string to url encoded format when the lower and upper bound of the string is known.
      *
      */
-    public Url(String url, Integer lowerBound, Integer upperBound) throws UnsupportedEncodingException {
+    public Url(String url, Integer lowerBound, Integer upperBound) throws IOException {
         super(url, lowerBound, upperBound);
     }
 
@@ -43,7 +44,7 @@ public class Url extends COERIA5String {
      *
      * @param url
      */
-    public Url(String url) throws UnsupportedEncodingException {
+    public Url(String url) throws IOException {
         super(url);
     }
 

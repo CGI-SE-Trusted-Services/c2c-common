@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.*;
 
 import java.io.IOException;
@@ -33,18 +34,18 @@ public class EtsiTs103097DataSignedExternalPayload extends EtsiTs103097Data {
 
     /**
      * Constructor used when encoding using default protocol version.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataSignedExternalPayload(Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataSignedExternalPayload(Ieee1609Dot2Content content) throws IOException{
         super(content);
         validateSignedExternalPayload();
     }
 
     /**
      * Constructor used when encoding
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataSignedExternalPayload(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataSignedExternalPayload(int protocolVersion, Ieee1609Dot2Content content) throws IOException {
         super(protocolVersion,content);
         validateSignedExternalPayload();
 
@@ -54,29 +55,29 @@ public class EtsiTs103097DataSignedExternalPayload extends EtsiTs103097Data {
      * Constructor decoding a Ieee1609Dot2Data from an encoded byte array.
      * @param encodedData byte array encoding of the Ieee1609Dot2Data.
      * @throws IOException   if communication problems occurred during serialization.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataSignedExternalPayload(byte[] encodedData) throws IOException, IllegalArgumentException{
+    public EtsiTs103097DataSignedExternalPayload(byte[] encodedData) throws IOException{
         super(encodedData);
         validateSignedExternalPayload();
     }
 
-    protected void validateSignedExternalPayload() throws IllegalArgumentException{
+    protected void validateSignedExternalPayload() throws IOException{
         if(getContent().getType() != Ieee1609Dot2Content.Ieee1609Dot2ContentChoices.signedData) {
-            throw new IllegalArgumentException("EtsiTs103097Data with profile SignedExternalPayload must have content of type: signedData");
+            throw new IOException("EtsiTs103097Data with profile SignedExternalPayload must have content of type: signedData");
         }
         SignedData signedData = (SignedData) getContent().getValue();
         if(signedData.getTbsData() == null){
-            throw new IllegalArgumentException("Invalid EtsiTs103097Data with profile SignedExternalPayload, signed data must have tbsData set.");
+            throw new IOException("Invalid EtsiTs103097Data with profile SignedExternalPayload, signed data must have tbsData set.");
         }
 
         SignedDataPayload payload = signedData.getTbsData().getPayload();
         if(payload.getExtDataHash() == null) {
-            throw new IllegalArgumentException("Invalid EtsiTs103097Data with profile SignedExternalPayload must have payload with extDataHash field set.");
+            throw new IOException("Invalid EtsiTs103097Data with profile SignedExternalPayload must have payload with extDataHash field set.");
         }
         HashedData hashedData = payload.getExtDataHash();
         if(hashedData.getType() != HashedData.HashedDataChoices.sha256HashedData) {
-            throw new IllegalArgumentException("Invalid EtsiTs103097Data with profile SignedExternalPayload must have extDataHash of type sha256HashedData.");
+            throw new IOException("Invalid EtsiTs103097Data with profile SignedExternalPayload must have extDataHash of type sha256HashedData.");
         }
     }
 

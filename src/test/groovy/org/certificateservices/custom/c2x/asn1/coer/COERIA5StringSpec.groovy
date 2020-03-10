@@ -12,7 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer
 
-
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 
 /**
@@ -32,16 +32,16 @@ class COERIA5StringSpec extends BaseStructSpec {
 		new COERIA5String("ab",1,5).getAI5String() == "ab"
 	}
 
-	def "Verify that constructor throws IllegalArgumentException if IA5 string contains invalid values"(){
+	def "Verify that constructor throws IOException if IA5 string contains invalid values"(){
 		when:
 		new COERIA5String("ä")
 		then:
-		def e = thrown IllegalArgumentException
+		def e = thrown IOException
 		e.message == "Invalid IA5String characters in string: ä"
 		when:
 		new COERIA5String("ä",1,5)
 		then:
-		e = thrown IllegalArgumentException
+		e = thrown IOException
 		e.message == "Invalid IA5String characters in string: ä"
 	}
 		

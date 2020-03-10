@@ -57,15 +57,15 @@ class HashBasedRevocationInfoSpec extends BaseStructSpec {
 		hr2.getExpiry() == t1
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new HashBasedRevocationInfo(null,t1)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new HashBasedRevocationInfo(h1,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

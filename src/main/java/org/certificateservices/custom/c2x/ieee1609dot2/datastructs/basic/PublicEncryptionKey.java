@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COEREnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This structure specifies a public encryption key and the associated symmetric algorithm which is 
  * used for bulk data encryption when encrypting for that public key.
@@ -41,11 +43,11 @@ public class PublicEncryptionKey extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public PublicEncryptionKey(SymmAlgorithm symmAlgorithm, BasePublicEncryptionKey publicKey){
+	public PublicEncryptionKey(SymmAlgorithm symmAlgorithm, BasePublicEncryptionKey publicKey) throws IOException {
 		super(false,2);
 		init();
 		if(symmAlgorithm == null){
-			throw new IllegalArgumentException("Illegal argument: symmAlgorithm cannot be null for PublicEncryptionKey");
+			throw new IOException("Illegal argument: symmAlgorithm cannot be null for PublicEncryptionKey");
 		}
 		set(SUPPORTEDSYMMALG, new COEREnumeration(symmAlgorithm));
 		set(PUBLICKEY, publicKey);

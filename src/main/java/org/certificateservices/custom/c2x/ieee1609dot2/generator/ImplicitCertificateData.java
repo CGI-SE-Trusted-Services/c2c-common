@@ -53,7 +53,7 @@ public class ImplicitCertificateData extends Certificate {
 	 * @see Certificate#Certificate(int,IssuerIdentifier, ToBeSignedCertificate)
 	 */
 	public ImplicitCertificateData(int version, IssuerIdentifier issuer,
-			ToBeSignedCertificate toBeSigned) throws IllegalArgumentException {
+			ToBeSignedCertificate toBeSigned) throws IOException {
 		super(version, issuer, toBeSigned);
 	}
 
@@ -63,7 +63,7 @@ public class ImplicitCertificateData extends Certificate {
 	 * @see Certificate#Certificate(IssuerIdentifier, ToBeSignedCertificate)
 	 */
 	public ImplicitCertificateData(IssuerIdentifier issuer,
-			ToBeSignedCertificate toBeSigned) throws IllegalArgumentException {
+			ToBeSignedCertificate toBeSigned) throws IOException {
 		super(issuer, toBeSigned);
 	}
 

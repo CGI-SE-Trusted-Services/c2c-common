@@ -66,11 +66,11 @@ class SignedDataPayloadSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IllegalArgumentException is thrown if both data and exthash is null"(){
+	def "Verify that IOException is thrown if both data and exthash is null"(){
 		when:
 		new SignedDataPayload(null,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

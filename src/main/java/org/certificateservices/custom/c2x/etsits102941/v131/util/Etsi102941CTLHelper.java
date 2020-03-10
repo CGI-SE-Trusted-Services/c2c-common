@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.util;
 
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941Data;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.*;
@@ -55,11 +56,11 @@ public class Etsi102941CTLHelper {
      * @param types the types of store to build, dc type will be excluded.
      * @return a Map of id to certificate.
      * @throws IOException if encoding problems occurred.
-     * @throws IllegalArgumentException if invalid CTLs was given.
+     * @throws BadArgumentException if invalid CTLs was given.
      * @throws NoSuchAlgorithmException if SHA 256 digest wasn't available.
      */
     public Map<HashedId8, Certificate> buildStore(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
-                                           CtlEntry.CtlEntryChoices[] types) throws IOException, IllegalArgumentException, NoSuchAlgorithmException {
+                                           CtlEntry.CtlEntryChoices[] types) throws IOException, BadArgumentException, NoSuchAlgorithmException {
         Map<HashedId8, Certificate> retval = new HashMap<>();
 
         List<CtlEntry> allEntries = getCACtlEntries(fullCTL,deltaCTL,types);
@@ -78,9 +79,10 @@ public class Etsi102941CTLHelper {
      * @param type the type of CtlEntry to fetch
      * @param certificateId the certificateId to match.
      * @return a list of all matching entries, empty list if none found.
+     * @throws BadArgumentException if invalid parameters were specified.
      * @throws IOException if decoding problems occurred reading the CTL
      */
-    public List<CtlEntry> findCACtlEntries(EtsiTs102941CTL etsiTs102941CTL , CtlEntry.CtlEntryChoices type, CertificateId certificateId) throws IOException, NoSuchAlgorithmException {
+    public List<CtlEntry> findCACtlEntries(EtsiTs102941CTL etsiTs102941CTL , CtlEntry.CtlEntryChoices type, CertificateId certificateId) throws BadArgumentException, IOException, NoSuchAlgorithmException {
         return findCACtlEntries(etsiTs102941CTL,null,type,certificateId);
     }
 
@@ -92,9 +94,10 @@ public class Etsi102941CTLHelper {
      * @param type the type of CtlEntry to fetch
      * @param certificateId the certificateId to match.
      * @return a list of all matching entries, empty list if none found.
+     * @throws BadArgumentException if invalid parameters were specified.
      * @throws IOException if decoding problems occurred reading the CTL
      */
-    public List<CtlEntry> findCACtlEntries(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, CtlEntry.CtlEntryChoices type, CertificateId certificateId) throws IOException, NoSuchAlgorithmException {
+    public List<CtlEntry> findCACtlEntries(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, CtlEntry.CtlEntryChoices type, CertificateId certificateId) throws BadArgumentException, IOException, NoSuchAlgorithmException {
         List<CtlEntry> retval = new ArrayList<>();
 
         List<CtlEntry> allEntries = getCACtlEntries(fullCTL,deltaCTL,new CtlEntry.CtlEntryChoices[]{type});
@@ -116,9 +119,9 @@ public class Etsi102941CTLHelper {
      * @param types the types of CtlEntry to fetch, DC entries are excluded
      * @return a list of all matching entries, empty list if none found.
      * @throws IOException if decoding problems occurred reading the CTL
-     * @throws IllegalArgumentException if invalid CTL was specified.
+     * @throws BadArgumentException if invalid CTL was specified.
      */
-    public List<CtlEntry> getCACtlEntries(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, CtlEntry.CtlEntryChoices[] types) throws IOException, IllegalArgumentException, NoSuchAlgorithmException {
+    public List<CtlEntry> getCACtlEntries(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, CtlEntry.CtlEntryChoices[] types) throws IOException, BadArgumentException, NoSuchAlgorithmException {
         List<CtlEntry> retval = new ArrayList<>();
 
         Set<CtlEntry.CtlEntryChoices> typeSet = new HashSet<>();
@@ -177,9 +180,9 @@ public class Etsi102941CTLHelper {
      *
      * @return a list of all matching entries, empty list if none found.
      * @throws IOException if decoding problems occurred reading the CTL
-     * @throws IllegalArgumentException if invalid CTL was specified.
+     * @throws BadArgumentException if invalid CTL was specified.
      */
-    public List<CtlEntry> getDCCtlEntries(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, HashedId8 certificateId) throws IOException, IllegalArgumentException, NoSuchAlgorithmException {
+    public List<CtlEntry> getDCCtlEntries(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, HashedId8 certificateId) throws IOException, BadArgumentException, NoSuchAlgorithmException {
         List<CtlEntry> retval = new ArrayList<>();
         List<CtlEntry> allDCEntries = getDCCtlEntries(fullCTL,deltaCTL);
         for(CtlEntry ctlEntry : allDCEntries){
@@ -200,9 +203,9 @@ public class Etsi102941CTLHelper {
      * @param deltaCTL the delta CTL to fetch update entries from full CTL. Use null if no delta CTL is available.
      * @return a list of all matching entries, empty list if none found.
      * @throws IOException if decoding problems occurred reading the CTL
-     * @throws IllegalArgumentException if invalid CTL was specified.
+     * @throws BadArgumentException if invalid CTL was specified.
      */
-    public List<CtlEntry> getDCCtlEntries(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL) throws IOException, IllegalArgumentException, NoSuchAlgorithmException {
+    public List<CtlEntry> getDCCtlEntries(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL) throws IOException, BadArgumentException, NoSuchAlgorithmException {
         List<CtlEntry> retval = new ArrayList<>();
 
         // First build from fullCTL
@@ -290,13 +293,13 @@ public class Etsi102941CTLHelper {
      * Method to check if a CTL was a full CTL and not delta CTL.
      * @param fullCTL ctl to check
      * @return the inner CTL Format
-     * @throws IllegalArgumentException if given CTL was not a full CTL
+     * @throws BadArgumentException if given CTL was not a full CTL
      * @throws IOException if encoding problems occurred
      */
-    private CtlFormat checkFullCTL(EtsiTs102941CTL fullCTL) throws IllegalArgumentException, IOException {
+    private CtlFormat checkFullCTL(EtsiTs102941CTL fullCTL) throws BadArgumentException, IOException {
         CtlFormat fullCTLFormat = getCtlFormat(fullCTL);
         if(!fullCTLFormat.isFullCtl()){
-            throw new IllegalArgumentException("Invalid fullCTL specified when building certificate store, it should not be a delta CTL.");
+            throw new BadArgumentException("Invalid fullCTL specified when building certificate store, it should not be a delta CTL.");
         }
         return fullCTLFormat;
     }
@@ -305,15 +308,15 @@ public class Etsi102941CTLHelper {
      * Method to check if a CTL was a delta CTL and not full CTL.
      * @param deltaCTL ctl to check
      * @return the inner CTL Format
-     * @throws IllegalArgumentException if given CTL was not a delta CTL
+     * @throws BadArgumentException if given CTL was not a delta CTL
      * @throws IOException if encoding problems occurred
      */
-    private CtlFormat checkDeltaCTL(EtsiTs102941CTL deltaCTL) throws IllegalArgumentException, IOException{
+    private CtlFormat checkDeltaCTL(EtsiTs102941CTL deltaCTL) throws BadArgumentException, IOException{
         CtlFormat deltaCTLFormat = null;
         if(deltaCTL != null) {
             deltaCTLFormat = getCtlFormat(deltaCTL);
             if (deltaCTLFormat.isFullCtl()) {
-                throw new IllegalArgumentException("Invalid deltaCTL specified when building certificate store, it should not be a full CTL.");
+                throw new BadArgumentException("Invalid deltaCTL specified when building certificate store, it should not be a full CTL.");
             }
         }
         return deltaCTLFormat;

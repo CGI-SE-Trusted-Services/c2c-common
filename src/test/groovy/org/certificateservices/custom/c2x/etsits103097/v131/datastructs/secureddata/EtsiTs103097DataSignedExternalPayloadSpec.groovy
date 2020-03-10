@@ -44,15 +44,15 @@ class EtsiTs103097DataSignedExternalPayloadSpec extends BaseStructSpec {
         when:
         new EtsiTs103097DataSignedExternalPayload(2, newSignedData(null))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data, signed data tbsData headerInfo must have generationTime set."
     }
 
-    def "Verify that constructor throws IllegalArgumentException if data field is not set."(){
+    def "Verify that constructor throws IOException if data field is not set."(){
         when:
         new EtsiTs103097DataSignedExternalPayload(2, newSignedData(new Time64(10000L), new Ieee1609Dot2Data(genUnsecuredContent())))
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid EtsiTs103097Data with profile SignedExternalPayload must have payload with extDataHash field set."
     }
 

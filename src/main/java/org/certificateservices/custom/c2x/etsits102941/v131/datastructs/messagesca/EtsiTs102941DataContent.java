@@ -85,70 +85,70 @@ public class EtsiTs102941DataContent extends COERChoice {
 	/**
 	 * Constructor used when encoding of type enrolmentRequest
 	 */
-	public EtsiTs102941DataContent(InnerEcRequestSignedForPop innerEcRequestSignedForPop) throws IllegalArgumentException{
+	public EtsiTs102941DataContent(InnerEcRequestSignedForPop innerEcRequestSignedForPop) {
 		super(EtsiTs102941DataContentChoices.enrolmentRequest, innerEcRequestSignedForPop);
 	}
 
 	/**
 	 * Constructor used when encoding of type enrolmentResponse
 	 */
-	public EtsiTs102941DataContent(InnerEcResponse innerEcResponse) throws IllegalArgumentException{
+	public EtsiTs102941DataContent(InnerEcResponse innerEcResponse) {
 		super(EtsiTs102941DataContentChoices.enrolmentResponse, innerEcResponse);
 	}
 
     /**
      * Constructor used when encoding of type authorizationRequest
      */
-    public EtsiTs102941DataContent(InnerAtRequest innerAtRequest) throws IllegalArgumentException{
+    public EtsiTs102941DataContent(InnerAtRequest innerAtRequest){
         super(EtsiTs102941DataContentChoices.authorizationRequest, innerAtRequest);
     }
 
     /**
      * Constructor used when encoding of type authorizationResponse
      */
-    public EtsiTs102941DataContent(InnerAtResponse innerAtResponse) throws IllegalArgumentException{
+    public EtsiTs102941DataContent(InnerAtResponse innerAtResponse){
         super(EtsiTs102941DataContentChoices.authorizationResponse, innerAtResponse);
     }
 
     /**
      * Constructor used when encoding of type certificateRevocationList
      */
-    public EtsiTs102941DataContent(ToBeSignedCrl toBeSignedCrl) throws IllegalArgumentException{
+    public EtsiTs102941DataContent(ToBeSignedCrl toBeSignedCrl){
         super(EtsiTs102941DataContentChoices.certificateRevocationList, toBeSignedCrl);
     }
 
     /**
      * Constructor used when encoding of type certificateTrustListTlm
      */
-    public EtsiTs102941DataContent(ToBeSignedTlmCtl toBeSignedTlmCtl) throws IllegalArgumentException{
+    public EtsiTs102941DataContent(ToBeSignedTlmCtl toBeSignedTlmCtl){
         super(EtsiTs102941DataContentChoices.certificateTrustListTlm, toBeSignedTlmCtl);
     }
 
     /**
      * Constructor used when encoding of type certificateTrustListRca
      */
-    public EtsiTs102941DataContent(ToBeSignedRcaCtl toBeSignedRcaCtl) throws IllegalArgumentException{
+    public EtsiTs102941DataContent(ToBeSignedRcaCtl toBeSignedRcaCtl){
         super(EtsiTs102941DataContentChoices.certificateTrustListRca, toBeSignedRcaCtl);
     }
 
     /**
      * Constructor used when encoding of type authorizationValidationRequest
      */
-    public EtsiTs102941DataContent(AuthorizationValidationRequest authorizationValidationRequest) throws IllegalArgumentException{
+    public EtsiTs102941DataContent(AuthorizationValidationRequest authorizationValidationRequest){
         super(EtsiTs102941DataContentChoices.authorizationValidationRequest, authorizationValidationRequest);
     }
 
     /**
      * Constructor used when encoding of type authorizationValidationResponse
      */
-    public EtsiTs102941DataContent(AuthorizationValidationResponse authorizationValidationResponse) throws IllegalArgumentException{
+    public EtsiTs102941DataContent(AuthorizationValidationResponse authorizationValidationResponse){
         super(EtsiTs102941DataContentChoices.authorizationValidationResponse, authorizationValidationResponse);
     }
 
     /**
      * Constructor used when encoding of type caCertificateRequest
      */
-    public EtsiTs102941DataContent(CaCertificateRequest caCertificateRequest) throws IllegalArgumentException{
+    public EtsiTs102941DataContent(CaCertificateRequest caCertificateRequest){
         super(EtsiTs102941DataContentChoices.caCertificateRequest, caCertificateRequest);
     }
 

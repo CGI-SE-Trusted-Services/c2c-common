@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf;
@@ -30,7 +31,7 @@ public class SequenceOfPsidGroupPermissions extends COERSequenceOf {
 	/**
 	 * Constructor used when decoding
 	 */
-	public SequenceOfPsidGroupPermissions(){
+	public SequenceOfPsidGroupPermissions() {
 		super(new PsidGroupPermissions());
 	}
 	

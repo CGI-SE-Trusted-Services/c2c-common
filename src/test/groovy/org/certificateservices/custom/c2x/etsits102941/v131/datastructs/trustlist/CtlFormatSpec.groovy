@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist
 
 import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.SingleEtsiTs103097CertificateSpec
@@ -65,7 +66,7 @@ class CtlFormatSpec extends BaseStructSpec {
         when:
         new CtlFormat(ver,nextUpdate,true,12,[addCommand,delCommand] as CtlCommand[])
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(BadArgumentException)
         e.message == "Illegal CtlFormat, fullCtl cannot have delete ctl commands."
     }
 

@@ -17,6 +17,7 @@ import java.security.GeneralSecurityException;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
@@ -36,10 +37,10 @@ public interface Receiver {
 	 * @param cryptoManager the used cryptomanager
 	 * @return a hashedId8 reference to the reciever, calculated according to the type of related data.
 	 * 
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws GeneralSecurityException if internal problems occurred generating the reference id.
 	 */
-	HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws IllegalArgumentException, GeneralSecurityException, IOException;
+	HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws BadArgumentException, GeneralSecurityException, IOException;
 	
 	/**
 	 * Method to extract decryption key from a RecipientInfo using the reciever data.
@@ -47,11 +48,11 @@ public interface Receiver {
 	 * @param cryptoManager the used cryptomanager
 	 * @return the decryption key inside the receiver info envelope.
 	 * 
-	 * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws GeneralSecurityException if internal problems occurred decrypting the decryption key.
 	 * @throws IOException if IO exception occurred communicating with underlying systems
 	 */
-	SecretKey extractDecryptionKey(Ieee1609Dot2CryptoManager cryptoManager, RecipientInfo recipientInfo) throws IllegalArgumentException, GeneralSecurityException, IOException;
+	SecretKey extractDecryptionKey(Ieee1609Dot2CryptoManager cryptoManager, RecipientInfo recipientInfo) throws BadArgumentException, GeneralSecurityException, IOException;
 
 	/**
 	 *

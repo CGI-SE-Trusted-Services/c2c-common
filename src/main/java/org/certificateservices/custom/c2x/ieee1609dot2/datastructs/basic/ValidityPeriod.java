@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
@@ -42,7 +43,7 @@ public class ValidityPeriod extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public ValidityPeriod(Time32 start, Duration duration){
+	public ValidityPeriod(Time32 start, Duration duration) throws IOException {
 		super(false,2);
 		init();
 		set(START, start);
@@ -52,7 +53,7 @@ public class ValidityPeriod extends COERSequence {
 	/**
 	 * Simplified constructor
 	 */
-	public ValidityPeriod(Date start, DurationChoices durationType, int duration){
+	public ValidityPeriod(Date start, DurationChoices durationType, int duration) throws IOException {
 		this(new Time32(start), new Duration(durationType, duration));
 	}
 	

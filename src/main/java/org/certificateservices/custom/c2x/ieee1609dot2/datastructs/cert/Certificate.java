@@ -26,6 +26,7 @@ import java.security.spec.InvalidKeySpecException;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COEREnumeration;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
@@ -96,15 +97,15 @@ public class Certificate extends COERSequence implements org.certificateservices
 	 * Constructor used when encoding explicit certificate
 	 */
 	public Certificate(int version, IssuerIdentifier issuer,
-			ToBeSignedCertificate toBeSigned, Signature signature) throws IllegalArgumentException{
+			ToBeSignedCertificate toBeSigned, Signature signature) throws IOException{
 		super(false,5);
 		init();
 		
 		if(signature == null){
-			throw new IllegalArgumentException("Error Signature field must exist in explicit certificate");
+			throw new IOException("Error Signature field must exist in explicit certificate");
 		}
 		if(toBeSigned != null && toBeSigned.getVerifyKeyIndicator().getType() != VerificationKeyIndicatorChoices.verificationKey){
-			throw new IllegalArgumentException("Error explicit certificates has to have a verification key.");
+			throw new IOException("Error explicit certificates has to have a verification key.");
 		}
 		
 		set(VERSION, new Uint8(version));
@@ -118,7 +119,7 @@ public class Certificate extends COERSequence implements org.certificateservices
 	 * Constructor used when encoding explicit certificate of default version
 	 */
 	public Certificate(IssuerIdentifier issuer,
-			ToBeSignedCertificate toBeSigned,Signature signature) throws IllegalArgumentException{
+			ToBeSignedCertificate toBeSigned,Signature signature) throws IOException{
 		this(CURRENT_VERSION, issuer, toBeSigned,signature);	
 	}
 	
@@ -126,12 +127,12 @@ public class Certificate extends COERSequence implements org.certificateservices
 	 * Constructor used when encoding implicit certificate
 	 */
 	public Certificate(int version, IssuerIdentifier issuer,
-			ToBeSignedCertificate toBeSigned) throws IllegalArgumentException{
+			ToBeSignedCertificate toBeSigned) throws IOException{
 		super(false,5);
 		init();
 		
 		if(toBeSigned != null && toBeSigned.getVerifyKeyIndicator().getType() != VerificationKeyIndicatorChoices.reconstructionValue){
-			throw new IllegalArgumentException("Error implicit certificates has to have a reconstruction value.");
+			throw new IOException("Error implicit certificates has to have a reconstruction value.");
 		}
 		
 		set(VERSION, new Uint8(version));
@@ -145,7 +146,7 @@ public class Certificate extends COERSequence implements org.certificateservices
 	 * Constructor used when encoding implicit certificate of default version
 	 */
 	public Certificate(IssuerIdentifier issuer,
-			ToBeSignedCertificate toBeSigned) throws IllegalArgumentException{
+			ToBeSignedCertificate toBeSigned) throws IOException{
 		this(CURRENT_VERSION, issuer, toBeSigned);	
 	}
 	
@@ -244,17 +245,17 @@ public class Certificate extends COERSequence implements org.certificateservices
 	}
 
 	@Override
-	public PublicKey getPublicKey(CryptoManager cryptoManager, AlgorithmIndicator alg, org.certificateservices.custom.c2x.common.Certificate signerCertificate, PublicKey signerCertificatePublicKey) throws InvalidKeySpecException, SignatureException, IllegalArgumentException {
+	public PublicKey getPublicKey(CryptoManager cryptoManager, AlgorithmIndicator alg, org.certificateservices.custom.c2x.common.Certificate signerCertificate, PublicKey signerCertificatePublicKey) throws InvalidKeySpecException, SignatureException, BadArgumentException {
 		if(!(cryptoManager instanceof Ieee1609Dot2CryptoManager)){
-			throw new IllegalArgumentException("Error extracting public key from IEEE 1609.2 certificate, related crypto manager must be a Ieee1609Dot2CryptoManager implementation.");
+			throw new BadArgumentException("Error extracting public key from IEEE 1609.2 certificate, related crypto manager must be a Ieee1609Dot2CryptoManager implementation.");
 		}
 		Ieee1609Dot2CryptoManager ieeeCryptoMgr = (Ieee1609Dot2CryptoManager) cryptoManager;
 		if(getType() == CertificateType.implicit){
 			if(!(signerCertificate instanceof Certificate)){
-				throw new IllegalArgumentException("Error signerCertificate must be aIEEE 1609.2 certificate.");
+				throw new BadArgumentException("Error signerCertificate must be aIEEE 1609.2 certificate.");
 			}
 			if(!(signerCertificatePublicKey instanceof ECPublicKey)){
-				throw new IllegalArgumentException("Error signerPublicKey must be of type be of type ECPublicKey.");
+				throw new BadArgumentException("Error signerPublicKey must be of type be of type ECPublicKey.");
 			}
 			ECQVHelper helper = new ECQVHelper(ieeeCryptoMgr);
 			
@@ -284,11 +285,14 @@ public class Certificate extends COERSequence implements org.certificateservices
 	 * @return a newly generated HashedId8
 	 * @throws IOException if problem occurred encoding this certificate to byte array.
 	 * @throws NoSuchAlgorithmException if SHA-256 algorithm wasn't found in given CryptoManager.
-	 * @throws IllegalArgumentException if supplied argument was invalid for the type of certificate.
 	 */
 	@Override
-	public HashedId8 asHashedId8(CryptoManager cryptoManager) throws  IllegalArgumentException, IOException, NoSuchAlgorithmException {
-		return new HashedId8(cryptoManager.digest(getEncoded(),HashAlgorithm.sha256));
+	public HashedId8 asHashedId8(CryptoManager cryptoManager) throws IOException, NoSuchAlgorithmException {
+		try {
+			return new HashedId8(cryptoManager.digest(getEncoded(),HashAlgorithm.sha256));
+		} catch (BadArgumentException e) {
+			throw new NoSuchAlgorithmException(e.getMessage(),e);
+		}
 	}
 	
 }

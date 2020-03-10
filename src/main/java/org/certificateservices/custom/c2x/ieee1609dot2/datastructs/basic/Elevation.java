@@ -36,7 +36,7 @@ public class Elevation extends ElevInt {
 	 * Constructor used when encoding
 	 * @param elevationDecimeters should be height in decimeters, between -4095 and 61439 
 	 */
-	public Elevation(int elevationDecimeters) throws IllegalArgumentException{
+	public Elevation(int elevationDecimeters) {
 		super(elevationDecimeters);
 	}
 

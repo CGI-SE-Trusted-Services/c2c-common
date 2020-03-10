@@ -56,7 +56,7 @@ class EndEntityTypeSpec extends BaseStructSpec {
 		when:
 		new EndEntityType(false,false)
 		then:
-		def e = thrown IllegalArgumentException
+		def e = thrown IOException
 		e.message == "Invalid EndEntityType, either app or enroll flag must be set."
 	}
 	

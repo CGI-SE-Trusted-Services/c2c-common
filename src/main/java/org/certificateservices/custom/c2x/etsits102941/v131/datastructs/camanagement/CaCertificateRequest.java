@@ -16,6 +16,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.CertificateSubjectAttributes;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.PublicKeys;
 
+import java.io.IOException;
+
 /**
  * Class representing CaCertificateRequest defined in ETSI TS 102 941 CA Management Types
  *
@@ -40,7 +42,8 @@ public class CaCertificateRequest extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public CaCertificateRequest(PublicKeys publicKeys, CertificateSubjectAttributes requestedSubjectAttributes){
+	public CaCertificateRequest(PublicKeys publicKeys,
+								CertificateSubjectAttributes requestedSubjectAttributes) throws IOException {
 		super(true,2);
 		init();
 		set(PUBLICKEYS, publicKeys);

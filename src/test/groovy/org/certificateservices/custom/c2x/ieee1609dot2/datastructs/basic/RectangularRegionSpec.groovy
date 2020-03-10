@@ -47,22 +47,22 @@ class RectangularRegionSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that IllegalArgumentException is thrown if poistion is the same"(){
+	def "Verify that IOException is thrown if poistion is the same"(){
 		when:
 		new RectangularRegion(l1, new TwoDLocation(new Latitude(123),new Longitude(234)))
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
-	def "Verify that all fields must be set or IllegalArgumentException is thrown when encoding"(){
+	def "Verify that all fields must be set or IOException is thrown when encoding"(){
 		when:
 		new RectangularRegion(l1, null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new RectangularRegion(null, l2)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify toString"(){

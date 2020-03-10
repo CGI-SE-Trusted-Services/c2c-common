@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 
+import java.io.IOException;
+
 /**
  * This structure contains a linkage seed value for use in the algorithms specified in 5.1.3.4.
  * 
@@ -38,9 +40,9 @@ public class LinkageSeed extends COEROctetStream{
 	/**
 	 * Constructor used to create a linkageSeed.
 	 * @param linkageSeed a 16 byte array.
-	 * @throws IllegalArgumentException if linkageSeed was invalid
+	 * @throws IOException if linkageSeed was invalid
 	 */
-	public LinkageSeed(byte[] linkageSeed) throws IllegalArgumentException {
+	public LinkageSeed(byte[] linkageSeed) throws IOException {
 		super(linkageSeed, OCTETSTRING_SIZE, OCTETSTRING_SIZE);
 	
 	}

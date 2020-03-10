@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert
 
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
 
 import java.security.KeyPair
@@ -141,7 +142,7 @@ class CertificateSpec extends  BaseCertGeneratorSpec {
 		alg << [SignatureChoices.ecdsaNistP256Signature, SignatureChoices.ecdsaBrainpoolP256r1Signature]
 	}
 	
-	def "Verify that getPublicKey throws IllegalArgumentException if invalid parameters was given"(){
+	def "Verify that getPublicKey throws BadArgumentException if invalid parameters was given"(){
 		setup:
 		def alg = SignatureChoices.ecdsaNistP256Signature
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(alg)
@@ -154,23 +155,23 @@ class CertificateSpec extends  BaseCertGeneratorSpec {
 		when:
 		explicitCert.getPublicKey(null, null, null, null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		when:
 		implicitCert.getPublicKey(null, null, null, null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		when:
 		implicitCert.getPublicKey(cryptoManager, null, null, null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		when:
 		implicitCert.getPublicKey(cryptoManager, alg, null, null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		when:
 		implicitCert.getPublicKey(cryptoManager, alg, rootCA, null)
 		then:
-		thrown IllegalArgumentException
+		thrown BadArgumentException
 		
 	}
 	
@@ -202,42 +203,42 @@ class CertificateSpec extends  BaseCertGeneratorSpec {
 	}
 	
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 	
 		when:
 		new Certificate(null,explicitToBeSigned, signature)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new Certificate(issuerId,null, signature)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new Certificate(null,implicitToBeSigned)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new Certificate(issuerId,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
-	def "Verify that IllegalArgumentException is thrown if none of required premissions doesn't exists for explicit certificate"(){
+	def "Verify that IOException is thrown if none of required premissions doesn't exists for explicit certificate"(){
 	   when:
 	   new Certificate(issuerId, implicitToBeSigned, signature);
 	   then:
-	   thrown IllegalArgumentException	
+	   thrown IOException
 	   when:
 	   new Certificate(issuerId, implicitToBeSigned, null);
 	   then:
-	   thrown IllegalArgumentException
+	   thrown IOException
     }
 	
-	def "Verify that IllegalArgumentException is thrown if none of required premissions doesn't exists for implicit certificate"(){
+	def "Verify that IOException is thrown if none of required premissions doesn't exists for implicit certificate"(){
 		when:
 		new Certificate(issuerId, explicitToBeSigned);
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	 }
 
 	String referenceCert = normalizeHex"""00030180 01010101 01010101 50800000 02030303 03030303 03030404 04000506

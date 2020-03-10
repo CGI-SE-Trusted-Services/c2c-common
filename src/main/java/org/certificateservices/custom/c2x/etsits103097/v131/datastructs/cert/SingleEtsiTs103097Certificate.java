@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * Sequence of only one EtsiTs103097Certificate
  */
@@ -34,7 +36,7 @@ public class SingleEtsiTs103097Certificate extends COERSequence {
     /**
      * Constructor used when encoding
      */
-    public SingleEtsiTs103097Certificate(EtsiTs103097Certificate certificate){
+    public SingleEtsiTs103097Certificate(EtsiTs103097Certificate certificate) throws IOException {
         super(false,1);
         init();
         set(ONLY, certificate);

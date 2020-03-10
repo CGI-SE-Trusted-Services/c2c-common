@@ -13,10 +13,10 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.generator
 
 import org.bouncycastle.util.encoders.Hex
-import org.certificateservices.custom.c2x.asn1.coer.COERIA5String
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.etsits102941.v131.DecryptionFailedException
 import org.certificateservices.custom.c2x.etsits102941.v131.ETSITS102941MessagesCaException
-import org.certificateservices.custom.c2x.etsits102941.v131.InternalErrorException
+import org.certificateservices.custom.c2x.etsits102941.v131.MessageProcessingException
 import org.certificateservices.custom.c2x.etsits102941.v131.MessageParsingException
 import org.certificateservices.custom.c2x.etsits102941.v131.SignatureVerificationException
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.AuthorizationResponseCode
@@ -31,7 +31,6 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.camanage
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.EnrollmentResponseCode
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcRequest
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcResponse
-import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941Data
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941DataContent
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941DataContentSpec
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CRL
@@ -514,7 +513,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         when:
         messagesCaGenerator.parseEtsiTs102941Data(messagesCaGenerator.getSignedData(message, "CaCertificateRequestMessage"), "CaCertificateRequestMessage", EtsiTs102941DataContent.EtsiTs102941DataContentChoices.enrolmentRequest)
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "Invalid encoding in CaCertificateRequestMessage, signed EtsiTs102941Data should be of type enrolmentRequest."
     }
 
@@ -549,7 +548,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         def invalidCertStore = messagesCaGenerator.buildCertStore([enrolmentCACert,rootCACert])
         messagesCaGenerator.verifySignedMessage(message,invalidCertStore,trustStore,"CaCertificateRequest")
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown BadArgumentException
         e.message =~ "Error no certificate found in certstore for id : HashedId8"
 
         when: // Verify that with modified data is SignatureException thrown
@@ -597,14 +596,14 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         where:
         exception                      | convertedException                 | expectCause
         IOException                    | MessageParsingException            | true
-        IllegalArgumentException       | MessageParsingException            | true
-        MessageParsingException        | MessageParsingException            | false
-        SignatureException             | SignatureVerificationException     | true
-        SignatureVerificationException | SignatureVerificationException     | false
-        GeneralSecurityException       | DecryptionFailedException          | true
-        DecryptionFailedException      | DecryptionFailedException          | false
-        Exception                      | InternalErrorException             | true
-        InternalErrorException         | InternalErrorException             | false
+        BadArgumentException       | MessageParsingException        | true
+        MessageParsingException        | MessageParsingException        | false
+        SignatureException             | SignatureVerificationException | true
+        SignatureVerificationException | SignatureVerificationException | false
+        GeneralSecurityException       | DecryptionFailedException      | true
+        DecryptionFailedException      | DecryptionFailedException      | false
+        Exception                      | MessageProcessingException     | true
+        MessageProcessingException     | MessageProcessingException     | false
 
     }
 

@@ -45,7 +45,7 @@ public class ElevInt extends Uint16 {
 	 * Constructor used when encoding
 	 * @param elevationDecimeters should be height in decimeters, between -4095 and 61439 
 	 */
-	public ElevInt(int elevationDecimeters) throws IllegalArgumentException{
+	public ElevInt(int elevationDecimeters) {
 		long encodedElevation;
 		if(elevationDecimeters >= 61439){
 			encodedElevation = 0xEFFF;

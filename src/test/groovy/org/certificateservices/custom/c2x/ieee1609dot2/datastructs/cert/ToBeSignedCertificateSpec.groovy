@@ -150,42 +150,42 @@ class ToBeSignedCertificateSpec extends BaseStructSpec {
 		tbs1 == tbs2
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that BadArgumentException is thrown when encoding if not all fields are set"(){
 	
 		when:
 		new ToBeSignedCertificate(null,cracaId,crlSeries,validityPeriod,region,assuranceLevel,
 			appPermissions,certIssuePermissions,certRequestPermissions,canRequestRollover,encryptionKey,verifyKeyIndicator)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new ToBeSignedCertificate(id,null,crlSeries,validityPeriod,region,assuranceLevel,
 		appPermissions,certIssuePermissions,certRequestPermissions,canRequestRollover,encryptionKey,verifyKeyIndicator)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new ToBeSignedCertificate(id,cracaId,null,validityPeriod,region,assuranceLevel,
 		appPermissions,certIssuePermissions,certRequestPermissions,canRequestRollover,encryptionKey,verifyKeyIndicator)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new ToBeSignedCertificate(id,cracaId,crlSeries,null,region,assuranceLevel,
 		appPermissions,certIssuePermissions,certRequestPermissions,canRequestRollover,encryptionKey,verifyKeyIndicator)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new ToBeSignedCertificate(id,cracaId,crlSeries,validityPeriod,region,assuranceLevel,
 		appPermissions,certIssuePermissions,certRequestPermissions,canRequestRollover,encryptionKey,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
-	def "Verify that IllegalArgumentException is thrown if none of required premissions doesn't exists"(){
+	def "Verify that BadArgumentException is thrown if none of required premissions doesn't exists"(){
 		
 			when:
 			new ToBeSignedCertificate(id,cracaId,crlSeries,validityPeriod,region,assuranceLevel,
 				null,null,null,canRequestRollover,encryptionKey,verifyKeyIndicator)
 			then:
-			thrown IllegalArgumentException
+			thrown IOException
 			when: // Verify that no exception is thrown if one of the is set.
 			new ToBeSignedCertificate(id,cracaId,crlSeries,validityPeriod,region,assuranceLevel,
 				appPermissions,null,null,canRequestRollover,encryptionKey,verifyKeyIndicator)

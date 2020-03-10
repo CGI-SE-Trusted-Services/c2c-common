@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataEncrypted;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedData;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Content;
@@ -35,18 +36,19 @@ public class EtsiTs103097DataEncryptedUnicast extends EtsiTs103097DataEncrypted 
 
     /**
      * Constructor used when encoding using default protocol version.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataEncryptedUnicast(Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataEncryptedUnicast(Ieee1609Dot2Content content) throws IOException{
         super(content);
         validateEncryptedUnicast();
     }
 
     /**
      * Constructor used when encoding
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataEncryptedUnicast(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs103097DataEncryptedUnicast(int protocolVersion, Ieee1609Dot2Content content)
+            throws IOException{
         super(protocolVersion,content);
         validateEncryptedUnicast();
 
@@ -56,18 +58,18 @@ public class EtsiTs103097DataEncryptedUnicast extends EtsiTs103097DataEncrypted 
      * Constructor decoding a Ieee1609Dot2Data from an encoded byte array.
      * @param encodedData byte array encoding of the Ieee1609Dot2Data.
      * @throws IOException   if communication problems occurred during serialization.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs103097DataEncryptedUnicast(byte[] encodedData) throws IOException, IllegalArgumentException{
+    public EtsiTs103097DataEncryptedUnicast(byte[] encodedData) throws IOException{
         super(encodedData);
         validateEncryptedUnicast();
     }
 
-    protected void validateEncryptedUnicast() throws IllegalArgumentException{
+    protected void validateEncryptedUnicast() throws IOException {
 
         EncryptedData encryptedData = (EncryptedData) getContent().getValue();
         if(encryptedData.getRecipients().size() != 1){
-            throw new IllegalArgumentException("EtsiTs103097Data with profile Encrypted-Unicast must exactly one recipient.");
+            throw new IOException("EtsiTs103097Data with profile Encrypted-Unicast must exactly one recipient.");
         }
     }
 

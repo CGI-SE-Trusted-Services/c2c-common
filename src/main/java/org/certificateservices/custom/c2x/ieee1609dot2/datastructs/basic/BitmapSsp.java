@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
@@ -71,9 +72,9 @@ public class BitmapSsp extends COEROctetStream {
 	 * Constructor of Bitmap data.
      *
 	 * @param data the bitmapSpp data.
-	 * @throws IllegalArgumentException if supplied arguments where invalid.
+	 * @throws IOException if supplied arguments where invalid.
 	 */
-	public BitmapSsp(byte[] data) throws IllegalArgumentException{
+	public BitmapSsp(byte[] data) throws IOException {
 		super(data,OCTETSTRING_MIN_SIZE, OCTETSTRING_MAX_SIZE);
 
 	}

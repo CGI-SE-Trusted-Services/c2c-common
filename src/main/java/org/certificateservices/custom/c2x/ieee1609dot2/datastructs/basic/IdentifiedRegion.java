@@ -40,7 +40,11 @@ public class IdentifiedRegion extends COERChoice {
 
 		private byte[] emptyCOEREncodable;
 		private IdentifiedRegionChoices(COEREncodable emptyCOEREncodable){
-			this.emptyCOEREncodable = COEREncodeHelper.serialize(emptyCOEREncodable);
+			try {
+				this.emptyCOEREncodable = COEREncodeHelper.serialize(emptyCOEREncodable);
+			}catch (IOException e){
+				throw new RuntimeException(e.getMessage(),e);
+			}
 		}
 		
 		@Override

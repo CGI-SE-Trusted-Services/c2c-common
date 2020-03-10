@@ -50,14 +50,14 @@ public class Ieee1609Dot2Data extends COERSequence {
 	/**
 	 * Constructor used when encoding using default protocol version
 	 */
-	public Ieee1609Dot2Data(Ieee1609Dot2Content content){
+	public Ieee1609Dot2Data(Ieee1609Dot2Content content) throws IOException{
 		this(DEFAULT_VERSION, content);
 	}
 	
 	/**
 	 * Constructor used when encoding
 	 */
-	public Ieee1609Dot2Data(int protocolVersion, Ieee1609Dot2Content content){
+	public Ieee1609Dot2Data(int protocolVersion, Ieee1609Dot2Content content) throws IOException{
 		super(false,2);
 		init();
 		set(PROTOCOLVERSION, new Uint8(protocolVersion));

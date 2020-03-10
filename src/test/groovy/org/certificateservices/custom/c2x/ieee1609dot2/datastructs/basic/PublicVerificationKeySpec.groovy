@@ -74,41 +74,41 @@ class PublicVerificationKeySpec extends BaseStructSpec {
 		PublicVerificationKeyChoices.ecdsaBrainpoolP384r1    | Algorithm.Signature.ecdsaBrainpoolP384r1     | Algorithm.Hash.sha384
 	}
 	
-	def "Verify that xonly ecc curve points throws IllegalArgumentException for EccP256CurvePoint"(){
+	def "Verify that xonly ecc curve points throws IOException for EccP256CurvePoint"(){
 		when:
 		new PublicVerificationKey(PublicVerificationKeyChoices.ecdsaNistP256, new EccP256CurvePoint(new BigInteger(333)))
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 
-	def "Verify that xonly ecc curve points throws IllegalArgumentException for EccP384CurvePoint"(){
+	def "Verify that xonly ecc curve points throws IOException for EccP384CurvePoint"(){
 		when:
 		new PublicVerificationKey(PublicVerificationKeyChoices.ecdsaBrainpoolP384r1, new EccP384CurvePoint(new BigInteger(333)))
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 
-	def "Verify that ecc curve points of type ecdsaBrainpoolP384r1 byte using EccP256CurvePoint throws IllegalArgumentException"(){
+	def "Verify that ecc curve points of type ecdsaBrainpoolP384r1 byte using EccP256CurvePoint throws IOException"(){
 		when:
 		new PublicVerificationKey(PublicVerificationKeyChoices.ecdsaBrainpoolP384r1, new EccP256CurvePoint(new BigInteger(333),new BigInteger(433)))
 		then:
-		def e = thrown IllegalArgumentException
+		def e = thrown IOException
 		e.message == "EccP256CurvePoint is not supported for PublicVerificationKey with type ecdsaBrainpoolP384r1."
 	}
 
-	def "Verify that ecc curve points of type ecdsaBrainpoolP256r1 byte using EccP384CurvePoint throws IllegalArgumentException"(){
+	def "Verify that ecc curve points of type ecdsaBrainpoolP256r1 byte using EccP384CurvePoint throws IOException"(){
 		when:
 		new PublicVerificationKey(PublicVerificationKeyChoices.ecdsaBrainpoolP256r1, new EccP384CurvePoint(new BigInteger(333),new BigInteger(433)))
 		then:
-		def e = thrown IllegalArgumentException
+		def e = thrown IOException
 		e.message == "EccP384CurvePoint is not supported for PublicVerificationKey with type ecdsaBrainpoolP256r1."
 	}
 
-	def "Verify that ecc curve points of type ecdsaNistP256 byte using EccP384CurvePoint throws IllegalArgumentException"(){
+	def "Verify that ecc curve points of type ecdsaNistP256 byte using EccP384CurvePoint throws IOException"(){
 		when:
 		new PublicVerificationKey(PublicVerificationKeyChoices.ecdsaNistP256, new EccP384CurvePoint(new BigInteger(333),new BigInteger(433)))
 		then:
-		def e = thrown IllegalArgumentException
+		def e = thrown IOException
 		e.message == "EccP384CurvePoint is not supported for PublicVerificationKey with type ecdsaNistP256."
 	}
 	

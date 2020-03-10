@@ -12,6 +12,7 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.EncryptedDataEncryptionKey.EncryptedDataEncryptionKeyChoices;
 
@@ -24,9 +25,9 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.Encrypted
 public abstract class BasePKRecipient implements Recipient {
 
 
-	protected EncryptedDataEncryptionKeyChoices getEncKeyType(AlgorithmIndicator alg) throws IllegalArgumentException{
+	protected EncryptedDataEncryptionKeyChoices getEncKeyType(AlgorithmIndicator alg) throws BadArgumentException {
 		if(alg.getAlgorithm().getSignature() == null){
-			throw new IllegalArgumentException("Error unsupported algorithm: " + alg);
+			throw new BadArgumentException("Error unsupported algorithm: " + alg);
 		}
 
 		switch(alg.getAlgorithm().getSignature()){

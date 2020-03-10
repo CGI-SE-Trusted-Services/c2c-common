@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.validator.CTLValidator;
 import org.certificateservices.custom.c2x.common.validator.CertificateRevokedException;
 import org.certificateservices.custom.c2x.common.validator.InvalidCTLException;
@@ -92,7 +93,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      * @param ctlTypes  the set of types to verify and return of CTL to verify and build store for. If DC Points
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
-     * @throws IllegalArgumentException    if one of the parameters where invalid.
+     * @throws BadArgumentException    if one of the parameters where invalid.
      * @throws InvalidCTLException         if CTL was not verifyable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
@@ -102,6 +103,8 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
                                                          Date checkDate, GeographicRegion checkRegion,
                                                          Map<HashedId8, Certificate> trustStore,
                                                          boolean entireChain, CtlEntry.CtlEntryChoices[] ctlTypes)
+            throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
+        return verifyAndValidate(fullCTL, deltaCTL, checkDate, null, trustStore, entireChain, ctlTypes);
             throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
         return verifyAndValidate(fullCTL, deltaCTL, checkDate, checkRegion,null, trustStore, entireChain, ctlTypes);
     }
@@ -135,6 +138,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      * @param ctlTypes  the set of types to verify and return of CTL to verify and build store for. If DC Points
      *                  are going to be used it should be included in the array but they are not included in the
      *                  generated cert store.
+     * @throws BadArgumentException    if one of the parameters where invalid.
      * @param region the region to be checked
      * @throws IllegalArgumentException    if one of the parameters where invalid.
      * @throws InvalidCTLException         if CTL was not verifiable or not within time constraints.
@@ -147,7 +151,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
                                                          Map<HashedId8, Certificate> certStore,
                                                          Map<HashedId8, Certificate> trustStore, boolean entireChain,
                                                          CtlEntry.CtlEntryChoices[] ctlTypes)
-            throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
+            throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
         if(certStore == null){
             certStore = emptyStore;
         }
@@ -159,7 +163,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
             throw new InvalidCTLException("Couldn't verify full CTL signature: " + e.getMessage(),e);
         } catch (IOException e) {
             throw new InvalidCTLException("Couldn't decode full CTL data: " + e.getMessage(),e);
-        }catch(IllegalArgumentException e){
+        }catch(BadArgumentException e){
             throw new InvalidCTLException("CTL Issuer not trusted: " + e.getMessage(),e);
         }
 
@@ -215,7 +219,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      *                  generated cert store.
      * @param expectFull if a full CTL is expected
      * @param verifyChain if the signing certificate and it's chain should be verified.
-     * @throws IllegalArgumentException    if one of the parameters where invalid.
+     * @throws BadArgumentException    if one of the parameters where invalid.
      * @throws InvalidCTLException         if CTL was not verifiable or not within time constraints.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
@@ -227,7 +231,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
                                              boolean entireChain,
                                              CtlEntry.CtlEntryChoices[] ctlTypes,
                                              boolean expectFull, boolean verifyChain)
-            throws IllegalArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
+            throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
 
         if(certStore == null){
             certStore = emptyStore;
@@ -242,7 +246,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
             throw new InvalidCTLException("Couldn't verify " + type + " CTL signature: " + e.getMessage(),e);
         } catch (IOException e) {
             throw new InvalidCTLException("Couldn't decode "+ type + " CTL data: " + e.getMessage(),e);
-        }catch(IllegalArgumentException e){
+        }catch(BadArgumentException e){
             throw new InvalidCTLException("CTL Issuer not trusted: " + e.getMessage(),e);
         }
 
@@ -284,9 +288,9 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      * @param ctlFormat the CTL to check time constraint for.
      * @param currentTime the expected time to verify the ctl against.
      * @throws InvalidCTLException if the given CTL was invalid for the specified time.
-     * @throws IllegalArgumentException    if other argument was invalid when validation the CTL.
+     * @throws BadArgumentException    if other argument was invalid when validation the CTL.
      */
-    protected void validateTime(CtlFormat ctlFormat, Date currentTime, String type) throws IllegalArgumentException,
+    protected void validateTime(CtlFormat ctlFormat, Date currentTime, String type) throws
             InvalidCTLException {
         Date endDate = ctlFormat.getNextUpdate().asDate();
         if(currentTime.after(endDate)){

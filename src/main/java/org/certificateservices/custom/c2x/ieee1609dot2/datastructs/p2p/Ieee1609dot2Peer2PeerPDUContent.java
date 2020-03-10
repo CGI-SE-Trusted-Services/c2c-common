@@ -34,7 +34,7 @@ public class Ieee1609dot2Peer2PeerPDUContent extends COERChoice {
 		caCerts;
 
 		@Override
-		public COEREncodable getEmptyCOEREncodable() throws IOException {
+		public COEREncodable getEmptyCOEREncodable()  {
 			switch (this) {
 				case caCerts:
 				default:
@@ -62,7 +62,7 @@ public class Ieee1609dot2Peer2PeerPDUContent extends COERChoice {
 	/**
 	 * Constructor used when encoding of type caCerts
 	 */
-	public Ieee1609dot2Peer2PeerPDUContent(CaCertP2pPDU caCertP2pPDU) throws IllegalArgumentException{
+	public Ieee1609dot2Peer2PeerPDUContent(CaCertP2pPDU caCertP2pPDU) {
 		super(Ieee1609dot2Peer2PeerPDUContentChoices.caCerts, caCertP2pPDU);
 	}
 

@@ -39,9 +39,8 @@ public class KnownLongitude extends OneEightyDegreeInt {
 	/**
 	 * Constructor used when encoding
 	 * @param value between -900000000 and 900000000 (Unknown 900000001)
-	 * @throws IllegalArgumentException if invalid value is supplied.
 	 */
-	public KnownLongitude(long value) throws IllegalArgumentException {
+	public KnownLongitude(long value) {
 		super(value);
 		maxValue = BigInteger.valueOf(MAX);
 	}

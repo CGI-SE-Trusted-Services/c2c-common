@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This structure contains the data payload of a ToBeSignedData. This structure contains at least one of data and extDataHash, and may contain both.
  * <li>data contains data that is explicitly transported within the structure.
@@ -45,11 +47,11 @@ public class SignedDataPayload extends COERSequence {
 	/**
 	 * Constructor used when encoding, one of data or extDataHash must be set.
 	 */
-	public SignedDataPayload(Ieee1609Dot2Data data, HashedData extDataHash) throws IllegalArgumentException{
+	public SignedDataPayload(Ieee1609Dot2Data data, HashedData extDataHash) throws IOException {
 		super(true,2);
 		init();
 		if(data == null && extDataHash == null){
-			throw new IllegalArgumentException("Error i SignedDataPayload one of data or extDataHash must be set.");
+			throw new IOException("Error i SignedDataPayload one of data or extDataHash must be set.");
 		}
 		set(DATA, data);
 		set(EXTDATAHASH, extDataHash);

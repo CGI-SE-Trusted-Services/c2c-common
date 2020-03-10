@@ -41,7 +41,7 @@ public class HashedData extends COERChoice {
 		sha256HashedData;
 
 		@Override
-		public COEREncodable getEmptyCOEREncodable() throws IOException {
+		public COEREncodable getEmptyCOEREncodable()  {
 	      return new COEROctetStream(32,32);
 		}
 
@@ -57,7 +57,7 @@ public class HashedData extends COERChoice {
 	/**
 	 * Constructor used when encoding of type sha256HashedData
 	 */
-	public HashedData(HashedDataChoices type, byte[] hash) throws IllegalArgumentException{
+	public HashedData(HashedDataChoices type, byte[] hash) throws IOException{
 		super(type, new COEROctetStream(hash, 32, 32));
 	}
 	

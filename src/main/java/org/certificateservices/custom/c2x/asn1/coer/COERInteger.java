@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.asn1.coer;
 
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -97,8 +99,9 @@ public class COERInteger implements COEREncodable{
 	 * @param value the integer value.
 	 * @param minValue the minimal value of the integer, or null if not known.
 	 * @param maxValue the maximal value of the integer, or null if not known.
+	 * @throws IllegalArgumentException if invalid parameters were specified.
 	 */
-	public COERInteger(BigInteger value, BigInteger minValue, BigInteger maxValue) {
+	public COERInteger(BigInteger value, BigInteger minValue, BigInteger maxValue) throws IllegalArgumentException{
 		this.value = value;
 		this.minValue = minValue;
 		this.maxValue = maxValue;
@@ -126,8 +129,9 @@ public class COERInteger implements COEREncodable{
 	 * @param value the integer value.
 	 * @param minValue the minimal value of the integer, or null if not known.
 	 * @param maxValue the maximal value of the integer, or null if not known.
+	 * @throws IllegalArgumentException if invalid parameters were specified.
 	 */
-	public COERInteger(long value, long minValue, long maxValue) {
+	public COERInteger(long value, long minValue, long maxValue) throws IllegalArgumentException{
 		this(BigInteger.valueOf(value),BigInteger.valueOf(minValue),BigInteger.valueOf(maxValue));
 	}
 
@@ -200,7 +204,7 @@ public class COERInteger implements COEREncodable{
 			System.arraycopy(val, signOctet, buffer, buffer.length - (val.length -signOctet), val.length -signOctet);
 			out.write(buffer);
 		}else{
-			COEREncodeHelper.writeLengthDeterminant(val.length-signOctet, out);
+		    COEREncodeHelper.writeLengthDeterminant(val.length - signOctet, out);
 			out.write(val, signOctet, val.length -signOctet);
 		}
 	}
@@ -221,7 +225,7 @@ public class COERInteger implements COEREncodable{
 			System.arraycopy(val, signOctet, buffer, buffer.length - (val.length -signOctet), val.length -signOctet);
 			out.write(buffer);
 		}else{
-			COEREncodeHelper.writeLengthDeterminant(val.length-signOctet, out);
+		    COEREncodeHelper.writeLengthDeterminant(val.length-signOctet, out);
 			out.write(val, signOctet, val.length -signOctet);
 		}
 	}

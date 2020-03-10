@@ -52,7 +52,7 @@ public class SignerIdentifier extends COERChoice {
 		self;
 
 		@Override
-		public COEREncodable getEmptyCOEREncodable() throws IOException {
+		public COEREncodable getEmptyCOEREncodable()  {
 	      switch(this){
 	      case digest:
 	    	  return new HashedId8();
@@ -77,14 +77,14 @@ public class SignerIdentifier extends COERChoice {
 	/**
 	 * Constructor used when encoding of type digest
 	 */
-	public SignerIdentifier(HashedId8 digest) throws IllegalArgumentException{
+	public SignerIdentifier(HashedId8 digest) {
 		super(SignerIdentifierChoices.digest, digest);
 	}
 	
 	/**
 	 * Constructor used when encoding of type certificate
 	 */
-	public SignerIdentifier(SequenceOfCertificate certificates) throws IllegalArgumentException{
+	public SignerIdentifier(SequenceOfCertificate certificates) {
 		super(SignerIdentifierChoices.certificate, certificates);
 	}
 	

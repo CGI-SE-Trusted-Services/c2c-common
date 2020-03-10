@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits103097.v131.validator
 
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.validator.CertificateRevokedException
 import org.certificateservices.custom.c2x.common.validator.InvalidCTLException
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry
@@ -161,7 +162,7 @@ class ETSI103097CertificateValidatorSpec extends Specification {
                 testPKI1.deltaTlmCtl, [testPKI1.tlm] as org.certificateservices.custom.c2x.common.Certificate[], [ea, dc] as CtlEntry.CtlEntryChoices[], true)
 
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(BadArgumentException)
         e.message =~ "Error no certificate found in certstore for id :"
     }
 

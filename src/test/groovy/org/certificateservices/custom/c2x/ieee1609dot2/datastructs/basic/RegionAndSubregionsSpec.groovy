@@ -45,11 +45,11 @@ class RegionAndSubregionsSpec extends BaseStructSpec {
 		
 	}
 	
-	def "Verify that all fields must be set or IllegalArgumentException is thrown when encoding"(){
+	def "Verify that all fields must be set or IOException is thrown when encoding"(){
 		when:
 		new RegionAndSubregions(1, null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify toString"(){

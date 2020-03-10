@@ -12,7 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer
 
-
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.BaseStructSpec
 
 import spock.lang.Specification

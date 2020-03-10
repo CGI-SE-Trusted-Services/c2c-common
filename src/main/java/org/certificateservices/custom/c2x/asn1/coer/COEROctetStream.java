@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 
 /**
  * COER encoding of an octet stream
@@ -71,16 +72,16 @@ public class COEROctetStream implements COEREncodable{
 	 * @param lowerBound the lower bound of the octet stream, null of not known.
 	 * @param upperBound the upper bound of the octet stream, null of not known.
 	 */
-	public COEROctetStream(byte[] data, Integer lowerBound, Integer upperBound) {
+	public COEROctetStream(byte[] data, Integer lowerBound, Integer upperBound) throws IOException{
 		this.data = data;
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
 		
 		if(data != null && lowerBound != null && data.length < lowerBound){
-			throw new IllegalArgumentException("Error given data to octet stream is less than minimal value of " + lowerBound);
+			throw new IOException("Error given data to octet stream is less than minimal value of " + lowerBound);
 		}
 		if(data != null && upperBound != null && data.length > upperBound){
-			throw new IllegalArgumentException("Error given data to octet stream is larger than maximal value of " + upperBound);
+			throw new IOException("Error given data to octet stream is larger than maximal value of " + upperBound);
 		}
 	}
 	

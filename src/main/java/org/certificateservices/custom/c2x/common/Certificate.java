@@ -57,9 +57,9 @@ public interface Certificate {
 	 * @return a public verification key of the certificate.
 	 * @throws InvalidKeySpecException if the given signerPublicKey was invalid.
 	 * @throws SignatureException if problems occurred reconstructing the public key.
-	 * @throws IllegalArgumentException if supplied argument was invalid for the type of certificate.
+	 * @throws BadArgumentException if supplied argument was invalid for the type of certificate.
 	 */
-	PublicKey getPublicKey(CryptoManager cryptoManager, AlgorithmIndicator alg, Certificate signerCertificate, PublicKey signerPublicKey) throws InvalidKeySpecException, SignatureException, IllegalArgumentException; 
+	PublicKey getPublicKey(CryptoManager cryptoManager, AlgorithmIndicator alg, Certificate signerCertificate, PublicKey signerPublicKey) throws InvalidKeySpecException, SignatureException, BadArgumentException;
 	
 	/**
 	 * 
@@ -74,8 +74,8 @@ public interface Certificate {
 	 * @return a newly generated HashedId8
 	 * @throws IOException if problem occurred encoding this certificate to byte array.
 	 * @throws NoSuchAlgorithmException if SHA-256 algorithm wasn't found in given CryptoManager.
-	 * @throws IllegalArgumentException if supplied argument was invalid for the type of certificate.
+	 * @throws BadArgumentException if supplied argument was invalid for the type of certificate.
 	 */
 	HashedId8 asHashedId8(CryptoManager cryptoManager)
-			throws IOException, NoSuchAlgorithmException, IllegalArgumentException;
+			throws IOException, NoSuchAlgorithmException;
 }

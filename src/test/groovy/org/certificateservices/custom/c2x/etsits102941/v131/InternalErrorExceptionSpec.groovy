@@ -28,13 +28,13 @@ class InternalErrorExceptionSpec extends Specification {
         def key = Mock(SecretKey)
         def cause = new IOException()
         when:
-        def e1 = new InternalErrorException("SomeMessage", key)
+        def e1 = new MessageProcessingException("SomeMessage", key)
         then:
         e1.message == "SomeMessage"
         e1.getSecretKey() == key
 
         when:
-        def e2 = new InternalErrorException("SomeMessage", cause ,key, requestHash)
+        def e2 = new MessageProcessingException("SomeMessage", cause ,key, requestHash)
         then:
         e2.message  == "SomeMessage"
         e2.cause == cause

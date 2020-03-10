@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 
+import java.io.IOException;
+
 /**
  * <ul>
  *<li>recipientId contains the hash of the "container" for the encryption public key as specified in
@@ -57,7 +59,7 @@ public class PKRecipientInfo extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public PKRecipientInfo(HashedId8 recipientId, EncryptedDataEncryptionKey encKey){
+	public PKRecipientInfo(HashedId8 recipientId, EncryptedDataEncryptionKey encKey) throws IOException {
 		super(false,2);
 		init();
 		set(RECIPIENTID, recipientId);

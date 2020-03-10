@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.validator.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
@@ -81,13 +82,13 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      * @param certStore a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
     public void verifyAndValidate(Certificate certificate, Date checkDate, GeographicRegion checkRegion,
                            EndEntityType targetEndEntityType, Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain) throws IllegalArgumentException,
+                           Map<HashedId8, Certificate> trustStore, boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException{
         verifyAndValidate(certificate,checkDate,checkRegion,targetEndEntityType,0,certStore,trustStore, entireChain);
     }
@@ -124,7 +125,7 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      * @param certStore a certstore that contains all intermediate CA certificates that is needed to build the chain.
      * @param trustStore a certstore of root ca certificates that are trusted.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
@@ -132,7 +133,7 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
                            EndEntityType targetEndEntityType, int chainLengthIndex,
                            Map<HashedId8, Certificate> certStore,
                            Map<HashedId8, Certificate> trustStore, boolean entireChain)
-            throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
+            throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
 
         Certificate[] certChain = buildCertChain(certificate, certStore, trustStore);
         verifyAndValidate(certChain,checkDate,checkRegion,targetEndEntityType,chainLengthIndex,entireChain);
@@ -167,14 +168,14 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      * @param checkRegion         the region to check against, if null is region check skipped.
      * @param targetEndEntityType the type of end entity tree to check.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException    if one of the parameters where invalid.
+     * @throws BadArgumentException    if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
      */
     @Override
     public void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion,
                                   EndEntityType targetEndEntityType, boolean entireChain)
-            throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
+            throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
         verifyAndValidate(certificateChain,checkDate,checkRegion,targetEndEntityType,0,entireChain);
     }
 
@@ -210,14 +211,14 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      *                            entity certificate should chainLengthIndex be 0, if certificate chain starts with issuer of end entity certificate it should
      *                            be 1 and so on incremented up to root certificate in chain.
      * @param entireChain if entireChain should be validated or only first certificate in chain.
-     * @throws IllegalArgumentException    if one of the parameters where invalid.
+     * @throws BadArgumentException    if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
      */
     @Override
     public void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion,
                                   EndEntityType targetEndEntityType, int chainLengthIndex, boolean entireChain)
-            throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
+            throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
 
         timeValidator.validateTime(checkDate,certificateChain, entireChain);
         regionValidator.validateRegion(checkRegion,certificateChain);
@@ -232,11 +233,11 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      * @param certStore map of known certificates ids to certificate, used to build up the chain to the trust store root certificates.
      * @param trustStore map of trusted root certificate ids to certificate.
      * @return a complete certificate chain up to root certificate.
-     * @throws IllegalArgumentException if one of the parameters where invalid.
+     * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
-    protected Certificate[] buildCertChain(Certificate certificate, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws IllegalArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
+    protected Certificate[] buildCertChain(Certificate certificate, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
         try {
             HashedId8 certId = certChainBuilder.getCertID(certificate);
             Map<HashedId8, Certificate> signerStore = new HashMap<>();
@@ -290,19 +291,19 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
     }
 
     /**
-     * Method to cast given certificate to ieee1609dot2 or throw IllegalArgumentException
+     * Method to cast given certificate to ieee1609dot2 or throw BadArgumentException
      * if certificate is of wrong type.
      * @param certificateChain the certificate chain to cast to ieee1609dot2
      * @return ieee1609dot2 variant of the certificate
-     * @throws IllegalArgumentException
+     * @throws BadArgumentException
      */
-    public static org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] toIEEE1609Certificates(org.certificateservices.custom.c2x.common.Certificate[] certificateChain) throws IllegalArgumentException{
+    public static org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] toIEEE1609Certificates(org.certificateservices.custom.c2x.common.Certificate[] certificateChain) throws BadArgumentException{
         org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] retval = new org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[certificateChain.length];
         for(int i=0; i<certificateChain.length;i++){
             if(certificateChain[i] instanceof org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate){
                 retval[i] = (org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate) certificateChain[i];
             }else {
-                throw new IllegalArgumentException("Invalid certificate type: " + certificateChain[i].getClass().getName() + " expected of type " + org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate.class.getName());
+                throw new BadArgumentException("Invalid certificate type: " + certificateChain[i].getClass().getName() + " expected of type " + org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate.class.getName());
             }
         }
         return retval;

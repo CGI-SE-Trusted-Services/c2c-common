@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -32,7 +33,7 @@ public class DcDelete extends Url {
      * Constructor used when encoding a string to url encoded format when the lower and upper bound of the string is known.
      *
      */
-    public DcDelete(String url, Integer lowerBound, Integer upperBound) throws UnsupportedEncodingException {
+    public DcDelete(String url, Integer lowerBound, Integer upperBound) throws IOException {
         super(url, lowerBound, upperBound);
     }
 
@@ -41,7 +42,7 @@ public class DcDelete extends Url {
      *
      * @param url
      */
-    public DcDelete(String url) throws UnsupportedEncodingException {
+    public DcDelete(String url) throws IOException {
         super(url);
     }
 

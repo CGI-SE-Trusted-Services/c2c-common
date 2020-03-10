@@ -90,11 +90,11 @@ class JMaxGroupSpec extends BaseStructSpec {
 		jmg2.getContents() == contents
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new JMaxGroup(5,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

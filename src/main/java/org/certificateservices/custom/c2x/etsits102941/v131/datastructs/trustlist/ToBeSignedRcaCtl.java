@@ -12,8 +12,11 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Time32;
+
+import java.io.IOException;
 
 /**
  * Class representing ToBeSignedRcaCtl defined in ETSI TS 102 941 Trust List Types
@@ -35,17 +38,18 @@ public class ToBeSignedRcaCtl extends CtlFormat {
 	/**
 	 * Constructor used when encoding
 	 */
-	public ToBeSignedRcaCtl(Version version, Time32 nextUpdate, boolean isFullCtl,int ctlSequence, CtlCommand[] ctlCommands){
+	public ToBeSignedRcaCtl(Version version, Time32 nextUpdate, boolean isFullCtl,
+							int ctlSequence, CtlCommand[] ctlCommands) throws IOException, BadArgumentException {
 		super(version,nextUpdate,isFullCtl,ctlSequence,ctlCommands);
 		validateToBeSignedRcaCtl(ctlCommands);
 	}
 
-	protected void validateToBeSignedRcaCtl(CtlCommand[] ctlCommands) throws IllegalArgumentException{
+	protected void validateToBeSignedRcaCtl(CtlCommand[] ctlCommands) throws IOException {
 		for(CtlCommand cmd : ctlCommands){
 			if(cmd.getType() == CtlCommand.CtlCommandChoices.add){
 				if(cmd.getCtlEntry().getType() == CtlEntry.CtlEntryChoices.rca ||
 				   cmd.getCtlEntry().getType() == CtlEntry.CtlEntryChoices.tlm){
-					throw new IllegalArgumentException("Invalid ToBeSignedRcaCtl, cannot contain ctl commands for add " + cmd.getCtlEntry().getType());
+					throw new IOException("Invalid ToBeSignedRcaCtl, cannot contain ctl commands for add " + cmd.getCtlEntry().getType());
 				}
 			}
 		}

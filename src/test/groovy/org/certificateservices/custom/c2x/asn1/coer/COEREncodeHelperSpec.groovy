@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer
 
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
 
 import java.security.SecureRandom;
@@ -143,7 +144,7 @@ class COEREncodeHelperSpec extends BaseStructSpec {
 		when:
 		COEREncodeHelper.writeLengthDeterminant(-1, dos)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	}
 	
 	def "Verify that write and read enumeration value from COEREnumeration is correct encoded and decoded"(){

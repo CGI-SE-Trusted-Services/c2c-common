@@ -16,6 +16,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 
+import java.io.IOException;
+
 /**
  * This structure contains information that is used to establish validity by the criteria of 5.2.
  * <p>
@@ -80,7 +82,7 @@ public class HeaderInfo extends COERSequence {
 	 */
 	public HeaderInfo(Psid psid, Time64 generationTime, Time64 expiryTime, ThreeDLocation generationLocation,
 			HashedId3 p2pcdLearningRequest, MissingCrlIdentifier missingCrlIdentifier, EncryptionKey encryptionKey,
-					  SequenceOfHashedId3 inlineP2pcdRequest, Certificate requestedCertificate){
+					  SequenceOfHashedId3 inlineP2pcdRequest, Certificate requestedCertificate) throws IOException {
 		super(true,7);
 		init();
 		set(PSID, psid);

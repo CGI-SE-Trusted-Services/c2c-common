@@ -23,6 +23,7 @@ import java.security.spec.InvalidKeySpecException;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.Algorithm;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
@@ -64,34 +65,36 @@ public abstract class BaseCertGenerator {
 	/**
 	 * Generate and attaches a signature to the given certificate.
 	 */
-	protected Certificate signAndGenCertificate(int version, IssuerIdentifier issuerId, ToBeSignedCertificate tbs,  PublicVerificationKeyChoices alg, PublicKey publicKey, PrivateKey privateKey, CertificateType certType, Certificate signCert) throws IOException, IllegalArgumentException, SignatureException{
+	protected Certificate signAndGenCertificate(int version, IssuerIdentifier issuerId, ToBeSignedCertificate tbs,  PublicVerificationKeyChoices alg, PublicKey publicKey, PrivateKey privateKey, CertificateType certType, Certificate signCert) throws IOException, SignatureException, BadArgumentException {
 		Signature signature = cryptoManager.signMessage(tbs.getEncoded(), alg, privateKey, certType,signCert);
-		
+
 		return new Certificate(version, issuerId, tbs, signature);		
 	}
 	
 	/**
 	 * Help method to convert a public key to EccP256CurvePoint using given compression.
 	 */
-	protected COERChoice convertToPoint(AlgorithmIndicator alg, PublicKey pk) throws IllegalArgumentException{
+	protected COERChoice convertToPoint(AlgorithmIndicator alg, PublicKey pk) throws IOException{
 		return convertToPoint(alg, pk, cryptoManager, useUncompressed);
 	}
 
 	/**
 	 * Common static help method used by several generators to convert a public key to a ECPoint
 	 */
-	public static COERChoice convertToPoint(AlgorithmIndicator alg, PublicKey pk, Ieee1609Dot2CryptoManager cryptoManager, boolean useUncompressed){
+	public static COERChoice convertToPoint(AlgorithmIndicator alg, PublicKey pk, Ieee1609Dot2CryptoManager cryptoManager, boolean useUncompressed) throws IOException {
 		try {
 			if(alg.getAlgorithm().getSignature() == Algorithm.Signature.ecdsaBrainpoolP384r1){
 				return cryptoManager.encodeEccPoint(alg, (useUncompressed ? EccP384CurvePoint.EccP384CurvePointChoices.uncompressed : EccP384CurvePoint.EccP384CurvePointChoices.compressedy0), pk);
 			}
 			return cryptoManager.encodeEccPoint(alg, (useUncompressed ? EccP256CurvePointChoices.uncompressed : EccP256CurvePointChoices.compressedy0), pk);
 		} catch (InvalidKeySpecException e) {
-			throw new IllegalArgumentException("Error, invalid keyspec: " + e.getMessage());
+			throw new IOException("Error, invalid keyspec: " + e.getMessage(), e);
+		} catch (BadArgumentException e) {
+			throw new IOException("Error, bad argument: " + e.getMessage(), e);
 		}
 	}
 	
-	protected Certificate genCert(ToBeSignedCertificate tbs, CertificateType certType, AlgorithmIndicator alg,  PublicKey publicKey, PrivateKey signingPrivateKey, PublicKey signingPublicKey, Certificate signingCert) throws IOException, IllegalArgumentException, SignatureException{
+	protected Certificate genCert(ToBeSignedCertificate tbs, CertificateType certType, AlgorithmIndicator alg,  PublicKey publicKey, PrivateKey signingPrivateKey, PublicKey signingPublicKey, Certificate signingCert) throws IOException, SignatureException{
 		byte[] toBeSignedData = tbs.getEncoded();
 		IssuerIdentifier issuerIdentifier;
 		try{
@@ -114,16 +117,18 @@ public abstract class BaseCertGenerator {
 			}
 			
 		}catch(NoSuchAlgorithmException e){
-			throw new IllegalArgumentException("Error, no such algorithm exception: " + e.getMessage());
+			throw new IOException("Error, no such algorithm exception: " + e.getMessage(), e);
+		}catch (BadArgumentException e){
+			throw new IOException("Error, bad arguments : " + e.getMessage(), e);
 		}
 	}
 
-	protected Certificate newCertificate(IssuerIdentifier issuerIdentifier, ToBeSignedCertificate tbs,Signature signature){
+	protected Certificate newCertificate(IssuerIdentifier issuerIdentifier, ToBeSignedCertificate tbs,Signature signature) throws IOException{
 		return new Certificate(issuerIdentifier, tbs, signature);
 	}
 	
 	public static PublicVerificationKeyChoices getPublicVerificationAlgorithm(
-			AlgorithmIndicator signingPublicKeyAlgorithm) {
+			AlgorithmIndicator signingPublicKeyAlgorithm) throws IOException{
 		switch(signingPublicKeyAlgorithm.getAlgorithm().getSignature()){
 		case ecdsaNistP256:
 			return PublicVerificationKeyChoices.ecdsaNistP256;
@@ -132,7 +137,7 @@ public abstract class BaseCertGenerator {
 		case ecdsaBrainpoolP384r1:
 			return PublicVerificationKeyChoices.ecdsaBrainpoolP384r1;
 		}
-		throw new IllegalArgumentException("Error unsupported Public Verification Algorithm specified: " + signingPublicKeyAlgorithm.getAlgorithm().getSignature());
+		throw new IOException("Error unsupported Public Verification Algorithm specified: " + signingPublicKeyAlgorithm.getAlgorithm().getSignature());
 	}
 		
 }

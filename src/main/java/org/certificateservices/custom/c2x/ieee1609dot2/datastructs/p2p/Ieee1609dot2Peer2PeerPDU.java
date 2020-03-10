@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.p2p;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint8;
 
+import java.io.IOException;
+
 /**
  * This data structure defines the structure of Ieee1609dot2Peer2PeerPDU.
  * 
@@ -41,7 +43,7 @@ public class Ieee1609dot2Peer2PeerPDU extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public Ieee1609dot2Peer2PeerPDU(int version, Ieee1609dot2Peer2PeerPDUContent content){
+	public Ieee1609dot2Peer2PeerPDU(int version, Ieee1609dot2Peer2PeerPDUContent content) throws IOException {
 		super(false,2);
 		init();
 
@@ -52,7 +54,7 @@ public class Ieee1609dot2Peer2PeerPDU extends COERSequence {
 	/**
 	 * Constructor used when encoding with default version
 	 */
-	public Ieee1609dot2Peer2PeerPDU(Ieee1609dot2Peer2PeerPDUContent content){
+	public Ieee1609dot2Peer2PeerPDU(Ieee1609dot2Peer2PeerPDUContent content) throws IOException {
 		this(DEFAULT_VERSION,content);
 	}
 

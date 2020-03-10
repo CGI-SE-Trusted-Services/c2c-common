@@ -65,11 +65,11 @@ class ToBeSignedHashIdCrlSpec extends BaseStructSpec {
 		tbs2.getEntries() == entries
 	}
 	
-	def "Verify that IllegalArgumentException is thrown if not all fields are set"(){
+	def "Verify that IOException is thrown if not all fields are set"(){
 		when:
 		new ToBeSignedHashIdCrl(5,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

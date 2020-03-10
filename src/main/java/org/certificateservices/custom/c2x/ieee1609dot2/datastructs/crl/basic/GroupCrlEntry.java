@@ -17,6 +17,8 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LaId;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.LinkageSeed;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint16;
 
+import java.io.IOException;
+
 /**
  * In this structure:
  * <ul>
@@ -51,7 +53,7 @@ public class GroupCrlEntry extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public GroupCrlEntry(int iMax, LaId la1Id, LinkageSeed  linkageSeed1,LaId la2Id, LinkageSeed  linkageSeed2){
+	public GroupCrlEntry(int iMax, LaId la1Id, LinkageSeed  linkageSeed1,LaId la2Id, LinkageSeed  linkageSeed2) throws IOException {
 		super(true,5);
 		init();
 		set(IMAX, new Uint16(iMax));

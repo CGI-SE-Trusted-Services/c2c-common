@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.secenv;
 
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid;
 
+import java.io.IOException;
+
 /**
  * This type represents the CRL PSID
  * <p>
@@ -32,7 +34,7 @@ public class CrlPsid extends Psid {
 	 * Constructor used when encoding and decoding
 	 * 
 	 */
-	public CrlPsid() {
+	public CrlPsid() throws IOException {
 		super(PSID);
 	}
 

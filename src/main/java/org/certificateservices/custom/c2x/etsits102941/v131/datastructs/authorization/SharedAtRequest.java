@@ -49,12 +49,13 @@ public class SharedAtRequest extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public SharedAtRequest(HashedId8 eaId, byte[] keyTag, CertificateFormat certificateFormat, CertificateSubjectAttributes requestedSubjectAttributes){
+	public SharedAtRequest(HashedId8 eaId, byte[] keyTag, CertificateFormat certificateFormat,
+						   CertificateSubjectAttributes requestedSubjectAttributes) throws IOException{
 		super(true,4);
 		init();
 
 		if(requestedSubjectAttributes != null && requestedSubjectAttributes.getCertIssuePermissions() != null){
-            throw new IllegalArgumentException("Invalid requestedSubjectAttributes in SharedAtRequest, certIssuePermissions cannot be set.");
+            throw new IOException("Invalid requestedSubjectAttributes in SharedAtRequest, certIssuePermissions cannot be set.");
         }
 
 		set(EAID, eaId);

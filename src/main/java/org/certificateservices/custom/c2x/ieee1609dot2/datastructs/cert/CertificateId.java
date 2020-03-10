@@ -72,21 +72,21 @@ public class CertificateId extends COERChoice {
 	/**
 	 * Constructor used when encoding of type linkageData
 	 */
-	public CertificateId(LinkageData linkageData) throws IllegalArgumentException{
+	public CertificateId(LinkageData linkageData) {
 		super(CertificateIdChoices.linkageData, linkageData);
 	}
 	
 	/**
 	 * Constructor used when encoding of type name
 	 */
-	public CertificateId(Hostname name) throws IllegalArgumentException{
+	public CertificateId(Hostname name) {
 		super(CertificateIdChoices.name, name);
 	}
 	
 	/**
 	 * Constructor used when encoding of type binaryId
 	 */
-	public CertificateId(byte[] binaryId) throws IllegalArgumentException{
+	public CertificateId(byte[] binaryId) throws IOException {
 		super(CertificateIdChoices.binaryId, new COEROctetStream(binaryId,1, 64));
 	}
 	

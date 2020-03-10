@@ -18,6 +18,7 @@ import java.security.PublicKey;
 
 import javax.crypto.SecretKey;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
@@ -45,26 +46,26 @@ public class SignedDataRecipient extends BasePKRecipient{
 	
 	private Ieee1609Dot2Data signedData;
 	
-	public SignedDataRecipient(Ieee1609Dot2Data signedData){
+	public SignedDataRecipient(Ieee1609Dot2Data signedData) throws BadArgumentException{
 		this.signedData = signedData;
 		if(signedData.getContent().getType() != Ieee1609Dot2ContentChoices.signedData){
-			throw new IllegalArgumentException("Invalid SignedData used for PK Receiptient, must be of type signedData.");
+			throw new BadArgumentException("Invalid SignedData used for PK Receiptient, must be of type signedData.");
 		}
 		
 		EncryptionKey encKey = ((SignedData) signedData.getContent().getValue()).getTbsData().getHeaderInfo().getEncryptionKey();
 				
 		if(encKey== null){
-			throw new IllegalArgumentException("Error supplied Signed Data didn't contain any encryption key in it's header info.");
+			throw new BadArgumentException("Error supplied Signed Data didn't contain any encryption key in it's header info.");
 		}
 		if(encKey.getType() != EncryptionKeyChoices.public_){
-			throw new IllegalArgumentException("Error supplied Signed Data didn't contain any encryption key in it's header info with type public key.");
+			throw new BadArgumentException("Error supplied Signed Data didn't contain any encryption key in it's header info with type public key.");
 		}
 	}
 
 	@Override
 	public RecipientInfo toRecipientInfo(AlgorithmIndicator alg,
 			Ieee1609Dot2CryptoManager cryptoManager, SecretKey encryptionKey)
-			throws IllegalArgumentException, GeneralSecurityException,
+			throws BadArgumentException, GeneralSecurityException,
 			IOException {
 		EncryptionKey eK = ((SignedData) signedData.getContent().getValue()).getTbsData().getHeaderInfo().getEncryptionKey();
 		PublicEncryptionKey pubEncKey = (PublicEncryptionKey) eK.getValue();

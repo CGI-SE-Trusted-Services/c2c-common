@@ -92,21 +92,21 @@ class SspRangeSpec extends BaseStructSpec {
 		sr2.choice.extension
 	}
 
-	def "Verify that IllegalArgumentException is thrown for invalid constructor data"(){
+	def "Verify that IOException is thrown for invalid constructor data"(){
 		when:
 		new SspRange(all, bsr)
 		then:
-		def e = thrown IllegalArgumentException
+		def e = thrown IOException
 		e.message == "Invalid SspRange, if choice is all must related data be null."
 		when:
 		new SspRange(opaque, bsr)
 		then:
-		e = thrown IllegalArgumentException
+		e = thrown IOException
 		e.message == "Invalid SspRange, if choice is opaque must related data be of type SequenceOfOctetString."
 		when:
 		new SspRange(bitmapSspRange, soc)
 		then:
-		e = thrown IllegalArgumentException
+		e = thrown IOException
 		e.message == "Invalid SspRange, if choice is bitmapSspRange must related data be of type BitmapSspRange."
 	}
 

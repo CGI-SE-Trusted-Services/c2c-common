@@ -65,11 +65,11 @@ class Ieee1609dot2Peer2PeerPDUSpec extends BaseStructSpec {
 		d4.getContent() == caCert
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new Ieee1609dot2Peer2PeerPDU(null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

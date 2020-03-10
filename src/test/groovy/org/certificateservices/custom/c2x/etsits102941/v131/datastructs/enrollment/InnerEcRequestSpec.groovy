@@ -51,7 +51,7 @@ class InnerEcRequestSpec extends BaseStructSpec {
     }
 
 
-    def "Verify that IllegalArgumentException is thrown if requested permissions have certIssuePermission Set"(){
+    def "Verify that BadArgumentException is thrown if requested permissions have certIssuePermission Set"(){
         setup:
         PsidGroupPermissions perm1 = new PsidGroupPermissions(new SubjectPermissions(SubjectPermissions.SubjectPermissionsChoices.all, null),null,null,new EndEntityType(true, true))
         PsidGroupPermissions perm2 = new PsidGroupPermissions(new SubjectPermissions(SubjectPermissions.SubjectPermissionsChoices.all, null),2,3,new EndEntityType(false, true))
@@ -59,7 +59,7 @@ class InnerEcRequestSpec extends BaseStructSpec {
         when:
         new InnerEcRequest(itsAid, CertificateFormat.TS103097C131, publicKeys, SharedAtRequestSpec.genCertificateSubjectAttributes(new SequenceOfPsidGroupPermissions([perm1, perm2])))
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid requestedSubjectAttributes in InnerEcRequest, certIssuePermissions cannot be set."
     }
 

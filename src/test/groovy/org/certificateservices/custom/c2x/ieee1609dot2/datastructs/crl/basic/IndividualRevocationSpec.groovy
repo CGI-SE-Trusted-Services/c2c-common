@@ -55,15 +55,15 @@ class IndividualRevocationSpec extends BaseStructSpec {
 		ir2.getLinkageSeed2() == ls2
 	}
 	
-	def "Verify that IllegalArgumentException is thrown when encoding if not all fields are set"(){
+	def "Verify that IOException is thrown when encoding if not all fields are set"(){
 		when:
 		new IndividualRevocation(null,ls2)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 		when:
 		new IndividualRevocation(ls1,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

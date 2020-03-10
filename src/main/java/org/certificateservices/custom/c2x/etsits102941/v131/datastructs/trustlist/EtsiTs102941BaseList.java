@@ -39,24 +39,25 @@ public abstract class EtsiTs102941BaseList extends EtsiTs103097DataSigned {
 
     /**
      * Constructor when converting a EtsiTs103097DataSigned to EtsiTs102941CRL
+     * @throws IOException if communication problems occurred during serialization.
      */
-    public EtsiTs102941BaseList(EtsiTs103097DataSigned etsiTs103097DataSigned){
+    public EtsiTs102941BaseList(EtsiTs103097DataSigned etsiTs103097DataSigned) throws IOException{
         super(etsiTs103097DataSigned.getProtocolVersion(),etsiTs103097DataSigned.getContent());
     }
 
     /**
      * Constructor used when encoding using default protocol version.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if communication problems occurred during serialization.
      */
-    public EtsiTs102941BaseList(Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs102941BaseList(Ieee1609Dot2Content content) throws IOException{
         super(content);
     }
 
     /**
      * Constructor used when encoding
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if communication problems occurred during serialization.
      */
-    public EtsiTs102941BaseList(int protocolVersion, Ieee1609Dot2Content content) throws IllegalArgumentException{
+    public EtsiTs102941BaseList(int protocolVersion, Ieee1609Dot2Content content) throws IOException{
         super(protocolVersion,content);
     }
 
@@ -64,9 +65,8 @@ public abstract class EtsiTs102941BaseList extends EtsiTs103097DataSigned {
      * Constructor decoding a Ieee1609Dot2Data from an encoded byte array.
      * @param encodedData byte array encoding of the Ieee1609Dot2Data.
      * @throws IOException   if communication problems occurred during serialization.
-     * @throws IllegalArgumentException if encoded data was invalid according to ASN1 schema.
      */
-    public EtsiTs102941BaseList(byte[] encodedData) throws IOException, IllegalArgumentException{
+    public EtsiTs102941BaseList(byte[] encodedData) throws IOException{
         super(encodedData);
         validateSigned();
     }

@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetyp
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 
+import java.io.IOException;
+
 /**
  * Class representing PublicKeys defined in ETSI TS 102 941 Base Types.
  *
@@ -39,7 +41,7 @@ public class PublicKeys extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public PublicKeys(PublicVerificationKey verificationKey, PublicEncryptionKey encryptionKey){
+	public PublicKeys(PublicVerificationKey verificationKey, PublicEncryptionKey encryptionKey) throws IOException {
 		super(false,2);
 		init();
 		set(VERIFICATIONKEY, verificationKey);

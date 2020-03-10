@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.validator
 
 import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams
@@ -208,13 +209,13 @@ class CountryOnlyRegionValidatorSpec extends Specification {
     }
 
     @Unroll
-    def "Verify that validateRegion throws IllegalArgumentException if checkRegion #desc"(){
+    def "Verify that validateRegion throws BadArgumentException if checkRegion #desc"(){
         setup:
         Certificate[] certChain = genCertChain([[type: "rootca", name: "rootca", countries: [8,27]]])
         when:
         validator.validateRegion(region,certChain)
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown BadArgumentException
         e.message == "Invalid argument, acceptedRegion must be of type identifiedRegion containing only countryOnly."
         where:
         desc                              | region

@@ -50,11 +50,11 @@ class EtsiTs103097DataUnsecuredSpec extends BaseStructSpec {
     }
 
 
-    def "Verify that constructor throws IllegalArgumentException if data type is new encryptedData"(){
+    def "Verify that constructor throws BadArgumentException if data type is new encryptedData"(){
         when:
         new EtsiTs103097DataUnsecured(2, genSignedData())
         then:
-        def e = thrown(IllegalArgumentException)
+        def e = thrown(IOException)
         e.message == "EtsiTs103097Data with profile Unseured must be of type unsecured."
     }
 }

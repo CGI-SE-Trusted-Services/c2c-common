@@ -51,19 +51,19 @@ class ToBeSignedTlmCtlSpec extends BaseStructSpec {
         f2.getCtlCommands() == ctlCommands
     }
 
-    def "Verify that constructor throws IllegalArgumentException if ToBeSignedTlmCtl contains CtlCommand with add aa"(){
+    def "Verify that constructor throws BadArgumentException if ToBeSignedTlmCtl contains CtlCommand with add aa"(){
         when:
         new ToBeSignedTlmCtl(ver, nextUpdate, true, 12, [new CtlCommand(new CtlEntry(aaEntry))] as CtlCommand[])
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid ToBeSignedTlmCtl, cannot contain ctl commands for add aa"
     }
 
-    def "Verify that constructor throws IllegalArgumentException if ToBeSignedTlmCtl contains CtlCommand with add ea"(){
+    def "Verify that constructor throws BadArgumentException if ToBeSignedTlmCtl contains CtlCommand with add ea"(){
         when:
         new ToBeSignedTlmCtl(ver, nextUpdate, true, 12, [new CtlCommand(new CtlEntry(eaEntry))] as CtlCommand[])
         then:
-        def e = thrown IllegalArgumentException
+        def e = thrown IOException
         e.message == "Invalid ToBeSignedTlmCtl, cannot contain ctl commands for add ea"
     }
 

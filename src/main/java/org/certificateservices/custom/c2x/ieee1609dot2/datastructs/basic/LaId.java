@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 
+import java.io.IOException;
+
 /**
  * This structure contains a LA Identifier for use in the algorithms specified in 5.1.3.4.
  * 
@@ -38,9 +40,9 @@ public class LaId extends COEROctetStream{
 	/**
 	 * Constructor used to create a LaId.
 	 * @param laId a 2 byte array.
-	 * @throws IllegalArgumentException if laId was invalid
+	 * @throws IOException if laId was invalid
 	 */
-	public LaId(byte[] laId) throws IllegalArgumentException {
+	public LaId(byte[] laId) throws IOException {
 		super(laId, OCTETSTRING_SIZE, OCTETSTRING_SIZE);
 	
 	}

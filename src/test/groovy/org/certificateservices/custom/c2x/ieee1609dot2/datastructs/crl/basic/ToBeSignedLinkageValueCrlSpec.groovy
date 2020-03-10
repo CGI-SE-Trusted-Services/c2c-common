@@ -94,11 +94,11 @@ class ToBeSignedLinkageValueCrlSpec extends BaseStructSpec {
 		tbs6.getGroups() == groups
 	}
 	
-	def "Verify that IllegalArgumentException is thrown if both individual and groups are null"(){
+	def "Verify that IOException is thrown if both individual and groups are null"(){
 		when:
 		new ToBeSignedLinkageValueCrl(6, 3,null,null)
 		then:
-		thrown IllegalArgumentException
+		thrown IOException
 	} 
 	
 

@@ -16,6 +16,8 @@ import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.SharedAtRequest;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.EcSignature;
 
+import java.io.IOException;
+
 /**
  * Class representing AuthorizationValidation defined in ETSI TS 102 941 Authorization Validation Types
  *
@@ -40,7 +42,7 @@ public class AuthorizationValidationRequest extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public AuthorizationValidationRequest(SharedAtRequest sharedAtRequest, EcSignature ecSignature){
+	public AuthorizationValidationRequest(SharedAtRequest sharedAtRequest, EcSignature ecSignature) throws IOException {
 		super(true,2);
 		init();
         set(SHAREDATREQUEST, sharedAtRequest);

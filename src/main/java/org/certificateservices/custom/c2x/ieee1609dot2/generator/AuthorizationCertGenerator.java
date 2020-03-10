@@ -18,6 +18,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SignatureException;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey;
@@ -85,7 +86,7 @@ public class AuthorizationCertGenerator extends BaseCertGenerator {
 	 * @param encPublicKey public key used for encryption, null if no encryption key should be included.
 	 * @return a new self signed certificate with root CA profile.
 	 * 
-	 * @throws IllegalArgumentException if supplied arguments was illegal.
+	 * @throws BadArgumentException if supplied arguments was illegal.
 	 * @throws SignatureException if internal signature problems occurred.
 	 * @throws IOException if communication problems with underlying systems occurred generating the certificate.
 	 */
@@ -106,10 +107,10 @@ public class AuthorizationCertGenerator extends BaseCertGenerator {
 			PrivateKey signCertificatePrivateKey,
 			SymmAlgorithm symmAlgorithm,
 			BasePublicEncryptionKeyChoices encPublicKeyAlgorithm,
-			PublicKey encPublicKey) throws IllegalArgumentException,  SignatureException, IOException{
+			PublicKey encPublicKey) throws BadArgumentException,  SignatureException, IOException{
 		
 		if(appPermissions == null){
-			throw new IllegalArgumentException("Error appPermissions cannot be null");
+			throw new BadArgumentException("Error appPermissions cannot be null");
 		}
 		SequenceOfPsidSsp appPerms = new SequenceOfPsidSsp(appPermissions);
 		

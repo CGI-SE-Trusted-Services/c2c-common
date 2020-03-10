@@ -16,6 +16,8 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 
+import java.io.IOException;
+
 /**
  * This structure represents a bitmap representation of a SSP. The sspValue indicates permissions. The
  * sspBitmask contains an octet string used to permit or constrain sspValue fields in issued certificates.
@@ -71,13 +73,13 @@ public class BitmapSspRange extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public BitmapSspRange(byte[] sspValue, byte[] sspBitmask){
+	public BitmapSspRange(byte[] sspValue, byte[] sspBitmask) throws IOException{
 		super(false,2);
 		if(sspValue == null){
-			throw new IllegalArgumentException("Invalid argument: sspValue in BitmapSspRange cannot be null.");
+			throw new IOException("Invalid argument: sspValue in BitmapSspRange cannot be null.");
 		}
 		if(sspBitmask == null){
-			throw new IllegalArgumentException("Invalid argument: sspBitmask in BitmapSspRange cannot be null.");
+			throw new IOException("Invalid argument: sspBitmask in BitmapSspRange cannot be null.");
 		}
 		init();
 		set(SSPVALUE, new COEROctetStream(sspValue,1,32));

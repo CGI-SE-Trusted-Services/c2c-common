@@ -15,6 +15,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.crl.basic;
 import org.certificateservices.custom.c2x.asn1.coer.COERSequence;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Uint16;
 
+import java.io.IOException;
+
 /**
  * In this structure:
  * <ul>
@@ -47,7 +49,7 @@ public class IMaxGroup extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public IMaxGroup(int iMax, SequenceOfIndividualRevocation  contents){
+	public IMaxGroup(int iMax, SequenceOfIndividualRevocation  contents) throws IOException {
 		super(true,2);
 		init();
 		set(IMAX, new Uint16(iMax));

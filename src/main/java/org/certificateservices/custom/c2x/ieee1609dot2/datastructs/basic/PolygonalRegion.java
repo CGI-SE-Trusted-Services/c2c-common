@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERSequenceOf;
@@ -56,7 +57,7 @@ public class PolygonalRegion extends COERSequenceOf {
 	 * Constructor used when encoding
 	 * @param sequenceValues an array of at least 3 elements.
 	 */
-	public PolygonalRegion(TwoDLocation[] sequenceValues)  throws IllegalArgumentException{
+	public PolygonalRegion(TwoDLocation[] sequenceValues) throws IOException{
 		super(sequenceValues);
 		verify();
 	}
@@ -65,14 +66,14 @@ public class PolygonalRegion extends COERSequenceOf {
 	 * Constructor used when encoding
 	 * @param sequenceValues a list of at least 3 elements.
 	 */
-	public PolygonalRegion(List<TwoDLocation> sequenceValues) throws IllegalArgumentException{
+	public PolygonalRegion(List<TwoDLocation> sequenceValues) throws IOException{
 		super((TwoDLocation[]) sequenceValues.toArray(new TwoDLocation[sequenceValues.size()]));
 		verify();
 	}
 	
-	private void verify() throws IllegalArgumentException{
+	private void verify() throws IOException {
 		if(sequenceValues.length < 3){
-			throw new IllegalArgumentException("A PolygonalRegion must have a least 3 TwoDLocations");
+			throw new IOException("A PolygonalRegion must have a least 3 TwoDLocations");
 		}
 	}
 	

@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic;
 
 
+import java.io.IOException;
+
 /**
  * This is the integer representation of the country or area identifier as defined by the United Nations Statistics
  * Division in October 2013 (see normative references in Clause 2).
@@ -34,7 +36,7 @@ public class CountryOnly extends Uint16 {
 	/**
 	 * Constructor used when encoding
 	 */
-	public CountryOnly(int countryCode) {
+	public CountryOnly(int countryCode)  {
 		super(countryCode);		
 	}
 	

@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits103097.v131.generator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataEncrypted;
@@ -64,13 +65,13 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @param signerCertificate the certificate signing the message.
      * @param signerPrivateKey private key of signer.
      * @return a newly generated signed CA Message.
-     * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+     * @throws BadArgumentException if fault was discovered in supplied parameters.
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws IOException if IO exception occurred communicating with underlying systems.
      */
-    public EtsiTs103097DataSigned genCAMessage(Time64 generationTime, SequenceOfHashedId3 inlineP2pcdRequest, Certificate requestedCertificate, byte[] message, SignerIdentifierType signerIdentifierType,Certificate signerCertificate, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+    public EtsiTs103097DataSigned genCAMessage(Time64 generationTime, SequenceOfHashedId3 inlineP2pcdRequest, Certificate requestedCertificate, byte[] message, SignerIdentifierType signerIdentifierType,Certificate signerCertificate, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
         if(signerIdentifierType == SignerIdentifierType.CERT_CHAIN){
-            throw new IllegalArgumentException("Unsupported signerIdentifierType for CA Message: " + signerIdentifierType);
+            throw new BadArgumentException("Unsupported signerIdentifierType for CA Message: " + signerIdentifierType);
         }
         HeaderInfo headerInfo =  new HeaderInfo(AvailableITSAID.CABasicService,generationTime,null,null,null,null,null,inlineP2pcdRequest,requestedCertificate);
         return genEtsiTs103097DataSigned(headerInfo,message,signerIdentifierType,new Certificate[]{signerCertificate},signerPrivateKey);
@@ -87,11 +88,11 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @param signerCertificate the certificate signing the message.
      * @param signerPrivateKey private key of signer.
      * @return a newly generated DEN Message
-     * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+     * @throws BadArgumentException if fault was discovered in supplied parameters.
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws IOException if IO exception occurred communicating with underlying systems.
      */
-    public EtsiTs103097DataSigned genDENMessage(Time64 generationTime, ThreeDLocation generationLocation, byte[] message, Certificate signerCertificate, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+    public EtsiTs103097DataSigned genDENMessage(Time64 generationTime, ThreeDLocation generationLocation, byte[] message, Certificate signerCertificate, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
         HeaderInfo headerInfo =  new HeaderInfo(AvailableITSAID.DENBasicService,generationTime,null,generationLocation,null,null,null,null,null);
         return genEtsiTs103097DataSigned(headerInfo,message,SignerIdentifierType.SIGNER_CERTIFICATE,new Certificate[]{signerCertificate},signerPrivateKey);
     }
@@ -106,11 +107,11 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * must be in the order of end entity certificate at position 0 and trust anchor last in array.
      * @param signerPrivateKey private key of signer.
      * @return a generic EtsiTs103097DataSigned message.
-     * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+     * @throws BadArgumentException if fault was discovered in supplied parameters.
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws IOException if IO exception occurred communicating with underlying systems.
      */
-    public EtsiTs103097DataSigned genEtsiTs103097DataSigned(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+    public EtsiTs103097DataSigned genEtsiTs103097DataSigned(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
         return (EtsiTs103097DataSigned) super.genSignedData(headerInfo,message, signerIdentifierType,signerCertificateChain,signerPrivateKey);
     }
 
@@ -123,11 +124,11 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @param signerPublicKey public key of the self signer of a message.
      * @param signerPrivateKey private key of signer.
      *
-     * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+     * @throws BadArgumentException if fault was discovered in supplied parameters.
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws IOException if IO exception occurred communicating with underlying systems.
      */
-    public EtsiTs103097DataSigned genEtsiTs103097DataSigned(HeaderInfo headerInfo, byte[] message, PublicKey signerPublicKey, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+    public EtsiTs103097DataSigned genEtsiTs103097DataSigned(HeaderInfo headerInfo, byte[] message, PublicKey signerPublicKey, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
         return (EtsiTs103097DataSigned) super.genSignedData(headerInfo, message, signerPublicKey, signerPrivateKey);
     }
 
@@ -141,11 +142,11 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * must be in the order of end entity certificate at position 0 and trust anchor last in array.
      * @param signerPrivateKey private key of signer.
      *
-     * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+     * @throws BadArgumentException if fault was discovered in supplied parameters.
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws IOException if IO exception occurred communicating with underlying systems.
      */
-    public EtsiTs103097DataSignedExternalPayload genEtsiTs103097DataSignedExternalPayload(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IllegalArgumentException, SignatureException, IOException{
+    public EtsiTs103097DataSignedExternalPayload genEtsiTs103097DataSignedExternalPayload(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws BadArgumentException, SignatureException, IOException{
         return (EtsiTs103097DataSignedExternalPayload) super.genReferencedSignedData(headerInfo,message, signerIdentifierType,signerCertificateChain,signerPrivateKey);
     }
 
@@ -157,11 +158,11 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @param recipients a list of recipients, all recipients should be a Recipient implementation and be of the same type.
      *
      * @return an encrypted Ieee1609Dot2Data structure.
-     * @throws IllegalArgumentException if one of the argument was invalid.
+     * @throws BadArgumentException if one of the argument was invalid.
      * @throws GeneralSecurityException if internal problems occurred encrypting the data.
      * @throws IOException if communication problems occurred when encrypting the data.
      */
-    public EncryptResult genEtsiTs103097DataEncrypted(AlgorithmIndicator alg, byte[] data, Recipient[] recipients) throws IllegalArgumentException, GeneralSecurityException, IOException{
+    public EncryptResult genEtsiTs103097DataEncrypted(AlgorithmIndicator alg, byte[] data, Recipient[] recipients) throws BadArgumentException, GeneralSecurityException, IOException{
         return super.encryptData(alg,data,recipients);
     }
 
@@ -178,12 +179,12 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @param recipients  a list of recipients, all receiptients should be a Recipient implementation and be of the same type.
      * @return a signed and then encrypted Ieee1609Dot2Data structure.
      *
-     * @throws IllegalArgumentException if fault was discovered in supplied parameters.
+     * @throws BadArgumentException if fault was discovered in supplied parameters.
      * @throws SignatureException if internal problems occurred generating the signature.
      * @throws IOException if IO exception occurred communicating with underlying systems.
      * @throws GeneralSecurityException if internal problems occurred encrypting the data.
      */
-    public EncryptResult genEtsiTs103097DataSignedAndEncrypted(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws IllegalArgumentException, SignatureException, GeneralSecurityException, IOException{
+    public EncryptResult genEtsiTs103097DataSignedAndEncrypted(HeaderInfo headerInfo, byte[] message, SignerIdentifierType signerIdentifierType, Certificate[] signerCertificateChain, PrivateKey signerPrivateKey, AlgorithmIndicator encAlg,Recipient[] recipients) throws BadArgumentException, SignatureException, GeneralSecurityException, IOException{
         return super.signAndEncryptData(headerInfo,message,signerIdentifierType,signerCertificateChain,signerPrivateKey,encAlg,recipients);
     }
 
@@ -205,7 +206,7 @@ public class ETSISecuredDataGenerator extends SecuredDataGenerator {
      * @param enveloped if signature data is included or external reference is used.
      */
     @Override
-    protected Ieee1609Dot2Data newSignedDataStructure(int version, Ieee1609Dot2Content content, boolean enveloped) {
+    protected Ieee1609Dot2Data newSignedDataStructure(int version, Ieee1609Dot2Content content, boolean enveloped) throws IOException {
         if(enveloped){
             return new EtsiTs103097DataSigned(version,content);
         }

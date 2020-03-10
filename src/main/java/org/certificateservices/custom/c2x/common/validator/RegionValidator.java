@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.common.validator;
 
+import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
 
@@ -30,8 +31,8 @@ public interface RegionValidator {
      * @param certificateChain the certificate to verify region in, end entity certificate first and root cert last.
      *
      * @throws InvalidCertificateException if region in given certificate was invalid.
-     * @throws IllegalArgumentException if other argument was invalid not related to the region in the certificate.
+     * @throws BadArgumentException if other argument was invalid not related to the region in the certificate.
      */
-    void validateRegion(GeographicRegion checkRegion, Certificate[] certificateChain) throws IllegalArgumentException, InvalidCertificateException;
+    void validateRegion(GeographicRegion checkRegion, Certificate[] certificateChain) throws BadArgumentException, InvalidCertificateException;
 }
 
