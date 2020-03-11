@@ -36,7 +36,7 @@ public class EtsiTs103097DataEncryptedUnicast extends EtsiTs103097DataEncrypted 
 
     /**
      * Constructor used when encoding using default protocol version.
-     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
     public EtsiTs103097DataEncryptedUnicast(Ieee1609Dot2Content content) throws IOException{
         super(content);
@@ -45,7 +45,7 @@ public class EtsiTs103097DataEncryptedUnicast extends EtsiTs103097DataEncrypted 
 
     /**
      * Constructor used when encoding
-     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
     public EtsiTs103097DataEncryptedUnicast(int protocolVersion, Ieee1609Dot2Content content)
             throws IOException{
@@ -57,14 +57,17 @@ public class EtsiTs103097DataEncryptedUnicast extends EtsiTs103097DataEncrypted 
     /**
      * Constructor decoding a Ieee1609Dot2Data from an encoded byte array.
      * @param encodedData byte array encoding of the Ieee1609Dot2Data.
-     * @throws IOException   if communication problems occurred during serialization.
-     * @throws BadArgumentException if encoded data was invalid according to ASN1 schema.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
      */
     public EtsiTs103097DataEncryptedUnicast(byte[] encodedData) throws IOException{
         super(encodedData);
         validateEncryptedUnicast();
     }
 
+    /**
+     * Method to validate data against the validate encrypted unicast ASN.1 Profile.
+     * @throws IOException if encoded data was invalid according to ASN1 schema.
+     */
     protected void validateEncryptedUnicast() throws IOException {
 
         EncryptedData encryptedData = (EncryptedData) getContent().getValue();

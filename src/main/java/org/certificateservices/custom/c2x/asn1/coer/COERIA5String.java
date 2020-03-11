@@ -13,10 +13,8 @@
 package org.certificateservices.custom.c2x.asn1.coer;
 
 import org.bouncycastle.asn1.DERIA5String;
-import org.certificateservices.custom.c2x.common.BadArgumentException;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * COER Encoding class for encoding and decoding an IA5 String.
