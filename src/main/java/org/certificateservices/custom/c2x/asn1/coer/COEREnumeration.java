@@ -12,8 +12,6 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer;
 
-import org.certificateservices.custom.c2x.common.BadArgumentException;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

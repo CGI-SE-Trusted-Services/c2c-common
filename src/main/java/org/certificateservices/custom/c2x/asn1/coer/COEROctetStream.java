@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.bouncycastle.util.encoders.Hex;
-import org.certificateservices.custom.c2x.common.BadArgumentException;
 
 /**
  * COER encoding of an octet stream
