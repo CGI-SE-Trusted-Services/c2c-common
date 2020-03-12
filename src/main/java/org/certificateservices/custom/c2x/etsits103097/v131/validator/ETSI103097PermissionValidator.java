@@ -214,8 +214,8 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      * @param certificate the certificate to check permission.
      * @param itsAID it ITS AID Service id to check.
      * @param serviceName the name of the service used in error messages, if null will itsAID be used instead.
-     * @throws BadArgumentException if one of the parameter contained invalid data.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
     public void checkBitmapAppPermission(byte[] sspData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, long itsAID, String serviceName) throws InvalidCertificateException, BadArgumentException {
         if(serviceName == null){
@@ -254,8 +254,8 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      * @param certificate the certificate to check permission.
      * @param itsAID it ITS AID Service id to check.
      * @param serviceName the name of the service used in error messages, if null will itsAID be used instead.
-     * @throws BadArgumentException if one of the parameter contained invalid data.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
      */
     public void checkOpaqueAppPermission(byte[] sspData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, long itsAID, String serviceName) throws InvalidCertificateException, BadArgumentException {
         if(serviceName == null){
