@@ -29,6 +29,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.validator.DefaultSSPLooku
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.EmptyDefaultSSPLookup;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -112,7 +113,7 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
     public void checkCertServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions,
                                                            Certificate[] certificateChain) throws InvalidCertificateException,
             BadArgumentException {
-        checkAppPermission(ssPVersion,ssPPermissions,certificateChain,AvailableITSAID.SecuredCertificateRequestService.getValueAsLong(), "SecuredCertificateRequestService (623)");
+        checkBitmapAppPermission(ssPVersion,ssPPermissions,certificateChain,AvailableITSAID.SecuredCertificateRequestService.getValueAsLong(), "SecuredCertificateRequestService (623)");
     }
 
     /**
@@ -126,7 +127,7 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      */
     public void checkCRLServicePermissionInAppPermissions(byte ssPVersion, Certificate[] certificateChain)
             throws InvalidCertificateException, BadArgumentException {
-        checkAppPermission(ssPVersion,null,certificateChain,AvailableITSAID.CRLService.getValueAsLong(),
+        checkBitmapAppPermission(ssPVersion,null,certificateChain,AvailableITSAID.CRLService.getValueAsLong(),
                 "CRLService (622)");
     }
 
@@ -142,7 +143,7 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
      */
     public void checkCTLServicePermissionInAppPermissions(byte ssPVersion, byte ssPPermissions,
                                                           Certificate[] certificateChain) throws InvalidCertificateException, BadArgumentException {
-        checkAppPermission(ssPVersion,ssPPermissions,certificateChain,AvailableITSAID.CTLService.getValueAsLong(), "CTLService (624)");
+        checkBitmapAppPermission(ssPVersion,ssPPermissions,certificateChain,AvailableITSAID.CTLService.getValueAsLong(), "CTLService (624)");
     }
 
 
@@ -207,29 +208,21 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
 
     /**
      * General method to check if the first certificate in supplied chain have a specific appPermission set in
-     * the specified itsaid service id.
+     * the specified itsaid service id using bitmap matching.
      *
-     * @param ssPVersion the version byte of the SSP Data (Use SecuredCertificateRequestServicePermissions.VERSION_ constants)
-     * @param ssPPermissions the permission to look up in the SSP Data (Use SecuredCertificateRequestServicePermission constants)
-     * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
+     * @param sspData the SSP data to verify.
+     * @param certificate the certificate to check permission.
      * @param itsAID it ITS AID Service id to check.
-     * @param serviceName the name of the service used in error messages.
+     * @param serviceName the name of the service used in error messages, if null will itsAID be used instead.
      * @throws BadArgumentException if one of the parameter contained invalid data.
      * @throws InvalidCertificateException if given permission wasn't found in the certificate.
      */
-    protected void checkAppPermission(byte ssPVersion, Byte ssPPermissions, Certificate[] certificateChain, long itsAID, String serviceName) throws InvalidCertificateException, BadArgumentException {
-        byte[] sspData;
-        if(ssPPermissions != null) {
-            sspData = new byte[]{ssPVersion, ssPPermissions};
-        }else{
-            sspData = new byte[]{ssPVersion};
+    public void checkBitmapAppPermission(byte[] sspData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, long itsAID, String serviceName) throws InvalidCertificateException, BadArgumentException {
+        if(serviceName == null){
+            serviceName = "ITS AID " + itsAID;
         }
-        if(certificateChain.length == 0){
-            throw new InvalidCertificateException("Unable to check permissions for empty chain.");
-        }
-        org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] ieee160CertChain = BaseCertificateValidator.toIEEE1609Certificates(certificateChain);
 
-        List<PsidSsp> servicePermissions = filterPsidSspByPSID(itsAID,ieee160CertChain[0].getToBeSigned().getAppPermissions());
+        List<PsidSsp> servicePermissions = filterPsidSspByPSID(itsAID,certificate.getToBeSigned().getAppPermissions());
         for(PsidSsp servicePermission : servicePermissions){
             if(servicePermission.getSSP().getType() == ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.bitmapSsp){
                 byte[] bitmapSpp = servicePermission.getSSP().getBitmapSsp().getData();
@@ -251,6 +244,62 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
             }
         }
         throw new InvalidCertificateException("Couldn't find permission for " + serviceName + ": " + Hex.toHexString(sspData) + " in certificate.");
+    }
+
+    /**
+     * General method to check if the first certificate in supplied chain have a specific appPermission set in
+     * the specified itsaid service id using opaque matching.
+     *
+     * @param sspData the SSP data to verify.
+     * @param certificate the certificate to check permission.
+     * @param itsAID it ITS AID Service id to check.
+     * @param serviceName the name of the service used in error messages, if null will itsAID be used instead.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
+     * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     */
+    public void checkOpaqueAppPermission(byte[] sspData, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, long itsAID, String serviceName) throws InvalidCertificateException, BadArgumentException {
+        if(serviceName == null){
+            serviceName = "ITS AID " + itsAID;
+        }
+
+        List<PsidSsp> servicePermissions = filterPsidSspByPSID(itsAID,certificate.getToBeSigned().getAppPermissions());
+        for(PsidSsp servicePermission : servicePermissions){
+            if(servicePermission.getSSP().getType() == ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.opaque){
+                byte[] opaqueData = servicePermission.getSSP().getData();
+                if(Arrays.equals(sspData, opaqueData)){
+                    return;
+                }
+            }else{
+                throw new InvalidCertificateException("Invalid service permission for " + serviceName + ", expected type bitmapSsp but the certificate contained opaque.");
+            }
+        }
+        throw new InvalidCertificateException("Couldn't find permission for " + serviceName + ": " + Hex.toHexString(sspData) + " in certificate.");
+    }
+
+    /**
+     * General method to check if the first certificate in supplied chain have a specific appPermission set in
+     * the specified itsaid service id.
+     *
+     * @param ssPVersion the version byte of the SSP Data (Use SecuredCertificateRequestServicePermissions.VERSION_ constants)
+     * @param ssPPermissions the permission to look up in the SSP Data (Use SecuredCertificateRequestServicePermission constants)
+     * @param certificateChain the certificate chain to check permission, only the first certificate that have its certificate checked.
+     * @param itsAID it ITS AID Service id to check.
+     * @param serviceName the name of the service used in error messages, if null will itsAID be used instead.
+     * @throws BadArgumentException if one of the parameter contained invalid data.
+     * @throws InvalidCertificateException if given permission wasn't found in the certificate.
+     */
+    protected void checkBitmapAppPermission(byte ssPVersion, Byte ssPPermissions, Certificate[] certificateChain, long itsAID, String serviceName) throws InvalidCertificateException, BadArgumentException {
+        byte[] sspData;
+        if(ssPPermissions != null) {
+            sspData = new byte[]{ssPVersion, ssPPermissions};
+        }else{
+            sspData = new byte[]{ssPVersion};
+        }
+        if(certificateChain.length == 0){
+            throw new InvalidCertificateException("Unable to check permissions for empty chain.");
+        }
+        org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] ieee160CertChain = BaseCertificateValidator.toIEEE1609Certificates(certificateChain);
+        checkBitmapAppPermission(sspData,ieee160CertChain[0],itsAID,serviceName);
     }
 
 }

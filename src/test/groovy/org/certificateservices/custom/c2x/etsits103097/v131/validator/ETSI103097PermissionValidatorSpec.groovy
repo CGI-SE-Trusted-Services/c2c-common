@@ -12,7 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits103097.v131.validator
 
-
+import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType
@@ -246,6 +246,54 @@ class ETSI103097PermissionValidatorSpec extends Specification {
     }
 
 
+    def "Verify that checkOpaqueAppPermission compares exact same opaque permission"(){
+        when:
+        permissionValidator.checkOpaqueAppPermission(Hex.decode("0138"), genCertWithOpaqueAppPerms(), 99, null)
+        then:
+        true
+    }
 
+    def "Verify that checkOpaqueAppPermission throws InvalidCertificateException if opaque permissions doesn't match"(){
+        when:
+        permissionValidator.checkOpaqueAppPermission(Hex.decode("0139"), genCertWithOpaqueAppPerms(), 99, null)
+        then:
+        def e = thrown(InvalidCertificateException)
+        e.message == "Couldn't find permission for ITS AID 99: 0139 in certificate."
+
+        when:
+        permissionValidator.checkOpaqueAppPermission(Hex.decode(""), genCertWithOpaqueAppPerms(), 99, "Test Service")
+        then:
+        e = thrown(InvalidCertificateException)
+        e.message == "Couldn't find permission for Test Service:  in certificate."
+
+        when:
+        permissionValidator.checkOpaqueAppPermission(Hex.decode("013801"), genCertWithOpaqueAppPerms(), 99, "Test Service")
+        then:
+        e = thrown(InvalidCertificateException)
+        e.message == "Couldn't find permission for Test Service: 013801 in certificate."
+    }
+
+    private def genCertWithOpaqueAppPerms(String perms="0138"){
+        return genCertChain([
+                [type: "rootca",
+                 name: "Test Rootca",
+                 appPermissions: [[psid: 99, opaque: perms],[psid: 622, bitmapSsp: "01"]],
+                 certIssuePermissions: [[subjectPermissions: [
+                         [psid: 36, sspValue: "01FFFF", sspBitmask: "FF0000"],
+                         [psid: 37, sspValue: "01FFFFFF", sspBitmask: "FF000000"],
+                         [psid: 137, sspValue: "01F8", sspBitmask: "FF07"],
+                         [psid: 138, sspValue: "01E0", sspBitmask: "FF1F"],
+                         [psid: 139, sspValue: "01940000FFF8", sspBitmask: "FF0000000007"],
+                         [psid: 140, sspValue: "01FFFFFE", sspBitmask: "FF000001"],
+                         [psid: 141, sspValue: "00", sspBitmask: "FF"],
+                         [psid: 623, sspValue: "01FE", sspBitmask: "FF01"],
+                 ],
+                                         minChainDepth: 2,
+                                         chainDepthRange: 0,
+                                         endEntityType: [app: true, enroll: true]]
+                 ]
+                ]
+        ])[0]
+    }
 
 }
