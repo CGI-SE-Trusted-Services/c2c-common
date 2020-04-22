@@ -280,7 +280,7 @@ public class Certificate extends COERSequence implements org.certificateservices
 	}
 
 	/**
-	 * Method to generate a HashedId8 Id for the Certifiate using SHA-256 digest.
+	 * Method to generate a HashedId8 Id for the Certificate using SHA-256 digest.
 	 * @param cryptoManager the related crypto manager, must be compatible with underlying implementation.
 	 * @return a newly generated HashedId8
 	 * @throws IOException if problem occurred encoding this certificate to byte array.
