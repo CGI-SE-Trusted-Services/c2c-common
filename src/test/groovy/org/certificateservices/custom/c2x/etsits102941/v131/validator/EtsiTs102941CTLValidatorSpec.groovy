@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131.validator
 
+import org.certificateservices.custom.c2x.common.CertStore
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager
 import org.certificateservices.custom.c2x.common.validator.InvalidCRLException
 import org.certificateservices.custom.c2x.common.validator.InvalidCTLException
@@ -42,7 +43,7 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
     @Shared TestPKI1 testPKI1
 
     EtsiTs102941CTLValidator etsiTs102941CTLValidator
-    Map<HashedId8, Certificate> trustStore
+    CertStore trustStore
     CryptoManager cryptoManager
     SecuredDataGenerator securedDataGenerator
 
@@ -76,25 +77,25 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
         when:
         def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, validDate, null, trustStore, true, eaAndAATypes)
         then:
-        result.size() == 3
-        result[testPKI1.rca1_ea1.asHashedId8(cryptoManager)] == testPKI1.rca1_ea1
-        result[testPKI1.rca1_aa1.asHashedId8(cryptoManager)] == testPKI1.rca1_aa1
-        result[testPKI1.rca1_ea2.asHashedId8(cryptoManager)] == testPKI1.rca1_ea2
+        result.map.size() == 3
+        result.get(testPKI1.rca1_ea1.asHashedId8(cryptoManager)) == testPKI1.rca1_ea1
+        result.get(testPKI1.rca1_aa1.asHashedId8(cryptoManager)) == testPKI1.rca1_aa1
+        result.get(testPKI1.rca1_ea2.asHashedId8(cryptoManager)) == testPKI1.rca1_ea2
         when:
         result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, null, validDate, null, trustStore, true, eaStoreTypes)
         then:
-        result.size() == 2
-        result[testPKI1.rca1_ea1.asHashedId8(cryptoManager)] == testPKI1.rca1_ea1
-        result[testPKI1.rca1_ea2.asHashedId8(cryptoManager)] == testPKI1.rca1_ea2
+        result.map.size() == 2
+        result.get(testPKI1.rca1_ea1.asHashedId8(cryptoManager)) == testPKI1.rca1_ea1
+        result.get(testPKI1.rca1_ea2.asHashedId8(cryptoManager)) == testPKI1.rca1_ea2
     }
 
     def "Verify that valid CTLs with full CTL and delta returns only valid certificates in generated certStore"(){
         when:
         def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, validDate, null, trustStore, true, eaAndAATypes)
         then:
-        result.size() == 3
-        result[testPKI1.rca1_aa2.asHashedId8(cryptoManager)] == testPKI1.rca1_aa2
-        result[testPKI1.rca1_ea2.asHashedId8(cryptoManager)] == null
+        result.map.size() == 3
+        result.get(testPKI1.rca1_aa2.asHashedId8(cryptoManager)) == testPKI1.rca1_aa2
+        result.get(testPKI1.rca1_ea2.asHashedId8(cryptoManager)) == null
     }
 
     def "Verify that type of CRL is checked against what is expected"(){
@@ -259,15 +260,15 @@ class EtsiTs102941CTLValidatorSpec extends Specification {
         when:
         def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA1Ctl, testPKI1.deltaRootCA1Ctl, validDate, region, trustStore, true, eaAndAATypes)
         then:
-        result.size() == 3
-        result[testPKI1.rca1_aa2.asHashedId8(cryptoManager)] == testPKI1.rca1_aa2
-        result[testPKI1.rca1_ea2.asHashedId8(cryptoManager)] == null
+        result.map.size() == 3
+        result.get(testPKI1.rca1_aa2.asHashedId8(cryptoManager)) == testPKI1.rca1_aa2
+        result.get(testPKI1.rca1_ea2.asHashedId8(cryptoManager)) == null
     }
 
 
     def "Verify that CTL contains not valid country code."(){
         GeographicRegion region = GeographicRegion.generateRegionForCountrys([100])
-        Map<HashedId8, Certificate> trustStoreRegion = securedDataGenerator.buildCertStore([testPKI1.rootca4]) // 752=sweden in the store
+        CertStore trustStoreRegion = securedDataGenerator.buildCertStore([testPKI1.rootca4]) // 752=sweden in the store
         when:
         def result = etsiTs102941CTLValidator.verifyAndValidate(testPKI1.fullRootCA4Ctl, testPKI1.deltaRootCA4Ctl, validDate, region, trustStoreRegion, true, eaAndAATypes)
         then:

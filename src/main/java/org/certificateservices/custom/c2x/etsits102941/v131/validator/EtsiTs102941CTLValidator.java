@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.validator;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.common.validator.CTLValidator;
 import org.certificateservices.custom.c2x.common.validator.InvalidCTLException;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
@@ -98,9 +99,9 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
      */
     @Override
-    public Map<HashedId8, Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
+    public CertStore verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
                                                          Date checkDate, GeographicRegion checkRegion,
-                                                         Map<HashedId8, Certificate> trustStore,
+                                                         CertStore trustStore,
                                                          boolean entireChain, CtlEntry.CtlEntryChoices[] ctlTypes)
             throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
         return verifyAndValidate(fullCTL, deltaCTL, checkDate, checkRegion,null, trustStore, entireChain, ctlTypes);
@@ -141,10 +142,10 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      * @throws NoSuchAlgorithmException    if use hash algorithm isn't supported by the system.
      */
     @Override
-    public Map<HashedId8, Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
+    public CertStore verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
                                                          Date checkDate, GeographicRegion checkRegion,
-                                                         Map<HashedId8, Certificate> certStore,
-                                                         Map<HashedId8, Certificate> trustStore, boolean entireChain,
+                                                         CertStore certStore,
+                                                         CertStore trustStore, boolean entireChain,
                                                          CtlEntry.CtlEntryChoices[] ctlTypes)
             throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException {
         if(certStore == null){
@@ -221,8 +222,8 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
      */
     public VerifyCTLResult verifyAndValidate(EtsiTs102941CTL cTL,
                                              Date checkDate, GeographicRegion checkRegion,
-                                             Map<HashedId8, Certificate> certStore,
-                                             Map<HashedId8, Certificate> trustStore,
+                                             CertStore certStore,
+                                             CertStore trustStore,
                                              boolean entireChain,
                                              CtlEntry.CtlEntryChoices[] ctlTypes,
                                              boolean expectFull, boolean verifyChain)
@@ -249,7 +250,7 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
         try {
             cTLSignerIdentifier = findSignerIdentifier(cTL);
             if(verifyChain) {
-                Map<HashedId8, Certificate> inCRLCertStore = securedDataGenerator.getSignedDataStore(cTLSignerIdentifier);
+                CertStore inCRLCertStore = securedDataGenerator.getSignedDataStore(cTLSignerIdentifier);
                 Certificate[] certChain = certChainBuilder.buildChain(getSignerId(cTLSignerIdentifier), inCRLCertStore, certStore, trustStore);
 
                 certificateValidator.verifyAndValidate(certChain, checkDate, checkRegion, new EndEntityType(true, true), entireChain);

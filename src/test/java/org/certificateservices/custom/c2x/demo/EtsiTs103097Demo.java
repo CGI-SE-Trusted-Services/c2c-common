@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.demo;
 
 import org.bouncycastle.util.encoders.Hex;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate;
@@ -323,9 +324,9 @@ public class EtsiTs103097Demo {
 		EtsiTs103097DataEncrypted encryptedAndSignedMessage = (EtsiTs103097DataEncrypted) encryptedAndSignedMessageResult.getEncryptedData();
 	    // To decrypt and verify a signed message it is possible to use the following
 	      // First build a truststore of trust anchors (root CA certificate or equivalent)
-	    Map<HashedId8, Certificate> trustStore = securedMessageGenerator.buildCertStore(new EtsiTs103097Certificate[] {rootCACertificate});
+	    CertStore trustStore = securedMessageGenerator.buildCertStore(new EtsiTs103097Certificate[] {rootCACertificate});
 	      // Second build a store of known certificate that might be referenced in the message.
-	    Map<HashedId8, Certificate> certStore = securedMessageGenerator.buildCertStore(new EtsiTs103097Certificate[] {authorizationCert, authorityCACertificate});
+		CertStore certStore = securedMessageGenerator.buildCertStore(new EtsiTs103097Certificate[] {authorizationCert, authorityCACertificate});
 	      // To decrypt build a reciever store of known decryption keys and related receiver info, this can be certificate, signed message containing encryption key
 	      // in header, symmetric key or pre shared key.
 	    Map<HashedId8, Receiver> recieverStore = securedMessageGenerator.buildRecieverStore(new Receiver[] { new CertificateReciever(enrollmentCredentialEncryptionKeys.getPrivate(), enrollmentCredential)});

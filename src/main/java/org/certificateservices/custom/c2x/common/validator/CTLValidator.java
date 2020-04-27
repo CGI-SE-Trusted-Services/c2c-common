@@ -1,5 +1,6 @@
 package org.certificateservices.custom.c2x.common.validator;
 
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
@@ -53,8 +54,8 @@ public interface CTLValidator {
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws CertificateRevokedException if related certificate was revoked.
      */
-    Map<HashedId8,Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate,
-                                                 GeographicRegion checkRegion, Map<HashedId8, Certificate> trustStore,
+    CertStore verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate,
+                                                 GeographicRegion checkRegion, CertStore trustStore,
                                                  boolean entireChain, CtlEntry.CtlEntryChoices[] ctlTypes)
             throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException;
@@ -95,9 +96,9 @@ public interface CTLValidator {
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      * @throws CertificateRevokedException if related certificate was revoked.
      */
-    Map<HashedId8,Certificate> verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate, GeographicRegion checkRegion,
-                                                 Map<HashedId8, Certificate> certStore,
-                                                 Map<HashedId8, Certificate> trustStore,
+    CertStore verifyAndValidate(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL, Date checkDate, GeographicRegion checkRegion,
+                                                 CertStore certStore,
+                                                 CertStore trustStore,
                                                  boolean entireChain,
                                                  CtlEntry.CtlEntryChoices[] ctlTypes)
             throws BadArgumentException, InvalidCTLException, InvalidCertificateException, NoSuchAlgorithmException,

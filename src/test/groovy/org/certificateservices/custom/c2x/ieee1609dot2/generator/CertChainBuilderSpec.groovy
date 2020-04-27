@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
 import org.certificateservices.custom.c2x.common.BadArgumentException
+import org.certificateservices.custom.c2x.common.CertStore
+import org.certificateservices.custom.c2x.common.MapCertStore
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.PublicVerificationKey
@@ -55,19 +57,20 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(alg)
         Certificate enrollCert2 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys2, enrollCAKeys2.publicKey, enrollCAKeys2.privateKey, enrollCA2)
         HashedId8 enrollCert2Id = certChainBuilder.getCertID(enrollCert2)
+        CertStore empty = new MapCertStore([:])
 
         when: "Verify that buildCertStore generates correct stores"
-        Map<HashedId8, Certificate> trustStore = sdg.buildCertStore([rootCA1, rootCA2] as Certificate[])
-        Map<HashedId8, Certificate> certStore1 = sdg.buildCertStore([enrollCA1, enrollCA2, enrollCert1] as Certificate[])
-        Map<HashedId8, Certificate> certStore2 = sdg.buildCertStore([enrollCA1, enrollCA2, rootCA2] as Certificate[])
-        Map<HashedId8, Certificate> signedDataStore1 = sdg.buildCertStore([enrollCA2, enrollCert2] as Certificate[])
-        Map<HashedId8, Certificate> signedDataStore2 = sdg.buildCertStore([enrollCert2] as Certificate[])
+        CertStore trustStore = sdg.buildCertStore([rootCA1, rootCA2] as Certificate[])
+        CertStore certStore1 = sdg.buildCertStore([enrollCA1, enrollCA2, enrollCert1] as Certificate[])
+        CertStore certStore2 = sdg.buildCertStore([enrollCA1, enrollCA2, rootCA2] as Certificate[])
+        CertStore signedDataStore1 = sdg.buildCertStore([enrollCA2, enrollCert2] as Certificate[])
+        CertStore signedDataStore2 = sdg.buildCertStore([enrollCert2] as Certificate[])
         then:
-        trustStore.size() == 2
+        trustStore.map.size() == 2
         trustStore.get(rootCA1Id) == rootCA1
         trustStore.get(rootCA2Id) == rootCA2
 
-        certStore1.size() == 3
+        certStore1.map.size() == 3
         certStore1.get(enrollCA1Id) == enrollCA1
         certStore1.get(enrollCA2Id) == enrollCA2
         certStore1.get(enrollCert1Id) == enrollCert1
@@ -88,17 +91,17 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         c[2] == rootCA2
 
         when: "Verify that illegal argument is found if signing certificate cannot be found"
-        certChainBuilder.buildChain(enrollCert2Id, [:], [:], [:])
+        certChainBuilder.buildChain(enrollCert2Id, empty, empty, empty)
         then:
         thrown BadArgumentException
 
         when: "Verify that illegal argument is found if root certificate cannot be found as trust anchor"
-        certChainBuilder.buildChain(enrollCert2Id, signedDataStore1, certStore2, [:])
+        certChainBuilder.buildChain(enrollCert2Id, signedDataStore1, certStore2, empty)
         then:
         thrown BadArgumentException
 
         when: "Verify that illegal argument is found if intermediate certificate cannot be found"
-        certChainBuilder.buildChain(enrollCert2Id, signedDataStore2, [:], trustStore)
+        certChainBuilder.buildChain(enrollCert2Id, signedDataStore2, empty, trustStore)
         then:
         thrown BadArgumentException
     }
@@ -111,14 +114,15 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         Certificate enrollCA = genEnrollCA(CertificateType.implicit, PublicVerificationKey.PublicVerificationKeyChoices.ecdsaNistP256, enrollCAKeys, rootCAKeys, rootCA)
         HashedId8 certId = certChainBuilder.getCertID(enrollCA)
         HashedId8 rootCertId = certChainBuilder.getCertID(rootCA)
+        MapCertStore empty = new MapCertStore([:])
         expect:
-        certChainBuilder.findFromStores(certId, [(certId):enrollCA], [:], [:]) == enrollCA
-        certChainBuilder.findFromStores(certId, [:],[(certId):enrollCA], [:]) == enrollCA
-        certChainBuilder.findFromStores(rootCertId, [:],[:],[(rootCertId):rootCA]) == rootCA
-        certChainBuilder.findFromStores(certId, [:],[:],[:]) == null
+        certChainBuilder.findFromStores(certId, new MapCertStore([(certId):enrollCA]), empty, empty) == enrollCA
+        certChainBuilder.findFromStores(certId, empty,new MapCertStore([(certId):enrollCA]), empty) == enrollCA
+        certChainBuilder.findFromStores(rootCertId, empty,empty,new MapCertStore([(rootCertId):rootCA])) == rootCA
+        certChainBuilder.findFromStores(certId, empty,empty,empty) == null
 
-        when: "Verify that implicit trust ancor generates BadArgumentException"
-        certChainBuilder.findFromStores(certId, [:],[:],[(certId):enrollCA])
+        when: "Verify that implicit trust anchor generates BadArgumentException"
+        certChainBuilder.findFromStores(certId, empty,empty,new MapCertStore([(certId):enrollCA]))
 
         then:
         thrown BadArgumentException

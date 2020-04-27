@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.validator;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
+import org.certificateservices.custom.c2x.common.MapCertStore;
 import org.certificateservices.custom.c2x.common.validator.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
@@ -87,8 +89,8 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
     public void verifyAndValidate(Certificate certificate, Date checkDate, GeographicRegion checkRegion,
-                           EndEntityType targetEndEntityType, Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain) throws BadArgumentException,
+                           EndEntityType targetEndEntityType, CertStore certStore,
+                                  CertStore trustStore, boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException{
         verifyAndValidate(certificate,checkDate,checkRegion,targetEndEntityType,0,certStore,trustStore, entireChain);
     }
@@ -131,8 +133,8 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      */
     public void verifyAndValidate(Certificate certificate, Date checkDate, GeographicRegion checkRegion,
                            EndEntityType targetEndEntityType, int chainLengthIndex,
-                           Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
+                                  CertStore certStore,
+                                  CertStore trustStore, boolean entireChain)
             throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
 
         Certificate[] certChain = buildCertChain(certificate, certStore, trustStore);
@@ -230,19 +232,19 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      * Help method to build a certificate chain with given certificate first up to root certificate last in
      * returned array.
      * @param certificate the certificate to build chain up to root ca for.
-     * @param certStore map of known certificates ids to certificate, used to build up the chain to the trust store root certificates.
-     * @param trustStore map of trusted root certificate ids to certificate.
+     * @param certStore store of known certificates ids to certificate, used to build up the chain to the trust store root certificates.
+     * @param trustStore store of trusted root certificate ids to certificate.
      * @return a complete certificate chain up to root certificate.
      * @throws BadArgumentException if one of the parameters where invalid.
      * @throws InvalidCertificateException if one of the certificate in the build certificate chain was invalid.
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
-    protected Certificate[] buildCertChain(Certificate certificate, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
+    protected Certificate[] buildCertChain(Certificate certificate, CertStore certStore, CertStore trustStore) throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
         try {
             HashedId8 certId = certChainBuilder.getCertID(certificate);
             Map<HashedId8, Certificate> signerStore = new HashMap<>();
             signerStore.put(certId, certificate);
-            return certChainBuilder.buildChain(certId, signerStore, certStore, trustStore);
+            return certChainBuilder.buildChain(certId, new MapCertStore(signerStore), certStore, trustStore);
         }catch(IOException e){
             throw new InvalidCertificateException(e.getMessage(),e);
         }

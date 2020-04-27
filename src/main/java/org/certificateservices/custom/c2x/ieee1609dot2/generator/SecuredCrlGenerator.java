@@ -18,6 +18,7 @@ import java.security.SignatureException;
 import java.util.Map;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
@@ -86,7 +87,7 @@ public class SecuredCrlGenerator extends SecuredDataGenerator{
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
 	 */
-	public boolean verifySecuredCrl(SecuredCrl crl, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, SignatureException, IOException{
+	public boolean verifySecuredCrl(SecuredCrl crl, CertStore certStore, CertStore trustStore) throws BadArgumentException, SignatureException, IOException{
 		return verifySignedData(crl, certStore, trustStore);
 	}
 		

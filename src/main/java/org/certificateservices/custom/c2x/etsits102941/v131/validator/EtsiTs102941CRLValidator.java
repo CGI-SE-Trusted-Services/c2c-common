@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.validator;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.common.validator.CRLValidator;
 import org.certificateservices.custom.c2x.common.validator.CertificateRevokedException;
 import org.certificateservices.custom.c2x.common.validator.InvalidCRLException;
@@ -97,7 +98,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      * @throws CertificateRevokedException if related certificate was revoked.
      */
     @Override
-    public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, GeographicRegion checkRegion, Map<HashedId8, Certificate> trustStore, boolean entireChain)
+    public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, GeographicRegion checkRegion, CertStore trustStore, boolean entireChain)
             throws BadArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
 
         verifyAndValidate(crl, certificate != null ? toHashedId8(certificate) : null, checkDate, checkRegion, null, trustStore, entireChain);
@@ -139,7 +140,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      */
     @Override
     public void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate, GeographicRegion checkRegion,
-                                  Map<HashedId8, Certificate> trustStore, boolean entireChain)
+                                  CertStore trustStore, boolean entireChain)
             throws BadArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException {
         verifyAndValidate(crl, certificateId, checkDate, checkRegion, null, trustStore, entireChain);
@@ -185,7 +186,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      */
     @Override
     public void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, GeographicRegion checkRegion,
-                                  Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore,
+                                  CertStore certStore, CertStore trustStore,
                                   boolean entireChain)
             throws BadArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException,
             CertificateRevokedException {
@@ -230,7 +231,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
      */
     @Override
     public void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate, GeographicRegion checkRegion,
-                                  Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore,
+                                  CertStore certStore, CertStore trustStore,
                                   boolean entireChain) throws BadArgumentException, InvalidCRLException,
             InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException {
 
@@ -251,7 +252,7 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
 
         try {
             SignerIdentifier signerIdentifier = findSignerIdentifier(crl);
-            Map<HashedId8, Certificate> inCRLCertStore = securedDataGenerator.getSignedDataStore(signerIdentifier);
+            CertStore inCRLCertStore = securedDataGenerator.getSignedDataStore(signerIdentifier);
             Certificate[] certChain = certChainBuilder.buildChain(getSignerId(signerIdentifier), inCRLCertStore,certStore,trustStore);
 
             certificateValidator.verifyAndValidate(certChain, checkDate, checkRegion, new EndEntityType(true,true), entireChain);

@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.etsits102941.v131.generator
 
 import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.common.BadArgumentException
+import org.certificateservices.custom.c2x.common.MapCertStore
 import org.certificateservices.custom.c2x.etsits102941.v131.DecryptionFailedException
 import org.certificateservices.custom.c2x.etsits102941.v131.ETSITS102941MessagesCaException
 import org.certificateservices.custom.c2x.etsits102941.v131.MessageProcessingException
@@ -411,7 +412,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         EtsiTs102941CRL reEncoded = new EtsiTs102941CRL(message.encoded)
 
         then:
-        def certStore = [:]
+        def certStore = new MapCertStore([:])
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         VerifyResult<ToBeSignedCrl> result = messagesCaGenerator.verifyCertificateRevocationListMessage(reEncoded, certStore, trustStore)
         result.value.toString() == toBeSignedCrl.toString()
@@ -429,7 +430,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         println new String(Hex.encode(message.encoded))
         EtsiTs102941CTL reEncoded = new EtsiTs102941CTL(message.encoded)
         then:
-        def certStore = [:]
+        def certStore = new MapCertStore([:])
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         VerifyResult<ToBeSignedCrl> result = messagesCaGenerator.verifyTlmCertificateTrustListMessage(reEncoded, certStore, trustStore)
         result.value.toString() == toBeSignedTlmCtl.toString()
@@ -449,7 +450,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
 
         EtsiTs102941CTL reEncoded = new EtsiTs102941CTL(message.encoded)
         then:
-        def certStore = [:]
+        def certStore = new MapCertStore([:])
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         VerifyResult<ToBeSignedRcaCtl> result = messagesCaGenerator.verifyRcaCertificateTrustListMessage(reEncoded, certStore, trustStore)
         result.value.toString() == toBeSignedRcaCtl.toString()

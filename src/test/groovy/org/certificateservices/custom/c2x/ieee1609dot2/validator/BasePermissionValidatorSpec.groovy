@@ -890,7 +890,7 @@ class BasePermissionValidatorSpec extends Specification {
         permissionValidator.checkPermissions(new EndEntityType(false,true), chain, true)
         then:
         def e = thrown InvalidCertificateException
-        e.message == "No SSP data found for certificate (Neither in certificate in default) with PSID 623."
+        e.message == "No SSP data found for permission (Neither in certificate in default) with PSID 623."
 
     }
 

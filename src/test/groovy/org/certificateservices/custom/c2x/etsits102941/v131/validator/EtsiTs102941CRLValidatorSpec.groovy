@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.validator
 
 import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.common.CertStore
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams
@@ -54,7 +55,7 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
     @Shared TestPKI1 testPKI1
 
     EtsiTs102941CRLValidator etsiTs102941CRLValidator
-    Map<HashedId8, Certificate> trustStore
+    CertStore trustStore
     CryptoManager cryptoManager
     SecuredDataGenerator securedDataGenerator
 
@@ -178,7 +179,7 @@ class EtsiTs102941CRLValidatorSpec extends Specification {
 
     def "Verify that CRL contains not valid country code."(){
         GeographicRegion region = GeographicRegion.generateRegionForCountrys([100])
-        Map<HashedId8, Certificate> trustStoreRegion = securedDataGenerator.buildCertStore([testPKI1.rootca4]) // 752=sweden in the store
+        CertStore trustStoreRegion = securedDataGenerator.buildCertStore([testPKI1.rootca4]) // 752=sweden in the store
         when:
         etsiTs102941CRLValidator.verifyAndValidate(testPKI1.rootCA4Crl, testPKI1.rca1_ea2, validDate, region, trustStoreRegion, true)
         then:

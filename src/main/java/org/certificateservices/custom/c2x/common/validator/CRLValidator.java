@@ -1,6 +1,7 @@
 package org.certificateservices.custom.c2x.common.validator;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CRL;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CTL;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
@@ -54,7 +55,7 @@ public interface CRLValidator {
      * @throws CertificateRevokedException if related certificate was revoked.
      */
     void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, GeographicRegion checkRegion,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
+                           CertStore trustStore, boolean entireChain)
             throws BadArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException;
 
 
@@ -93,7 +94,7 @@ public interface CRLValidator {
      * @throws CertificateRevokedException if related certificate was revoked.
      */
     void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate, GeographicRegion checkRegion,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
+                           CertStore trustStore, boolean entireChain)
             throws BadArgumentException, InvalidCRLException, InvalidCertificateException, NoSuchAlgorithmException, CertificateRevokedException;
 
     /**
@@ -133,8 +134,8 @@ public interface CRLValidator {
      @throws CertificateRevokedException if related certificate was revoked.
      */
     void verifyAndValidate(EtsiTs102941CRL crl, HashedId8 certificateId, Date checkDate, GeographicRegion checkRegion,
-                           Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
+                           CertStore certStore,
+                           CertStore trustStore, boolean entireChain)
             throws BadArgumentException, InvalidCRLException, InvalidCertificateException,
             NoSuchAlgorithmException, CertificateRevokedException;
 
@@ -175,8 +176,8 @@ public interface CRLValidator {
      @throws CertificateRevokedException if related certificate was revoked.
      */
     void verifyAndValidate(EtsiTs102941CRL crl, Certificate certificate, Date checkDate, GeographicRegion checkRegion,
-                           Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
+                           CertStore certStore,
+                           CertStore trustStore, boolean entireChain)
             throws BadArgumentException, InvalidCRLException, InvalidCertificateException,
             NoSuchAlgorithmException, CertificateRevokedException;
 }

@@ -67,7 +67,7 @@ public class Ieee1609Dot2TimeValidator implements TimeValidator {
      * @return a calculated end date.
      * @throws InvalidCertificateException if duration contained invalid parameters, such as microseconds unit.
      */
-    protected Date toEndDate(Date startDate, Duration duration) throws InvalidCertificateException {
+    public Date toEndDate(Date startDate, Duration duration) throws InvalidCertificateException {
         Date retval;
         if(duration.getUnit() == Duration.DurationChoices.years){
             Calendar calendar = Calendar.getInstance();

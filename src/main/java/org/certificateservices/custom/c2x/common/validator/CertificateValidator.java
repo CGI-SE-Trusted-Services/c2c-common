@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.common.validator;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
@@ -61,8 +62,8 @@ public interface CertificateValidator {
      * @throws NoSuchAlgorithmException if use hash algorithm isn't supported by the system.
      */
     void verifyAndValidate(Certificate certificate, Date checkDate, GeographicRegion checkRegion,
-                           EndEntityType targetEndEntityType, Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain) throws BadArgumentException,
+                           EndEntityType targetEndEntityType, CertStore certStore,
+                           CertStore trustStore, boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException;
 
     /**
@@ -103,8 +104,8 @@ public interface CertificateValidator {
      */
     void verifyAndValidate(Certificate certificate, Date checkDate, GeographicRegion checkRegion,
                            EndEntityType targetEndEntityType, int chainLengthIndex,
-                           Map<HashedId8, Certificate> certStore,
-                           Map<HashedId8, Certificate> trustStore, boolean entireChain)
+                           CertStore certStore,
+                           CertStore trustStore, boolean entireChain)
             throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException;
 
     /**
@@ -184,4 +185,7 @@ public interface CertificateValidator {
     void verifyAndValidate(Certificate[] certificateChain, Date checkDate, GeographicRegion checkRegion,
                            EndEntityType targetEndEntityType, int chainLengthIndex, boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException;
+
+
+
 }

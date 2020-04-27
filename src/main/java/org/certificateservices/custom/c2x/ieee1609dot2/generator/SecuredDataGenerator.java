@@ -16,6 +16,8 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.asn1.coer.COEROctetStream;
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
+import org.certificateservices.custom.c2x.common.MapCertStore;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.common.crypto.ECQVHelper;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
@@ -205,15 +207,15 @@ public class SecuredDataGenerator {
 	 * @param certificates the collection of certificate to build store of.
 	 * @return a map of HashedId8 to certificate.
 	 */
-	public Map<HashedId8, Certificate> buildCertStore(Collection<Certificate> certificates) throws BadArgumentException, NoSuchAlgorithmException, IOException{
-		Map<HashedId8, Certificate> retval = new HashMap<HashedId8, Certificate>();
+	public CertStore buildCertStore(Collection<Certificate> certificates) throws BadArgumentException, NoSuchAlgorithmException, IOException{
+		Map<HashedId8, org.certificateservices.custom.c2x.common.Certificate> retval = new HashMap<>();
 		for(Certificate cert : certificates){
 			// Implicit certificate only supports ECDSA 256 since the reconstruction value is of type ECP256CurvePoint.
 			AlgorithmIndicator alg = cert.getSignature() != null ? cert.getSignature().getType() : HashAlgorithm.sha256;
 			retval.put(new HashedId8(cryptoManager.digest(cert.getEncoded(), alg)), cert);
 		}
 		
-		return retval;
+		return new MapCertStore(retval);
 	}
 	
 	/**
@@ -221,7 +223,7 @@ public class SecuredDataGenerator {
 	 * @param certificates the array of certificate to build store of.
 	 * @return a map of HashedId8 to certificate.
 	 */
-    public Map<HashedId8, Certificate> buildCertStore(Certificate[] certificates) throws BadArgumentException, NoSuchAlgorithmException, IOException{
+    public CertStore buildCertStore(Certificate[] certificates) throws BadArgumentException, NoSuchAlgorithmException, IOException{
 	  	return buildCertStore(Arrays.asList(certificates));
 	}
    
@@ -267,7 +269,7 @@ public class SecuredDataGenerator {
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
      */
-	public boolean verifySignedData(Ieee1609Dot2Data signedData, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, SignatureException, IOException{
+	public boolean verifySignedData(Ieee1609Dot2Data signedData, CertStore certStore, CertStore trustStore) throws BadArgumentException, SignatureException, IOException{
 
 		if(signedData.getContent().getType() != Ieee1609Dot2ContentChoices.signedData){
 			throw new BadArgumentException("Only signed Ieee1609Dot2Data can verified");
@@ -279,7 +281,7 @@ public class SecuredDataGenerator {
 				throw new BadArgumentException("Error no enveloped data found in Signed Payload");
 			}
 			HashedId8 signerId = getSignerId(sd.getSigner());
-			Map<HashedId8, Certificate> signedDataStore = getSignedDataStore(sd.getSigner());
+			CertStore signedDataStore = getSignedDataStore(sd.getSigner());
 			Certificate[] signerCertChain = certChainBuilder.buildChain(signerId, signedDataStore, certStore, trustStore);
 			PublicKey signerPublicKey = getSignerPublicKey(signerCertChain);
 			return cryptoManager.verifySignature(sd.getTbsData().getEncoded(), sd.getSignature(), signerCertChain[0], signerPublicKey);
@@ -325,7 +327,7 @@ public class SecuredDataGenerator {
 	 * @throws SignatureException if internal problems occurred verifying the signature.
 	 * @throws IOException if IO exception occurred communicating with underlying systems. 
      */
-	public boolean verifyReferencedSignedData(Ieee1609Dot2Data signedData, byte[] referencedData, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, SignatureException, IOException{
+	public boolean verifyReferencedSignedData(Ieee1609Dot2Data signedData, byte[] referencedData, CertStore certStore, CertStore trustStore) throws BadArgumentException, SignatureException, IOException{
 
 		if(signedData.getContent().getType() != Ieee1609Dot2ContentChoices.signedData){
 			throw new BadArgumentException("Only signed Ieee1609Dot2Data can verified");
@@ -341,7 +343,7 @@ public class SecuredDataGenerator {
 			  return false;	
 			}
 			HashedId8 signerId = getSignerId(sd.getSigner());
-			Map<HashedId8, Certificate> signedDataStore = getSignedDataStore(sd.getSigner());
+			CertStore signedDataStore = getSignedDataStore(sd.getSigner());
 			Certificate[] signerCertChain = certChainBuilder.buildChain(signerId, signedDataStore, certStore, trustStore);
 			PublicKey signerPublicKey = getSignerPublicKey(signerCertChain);
 			return cryptoManager.verifySignature(sd.getTbsData().getEncoded(), sd.getSignature(), signerCertChain[0], signerPublicKey);
@@ -532,7 +534,7 @@ public class SecuredDataGenerator {
 	 * @throws GeneralSecurityException if internal problems occurred decrypting and verying the message.
 	 * @throws IOException if IO exception occurred communicating with underlying systems.
 	 */
-	public DecryptAndVerifyResult decryptAndVerifySignedData(byte[] message, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, Map<HashedId8, Receiver> recieverStore, boolean requiredSignature, boolean requireEncryption) throws BadArgumentException, GeneralSecurityException, IOException{
+	public DecryptAndVerifyResult decryptAndVerifySignedData(byte[] message, CertStore certStore, CertStore trustStore, Map<HashedId8, Receiver> recieverStore, boolean requiredSignature, boolean requireEncryption) throws BadArgumentException, GeneralSecurityException, IOException{
 		HeaderInfo headerInfo = null;
 		SignerIdentifier signerIdentifier = null;
 
@@ -767,9 +769,9 @@ public class SecuredDataGenerator {
 	/**
 	 * Builds a cert store if signer identifier contains included certificates, otherwise an empty map.
 	 */
-	public Map<HashedId8, Certificate> getSignedDataStore(SignerIdentifier signer) throws BadArgumentException, NoSuchAlgorithmException, IOException {
+	public CertStore getSignedDataStore(SignerIdentifier signer) throws BadArgumentException, NoSuchAlgorithmException, IOException {
 		if(signer.getType() != SignerIdentifierChoices.certificate){
-			return new HashMap<HashedId8, Certificate>();
+			return new MapCertStore(new HashMap<HashedId8, Certificate>());
 		}
 		COEREncodable[] certs = ((SequenceOfCertificate) signer.getValue()).getSequenceValues();
 		return buildCertStore(Arrays.copyOf(certs,certs.length, Certificate[].class));

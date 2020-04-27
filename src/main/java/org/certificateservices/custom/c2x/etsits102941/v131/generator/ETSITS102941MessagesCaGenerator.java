@@ -14,6 +14,7 @@ package org.certificateservices.custom.c2x.etsits102941.v131.generator;
 
 import org.certificateservices.custom.c2x.asn1.coer.COERChoice;
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
 import org.certificateservices.custom.c2x.etsits102941.v131.*;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.InnerAtRequest;
@@ -273,7 +274,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageProcessingException if internal problems occurred when processing the message.
      * @throws BadArgumentException if one of the parameter contained invalid data.
      */
-    public ECRequestVerifyResult<InnerEcRequest> decryptAndVerifyEnrolmentRequestMessage(EtsiTs103097DataEncryptedUnicast enrolmentRequestMessage,Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, Map<HashedId8, Receiver> receiverStore)
+    public ECRequestVerifyResult<InnerEcRequest> decryptAndVerifyEnrolmentRequestMessage(EtsiTs103097DataEncryptedUnicast enrolmentRequestMessage,CertStore certStore, CertStore trustStore, Map<HashedId8, Receiver> receiverStore)
             throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException, BadArgumentException {
 
         DecryptResult decryptedData;
@@ -395,8 +396,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<InnerEcResponse> decryptAndVerifyEnrolmentResponseMessage(EtsiTs103097DataEncryptedUnicast enrolmentResponseMessage,
-                                                                           Map<HashedId8, Certificate> certStore,
-                                                                           Map<HashedId8, Certificate> trustStore,
+                                                                                  CertStore certStore,
+                                                                                  CertStore trustStore,
                                                                            Map<HashedId8, Receiver> receiverStore)
             throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
 
@@ -634,8 +635,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<EcSignature> decryptAndVerifyECSignature(EcSignature ecSignature, SharedAtRequest sharedAtRequest, boolean expectPrivacy,
-                                                          Map<HashedId8, Certificate> enrolmentCACertStore,
-                                                          Map<HashedId8, Certificate> enrolmentCATrustStore,
+                                                                 CertStore enrolmentCACertStore,
+                                                                 CertStore enrolmentCATrustStore,
                                                           Map<HashedId8, Receiver> enrolmentCAReceiverStore)
             throws  MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
 
@@ -745,8 +746,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<InnerAtResponse> decryptAndVerifyAuthorizationResponseMessage(EtsiTs103097DataEncryptedUnicast authorizationResponseMessage,
-                                                                           Map<HashedId8, Certificate> certStore,
-                                                                           Map<HashedId8, Certificate> trustStore,
+                                                                                      CertStore certStore,
+                                                                                      CertStore trustStore,
                                                                            Map<HashedId8, Receiver> receiverStore)
             throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
         byte[] decryptedData;
@@ -875,8 +876,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws BadArgumentException if one of the parameter contained invalid data.
      */
     public RequestVerifyResult<AuthorizationValidationRequest> decryptAndVerifyAuthorizationValidationRequestMessage(EtsiTs103097DataEncryptedUnicast authorizationValidationRequestMessage,
-                                                                                      Map<HashedId8, Certificate> certStore,
-                                                                                      Map<HashedId8, Certificate> trustStore,
+                                                                                                                     CertStore certStore,
+                                                                                                                     CertStore trustStore,
                                                                                       Map<HashedId8, Receiver> receiverStore)
             throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException, BadArgumentException {
         DecryptResult decryptedData;
@@ -995,8 +996,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<AuthorizationValidationResponse> decryptAndVerifyAuthorizationValidationResponseMessage(EtsiTs103097DataEncryptedUnicast authorizationValidationResponseMessage,
-                                                                                      Map<HashedId8, Certificate> certStore,
-                                                                                      Map<HashedId8, Certificate> trustStore,
+                                                                                                                CertStore certStore,
+                                                                                                                CertStore trustStore,
                                                                                       Map<HashedId8, Receiver> receiverStore)
             throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
         byte[] decryptedData;
@@ -1073,8 +1074,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws BadArgumentException if one of the parameter contained invalid data.
      */
     public VerifyResult<ToBeSignedCrl> verifyCertificateRevocationListMessage(EtsiTs103097DataSigned certificateRevocationListMessage,
-                                                                              Map<HashedId8, Certificate> certStore,
-                                                                              Map<HashedId8, Certificate> trustStore) throws IOException, SignatureException, BadArgumentException {
+                                                                              CertStore certStore,
+                                                                              CertStore trustStore) throws IOException, SignatureException, BadArgumentException {
         VerifyResult<EtsiTs102941DataContent> verifyResult = verifyCTLMessage(certificateRevocationListMessage,certStore,trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices.certificateRevocationList,"CertificateRevocationListMessage");
         return new VerifyResult<>(verifyResult.signAlg, verifyResult.signerIdentifier,verifyResult.headerInfo,verifyResult.value.getToBeSignedCrl());
     }
@@ -1111,8 +1112,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<ToBeSignedTlmCtl> verifyTlmCertificateTrustListMessage(EtsiTs103097DataSigned tlmCertificateTrustListMessage,
-                                                                               Map<HashedId8, Certificate> certStore,
-                                                                               Map<HashedId8, Certificate> trustStore)
+                                                                               CertStore certStore,
+                                                                               CertStore trustStore)
             throws MessageParsingException, MessageProcessingException, SignatureVerificationException, DecryptionFailedException {
         try{
             VerifyResult<EtsiTs102941DataContent> verifyResult = verifyCTLMessage(tlmCertificateTrustListMessage,certStore,trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices.certificateTrustListTlm,"TlmCertificateTrustListMessage");
@@ -1150,8 +1151,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<ToBeSignedRcaCtl> verifyRcaCertificateTrustListMessage(EtsiTs103097DataSigned rcaCertificateTrustListMessage,
-                                                                               Map<HashedId8, Certificate> certStore,
-                                                                               Map<HashedId8, Certificate> trustStore)
+                                                                               CertStore certStore,
+                                                                               CertStore trustStore)
             throws MessageParsingException, MessageProcessingException, SignatureVerificationException, DecryptionFailedException {
         try{
             VerifyResult<EtsiTs102941DataContent> verifyResult = verifyCTLMessage(rcaCertificateTrustListMessage,certStore,trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices.certificateTrustListRca,"RcaCertificateTrustListMessage");
@@ -1314,8 +1315,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws MessageProcessingException if internal problems occurred when processing the message.
      */
     public VerifyResult<CaCertificateRequest> verifyCACertificateRekeyingMessage(EtsiTs103097DataSigned caCertificateRekeyingMessage,
-                                                                                 Map<HashedId8, Certificate> certStore, Map<HashedId8,
-            Certificate> trustStore) throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
+                                                                                 CertStore certStore, CertStore trustStore)
+            throws MessageParsingException, SignatureVerificationException, DecryptionFailedException, MessageProcessingException {
         try {
             verifySignedMessage(caCertificateRekeyingMessage, certStore, trustStore, "CACertificateRekeyingMessage");
             SignedData signedData = getSignedData(caCertificateRekeyingMessage, "CACertificateRekeyingMessage");
@@ -1393,7 +1394,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param certificates the array of certificate to build store of.
      * @return a map of HashedId8 to certificate.
      */
-    public Map<HashedId8, Certificate> buildCertStore(EtsiTs103097Certificate[] certificates) throws IOException, NoSuchAlgorithmException, BadArgumentException {
+    public CertStore buildCertStore(EtsiTs103097Certificate[] certificates) throws IOException, NoSuchAlgorithmException, BadArgumentException {
         return securedDataGenerator.buildCertStore(certificates);
     }
 
@@ -1402,7 +1403,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @param certificates the collection of certificate to build store of.
      * @return a map of HashedId8 to certificate.
      */
-    public Map<HashedId8, Certificate> buildCertStore(List<Certificate> certificates) throws IOException, NoSuchAlgorithmException, BadArgumentException {
+    public CertStore buildCertStore(List<Certificate> certificates) throws IOException, NoSuchAlgorithmException, BadArgumentException {
         return securedDataGenerator.buildCertStore(certificates);
     }
 
@@ -1456,8 +1457,8 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws IOException if problems occurred de-serializing the data structure.
      */
     public VerifyResult<EtsiTs102941DataContent> verifyCTLMessage(EtsiTs103097DataSigned ctlMessage,
-                                                                  Map<HashedId8, Certificate> certStore, Map<HashedId8,
-            Certificate> trustStore, EtsiTs102941DataContent.EtsiTs102941DataContentChoices expectedType,String messageName)
+                                                                  CertStore certStore, CertStore trustStore,
+                                                                  EtsiTs102941DataContent.EtsiTs102941DataContentChoices expectedType,String messageName)
             throws IOException, SignatureException, BadArgumentException {
         SignedData signedData = getSignedData(ctlMessage,messageName);
         verifySignedMessage(ctlMessage,certStore,trustStore,messageName);
@@ -1468,7 +1469,7 @@ public class ETSITS102941MessagesCaGenerator {
     /**
      * Help method to generate a PublicVerificationKey data structure
      */
-    protected PublicVerificationKey genPublicVerificationKey(AlgorithmIndicator alg, PublicKey pk)  throws IOException{
+    public PublicVerificationKey genPublicVerificationKey(AlgorithmIndicator alg, PublicKey pk)  throws IOException{
         return new PublicVerificationKey(BaseCertGenerator.getPublicVerificationAlgorithm(alg),convertToPoint(alg,pk));
     }
 
@@ -1536,7 +1537,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if signature didn't verify.
      * @throws IOException if problems occurred de-serializing the data structure.
      */
-    protected void verifySignedMessage(EtsiTs103097DataSigned etsiTs103097DataSigned, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore, String messageName) throws SignatureException, IOException, BadArgumentException {
+    protected void verifySignedMessage(EtsiTs103097DataSigned etsiTs103097DataSigned, CertStore certStore, CertStore trustStore, String messageName) throws SignatureException, IOException, BadArgumentException {
         if(!securedDataGenerator.verifySignedData(etsiTs103097DataSigned,certStore,trustStore)){
             throw new SignatureException("Invalid signature of "+ messageName +".");
         }

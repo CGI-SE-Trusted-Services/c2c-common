@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
 import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.common.BadArgumentException
+import org.certificateservices.custom.c2x.common.CertStore
+import org.certificateservices.custom.c2x.common.MapCertStore
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices
@@ -113,6 +115,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 			sdg = sdg_ecdsaBrainpoolP256r1
 		}
 		HeaderInfo hi = new HeaderInfo(new Psid(8), null,null,null,null,null,null,null,null)
+		CertStore empty = new MapCertStore([:])
 
 		when:
 		Ieee1609Dot2Data sd = sdg.genReferencedSignedData(hi, "TestData".getBytes("UTF-8"), SignerIdentifierType.CERT_CHAIN,[enrollCert, enrollCA, rootCA] as Certificate[], enrollCertPrivateKey)
@@ -130,8 +133,8 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		when:
 		def trustStore = sdg.buildCertStore([rootCA])
 		then:
-		sdg.verifyReferencedSignedData(sd, "TestData".getBytes("UTF-8"), [:], trustStore)
-		!sdg.verifyReferencedSignedData(sd, "InvalidData".getBytes("UTF-8"), [:], trustStore)
+		sdg.verifyReferencedSignedData(sd, "TestData".getBytes("UTF-8"), empty, trustStore)
+		!sdg.verifyReferencedSignedData(sd, "InvalidData".getBytes("UTF-8"), empty, trustStore)
 		
 		where:
 		alg << [PublicVerificationKeyChoices.ecdsaNistP256, PublicVerificationKeyChoices.ecdsaBrainpoolP256r1]
@@ -646,7 +649,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 
 	def "Verify that getSignedDataStore returns an empty map if SignerIdentifier is self"(){
 		expect:
-		sdg.getSignedDataStore(new SignerIdentifier()).size() == 0
+		sdg.getSignedDataStore(new SignerIdentifier()).map.size() == 0
 	}
 
 	def "Verify that getSignedDataStore returns an empty map if SignerIdentifier is digest"(){
@@ -654,7 +657,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate rootCA = genRootCA(rootCAKeys)
 		expect:
-		sdg.getSignedDataStore(new SignerIdentifier(sdg.certChainBuilder.getCertID(rootCA))).size() == 0
+		sdg.getSignedDataStore(new SignerIdentifier(sdg.certChainBuilder.getCertID(rootCA))).map.size() == 0
 	}
 
 	def "Verify that getSignedDataStore returns a populate map of all certificate if SignerIdentifier is certificate"(){
@@ -664,10 +667,10 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate enrollCA = genEnrollCA(CertificateType.implicit, PublicVerificationKeyChoices.ecdsaNistP256, enrollCAKeys, rootCAKeys, rootCA)
 		when:
-		Map<HashedId8, Certificate> result = sdg.getSignedDataStore(new SignerIdentifier(new SequenceOfCertificate([enrollCA, rootCA])))
+		CertStore result = sdg.getSignedDataStore(new SignerIdentifier(new SequenceOfCertificate([enrollCA, rootCA])))
 
 		then:
-		result.size() == 2
+		result.map.size() == 2
 		result.get(sdg.certChainBuilder.getCertID(rootCA)) == rootCA
 		result.get(sdg.certChainBuilder.getCertID(enrollCA)) == enrollCA
 	}

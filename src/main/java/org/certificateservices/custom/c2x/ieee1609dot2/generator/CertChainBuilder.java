@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.generator;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP384CurvePoint;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
@@ -53,7 +54,7 @@ public class CertChainBuilder {
      *
      * @throws BadArgumentException if chain couldn't be built.
      */
-    public Certificate[] buildChain(HashedId8 signerId, Map<HashedId8, Certificate> signedDataStore, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException, NoSuchAlgorithmException, IOException {
+    public Certificate[] buildChain(HashedId8 signerId, CertStore signedDataStore, CertStore certStore, CertStore trustStore) throws BadArgumentException, NoSuchAlgorithmException, IOException {
         List<Certificate> foundCerts = new ArrayList<>();
         // find first cert
         Certificate firstCert;
@@ -88,18 +89,18 @@ public class CertChainBuilder {
      * @return the found certificate or null if no certificate found in any of the stores.
      * @throws if found an implicit certificate in trust store.
      */
-    protected Certificate findFromStores(HashedId8 certId, Map<HashedId8, Certificate> signedDataStore, Map<HashedId8, Certificate> certStore, Map<HashedId8, Certificate> trustStore) throws BadArgumentException{
-        Certificate retval = signedDataStore.get(certId);
+    protected Certificate findFromStores(HashedId8 certId, CertStore signedDataStore, CertStore certStore, CertStore trustStore) throws BadArgumentException{
+        Certificate retval = (Certificate) signedDataStore.get(certId);
         if(retval != null){
             return retval;
         }
 
-        retval = certStore.get(certId);
+        retval = (Certificate) certStore.get(certId);
         if(retval != null){
             return retval;
         }
 
-        retval = trustStore.get(certId);
+        retval = (Certificate) trustStore.get(certId);
         if(retval != null && retval.getType() == CertificateType.implicit){
             throw new BadArgumentException("Error trust anchor cannot be an implicit certificate");
         }

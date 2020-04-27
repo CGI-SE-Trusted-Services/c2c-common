@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.etsits103097.v131.validator;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
 import org.certificateservices.custom.c2x.common.Certificate;
 import org.certificateservices.custom.c2x.common.validator.*;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.CtlEntry;
@@ -20,10 +21,8 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlis
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.EtsiTs102941CTL;
 import org.certificateservices.custom.c2x.etsits102941.v131.validator.EtsiTs102941CRLValidator;
 import org.certificateservices.custom.c2x.etsits102941.v131.validator.EtsiTs102941CTLValidator;
-import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.GeographicRegion;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator;
 import org.certificateservices.custom.c2x.ieee1609dot2.validator.BaseCertificateValidator;
@@ -33,7 +32,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.validator.Ieee1609Dot2Tim
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Certificate Validator for verifying and validating ETSI103097Certificates.
@@ -256,13 +254,13 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
             throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException,
             InvalidCTLException, CertificateRevokedException, InvalidCRLException {
         org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] etsiTlmCertificates = toIEEE1609Certificates(tlmCertificates);
-        Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> tlmTrustStore;
+        CertStore tlmTrustStore;
         try {
             tlmTrustStore = securedDataGenerator.buildCertStore(etsiTlmCertificates);
         } catch (IOException e) {
             throw new BadArgumentException("Unable to build TLM CTL certificate trust store: " + e.getMessage(),e);
         }
-        Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> trustStore;
+        CertStore trustStore;
         try {
             trustStore = etsiTs102941CTLValidator.verifyAndValidate(fullTLMCTL, deltaTLMCTL, checkDate, checkRegion, tlmTrustStore, entireChain, ROOTCA_ENTRIES);
         }catch(InvalidCTLException e){
@@ -323,7 +321,7 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
     public void verifyAndValidate(org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, Date checkDate, GeographicRegion checkRegion,
                                   EndEntityType targetEndEntityType,
                                   EtsiTs102941CTL fullRootCACTL, EtsiTs102941CTL deltaRootCACTL, EtsiTs102941CRL rootCACRL,
-                                  Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> trustStore, CtlEntry.CtlEntryChoices[] ctlTypes,
+                                  CertStore trustStore, CtlEntry.CtlEntryChoices[] ctlTypes,
                                   boolean entireChain) throws BadArgumentException,
             InvalidCertificateException, NoSuchAlgorithmException, InvalidCTLException, CertificateRevokedException, InvalidCRLException {
         verifyAndValidate(certificate,checkDate,checkRegion,targetEndEntityType,0, fullRootCACTL, deltaRootCACTL, rootCACRL, trustStore, ctlTypes, entireChain);
@@ -381,11 +379,11 @@ public class ETSI103097CertificateValidator extends BaseCertificateValidator {
     public void verifyAndValidate(org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate certificate, Date checkDate, GeographicRegion checkRegion,
                                   EndEntityType targetEndEntityType, int chainLengthIndex,
                                   EtsiTs102941CTL fullRootCACTL, EtsiTs102941CTL deltaRootCACTL, EtsiTs102941CRL rootCACRL,
-                                  Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> trustStore, CtlEntry.CtlEntryChoices[] ctlTypes,
+                                  CertStore trustStore, CtlEntry.CtlEntryChoices[] ctlTypes,
                                   boolean entireChain)
             throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException, InvalidCTLException, CertificateRevokedException, InvalidCRLException {
 
-        Map<HashedId8, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate> certStore = etsiTs102941CTLValidator.verifyAndValidate(fullRootCACTL,
+        CertStore certStore = etsiTs102941CTLValidator.verifyAndValidate(fullRootCACTL,
                 deltaRootCACTL,checkDate, checkRegion, trustStore, entireChain, ctlTypes);
         org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate[] certChain = buildCertChain(certificate, certStore, trustStore);
         if(rootCACRL != null && certChain.length > 1) {

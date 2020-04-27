@@ -14,6 +14,8 @@ package org.certificateservices.custom.c2x.etsits102941.v131.util;
 
 import org.certificateservices.custom.c2x.asn1.coer.COEREncodable;
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
+import org.certificateservices.custom.c2x.common.MapCertStore;
 import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.messagesca.EtsiTs102941Data;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.*;
@@ -59,8 +61,8 @@ public class Etsi102941CTLHelper {
      * @throws BadArgumentException if invalid CTLs was given.
      * @throws NoSuchAlgorithmException if SHA 256 digest wasn't available.
      */
-    public Map<HashedId8, Certificate> buildStore(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
-                                           CtlEntry.CtlEntryChoices[] types) throws IOException, BadArgumentException, NoSuchAlgorithmException {
+    public CertStore buildStore(EtsiTs102941CTL fullCTL, EtsiTs102941CTL deltaCTL,
+                                CtlEntry.CtlEntryChoices[] types) throws IOException, BadArgumentException, NoSuchAlgorithmException {
         Map<HashedId8, Certificate> retval = new HashMap<>();
 
         List<CtlEntry> allEntries = getCACtlEntries(fullCTL,deltaCTL,types);
@@ -70,7 +72,7 @@ public class Etsi102941CTLHelper {
             retval.put(certId,cert);
         }
 
-        return retval;
+        return new MapCertStore(retval);
     }
 
     /**

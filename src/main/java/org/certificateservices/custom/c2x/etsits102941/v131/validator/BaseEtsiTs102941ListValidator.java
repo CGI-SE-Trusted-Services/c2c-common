@@ -13,6 +13,8 @@
 package org.certificateservices.custom.c2x.etsits102941.v131.validator;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
+import org.certificateservices.custom.c2x.common.CertStore;
+import org.certificateservices.custom.c2x.common.MapCertStore;
 import org.certificateservices.custom.c2x.common.validator.InvalidCertificateException;
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSigned;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
@@ -38,7 +40,7 @@ public abstract class BaseEtsiTs102941ListValidator {
 
     protected Ieee1609Dot2CryptoManager cryptoManager;
     protected CertChainBuilder certChainBuilder;
-    protected Map<HashedId8, Certificate> emptyStore = new HashMap<>();
+    protected CertStore emptyStore = new MapCertStore(new HashMap<>());
 
     protected BaseEtsiTs102941ListValidator(Ieee1609Dot2CryptoManager cryptoManager){
         this.cryptoManager = cryptoManager;

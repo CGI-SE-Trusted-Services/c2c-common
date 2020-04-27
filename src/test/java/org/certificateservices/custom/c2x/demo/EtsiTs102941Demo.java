@@ -17,6 +17,9 @@ import org.bouncycastle.crypto.digests.SHA256Digest;
 import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.asn1.coer.COERIA5String;
+import org.certificateservices.custom.c2x.common.CertStore;
+import org.certificateservices.custom.c2x.common.Certificate;
+import org.certificateservices.custom.c2x.common.MapCertStore;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManager;
 import org.certificateservices.custom.c2x.common.crypto.DefaultCryptoManagerParams;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authorization.AuthorizationResponseCode;
@@ -124,8 +127,8 @@ public class EtsiTs102941Demo {
          */
         // First build a certificate store and a trust store to verify signature.
         // These can be null if only initial messages are used.
-        Map<HashedId8, Certificate> enrolCredCertStore = messagesCaGenerator.buildCertStore(enrollmentCredCertChain);
-        Map<HashedId8, Certificate> trustStore = messagesCaGenerator.buildCertStore(new EtsiTs103097Certificate[]{rootCACert});
+        CertStore enrolCredCertStore = messagesCaGenerator.buildCertStore(enrollmentCredCertChain);
+        CertStore trustStore = messagesCaGenerator.buildCertStore(new EtsiTs103097Certificate[]{rootCACert});
 
         // Then create a receiver store to decrypt the message
         Map<HashedId8, Receiver> enrolCAReceipients = messagesCaGenerator.buildRecieverStore(new Receiver[] {new CertificateReciever(enrolCAEncKeys.getPrivate(),enrolmentCACert)});
@@ -158,7 +161,7 @@ public class EtsiTs102941Demo {
 
         // To verify EnrolResponseMessage use:
         // Build certstore
-        Map<HashedId8, Certificate> enrolCACertStore = messagesCaGenerator.buildCertStore(enrollmentCAChain);
+        CertStore enrolCACertStore = messagesCaGenerator.buildCertStore(enrollmentCAChain);
 
         // Build reciever store containing the symmetric key used in the request.
         Map<HashedId8, Receiver> enrolCredSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,rekeyEnrolRequestMessageResult.getSecretKey())});
@@ -238,7 +241,7 @@ public class EtsiTs102941Demo {
          */
         // Build reciever store containing the symmetric key used in the request.
         Map<HashedId8, Receiver> authTicketSharedKeyReceivers = messagesCaGenerator.buildRecieverStore(new Receiver[] {new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,authRequestResult.getSecretKey())});
-        Map<HashedId8, Certificate> authCACertStore = messagesCaGenerator.buildCertStore(authorizationCAChain);
+        CertStore authCACertStore = messagesCaGenerator.buildCertStore(authorizationCAChain);
         VerifyResult<InnerAtResponse> authResponseResult = messagesCaGenerator.decryptAndVerifyAuthorizationResponseMessage(authResponseMessage,
                 authCACertStore, // certificate store containing certificates for auth cert.
                 trustStore,
@@ -315,7 +318,7 @@ public class EtsiTs102941Demo {
         /*
           To verify CTL and CRL messages
          */
-        Map<HashedId8, Certificate> crlTrustStore = new HashMap<>(); // Only root ca needed from truststore in this case.
+        CertStore crlTrustStore = new MapCertStore(new HashMap<>()); // Only root ca needed from truststore in this case.
         VerifyResult<ToBeSignedCrl> crlVerifyResult = messagesCaGenerator.verifyCertificateRevocationListMessage(
                 certificateRevocationListMessage,
                 crlTrustStore,

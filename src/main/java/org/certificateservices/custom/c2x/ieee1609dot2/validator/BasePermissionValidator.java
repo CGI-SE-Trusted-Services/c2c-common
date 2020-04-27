@@ -61,29 +61,47 @@ public abstract class BasePermissionValidator implements PermissionValidator {
             for (Object next : appPermissions.getSequenceValues()) {
                 if (next instanceof PsidSsp) {
                     PsidSsp psidSsp = (PsidSsp) next;
-                    long pSId = psidSsp.getPsid().getValueAsLong();
-                    ServiceSpecificPermissions ssp = psidSsp.getSSP();
-                    if(psidSsp.getSSP() == null){
-                        ssp = defaultSSPLookup.getDefaultSSP(psidSsp.getPsid());
-                    }
-                    if(ssp == null){
-                        throw new InvalidCertificateException("No SSP data found for certificate (Neither in certificate in default) with PSID " + pSId + ".");
-                    }
-                    List<PsidSspRange> matchingPssidSspRanges = filterPsidSspRangeByPSID(pSId, filterByEndEntityTypeAndChainLength(endEntityType, chainLength+1, issuerCertIssuePermissions.getSequenceValues()));
-                    if(matchingPssidSspRanges.size() == 0 &&
-                            hasAllPermissions(endEntityType,chainLength+1,issuerCertIssuePermissions)){
-                        continue;
-                    }
-                    if (ssp.getType() == ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.opaque) {
-                        checkOpaqueSSP(pSId,ssp.getData(),matchingPssidSspRanges);
-                    }else{
-                        checkBitmapSSP(pSId,ssp.getBitmapSsp(),matchingPssidSspRanges);
-                    }
+                    canIssueAppPermissions(endEntityType, chainLength, psidSsp, issuer);
                 } else {
                     throw new InvalidCertificateException("Invalid SequenceOfPsidSsp in certificate appPermissions, only PsidSsp should be in sequence.");
                 }
             }
         }
+    }
+
+    /**
+     * Help method to check app permission of an certificate against permissions in its issuer.
+     * If certificate contains certRequestPermissions is InvalidCertificateException thrown since it is not
+     * supported in ETSI 103097 PKIs.
+     *
+     * @param endEntityType the end entity type to evaluate permissions for.
+     * @param chainLength   the current index in the chain evaulation, starts at 0 and is incremented.
+     * @param appPerm       PsidSsp the permission to lookup if the issuing certificate is authorized to issue.
+     * @param issuer        the issuer certificate.
+     * @throws InvalidCertificateException if certificate contained invalid permissions.
+     */
+    public void canIssueAppPermissions(EndEntityType endEntityType, int chainLength, PsidSsp appPerm, org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate issuer) throws InvalidCertificateException {
+        SequenceOfPsidGroupPermissions issuerCertIssuePermissions = issuer.getToBeSigned().getCertIssuePermissions();
+
+        long pSId = appPerm.getPsid().getValueAsLong();
+        ServiceSpecificPermissions ssp = appPerm.getSSP();
+        if (appPerm.getSSP() == null) {
+            ssp = defaultSSPLookup.getDefaultSSP(appPerm.getPsid());
+        }
+        if (ssp == null) {
+            throw new InvalidCertificateException("No SSP data found for permission (Neither in certificate in default) with PSID " + pSId + ".");
+        }
+        List<PsidSspRange> matchingPssidSspRanges = filterPsidSspRangeByPSID(pSId, filterByEndEntityTypeAndChainLength(endEntityType, chainLength + 1, issuerCertIssuePermissions.getSequenceValues()));
+        if (matchingPssidSspRanges.size() == 0 &&
+                hasAllPermissions(endEntityType, chainLength + 1, issuerCertIssuePermissions)) {
+            return;
+        }
+        if (ssp.getType() == ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.opaque) {
+            checkOpaqueSSP(pSId, ssp.getData(), matchingPssidSspRanges);
+        } else {
+            checkBitmapSSP(pSId, ssp.getBitmapSsp(), matchingPssidSspRanges);
+        }
+
     }
 
     /**
@@ -137,7 +155,6 @@ public abstract class BasePermissionValidator implements PermissionValidator {
 
         }
     }
-
 
 
     /**
