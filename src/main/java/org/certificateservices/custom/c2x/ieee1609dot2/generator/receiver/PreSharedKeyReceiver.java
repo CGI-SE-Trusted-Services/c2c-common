@@ -12,18 +12,18 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import javax.crypto.SecretKey;
-
 import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.SymmetricEncryptionKey;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
+
+import javax.crypto.SecretKey;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 /**
  * Receiver  using a pre-shared key.
@@ -42,7 +42,7 @@ public class PreSharedKeyReceiver implements Receiver {
 	}
 
 	@Override
-	public HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws BadArgumentException, GeneralSecurityException {
+	public HashedId8 getReference(AlgorithmIndicator alg,CryptoManager cryptoManager) throws BadArgumentException, GeneralSecurityException {
 		try {
 			SymmetricEncryptionKey.SymmetricEncryptionKeyChoices choice = SymmetricEncryptionKey.SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(symKeyAlg);
 			SymmetricEncryptionKey symmetricEncryptionKey = new SymmetricEncryptionKey(choice, secretKey.getEncoded());

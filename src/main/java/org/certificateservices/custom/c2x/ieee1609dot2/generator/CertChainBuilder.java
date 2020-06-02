@@ -38,27 +38,17 @@ import java.util.Map;
  */
 public class CertChainBuilder {
 
-    CryptoManager cryptoManager;
-
-    /**
-     * Constructor for a CertChainBuilder
-     * @param cryptoManager the used cryptomanager for calculating digests.
-     */
-    public CertChainBuilder(CryptoManager cryptoManager){
-        this.cryptoManager = cryptoManager;
-    }
-
 
     /**
      * Help method to build a certificate chain from a signerId and two collections of known certificates and trust store.
      *
      * @throws BadArgumentException if chain couldn't be built.
      */
-    public Certificate[] buildChain(HashedId8 signerId, CertStore signedDataStore, CertStore certStore, CertStore trustStore) throws BadArgumentException, NoSuchAlgorithmException, IOException {
+    public static Certificate[] buildChain(CryptoManager cryptoManager, HashedId8 signerId, CertStore signedDataStore, CertStore certStore, CertStore trustStore) throws BadArgumentException, NoSuchAlgorithmException, IOException {
         List<Certificate> foundCerts = new ArrayList<>();
         // find first cert
         Certificate firstCert;
-        firstCert = findFromStores(signerId, signedDataStore, certStore, trustStore);
+        firstCert = findFromStores(cryptoManager,signerId, signedDataStore, certStore, trustStore);
 
         if(firstCert == null){
             throw new BadArgumentException("Error no certificate found in certstore for id : " + signerId);
@@ -67,14 +57,14 @@ public class CertChainBuilder {
         Certificate nextCert = firstCert;
         while(nextCert.getIssuer().getType() != IssuerIdentifier.IssuerIdentifierChoices.self){
             HashedId8 issuerId = (HashedId8) nextCert.getIssuer().getValue();
-            nextCert = findFromStores(issuerId, signedDataStore, certStore, trustStore);
+            nextCert = findFromStores(cryptoManager, issuerId, signedDataStore, certStore, trustStore);
             if(nextCert == null){
                 throw new BadArgumentException("Error no certificate found in certstore for id : " + signerId);
             }
             foundCerts.add(nextCert);
         }
 
-        HashedId8 trustAncor = getCertID(foundCerts.get(foundCerts.size() -1));
+        HashedId8 trustAncor = getCertID(cryptoManager,foundCerts.get(foundCerts.size() -1));
         if(trustStore.get(trustAncor) == null){
             throw new BadArgumentException("Error last certificate in chain wasn't a trust anchor: " + trustAncor);
         }
@@ -89,7 +79,7 @@ public class CertChainBuilder {
      * @return the found certificate or null if no certificate found in any of the stores.
      * @throws if found an implicit certificate in trust store.
      */
-    protected Certificate findFromStores(HashedId8 certId, CertStore signedDataStore, CertStore certStore, CertStore trustStore) throws BadArgumentException{
+    protected static Certificate findFromStores(CryptoManager cryptoManager, HashedId8 certId, CertStore signedDataStore, CertStore certStore, CertStore trustStore) throws BadArgumentException{
         Certificate retval = (Certificate) signedDataStore.get(certId);
         if(retval != null){
             return retval;
@@ -111,7 +101,7 @@ public class CertChainBuilder {
     /**
      * Help method that generated a HashedId8 cert id from a certificate.
      */
-    public HashedId8 getCertID(Certificate cert) throws BadArgumentException, NoSuchAlgorithmException, IOException{
+    public static HashedId8 getCertID(CryptoManager cryptoManager, Certificate cert) throws BadArgumentException, NoSuchAlgorithmException, IOException{
         HashAlgorithm hashAlgorithm = HashAlgorithm.sha256;
         if(cert.getType() == CertificateType.explicit ){
             VerificationKeyIndicator vki = cert.getToBeSigned().getVerifyKeyIndicator();

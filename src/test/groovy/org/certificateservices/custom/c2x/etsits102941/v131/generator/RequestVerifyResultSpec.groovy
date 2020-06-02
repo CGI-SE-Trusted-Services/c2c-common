@@ -23,6 +23,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver
 import spock.lang.Specification
 
 import javax.crypto.SecretKey
@@ -40,7 +41,7 @@ class RequestVerifyResultSpec extends BaseStructSpec {
 
     def "Verify constructor and getters"(){
         when:
-        def ard = new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), new HeaderInfo(),innerAtRequest,requestHash, Mock(SecretKey))
+        def ard = new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), new HeaderInfo(),innerAtRequest,requestHash, Mock(SecretKey), Mock(Receiver))
         then:
         ard.getSignAlg() == Signature.SignatureChoices.ecdsaNistP256Signature
         ard.getSignerIdentifier() != null
@@ -55,7 +56,8 @@ class RequestVerifyResultSpec extends BaseStructSpec {
         setup:
         HeaderInfo hi = new HeaderInfo(new Psid(1),null,null,null,null,null,null,null,null)
         expect:
-        new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey)).toString() == """RequestVerifyResult [
+        println new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey), Mock(Receiver)).toString()
+        new RequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey), Mock(Receiver)).toString() == """RequestVerifyResult [
   signAlg=ecdsaNistP256Signature,
   signerIdentifier=SignerIdentifier [self],
   headerInfo=HeaderInfo [
@@ -88,6 +90,7 @@ class RequestVerifyResultSpec extends BaseStructSpec {
       ]
     ]
   ]
+  receiver=EXISTS,
   secretKey=EXISTS,
   requestHash=01020304050607080910111213141516,
 ]"""

@@ -13,6 +13,7 @@
 package org.certificateservices.custom.c2x.ieee1609dot2.generator
 
 import org.bouncycastle.util.encoders.Hex
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver
 import spock.lang.Specification
 
 import javax.crypto.SecretKey
@@ -24,24 +25,28 @@ import javax.crypto.SecretKey
  */
 class DecryptResultSpec extends Specification {
 
+    Receiver receiver = Mock(Receiver)
     SecretKey secretKey = Mock(SecretKey)
     byte[] data = Hex.decode("313233")
 
     def "Verify constructor and getters"(){
         when:
-        DecryptResult dr = new DecryptResult(secretKey,data)
+        DecryptResult dr = new DecryptResult(receiver, secretKey,data)
         then:
+        dr.receiver == receiver
         dr.secretKey == secretKey
         dr.data == data
     }
 
     def "Verify toString()"(){
         expect:
-        new DecryptResult(secretKey,data).toString() == """DecryptAndVerifyResult [
+        new DecryptResult(receiver,secretKey,data).toString() == """DecryptAndVerifyResult [
+  receiver=EXISTS,
   secretKey=EXISTS,
   data=313233
 ]"""
-        new DecryptResult(null,data).toString() == """DecryptAndVerifyResult [
+        new DecryptResult(null,null,data).toString() == """DecryptAndVerifyResult [
+  receiver=NONE,
   secretKey=NONE,
   data=313233
 ]"""

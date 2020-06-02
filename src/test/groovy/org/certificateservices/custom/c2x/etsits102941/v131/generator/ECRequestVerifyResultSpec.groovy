@@ -11,6 +11,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver
 import spock.lang.Specification
 
 import javax.crypto.SecretKey
@@ -28,7 +29,7 @@ class ECRequestVerifyResultSpec extends BaseStructSpec {
 
     def "Verify constructor and getters"(){
         when:
-        def ard = new ECRequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature, Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), new HeaderInfo(),innerAtRequest,requestHash, Mock(SecretKey))
+        def ard = new ECRequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature, Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), new HeaderInfo(),innerAtRequest,requestHash, Mock(SecretKey), Mock(Receiver))
         then:
         ard.getInnerSignAlg() == Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature
         ard.getSignAlg() == Signature.SignatureChoices.ecdsaNistP256Signature
@@ -44,7 +45,8 @@ class ECRequestVerifyResultSpec extends BaseStructSpec {
         setup:
         HeaderInfo hi = new HeaderInfo(new Psid(1),null,null,null,null,null,null,null,null)
         expect:
-        new ECRequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature, Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey)).toString() == """ECRequestVerifyResult [
+        println new ECRequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature, Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey), Mock(Receiver)).toString()
+        new ECRequestVerifyResult<InnerAtRequest>(Signature.SignatureChoices.ecdsaBrainpoolP256r1Signature, Signature.SignatureChoices.ecdsaNistP256Signature,new SignerIdentifier(), hi,innerAtRequest,requestHash, Mock(SecretKey), Mock(Receiver)).toString() == """ECRequestVerifyResult [
   innerSignAlg=ecdsaBrainpoolP256r1Signature,
   signAlg=ecdsaNistP256Signature,
   signerIdentifier=SignerIdentifier [self],
@@ -78,6 +80,7 @@ class ECRequestVerifyResultSpec extends BaseStructSpec {
       ]
     ]
   ]
+  receiver=EXISTS,
   secretKey=EXISTS,
   requestHash=01020304050607080910111213141516,
 ]"""

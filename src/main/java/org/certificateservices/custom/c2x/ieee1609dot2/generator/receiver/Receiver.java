@@ -19,6 +19,7 @@ import javax.crypto.SecretKey;
 
 import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.RecipientInfo;
@@ -40,7 +41,7 @@ public interface Receiver {
 	 * @throws BadArgumentException if fault was discovered in supplied parameters.
 	 * @throws GeneralSecurityException if internal problems occurred generating the reference id.
 	 */
-	HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws BadArgumentException, GeneralSecurityException, IOException;
+	HashedId8 getReference(AlgorithmIndicator alg, CryptoManager cryptoManager) throws BadArgumentException, GeneralSecurityException, IOException;
 	
 	/**
 	 * Method to extract decryption key from a RecipientInfo using the reciever data.

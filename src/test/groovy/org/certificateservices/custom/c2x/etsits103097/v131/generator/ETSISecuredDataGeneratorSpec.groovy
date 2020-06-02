@@ -22,7 +22,6 @@ import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.securedd
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSignedExternalPayload
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.SequenceOfCertificate
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.Ieee1609Dot2Data
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignedData
@@ -31,7 +30,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGene
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.CertificateRecipient
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.recipient.Recipient
-import spock.lang.Ignore
 
 import java.security.PrivateKey
 import java.text.SimpleDateFormat
@@ -325,7 +323,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
     encryptedData=[
       recipients=[[certRecipInfo=[recipientId=[""")
         when:
-        byte[] data = esdg.decryptData(ed, sdg.buildRecieverStore([new CertificateReciever(signingKey, signerCertChain[0])]))
+        byte[] data = esdg.decryptData(ed, sdg.buildReceiverStore([new CertificateReciever(signingKey, signerCertChain[0])]))
         then:
         new String(data,"UTF-8") == "testtext"
     }
@@ -344,7 +342,7 @@ class ETSISecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
         when:
         def certStore = sdg.buildCertStore([signerCertChain[1],signerCertChain[0]])
         def trustStore = sdg.buildCertStore([signerCertChain[2]])
-        def r = esdg.decryptAndVerifySignedData(ed.encoded,certStore,trustStore,sdg.buildRecieverStore([new CertificateReciever(signingKey, signerCertChain[0])]),true,true)
+        def r = esdg.decryptAndVerifySignedData(ed.encoded,certStore,trustStore,sdg.buildReceiverStore([new CertificateReciever(signingKey, signerCertChain[0])]),true,true)
         then:
         new String(r.data) == "testtext"
     }

@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.generator;
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
 
 import javax.crypto.SecretKey;
 
@@ -26,20 +27,28 @@ import javax.crypto.SecretKey;
  */
 public class DecryptResult {
 
+    Receiver receiver;
     SecretKey secretKey;
     byte[] data;
 
     /**
      * Main constructor
      *
+     * @param receiver the related receiver of the message
      * @param secretKey the secret symmetric key used to decrypt the data.
      * @param data the inner opaque data.
      */
-    public DecryptResult(SecretKey secretKey, byte[] data) {
+    public DecryptResult(Receiver receiver, SecretKey secretKey, byte[] data) {
+        this.receiver = receiver;
         this.secretKey = secretKey;
         this.data = data;
     }
 
+
+    /**
+     * @return the receiver of the message
+     */
+    public Receiver getReceiver(){ return receiver; }
     /**
      *
      * @return the the secret symmetric key used to decrypt the data.
@@ -58,6 +67,7 @@ public class DecryptResult {
     @Override
     public String toString() {
         return "DecryptAndVerifyResult [\n"+
+                "  receiver=" + (receiver != null ? "EXISTS" : "NONE") +  ",\n"+
                 "  secretKey=" + (secretKey != null ? "EXISTS" : "NONE") +  ",\n"+
                 "  data=" + Hex.toHexString(getData()) + "\n" +
                 "]";

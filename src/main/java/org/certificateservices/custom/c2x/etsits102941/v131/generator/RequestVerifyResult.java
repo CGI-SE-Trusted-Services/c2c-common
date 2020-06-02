@@ -16,6 +16,7 @@ import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
 
 import javax.crypto.SecretKey;
 
@@ -27,6 +28,7 @@ public class RequestVerifyResult<T> extends VerifyResult<T> {
 
     byte[] requestHash;
     SecretKey secretKey;
+    Receiver receiver;
 
     /**
      * Main constructor
@@ -37,10 +39,11 @@ public class RequestVerifyResult<T> extends VerifyResult<T> {
      * @param value the inner message data.
      */
     public RequestVerifyResult(Signature.SignatureChoices signAlg, SignerIdentifier signerIdentifier, HeaderInfo headerInfo, T value,
-                               byte[] requestHash, SecretKey secretKey) {
+                               byte[] requestHash, SecretKey secretKey, Receiver receiver) {
         super(signAlg, signerIdentifier,headerInfo,value);
         this.requestHash = requestHash;
         this.secretKey = secretKey;
+        this.receiver = receiver;
     }
 
     /**
@@ -60,6 +63,11 @@ public class RequestVerifyResult<T> extends VerifyResult<T> {
     }
 
     /**
+     * @return the receiver of the message
+     */
+    public Receiver getReceiver() { return receiver; }
+
+    /**
      *
      * @return the inner message.
      */
@@ -74,6 +82,7 @@ public class RequestVerifyResult<T> extends VerifyResult<T> {
                 "  signerIdentifier=" + (signerIdentifier != null ? signerIdentifier.toString().replaceAll("\n", "\n  ") : "NONE") + ",\n" +
                 "  headerInfo=" + (headerInfo != null ? headerInfo.toString().replaceAll("\n", "\n  ") : "NONE") +  ",\n"+
                 "  value=" + getValue().toString().replaceAll("\n","\n  ") + "\n" +
+                "  receiver=" + (receiver != null ? "EXISTS" : "NONE") +  ",\n"+
                 "  secretKey=" + (secretKey != null ? "EXISTS" : "NONE") +  ",\n"+
                 "  requestHash=" + Hex.toHexString(requestHash) +  ",\n"+
                 "]";

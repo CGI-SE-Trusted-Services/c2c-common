@@ -308,7 +308,7 @@ public class Ieee1609Dot2Demo {
 		CertStore certStore = securedMessageGenerator.buildCertStore(new Certificate[] {authorizationCert, authorityCACertificate});
 	      // To decrypt build a reciever store of known decryption keys and related receiver info, this can be certificate, signed message containing encryption key
 	      // in header, symmetric key or pre shared key.
-	    Map<HashedId8, Receiver> recieverStore = securedMessageGenerator.buildRecieverStore(new Receiver[] { new CertificateReciever(enrollmentCredentialEncryptionKeys.getPrivate(), enrollmentCredential)});
+	    Map<HashedId8, Receiver> recieverStore = securedMessageGenerator.buildReceiverStore(new Receiver[] { new CertificateReciever(enrollmentCredentialEncryptionKeys.getPrivate(), enrollmentCredential)});
 		  // Finally perform the decryption with.
 		DecryptAndVerifyResult decryptAndVerifyResult = securedMessageGenerator.decryptAndVerifySignedData(encryptedAndSignedMessage,
 	    		certStore, 

@@ -12,6 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131;
 
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
+
 import javax.crypto.SecretKey;
 
 /**
@@ -26,6 +28,7 @@ import javax.crypto.SecretKey;
  */
 public abstract class ETSITS102941MessagesCaException extends Exception{
 
+    Receiver receiver;
     SecretKey secretKey;
     byte[] requestHash;
 
@@ -55,11 +58,13 @@ public abstract class ETSITS102941MessagesCaException extends Exception{
      * no symmetric key could be extracted.
      * @param requestHash the hashed value of the request data to identify which request a response is for. Null
      *                    if not applicable.
+     * @param receiver the receiver that decrypted the message.
      */
-    public ETSITS102941MessagesCaException(String message, SecretKey secretKey, byte[] requestHash) {
+    public ETSITS102941MessagesCaException(String message, SecretKey secretKey, byte[] requestHash, Receiver receiver) {
         super(message);
         this.secretKey = secretKey;
         this.requestHash = requestHash;
+        this.receiver = receiver;
     }
 
     /**
@@ -78,11 +83,14 @@ public abstract class ETSITS102941MessagesCaException extends Exception{
      * no symmetric key could be extracted.
      * @param requestHash the hashed value of the request data to identify which request a response is for. Null
      *                    if not applicable.
+     * @param receiver the receiver that decrypted the message.
      */
-    public ETSITS102941MessagesCaException(String message, Throwable cause, SecretKey secretKey, byte[] requestHash) {
+    public ETSITS102941MessagesCaException(String message, Throwable cause, SecretKey secretKey, byte[] requestHash,
+                                           Receiver receiver) {
         super(message, cause);
         this.secretKey = secretKey;
         this.requestHash = requestHash;
+        this.receiver = receiver;
     }
 
     /**
@@ -101,6 +109,22 @@ public abstract class ETSITS102941MessagesCaException extends Exception{
      */
     public void setSecretKey(SecretKey secretKey) {
         this.secretKey = secretKey;
+    }
+
+    /**
+     *
+     * @return the receiver of the message that decrypted the data.
+     */
+    public Receiver getReceiver() {
+        return receiver;
+    }
+
+    /**
+     *
+     * @param receiver the receiver of the message that decrypted the data.
+     */
+    public void setReceiver(Receiver receiver) {
+        this.receiver = receiver;
     }
 
     /**

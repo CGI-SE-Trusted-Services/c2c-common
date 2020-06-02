@@ -40,6 +40,14 @@ public class CertificateReciever extends BasePKReceiver {
 		super(privateKey);
 		this.certificate = certificate;
 	}
+
+	/**
+	 *
+	 * @return the related certificate for the receiver.
+	 */
+	public Certificate getCertificate(){
+		return certificate;
+	}
 	
 	@Override
 	protected byte[] getReferenceData() throws IOException {

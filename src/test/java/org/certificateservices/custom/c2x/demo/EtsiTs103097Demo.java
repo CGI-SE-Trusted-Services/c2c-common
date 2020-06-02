@@ -29,7 +29,6 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePub
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Duration.DurationChoices;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Signature.SignatureChoices;
-import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.DecryptAndVerifyResult;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.EncryptResult;
@@ -329,7 +328,7 @@ public class EtsiTs103097Demo {
 		CertStore certStore = securedMessageGenerator.buildCertStore(new EtsiTs103097Certificate[] {authorizationCert, authorityCACertificate});
 	      // To decrypt build a reciever store of known decryption keys and related receiver info, this can be certificate, signed message containing encryption key
 	      // in header, symmetric key or pre shared key.
-	    Map<HashedId8, Receiver> recieverStore = securedMessageGenerator.buildRecieverStore(new Receiver[] { new CertificateReciever(enrollmentCredentialEncryptionKeys.getPrivate(), enrollmentCredential)});
+	    Map<HashedId8, Receiver> recieverStore = securedMessageGenerator.buildReceiverStore(new Receiver[] { new CertificateReciever(enrollmentCredentialEncryptionKeys.getPrivate(), enrollmentCredential)});
 		  // Finally perform the decryption and verification of siganture with.
 		DecryptAndVerifyResult decryptAndVerifyResult = securedMessageGenerator.decryptAndVerifySignedData(encryptedAndSignedMessage.getEncoded(),
 	    		certStore,

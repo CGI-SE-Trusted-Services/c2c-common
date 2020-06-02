@@ -32,7 +32,17 @@ public class ECQVHelper {
 	
 
 	private Ieee1609Dot2CryptoManager cryptoManager = null;
-	private KeyFactory keyFact;
+	private static KeyFactory keyFact;
+
+	static{
+		try {
+			keyFact = KeyFactory.getInstance("EC", "BC");
+		} catch(Exception e) {
+			throw new RuntimeException("Error occurred initializing ECQV algorithm: " + e.getMessage(), e);
+		}
+	}
+
+
 	
 	/**
 	 * Initializes ECQV Helper with related crypto manager.
@@ -40,13 +50,8 @@ public class ECQVHelper {
 	 * 
 	 * @throws SignatureException if problems occurred initializing internal key factory.
 	 */
-	public ECQVHelper(Ieee1609Dot2CryptoManager cryptoManager) throws SignatureException{
+	public ECQVHelper(Ieee1609Dot2CryptoManager cryptoManager){
 		this.cryptoManager = cryptoManager;
-		try {
-			keyFact = KeyFactory.getInstance("EC", "BC");
-		} catch(Exception e) {
-			throw new SignatureException("Error occurred initializing ECQV algorithm: " + e.getMessage(), e);
-		} 
 	}
 	
 
@@ -108,7 +113,7 @@ public class ECQVHelper {
 			
 			certData = tbs.getEncoded();
 			
-			e = computeHash(certData, alg, signerCert);
+			e = computeHash(cryptoManager,certData, alg, signerCert);
 
 			// 3.4 Action 8 Check that e doesn't compute to infinity
 		}while(Pu.multiply(e).add((signerPublicKey).getQ()).isInfinity());
@@ -130,7 +135,23 @@ public class ECQVHelper {
 			throw new SignatureException("Error generating reconstruction value for implicit certificate: " + e.getMessage(),e);
 		}
 	}
-	
+
+	/**
+	 * Method to extract a public key from a implicit certificate.
+	 *
+	 * @param cert the implicit certificate to reconstruct the public key for.
+	 * @param caPublicKey the public key of the CA.
+	 * @param alg the related algorithm used.
+	 * @param signerCertificate the CA certificate public key.
+	 * @return a generate EC Public Key.
+	 *
+	 * @throws IOException if communication problems occurred with underlying systems.
+	 * @throws BadArgumentException if argument was illegal
+	 * @throws SignatureException if internal problems occurred extracting the public key.
+	 */
+	public BCECPublicKey extractPublicKey(Certificate cert, BCECPublicKey caPublicKey, AlgorithmIndicator alg, Certificate signerCertificate) throws BadArgumentException, IOException, SignatureException{
+		return extractPublicKey(cryptoManager, cert,caPublicKey,alg,signerCertificate);
+	}
 
 	/**
 	 * Method to extract a public key from a implicit certificate.
@@ -145,7 +166,7 @@ public class ECQVHelper {
 	 * @throws BadArgumentException if argument was illegal
 	 * @throws SignatureException if internal problems occurred extracting the public key.
 	 */
-	public BCECPublicKey extractPublicKey(Certificate cert, BCECPublicKey caPublicKey, AlgorithmIndicator alg, Certificate signerCertificate) throws BadArgumentException, IOException, SignatureException{
+	public static BCECPublicKey extractPublicKey(Ieee1609Dot2CryptoManager cryptoManager, Certificate cert, BCECPublicKey caPublicKey, AlgorithmIndicator alg, Certificate signerCertificate) throws BadArgumentException, IOException, SignatureException{
 		try{
 		ToBeSignedCertificate tbs = cert.getToBeSigned();
 		ECParameterSpec domainParameters = cryptoManager.getECParameterSpec(alg);
@@ -159,7 +180,7 @@ public class ECQVHelper {
 			throw new InvalidKeyException("Error Public Key is invalid");
 		}
 		
-		BigInteger e = computeHash(tbs.getEncoded(), alg, signerCertificate);
+		BigInteger e = computeHash(cryptoManager, tbs.getEncoded(), alg, signerCertificate);
 		
 		ECPoint Qu = Pu.getQ().multiply(e).add(caPublicKey.getQ());
 		
@@ -203,7 +224,7 @@ public class ECQVHelper {
 
 			BCECPublicKey Qu = extractPublicKey(cert, caPublicKey, alg, signerCertificate);
 
-			BigInteger e = computeHash(tbs.getEncoded(), alg, signerCertificate);
+			BigInteger e = computeHash(cryptoManager,tbs.getEncoded(), alg, signerCertificate);
 
 			// TODO start with bc key, then try with domainParameter.d
 			BigInteger Du = r.add(e.multiply(((BCECPrivateKey) Ku).getD())).mod(domainParameters.getN());
@@ -231,7 +252,7 @@ public class ECQVHelper {
 	/**
 	 * Help method to compute the hash integer value according to ECQV SEC 4 Specification.
 	 */
-	private BigInteger computeHash(byte[] certData, AlgorithmIndicator alg, Certificate signerCertificate) throws BadArgumentException, NoSuchAlgorithmException, IOException {
+	private static BigInteger computeHash(Ieee1609Dot2CryptoManager cryptoManager, byte[] certData, AlgorithmIndicator alg, Certificate signerCertificate) throws BadArgumentException, NoSuchAlgorithmException, IOException {
 		ECParameterSpec domainParameters = cryptoManager.getECParameterSpec(alg);
 		
 		

@@ -29,34 +29,30 @@ import java.security.KeyPair
  * @author Philip Vendil, p.vendil@cgi.com
  */
 class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
+    
 
-    CertChainBuilder certChainBuilder
-
-    def setup(){
-        certChainBuilder = new CertChainBuilder(cryptoManager)
-    }
 
     def "Verify that buildCertStore() generates certificate store maps correctly and buildChain generates correct certificate chain"(){
         setup:
         def alg = PublicVerificationKey.PublicVerificationKeyChoices.ecdsaNistP256
         KeyPair rootCAKeys1 = cryptoManager.generateKeyPair(alg)
         Certificate rootCA1 = genRootCA(rootCAKeys1)
-        HashedId8 rootCA1Id = certChainBuilder.getCertID(rootCA1)
+        HashedId8 rootCA1Id = CertChainBuilder.getCertID(cryptoManager,rootCA1)
         KeyPair rootCAKeys2 = cryptoManager.generateKeyPair(alg)
         Certificate rootCA2 = genRootCA(rootCAKeys2)
-        HashedId8 rootCA2Id = certChainBuilder.getCertID(rootCA2)
+        HashedId8 rootCA2Id = CertChainBuilder.getCertID(cryptoManager, rootCA2)
         KeyPair enrollCAKeys1 = cryptoManager.generateKeyPair(alg)
         Certificate enrollCA1 = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys1, rootCAKeys1, rootCA1)
-        HashedId8 enrollCA1Id = certChainBuilder.getCertID(enrollCA1)
+        HashedId8 enrollCA1Id = CertChainBuilder.getCertID(cryptoManager, enrollCA1)
         KeyPair enrollCAKeys2 = cryptoManager.generateKeyPair(alg)
         Certificate enrollCA2 = genEnrollCA(CertificateType.explicit, alg, enrollCAKeys2, rootCAKeys2, rootCA2)
-        HashedId8 enrollCA2Id = certChainBuilder.getCertID(enrollCA2)
+        HashedId8 enrollCA2Id = CertChainBuilder.getCertID(cryptoManager, enrollCA2)
         KeyPair enrollCertKeys1 = cryptoManager.generateKeyPair(alg)
         Certificate enrollCert1 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys1, enrollCAKeys1.publicKey, enrollCAKeys1.privateKey, enrollCA1)
-        HashedId8 enrollCert1Id = certChainBuilder.getCertID(enrollCert1)
+        HashedId8 enrollCert1Id = CertChainBuilder.getCertID(cryptoManager, enrollCert1)
         KeyPair enrollCertKeys2 = cryptoManager.generateKeyPair(alg)
         Certificate enrollCert2 = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys2, enrollCAKeys2.publicKey, enrollCAKeys2.privateKey, enrollCA2)
-        HashedId8 enrollCert2Id = certChainBuilder.getCertID(enrollCert2)
+        HashedId8 enrollCert2Id = CertChainBuilder.getCertID(cryptoManager, enrollCert2)
         CertStore empty = new MapCertStore([:])
 
         when: "Verify that buildCertStore generates correct stores"
@@ -77,13 +73,13 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
 
 
         when: "Verify that buildChain constructs a correct chain for a root ca only chain"
-        Certificate[] c = certChainBuilder.buildChain(rootCA2Id, signedDataStore1, certStore1, trustStore)
+        Certificate[] c = CertChainBuilder.buildChain(cryptoManager, rootCA2Id, signedDataStore1, certStore1, trustStore)
         then:
         c.length == 1
         c[0] == rootCA2
 
         when: "Verify that buildChain constructs a chain from all three stores"
-        c = certChainBuilder.buildChain(enrollCert2Id, signedDataStore1, certStore1, trustStore)
+        c = CertChainBuilder.buildChain(cryptoManager, enrollCert2Id, signedDataStore1, certStore1, trustStore)
         then:
         c.length == 3
         c[0] == enrollCert2
@@ -91,17 +87,17 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         c[2] == rootCA2
 
         when: "Verify that illegal argument is found if signing certificate cannot be found"
-        certChainBuilder.buildChain(enrollCert2Id, empty, empty, empty)
+        CertChainBuilder.buildChain(cryptoManager, enrollCert2Id, empty, empty, empty)
         then:
         thrown BadArgumentException
 
         when: "Verify that illegal argument is found if root certificate cannot be found as trust anchor"
-        certChainBuilder.buildChain(enrollCert2Id, signedDataStore1, certStore2, empty)
+        CertChainBuilder.buildChain(cryptoManager, enrollCert2Id, signedDataStore1, certStore2, empty)
         then:
         thrown BadArgumentException
 
         when: "Verify that illegal argument is found if intermediate certificate cannot be found"
-        certChainBuilder.buildChain(enrollCert2Id, signedDataStore2, empty, trustStore)
+        CertChainBuilder.buildChain(cryptoManager, enrollCert2Id, signedDataStore2, empty, trustStore)
         then:
         thrown BadArgumentException
     }
@@ -112,17 +108,17 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         Certificate rootCA = genRootCA(rootCAKeys)
         KeyPair enrollCAKeys = cryptoManager.generateKeyPair(PublicVerificationKey.PublicVerificationKeyChoices.ecdsaNistP256)
         Certificate enrollCA = genEnrollCA(CertificateType.implicit, PublicVerificationKey.PublicVerificationKeyChoices.ecdsaNistP256, enrollCAKeys, rootCAKeys, rootCA)
-        HashedId8 certId = certChainBuilder.getCertID(enrollCA)
-        HashedId8 rootCertId = certChainBuilder.getCertID(rootCA)
+        HashedId8 certId = CertChainBuilder.getCertID(cryptoManager, enrollCA)
+        HashedId8 rootCertId = CertChainBuilder.getCertID(cryptoManager, rootCA)
         MapCertStore empty = new MapCertStore([:])
         expect:
-        certChainBuilder.findFromStores(certId, new MapCertStore([(certId):enrollCA]), empty, empty) == enrollCA
-        certChainBuilder.findFromStores(certId, empty,new MapCertStore([(certId):enrollCA]), empty) == enrollCA
-        certChainBuilder.findFromStores(rootCertId, empty,empty,new MapCertStore([(rootCertId):rootCA])) == rootCA
-        certChainBuilder.findFromStores(certId, empty,empty,empty) == null
+        CertChainBuilder.findFromStores(cryptoManager, certId, new MapCertStore([(certId):enrollCA]), empty, empty) == enrollCA
+        CertChainBuilder.findFromStores(cryptoManager, certId, empty,new MapCertStore([(certId):enrollCA]), empty) == enrollCA
+        CertChainBuilder.findFromStores(cryptoManager, rootCertId, empty,empty,new MapCertStore([(rootCertId):rootCA])) == rootCA
+        CertChainBuilder.findFromStores(cryptoManager, certId, empty,empty,empty) == null
 
         when: "Verify that implicit trust anchor generates BadArgumentException"
-        certChainBuilder.findFromStores(certId, empty,empty,new MapCertStore([(certId):enrollCA]))
+        CertChainBuilder.findFromStores(cryptoManager, certId, empty,empty,new MapCertStore([(certId):enrollCA]))
 
         then:
         thrown BadArgumentException
@@ -135,7 +131,7 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         Certificate rootCA = genRootCA(rootCAKeys)
 
         when:
-        HashedId8 certId = certChainBuilder.getCertID(rootCA)
+        HashedId8 certId = CertChainBuilder.getCertID(cryptoManager, rootCA)
         then:
         certId == new HashedId8(cryptoManager.digest(rootCA.getEncoded(), HashAlgorithm.sha256))
     }
@@ -146,7 +142,7 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         Certificate rootCA = genRootCA(rootCAKeys, PublicVerificationKey.PublicVerificationKeyChoices.ecdsaBrainpoolP384r1)
 
         when:
-        HashedId8 certId = certChainBuilder.getCertID(rootCA)
+        HashedId8 certId = CertChainBuilder.getCertID(cryptoManager,rootCA)
         then:
         certId == new HashedId8(cryptoManager.digest(rootCA.getEncoded(), HashAlgorithm.sha384))
     }
@@ -159,7 +155,7 @@ class CertChainBuilderSpec extends BaseCertGeneratorSpec  {
         Certificate enrollCA = genEnrollCA(CertificateType.implicit, PublicVerificationKey.PublicVerificationKeyChoices.ecdsaNistP256, enrollCAKeys, rootCAKeys, rootCA)
         when:
         when:
-        HashedId8 certId = certChainBuilder.getCertID(enrollCA)
+        HashedId8 certId = CertChainBuilder.getCertID(cryptoManager,enrollCA)
         then:
         certId == new HashedId8(cryptoManager.digest(enrollCA.getEncoded(), HashAlgorithm.sha256))
     }

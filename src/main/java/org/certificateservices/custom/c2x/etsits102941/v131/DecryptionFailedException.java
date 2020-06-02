@@ -12,6 +12,8 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131;
 
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
+
 import javax.crypto.SecretKey;
 
 /**
@@ -36,7 +38,7 @@ public class DecryptionFailedException extends ETSITS102941MessagesCaException {
      * @since 1.4
      */
     public DecryptionFailedException(String message, Throwable cause) {
-        super(message, cause, null, null);
+        super(message, cause, null, null, null);
     }
 
 
@@ -54,8 +56,10 @@ public class DecryptionFailedException extends ETSITS102941MessagesCaException {
      * no symmetric key could be extracted.
      * @param requestHash the hashed value of the request data to identify which request a response is for. Null
      *                    if not applicable.
+     * @param receiver the receiver that decrypted the message.
      */
-    public DecryptionFailedException(String message, Throwable cause, SecretKey secretKey, byte[] requestHash) {
-        super(message, cause, secretKey, requestHash);
+    public DecryptionFailedException(String message, Throwable cause, SecretKey secretKey, byte[] requestHash,
+                                     Receiver receiver) {
+        super(message, cause, secretKey, requestHash, receiver);
     }
 }

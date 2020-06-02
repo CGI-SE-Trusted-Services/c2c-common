@@ -52,7 +52,6 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
         this.regionValidator = regionValidator;
         this.permissionValidator = permissionValidator;
 
-        this.certChainBuilder = new CertChainBuilder(cryptoManager);
     }
 
     /**
@@ -241,10 +240,10 @@ public abstract class BaseCertificateValidator implements CertificateValidator {
      */
     protected Certificate[] buildCertChain(Certificate certificate, CertStore certStore, CertStore trustStore) throws BadArgumentException, InvalidCertificateException, NoSuchAlgorithmException {
         try {
-            HashedId8 certId = certChainBuilder.getCertID(certificate);
+            HashedId8 certId = CertChainBuilder.getCertID(cryptoManager,certificate);
             Map<HashedId8, Certificate> signerStore = new HashMap<>();
             signerStore.put(certId, certificate);
-            return certChainBuilder.buildChain(certId, new MapCertStore(signerStore), certStore, trustStore);
+            return CertChainBuilder.buildChain(cryptoManager,certId, new MapCertStore(signerStore), certStore, trustStore);
         }catch(IOException e){
             throw new InvalidCertificateException(e.getMessage(),e);
         }

@@ -45,7 +45,6 @@ import java.util.Map;
  */
 public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator implements CTLValidator {
 
-    protected Ieee1609Dot2CryptoManager cryptoManager;
     protected SecuredDataGenerator securedDataGenerator;
     protected ETSI103097CertificateValidator certificateValidator;
     protected Etsi102941CTLHelper etsi102941CTLHelper;
@@ -250,8 +249,8 @@ public class EtsiTs102941CTLValidator extends BaseEtsiTs102941ListValidator impl
         try {
             cTLSignerIdentifier = findSignerIdentifier(cTL);
             if(verifyChain) {
-                CertStore inCRLCertStore = securedDataGenerator.getSignedDataStore(cTLSignerIdentifier);
-                Certificate[] certChain = certChainBuilder.buildChain(getSignerId(cTLSignerIdentifier), inCRLCertStore, certStore, trustStore);
+                CertStore inCRLCertStore = securedDataGenerator.getSignedDataStore(cryptoManager,cTLSignerIdentifier);
+                Certificate[] certChain = certChainBuilder.buildChain(cryptoManager,getSignerId(cTLSignerIdentifier), inCRLCertStore, certStore, trustStore);
 
                 certificateValidator.verifyAndValidate(certChain, checkDate, checkRegion, new EndEntityType(true, true), entireChain);
                 certificateValidator.checkCTLServicePermissionInAppPermissions(CTLServicePermissions.VERSION_1, CTLServicePermissions.getPermissions(ctlTypes), certChain);

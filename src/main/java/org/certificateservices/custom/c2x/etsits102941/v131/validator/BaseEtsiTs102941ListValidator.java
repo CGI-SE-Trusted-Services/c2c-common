@@ -44,7 +44,6 @@ public abstract class BaseEtsiTs102941ListValidator {
 
     protected BaseEtsiTs102941ListValidator(Ieee1609Dot2CryptoManager cryptoManager){
         this.cryptoManager = cryptoManager;
-        this.certChainBuilder = new CertChainBuilder(cryptoManager);
     }
 
     /**
@@ -90,6 +89,6 @@ public abstract class BaseEtsiTs102941ListValidator {
             throw new BadArgumentException("SignedData cannot be self signed");
         }
         SequenceOfCertificate sc = (SequenceOfCertificate) signer.getValue();
-        return certChainBuilder.getCertID((Certificate) sc.getSequenceValues()[0]);
+        return CertChainBuilder.getCertID(cryptoManager,(Certificate) sc.getSequenceValues()[0]);
     }
 }

@@ -16,6 +16,7 @@ import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.common.BadArgumentException
 import org.certificateservices.custom.c2x.common.CertStore
 import org.certificateservices.custom.c2x.common.MapCertStore
+import org.certificateservices.custom.c2x.common.crypto.ECQVHelper
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.*
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.BasePublicEncryptionKey.BasePublicEncryptionKeyChoices
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.EccP256CurvePoint.EccP256CurvePointChoices
@@ -159,12 +160,12 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
 		when: "Verify that text is decrypted correclty for a known key"
-		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k1),new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildReceiverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k1), new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
 		decryptedText == clearText
 		
 		when: "Verify that illegal argument is thrown if key is not known"
-		sdg.decryptData(enc,  sdg.buildRecieverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
+		sdg.decryptData(enc,  sdg.buildReceiverStore([new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
 		thrown BadArgumentException
 		
@@ -195,18 +196,18 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
 		when: "Verify that text is decrypted correctly for a known key"
-		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k1),new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k3)]))
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildReceiverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k1), new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k3)]))
 		then:
 		decryptedText == clearText
 
 		when: "Verify that text is decrypted correclty for alternate known key"
-		decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
+		decryptedText = sdg.decryptData(enc, sdg.buildReceiverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k2)]))
 		then:
 		decryptedText == clearText
 		
 		
 		when: "Verify that illegal argument is thrown if key is not known"
-		sdg.decryptData(enc,  sdg.buildRecieverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k3)]))
+		sdg.decryptData(enc,  sdg.buildReceiverStore([new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,k3)]))
 		then:
 		thrown BadArgumentException
 
@@ -242,21 +243,21 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		ed.getRecipients().size() == 1
 		RecipientInfo ri = ed.getRecipients().getSequenceValuesAsList()[0]
 		ri.getType() == RecipientInfoChoices.certRecipInfo
-		((PKRecipientInfo) ri.getValue()).getRecipientId() == sdg.certChainBuilder.getCertID(enrollCert1)
+		((PKRecipientInfo) ri.getValue()).getRecipientId() == CertChainBuilder.getCertID(cryptoManager,enrollCert1)
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
 		when: "Verify that text is decrypted correctly for a known key"
-		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2),new CertificateReciever(encKeys1.privateKey,enrollCert1)]))
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildReceiverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2), new CertificateReciever(encKeys1.privateKey,enrollCert1)]))
 		then:
 		decryptedText == clearText
 		
 		when: "Verify that invalid key for a given certificate throws InvalidKeyException"
-		sdg.decryptData(enc, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert1)]))
+		sdg.decryptData(enc, sdg.buildReceiverStore([new CertificateReciever(encKeys2.privateKey,enrollCert1)]))
 		then:
 		thrown InvalidKeyException
 		
 		when: "Verify that unknown receiver throws BadArgumentException"
-		sdg.decryptData(enc, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]))
+		sdg.decryptData(enc, sdg.buildReceiverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]))
 		then:
 		thrown BadArgumentException
 		
@@ -301,17 +302,17 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
 		when: "Verify that text is decrypted correclty for a known key"
-		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new SignedDataReciever(encKeys2.private, sd2), new SignedDataReciever(encKeys1.private, sd1)]))
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildReceiverStore([new SignedDataReciever(encKeys2.private, sd2), new SignedDataReciever(encKeys1.private, sd1)]))
 		then:
 		decryptedText == clearText
 		
 		when: "Verify that invalid key exception is thrown if wrong key is used with correct message"
-		sdg.decryptData(enc, sdg.buildRecieverStore([new SignedDataReciever(encKeys2.private, sd1)]))
+		sdg.decryptData(enc, sdg.buildReceiverStore([new SignedDataReciever(encKeys2.private, sd1)]))
 		then:
 		thrown InvalidKeyException
 		
 		when: "Verify that unknown receiver throws BadArgumentException"
-		sdg.decryptData(enc, sdg.buildRecieverStore([new SignedDataReciever(encKeys2.private, sd2)]))
+		sdg.decryptData(enc, sdg.buildReceiverStore([new SignedDataReciever(encKeys2.private, sd2)]))
 		then:
 		thrown BadArgumentException
 		
@@ -353,17 +354,17 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		ed.getCipherText().getType() == SymmetricCiphertextChoices.aes128ccm
 		
 		when: "Verify that text is decrypted correclty for a known key"
-		byte[] decryptedText = sdg.decryptData(enc, sdg.buildRecieverStore([new RekReciever(encKeys2.private, encKeys2.public), new RekReciever(encKeys1.private, encKeys1.public)]))
+		byte[] decryptedText = sdg.decryptData(enc, sdg.buildReceiverStore([new RekReciever(encKeys2.private, encKeys2.public), new RekReciever(encKeys1.private, encKeys1.public)]))
 		then:
 		decryptedText == clearText
 		
 		when: "Verify that invalid key exception is thrown if wrong key is used with correct message"
-		sdg.decryptData(enc, sdg.buildRecieverStore([new RekReciever(encKeys2.private, encKeys1.public)]))
+		sdg.decryptData(enc, sdg.buildReceiverStore([new RekReciever(encKeys2.private, encKeys1.public)]))
 		then:
 		thrown InvalidKeyException
 		
 		when: "Verify that unknown receiver throws BadArgumentException"
-		sdg.decryptData(enc, sdg.buildRecieverStore([new RekReciever(encKeys2.private, encKeys2.public)]))
+		sdg.decryptData(enc, sdg.buildReceiverStore([new RekReciever(encKeys2.private, encKeys2.public)]))
 		then:
 		thrown BadArgumentException
 		
@@ -457,7 +458,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		then:
 		new Ieee1609Dot2Data(encData).getContent().getType() == Ieee1609Dot2ContentChoices.encryptedData
 		when:
-		DecryptAndVerifyResult r = sdg.decryptAndVerifySignedData(encData, certStore, trustStore, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), true, true)
+		DecryptAndVerifyResult r = sdg.decryptAndVerifySignedData(encData, certStore, trustStore, sdg.buildReceiverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), true, true)
 		
 		then:
 		r.headerInfo == hi
@@ -491,7 +492,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		
 		when: "Verify that decrypt and verify returns decrypted data but doesn't verify data in not required, i.e encrypted data contains unsecuredData"
 		byte[] encDataOnly = sdg.encryptData(alg, ensecured,  [new CertificateRecipient(enrollCert2)] as Recipient[]).encryptedData.encoded
-		r = sdg.decryptAndVerifySignedData(encDataOnly, null, null, sdg.buildRecieverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), false, true)
+		r = sdg.decryptAndVerifySignedData(encDataOnly, null, null, sdg.buildReceiverStore([new CertificateReciever(encKeys2.privateKey,enrollCert2)]), false, true)
 		then:
 		r.data == "TestData".getBytes("UTF-8")
 		
@@ -511,7 +512,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		Certificate enrollCert = genEnrollCert(CertificateType.explicit, alg, enrollCertKeys, enrollCAKeys.publicKey, enrollCAKeys.privateKey, enrollCA)
 
 		when:
-		PublicKey pk = sdg.getSignerPublicKey([enrollCert, enrollCA, rootCA] as Certificate[])
+		PublicKey pk = sdg.getSignerPublicKey(cryptoManager,[enrollCert, enrollCA, rootCA] as Certificate[])
 		then:
 		pk == enrollCertKeys.publicKey
 	}
@@ -529,7 +530,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		PublicKey enrollCertExtractedKey = ecqvHelper.extractPublicKey(enrollCert, enrollCAKeys.publicKey, alg, enrollCA)
 
 		when:
-		PublicKey pk = sdg.getSignerPublicKey([enrollCert, enrollCA, rootCA] as Certificate[])
+		PublicKey pk = sdg.getSignerPublicKey(cryptoManager,[enrollCert, enrollCA, rootCA] as Certificate[])
 		then:
 		pk == enrollCertExtractedKey
 	}
@@ -541,7 +542,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		Certificate rootCA = genRootCA(rootCAKeys)
 		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(alg)
 		Certificate enrollCA = genEnrollCA(CertificateType.implicit, alg, enrollCAKeys, rootCAKeys, rootCA)
-		PublicKey enrollCAPubKey = ecqvHelper.extractPublicKey(enrollCA, rootCAKeys.getPublic(), alg, rootCA)
+		PublicKey enrollCAPubKey = ECQVHelper.extractPublicKey(cryptoManager,enrollCA, rootCAKeys.getPublic(), alg, rootCA)
 		PrivateKey enrollCAPrivateKey = ecqvHelper.certReceiption(enrollCA, enrollCA.r, alg, enrollCAKeys.getPrivate(), rootCAKeys.getPublic(), rootCA)
 		KeyPair enrollCertKeys = cryptoManager.generateKeyPair(alg)
 		Certificate enrollCert = genEnrollCert(CertificateType.implicit, alg, enrollCertKeys, enrollCAPubKey, enrollCAPrivateKey, enrollCA)
@@ -549,7 +550,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		PublicKey enrollCertExtractedKey = ecqvHelper.extractPublicKey(enrollCert, enrollCAPubKey, alg, enrollCA)
 
 		when:
-		PublicKey pk = sdg.getSignerPublicKey([enrollCert, enrollCA, rootCA] as Certificate[])
+		PublicKey pk = sdg.getSignerPublicKey(cryptoManager,[enrollCert, enrollCA, rootCA] as Certificate[])
 		then:
 		pk == enrollCertExtractedKey
 	}
@@ -621,7 +622,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 
 	def "Verify that getSignerId throws BadArgumentException if SignerIdentifier is self"(){
 		when:
-		sdg.getSignerId(new SignerIdentifier())
+		sdg.getSignerId(cryptoManager,new SignerIdentifier())
 		then:
 		thrown BadArgumentException
 	}
@@ -630,9 +631,9 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		setup:
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate rootCA = genRootCA(rootCAKeys)
-		def certId = sdg.certChainBuilder.getCertID(rootCA)
+		def certId =CertChainBuilder.getCertID(cryptoManager,rootCA)
 		expect:
-		sdg.getSignerId(new SignerIdentifier(certId)) == certId
+		sdg.getSignerId(cryptoManager,new SignerIdentifier(certId)) == certId
 	}
 
 	def "Verify that getSignedDataStore returns the HashedId8 of the first certificate if type is certificate"(){
@@ -641,15 +642,15 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		Certificate rootCA = genRootCA(rootCAKeys)
 		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate enrollCA = genEnrollCA(CertificateType.implicit, PublicVerificationKeyChoices.ecdsaNistP256, enrollCAKeys, rootCAKeys, rootCA)
-		def certId = sdg.certChainBuilder.getCertID(enrollCA)
+		def certId = CertChainBuilder.getCertID(cryptoManager,enrollCA)
 		expect:
-		sdg.getSignerId(new SignerIdentifier(new SequenceOfCertificate([enrollCA, rootCA]))) == certId
+		sdg.getSignerId(cryptoManager,new SignerIdentifier(new SequenceOfCertificate([enrollCA, rootCA]))) == certId
 
 	}
 
 	def "Verify that getSignedDataStore returns an empty map if SignerIdentifier is self"(){
 		expect:
-		sdg.getSignedDataStore(new SignerIdentifier()).map.size() == 0
+		sdg.getSignedDataStore(cryptoManager,new SignerIdentifier()).map.size() == 0
 	}
 
 	def "Verify that getSignedDataStore returns an empty map if SignerIdentifier is digest"(){
@@ -657,7 +658,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair rootCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate rootCA = genRootCA(rootCAKeys)
 		expect:
-		sdg.getSignedDataStore(new SignerIdentifier(sdg.certChainBuilder.getCertID(rootCA))).map.size() == 0
+		sdg.getSignedDataStore(cryptoManager,new SignerIdentifier(CertChainBuilder.getCertID(cryptoManager,rootCA))).map.size() == 0
 	}
 
 	def "Verify that getSignedDataStore returns a populate map of all certificate if SignerIdentifier is certificate"(){
@@ -667,12 +668,12 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		KeyPair enrollCAKeys = cryptoManager.generateKeyPair(PublicVerificationKeyChoices.ecdsaNistP256)
 		Certificate enrollCA = genEnrollCA(CertificateType.implicit, PublicVerificationKeyChoices.ecdsaNistP256, enrollCAKeys, rootCAKeys, rootCA)
 		when:
-		CertStore result = sdg.getSignedDataStore(new SignerIdentifier(new SequenceOfCertificate([enrollCA, rootCA])))
+		CertStore result = sdg.getSignedDataStore(cryptoManager,new SignerIdentifier(new SequenceOfCertificate([enrollCA, rootCA])))
 
 		then:
 		result.map.size() == 2
-		result.get(sdg.certChainBuilder.getCertID(rootCA)) == rootCA
-		result.get(sdg.certChainBuilder.getCertID(enrollCA)) == enrollCA
+		result.get(CertChainBuilder.getCertID(cryptoManager,rootCA)) == rootCA
+		result.get(CertChainBuilder.getCertID(cryptoManager,enrollCA)) == enrollCA
 	}
 	
 
@@ -682,7 +683,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		def alg = BasePublicEncryptionKeyChoices.ecdsaNistP256
 		KeyPair rootCAKeys1 = cryptoManager.generateKeyPair(alg)
 		Certificate rootCA1 = genRootCA(rootCAKeys1)
-		HashedId8 rootCA1Id = sdg.certChainBuilder.getCertID(rootCA1)
+		HashedId8 rootCA1Id = CertChainBuilder.getCertID(cryptoManager,rootCA1)
 		SecretKey sharedKey = cryptoManager.generateSecretKey(alg)
 		HashedId8 sharedKeyId = sdg.getSecretKeyID(SymmAlgorithm.aes128Ccm,sharedKey)
 		SecretKey symKey = cryptoManager.generateSecretKey(alg)
@@ -695,10 +696,10 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		HashedId8 signedDataId = new HashedId8(cryptoManager.digest(signedData.encoded, alg))
 		
 		when:
-		Map res = sdg.buildRecieverStore([new CertificateReciever((PrivateKey) rootCAKeys1.privateKey, rootCA1), 
-			new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,sharedKey), new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,symKey),
-			new RekReciever(rekKeys.getPrivate(), rekKeys.getPublic()),
-			new SignedDataReciever(signedDataEncKeys1.privateKey, signedData)])
+		Map res = sdg.buildReceiverStore([new CertificateReciever((PrivateKey) rootCAKeys1.privateKey, rootCA1),
+                                          new PreSharedKeyReceiver(SymmAlgorithm.aes128Ccm,sharedKey), new SymmetricKeyReceiver(SymmAlgorithm.aes128Ccm,symKey),
+                                          new RekReciever(rekKeys.getPrivate(), rekKeys.getPublic()),
+                                          new SignedDataReciever(signedDataEncKeys1.privateKey, signedData)])
 		
 		then:
 		res.size() == 5
@@ -709,7 +710,7 @@ class SecuredDataGeneratorSpec extends BaseCertGeneratorSpec {
 		res[signedDataId].signedData == signedData
 		
 		when:
-		res = sdg.buildRecieverStore([new CertificateReciever((PrivateKey) rootCAKeys1.privateKey, rootCA1)] as CertificateReciever[])
+		res = sdg.buildReceiverStore([new CertificateReciever((PrivateKey) rootCAKeys1.privateKey, rootCA1)] as CertificateReciever[])
 		
 		then:
 		res.size() == 1

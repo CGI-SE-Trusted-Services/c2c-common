@@ -16,6 +16,7 @@ import org.bouncycastle.util.encoders.Hex
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.Psid
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver
 import spock.lang.Specification
 
 import javax.crypto.SecretKey
@@ -30,12 +31,14 @@ class DecryptAndVerifyResultSpec extends Specification {
     SignerIdentifier si = new SignerIdentifier()
     HeaderInfo hi = new HeaderInfo(new Psid(1),null,null,null,null,null,null,null,null)
     SecretKey secretKey = Mock(SecretKey)
+    Receiver receiver = Mock(Receiver)
     byte[] data = Hex.decode("313233")
 
     def "Verify constructor and getters"(){
         when:
-        DecryptAndVerifyResult r = new DecryptAndVerifyResult(si,hi,secretKey,data)
+        DecryptAndVerifyResult r = new DecryptAndVerifyResult(receiver,si,hi,secretKey,data)
         then:
+        r.getReceiver() == receiver
         r.getSignerIdentifier() == si
         r.getHeaderInfo() == hi
         r.getSecretKey() == secretKey
@@ -44,17 +47,19 @@ class DecryptAndVerifyResultSpec extends Specification {
 
     def "Verify toString()"(){
         expect:
-        new DecryptAndVerifyResult(si,hi,secretKey,data).toString() == """DecryptAndVerifyResult [
+        new DecryptAndVerifyResult(receiver, si,hi,secretKey,data).toString() == """DecryptAndVerifyResult [
   signerIdentifier=SignerIdentifier [self],
   headerInfo=HeaderInfo [
     psid=[1(1)]
   ],
+  receiver=EXISTS,
   secretKey=EXISTS,
   data=313233
 ]"""
-        new DecryptAndVerifyResult(null,null,null,data).toString() == """DecryptAndVerifyResult [
+        new DecryptAndVerifyResult(null,null,null,null,data).toString() == """DecryptAndVerifyResult [
   signerIdentifier=NONE,
   headerInfo=NONE,
+  receiver=NONE,
   secretKey=NONE,
   data=313233
 ]"""

@@ -12,14 +12,9 @@
 *************************************************************************/
 package org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
-import javax.crypto.SecretKey;
-
-import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.crypto.AlgorithmIndicator;
+import org.certificateservices.custom.c2x.common.crypto.CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.crypto.Ieee1609Dot2CryptoManager;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashAlgorithm;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedId8;
@@ -28,6 +23,10 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.Recipient
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmRecipientInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.enc.SymmetricCiphertext;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator;
+
+import javax.crypto.SecretKey;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 
 /**
@@ -47,7 +46,7 @@ public class SymmetricKeyReceiver implements Receiver {
 	}
 
 	@Override
-	public HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws BadArgumentException, GeneralSecurityException {
+	public HashedId8 getReference(AlgorithmIndicator alg, CryptoManager cryptoManager) throws BadArgumentException, GeneralSecurityException {
 		try {
 			SymmetricEncryptionKey.SymmetricEncryptionKeyChoices choice = SymmetricEncryptionKey.SymmetricEncryptionKeyChoices.getChoiceFromAlgorithm(symKeyAlg);
 			SymmetricEncryptionKey symmetricEncryptionKey = new SymmetricEncryptionKey(choice, symmetricKey.getEncoded());

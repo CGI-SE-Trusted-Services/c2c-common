@@ -12,6 +12,7 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.etsits102941.v131
 
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver
 import spock.lang.Specification
 
 import javax.crypto.SecretKey
@@ -26,6 +27,7 @@ class DecryptionFailedExceptionSpec extends Specification {
     def "Verify that constructor populates fields correctly"(){
         setup:
         def key = Mock(SecretKey)
+        def receiver = Mock(Receiver)
         def cause = new IOException()
         when:
         def e1 = new DecryptionFailedException("SomeMessage", cause)
@@ -35,10 +37,11 @@ class DecryptionFailedExceptionSpec extends Specification {
         e1.getSecretKey() == null
 
         when:
-        def e2 = new DecryptionFailedException("SomeMessage", cause ,key, requestHash)
+        def e2 = new DecryptionFailedException("SomeMessage", cause ,key, requestHash, receiver)
         then:
         e2.message  == "SomeMessage"
         e2.cause == cause
+        e2.getReceiver() == receiver
         e2.getSecretKey() == key
         e2.getRequestHash() == requestHash
     }

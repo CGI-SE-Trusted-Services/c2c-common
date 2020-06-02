@@ -29,6 +29,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.basic.HashedI
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.Certificate;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.cert.EndEntityType;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.CertChainBuilder;
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.SecuredDataGenerator;
 
 import java.io.IOException;
@@ -45,7 +46,6 @@ import java.util.Map;
  */
 public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator implements CRLValidator  {
 
-    protected Ieee1609Dot2CryptoManager cryptoManager;
     protected SecuredDataGenerator securedDataGenerator;
     protected ETSI103097CertificateValidator certificateValidator;
     protected Etsi102941CRLHelper etsi102941CRLHelper = new Etsi102941CRLHelper();
@@ -252,8 +252,8 @@ public class EtsiTs102941CRLValidator extends BaseEtsiTs102941ListValidator impl
 
         try {
             SignerIdentifier signerIdentifier = findSignerIdentifier(crl);
-            CertStore inCRLCertStore = securedDataGenerator.getSignedDataStore(signerIdentifier);
-            Certificate[] certChain = certChainBuilder.buildChain(getSignerId(signerIdentifier), inCRLCertStore,certStore,trustStore);
+            CertStore inCRLCertStore = SecuredDataGenerator.getSignedDataStore(cryptoManager,signerIdentifier);
+            Certificate[] certChain = CertChainBuilder.buildChain(cryptoManager,getSignerId(signerIdentifier), inCRLCertStore,certStore,trustStore);
 
             certificateValidator.verifyAndValidate(certChain, checkDate, checkRegion, new EndEntityType(true,true), entireChain);
             certificateValidator.checkCRLServicePermissionInAppPermissions(CRLServicePermissions.VERSION_1,certChain);

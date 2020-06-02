@@ -42,7 +42,7 @@ public  abstract class BasePKReceiver implements Receiver {
 	}
 	
 	@Override
-	public HashedId8 getReference(AlgorithmIndicator alg, Ieee1609Dot2CryptoManager cryptoManager) throws GeneralSecurityException, IOException{
+	public HashedId8 getReference(AlgorithmIndicator alg, CryptoManager cryptoManager) throws GeneralSecurityException, IOException{
 		return new HashedId8(getHashedReference(alg, cryptoManager));
 	}
 	

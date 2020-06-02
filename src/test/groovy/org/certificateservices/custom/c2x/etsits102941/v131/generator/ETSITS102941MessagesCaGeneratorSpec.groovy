@@ -54,6 +54,7 @@ import org.certificateservices.custom.c2x.ieee1609dot2.generator.DecryptResult
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.EncryptResult
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.CertificateReciever
 import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.PreSharedKeyReceiver
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver
 import spock.lang.Unroll
 
 import javax.crypto.SecretKey
@@ -522,9 +523,9 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         setup:
         EtsiTs103097DataSigned message = messagesCaGenerator.genCaCertificateRequestMessage(new Time64(new Date()),genCaCertificateRequest(),aACASignKeys.public,aACASignKeys.private)
         expect: // Verify that with correct key is no expection thrown
-        messagesCaGenerator.verifySelfSignedMessage(message,aACASignKeys.public,"CaCertificateRequest")
+        messagesCaGenerator.verifySelfSignedMessage(cryptoManager,message,aACASignKeys.public,"CaCertificateRequest")
         when: // Verify that with incorrect key is SignatureException thrown.
-        messagesCaGenerator.verifySelfSignedMessage(message,aACAEncKeys.public,"CaCertificateRequest")
+        messagesCaGenerator.verifySelfSignedMessage(cryptoManager,message,aACAEncKeys.public,"CaCertificateRequest")
         then:
         def e = thrown SignatureException
         e.message == "Invalid signature of CaCertificateRequest."
@@ -532,7 +533,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         when: // Verify that with modified data is SignatureException thrown
         byte[] encodedMessage = message.encoded
         encodedMessage[10] = 2
-        messagesCaGenerator.verifySelfSignedMessage(new EtsiTs103097DataSigned(encodedMessage),aACASignKeys.public,"CaCertificateRequest")
+        messagesCaGenerator.verifySelfSignedMessage(cryptoManager,new EtsiTs103097DataSigned(encodedMessage),aACASignKeys.public,"CaCertificateRequest")
         then:
         e = thrown SignatureException
         e.message == "Invalid signature of CaCertificateRequest."
@@ -544,10 +545,10 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         def certStore = messagesCaGenerator.buildCertStore([authorizationCACert,rootCACert])
         def trustStore = messagesCaGenerator.buildCertStore([rootCACert])
         expect: // Verify that with correct key is no exception thrown
-        messagesCaGenerator.verifySignedMessage(message,certStore,trustStore,"CaCertificateRequest")
+        messagesCaGenerator.verifySignedMessage(cryptoManager,message,certStore,trustStore,"CaCertificateRequest")
         when: // Verify that with incorrect key is SignatureException thrown.
         def invalidCertStore = messagesCaGenerator.buildCertStore([enrolmentCACert,rootCACert])
-        messagesCaGenerator.verifySignedMessage(message,invalidCertStore,trustStore,"CaCertificateRequest")
+        messagesCaGenerator.verifySignedMessage(cryptoManager,message,invalidCertStore,trustStore,"CaCertificateRequest")
         then:
         def e = thrown BadArgumentException
         e.message =~ "Error no certificate found in certstore for id : HashedId8"
@@ -555,7 +556,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         when: // Verify that with modified data is SignatureException thrown
         byte[] encodedMessage = message.encoded
         encodedMessage[10] = 2
-        messagesCaGenerator.verifySignedMessage(new EtsiTs103097DataSigned(encodedMessage),certStore,trustStore,"CaCertificateRequest")
+        messagesCaGenerator.verifySignedMessage(cryptoManager,new EtsiTs103097DataSigned(encodedMessage),certStore,trustStore,"CaCertificateRequest")
         then:
         e = thrown SignatureException
         e.message == "Invalid signature of CaCertificateRequest."
@@ -567,7 +568,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         byte[] data = message.encryptedData.encoded
         String referenceString = Hex.toHexString(cryptoManager.digest(data,HashAlgorithm.sha256))
         when:
-        byte[] requestHash = messagesCaGenerator.genRequestHash(message.encryptedData, null)
+        byte[] requestHash = messagesCaGenerator.genRequestHash(cryptoManager,message.encryptedData, null)
         then:
         requestHash.length == 16
         referenceString.startsWith(Hex.toHexString(requestHash))
@@ -577,7 +578,8 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
     def "Verify that convertToParseMessageCAException converts #exception to expected exception #convertedException"(){
         setup:
         SecretKey secretKey = Mock(SecretKey)
-        DecryptResult dr = new DecryptResult(secretKey, null)
+        Receiver receiver = Mock(Receiver)
+        DecryptResult dr = new DecryptResult(receiver,secretKey, null)
         def exceptionInstance = exception.newInstance(["SomeMessage",null] as Object[] )
         def requestHash = [1,2,3] as byte[]
         when:
@@ -592,19 +594,20 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         e.message == "SomeMessage"
         e.secretKey == secretKey
         e.requestHash == requestHash
+        e.receiver == receiver
         if(expectCause) {assert e.cause.class == exception}
 
         where:
         exception                      | convertedException                 | expectCause
         IOException                    | MessageParsingException            | true
-        BadArgumentException       | MessageParsingException        | true
-        MessageParsingException        | MessageParsingException        | false
-        SignatureException             | SignatureVerificationException | true
-        SignatureVerificationException | SignatureVerificationException | false
-        GeneralSecurityException       | DecryptionFailedException      | true
-        DecryptionFailedException      | DecryptionFailedException      | false
-        Exception                      | MessageProcessingException     | true
-        MessageProcessingException     | MessageProcessingException     | false
+        BadArgumentException           | MessageParsingException            | true
+        MessageParsingException        | MessageParsingException            | false
+        SignatureException             | SignatureVerificationException     | true
+        SignatureVerificationException | SignatureVerificationException     | false
+        GeneralSecurityException       | DecryptionFailedException          | true
+        DecryptionFailedException      | DecryptionFailedException          | false
+        Exception                      | MessageProcessingException         | true
+        MessageProcessingException     | MessageProcessingException         | false
 
     }
 

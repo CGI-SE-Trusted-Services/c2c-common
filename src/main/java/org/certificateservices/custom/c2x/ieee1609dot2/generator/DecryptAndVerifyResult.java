@@ -15,6 +15,7 @@ package org.certificateservices.custom.c2x.ieee1609dot2.generator;
 import org.bouncycastle.util.encoders.Hex;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.HeaderInfo;
 import org.certificateservices.custom.c2x.ieee1609dot2.datastructs.secureddata.SignerIdentifier;
+import org.certificateservices.custom.c2x.ieee1609dot2.generator.receiver.Receiver;
 
 import javax.crypto.SecretKey;
 
@@ -35,8 +36,8 @@ public class DecryptAndVerifyResult extends DecryptResult {
      * @param signerIdentifier the signerIdentifier if related object was signed, otherwise null.
      * @param headerInfo the header info object if related object was signed, otherwise null.
      */
-    public DecryptAndVerifyResult(SignerIdentifier signerIdentifier, HeaderInfo headerInfo, SecretKey secretKey, byte[] data) {
-        super(secretKey,data);
+    public DecryptAndVerifyResult(Receiver receiver, SignerIdentifier signerIdentifier, HeaderInfo headerInfo, SecretKey secretKey, byte[] data) {
+        super(receiver,secretKey,data);
         this.signerIdentifier = signerIdentifier;
         this.headerInfo = headerInfo;
     }
@@ -63,6 +64,7 @@ public class DecryptAndVerifyResult extends DecryptResult {
         return "DecryptAndVerifyResult [\n"+
                 "  signerIdentifier=" + (signerIdentifier != null ? signerIdentifier.toString().replaceAll("\n", "\n  ") : "NONE") + ",\n" +
                 "  headerInfo=" + (headerInfo != null ? headerInfo.toString().replaceAll("\n", "\n  ") : "NONE") +  ",\n"+
+                "  receiver=" + (receiver != null ? "EXISTS" : "NONE") +  ",\n"+
                 "  secretKey=" + (secretKey != null ? "EXISTS" : "NONE") +  ",\n"+
                 "  data=" + Hex.toHexString(getData()) + "\n" +
                 "]";
