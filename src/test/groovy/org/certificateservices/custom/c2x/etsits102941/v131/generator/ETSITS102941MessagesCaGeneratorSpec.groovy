@@ -41,6 +41,7 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlis
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.trustlist.ToBeSignedTlmCtl
 import org.certificateservices.custom.c2x.etsits103097.v131.AvailableITSAID
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.cert.EtsiTs103097Certificate
+import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097Data
 import org.certificateservices.custom.c2x.etsits103097.v131.datastructs.secureddata.EtsiTs103097DataSigned
 import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSIAuthorityCertGenerator
 import org.certificateservices.custom.c2x.etsits103097.v131.generator.ETSIAuthorizationTicketGenerator
@@ -572,6 +573,21 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         then:
         requestHash.length == 16
         referenceString.startsWith(Hex.toHexString(requestHash))
+    }
+
+    def "Verify that parseInnerSignedResponseMessage can parse signed only message"(){
+        setup:
+        InnerEcRequest innerEcRequest = genInnerEcRequest("somItsId")
+        EncryptResult requestMessageResult = messagesCaGenerator.genInitialEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest,enrolCredSignKeys.public,enrolCredSignKeys.private, enrolmentCACert)
+        EtsiTs103097DataEncryptedUnicast requestMessage = requestMessageResult.encryptedData
+        InnerEcResponse innerEcResponse = genInnerEcResponse(requestMessage.encoded,enrolmentCredCert)
+        EtsiTs103097Data responseMessage = messagesCaGenerator.genSignedOnlyEnrolmentResponseMessage(new Time64(new Date()), innerEcResponse,[enrolmentCACert, rootCACert] as EtsiTs103097Certificate[], eACASignKeys.private)
+        when:
+        EtsiTs103097DataSigned signedOnlyResponseData = new EtsiTs103097DataSigned(responseMessage.encoded)
+        InnerEcResponse parsedInnerEc = messagesCaGenerator.parseInnerSignedResponseMessage(signedOnlyResponseData)
+
+        then:
+        parsedInnerEc.certificate.encoded == enrolmentCredCert.encoded
     }
 
     @Unroll

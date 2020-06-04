@@ -468,6 +468,27 @@ public class ETSITS102941MessagesCaGenerator {
     }
 
     /**
+     * Help method to extract InnerEcResponse from a signed only enrolment response message.
+     * This method does not verify the message only parses it.
+     *
+     * @param signedOnlyEnrolmentResponseMessage the signed only enrolment response message.
+     * @return The parsed InnerECResponse
+     * @throws MessageParsingException if problems occurred parsing the message.
+     */
+    public InnerEcResponse parseInnerSignedResponseMessage(EtsiTs103097DataSigned signedOnlyEnrolmentResponseMessage)
+            throws MessageParsingException {
+        try {
+            SignedData outerSignedData = getSignedData(signedOnlyEnrolmentResponseMessage, "EnrolmentResponseMessage");
+
+            EtsiTs102941Data requestData = parseEtsiTs102941Data(outerSignedData, "EnrolmentResponseMessage",
+                    EtsiTs102941DataContent.EtsiTs102941DataContentChoices.enrolmentResponse);
+            return requestData.getContent().getInnerEcResponse();
+        }catch(Exception e){
+            throw new MessageParsingException("Error parsing signed only enrolment response: " + e.getMessage(), e, null,null,null);
+        }
+    }
+
+    /**
      * Method to generate a AuthorizationRequestMessage according to ETSI TS 102 941 v 1.3.1.
      * <p>
      *     <ul>
