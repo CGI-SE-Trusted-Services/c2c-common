@@ -202,7 +202,7 @@ public class ETSI103097PermissionValidator extends BasePermissionValidator {
         checkCertIssuePermissions(endEntityType,chainLength,certificate,issuer);
 
         if(certificate.getToBeSigned().getCertRequestPermissions() != null){
-            throw new InvalidCertificateException("Invalid certiifcate, certRequestPermissions is currently not supported during validation.");
+            throw new InvalidCertificateException("Invalid certificate, certRequestPermissions is currently not supported during validation.");
         }
     }
 
