@@ -575,7 +575,7 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         referenceString.startsWith(Hex.toHexString(requestHash))
     }
 
-    def "Verify that parseInnerSignedResponseMessage can parse signed only message"(){
+    def "Verify that parseInnerECSignedResponseMessage can parse signed only message"(){
         setup:
         InnerEcRequest innerEcRequest = genInnerEcRequest("somItsId")
         EncryptResult requestMessageResult = messagesCaGenerator.genInitialEnrolmentRequestMessage(new Time64(new Date()),innerEcRequest,enrolCredSignKeys.public,enrolCredSignKeys.private, enrolmentCACert)
@@ -584,10 +584,22 @@ class ETSITS102941MessagesCaGeneratorSpec extends BaseCertGeneratorSpec  {
         EtsiTs103097Data responseMessage = messagesCaGenerator.genSignedOnlyEnrolmentResponseMessage(new Time64(new Date()), innerEcResponse,[enrolmentCACert, rootCACert] as EtsiTs103097Certificate[], eACASignKeys.private)
         when:
         EtsiTs103097DataSigned signedOnlyResponseData = new EtsiTs103097DataSigned(responseMessage.encoded)
-        InnerEcResponse parsedInnerEc = messagesCaGenerator.parseInnerSignedResponseMessage(signedOnlyResponseData)
+        InnerEcResponse parsedInnerEc = messagesCaGenerator.parseInnerECSignedResponseMessage(signedOnlyResponseData)
 
         then:
         parsedInnerEc.certificate.encoded == enrolmentCredCert.encoded
+    }
+
+    def "Verify that parseInnerATSignedResponseMessage can parse signed only message"(){
+        setup:
+        InnerAtResponse innerAtResponse = genInnerAtResponse(authTicketCert)
+        EtsiTs103097Data responseMessage = messagesCaGenerator.genSignedOnlyAuthorizationResponseMessage(new Time64(new Date()), innerAtResponse,[enrolmentCACert, rootCACert] as EtsiTs103097Certificate[], eACASignKeys.private)
+        when:
+        EtsiTs103097DataSigned signedOnlyResponseData = new EtsiTs103097DataSigned(responseMessage.encoded)
+        InnerAtResponse parsedInnerAt = messagesCaGenerator.parseInnerAtSignedResponseMessage(signedOnlyResponseData)
+
+        then:
+        parsedInnerAt.certificate.encoded == authTicketCert.encoded
     }
 
     @Unroll

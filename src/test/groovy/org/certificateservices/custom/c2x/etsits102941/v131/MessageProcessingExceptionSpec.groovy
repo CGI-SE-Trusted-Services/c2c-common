@@ -18,9 +18,9 @@ import spock.lang.Specification
 import javax.crypto.SecretKey
 
 /**
- * Unit tests for InternalErrorException
+ * Unit tests for MessageProcessingException
  */
-class InternalErrorExceptionSpec extends Specification {
+class MessageProcessingExceptionSpec extends Specification {
 
     byte[] requestHash = [1,2,3] as byte[]
 
