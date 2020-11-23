@@ -31,11 +31,11 @@ public class Version extends COERInteger{
     }
 
     /**
-     * Constructor used when encoding integer with no known min or max value.
+     * Constructor used when encoding constant integer.
      *
      * @param value the integer value.
      */
     public Version(long value) {
-        super(value);
+        super(value, value, value);
     }
 }
