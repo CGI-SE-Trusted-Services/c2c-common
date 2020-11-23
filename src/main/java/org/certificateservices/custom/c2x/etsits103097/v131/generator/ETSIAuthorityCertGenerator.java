@@ -258,7 +258,7 @@ public class ETSIAuthorityCertGenerator extends BaseAuthorityCertGenerator {
 
 		// TODO More specific security management permissions.
 		SubjectPermissions sp = new SubjectPermissions(SubjectPermissionsChoices.all, null);
-		PsidGroupPermissions pgp =  new PsidGroupPermissions(sp, 1, 0, new EndEntityType(false, true));
+		PsidGroupPermissions pgp =  new PsidGroupPermissions(sp, null, null, new EndEntityType(false, true));
 		PsidGroupPermissions[] certIssuePermissions = new PsidGroupPermissions[] {pgp};
 
 		PsidSsp appPermCertMan = new PsidSsp(SecuredCertificateRequestService, new ServiceSpecificPermissions(ServiceSpecificPermissions.ServiceSpecificPermissionsChoices.opaque, Hex.decode("010E")));
