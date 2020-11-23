@@ -22,6 +22,7 @@ import org.certificateservices.custom.c2x.asn1.coer.COERInteger;
 public class Version extends COERInteger{
 
     public static final Version V1 = new Version(1);
+    public static final Version V1_CONST = new Version(1, 1, 1);
 
     /**
      * Constructor when decoding an integer with no known min or max value.
@@ -31,11 +32,20 @@ public class Version extends COERInteger{
     }
 
     /**
-     * Constructor used when encoding constant integer.
+     * Constructor used when encoding integer with no known min or max value.
      *
      * @param value the integer value.
      */
     public Version(long value) {
-        super(value, value, value);
+        super(value);
+    }
+
+    /**
+     * Constructor used when encoding constant integer.
+     *
+     * @param value the integer value.
+     */
+    public Version(long value, long minValue, long maxValue) {
+        super(value, minValue, maxValue);
     }
 }

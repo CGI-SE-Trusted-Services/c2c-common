@@ -45,7 +45,7 @@ public class EtsiTs102941Data extends COERSequence {
 		super(false,2);
 		init();
 
-		set(VERSION, Version.V1);
+		set(VERSION, Version.V1_CONST);
 		set(CONTENT, content);
 	}
 
@@ -63,7 +63,7 @@ public class EtsiTs102941Data extends COERSequence {
 	}
 
 	private void init(){
-		addField(VERSION, false, Version.V1, null);
+		addField(VERSION, false, Version.V1_CONST, null);
 		addField(CONTENT, false, new EtsiTs102941DataContent(), null);
 		
 	}
