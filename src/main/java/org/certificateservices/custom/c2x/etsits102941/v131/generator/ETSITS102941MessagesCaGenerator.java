@@ -23,7 +23,6 @@ import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.authoriz
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.EcSignature;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.EtsiTs103097DataEncryptedUnicast;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.PublicKeys;
-import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.basetypes.Version;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.camanagement.CaCertificateRequest;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcRequest;
 import org.certificateservices.custom.c2x.etsits102941.v131.datastructs.enrollment.InnerEcRequestSignedForPop;
@@ -224,7 +223,7 @@ public class ETSITS102941MessagesCaGenerator {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         EtsiTs103097DataSigned innerSigned = securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, innerEcRequest.getEncoded(),signerPublicKey,signerPrivateKey);
         InnerEcRequestSignedForPop innerEcRequestSignedForPop = new InnerEcRequestSignedForPop(innerSigned.getProtocolVersion(),innerSigned.getContent());
-        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(Version.V1,new EtsiTs102941DataContent(innerEcRequestSignedForPop));
+        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(new EtsiTs102941DataContent(innerEcRequestSignedForPop));
 
         return securedDataGenerator.selfSignAndEncryptData(headerInfo,etsiTs102941Data.getEncoded(),signerPublicKey,signerPrivateKey,getRecipientAlgorithm(recipient),new Recipient[]{new CertificateRecipient(recipient)});
     }
@@ -253,7 +252,7 @@ public class ETSITS102941MessagesCaGenerator {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         EtsiTs103097DataSigned innerSigned = securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, innerEcRequest.getEncoded(),signerPublicKey,signerPrivateKey);
         InnerEcRequestSignedForPop innerEcRequestSignedForPop = new InnerEcRequestSignedForPop(innerSigned.getProtocolVersion(),innerSigned.getContent());
-        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(Version.V1,new EtsiTs102941DataContent(innerEcRequestSignedForPop));
+        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(new EtsiTs102941DataContent(innerEcRequestSignedForPop));
 
         return securedDataGenerator.signAndEncryptData(headerInfo,etsiTs102941Data.getEncoded(), SecuredDataGenerator.SignerIdentifierType.HASH_ONLY,oldCertificateChain,oldSignerPrivateKey,getRecipientAlgorithm(recipient),new Recipient[]{new CertificateRecipient(recipient)});
     }
@@ -557,7 +556,7 @@ public class ETSITS102941MessagesCaGenerator {
             ecSignature = new EcSignature(ecSignaturePayload);
         }
         InnerAtRequest innerAtRequest = new InnerAtRequest(publicKeys,hmacKey,sharedAtRequest,ecSignature);
-        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(Version.V1, new EtsiTs102941DataContent(innerAtRequest));
+        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(new EtsiTs102941DataContent(innerAtRequest));
 
         byte[] data = etsiTs102941Data.getEncoded();
         if(authorizationTicketPublicKey != null && authorizationTicketPrivateKey != null) {
@@ -852,7 +851,7 @@ public class ETSITS102941MessagesCaGenerator {
                                                                               EtsiTs103097Certificate[] authorizationCACredentialChain, PrivateKey authorizationCAPrivateKey,
                                                                               Certificate enrolmentAuthorityRecipient) throws IllegalArgumentException, IOException, GeneralSecurityException {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
-        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(Version.V1,new EtsiTs102941DataContent(authorizationValidationRequest));
+        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(new EtsiTs102941DataContent(authorizationValidationRequest));
         AlgorithmIndicator encAlg = getRecipientAlgorithm(enrolmentAuthorityRecipient);
         return securedDataGenerator.signAndEncryptData(headerInfo,etsiTs102941Data.getEncoded(),
                 SecuredDataGenerator.SignerIdentifierType.HASH_ONLY,
@@ -1039,7 +1038,7 @@ public class ETSITS102941MessagesCaGenerator {
                                                                   EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey,
                                                                   AlgorithmIndicator encryptionAlg, SecretKey preSharedKey) throws IllegalArgumentException, IOException, GeneralSecurityException {
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
-        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(Version.V1,etsiTs102941DataContent);
+        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(etsiTs102941DataContent);
         EtsiTs103097Data data = (EtsiTs103097Data) securedDataGenerator.genSignedData(headerInfo,etsiTs102941Data.getEncoded(), SecuredDataGenerator.SignerIdentifierType.HASH_ONLY,signerCertificateChain,signerPrivateKey);
         return (EtsiTs103097DataEncryptedUnicast) securedDataGenerator.encryptDataWithPresharedKey(encryptionAlg,data.getEncoded(),preSharedKey);
     }
@@ -1209,7 +1208,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if problems occurred generating the exception.
      */
     public EtsiTs103097DataSigned genCaCertificateRequestMessage(Time64 generationTime, CaCertificateRequest caCertificateRequest, PublicKey signerPublicKey, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(Version.V1, new EtsiTs102941DataContent(caCertificateRequest));
+        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(new EtsiTs102941DataContent(caCertificateRequest));
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         return securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, etsiTs102941Data.getEncoded(),signerPublicKey,signerPrivateKey);
     }
@@ -1419,7 +1418,7 @@ public class ETSITS102941MessagesCaGenerator {
      * @throws SignatureException if problems occurred generating the exception.
      */
     public EtsiTs103097DataSigned genSignedCTLMessage(Time64 generationTime, EtsiTs102941DataContent etsiTs102941DataContent, EtsiTs103097Certificate[] signerCertificateChain, PrivateKey signerPrivateKey) throws IOException, SignatureException {
-        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(Version.V1, etsiTs102941DataContent);
+        EtsiTs102941Data etsiTs102941Data = new EtsiTs102941Data(etsiTs102941DataContent);
         HeaderInfo headerInfo = genHeaderInfo(generationTime);
         return securedDataGenerator.genEtsiTs103097DataSigned(headerInfo, etsiTs102941Data.getEncoded(), SecuredDataGenerator.SignerIdentifierType.SIGNER_CERTIFICATE,signerCertificateChain,signerPrivateKey);
     }

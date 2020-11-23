@@ -41,11 +41,11 @@ public class EtsiTs102941Data extends COERSequence {
 	/**
 	 * Constructor used when encoding
 	 */
-	public EtsiTs102941Data(Version version, EtsiTs102941DataContent content) throws IllegalArgumentException{
+	public EtsiTs102941Data(EtsiTs102941DataContent content) throws IllegalArgumentException{
 		super(false,2);
 		init();
 
-		set(VERSION, version);
+		set(VERSION, Version.V1);
 		set(CONTENT, content);
 	}
 
@@ -63,7 +63,7 @@ public class EtsiTs102941Data extends COERSequence {
 	}
 
 	private void init(){
-		addField(VERSION, false, new Version(), null);
+		addField(VERSION, false, Version.V1, null);
 		addField(CONTENT, false, new EtsiTs102941DataContent(), null);
 		
 	}
