@@ -2,3 +2,9 @@
 Untitled.a1sproj
 TODO.txt
 c2c-common.iml
+/.idea/
+/.gradle/
+/build/
+gradle
+gradlew
+gradlew.bat

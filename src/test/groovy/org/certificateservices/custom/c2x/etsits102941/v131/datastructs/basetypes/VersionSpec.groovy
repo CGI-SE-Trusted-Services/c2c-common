@@ -32,4 +32,14 @@ class VersionSpec extends Specification {
         name            | value               | expectedInt
         "v1"            | Version.V1          | 1
     }
+
+    def "Verify that correct value for constant value #expectedInt is set for #name"(){
+        expect:
+        value.valueAsLong == expectedInt
+        value.minValue == expectedInt
+        value.maxValue == expectedInt
+        where:
+        name            | value               | expectedInt
+        "v1"            | Version.V1_CONST    | 1
+    }
 }
