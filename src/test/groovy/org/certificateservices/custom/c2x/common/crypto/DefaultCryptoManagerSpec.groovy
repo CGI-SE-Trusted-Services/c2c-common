@@ -62,12 +62,7 @@ class DefaultCryptoManagerSpec extends BaseStructSpec {
 	@Shared KeyPair brainPool384EncKeys
 
 	def setupSpec(){
-		def subParamSpec
-		try{
-			subParamSpec = sun.security.ec.NamedCurve.getECParameterSpec("secp256r1")
-		}catch(MissingMethodException e){
-		    subParamSpec  = sun.security.util.ECUtil.getECParameterSpec(null, "secp256r1") 
-		}
+		ECGenParameterSpec subParamSpec = new ECGenParameterSpec("secp256r1");
 		sunKeyGenerator.initialize(subParamSpec, new SecureRandom())
 		
 		defaultCryptoManager.setupAndConnect(new DefaultCryptoManagerParams("BC"))

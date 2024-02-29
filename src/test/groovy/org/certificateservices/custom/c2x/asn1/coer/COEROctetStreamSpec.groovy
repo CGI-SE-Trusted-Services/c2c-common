@@ -12,28 +12,27 @@
  *************************************************************************/
 package org.certificateservices.custom.c2x.asn1.coer
 
-
 import org.bouncycastle.util.encoders.Hex
-import org.certificateservices.custom.c2x.common.BadArgumentException;
 import org.certificateservices.custom.c2x.common.BaseStructSpec
+import spock.lang.Unroll
 
-import spock.lang.Specification
-import spock.lang.Unroll;
-
-
+/**
+ * Unit tests for COEROctetStream
+ * @author Philip Vendil
+ */
 class COEROctetStreamSpec extends BaseStructSpec {
-	
-	
+
+
 	
 	@Unroll
-	def "Verify that COEROctedStream with value #value returns #encoded encoded and decoded #encoded generates a #value value with lower bound #lowerbound and upper bound #upperbound"(){
+	def "Verify that COEROctetStream with #encoded encoded and decoded #encoded generates a value with lower bound #lowerbound and upper bound #upperbound"(){
 		when:
 		COEROctetStream coerOctedStream = new COEROctetStream(Hex.decode(data), lowerbound, upperbound)
 		then:
 		serializeToHex(coerOctedStream) == encoded
 		
 		when:
-		coerOctedStream = deserializeFromHex(new COEROctetStream(lowerbound, upperbound), encoded)
+		coerOctedStream = deserializeFromHex(new COEROctetStream(lowerbound, upperbound), encoded) as COEROctetStream
 		then:
 		new String(Hex.encode(coerOctedStream.data)) == data
 		
@@ -47,8 +46,8 @@ class COEROctetStreamSpec extends BaseStructSpec {
 		"060df3acf45678"                            | "0df3acf45678"          | null           | 7
 		"060df3acf45678"                            | "0df3acf45678"          | null           | null
 	}
-	
-	
+
+
 	def "Verify that constuctor and getter"(){
 		expect:
 		new COEROctetStream(4,5).getLowerBound() == 4
@@ -79,10 +78,11 @@ class COEROctetStreamSpec extends BaseStructSpec {
 		expect:
 		first != second
 		first == sameAsFirst
-		first.hashCode() != second
+		first.hashCode() != second.hashCode()
 		first.hashCode() == sameAsFirst.hashCode()
 	}
-	
+
+
 	def "Verify toString"(){
 		expect:
 		new COEROctetStream([0x0b] as byte[]).toString() == "COEROctetStream [data=0b]"
