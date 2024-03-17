@@ -255,7 +255,7 @@ public class Etsi102941CTLHelper {
      * @return the ctlFormat object of the inner EtsiTs102941Data.
      * @throws IOException if decoding problems occurred.
      */
-    public CtlFormat getCtlFormat(EtsiTs102941CTL etsiTs102941CTL) throws IOException{
+    public static CtlFormat getCtlFormat(EtsiTs102941CTL etsiTs102941CTL) throws IOException{
         Ieee1609Dot2Data innerData = ((SignedData) etsiTs102941CTL.getContent().getValue()).getTbsData().getPayload().getData();
         Opaque opaque = (Opaque) innerData.getContent().getValue();
         EtsiTs102941Data toBeSignedCtl = new EtsiTs102941Data(opaque.getData());
